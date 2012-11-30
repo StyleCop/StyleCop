@@ -15,12 +15,12 @@
 //   BulbItem - SA1641FileHeaderCompanyNameTextMustMatchBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper600.BulbItems.Documentation
     /// </summary>
     internal class SA1641FileHeaderCompanyNameTextMustMatchBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper600.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
             new DocumentationRules().InsertCompanyName(file);
         }

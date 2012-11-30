@@ -15,7 +15,6 @@
 //   The s a 1509 opening curly brackets must not be preceded by blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Layout
 {
     #region Using Directives
@@ -34,7 +33,7 @@ namespace StyleCop.ReSharper611.BulbItems.Layout
     /// </summary>
     public class SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,8 +46,8 @@ namespace StyleCop.ReSharper611.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            Utils.RemoveNewLineBefore((ITreeNode)element);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            Utils.RemoveNewLineBefore(element);
         }
 
         #endregion

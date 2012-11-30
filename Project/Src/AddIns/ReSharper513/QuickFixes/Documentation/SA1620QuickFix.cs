@@ -15,7 +15,6 @@
 //   QuickFix - SA1620: GenericTypeParameterDocumentationMustMatchTypeParameters.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper513.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1618GenericTypeParametersMustBeDocumentedBulbItem { Description = "Fix <typeparam> in header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1618GenericTypeParametersMustBeDocumentedBulbItem
+                                         {
+                                             Description =
+                                                 "Fix <typeparam> in header : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

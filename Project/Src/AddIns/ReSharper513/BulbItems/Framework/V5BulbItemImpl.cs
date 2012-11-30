@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper513.BulbItems.Framework
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the description of the BulbItem.
@@ -105,7 +105,7 @@ namespace StyleCop.ReSharper513.BulbItems.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Actual implementation of Quick Fix should happen within an overridden instance of this method.

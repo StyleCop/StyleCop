@@ -15,7 +15,6 @@
 //   QuickFix - SA1100.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.QuickFixes.Readability
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper513.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem { Description = "Swap \"base.\" to \"this.\": " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem
+                                         {
+                                             Description =
+                                                 "Swap \"base.\" to \"this.\": "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

@@ -15,7 +15,6 @@
 //   Provides a wrapper for a declaration elements documentation comments.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.Core
 {
     #region Using Directives
@@ -45,12 +44,12 @@ namespace StyleCop.ReSharper610.Core
     /// </summary>
     public class DeclarationHeader
     {
-        #region Constants and Fields
+        #region Static Fields
 
         private static readonly ArrayList ElementsThatStartOnNewLine;
 
         private static readonly ArrayList ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
-        
+
         #endregion
 
         #region Constructors and Destructors
@@ -70,8 +69,8 @@ namespace StyleCop.ReSharper610.Core
                 new ArrayList(
                     new[]
                         {
-                            "code", "event", "example", "exception", "item", "list", "listheader", "note", "overloads", "para", "param", "permission", "preliminary", "remarks", "returns", "summary", 
-                            "typeparam", "value"
+                            "code", "event", "example", "exception", "item", "list", "listheader", "note", "overloads", "para", "param", "permission", "preliminary", 
+                            "remarks", "returns", "summary", "typeparam", "value"
                         });
         }
 
@@ -88,7 +87,7 @@ namespace StyleCop.ReSharper610.Core
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the declaration we have the header for.
@@ -185,7 +184,7 @@ namespace StyleCop.ReSharper610.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Creates a new DeclarationHeader for the declaration and assigns it to the declaration.
@@ -201,16 +200,16 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         public static DeclarationHeader CreateNewHeader(IDeclaration declaration, DocumentationRulesConfiguration docConfig)
         {
-            var file = declaration.GetContainingFile();
+            IFile file = declaration.GetContainingFile();
             using (WriteLockCookie.Create(file.IsPhysical()))
             {
-                var declarationTreeNode = declaration;
+                IDeclaration declarationTreeNode = declaration;
 
-                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
-                var useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
-                var middleText = useSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
-           
-                var emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
+                IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+                bool useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
+                string middleText = useSingleLineDeclarationComments ? string.Empty : Environment.NewLine;
+
+                string emptyDocHeader = string.Format("<summary>{0}</summary>", middleText);
 
                 if (!(declarationTreeNode is IMultipleDeclarationMember))
                 {
@@ -218,11 +217,11 @@ namespace StyleCop.ReSharper610.Core
                     emptyDocHeader = emptyDocHeader.Substring(0, emptyDocHeader.Length - Environment.NewLine.Length);
                 }
 
-                var header = LayoutDocumentationHeader(emptyDocHeader, declaration);
+                string header = LayoutDocumentationHeader(emptyDocHeader, declaration);
 
-                var newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
+                IDocCommentBlockNode newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
-                var docCommentBlockOwnerNode = Utils.GetDocCommentBlockOwnerNodeForDeclaration(declaration);
+                IDocCommentBlockOwnerNode docCommentBlockOwnerNode = Utils.GetDocCommentBlockOwnerNodeForDeclaration(declaration);
 
                 if (docCommentBlockOwnerNode != null)
                 {
@@ -246,8 +245,8 @@ namespace StyleCop.ReSharper610.Core
         {
             Param.RequireValidString(parameterName, "parameterName");
 
-            var query = string.Format("//param[@name='{0}']", parameterName);
-            var node = this.XmlNode.SelectSingleNode(query);
+            string query = string.Format("//param[@name='{0}']", parameterName);
+            XmlNode node = this.XmlNode.SelectSingleNode(query);
 
             return node != null;
         }
@@ -265,8 +264,8 @@ namespace StyleCop.ReSharper610.Core
         {
             Param.RequireValidString(parameterName, "parameterName");
 
-            var query = string.Format("//typeparam[@name='{0}']", parameterName);
-            var node = this.XmlNode.SelectSingleNode(query);
+            string query = string.Format("//typeparam[@name='{0}']", parameterName);
+            XmlNode node = this.XmlNode.SelectSingleNode(query);
 
             return node != null;
         }
@@ -278,12 +277,12 @@ namespace StyleCop.ReSharper610.Core
         {
             if (this.DocCommentBlockNode != null)
             {
-                var file = this.Declaration.GetContainingFile();
+                IFile file = this.Declaration.GetContainingFile();
 
                 using (this.DocCommentBlockNode.CreateWriteLock())
                 {
-                    var header = LayoutDocumentationHeader(this.XmlNode, this.Declaration);
-                    var newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
+                    string header = LayoutDocumentationHeader(this.XmlNode, this.Declaration);
+                    IDocCommentBlockNode newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
                     if (newDocCommentNode == null)
                     {
@@ -314,8 +313,8 @@ namespace StyleCop.ReSharper610.Core
         {
             if (node is IThrowStatement)
             {
-                var throwStatement = (IThrowStatement)node;
-                var expression = throwStatement.Exception;
+                IThrowStatement throwStatement = (IThrowStatement)node;
+                ICSharpExpression expression = throwStatement.Exception;
                 if (expression != null)
                 {
                     exceptions.Add(expression.Type());
@@ -323,7 +322,7 @@ namespace StyleCop.ReSharper610.Core
             }
             else
             {
-                for (var child = node.FirstChild; child != null; child = child.NextSibling)
+                for (ITreeNode child = node.FirstChild; child != null; child = child.NextSibling)
                 {
                     CollectExceptions(child, exceptions);
                 }
@@ -341,9 +340,9 @@ namespace StyleCop.ReSharper610.Core
         /// </param>
         private static void CollectExceptions(IEnumerable<IAccessorDeclaration> accessorDeclarations, IList<IType> exceptions)
         {
-            foreach (var accessorDeclaration in accessorDeclarations)
+            foreach (IAccessorDeclaration accessorDeclaration in accessorDeclarations)
             {
-                var body = accessorDeclaration.Body;
+                IBlock body = accessorDeclaration.Body;
                 if (body != null)
                 {
                     CollectExceptions(body, exceptions);
@@ -366,10 +365,10 @@ namespace StyleCop.ReSharper610.Core
         private static string CreateDocumentationForElement(IDocCommentBlockOwnerNode owner, DocumentationRulesConfiguration docConfig)
         {
             ITreeNode element = owner;
-            var declaredElement = (element is IDeclaration) ? ((IDeclaration)element).DeclaredElement : null;
-            var text = new StringBuilder();
+            IDeclaredElement declaredElement = (element is IDeclaration) ? ((IDeclaration)element).DeclaredElement : null;
+            StringBuilder text = new StringBuilder();
             text.AppendLine("<summary>");
-            var summaryText = string.Empty;
+            string summaryText = string.Empty;
             if (element is IConstructorDeclaration)
             {
                 summaryText = Utils.CreateSummaryForConstructorDeclaration((IConstructorDeclaration)element);
@@ -388,86 +387,87 @@ namespace StyleCop.ReSharper610.Core
             text.AppendLine(summaryText);
             text.AppendLine("</summary>");
 
-            var declarationWithParameters = element as ICSharpParametersOwnerDeclaration;
+            ICSharpParametersOwnerDeclaration declarationWithParameters = element as ICSharpParametersOwnerDeclaration;
             if (declarationWithParameters != null)
             {
-                foreach (var parameterDeclaration in declarationWithParameters.ParameterDeclarations)
+                foreach (IRegularParameterDeclaration parameterDeclaration in declarationWithParameters.ParameterDeclarations)
                 {
                     text.AppendLine(Utils.CreateDocumentationForParameter(parameterDeclaration));
                 }
             }
 
-            var typeDeclaration = element as ICSharpTypeDeclaration;
+            ICSharpTypeDeclaration typeDeclaration = element as ICSharpTypeDeclaration;
             if (typeDeclaration != null && (typeDeclaration.TypeParameters.Count > 0))
             {
-                foreach (var typeParameter in typeDeclaration.TypeParameters)
+                foreach (ITypeParameterOfTypeDeclaration typeParameter in typeDeclaration.TypeParameters)
                 {
                     text.AppendLine(Utils.CreateDocumentationForParameter(typeParameter));
                 }
             }
 
-            var typeParametersOwner = element as ITypeParametersOwner;
+            ITypeParametersOwner typeParametersOwner = element as ITypeParametersOwner;
             if (typeParametersOwner != null && (typeParametersOwner.TypeParameters.Count > 0))
             {
-                foreach (var typeParameter in typeParametersOwner.TypeParameters)
+                foreach (ITypeParameter typeParameter in typeParametersOwner.TypeParameters)
                 {
                     text.AppendLine(Utils.CreateDocumentationForTypeParameterDeclaration((ITypeParameterDeclaration)typeParameter));
                 }
             }
 
-            var methodDeclaration = element as IMethodDeclaration;
+            IMethodDeclaration methodDeclaration = element as IMethodDeclaration;
             if (methodDeclaration != null && (methodDeclaration.TypeParameterDeclarations.Count > 0))
             {
-                foreach (var typeParameter in methodDeclaration.TypeParameterDeclarations)
+                foreach (ITypeParameterOfMethodDeclaration typeParameter in methodDeclaration.TypeParameterDeclarations)
                 {
                     text.AppendLine(Utils.CreateDocumentationForParameter(typeParameter));
                 }
             }
 
-            var parametersOwner = declaredElement as IParametersOwner;
-            if ((parametersOwner != null && ((parametersOwner is IMethod) || (parametersOwner is IOperator))) && !parametersOwner.ReturnType.Equals(parametersOwner.Module.GetPredefinedType().Void))
+            IParametersOwner parametersOwner = declaredElement as IParametersOwner;
+            if ((parametersOwner != null && ((parametersOwner is IMethod) || (parametersOwner is IOperator)))
+                && !parametersOwner.ReturnType.Equals(parametersOwner.Module.GetPredefinedType().Void))
             {
                 text.AppendLine("<returns></returns>");
             }
 
-            var ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
+            bool ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
 
             if (element is IPropertyDeclaration && ruleIsEnabled)
             {
                 text.AppendLine(Utils.CreateValueDocumentationForProperty((IPropertyDeclaration)element));
             }
 
-            var exceptions = new List<IType>();
-            var functionDeclaration = element as ICSharpFunctionDeclaration;
+            List<IType> exceptions = new List<IType>();
+            ICSharpFunctionDeclaration functionDeclaration = element as ICSharpFunctionDeclaration;
             if (functionDeclaration != null && functionDeclaration.Body != null)
             {
                 CollectExceptions(functionDeclaration.Body, exceptions);
             }
 
-            var propertyDeclaration = element as IPropertyDeclaration;
+            IPropertyDeclaration propertyDeclaration = element as IPropertyDeclaration;
             if (propertyDeclaration != null)
             {
                 CollectExceptions(propertyDeclaration.AccessorDeclarations, exceptions);
             }
 
-            var indexerDeclaration = element as IIndexerDeclaration;
+            IIndexerDeclaration indexerDeclaration = element as IIndexerDeclaration;
             if (indexerDeclaration != null)
             {
                 CollectExceptions(indexerDeclaration.AccessorDeclarations, exceptions);
             }
 
-            var eventDeclaration = element as IEventDeclaration;
+            IEventDeclaration eventDeclaration = element as IEventDeclaration;
             if (eventDeclaration != null)
             {
                 CollectExceptions(eventDeclaration.AccessorDeclarations, exceptions);
             }
 
-            foreach (var exception in exceptions)
+            foreach (IType exception in exceptions)
             {
-                var presentableName = exception.GetPresentableName(CSharpLanguage.Instance);
+                string presentableName = exception.GetPresentableName(CSharpLanguage.Instance);
 
-                var a = Utils.StripClassName(presentableName);
-                var b = exception.ToString();
+                string a = Utils.StripClassName(presentableName);
+                string b = exception.ToString();
                 text.AppendLine("<exception cref=\"" + Utils.SwapGenericTypeToDocumentation(a) + "\"></exception>");
             }
 
@@ -485,16 +485,16 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         private static XmlNode GetXmlNodeForDeclaration(IDeclaration declaration)
         {
-            var declarationTreeNode = declaration;
+            IDeclaration declarationTreeNode = declaration;
 
-            var treeNode = declarationTreeNode is IMultipleDeclarationMember ? declarationTreeNode.Parent.FirstChild : declarationTreeNode.FirstChild;
+            ITreeNode treeNode = declarationTreeNode is IMultipleDeclarationMember ? declarationTreeNode.Parent.FirstChild : declarationTreeNode.FirstChild;
 
             XmlNode node;
-            var text = new StringBuilder();
+            StringBuilder text = new StringBuilder();
 
             text.AppendLine("<member>");
 
-            for (var child = treeNode.FirstChild; child != null; child = child.NextSibling)
+            for (ITreeNode child = treeNode.FirstChild; child != null; child = child.NextSibling)
             {
                 if (child.IsNewLine())
                 {
@@ -502,7 +502,7 @@ namespace StyleCop.ReSharper610.Core
                     continue;
                 }
 
-                var docCommentNode = child as IDocCommentNode;
+                IDocCommentNode docCommentNode = child as IDocCommentNode;
                 if (docCommentNode != null)
                 {
                     text.Append(docCommentNode.CommentText);
@@ -512,7 +512,7 @@ namespace StyleCop.ReSharper610.Core
             text.AppendLine("</member>");
             try
             {
-                var xmlDoc = new XmlDocument { PreserveWhitespace = true };
+                XmlDocument xmlDoc = new XmlDocument { PreserveWhitespace = true };
                 xmlDoc.LoadXml(text.ToString());
                 node = xmlDoc.SelectSingleNode("member");
             }
@@ -538,12 +538,12 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         private static string LayoutDocumentationHeader(string header, IDeclaration declaration)
         {
-            var text = new StringBuilder();
+            StringBuilder text = new StringBuilder();
             text.AppendLine("<member>");
             text.AppendLine(header);
             text.AppendLine("</member>");
 
-            var xmlDoc = new XmlDocument { PreserveWhitespace = true };
+            XmlDocument xmlDoc = new XmlDocument { PreserveWhitespace = true };
             xmlDoc.LoadXml(text.ToString());
 
             return LayoutDocumentationHeader(xmlDoc.SelectSingleNode("member"), declaration);
@@ -563,13 +563,13 @@ namespace StyleCop.ReSharper610.Core
         /// </returns>
         private static string LayoutDocumentationHeader(XmlNode xml, IDeclaration declaration)
         {
-            var pattern = new StringBuilder();
-            var writer = new StringWriter(pattern);
+            StringBuilder pattern = new StringBuilder();
+            StringWriter writer = new StringWriter(pattern);
 
-            var writtenNewLine = true;
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
-            var useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
-            
+            bool writtenNewLine = true;
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            bool useSingleLineDeclarationComments = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseSingleLineDeclarationComments);
+
             LayoutDocumentationXml(xml, writer, ref writtenNewLine, useSingleLineDeclarationComments);
 
             if (pattern.ToString().EndsWith(Environment.NewLine))
@@ -606,8 +606,8 @@ namespace StyleCop.ReSharper610.Core
             {
                 case XmlNodeType.Element:
                     {
-                        var element = (XmlElement)xml;
-                        var elementName = element.Name;
+                        XmlElement element = (XmlElement)xml;
+                        string elementName = element.Name;
                         if (elementName == "member")
                         {
                             foreach (XmlNode childNode in xml.ChildNodes)
@@ -618,7 +618,7 @@ namespace StyleCop.ReSharper610.Core
                             break;
                         }
 
-                        var strippedInnerText = xml.InnerText.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant();
+                        string strippedInnerText = xml.InnerText.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant();
 
                         if (ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml.Contains(elementName) && strippedInnerText != "or")
                         {
@@ -686,7 +686,7 @@ namespace StyleCop.ReSharper610.Core
                 default:
 
                     // if the text is '\r\n ' then dont write anything out
-                    var text = xml.OuterXml;
+                    string text = xml.OuterXml;
 
                     if (writtenNewLine)
                     {
@@ -710,7 +710,7 @@ namespace StyleCop.ReSharper610.Core
                     }
 
                     // only trim space off and not NewLines
-                    var textTrimmedEnd = text.TrimEnd(' ');
+                    string textTrimmedEnd = text.TrimEnd(' ');
                     if (textTrimmedEnd.EndsWith(Environment.NewLine))
                     {
                         writtenNewLine = true;
@@ -723,7 +723,9 @@ namespace StyleCop.ReSharper610.Core
         /// <summary>
         /// Initializes this type.
         /// </summary>
-        /// <param name="declaration">The declaration.</param>
+        /// <param name="declaration">
+        /// The declaration.
+        /// </param>
         private void Init(IDeclaration declaration)
         {
             if (declaration == null)
@@ -754,7 +756,7 @@ namespace StyleCop.ReSharper610.Core
                         this.IsInherited = true;
                     }
 
-                    var node = this.XmlNode.SelectSingleNode("//summary");
+                    XmlNode node = this.XmlNode.SelectSingleNode("//summary");
                     if (node != null)
                     {
                         this.HasSummary = true;

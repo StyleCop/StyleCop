@@ -15,12 +15,10 @@
 //   Extension methods for IProjectFile types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ProjectModel
 {
     #region Using Directives
 
-    using System;
     using System.Xml;
 
     using StyleCop.ReSharper513.Diagnostics;
@@ -32,7 +30,7 @@ namespace JetBrains.ProjectModel
     /// </summary>
     public static class IProjectFileExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns true if the project file has been excluded from stylecop in the csproj file.
@@ -54,7 +52,7 @@ namespace JetBrains.ProjectModel
                 return false;
             }
 
-            var project = projectFile.GetProject();
+            IProject project = projectFile.GetProject();
 
             if (project == null)
             {
@@ -72,15 +70,17 @@ namespace JetBrains.ProjectModel
 
             try
             {
-                var xmlDocument = new XmlDocument();
+                XmlDocument xmlDocument = new XmlDocument();
 
-                var relativePathToCsFile = projectFile.Location.ConvertToRelativePath(project.Location).ToString();
+                string relativePathToCsFile = projectFile.Location.ConvertToRelativePath(project.Location).ToString();
 
                 xmlDocument.Load(project.ProjectFile.Location.FullPath);
 
-                var namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
+                XmlNamespaceManager namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
                 namespaceManager.AddNamespace("a", "http://schemas.microsoft.com/developer/msbuild/2003");
-                var xmlNode = xmlDocument.SelectSingleNode(string.Format("//a:Project/a:ItemGroup/a:Compile[@Include='{0}'][a:ExcludeFromStyleCop='true']", relativePathToCsFile), namespaceManager);
+                XmlNode xmlNode =
+                    xmlDocument.SelectSingleNode(
+                        string.Format("//a:Project/a:ItemGroup/a:Compile[@Include='{0}'][a:ExcludeFromStyleCop='true']", relativePathToCsFile), namespaceManager);
 
                 if (xmlNode != null)
                 {

@@ -15,14 +15,13 @@
 //   BulbItem - SA1615ElementReturnValueMustBeDocumentedBulbItem : Inserts a return into the header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
@@ -36,7 +35,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     internal class SA1615ElementReturnValueMustBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -49,9 +48,9 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
+            IMethodDeclaration memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
             if (memberDeclaration != null)
             {
                 new DocumentationRules().InsertReturnsElement(memberDeclaration, Utils.GetXmlPresentableName(memberDeclaration.DeclaredElement.ReturnType));

@@ -15,7 +15,6 @@
 //   QuickFix - SA1615: ElementReturnValueMustBeDocumented.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,14 @@ namespace StyleCop.ReSharper610.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1615ElementReturnValueMustBeDocumentedBulbItem { Description = "Insert <return> in header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1615ElementReturnValueMustBeDocumentedBulbItem
+                                         {
+                                             Description =
+                                                 "Insert <return> in header : " + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

@@ -15,7 +15,6 @@
 //   Factory class for getting HighLights for StyleCop violations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Violations
 {
     #region Using Directives
@@ -33,7 +32,7 @@ namespace StyleCop.ReSharper513.Violations
     /// </summary>
     public static class StyleCopViolationFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight for the specified StyleCop Violation.
@@ -55,10 +54,10 @@ namespace StyleCop.ReSharper513.Violations
         /// </returns>
         public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
         {
-            var ruleID = violation.Violation.Rule.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            string ruleID = violation.Violation.Rule.CheckId;
+            string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            var severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
+            Severity severity = HighlightingSettingsManager.Instance.Settings.GetSeverity(highlightID);
 
             switch (severity)
             {

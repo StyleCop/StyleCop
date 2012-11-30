@@ -15,7 +15,6 @@
 //   QuickFix for StyleCop Rule 1211.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Ordering
 {
     #region Using Directives

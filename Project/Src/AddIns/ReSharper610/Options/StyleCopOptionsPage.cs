@@ -1050,7 +1050,8 @@ namespace StyleCop.ReSharper610.Options
 
             foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement);
+                NamingPolicy policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(
+                    key => key.PredefinedNamingRules, kindOfElement);
 
                 if (policy == null)
                 {
@@ -1143,9 +1144,9 @@ namespace StyleCop.ReSharper610.Options
             }
 
             string reorderingPatterns;
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper610.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper610.Resources.ReorderingPatterns.xml"))
             {
-                using (var reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream))
                 {
                     reorderingPatterns = reader.ReadToEnd();
                 }
@@ -1156,7 +1157,7 @@ namespace StyleCop.ReSharper610.Options
                 return false;
             }
 
-            var solution = Utils.GetSolution();
+            ISolution solution = Utils.GetSolution();
 
             // We can only check the StyleCop profile settings if a solution is loaded.
             if (solution != null)
@@ -1165,8 +1166,8 @@ namespace StyleCop.ReSharper610.Options
 
                 CodeCleanupProfile styleCopProfile = null;
 
-                var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
-                var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
+                CodeCleanupSettingsComponent codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+                ICollection<CodeCleanupProfile> currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
 
                 // Find the StyleCop profile
                 foreach (CodeCleanupProfile profile in currentProfiles)
@@ -1485,7 +1486,7 @@ namespace StyleCop.ReSharper610.Options
 
             if (solution == null)
             {
-                var component = Shell.Instance.GetComponent<SettingsStore>();
+                SettingsStore component = Shell.Instance.GetComponent<SettingsStore>();
                 settingsStore = component.BindToContextLive(lifetime, ContextRange.ApplicationWide);
             }
             else
@@ -1663,8 +1664,8 @@ namespace StyleCop.ReSharper610.Options
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_EXTENDS_LIST_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_FOR_STMT_HEADER_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT, settingsStore.GetValue((CSharpFormatSettingsKey key) => key.WRAP_LIMIT));
-                
-                // We don't need to set this. It's here for completeness.
+
+            // We don't need to set this. It's here for completeness.
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_LINES, true);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_DECLARATION_STYLE, WrapStyle.CHOP_IF_LONG);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE, WrapStyle.CHOP_IF_LONG);
@@ -1677,7 +1678,8 @@ namespace StyleCop.ReSharper610.Options
 
             foreach (NamedElementKinds kindOfElement in Enum.GetValues(typeof(NamedElementKinds)))
             {
-                var policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(key => key.PredefinedNamingRules, kindOfElement);
+                NamingPolicy policy = settingsStore.GetIndexedValue<CSharpNamingSettings, NamedElementKinds, NamingPolicy>(
+                    key => key.PredefinedNamingRules, kindOfElement);
 
                 if (policy == null)
                 {
@@ -1725,7 +1727,7 @@ namespace StyleCop.ReSharper610.Options
             string reorderingPatterns;
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper610.Resources.ReorderingPatterns.xml"))
             {
-                using (var reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream))
                 {
                     reorderingPatterns = reader.ReadToEnd();
                 }
@@ -1739,10 +1741,10 @@ namespace StyleCop.ReSharper610.Options
 
                 CodeCleanup codeCleanupInstance = CodeCleanup.GetInstance(solution);
 
-                var profiles = new List<CodeCleanupProfile>();
+                List<CodeCleanupProfile> profiles = new List<CodeCleanupProfile>();
 
-                var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
-                var currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
+                CodeCleanupSettingsComponent codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+                ICollection<CodeCleanupProfile> currentProfiles = codeCleanupSettings.GetProfiles(settingsStore);
 
                 // Find the StyleCop profile
                 foreach (CodeCleanupProfile profile in currentProfiles)
@@ -1876,7 +1878,7 @@ namespace StyleCop.ReSharper610.Options
             if (this.ValidatePage())
             {
                 string newLocation = string.Empty;
-                var oldLocation = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath);
+                string oldLocation = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath);
 
                 if (!this.autoDetectCheckBox.Checked)
                 {
@@ -1918,7 +1920,7 @@ namespace StyleCop.ReSharper610.Options
             {
                 if (!StyleCopReferenceHelper.LocationValid(this.StyleCopLocationTextBox.Text))
                 {
-                    var message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
+                    string message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
 
                     MessageBox.Show(message, "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -1975,7 +1977,7 @@ namespace StyleCop.ReSharper610.Options
         /// </returns>
         private static T GetCodeCleanupProfileSetting<T>(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName)
         {
-            var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
+            CodeCleanupOptionDescriptor cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
 
             if (cleanupOptionDescriptor == null)
             {
@@ -1987,7 +1989,7 @@ namespace StyleCop.ReSharper610.Options
                 return (T)profile.GetSetting(cleanupOptionDescriptor);
             }
 
-            var propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
+            PropertyInfo propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
 
             return propertyInfo != null ? (T)propertyInfo.GetValue(profile.GetSetting(cleanupOptionDescriptor), null) : default(T);
         }
@@ -2006,8 +2008,8 @@ namespace StyleCop.ReSharper610.Options
         /// </returns>
         private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
         {
-            var codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
-            var currentModules = codeCleanupSettings.Modules;
+            CodeCleanupSettingsComponent codeCleanupSettings = Shell.Instance.GetComponent<CodeCleanupSettingsComponent>();
+            IEnumerable<ICodeCleanupModule> currentModules = codeCleanupSettings.Modules;
 
             foreach (ICodeCleanupModule module in currentModules)
             {
@@ -2063,7 +2065,7 @@ namespace StyleCop.ReSharper610.Options
         /// </param>
         private static void SetCodeCleanupProfileSetting(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName, object value)
         {
-            var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
+            CodeCleanupOptionDescriptor cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
 
             if (cleanupOptionDescriptor == null)
             {
@@ -2076,7 +2078,7 @@ namespace StyleCop.ReSharper610.Options
                 return;
             }
 
-            var propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
+            PropertyInfo propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
 
             if (propertyInfo == null)
             {
@@ -2141,7 +2143,7 @@ namespace StyleCop.ReSharper610.Options
         /// </summary>
         private void ShowDetectedAssemblyLocation()
         {
-            var location = StyleCopOptionsSettingsKey.DetectStyleCopPath();
+            string location = StyleCopOptionsSettingsKey.DetectStyleCopPath();
 
             if (string.IsNullOrEmpty(location))
             {
@@ -2163,7 +2165,7 @@ namespace StyleCop.ReSharper610.Options
         {
             if (!string.IsNullOrEmpty(this.StyleCopLocationTextBox.Text))
             {
-                var dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
+                string dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
 
                 if (!string.IsNullOrEmpty(dir))
                 {

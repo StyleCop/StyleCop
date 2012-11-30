@@ -15,7 +15,6 @@
 //   Registers StyleCop Highlighters to allow their severity to be set.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.Options
 {
     #region Using Directives
@@ -39,7 +38,7 @@ namespace StyleCop.ReSharper600.Options
     [ShellComponent(ProgramConfigurations.ALL)]
     public class HighlightingRegistering : IDisposable
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// The ID to be used for the default severity configuration element.
@@ -58,6 +57,8 @@ namespace StyleCop.ReSharper600.Options
 
         #endregion
 
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
@@ -70,7 +71,9 @@ namespace StyleCop.ReSharper600.Options
             this.Init();
         }
 
-        #region Public Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight ID for this rule.
@@ -91,28 +94,10 @@ namespace StyleCop.ReSharper600.Options
                 throw new ArgumentNullException("ruleID");
             }
 
-            var highlighID = string.Format(HighlightIdTemplate, ruleID);
+            string highlighID = string.Format(HighlightIdTemplate, ruleID);
 
             return highlighID;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComponent
-
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        public void Init()
-        {
-            this.AddHighlights();
-        }
-
-        #endregion
-
-        #region IDisposable
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -121,7 +106,13 @@ namespace StyleCop.ReSharper600.Options
         {
         }
 
-        #endregion
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        public void Init()
+        {
+            this.AddHighlights();
+        }
 
         #endregion
 
@@ -148,6 +139,47 @@ namespace StyleCop.ReSharper600.Options
             }
         }
 
+        private static void RegisterConfigurableGroup(HighlightingSettingsManager highlightManager, string groupId, string groupName)
+        {
+            HighlightingSettingsManager.ConfigurableGroupDescriptor item = new HighlightingSettingsManager.ConfigurableGroupDescriptor(groupId, groupName);
+
+            FieldInfo field = highlightManager.GetType().GetField("myConfigurableGroups", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (field != null)
+            {
+                Dictionary<string, HighlightingSettingsManager.ConfigurableGroupDescriptor> items =
+                    field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableGroupDescriptor>;
+
+                if (items != null)
+                {
+                    items.Add(groupId, item);
+                }
+            }
+        }
+
+        private static void RegisterConfigurableSeverity(
+            HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
+        {
+            HighlightingSettingsManager.ConfigurableSeverityItem item = new HighlightingSettingsManager.ConfigurableSeverityItem(
+                highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+
+            FieldInfo field = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (field != null)
+            {
+                Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem> items =
+                    field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
+
+                if (items != null)
+                {
+                    if (!items.ContainsKey(highlightId))
+                    {
+                        items.Add(highlightId, item);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Checks if the highlight setting already exists in the HighlightingSettingsManager.
         /// </summary>
@@ -162,7 +194,7 @@ namespace StyleCop.ReSharper600.Options
         /// </returns>
         private static bool SettingExists(HighlightingSettingsManager highlightManager, string highlightID)
         {
-            var item = highlightManager.GetSeverityItem(highlightID);
+            HighlightingSettingsManager.ConfigurableSeverityItem item = highlightManager.GetSeverityItem(highlightID);
             return item != null;
         }
 
@@ -177,46 +209,9 @@ namespace StyleCop.ReSharper600.Options
         /// </returns>
         private static string SplitCamelCase(string input)
         {
-            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+            string output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
 
             return output;
-        }
-
-        private static void RegisterConfigurableGroup(HighlightingSettingsManager highlightManager, string groupId, string groupName)
-        {
-            var item = new HighlightingSettingsManager.ConfigurableGroupDescriptor(groupId, groupName);
-
-            var field = highlightManager.GetType().GetField("myConfigurableGroups", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (field != null)
-            {
-                var items = field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableGroupDescriptor>;
-
-                if (items != null)
-                {
-                    items.Add(groupId, item);
-                }
-            }
-        }
-
-        private static void RegisterConfigurableSeverity(HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
-        {
-            var item = new HighlightingSettingsManager.ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
-
-            var field = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (field != null)
-            {
-                var items = field.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
-
-                if (items != null)
-                {
-                    if (!items.ContainsKey(highlightId))
-                    {
-                        items.Add(highlightId, item);
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -224,16 +219,16 @@ namespace StyleCop.ReSharper600.Options
         /// </summary>
         private void AddHighlights()
         {
-            var core = new StyleCopCore();
+            StyleCopCore core = new StyleCopCore();
             core.Initialize(new List<string>(), true);
 
-            var analyzerRulesDictionary = StyleCopRule.GetRules(core);
+            Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);
 
-            var highlightManager = HighlightingSettingsManager.Instance;
+            HighlightingSettingsManager highlightManager = HighlightingSettingsManager.Instance;
 
             AddDefaultOption(highlightManager);
 
-            var defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
+            Severity defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
 
             this.RegisterRuleConfigurations(highlightManager, analyzerRulesDictionary, defaultSeverity);
         }
@@ -250,20 +245,21 @@ namespace StyleCop.ReSharper600.Options
         /// <param name="defaultSeverity">
         /// The default severity.
         /// </param>
-        private void RegisterRuleConfigurations(HighlightingSettingsManager highlightManager, Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary, Severity defaultSeverity)
+        private void RegisterRuleConfigurations(
+            HighlightingSettingsManager highlightManager, Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary, Severity defaultSeverity)
         {
-            foreach (var analyzerRule in analyzerRulesDictionary)
+            foreach (KeyValuePair<SourceAnalyzer, List<StyleCopRule>> analyzerRule in analyzerRulesDictionary)
             {
-                var analyzerName = SplitCamelCase(analyzerRule.Key.Name);
-                var groupName = string.Format(GroupTitleTemplate, analyzerName);
-                var analyzerRules = analyzerRule.Value;
+                string analyzerName = SplitCamelCase(analyzerRule.Key.Name);
+                string groupName = string.Format(GroupTitleTemplate, analyzerName);
+                List<StyleCopRule> analyzerRules = analyzerRule.Value;
 
                 RegisterConfigurableGroup(highlightManager, groupName, groupName);
-                
-                foreach (var rule in analyzerRules)
+
+                foreach (StyleCopRule rule in analyzerRules)
                 {
-                    var ruleName = rule.RuleID + ":" + " " + SplitCamelCase(rule.Name);
-                    var highlightID = GetHighlightID(rule.RuleID);
+                    string ruleName = rule.RuleID + ":" + " " + SplitCamelCase(rule.Name);
+                    string highlightID = GetHighlightID(rule.RuleID);
 
                     if (!SettingExists(highlightManager, highlightID))
                     {

@@ -15,7 +15,6 @@
 //   Class to represent a StyleCop rule.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.Options
 {
     #region Using Directives
@@ -54,7 +53,7 @@ namespace StyleCop.ReSharper700.Options
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the description.
@@ -82,7 +81,7 @@ namespace StyleCop.ReSharper700.Options
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the rules.
@@ -95,8 +94,8 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         public static Dictionary<SourceAnalyzer, List<StyleCopRule>> GetRules(StyleCopCore styleCopCore)
         {
-            var loadedAnalyzers = GetSourceAnalyzers(styleCopCore);
-            var rulesDictionary = GetRules(loadedAnalyzers);
+            List<SourceAnalyzer> loadedAnalyzers = GetSourceAnalyzers(styleCopCore);
+            Dictionary<SourceAnalyzer, List<StyleCopRule>> rulesDictionary = GetRules(loadedAnalyzers);
 
             return rulesDictionary;
         }
@@ -129,9 +128,9 @@ namespace StyleCop.ReSharper700.Options
             XmlNode ruleCheckIDNode = node.Attributes["CheckId"];
             XmlNode ruleDescriptionNode = node["Description"];
 
-            var ruleName = ruleNameNode.Value;
-            var ruleCheckID = ruleCheckIDNode.Value;
-            var ruleDescription = ruleName;
+            string ruleName = ruleNameNode.Value;
+            string ruleCheckID = ruleCheckIDNode.Value;
+            string ruleDescription = ruleName;
 
             if (ruleDescriptionNode != null)
             {
@@ -155,14 +154,14 @@ namespace StyleCop.ReSharper700.Options
         /// </exception>
         private static List<StyleCopRule> GetRuleGroupRules(XmlNode node)
         {
-            var ruleGroupNameAttribute = node.Attributes["Name"];
+            XmlAttribute ruleGroupNameAttribute = node.Attributes["Name"];
 
             if (ruleGroupNameAttribute == null || ruleGroupNameAttribute.Value.Length == 0)
             {
                 throw new ArgumentException("RuleGroupHasNoNameAttribute");
             }
 
-            var nodeRules = GetRulesFromXml(node);
+            List<StyleCopRule> nodeRules = GetRulesFromXml(node);
 
             return nodeRules;
         }
@@ -178,11 +177,11 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         private static Dictionary<SourceAnalyzer, List<StyleCopRule>> GetRules(IEnumerable<SourceAnalyzer> analyzers)
         {
-            var rules = new Dictionary<SourceAnalyzer, List<StyleCopRule>>();
+            Dictionary<SourceAnalyzer, List<StyleCopRule>> rules = new Dictionary<SourceAnalyzer, List<StyleCopRule>>();
 
-            foreach (var analyzer in analyzers)
+            foreach (SourceAnalyzer analyzer in analyzers)
             {
-                var analyzerRules = GetRules(analyzer);
+                List<StyleCopRule> analyzerRules = GetRules(analyzer);
                 rules.Add(analyzer, analyzerRules);
             }
 
@@ -200,8 +199,8 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         private static List<StyleCopRule> GetRules(SourceAnalyzer analyzer)
         {
-            var xmlDocument = StyleCopCore.LoadAddInResourceXml(analyzer.GetType(), null);
-            var xmlDefinedRules = GetRulesFromXml(xmlDocument);
+            XmlDocument xmlDocument = StyleCopCore.LoadAddInResourceXml(analyzer.GetType(), null);
+            List<StyleCopRule> xmlDefinedRules = GetRulesFromXml(xmlDocument);
 
             return xmlDefinedRules;
         }
@@ -217,7 +216,7 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         private static List<StyleCopRule> GetRulesFromXml(XmlDocument document)
         {
-            var rules = new List<StyleCopRule>();
+            List<StyleCopRule> rules = new List<StyleCopRule>();
 
             Param.RequireNotNull(document, "document");
             Param.RequireNotNull(document.DocumentElement, "xml.DocumentElement");
@@ -228,7 +227,7 @@ namespace StyleCop.ReSharper700.Options
                 {
                     if (node.Name == "Rules")
                     {
-                        var nodeRules = GetRulesFromXml(node);
+                        List<StyleCopRule> nodeRules = GetRulesFromXml(node);
                         rules.AddRange(nodeRules);
                     }
                 }
@@ -251,7 +250,7 @@ namespace StyleCop.ReSharper700.Options
         /// </exception>
         private static List<StyleCopRule> GetRulesFromXml(XmlNode rulesNode)
         {
-            var rules = new List<StyleCopRule>();
+            List<StyleCopRule> rules = new List<StyleCopRule>();
 
             foreach (XmlNode node in rulesNode.ChildNodes)
             {
@@ -259,14 +258,14 @@ namespace StyleCop.ReSharper700.Options
                 {
                     case "RuleGroup":
                         {
-                            var groupRules = GetRuleGroupRules(node);
+                            List<StyleCopRule> groupRules = GetRuleGroupRules(node);
                             rules.AddRange(groupRules);
                         }
 
                         break;
                     case "Rule":
                         {
-                            var rule = GetRule(node);
+                            StyleCopRule rule = GetRule(node);
                             rules.Add(rule);
                         }
 
@@ -288,9 +287,9 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         private static List<SourceAnalyzer> GetSourceAnalyzers(StyleCopCore styleCopCore)
         {
-            var analyzers = new List<SourceAnalyzer>();
+            List<SourceAnalyzer> analyzers = new List<SourceAnalyzer>();
 
-            foreach (var parser in styleCopCore.Parsers)
+            foreach (SourceParser parser in styleCopCore.Parsers)
             {
                 analyzers.AddRange(parser.Analyzers);
             }
@@ -314,13 +313,13 @@ namespace StyleCop.ReSharper700.Options
                 return null;
             }
 
-            var length = 0;
-            var characterArray = new char[content.Length];
-            var flag = false;
+            int length = 0;
+            char[] characterArray = new char[content.Length];
+            bool flag = false;
 
-            for (var i = 0; i < content.Length; i++)
+            for (int i = 0; i < content.Length; i++)
             {
-                var c = content[i];
+                char c = content[i];
 
                 if (flag)
                 {

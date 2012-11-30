@@ -15,7 +15,6 @@
 //   The style cop locator.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Core
 {
     #region Using Directives
@@ -32,7 +31,7 @@ namespace StyleCop.ReSharper513.Core
     /// </summary>
     public static class StyleCopLocator
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the StyleCop assembly path.
@@ -42,7 +41,7 @@ namespace StyleCop.ReSharper513.Core
         /// </returns>
         public static string GetStyleCopPath()
         {
-            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
         }

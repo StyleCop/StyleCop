@@ -15,6 +15,7 @@
 //   The style cop settings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+extern alias JB;
 
 namespace StyleCop.ReSharper611.Core
 {
@@ -38,15 +39,23 @@ namespace StyleCop.ReSharper611.Core
     /// </summary>
     public class StyleCopSettings
     {
-        #region Constants and Fields
+        #region Constants
 
         private const string CsParserId = "StyleCop.CSharp.CsParser";
+
+        #endregion
+
+        #region Static Fields
 
         private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
 
         private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
 
         private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
+
+        #endregion
+
+        #region Fields
 
         private readonly StyleCopCore styleCopCore;
 
@@ -67,7 +76,7 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Searches directories of the project items project file and the parents thereof to see 
@@ -83,7 +92,7 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In(projectItem);
 
-            var cacheKey = string.Format("{0}::{1}", "FindSettingsFilePath", projectItem.Location.FullPath.ToLowerInvariant());
+            string cacheKey = string.Format("{0}::{1}", "FindSettingsFilePath", projectItem.Location.FullPath.ToLowerInvariant());
 
             string settings;
 
@@ -94,15 +103,15 @@ namespace StyleCop.ReSharper611.Core
                 return settings;
             }
 
-            var projectFile = projectItem.GetProject();
+            IProject projectFile = projectItem.GetProject();
 
-            var result = this.FindSettingsFilePath(projectFile);
+            string result = this.FindSettingsFilePath(projectFile);
             this.AddWatcherForSettingsFile(projectItem.Location.FullPath);
             StringCache[cacheKey] = result;
 
             return StyleCopTrace.Out(result);
         }
-        
+
         /// <summary>
         /// Gets the settings for the file provided.
         /// </summary>
@@ -116,11 +125,11 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In(projectFile);
 
-            var settingsFile = this.FindSettingsFilePath(projectFile);
+            string settingsFile = this.FindSettingsFilePath(projectFile);
 
             if (string.IsNullOrEmpty(settingsFile))
             {
-                var defaultSettingsPath = this.styleCopCore.Environment.GetDefaultSettingsPath();
+                string defaultSettingsPath = this.styleCopCore.Environment.GetDefaultSettingsPath();
                 return string.IsNullOrEmpty(defaultSettingsPath) ? null : this.styleCopCore.Environment.GetSettings(defaultSettingsPath, true);
             }
 
@@ -140,11 +149,11 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In(projects, settingsPath);
 
-            var mergedSettings = this.GetMergedSettings(settingsPath);
+            Settings mergedSettings = this.GetMergedSettings(settingsPath);
 
-            foreach (var project in projects)
+            foreach (CodeProject project in projects)
             {
-                var projectSettings = mergedSettings ?? this.styleCopCore.Environment.GetProjectSettings(project, true);
+                Settings projectSettings = mergedSettings ?? this.styleCopCore.Environment.GetProjectSettings(project, true);
 
                 if (projectSettings != null)
                 {
@@ -169,7 +178,7 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In(projectFile);
 
-            var cacheKey = string.Format("{0}::{1}", "SkipAnalysisForDocument", projectFile.Location.FullPath.ToLowerInvariant());
+            string cacheKey = string.Format("{0}::{1}", "SkipAnalysisForDocument", projectFile.Location.FullPath.ToLowerInvariant());
 
             bool result;
 
@@ -181,13 +190,13 @@ namespace StyleCop.ReSharper611.Core
 
             if (projectFile.Name.EndsWith(".cs"))
             {
-                var settingsStore = projectFile.ToSourceFile().GetSettingsStore();
+                IContextBoundSettingsStore settingsStore = projectFile.ToSourceFile().GetSettingsStore();
                 if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.UseExcludeFromStyleCopSetting) || !projectFile.ProjectFileIsExcludedFromStyleCop())
                 {
-                    var analyzeDesignerFiles = true;
-                    var analyzeGeneratedFiles = false;
+                    bool analyzeDesignerFiles = true;
+                    bool analyzeGeneratedFiles = false;
 
-                    var analyzeDesignerFilesSetting = this.GetParserSetting(projectFile, "AnalyzeDesignerFiles") as BooleanProperty;
+                    BooleanProperty analyzeDesignerFilesSetting = this.GetParserSetting(projectFile, "AnalyzeDesignerFiles") as BooleanProperty;
 
                     if (analyzeDesignerFilesSetting != null)
                     {
@@ -196,15 +205,16 @@ namespace StyleCop.ReSharper611.Core
 
                     if (analyzeDesignerFiles || !projectFile.Name.EndsWith(".Designer.cs", StringComparison.OrdinalIgnoreCase))
                     {
-                        var analyzeGeneratedFilesSetting = this.GetParserSetting(projectFile, "AnalyzeGeneratedFiles") as BooleanProperty;
+                        BooleanProperty analyzeGeneratedFilesSetting = this.GetParserSetting(projectFile, "AnalyzeGeneratedFiles") as BooleanProperty;
 
                         if (analyzeGeneratedFilesSetting != null)
                         {
                             analyzeGeneratedFiles = analyzeGeneratedFilesSetting.Value;
                         }
 
-                        if (analyzeGeneratedFiles ||
-                            (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
+                        if (analyzeGeneratedFiles
+                            || (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)
+                                && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
                         {
                             BoolCache[cacheKey] = false;
 
@@ -228,40 +238,14 @@ namespace StyleCop.ReSharper611.Core
         #region Methods
 
         /// <summary>
-        /// Gets the settings file if it exists in this directory.
-        /// </summary>
-        /// <param name="directory">
-        /// The directory.
-        /// </param>
-        /// <returns>
-        /// The FileInfo for the settings file if one exists in this directory.
-        /// </returns>
-        private static FileInfo GetSettingsFileForDirectoryInfo(DirectoryInfo directory)
-        {
-            StyleCopTrace.In();
-
-            var settingsFileNames = new[] { "Settings.StyleCop", "Settings.SourceAnalysis" };
-
-            foreach (var settingsFileName in settingsFileNames)
-            {
-                var foundSettingsFiles = directory.GetFiles(settingsFileName, SearchOption.TopDirectoryOnly);
-
-                if (foundSettingsFiles.Length > 0)
-                {
-                    return StyleCopTrace.Out(foundSettingsFiles[0]);
-                }
-            }
-
-            StyleCopTrace.Out();
-
-            return null;
-        }
-
-        /// <summary>
         /// Called when a file being watched changes.
         /// </summary>
-        /// <param name="source">The object being changed.</param>
-        /// <param name="e">The FileSystemEventArgs for the file.</param>
+        /// <param name="source">
+        /// The object being changed.
+        /// </param>
+        /// <param name="e">
+        /// The FileSystemEventArgs for the file.
+        /// </param>
         private static void FileChanged(object source, FileSystemEventArgs e)
         {
             StyleCopTrace.In(source, e);
@@ -275,8 +259,12 @@ namespace StyleCop.ReSharper611.Core
         /// <summary>
         /// Called when a file being watched gets renamed.
         /// </summary>
-        /// <param name="source">The object being renamed.</param>
-        /// <param name="e">The RenamedEventArgs for the file.</param>
+        /// <param name="source">
+        /// The object being renamed.
+        /// </param>
+        /// <param name="e">
+        /// The RenamedEventArgs for the file.
+        /// </param>
         private static void FileRenamed(object source, RenamedEventArgs e)
         {
             StyleCopTrace.In(source, e);
@@ -288,9 +276,41 @@ namespace StyleCop.ReSharper611.Core
         }
 
         /// <summary>
+        /// Gets the settings file if it exists in this directory.
+        /// </summary>
+        /// <param name="directory">
+        /// The directory.
+        /// </param>
+        /// <returns>
+        /// The FileInfo for the settings file if one exists in this directory.
+        /// </returns>
+        private static FileInfo GetSettingsFileForDirectoryInfo(DirectoryInfo directory)
+        {
+            StyleCopTrace.In();
+
+            string[] settingsFileNames = new[] { "Settings.StyleCop", "Settings.SourceAnalysis" };
+
+            foreach (string settingsFileName in settingsFileNames)
+            {
+                FileInfo[] foundSettingsFiles = directory.GetFiles(settingsFileName, SearchOption.TopDirectoryOnly);
+
+                if (foundSettingsFiles.Length > 0)
+                {
+                    return StyleCopTrace.Out(foundSettingsFiles[0]);
+                }
+            }
+
+            StyleCopTrace.Out();
+
+            return null;
+        }
+
+        /// <summary>
         /// Adds a FileSystemWatcher for the settings.stylecop file in the folder of the file provided.
         /// </summary>
-        /// <param name="path">A path to a file that we will watch the folder of.</param>
+        /// <param name="path">
+        /// A path to a file that we will watch the folder of.
+        /// </param>
         private void AddWatcherForSettingsFile(string path)
         {
             StyleCopTrace.In(path);
@@ -300,8 +320,8 @@ namespace StyleCop.ReSharper611.Core
                 return;
             }
 
-            var watch = new FileSystemWatcher();
-            var directoryName = Path.GetDirectoryName(path);
+            FileSystemWatcher watch = new FileSystemWatcher();
+            string directoryName = Path.GetDirectoryName(path);
             watch.Path = directoryName;
             watch.Filter = "settings.stylecop";
             watch.Changed += FileChanged;
@@ -326,7 +346,7 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In();
 
-            var settingsFilePath = GetSettingsFileForDirectoryInfo(directoryInfo);
+            FileInfo settingsFilePath = GetSettingsFileForDirectoryInfo(directoryInfo);
 
             if (settingsFilePath == null && directoryInfo.Parent != null)
             {
@@ -352,11 +372,11 @@ namespace StyleCop.ReSharper611.Core
 
             if (project != null)
             {
-                var directory = project.Location;
+                JB::JetBrains.Util.FileSystemPath directory = project.Location;
 
                 if (directory.ExistsDirectory)
                 {
-                    var settingsFile = this.FindSettingsFile(directory.ToDirectoryInfo());
+                    FileInfo settingsFile = this.FindSettingsFile(directory.ToDirectoryInfo());
 
                     if (settingsFile != null)
                     {
@@ -374,7 +394,7 @@ namespace StyleCop.ReSharper611.Core
         {
             StyleCopTrace.In(settingsPath);
 
-            var cacheKey = string.Empty;
+            string cacheKey = string.Empty;
 
             if (string.IsNullOrEmpty(settingsPath))
             {
@@ -394,11 +414,11 @@ namespace StyleCop.ReSharper611.Core
                 return mergedSettings;
             }
 
-            var localSettings = this.styleCopCore.Environment.GetSettings(settingsPath, false);
+            Settings localSettings = this.styleCopCore.Environment.GetSettings(settingsPath, false);
 
             if (localSettings != null)
             {
-                var merger = new SettingsMerger(localSettings, this.styleCopCore.Environment);
+                SettingsMerger merger = new SettingsMerger(localSettings, this.styleCopCore.Environment);
 
                 mergedSettings = merger.MergedSettings;
             }
@@ -409,21 +429,21 @@ namespace StyleCop.ReSharper611.Core
 
             return StyleCopTrace.Out(mergedSettings);
         }
-        
+
         private PropertyValue GetParserSetting(IProjectFile projectFile, string propertyName)
         {
             StyleCopTrace.In(projectFile, propertyName);
             PropertyValue returnValue = null;
 
-            var addIn = this.styleCopCore.GetParser(CsParserId);
+            SourceParser addIn = this.styleCopCore.GetParser(CsParserId);
 
             if (addIn != null)
             {
-                var settingsFile = this.FindSettingsFilePath(projectFile);
+                string settingsFile = this.FindSettingsFilePath(projectFile);
 
                 if (!string.IsNullOrEmpty(settingsFile))
                 {
-                    var settings = this.styleCopCore.Environment.GetSettings(settingsFile, true);
+                    Settings settings = this.styleCopCore.Environment.GetSettings(settingsFile, true);
 
                     if (settings != null)
                     {

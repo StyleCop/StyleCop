@@ -39,11 +39,8 @@ using JetBrains.ReSharper.Daemon;
 
 // Many of the R# base types are not CLS compliant so we can't be.
 [assembly: CLSCompliant(false)]
-
 [assembly: Guid("B566919A-1C80-4778-BA87-A6B7052B525A")]
-
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
-
 [assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
 [assembly: PluginVendor(StyleCop.Constants.Vendor)]
 [assembly: PluginDescription("R# plugin for StyleCop. This plugin allows StyleCop to be run as you type, generating real-time syntax highlighting of violations. It also provides a series of Quick-Fixes and Code Clean Up Modules to help automatically fix violations. See http://stylecop.codeplex.com for more info.")]

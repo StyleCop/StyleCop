@@ -15,7 +15,6 @@
 //   QuickFix - SA1638: FileHeaderMustContainFileName.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.QuickFixes.Documentation
 {
     #region Using Directives
@@ -41,45 +40,55 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingError" /> .
+        /// Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingError" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingError"/> that has been detected. 
+        /// </param>
         public SA1638QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingHint" /> .
+        /// Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingHint"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingHint" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
+        /// </param>
         public SA1638QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingInfo" /> .
+        /// Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingInfo"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingInfo" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
+        /// </param>
         public SA1638QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion" /> .
+        /// Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingSuggestion" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
+        /// </param>
         public SA1638QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingWarning" /> .
+        /// Initializes a new instance of the SA1638QuickFix class that can handle <see cref="StyleCopHighlightingWarning"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingWarning" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
+        /// </param>
         public SA1638QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
@@ -95,9 +104,13 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Highlighting.ToolTip }
-                };
+                                 {
+                                     new SA1637FileHeaderMustContainFileNameBulbItem
+                                         {
+                                             Description =
+                                                 "Update filename in header : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

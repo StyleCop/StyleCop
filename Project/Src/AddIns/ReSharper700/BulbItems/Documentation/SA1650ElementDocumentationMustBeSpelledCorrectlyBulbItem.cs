@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   SA1650: ElementDocumentationMustBeSpelledCorrectly.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.BulbItems.Documentation
 {
     #region Using Directives
@@ -34,17 +36,21 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     /// </summary>
     public class SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem : V5BulbItemImpl
     {
-        /// <summary>
-        /// Gets or sets the deprecated word.
-        /// </summary>
-        public string DeprecatedWord { get; set; }
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the word that we will use to replace the deprecated word.
         /// </summary>
         public string AlternateWord { get; set; }
 
-        #region Public Methods
+        /// <summary>
+        /// Gets or sets the deprecated word.
+        /// </summary>
+        public string DeprecatedWord { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -57,20 +63,24 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+            IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
-            var declarationHeader = new DeclarationHeader(declaration);
-            
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
             this.ProcessXmlNode(declarationHeader.XmlNode, this.DeprecatedWord, this.AlternateWord);
 
             declarationHeader.Update();
         }
 
+        #endregion
+
+        #region Methods
+
         private void ProcessXmlNode(XmlNode node, string word, string alternativeWord)
         {
-            for (var i = 0; i < node.ChildNodes.Count; i++)
+            for (int i = 0; i < node.ChildNodes.Count; i++)
             {
-                var childNode = node.ChildNodes[i];
+                XmlNode childNode = node.ChildNodes[i];
 
                 if (childNode is XmlText && i == 0)
                 {
@@ -96,8 +106,8 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
                 {
                     if ((indexOfWord == 0 || !char.IsLetter(text, indexOfWord - 1)) && (indexOfWord == text.Length || !char.IsLetter(text, indexOfWord + word.Length)))
                     {
-                        var firstPart = text.Substring(0, indexOfWord);
-                        var secondPart = text.Substring(indexOfWord + word.Length);
+                        string firstPart = text.Substring(0, indexOfWord);
+                        string secondPart = text.Substring(indexOfWord + word.Length);
                         text = string.Concat(firstPart, alternativeWord, secondPart);
                     }
                 }

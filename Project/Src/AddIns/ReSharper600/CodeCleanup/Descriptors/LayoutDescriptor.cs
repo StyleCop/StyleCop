@@ -51,7 +51,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -64,8 +64,8 @@ namespace StyleCop.ReSharper600.CodeCleanup.Descriptors
         /// </param>
         public override void Load(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = new LayoutOptions();
-            var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
+            LayoutOptions options = new LayoutOptions();
+            XmlElement optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
 
             if (optionsElement != null)
             {
@@ -121,8 +121,8 @@ namespace StyleCop.ReSharper600.CodeCleanup.Descriptors
         /// </param>
         public override void Save(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = profile.GetSetting(this);
-            var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
+            LayoutOptions options = profile.GetSetting(this);
+            XmlElement optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine", options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine.ToString());
@@ -130,7 +130,8 @@ namespace StyleCop.ReSharper600.CodeCleanup.Descriptors
                 optionsElement, "SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine", options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine", options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1511WhileDoFooterMustNotBePrecededByBlankLine", options.SA1511WhileDoFooterMustNotBePrecededByBlankLine.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1511WhileDoFooterMustNotBePrecededByBlankLine", options.SA1511WhileDoFooterMustNotBePrecededByBlankLine.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1512SingleLineCommentsMustNotBeFollowedByBlankLine", options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(

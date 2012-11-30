@@ -15,7 +15,6 @@
 //   QuickFix - SA1604: ElementDocumentationMustHaveSummary.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper600.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1604ElementDocumentationMustHaveSummaryBulbItem { Description = "Insert <summary> into header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1604ElementDocumentationMustHaveSummaryBulbItem
+                                         {
+                                             Description =
+                                                 "Insert <summary> into header : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

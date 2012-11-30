@@ -15,7 +15,6 @@
 //   SA1605PartialElementDocumentationMustHaveSummary Bulb Item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Documentation
 {
     /// <summary>

@@ -40,7 +40,7 @@ namespace StyleCop.ReSharper600.Core
     /// </summary>
     public class StyleCopReferenceHelper
     {
-        #region Constants and Fields
+        #region Static Fields
 
         /// <summary>
         /// SyncRoot object to lock access to the assembly.
@@ -104,7 +104,7 @@ namespace StyleCop.ReSharper600.Core
                         {
                             try
                             {
-                                var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
+                                string styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
 
                                 if (!string.IsNullOrEmpty(styleCopAssemblyPath))
                                 {
@@ -140,11 +140,11 @@ namespace StyleCop.ReSharper600.Core
                         {
                             try
                             {
-                                var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
+                                string styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
 
                                 if (!string.IsNullOrEmpty(styleCopAssemblyPath))
                                 {
-                                    var rulesPath = Path.GetDirectoryName(styleCopAssemblyPath);
+                                    string rulesPath = Path.GetDirectoryName(styleCopAssemblyPath);
                                     styleCopCSharpRulesAssembly = Assembly.LoadFrom(Path.Combine(rulesPath, "StyleCop.CSharp.Rules.dll"));
                                 }
 
@@ -164,7 +164,18 @@ namespace StyleCop.ReSharper600.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Checks if StyleCop is available (i.e. the assembly has been found) and loads it if required.
+        /// </summary>
+        /// <returns>
+        /// A boolean to say if StyleCop is available.
+        /// </returns>
+        public static bool EnsureStyleCopIsLoaded()
+        {
+            return StyleCopAssembly != null;
+        }
 
         /// <summary>
         /// Checks if the path is a valid StyleCop assembly path.
@@ -182,7 +193,7 @@ namespace StyleCop.ReSharper600.Core
                 return false;
             }
 
-            var filename = Path.GetFileName(assemblyPath);
+            string filename = Path.GetFileName(assemblyPath);
 
             if (string.IsNullOrEmpty(filename) || filename.ToUpper() != Constants.StyleCopAssemblyName.ToUpper())
             {
@@ -190,17 +201,6 @@ namespace StyleCop.ReSharper600.Core
             }
 
             return File.Exists(assemblyPath);
-        }
-
-        /// <summary>
-        /// Checks if StyleCop is available (i.e. the assembly has been found) and loads it if required.
-        /// </summary>
-        /// <returns>
-        /// A boolean to say if StyleCop is available.
-        /// </returns>
-        public static bool EnsureStyleCopIsLoaded()
-        {
-            return StyleCopAssembly != null;
         }
 
         #endregion
@@ -221,8 +221,8 @@ namespace StyleCop.ReSharper600.Core
         /// </returns>
         private static Assembly OnEventHandler(object sender, ResolveEventArgs args)
         {
-            var styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
-            var assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
+            string styleCopAssemblyPath = StyleCopOptions.Instance.GetAssemblyPath();
+            string assemblyName = Path.GetFileNameWithoutExtension(styleCopAssemblyPath) + ",";
 
             if (args.Name.StartsWith(assemblyName))
             {

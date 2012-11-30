@@ -11,6 +11,9 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   The StyleCop CodeStyle Checker.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
@@ -37,19 +40,30 @@ namespace StyleCop.ReSharper611.ShellComponents
     [ShellComponent(ProgramConfigurations.ALL)]
     public class StyleCopCodeStyleChecker : IDisposable
     {
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the StyleCopCodeStyleChecker class.
         /// </summary>
-        /// <param name="lifetime">The lifetime for this instance.</param>
+        /// <param name="lifetime">
+        /// The lifetime for this instance.
+        /// </param>
         public StyleCopCodeStyleChecker(JB::JetBrains.DataFlow.Lifetime lifetime)
         {
             StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init(lifetime);
         }
 
-        #region Implemented Interfaces
+        #endregion
 
-        #region IComponent
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+        }
 
         /// <summary>
         /// The initializer for this ShellComponent.
@@ -61,7 +75,7 @@ namespace StyleCop.ReSharper611.ShellComponents
         {
             RegistryUtils registryUtils = new RegistryUtils();
 
-            var initializationDate = Convert.ToDateTime(registryUtils.CUGetValue("LastInitializationDate"));
+            DateTime initializationDate = Convert.ToDateTime(registryUtils.CUGetValue("LastInitializationDate"));
 
             string todayAsString = DateTime.Today.ToString("yyyy-MM-dd");
 
@@ -89,22 +103,22 @@ namespace StyleCop.ReSharper611.ShellComponents
 
             if (registryUtils.CUGetValue("LastInitializationDate") == null || initializationDate < lastInstalledDate)
             {
-                var settingsStore = Shell.Instance.GetComponent<SettingsStore>();
+                SettingsStore settingsStore = Shell.Instance.GetComponent<SettingsStore>();
 
-                var settings = settingsStore.BindToContextLive(lifetime, ContextRange.ApplicationWide);
+                IContextBoundSettingsStoreLive settings = settingsStore.BindToContextLive(lifetime, ContextRange.ApplicationWide);
 
-                var checkReSharperCodeStyleOptionsAtStartUp = settings.GetValue((StyleCopOptionsSettingsKey key) => key.CheckReSharperCodeStyleOptionsAtStartUp);
+                bool checkReSharperCodeStyleOptionsAtStartUp = settings.GetValue((StyleCopOptionsSettingsKey key) => key.CheckReSharperCodeStyleOptionsAtStartUp);
 
                 if (checkReSharperCodeStyleOptionsAtStartUp)
                 {
                     if (!StyleCopOptionsPage.CodeStyleOptionsValid(settings))
                     {
-                        var result =
+                        DialogResult result =
                             MessageBox.Show(
-                                @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
-                                @"StyleCop",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question,
+                                @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?", 
+                                @"StyleCop", 
+                                MessageBoxButtons.YesNo, 
+                                MessageBoxIcon.Question, 
                                 MessageBoxDefaultButton.Button2);
                         if (result == DialogResult.Yes)
                         {
@@ -114,21 +128,8 @@ namespace StyleCop.ReSharper611.ShellComponents
                 }
             }
 
-           registryUtils.CUSetValue("LastInitializationDate", todayAsString);
+            registryUtils.CUSetValue("LastInitializationDate", todayAsString);
         }
-
-        #endregion
-
-        #region IDisposable
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
 
         #endregion
 
@@ -137,12 +138,18 @@ namespace StyleCop.ReSharper611.ShellComponents
         /// <summary>
         /// Loads the InstallDate registry key value.
         /// </summary>
-        /// <param name="registryUtils"> A <see cref="RegistryUtils"/> instance to access the registry.</param>
-        /// <param name="defaultDateAsString">The date to set the install date to if its value is not found in the registry.</param>
-        /// <returns>The DateTime of the InstallDate LOCALUSER registry key.</returns>
+        /// <param name="registryUtils">
+        /// A <see cref="RegistryUtils"/> instance to access the registry.
+        /// </param>
+        /// <param name="defaultDateAsString">
+        /// The date to set the install date to if its value is not found in the registry.
+        /// </param>
+        /// <returns>
+        /// The DateTime of the InstallDate LOCALUSER registry key.
+        /// </returns>
         private static DateTime GetInstallDateFromLocalUserRegistry(RegistryUtils registryUtils, string defaultDateAsString)
         {
-            var installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
+            string installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
 
             if (installDateRegistryKey != null)
             {

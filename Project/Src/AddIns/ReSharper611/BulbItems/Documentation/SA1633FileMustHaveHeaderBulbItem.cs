@@ -6,12 +6,12 @@
 //   Defines the SA1633FileMustHaveHeaderBulbItem type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     public class SA1633FileMustHaveHeaderBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -38,7 +38,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
             new DocumentationRules().InsertFileHeader(file);
         }
 

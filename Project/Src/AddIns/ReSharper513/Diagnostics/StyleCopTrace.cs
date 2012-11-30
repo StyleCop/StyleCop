@@ -15,7 +15,6 @@
 //   The central manager class for application tracing, through which all application tracing should be done.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Diagnostics
 {
     #region Using Directives
@@ -41,8 +40,8 @@ namespace StyleCop.ReSharper513.Diagnostics
         /// </summary>
         static StyleCopTrace()
         {
-            var levelString = ConfigurationManager.AppSettings["TraceLevel"];
-            var level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : 0;
+            string levelString = ConfigurationManager.AppSettings["TraceLevel"];
+            int level = levelString != null ? int.Parse(levelString, CultureInfo.InvariantCulture) : 0;
 
             // <!-- ================================================================================-->
             // <!-- Trace level is a bit mask of the following values:                              -->
@@ -68,14 +67,15 @@ namespace StyleCop.ReSharper513.Diagnostics
             Trace.Listeners.Add(new DefaultTraceListener());
 #endif
 
-            var logPath = ConfigurationManager.AppSettings["TraceLogPath"];
+            string logPath = ConfigurationManager.AppSettings["TraceLogPath"];
 
-            var dtl = Trace.Listeners["Default"] as DefaultTraceListener;
+            DefaultTraceListener dtl = Trace.Listeners["Default"] as DefaultTraceListener;
 
             if (dtl != null && level > 0 && !string.IsNullOrEmpty(logPath))
             {
                 Directory.CreateDirectory(logPath);
-                var fullPath = Path.Combine(logPath, string.Format("blinkBox Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
+                string fullPath = Path.Combine(
+                    logPath, string.Format("blinkBox Trace [{0}].log", DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm-ss-fff", CultureInfo.InvariantCulture)));
                 dtl.LogFileName = fullPath;
             }
 
@@ -84,7 +84,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the <see cref="StyleCopSwitch"/> that this class uses to decide whether to produce tracing messages.
@@ -93,7 +93,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Write an error message containing the passed text.

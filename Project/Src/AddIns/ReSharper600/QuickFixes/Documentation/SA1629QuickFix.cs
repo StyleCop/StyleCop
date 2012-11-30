@@ -15,7 +15,6 @@
 //   QuickFix - SA1629: DocumentationTextMustEndWithAPeriod.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper600.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1629DocumentationTextMustEndWithAPeriodBulbItem { Description = "Documentation text must end with a '.' : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1629DocumentationTextMustEndWithAPeriodBulbItem
+                                         {
+                                             Description =
+                                                 "Documentation text must end with a '.' : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

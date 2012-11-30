@@ -15,7 +15,6 @@
 //   Highlighting class for a StyleCop Violation set to severity level Info.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.Violations
 {
     #region Using Directives
@@ -31,7 +30,7 @@ namespace StyleCop.ReSharper700.Violations
     [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopHighlightingInfo : StyleCopHighlightingBase
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// The Violation severity.
@@ -75,7 +74,7 @@ namespace StyleCop.ReSharper700.Violations
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the severity of this highlighting.

@@ -15,7 +15,6 @@
 //   QuickFix - SA1005: SingleLineCommentsMustBeginWithSingeSpace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Spacing
 {
     #region Using Directives
@@ -110,12 +109,14 @@ namespace StyleCop.ReSharper610.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber
-                        }
-                };
+                                 {
+                                     new SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

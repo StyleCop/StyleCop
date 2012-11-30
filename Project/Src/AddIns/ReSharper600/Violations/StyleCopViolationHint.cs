@@ -15,15 +15,12 @@
 //   Highlighting class for a StyleCop Violation set to severity level Hint.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.Violations
 {
     #region Using Directives
 
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
-
-    using StyleCop.CSharp;
 
     #endregion
 
@@ -33,7 +30,7 @@ namespace StyleCop.ReSharper600.Violations
     [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopViolationHint : StyleCopViolationBase
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// The Violation severity.
@@ -78,7 +75,7 @@ namespace StyleCop.ReSharper600.Violations
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the severity of this highlighting.

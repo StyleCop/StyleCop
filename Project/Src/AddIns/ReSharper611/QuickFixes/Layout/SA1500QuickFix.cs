@@ -15,7 +15,6 @@
 //   QuickFix - SA1500.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Layout
 {
     #region Using Directives
@@ -110,12 +109,17 @@ namespace StyleCop.ReSharper611.QuickFixes.Layout
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem
-                        {
-                            Description = "Format line : " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber
-                        }
-                };
+                                 {
+                                     new SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem
+                                         {
+                                             Description =
+                                                 "Format line : "
+                                                 + this.Violation.ToolTip, 
+                                             DocumentRange =
+                                                 this.Violation.DocumentRange, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

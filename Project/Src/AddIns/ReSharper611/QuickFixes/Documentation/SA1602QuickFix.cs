@@ -15,7 +15,6 @@
 //   QuickFix - SA1602: ElementMustHaveHeader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Documentation
 {
     #region Using Directives

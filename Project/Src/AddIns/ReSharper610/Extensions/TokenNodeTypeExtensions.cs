@@ -15,7 +15,6 @@
 //   Extension methods for Token types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ReSharper.Psi.Parsing
 {
     #region Using Directives
@@ -30,7 +29,7 @@ namespace JetBrains.ReSharper.Psi.Parsing
     /// </summary>
     public static class TokenNodeTypeExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines if an <see cref="Enum"/> is one of a specified list of values.

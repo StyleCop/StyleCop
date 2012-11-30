@@ -15,7 +15,6 @@
 //   QuickFix - SA1022: PositiveSignsMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Spacing
 {
     #region Using Directives
@@ -110,12 +109,14 @@ namespace StyleCop.ReSharper611.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber
-                        }
-                };
+                                 {
+                                     new SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

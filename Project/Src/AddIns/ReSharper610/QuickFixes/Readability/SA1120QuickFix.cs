@@ -15,7 +15,6 @@
 //   QuickFix - SA1120.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Readability
 {
     #region Using Directives
@@ -110,12 +109,14 @@ namespace StyleCop.ReSharper610.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1120CommentsMustContainTextBulbItem
-                        {
-                            Description = "Delete empty comment: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber,
-                        }
-                };
+                                 {
+                                     new SA1120CommentsMustContainTextBulbItem
+                                         {
+                                             Description = "Delete empty comment: " + this.Violation.ToolTip, 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                         }
+                                 };
         }
 
         #endregion

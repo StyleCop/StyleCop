@@ -15,7 +15,6 @@
 //   Defines the base options class for SCfR#.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.CodeCleanup.Options
 {
     #region Using Directives
@@ -33,7 +32,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Options
     /// </summary>
     public abstract class OptionsBase
     {
-        #region Constants and Fields
+        #region Fields
 
         private AddInPropertyCollection analyzerSettingsProperties;
 
@@ -60,21 +59,21 @@ namespace StyleCop.ReSharper513.CodeCleanup.Options
         /// </summary>
         protected void InitPropertiesDefaults()
         {
-            var styleCopSettings = Utils.GetStyleCopSettings();
+            Settings styleCopSettings = Utils.GetStyleCopSettings();
 
             if (styleCopSettings != null)
             {
                 this.analyzerSettingsProperties = styleCopSettings.AnalyzerSettings.FirstOrDefault(n => n.AddIn.Id == this.AnalyzerName);
             }
 
-            var propertyInfos = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] propertyInfos = this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            foreach (var propertyInfo in propertyInfos)
+            foreach (PropertyInfo propertyInfo in propertyInfos)
             {
                 if (propertyInfo.PropertyType == typeof(bool))
                 {
-                    var settingsProperty = propertyInfo.Name.Substring(6);
-                    var propertyValue = this.IsPropertyEnabled(settingsProperty);
+                    string settingsProperty = propertyInfo.Name.Substring(6);
+                    bool propertyValue = this.IsPropertyEnabled(settingsProperty);
 
                     StyleCopTrace.Info("Property " + propertyInfo.Name + "-> " + propertyValue);
                     propertyInfo.SetValue(this, propertyValue, null);
@@ -99,14 +98,15 @@ namespace StyleCop.ReSharper513.CodeCleanup.Options
                 return true;
             }
 
-            var property = this.analyzerSettingsProperties[propertyName + "#Enabled"] as BooleanProperty;
+            BooleanProperty property = this.analyzerSettingsProperties[propertyName + "#Enabled"] as BooleanProperty;
 
             if (property != null)
             {
                 return property.Value;
             }
 
-            var defaultPropertyDecriptor = this.analyzerSettingsProperties.AddIn.PropertyDescriptors[propertyName + "#Enabled"] as PropertyDescriptor<bool>;
+            PropertyDescriptor<bool> defaultPropertyDecriptor =
+                this.analyzerSettingsProperties.AddIn.PropertyDescriptors[propertyName + "#Enabled"] as PropertyDescriptor<bool>;
 
             if (defaultPropertyDecriptor != null)
             {

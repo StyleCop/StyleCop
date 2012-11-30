@@ -51,7 +51,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -64,8 +64,8 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Load(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = new MaintainabilityOptions();
-            var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
+            MaintainabilityOptions options = new MaintainabilityOptions();
+            XmlElement optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
 
             if (optionsElement != null)
             {
@@ -107,10 +107,11 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Save(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = profile.GetSetting(this);
-            var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
+            MaintainabilityOptions options = profile.GetSetting(this);
+            XmlElement optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString());
         }
 
         #endregion

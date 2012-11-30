@@ -15,7 +15,6 @@
 //   QuickFix - SA1516 - ElementsMustBeSeparatedByBlankLine.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Layout
 {
     #region Using Directives
@@ -109,7 +108,14 @@ namespace StyleCop.ReSharper611.QuickFixes.Layout
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Insert blank line: " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Insert blank line: " + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

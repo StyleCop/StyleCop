@@ -15,7 +15,6 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper610.Options
@@ -40,12 +39,17 @@ namespace StyleCop.ReSharper610.Options
     [SettingsKey(typeof(Missing), "StyleCop Options")]
     public class StyleCopOptionsSettingsKey
     {
-        #region Constants and Fields
+        #region Fields
 
         /// <summary>
         /// Set to true to always check for updates when Visual Studio starts.
         /// </summary>
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
+
+        /// <summary>
+        /// Set to true when we've attempted to get the StyleCop path.
+        /// </summary>
+        private bool attemptedToGetStyleCopPath;
 
         /// <summary>
         /// Tracks whether we should check for updates.
@@ -62,14 +66,9 @@ namespace StyleCop.ReSharper610.Options
         /// </summary>
         private string styleCopDetectedPath;
 
-        /// <summary>
-        /// Set to true when we've attempted to get the StyleCop path.
-        /// </summary>
-        private bool attemptedToGetStyleCopPath;
-
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
@@ -88,6 +87,12 @@ namespace StyleCop.ReSharper610.Options
                 SetRegistry("AlwaysCheckForUpdatesWhenVisualStudioStarts", value, RegistryValueKind.DWord);
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the analysis executes as you type.
+        /// </summary>
+        [SettingsEntry(true, "Analysis Enabled")]
+        public bool AnalysisEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether we check for updates when plugin starts.
@@ -153,12 +158,6 @@ namespace StyleCop.ReSharper610.Options
         public int ParsingPerformance { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the analysis executes as you type.
-        /// </summary>
-        [SettingsEntry(true, "Analysis Enabled")]
-        public bool AnalysisEnabled { get; set; }
-
-        /// <summary>
         /// Gets or sets the Specified Assembly Path.
         /// </summary>
         /// <value>
@@ -187,7 +186,7 @@ namespace StyleCop.ReSharper610.Options
 
         #endregion
 
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Detects the style cop path.
@@ -197,7 +196,7 @@ namespace StyleCop.ReSharper610.Options
         /// </returns>
         public static string DetectStyleCopPath()
         {
-            var assemblyPath = GetStyleCopPath();
+            string assemblyPath = GetStyleCopPath();
             return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
         }
 
@@ -230,12 +229,19 @@ namespace StyleCop.ReSharper610.Options
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
                     MessageBox.Show(
-                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), 
+                        "Error Finding StyleCop Assembly", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
 
             return this.styleCopDetectedPath;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Gets the StyleCop assembly path.
@@ -245,7 +251,7 @@ namespace StyleCop.ReSharper610.Options
         /// </returns>
         private static string GetStyleCopPath()
         {
-            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
         }
@@ -281,7 +287,7 @@ namespace StyleCop.ReSharper610.Options
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
             if (registryKey != null)
             {
                 registryKey.SetValue(key, value, valueKind);

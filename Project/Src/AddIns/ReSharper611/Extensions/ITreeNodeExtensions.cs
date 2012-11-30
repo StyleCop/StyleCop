@@ -36,7 +36,7 @@ namespace StyleCop.ReSharper611.Extensions
     /// </summary>
     public static class ITreeNodeExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Inserts a newline after the Node provided.
@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper611.Extensions
         /// </returns>
         public static ITreeNode InsertNewLineAfter(this ITreeNode currentNode)
         {
-            var leafElement = GetLeafElement();
+            LeafElementBase leafElement = GetLeafElement();
             using (WriteLockCookie.Create(true))
             {
                 LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
@@ -69,7 +69,7 @@ namespace StyleCop.ReSharper611.Extensions
         /// </returns>
         public static ITreeNode InsertNewLineBefore(this ITreeNode currentNode)
         {
-            var leafElement = GetLeafElement();
+            LeafElementBase leafElement = GetLeafElement();
 
             using (WriteLockCookie.Create(true))
             {
@@ -91,7 +91,7 @@ namespace StyleCop.ReSharper611.Extensions
         /// </returns>
         private static LeafElementBase GetLeafElement()
         {
-            var newText = Environment.NewLine;
+            string newText = Environment.NewLine;
             return TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
         }
 

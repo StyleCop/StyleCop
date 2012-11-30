@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -65,11 +65,12 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
         /// </returns>
         public override MaintainabilityOptions Load(XmlElement element)
         {
-            var options = new MaintainabilityOptions();
+            MaintainabilityOptions options = new MaintainabilityOptions();
 
             try
             {
-                options.SA1119StatementMustNotUseUnnecessaryParenthesis = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
+                options.SA1119StatementMustNotUseUnnecessaryParenthesis =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
             }
             catch (ArgumentNullException)
             {
@@ -77,7 +78,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
             catch (ArgumentException)
             {
             }
-            
+
             return options;
         }
 
@@ -106,7 +107,8 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
         /// </param>
         public override void Save(XmlElement element, MaintainabilityOptions options)
         {
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

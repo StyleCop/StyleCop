@@ -15,7 +15,6 @@
 //   QuickFix - SA1634: FileHeaderMustContainFileName.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Documentation
 {
     #region Using Directives

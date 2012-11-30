@@ -15,7 +15,6 @@
 //   QuickFix - SA1006: PreprocessorKeywordsMustNotBePrecededBySpace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Spacing
 {
     #region Using Directives
@@ -110,17 +109,18 @@ namespace StyleCop.ReSharper611.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1006PreprocessorKeywordsMustNotBePrecededBySpaceBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            LineNumber = this.Violation.LineNumber,
-                            Prefix = string.Empty,
-                            Suffix = string.Empty,
-                            Target = "#"
-                        }
-                };
+                                 {
+                                     new SA1006PreprocessorKeywordsMustNotBePrecededBySpaceBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description =
+                                                 "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                             Prefix = string.Empty, 
+                                             Suffix = string.Empty, 
+                                             Target = "#"
+                                         }
+                                 };
         }
 
         #endregion

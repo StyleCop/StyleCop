@@ -15,7 +15,6 @@
 //   QuickFix - SA1613: ElementParameterDocumentationMustDeclareParameterName.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,14 @@ namespace StyleCop.ReSharper600.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1611ElementParametersMustBeDocumentedBulbItem { Description = "Fix <param> in header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1611ElementParametersMustBeDocumentedBulbItem
+                                         {
+                                             Description =
+                                                 "Fix <param> in header : " + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

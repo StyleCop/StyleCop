@@ -15,7 +15,6 @@
 //   The s a 1507 code must not contain multiple blank lines in a row bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Layout
 {
     #region Using Directives
@@ -34,7 +33,7 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
     /// </summary>
     public class SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,9 +46,9 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
 
-            var currentNode = (ITreeNode)element;
+            ITreeNode currentNode = (ITreeNode)element;
 
             Utils.RemoveNewLineBefore(currentNode);
         }

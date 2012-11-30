@@ -15,7 +15,6 @@
 //   QuickFix - SA1121.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Readability
 {
     #region Using Directives
@@ -110,12 +109,14 @@ namespace StyleCop.ReSharper600.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1121UseBuiltInTypeAliasBulbItem
-                        {
-                            Description = "Convert to built in type: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber,
-                        }
-                };
+                                 {
+                                     new SA1121UseBuiltInTypeAliasBulbItem
+                                         {
+                                             Description = "Convert to built in type: " + this.Violation.ToolTip, 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                         }
+                                 };
         }
 
         #endregion

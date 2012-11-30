@@ -15,7 +15,6 @@
 //   Adds changing the display option for the style cop rule as context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper700.QuickFixes.Framework
@@ -41,6 +40,8 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
     /// </summary>
     public class ChangeStyleCopRuleAction : IBulbItem
     {
+        #region Fields
+
         /// <summary>
         /// The common icons component.
         /// </summary>
@@ -56,20 +57,35 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         /// </summary>
         private readonly ISettingsStore settingsStore;
 
+        #endregion
+
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the ChangeStyleCopRuleAction class.
         /// </summary>
-        /// <param name="highlightingSettingsManager">The settings manager to use.</param>
-        /// <param name="settingsStore">The settings store.</param>
-        /// <param name="severityId">The severityId.</param>
-        /// <param name="commonIconsComponent">The icon to use.</param>
-        public ChangeStyleCopRuleAction(HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, string severityId, IThemedIconManager commonIconsComponent)
+        /// <param name="highlightingSettingsManager">
+        /// The settings manager to use.
+        /// </param>
+        /// <param name="settingsStore">
+        /// The settings store.
+        /// </param>
+        /// <param name="severityId">
+        /// The severityId.
+        /// </param>
+        /// <param name="commonIconsComponent">
+        /// The icon to use.
+        /// </param>
+        public ChangeStyleCopRuleAction(
+            HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, string severityId, IThemedIconManager commonIconsComponent)
         {
             this.highlightingSettingsManager = highlightingSettingsManager;
             this.settingsStore = settingsStore;
             this.commonIconsComponent = commonIconsComponent;
             this.HighlightID = severityId;
         }
+
+        #endregion
 
         #region Public Properties
 
@@ -109,33 +125,40 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         public string Text { get; set; }
 
         #endregion
-        
+
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Arranges the BulbItems in the correct section.
+        /// Arranges the BulbItems in the correct section.
         /// </summary>
-        /// <param name="menu"> The BulbMenu to add the items too. </param>
+        /// <param name="menu">
+        /// The BulbMenu to add the items too. 
+        /// </param>
         public void CreateBulbItems(BulbMenu menu)
         {
             menu.ArrangeContextActions(this.Items);
         }
 
         /// <summary>
-        ///   Performs the QuickFix, inserts the configured modifier into the location specified by the violation.
+        /// Performs the QuickFix, inserts the configured modifier into the location specified by the violation.
         /// </summary>
-        /// <param name="solution"> Current Solution. </param>
-        /// <param name="textControl"> Current Text Control to modify. </param>
+        /// <param name="solution">
+        /// Current Solution. 
+        /// </param>
+        /// <param name="textControl">
+        /// Current Text Control to modify. 
+        /// </param>
         public void Execute(ISolution solution, ITextControl textControl)
         {
             JB::JetBrains.DataFlow.LifetimeDefinition definition = JB::JetBrains.DataFlow.Lifetimes.Define(solution.GetLifetime());
-            var lifetime = definition.Lifetime;
+            JB::JetBrains.DataFlow.Lifetime lifetime = definition.Lifetime;
             try
             {
                 unsafe
                 {
-                    var dialog = new ChangeInspectionSeverityDialog(lifetime, this.commonIconsComponent);
-                    var contextBoundSettingsStore = this.settingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
+                    ChangeInspectionSeverityDialog dialog = new ChangeInspectionSeverityDialog(lifetime, this.commonIconsComponent);
+                    IContextBoundSettingsStore contextBoundSettingsStore =
+                        this.settingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
                     HighlightingSettingsManager.ConfigurableSeverityItem item = this.highlightingSettingsManager.GetSeverityItem(this.HighlightID);
 
                     dialog.Severity = this.highlightingSettingsManager.GetConfigurableSeverity(this.HighlightID, contextBoundSettingsStore);
@@ -144,7 +167,7 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
 
                     if (dialog.ShowDialog(User32Dll.GetForegroundWindow()) == true)
                     {
-                        var store = contextBoundSettingsStore;
+                        IContextBoundSettingsStore store = contextBoundSettingsStore;
                         if (dialog.SelectedSettingsLayer != null)
                         {
                             store = dialog.SelectedSettingsLayer.Model.SettingsStoreContext;
@@ -161,10 +184,14 @@ namespace StyleCop.ReSharper700.QuickFixes.Framework
         }
 
         /// <summary>
-        ///   Determines whether the specified cache is available.
+        /// Determines whether the specified cache is available.
         /// </summary>
-        /// <param name="cache"> The cache. </param>
-        /// <returns> <c>True.</c> if the specified cache is available; otherwise, <c>False.</c> . </returns>
+        /// <param name="cache">
+        /// The cache. 
+        /// </param>
+        /// <returns>
+        /// <c>True.</c> if the specified cache is available; otherwise, <c>False.</c> . 
+        /// </returns>
         public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
         {
             return true;

@@ -15,7 +15,6 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper600.Options
@@ -42,7 +41,7 @@ namespace StyleCop.ReSharper600.Options
     [ShellComponent(ProgramConfigurations.VS_ADDIN)]
     public class StyleCopOptions : IXmlExternalizable, IDisposable
     {
-        #region Constants and Fields
+        #region Fields
 
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
 
@@ -91,7 +90,7 @@ namespace StyleCop.ReSharper600.Options
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the instance.
@@ -110,7 +109,7 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets or sets a value indicating whether AlwaysCheckForUpdatesWhenVisualStudioStarts.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [XmlExternalizable(true)]
         public bool AlwaysCheckForUpdatesWhenVisualStudioStarts
         {
             get
@@ -129,7 +128,7 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets or sets a value indicating whether we check for updates when plugin starts.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [XmlExternalizable(true)]
         public bool AutomaticallyCheckForUpdates
         {
             get
@@ -147,13 +146,13 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
         /// </summary>
-        [XmlExternalizableAttribute(116)]
+        [XmlExternalizable(116)]
         public int DashesCountInFileHeader { get; set; }
 
         /// <summary>
         /// Gets or sets DaysBetweenUpdateChecks.
         /// </summary>
-        [XmlExternalizableAttribute(2)]
+        [XmlExternalizable(2)]
         public int DaysBetweenUpdateChecks
         {
             get
@@ -171,13 +170,13 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [XmlExternalizable(true)]
         public bool InsertTextIntoDocumentation { get; set; }
 
         /// <summary>
         /// Gets or sets the last update check date.
         /// </summary>
-        [XmlExternalizableAttribute("1900-01-01")]
+        [XmlExternalizable("1900-01-01")]
         public string LastUpdateCheckDate { get; set; }
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace StyleCop.ReSharper600.Options
         /// <value>
         /// The performance value.
         /// </value>
-        [XmlExternalizableAttribute(9)]
+        [XmlExternalizable(9)]
         public int ParsingPerformance { get; set; }
 
         /// <summary>
@@ -211,13 +210,13 @@ namespace StyleCop.ReSharper600.Options
         /// <value>
         /// The allow null attribute.
         /// </value>
-        [XmlExternalizableAttribute("")]
+        [XmlExternalizable("")]
         public string SpecifiedAssemblyPath { get; set; }
 
         /// <summary>
         /// Gets or sets the text for inserting suppress message attributes.
         /// </summary>
-        [XmlExternalizableAttribute("Reviewed. Suppression is OK here.")]
+        [XmlExternalizable("Reviewed. Suppression is OK here.")]
         public string SuppressStyleCopAttributeJustificationText { get; set; }
 
         /// <summary>
@@ -237,18 +236,18 @@ namespace StyleCop.ReSharper600.Options
         /// <summary>
         /// Gets or sets a value indicating whether to use exclude from style cop setting.
         /// </summary>
-        [XmlExternalizableAttribute(true)]
+        [XmlExternalizable(true)]
         public bool UseExcludeFromStyleCopSetting { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
         /// </summary>
-        [XmlExternalizableAttribute(false)]
+        [XmlExternalizable(false)]
         public bool UseSingleLineDeclarationComments { get; set; }
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Detects the style cop path.
@@ -258,8 +257,15 @@ namespace StyleCop.ReSharper600.Options
         /// </returns>
         public string DetectStyleCopPath()
         {
-            var assemblyPath = StyleCopLocator.GetStyleCopPath();
+            string assemblyPath = StyleCopLocator.GetStyleCopPath();
             return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
         }
 
         /// <summary>
@@ -291,18 +297,15 @@ namespace StyleCop.ReSharper600.Options
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
                     MessageBox.Show(
-                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), 
+                        "Error Finding StyleCop Assembly", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
 
             return this.styleCopDetectedPath;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComponent
 
         /// <summary>
         /// Initializes this instance.
@@ -313,18 +316,7 @@ namespace StyleCop.ReSharper600.Options
 
         #endregion
 
-        #region IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region IXmlExternalizable
+        #region Explicit Interface Methods
 
         /// <summary>
         /// Reads the settings from the XML.
@@ -355,8 +347,6 @@ namespace StyleCop.ReSharper600.Options
 
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -375,7 +365,7 @@ namespace StyleCop.ReSharper600.Options
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
             if (registryKey != null)
             {
                 registryKey.SetValue(key, value, valueKind);

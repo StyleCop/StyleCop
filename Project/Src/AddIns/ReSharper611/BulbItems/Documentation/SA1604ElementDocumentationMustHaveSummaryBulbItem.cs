@@ -16,7 +16,6 @@
 //   Also fixes SA1605PartialElementDocumentationMustHaveSummary.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
@@ -37,12 +36,12 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     internal class SA1604ElementDocumentationMustHaveSummaryBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+            IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             // Fixes SA1604, 1605
             new DocumentationRules().InsertMissingSummaryElement(declaration);

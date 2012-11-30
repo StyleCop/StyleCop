@@ -15,13 +15,13 @@
 //   BulbItem - SuppressMessageBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Framework
 {
     #region Using Directives
 
     using JetBrains.Application.Progress;
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
@@ -39,7 +39,7 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
     /// </summary>
     internal class SuppressMessageBulbItem : V5BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets Rule.
@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute inner.
@@ -61,35 +61,35 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            IDeclaration declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
 
             if (declaration != null)
             {
-                var rulesNamespace = this.Rule.Namespace;
+                string rulesNamespace = this.Rule.Namespace;
 
-                var ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
+                string ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
 
-                var justificationText = StyleCopOptions.Instance.SuppressStyleCopAttributeJustificationText;
+                string justificationText = StyleCopOptions.Instance.SuppressStyleCopAttributeJustificationText;
 
-                var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
+                IAttributesOwnerDeclaration attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
                 if (attributesOwnerDeclaration != null)
                 {
-                    var factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
+                    CSharpElementFactory factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
 
-                    var typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+                    ITypeElement typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
 
-                    var attribute = factory.CreateAttribute(typeElement);
+                    IAttribute attribute = factory.CreateAttribute(typeElement);
 
-                    var newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
+                    ICSharpArgument newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
 
-                    var newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
+                    ICSharpArgument newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
 
                     attribute.AddArgumentAfter(Utils.CreateArgumentValueExpression(declaration.GetPsiModule(), "Justification = \"" + justificationText + "\""), newArg2);
 
                     attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
 
-                    var file = declaration.GetContainingFile();
+                    IFile file = declaration.GetContainingFile();
 
                     CSharpFormatterHelper.FormatterInstance.FormatFile(
                         file, SolutionCodeStyleSettings.GetInstance(solution).CodeStyleSettings, CodeFormatProfile.DEFAULT, NullProgressIndicator.Instance);

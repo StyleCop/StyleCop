@@ -15,7 +15,6 @@
 //   BulbItem - SuppressMessageBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.BulbItems.Framework
 {
     #region Using Directives
@@ -41,7 +40,7 @@ namespace StyleCop.ReSharper610.BulbItems.Framework
     /// </summary>
     internal class SuppressMessageBulbItem : V5BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets Rule.
@@ -50,7 +49,7 @@ namespace StyleCop.ReSharper610.BulbItems.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute inner.
@@ -63,43 +62,43 @@ namespace StyleCop.ReSharper610.BulbItems.Framework
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
+            IDeclaration declaration = Utils.GetDeclarationClosestToTextControl(solution, textControl);
 
             if (declaration != null)
             {
-                var rulesNamespace = this.Rule.Namespace;
+                string rulesNamespace = this.Rule.Namespace;
 
-                var ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
+                string ruleText = string.Format("{0}:{1}", this.Rule.CheckId, this.Rule.Name);
 
-                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-            
-                var justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
-                
-                var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
+                IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+
+                string justificationText = settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.SuppressStyleCopAttributeJustificationText);
+
+                IAttributesOwnerDeclaration attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
                 if (attributesOwnerDeclaration != null)
                 {
-                    var factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
+                    CSharpElementFactory factory = CSharpElementFactory.GetInstance(declaration.GetPsiModule());
 
-                    var typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+                    ITypeElement typeElement = Utils.GetTypeElement(declaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
 
-                    var attribute = factory.CreateAttribute(typeElement);
+                    IAttribute attribute = factory.CreateAttribute(typeElement);
 
-                    var newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
+                    ICSharpArgument newArg1 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), rulesNamespace), null);
 
-                    var newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
+                    ICSharpArgument newArg2 = attribute.AddArgumentAfter(Utils.CreateConstructorArgumentValueExpression(declaration.GetPsiModule(), ruleText), newArg1);
 
                     attribute.AddArgumentAfter(Utils.CreateArgumentValueExpression(declaration.GetPsiModule(), "Justification = \"" + justificationText + "\""), newArg2);
 
                     attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
 
-                    var file = declaration.GetContainingFile();
+                    IFile file = declaration.GetContainingFile();
                     if (file != null)
                     {
-                        var languageService = CSharpLanguage.Instance.LanguageService();
+                        LanguageService languageService = CSharpLanguage.Instance.LanguageService();
                         if (languageService != null)
                         {
-                            var codeFormatter = (ICSharpCodeFormatter)languageService.CodeFormatter;
+                            ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)languageService.CodeFormatter;
 
                             if (codeFormatter != null)
                             {

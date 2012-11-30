@@ -15,13 +15,15 @@
 //   The s a 1119 statement must not use unnecessary parenthesis bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.BulbItems.Maintainability
 {
     #region Using Directives
 
+    using System.Collections.Generic;
+
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper700.BulbItems.Framework;
@@ -35,7 +37,7 @@ namespace StyleCop.ReSharper700.BulbItems.Maintainability
     /// </summary>
     internal class SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,11 +50,11 @@ namespace StyleCop.ReSharper700.BulbItems.Maintainability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
+            IList<ITokenNode> tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
 
-            foreach (var tokenNode in tokensForLine)
+            foreach (ITokenNode tokenNode in tokensForLine)
             {
-                var parenthesizedExpressionNode = tokenNode.GetContainingNode<IParenthesizedExpression>(true);
+                IParenthesizedExpression parenthesizedExpressionNode = tokenNode.GetContainingNode<IParenthesizedExpression>(true);
                 MaintainabilityRules.RemoveParenthesisFromNode(parenthesizedExpressionNode);
             }
         }

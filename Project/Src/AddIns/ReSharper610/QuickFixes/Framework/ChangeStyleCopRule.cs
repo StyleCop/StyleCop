@@ -40,9 +40,7 @@ namespace StyleCop.ReSharper610.QuickFixes.Framework
     [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
-        #region Implemented Interfaces
-
-        #region IDisableHighlightingActionProvider
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the actions for changing the highlight options for StyleCop rules.
@@ -62,22 +60,24 @@ namespace StyleCop.ReSharper610.QuickFixes.Framework
         /// <returns>
         /// The available actions.
         /// </returns>
-        public IEnumerable<ICustomHighlightingAction> GetActions(IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
+        public IEnumerable<ICustomHighlightingAction> GetActions(
+            IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
-            var violation = highlighting as StyleCopViolationBase;
+            StyleCopViolationBase violation = highlighting as StyleCopViolationBase;
 
             if (violation == null)
             {
                 return JB::JetBrains.Util.EmptyArray<ICustomHighlightingAction>.Instance;
             }
 
-            var ruleID = violation.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            string ruleID = violation.CheckId;
+            string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            return new ICustomHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
+            return new ICustomHighlightingAction[]
+                       {
+                          new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } 
+                       };
         }
-
-        #endregion
 
         #endregion
     }

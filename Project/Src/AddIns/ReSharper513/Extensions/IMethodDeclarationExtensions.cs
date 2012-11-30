@@ -15,7 +15,6 @@
 //   I method declaration extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
 {
     #region Using Directives
@@ -29,7 +28,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
     /// </summary>
     public static class IMethodDeclarationExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Get return type.
@@ -42,14 +41,14 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
         /// </returns>
         public static IType GetReturnType(this IMethodDeclaration declaration)
         {
-            var methodDeclarationNode = declaration as IMethodDeclarationNode;
+            IMethodDeclarationNode methodDeclarationNode = declaration as IMethodDeclarationNode;
 
             if (methodDeclarationNode == null)
             {
                 return null;
             }
 
-            var typeUsage = methodDeclarationNode.TypeUsage;
+            ITypeUsageNode typeUsage = methodDeclarationNode.TypeUsage;
 
             if (typeUsage == null)
             {

@@ -11,8 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   The StyleCop CodeStyle Checker.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.ShellComponents
 {
     #region Using Directives
@@ -23,12 +25,8 @@ namespace StyleCop.ReSharper513.ShellComponents
     using JetBrains.Application;
     using JetBrains.ComponentModel;
 
-    using Microsoft.Win32;
-
     using StyleCop.ReSharper513.Core;
     using StyleCop.ReSharper513.Options;
-
-    using Utils = StyleCop.Utils;
 
     #endregion
 
@@ -38,9 +36,14 @@ namespace StyleCop.ReSharper513.ShellComponents
     [ShellComponentImplementation(ProgramConfigurations.VS_ADDIN)]
     public class StyleCopCodeStyleChecker : IShellComponent
     {
-        #region Implemented Interfaces
+        #region Public Methods and Operators
 
-        #region IComponent
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+        }
 
         /// <summary>
         /// Initializes our ShellComponent.
@@ -51,13 +54,13 @@ namespace StyleCop.ReSharper513.ShellComponents
 
             RegistryUtils registryUtils = new RegistryUtils();
 
-            var oneTimeInitializationRequiredRegistryKey = registryUtils.CUGetValue("LastInitializationDate");
-            var initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
+            object oneTimeInitializationRequiredRegistryKey = registryUtils.CUGetValue("LastInitializationDate");
+            DateTime initializationDate = Convert.ToDateTime(oneTimeInitializationRequiredRegistryKey);
 
             string todayAsString = DateTime.Today.ToString("yyyy-MM-dd");
 
             string value = registryUtils.LMGetValue("InstallDate") as string;
-            
+
             DateTime lastInstalledDate;
 
             try
@@ -82,12 +85,13 @@ namespace StyleCop.ReSharper513.ShellComponents
             {
                 if (!StyleCopOptionsPage.CodeStyleOptionsValid(null))
                 {
-                    var result = MessageBox.Show(
-                        @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?",
-                        @"StyleCop",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question,
-                        MessageBoxDefaultButton.Button2);
+                    DialogResult result =
+                        MessageBox.Show(
+                            @"Your ReSharper code style settings are not completely compatible with StyleCop. Would you like to reset them now?", 
+                            @"StyleCop", 
+                            MessageBoxButtons.YesNo, 
+                            MessageBoxIcon.Question, 
+                            MessageBoxDefaultButton.Button2);
                     if (result == DialogResult.Yes)
                     {
                         StyleCopOptionsPage.ResetCodeStyleOptions(null);
@@ -100,30 +104,23 @@ namespace StyleCop.ReSharper513.ShellComponents
 
         #endregion
 
-        #region IDisposable
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #endregion
-
         #region Methods
 
         /// <summary>
         /// Loads the InstallDate registry key value.
         /// </summary>
-        /// <param name="registryUtils"> A <see cref="RegistryUtils"/> instance to access the registry.</param>
-        /// <param name="defaultDateAsString">The date to set the install date to if its value is not found in the registry.</param>
-        /// <returns>The DateTime of the InstallDate LOCALUSER registry key.</returns>
+        /// <param name="registryUtils">
+        /// A <see cref="RegistryUtils"/> instance to access the registry.
+        /// </param>
+        /// <param name="defaultDateAsString">
+        /// The date to set the install date to if its value is not found in the registry.
+        /// </param>
+        /// <returns>
+        /// The DateTime of the InstallDate LOCALUSER registry key.
+        /// </returns>
         private static DateTime GetInstallDateFromLocalUserRegistry(RegistryUtils registryUtils, string defaultDateAsString)
         {
-            var installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
+            string installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
 
             if (installDateRegistryKey != null)
             {

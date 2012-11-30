@@ -15,7 +15,6 @@
 //   Defines the core settings and value for the plugin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.Properties
 {
     /// <summary>
@@ -23,7 +22,7 @@ namespace StyleCop.ReSharper610.Properties
     /// </summary>
     public static class Constants
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Long description of the Plugin.

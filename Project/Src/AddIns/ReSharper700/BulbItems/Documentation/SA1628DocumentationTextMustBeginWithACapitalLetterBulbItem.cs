@@ -15,7 +15,6 @@
 //   BulbItem - SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.BulbItems.Documentation
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     /// </summary>
     internal class SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,7 +47,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+            IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             new DocumentationRules().EnsureDocumentationTextIsUppercase(declaration);
         }

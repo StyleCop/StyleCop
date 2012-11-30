@@ -15,7 +15,6 @@
 //   Extension methods for Token types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ReSharper.Psi.Tree
 {
     #region Using Directives
@@ -31,7 +30,7 @@ namespace JetBrains.ReSharper.Psi.Tree
     /// </summary>
     public static class IElementExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Determines if the <see cref="IElement"/> is a whitespace new line.
@@ -47,7 +46,7 @@ namespace JetBrains.ReSharper.Psi.Tree
         /// </exception>
         public static bool IsNewLine(this ITreeNode element)
         {
-            var whitespaceNode = element as IWhitespaceNode;
+            IWhitespaceNode whitespaceNode = element as IWhitespaceNode;
             return whitespaceNode != null && whitespaceNode.IsNewLine;
         }
 
@@ -65,7 +64,7 @@ namespace JetBrains.ReSharper.Psi.Tree
         /// </exception>
         public static bool IsWhitespace(this ITreeNode element)
         {
-            var whitespaceNode = element as IWhitespaceNode;
+            IWhitespaceNode whitespaceNode = element as IWhitespaceNode;
             return whitespaceNode != null;
         }
 

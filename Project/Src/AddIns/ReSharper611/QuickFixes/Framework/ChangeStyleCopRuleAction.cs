@@ -41,18 +41,7 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
     /// </summary>
     public class ChangeStyleCopRuleAction : ICustomHighlightingAction, IBulbItem
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the priority.
-        /// </summary>
-        public int Priority
-        {
-            get
-            {
-                return 50;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the highlight id of the current violation.
@@ -77,6 +66,17 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
         }
 
         /// <summary>
+        /// Gets the priority.
+        /// </summary>
+        public int Priority
+        {
+            get
+            {
+                return 50;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets text to be used as the cookie name.
         /// </summary>
         /// <value>
@@ -86,29 +86,8 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
 
         #endregion
 
-        #region Implemented Interfaces
+        #region Public Methods and Operators
 
-        #region IBulbAction
-
-        /// <summary>
-        /// Determines whether the specified cache is available.
-        /// </summary>
-        /// <param name="cache">
-        /// The cache.
-        /// </param>
-        /// <returns>
-        /// <c>True.</c>if the specified cache is available; otherwise, 
-        /// <c>False.</c>.
-        /// </returns>
-        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
-        {
-            return true;
-        }
-
-        #endregion
-
-        #region IBulbItem
-        
         /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by
         /// the violation.
@@ -121,7 +100,7 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
         /// </param>
         public void Execute(ISolution solution, ITextControl textControl)
         {
-            using (var dialog = new ChangeSeverityDialog())
+            using (ChangeSeverityDialog dialog = new ChangeSeverityDialog())
             {
                 ////var settings = HighlightingSettingsManager.Instance.Settings.Clone();
 
@@ -137,9 +116,9 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
 
                 ////    Daemon.GetInstance(solution).Invalidate();
                 ////}
-
-                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
-                var contextBoundSettingsStore = settingsStore.SettingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
+                IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solution);
+                IContextBoundSettingsStore contextBoundSettingsStore =
+                    settingsStore.SettingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
                 HighlightingSettingsManager settingsManager = HighlightingSettingsManager.Instance;
                 HighlightingSettingsManager.ConfigurableSeverityItem item = settingsManager.GetSeverityItem(this.HighlightID);
                 dialog.Severity = settingsManager.GetConfigurableSeverity(this.HighlightID, solution);
@@ -152,7 +131,20 @@ namespace StyleCop.ReSharper611.QuickFixes.Framework
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Determines whether the specified cache is available.
+        /// </summary>
+        /// <param name="cache">
+        /// The cache.
+        /// </param>
+        /// <returns>
+        /// <c>True.</c>if the specified cache is available; otherwise, 
+        /// <c>False.</c>.
+        /// </returns>
+        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
+        {
+            return true;
+        }
 
         #endregion
     }

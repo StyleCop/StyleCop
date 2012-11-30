@@ -15,13 +15,13 @@
 //   QuickFix action which replaces base. with this.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Readability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper600.BulbItems.Readability
     /// </summary>
     public class SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,8 +48,8 @@ namespace StyleCop.ReSharper600.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var invocationExpression = element.GetContainingNode<IInvocationExpression>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IInvocationExpression invocationExpression = element.GetContainingNode<IInvocationExpression>(true);
 
             if (invocationExpression != null)
             {

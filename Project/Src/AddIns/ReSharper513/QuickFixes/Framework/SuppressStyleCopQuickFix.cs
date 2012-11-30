@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
     [QuickFix(10)]
     public class SuppressStyleCopQuickFix : IQuickFix
     {
-        #region Constants and Fields
+        #region Fields
 
         /// <summary>
         /// Instance of the StyleCop violation the QuickFix can deal with.
@@ -130,7 +130,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a list of BulbItems to display in the IDE.
@@ -142,6 +142,10 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
                 return this.BulbItems.ToArray();
             }
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets a list of BulbItems to be Displayed.
@@ -165,9 +169,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IBulbAction
+        #region Public Methods and Operators
 
         /// <summary>
         /// True if this QuickFix is available.
@@ -182,8 +184,6 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         {
             return true;
         }
-
-        #endregion
 
         #endregion
 

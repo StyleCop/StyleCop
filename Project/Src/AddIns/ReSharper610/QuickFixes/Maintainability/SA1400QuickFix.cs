@@ -15,7 +15,6 @@
 //   QuickFix for StyleCop Rule SA1400.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Maintainability
 {
     #region Using Directives
@@ -110,12 +109,32 @@ namespace StyleCop.ReSharper610.QuickFixes.Maintainability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "public", DocumentRange = this.Violation.DocumentRange, Description = "Make Public : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "private", DocumentRange = this.Violation.DocumentRange, Description = "Make Private : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "protected", DocumentRange = this.Violation.DocumentRange, Description = "Make Protected : " + this.Violation.ToolTip },
-                    new SA1400AccessModifierMustBeDeclaredBulbItem { Modifier = "internal", DocumentRange = this.Violation.DocumentRange, Description = "Make Internal : " + this.Violation.ToolTip },
-                };
+                                 {
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "public", 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Make Public : " + this.Violation.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "private", 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Make Private : " + this.Violation.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "protected", 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Make Protected : " + this.Violation.ToolTip
+                                         }, 
+                                     new SA1400AccessModifierMustBeDeclaredBulbItem
+                                         {
+                                             Modifier = "internal", 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Make Internal : " + this.Violation.ToolTip
+                                         }, 
+                                 };
         }
 
         #endregion

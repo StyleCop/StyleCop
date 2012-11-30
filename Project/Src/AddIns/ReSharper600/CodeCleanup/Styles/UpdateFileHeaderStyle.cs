@@ -15,7 +15,6 @@
 //   Enumeration to define the behavior for updating the file header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.CodeCleanup.Styles
 {
     #region Using Directives

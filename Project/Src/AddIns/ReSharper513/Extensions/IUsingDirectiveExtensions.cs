@@ -12,10 +12,9 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Extension methods for the <see cref="IUsingDirective" /> class.
+//   Extension methods for the  class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ReSharper.Psi.CSharp.Tree
 {
     #region Using Directives
@@ -44,18 +43,20 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         {
             if (directive is IUsingAliasDirective)
             {
-                var aliasDirective = directive as IUsingAliasDirective;
+                IUsingAliasDirective aliasDirective = directive as IUsingAliasDirective;
 
-                var aliasedNamespace = aliasDirective.DeclaredElement.GetAliasedNamespace();
+                INamespace aliasedNamespace = aliasDirective.DeclaredElement.GetAliasedNamespace();
 
-                var returnValue = aliasedNamespace == null ? aliasDirective.ImportedSymbol.QualifiedName : aliasedNamespace.QualifiedName;
+                string returnValue = aliasedNamespace == null ? aliasDirective.ImportedSymbol.QualifiedName : aliasedNamespace.QualifiedName;
 
                 return returnValue;
             }
 
-            var namespaceDirective = directive as IUsingNamespaceDirective;
+            IUsingNamespaceDirective namespaceDirective = directive as IUsingNamespaceDirective;
 
-            return namespaceDirective.ImportedNamespace == null ? namespaceDirective.ImportedNamespaceReferenceName.QualifiedName : namespaceDirective.ImportedNamespace.QualifiedName;
+            return namespaceDirective.ImportedNamespace == null
+                       ? namespaceDirective.ImportedNamespaceReferenceName.QualifiedName
+                       : namespaceDirective.ImportedNamespace.QualifiedName;
         }
 
         /// <summary>
@@ -71,12 +72,12 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         {
             if (directive is IUsingAliasDirective)
             {
-                var aliasDirective = directive as IUsingAliasDirective;
+                IUsingAliasDirective aliasDirective = directive as IUsingAliasDirective;
 
                 return string.Format("using {0} = {1};", aliasDirective.AliasName, directive.GetFullyQualifiedNamespace());
             }
 
-            var namespaceDirective = directive as IUsingNamespaceDirective;
+            IUsingNamespaceDirective namespaceDirective = directive as IUsingNamespaceDirective;
 
             return namespaceDirective != null ? string.Format("using {0};", directive.GetFullyQualifiedNamespace()) : directive.GetText();
         }

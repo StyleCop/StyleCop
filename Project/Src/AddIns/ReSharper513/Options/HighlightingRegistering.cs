@@ -15,7 +15,6 @@
 //   Registers StyleCop Highlighters to allow their severity to be set.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Options
 {
     #region Using Directives
@@ -38,7 +37,7 @@ namespace StyleCop.ReSharper513.Options
     [ShellComponentImplementation(ProgramConfigurations.VS_ADDIN)]
     public class HighlightingRegistering : IShellComponent
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// The ID to be used for the default severity configuration element.
@@ -57,7 +56,7 @@ namespace StyleCop.ReSharper513.Options
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight ID for this rule.
@@ -78,16 +77,17 @@ namespace StyleCop.ReSharper513.Options
                 throw new ArgumentNullException("ruleID");
             }
 
-            var highlighID = string.Format(HighlightIdTemplate, ruleID);
+            string highlighID = string.Format(HighlightIdTemplate, ruleID);
 
             return highlighID;
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComponent
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+        }
 
         /// <summary>
         /// Initializes this instance.
@@ -101,19 +101,6 @@ namespace StyleCop.ReSharper513.Options
 
             this.AddHighlights();
         }
-    
-        #endregion
-
-        #region IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
 
         #endregion
 
@@ -153,7 +140,7 @@ namespace StyleCop.ReSharper513.Options
         /// </returns>
         private static bool SettingExists(HighlightingSettingsManager highlightManager, string highlightID)
         {
-            var item = highlightManager.GetSeverityItem(highlightID);
+            HighlightingSettingsManager.ConfigurableSeverityItem item = highlightManager.GetSeverityItem(highlightID);
             return item != null;
         }
 
@@ -168,7 +155,7 @@ namespace StyleCop.ReSharper513.Options
         /// </returns>
         private static string SplitCamelCase(string input)
         {
-            var output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
+            string output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
 
             return output;
         }
@@ -178,17 +165,17 @@ namespace StyleCop.ReSharper513.Options
         /// </summary>
         private void AddHighlights()
         {
-            var core = new StyleCopCore();
-           
+            StyleCopCore core = new StyleCopCore();
+
             core.Initialize(new List<string>(), true);
 
-            var analyzerRulesDictionary = StyleCopRule.GetRules(core);
+            Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);
 
-            var highlightManager = HighlightingSettingsManager.Instance;
+            HighlightingSettingsManager highlightManager = HighlightingSettingsManager.Instance;
 
             AddDefaultOption(highlightManager);
 
-            var defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
+            Severity defaultSeverity = HighlightingSettingsManager.Instance.Settings.GetSeverity(DefaultSeverityId);
 
             this.RegisterRuleConfigurations(highlightManager, analyzerRulesDictionary, defaultSeverity);
         }
@@ -205,18 +192,19 @@ namespace StyleCop.ReSharper513.Options
         /// <param name="defaultSeverity">
         /// The default severity.
         /// </param>
-        private void RegisterRuleConfigurations(HighlightingSettingsManager highlightManager, Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary, Severity defaultSeverity)
+        private void RegisterRuleConfigurations(
+            HighlightingSettingsManager highlightManager, Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary, Severity defaultSeverity)
         {
-            foreach (var analyzerRule in analyzerRulesDictionary)
+            foreach (KeyValuePair<SourceAnalyzer, List<StyleCopRule>> analyzerRule in analyzerRulesDictionary)
             {
-                var analyzerName = SplitCamelCase(analyzerRule.Key.Name);
-                var groupName = string.Format(GroupTitleTemplate, analyzerName);
-                var analyzerRules = analyzerRule.Value;
+                string analyzerName = SplitCamelCase(analyzerRule.Key.Name);
+                string groupName = string.Format(GroupTitleTemplate, analyzerName);
+                List<StyleCopRule> analyzerRules = analyzerRule.Value;
 
-                foreach (var rule in analyzerRules)
+                foreach (StyleCopRule rule in analyzerRules)
                 {
-                    var ruleName = rule.RuleID + ":" + " " + SplitCamelCase(rule.Name);
-                    var highlightID = GetHighlightID(rule.RuleID);
+                    string ruleName = rule.RuleID + ":" + " " + SplitCamelCase(rule.Name);
+                    string highlightID = GetHighlightID(rule.RuleID);
 
                     if (!SettingExists(highlightManager, highlightID))
                     {

@@ -15,7 +15,6 @@
 //   Style cop trace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Diagnostics
 {
     #region Using Directives
@@ -44,12 +43,17 @@ namespace StyleCop.ReSharper513.Diagnostics
         [DebuggerStepThrough]
         private sealed class StyleCopTraceFormatter
         {
-            #region Constants and Fields
+            #region Static Fields
 
             /// <summary>
             /// A regular expression to extract the names of members used with a <see cref="DebuggerDisplayAttribute"/> format string.
             /// </summary>
-            private static readonly Regex DebuggerDisplayFormatRegex = new Regex(@"\{[^\{]+\}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+            private static readonly Regex DebuggerDisplayFormatRegex = new Regex(
+                @"\{[^\{]+\}", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+
+            #endregion
+
+            #region Fields
 
             /// <summary>
             /// Caches the calling method.
@@ -86,7 +90,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
             #endregion
 
-            #region Public Methods
+            #region Public Methods and Operators
 
             /// <summary>
             /// Writes a trace string for method entry.
@@ -99,15 +103,15 @@ namespace StyleCop.ReSharper513.Diagnostics
                 this.InitializeBuffer("In");
                 this.buffer.Append('(');
 
-                var parameters = this.callingMethod.GetParameters();
-                for (var i = 0; i < parameters.Length; i++)
+                ParameterInfo[] parameters = this.callingMethod.GetParameters();
+                for (int i = 0; i < parameters.Length; i++)
                 {
                     if (i != 0)
                     {
                         this.buffer.Append(", ");
                     }
 
-                    var argument = arguments != null && i < arguments.Length ? arguments[i] : Missing.Value;
+                    object argument = arguments != null && i < arguments.Length ? arguments[i] : Missing.Value;
                     this.AppendParameter(parameters[i], argument);
                 }
 
@@ -180,7 +184,7 @@ namespace StyleCop.ReSharper513.Diagnostics
                 this.InitializeBuffer("Out");
                 this.buffer.Append("()");
 
-                var methodInfo = this.callingMethod as MethodInfo;
+                MethodInfo methodInfo = this.callingMethod as MethodInfo;
                 if (methodInfo != null && methodInfo.ReturnType != null && methodInfo.ReturnType != typeof(void))
                 {
                     this.AppendParameter(methodInfo.ReturnParameter, returnValue);
@@ -204,11 +208,11 @@ namespace StyleCop.ReSharper513.Diagnostics
             /// </returns>
             private static MethodBase GetCallingMethod(out int stackDepth)
             {
-                var stack = new StackTrace(3); // minimum call depth is 3 as we have this method, the constructor, and the public StyleCopTrace wrapper
-                var frames = stack.GetFrames();
+                StackTrace stack = new StackTrace(3); // minimum call depth is 3 as we have this method, the constructor, and the public StyleCopTrace wrapper
+                StackFrame[] frames = stack.GetFrames();
                 Debug.Assert(frames != null, "Failed to get stack frames");
 
-                var frameIndex = 0;
+                int frameIndex = 0;
                 MethodBase method = null;
                 while (frameIndex < frames.Length)
                 {
@@ -236,7 +240,7 @@ namespace StyleCop.ReSharper513.Diagnostics
             /// </param>
             private void AppendParameter(ParameterInfo parameter, object argument)
             {
-                var sensitive = this.sensitiveMethod || parameter.IsDefined(typeof(SensitiveDataAttribute), false);
+                bool sensitive = this.sensitiveMethod || parameter.IsDefined(typeof(SensitiveDataAttribute), false);
 
                 try
                 {
@@ -280,15 +284,15 @@ namespace StyleCop.ReSharper513.Diagnostics
                     }
 
                     // if the argument is a primitive (or pseudo-primitive) type then print it 'as is'
-                    var argumentType = argument.GetType();
+                    Type argumentType = argument.GetType();
                     if (argumentType.IsPrimitive || argumentType == typeof(decimal))
                     {
-                        this.buffer.Append(argument.ToString());
+                        this.buffer.Append(argument);
                         return;
                     }
 
                     // if it has an overridden ToString method print it in curly brackets
-                    var stringMethod = argumentType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+                    MethodInfo stringMethod = argumentType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
                     if (stringMethod.GetBaseDefinition().DeclaringType != stringMethod.DeclaringType)
                     {
                         this.buffer.Append("{" + argument + "}");
@@ -296,20 +300,22 @@ namespace StyleCop.ReSharper513.Diagnostics
                     }
 
                     // if the argument type has a DebuggerDisplayAttribute then format and print in square brackets
-                    var displayAttribute = (DebuggerDisplayAttribute)argumentType.GetCustomAttributes(typeof(DebuggerDisplayAttribute), true).FirstOrDefault();
+                    DebuggerDisplayAttribute displayAttribute =
+                        (DebuggerDisplayAttribute)argumentType.GetCustomAttributes(typeof(DebuggerDisplayAttribute), true).FirstOrDefault();
                     if (displayAttribute != null)
                     {
                         MatchEvaluator evaluator = match =>
                             {
-                                var memberName = match.Value.Replace("{", null).Replace("}", null);
-                                var propertyInfo = argumentType.GetProperty(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                string memberName = match.Value.Replace("{", null).Replace("}", null);
+                                PropertyInfo propertyInfo = argumentType.GetProperty(
+                                    memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                                 if (propertyInfo != null)
                                 {
                                     return Convert.ToString(propertyInfo.GetValue(argument, null), CultureInfo.InvariantCulture);
                                 }
 
                                 FieldInfo fieldInfo;
-                                var typeToInspect = argumentType;
+                                Type typeToInspect = argumentType;
                                 do
                                 {
                                     fieldInfo = typeToInspect.GetField(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -319,7 +325,7 @@ namespace StyleCop.ReSharper513.Diagnostics
                                 return fieldInfo != null ? Convert.ToString(fieldInfo.GetValue(argument), CultureInfo.InvariantCulture) : "?";
                             };
 
-                        var displayString = DebuggerDisplayFormatRegex.Replace(displayAttribute.Value, evaluator);
+                        string displayString = DebuggerDisplayFormatRegex.Replace(displayAttribute.Value, evaluator);
                         this.buffer.Append('[');
                         this.AppendTypeName(argumentType);
                         this.buffer.Append(": ").Append(displayString).Append(']');
@@ -352,14 +358,14 @@ namespace StyleCop.ReSharper513.Diagnostics
             /// </param>
             private void AppendTypeName(Type type)
             {
-                var genericArgs = type.GetGenericArguments();
+                Type[] genericArgs = type.GetGenericArguments();
                 if (genericArgs.Length == 0)
                 {
                     this.buffer.Append(type.Name);
                 }
                 else
                 {
-                    var backtickIndex = type.Name.IndexOf('`');
+                    int backtickIndex = type.Name.IndexOf('`');
                     if (backtickIndex == -1)
                     {
                         this.buffer.Append(type.Name);
@@ -371,7 +377,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
                     this.buffer.Append('<');
 
-                    for (var i = 0; i < genericArgs.Length; i++)
+                    for (int i = 0; i < genericArgs.Length; i++)
                     {
                         if (i != 0)
                         {
@@ -397,7 +403,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
                 try
                 {
-                    var identity = WindowsIdentity.GetCurrent();
+                    WindowsIdentity identity = WindowsIdentity.GetCurrent();
                     if (identity != null)
                     {
                         this.buffer.Append(identity.Name);
@@ -433,7 +439,7 @@ namespace StyleCop.ReSharper513.Diagnostics
                 }
 
                 this.buffer.Append(' ');
-                for (var i = 0; i < this.stackDepth; i++)
+                for (int i = 0; i < this.stackDepth; i++)
                 {
                     this.buffer.Append('-');
                 }
@@ -443,13 +449,13 @@ namespace StyleCop.ReSharper513.Diagnostics
                 this.buffer.Append(".");
                 this.buffer.Append(this.callingMethod.Name);
 
-                var methodInfo = this.callingMethod as MethodInfo;
+                MethodInfo methodInfo = this.callingMethod as MethodInfo;
                 if (methodInfo != null && methodInfo.IsGenericMethod)
                 {
                     this.buffer.Append('<');
 
-                    var genericArgs = methodInfo.GetGenericArguments();
-                    for (var i = 0; i < genericArgs.Length; i++)
+                    Type[] genericArgs = methodInfo.GetGenericArguments();
+                    for (int i = 0; i < genericArgs.Length; i++)
                     {
                         if (i != 0)
                         {
@@ -481,11 +487,13 @@ namespace StyleCop.ReSharper513.Diagnostics
                 // are associated in the metadata with the property definition and not the method itself. there's no easy way to get this 
                 // from the method so here we check for a special name which isn't a constructor and the two defined special name starting 
                 // tags then try and get the property on the type and see if it has the attribute defined
-                var defined = this.callingMethod.IsDefined(attributeType, true);
-                if (!defined && this.callingMethod.IsSpecialName && !this.callingMethod.IsConstructor && (this.callingMethod.Name.StartsWith("get_") || this.callingMethod.Name.StartsWith("set_")))
+                bool defined = this.callingMethod.IsDefined(attributeType, true);
+                if (!defined && this.callingMethod.IsSpecialName && !this.callingMethod.IsConstructor
+                    && (this.callingMethod.Name.StartsWith("get_") || this.callingMethod.Name.StartsWith("set_")))
                 {
-                    var flags = (this.callingMethod.IsStatic ? BindingFlags.Static : BindingFlags.Instance) | (this.callingMethod.IsPublic ? BindingFlags.Public : BindingFlags.NonPublic);
-                    var propertyInfo = this.callingMethod.DeclaringType.GetProperty(this.callingMethod.Name.Substring(4), flags);
+                    BindingFlags flags = (this.callingMethod.IsStatic ? BindingFlags.Static : BindingFlags.Instance)
+                                         | (this.callingMethod.IsPublic ? BindingFlags.Public : BindingFlags.NonPublic);
+                    PropertyInfo propertyInfo = this.callingMethod.DeclaringType.GetProperty(this.callingMethod.Name.Substring(4), flags);
                     if (propertyInfo != null)
                     {
                         defined = propertyInfo.IsDefined(attributeType, true);

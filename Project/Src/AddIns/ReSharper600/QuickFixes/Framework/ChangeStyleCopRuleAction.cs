@@ -38,18 +38,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
     /// </summary>
     public class ChangeStyleCopRuleAction : ICustomHighlightingAction, IBulbItem
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets the priority.
-        /// </summary>
-        public int Priority
-        {
-            get
-            {
-                return 50;
-            }
-        }
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the highlight id of the current violation.
@@ -74,6 +63,17 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         }
 
         /// <summary>
+        /// Gets the priority.
+        /// </summary>
+        public int Priority
+        {
+            get
+            {
+                return 50;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets text to be used as the cookie name.
         /// </summary>
         /// <value>
@@ -83,9 +83,38 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
 
         #endregion
 
-        #region Implemented Interfaces
+        #region Public Methods and Operators
 
-        #region IBulbAction
+        /// <summary>
+        /// Performs the QuickFix, inserts the configured modifier into the location specified by
+        /// the violation.
+        /// </summary>
+        /// <param name="solution">
+        /// Current Solution.
+        /// </param>
+        /// <param name="textControl">
+        /// Current Text Control to modify.
+        /// </param>
+        public void Execute(ISolution solution, ITextControl textControl)
+        {
+            using (ChangeSeverityDialog dialog = new ChangeSeverityDialog())
+            {
+                HighlightingSettings settings = HighlightingSettingsManager.Instance.Settings.Clone();
+
+                HighlightingSettingsManager.ConfigurableSeverityItem severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
+
+                dialog.Severity = settings.GetSeverity(this.HighlightID);
+                dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
+
+                if (dialog.ShowDialog(Shell.Instance.GetComponent<UIApplication>().MainWindow) == DialogResult.OK)
+                {
+                    settings.SetSeverity(this.HighlightID, dialog.Severity);
+                    HighlightingSettingsManager.Instance.Settings = settings;
+
+                    Daemon.GetInstance(solution).Invalidate();
+                }
+            }
+        }
 
         /// <summary>
         /// Determines whether the specified cache is available.
@@ -101,43 +130,6 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         {
             return true;
         }
-
-        #endregion
-
-        #region IBulbItem
-        
-        /// <summary>
-        /// Performs the QuickFix, inserts the configured modifier into the location specified by
-        /// the violation.
-        /// </summary>
-        /// <param name="solution">
-        /// Current Solution.
-        /// </param>
-        /// <param name="textControl">
-        /// Current Text Control to modify.
-        /// </param>
-        public void Execute(ISolution solution, ITextControl textControl)
-        {
-            using (var dialog = new ChangeSeverityDialog())
-            {
-                var settings = HighlightingSettingsManager.Instance.Settings.Clone();
-
-                var severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
-
-                dialog.Severity = settings.GetSeverity(this.HighlightID);
-                dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
-
-                if (dialog.ShowDialog(Shell.Instance.GetComponent<UIApplication>().MainWindow) == DialogResult.OK)
-                {
-                    settings.SetSeverity(this.HighlightID, dialog.Severity);
-                    HighlightingSettingsManager.Instance.Settings = settings;
-
-                    Daemon.GetInstance(solution).Invalidate();
-                }
-            }
-        }
-
-        #endregion
 
         #endregion
     }

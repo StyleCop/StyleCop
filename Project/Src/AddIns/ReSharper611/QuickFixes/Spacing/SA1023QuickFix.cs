@@ -15,7 +15,6 @@
 //   QuickFix - SA1023: DereferenceAndAccessOfMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Spacing
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper611.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
     /// </summary>
     public class ChangeStyleCopRuleAction : IDisableHighlightingAction, IBulbItem
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the highlight id of the current violation.
@@ -71,28 +71,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IBulbAction
-
-        /// <summary>
-        /// Determines whether the specified cache is available.
-        /// </summary>
-        /// <param name="cache">
-        /// The cache.
-        /// </param>
-        /// <returns>
-        /// <c>True.</c>if the specified cache is available; otherwise, 
-        /// <c>False.</c>.
-        /// </returns>
-        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
-        {
-            return true;
-        }
-
-        #endregion
-
-        #region IBulbItem
+        #region Public Methods and Operators
 
         /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by
@@ -106,11 +85,11 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         /// </param>
         public void Execute(ISolution solution, ITextControl textControl)
         {
-            using (var dialog = new ChangeSeverityDialog())
+            using (ChangeSeverityDialog dialog = new ChangeSeverityDialog())
             {
-                var settings = HighlightingSettingsManager.Instance.Settings.Clone();
+                HighlightingSettings settings = HighlightingSettingsManager.Instance.Settings.Clone();
 
-                var severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
+                HighlightingSettingsManager.ConfigurableSeverityItem severityItem = HighlightingSettingsManager.Instance.GetSeverityItem(this.HighlightID);
 
                 dialog.Severity = settings.GetSeverity(this.HighlightID);
                 dialog.Text = "Inspection options for \"" + severityItem.Title + "\"";
@@ -128,7 +107,20 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Determines whether the specified cache is available.
+        /// </summary>
+        /// <param name="cache">
+        /// The cache.
+        /// </param>
+        /// <returns>
+        /// <c>True.</c>if the specified cache is available; otherwise, 
+        /// <c>False.</c>.
+        /// </returns>
+        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
+        {
+            return true;
+        }
 
         #endregion
     }

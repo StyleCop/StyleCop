@@ -15,7 +15,6 @@
 //   BulbItem - SA1611ElementParametersMustBeDocumentedBulbItem : Inserts a param into the header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.BulbItems.Documentation
 {
     #region Using Directives
@@ -36,7 +35,7 @@ namespace StyleCop.ReSharper610.BulbItems.Documentation
     /// </summary>
     internal class SA1611ElementParametersMustBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -49,9 +48,9 @@ namespace StyleCop.ReSharper610.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingNode<IMethodDeclaration>(true) ?? (IDeclaration)element.GetContainingNode<IConstructorDeclaration>(true);
+            IDeclaration declaration = element.GetContainingNode<IMethodDeclaration>(true) ?? (IDeclaration)element.GetContainingNode<IConstructorDeclaration>(true);
 
             if (declaration != null)
             {

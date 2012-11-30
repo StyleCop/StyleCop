@@ -15,7 +15,6 @@
 //   QuickFix action which replaces ";;" with ";".
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.BulbItems.Readability
 {
     #region Using Directives
@@ -32,7 +31,7 @@ namespace StyleCop.ReSharper700.BulbItems.Readability
     /// </summary>
     public class CodeMustNotContainEmptyStatements : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -45,7 +44,7 @@ namespace StyleCop.ReSharper700.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var documentation = this.DocumentRange.GetText().Replace(";;", ";");
+            string documentation = this.DocumentRange.GetText().Replace(";;", ";");
 
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }

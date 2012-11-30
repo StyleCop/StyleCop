@@ -15,7 +15,6 @@
 //   QuickFix - SA1114.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.QuickFixes.Readability
 {
     #region Using Directives
@@ -41,45 +40,55 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingError" /> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingError" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingError"/> that has been detected. 
+        /// </param>
         public SA1114QuickFix(StyleCopHighlightingError highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingHint" /> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingHint"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingHint" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
+        /// </param>
         public SA1114QuickFix(StyleCopHighlightingHint highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingInfo" /> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingInfo"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingInfo" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
+        /// </param>
         public SA1114QuickFix(StyleCopHighlightingInfo highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion" /> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingSuggestion" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
+        /// </param>
         public SA1114QuickFix(StyleCopHighlightingSuggestion highlight)
             : base(highlight)
         {
         }
 
         /// <summary>
-        ///   Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingWarning" /> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingWarning"/> .
         /// </summary>
-        /// <param name="highlight"> <see cref="StyleCopHighlightingWarning" /> that has been detected. </param>
+        /// <param name="highlight">
+        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
+        /// </param>
         public SA1114QuickFix(StyleCopHighlightingWarning highlight)
             : base(highlight)
         {
@@ -95,12 +104,14 @@ namespace StyleCop.ReSharper700.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbAction>
-                {
-                    new FormatLineBulbItem
-                        {
-                            DocumentRange = this.Highlighting.DocumentRange, LineNumber = this.Highlighting.LineNumber, Description = "Format line : " + this.Highlighting.ToolTip
-                        }
-                };
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             LineNumber = this.Highlighting.LineNumber, 
+                                             Description = "Format line : " + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

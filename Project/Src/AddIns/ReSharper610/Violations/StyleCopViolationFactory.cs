@@ -15,16 +15,12 @@
 //   Factory class for getting HighLights for StyleCop violations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.Violations
 {
     #region Using Directives
 
-    using JetBrains.Application;
-    using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Psi;
 
     using StyleCop.CSharp;
     using StyleCop.ReSharper610.Options;
@@ -36,7 +32,7 @@ namespace StyleCop.ReSharper610.Violations
     /// </summary>
     public static class StyleCopViolationFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight for the specified StyleCop Violation.
@@ -58,11 +54,11 @@ namespace StyleCop.ReSharper610.Violations
         /// </returns>
         public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
         {
-            var ruleID = violation.Violation.Rule.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            string ruleID = violation.Violation.Rule.CheckId;
+            string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            var severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, null);
-            
+            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, null);
+
             switch (severity)
             {
                 case Severity.ERROR:

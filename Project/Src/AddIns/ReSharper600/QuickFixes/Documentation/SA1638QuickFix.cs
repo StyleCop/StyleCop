@@ -15,7 +15,6 @@
 //   QuickFix - SA1638: FileHeaderMustContainFileName.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,14 @@ namespace StyleCop.ReSharper600.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1637FileHeaderMustContainFileNameBulbItem { Description = "Update filename in header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1637FileHeaderMustContainFileNameBulbItem
+                                         {
+                                             Description =
+                                                 "Update filename in header : " + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

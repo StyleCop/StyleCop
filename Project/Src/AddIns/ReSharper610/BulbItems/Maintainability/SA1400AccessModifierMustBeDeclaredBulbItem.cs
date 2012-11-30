@@ -15,7 +15,6 @@
 //   The s a 1400 access modifier must be declared bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.BulbItems.Maintainability
 {
     #region Using Directives
@@ -32,7 +31,7 @@ namespace StyleCop.ReSharper610.BulbItems.Maintainability
     /// </summary>
     internal class SA1400AccessModifierMustBeDeclaredBulbItem : V5BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets Modifier.
@@ -41,7 +40,7 @@ namespace StyleCop.ReSharper610.BulbItems.Maintainability
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.

@@ -13,7 +13,7 @@
 // </license>
 // <summary>
 //   Daemon stage for StyleCop. This class is automatically loaded by ReSharper daemon
-//   because it's marked with the <see cref="DaemonStageAttribute" /> attribute.
+//   because it's marked with the  attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
@@ -38,7 +38,7 @@ namespace StyleCop.ReSharper600.Core
     [DaemonStage]
     public class StyleCopStage : IDaemonStage
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether this stage should be run for documents that aren't shown.
@@ -81,9 +81,7 @@ namespace StyleCop.ReSharper600.Core
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IDaemonStage
+        #region Public Methods and Operators
 
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
@@ -115,7 +113,7 @@ namespace StyleCop.ReSharper600.Core
 
             return StyleCopTrace.Out(new StyleCopStageProcess(process));
         }
-        
+
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
@@ -129,8 +127,6 @@ namespace StyleCop.ReSharper600.Core
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
-
-        #endregion
 
         #endregion
     }

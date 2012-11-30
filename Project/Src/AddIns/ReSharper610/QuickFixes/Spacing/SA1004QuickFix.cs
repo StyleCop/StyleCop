@@ -15,7 +15,6 @@
 //   QuickFix - SA1004: DocumentationLinesMustBeginWithSingleSpace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Spacing
 {
     #region Using Directives
@@ -110,9 +109,14 @@ namespace StyleCop.ReSharper610.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new FormatDocumentationHeader { DocumentRange = this.Violation.DocumentRange, Description = "Fix Documentation : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber }
-                };
+                                 {
+                                     new FormatDocumentationHeader
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Documentation : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

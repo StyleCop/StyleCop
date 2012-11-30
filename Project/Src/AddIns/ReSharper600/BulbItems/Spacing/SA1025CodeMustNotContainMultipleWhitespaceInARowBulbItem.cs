@@ -15,13 +15,13 @@
 //   The s a 1025 code must not contain multiple whitespace in a row bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Spacing
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper600.BulbItems.Spacing
     /// </summary>
     public class SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -50,8 +50,8 @@ namespace StyleCop.ReSharper600.BulbItems.Spacing
         {
             Utils.FormatLineForTextControl(solution, textControl);
 
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingNode<IBlock>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IBlock containingBlock = element.GetContainingNode<IBlock>(true);
 
             if (containingBlock != null)
             {

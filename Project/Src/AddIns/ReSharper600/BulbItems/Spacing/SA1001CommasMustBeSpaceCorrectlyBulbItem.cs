@@ -15,13 +15,13 @@
 //   The s a 1001 commas must be space correctly bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Spacing
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper600.BulbItems.Spacing
     /// </summary>
     public class SA1001CommasMustBeSpaceCorrectlyBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -50,15 +50,15 @@ namespace StyleCop.ReSharper600.BulbItems.Spacing
         {
             Utils.FormatLineForTextControl(solution, textControl);
 
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingNode<IBlock>(true);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IBlock containingBlock = element.GetContainingNode<IBlock>(true);
 
             if (containingBlock != null)
             {
                 new SpacingRules().CommasMustBeSpacedCorrectly(containingBlock);
             }
 
-            var fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
+            IFieldDeclaration fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
 
             if (fieldDeclarationNode != null)
             {

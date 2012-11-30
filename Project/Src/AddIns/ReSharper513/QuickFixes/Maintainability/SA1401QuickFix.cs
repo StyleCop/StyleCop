@@ -15,7 +15,6 @@
 //   QuickFix for StyleCop Rule SA1401.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.QuickFixes.Maintainability
 {
     #region Using Directives

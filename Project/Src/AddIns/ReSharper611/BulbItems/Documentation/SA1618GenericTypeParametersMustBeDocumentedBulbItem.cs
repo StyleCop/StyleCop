@@ -15,7 +15,6 @@
 //   BulbItem - SA1618GenericTypeParametersMustBeDocumentedBulbItem : Inserts a param into the header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     internal class SA1618GenericTypeParametersMustBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +47,9 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingNode<IDeclaration>(true);
+            IDeclaration declaration = element.GetContainingNode<IDeclaration>(true);
 
             new DocumentationRules().InsertMissingTypeParamElement(declaration);
         }

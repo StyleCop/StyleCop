@@ -15,7 +15,6 @@
 //   QuickFix for SA1643 : DestructorSummaryDocumentationMustBeginWithStandardText.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper611.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1643DestructorSummaryDocumentationMustBeginWithStandardTextBulbItem { Description = "Insert Standard Destructor Summary Text : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1643DestructorSummaryDocumentationMustBeginWithStandardTextBulbItem
+                                         {
+                                             Description =
+                                                 "Insert Standard Destructor Summary Text : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

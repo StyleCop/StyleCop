@@ -21,8 +21,10 @@ namespace StyleCop.ReSharper700.BulbItems.Readability
 {
     #region Using Directives
 
+    using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper700.BulbItems.Framework;
@@ -36,7 +38,7 @@ namespace StyleCop.ReSharper700.BulbItems.Readability
     /// </summary>
     public class FormatLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Formats the current line using the settings as defined in ReSharper &gt; Option &gt; Languages &gt; Common &gt; Code Style Sharing.
@@ -49,9 +51,9 @@ namespace StyleCop.ReSharper700.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var line = Utils.GetLineNumberForTextControl(textControl);
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingElement = element.GetContainingNode<IUsingDirective>(true);
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = Utils.GetLineNumberForTextControl(textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            IUsingDirective containingElement = element.GetContainingNode<IUsingDirective>(true);
 
             Utils.FormatLines(solution, textControl.Document, line.Minus1(), line.Plus1());
 

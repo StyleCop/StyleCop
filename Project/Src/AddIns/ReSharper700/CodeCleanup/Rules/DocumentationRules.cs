@@ -15,7 +15,6 @@
 //   Declaration comments fixes SA1600, SA1602, SA1611, SA1615, SA1617, SA1642.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper700.CodeCleanup.Rules
@@ -31,7 +30,6 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
 
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
@@ -52,670 +50,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
     /// </summary>
     public class DocumentationRules
     {
-        #region Public Methods
-
-        /// <summary>
-        /// Ensures that the constructor documentation starts with the standard text summary. 
-        /// </summary>
-        /// <remarks>
-        /// Keeps the existing comment, but prepends the standard text.
-        /// </remarks>
-        /// <param name="constructorDeclaration">
-        /// The destructor <see cref="IDeclaration"/>.
-        /// </param>
-        public void EnsureConstructorSummaryDocBeginsWithStandardText(IConstructorDeclaration constructorDeclaration)
-        {
-            if (constructorDeclaration == null)
-            {
-                return;
-            }
-
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
-            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(constructorDeclaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
-            {
-                return;
-            }
-
-            var existingSummaryText = declarationHeader.SummaryXmlNode.InnerXml;
-
-            var parentIsStruct = Utils.IsContainingTypeAStruct(constructorDeclaration);
-
-            var constructorParameterCount = constructorDeclaration.ParameterDeclarations.Count;
-
-            var xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
-            var structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
-            string textWeShouldStartWith;
-
-            if (constructorDeclaration.IsStatic)
-            {
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForStaticConstructor, constructorDeclaration.DeclaredName, structOrClass);
-            }
-            else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorParameterCount == 0)
-            {
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
-            }
-            else
-            {
-                var constructorDescriptionText = Utils.CreateConstructorDescriptionText(constructorDeclaration, true);
-                textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForInstanceConstructor, constructorDescriptionText, structOrClass);
-            }
-
-            if (constructorDeclaration.IsStatic)
-            {
-                var docStd = string.Format("Initializes the {0} class.", constructorDeclaration.DeclaredName);
-                if (xmlComment == docStd)
-                {
-                    existingSummaryText = string.Empty;
-                }
-            }
-
-            if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
-            {
-                var newSummaryText = Utils.CreateSummaryForConstructorDeclaration(constructorDeclaration);
-
-                declarationHeader.SummaryXmlNode.InnerXml = newSummaryText + " " + existingSummaryText;
-
-                declarationHeader.Update();
-            }
-        }
-
-        /// <summary>
-        /// Ensures that the destructor documentation starts with the standard text summary. 
-        /// </summary>
-        /// <remarks>
-        /// Keeps the existing comment, but prepends the standard text.
-        /// </remarks>
-        /// <param name="destructorDeclaration">
-        /// The destructor <see cref="IDeclaration"/>.
-        /// </param>
-        public void EnsureDestructorSummaryDocBeginsWithStandardText(IDestructorDeclaration destructorDeclaration)
-        {
-            if (destructorDeclaration == null)
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(destructorDeclaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
-            {
-                return;
-            }
-
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
-            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                return;
-            }
-
-            var destructorDescriptionText = Utils.CreateDestructorDescriptionText(destructorDeclaration, true);
-
-            var xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
-
-            var textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForDestructor, destructorDescriptionText);
-
-            if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
-            {
-                var summaryText = Utils.CreateSummaryForDestructorDeclaration(destructorDeclaration);
-
-                declarationHeader.SummaryXmlNode.InnerXml = Environment.NewLine + summaryText;
-
-                declarationHeader.Update();
-            }
-        }
-
-        /// <summary>
-        /// Ensures the declaration passed has no blank lines unless inside code elements.
-        /// </summary>
-        /// <param name="declaration">
-        /// The destructor <see cref="IDeclaration"/>.
-        /// </param>
-        public void EnsureDocumentationHasNoBlankLines(IDeclaration declaration)
-        {
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            this.RemoveBlankLines(declarationHeader.XmlNode);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Ensures the declaration passed has its comments ending with a full stop.
-        /// </summary>
-        /// <param name="declaration">
-        /// The destructor <see cref="IDeclaration"/>.
-        /// </param>
-        public void EnsureDocumentationTextEndsWithAPeriod(IDeclaration declaration)
-        {
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
-            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(declaration);
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            this.EnsureTerminatingPeriod(declarationHeader.XmlNode);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Ensures the declaration passed has its comments beginning with a capital letter.
-        /// </summary>
-        /// <param name="declaration">
-        /// The destructor <see cref="IDeclaration"/>.
-        /// </param>
-        public void EnsureDocumentationTextIsUppercase(IDeclaration declaration)
-        {
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
-            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            this.SwapToUpper(declarationHeader.XmlNode);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Execute comments processing for declarations.
-        /// </summary>
-        /// <param name="options">
-        /// The <see cref="OrderingOptions"/> to use.
-        /// </param>
-        /// <param name="file">
-        /// The <see cref="ICSharpFile"/> to use.
-        /// </param>
-        public void Execute(DocumentationOptions options, ICSharpFile file)
-        {
-            StyleCopTrace.In(options, file);
-
-            Param.RequireNotNull(options, "options");
-            Param.RequireNotNull(file, "file");
-
-            foreach (var namespaceDeclaration in file.NamespaceDeclarations)
-            {
-                this.ProcessCSharpTypeDeclarations(options, file, namespaceDeclaration.TypeDeclarations);
-            }
-
-            this.ProcessCSharpTypeDeclarations(options, file, file.TypeDeclarations);
-
-            var fixSingleLineCommentsOption = options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes;
-
-            if (fixSingleLineCommentsOption)
-            {
-                this.SwapDocCommentsToSingleLineComments(file.FirstChild);
-            }
-
-            this.UpdateFileHeader(options, file);
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Returns a config object exposing the current config settings for this file.
-        /// </summary>
-        /// <param name="file">
-        /// The file to get the config for.
-        /// </param>
-        /// <returns>
-        /// The configuration for the given file.
-        /// </returns>
-        public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
-        {
-            return new DocumentationRulesConfiguration(file.GetSourceFile());
-        }
-
-        /// <summary>
-        /// Inserts the company name into the file's header.
-        /// </summary>
-        /// <param name="file">
-        /// The file to insert the company name into.
-        /// </param>
-        public void InsertCompanyName(ICSharpFile file)
-        {
-            var docConfig = this.GetDocumentationRulesConfig(file);
-
-            var fileHeader = new FileHeader(file) { CompanyName = docConfig.CompanyName };
-
-            fileHeader.Update();
-        }
-
-        /// <summary>
-        /// Inserts copyright text into the file's header.
-        /// </summary>
-        /// <param name="file">
-        /// The file to insert the company name into.
-        /// </param>
-        public void InsertCopyrightText(ICSharpFile file)
-        {
-            var docConfig = this.GetDocumentationRulesConfig(file);
-
-            var fileHeader = new FileHeader(file) { CopyrightText = docConfig.Copyright };
-
-            fileHeader.Update();
-        }
-
-        /// <summary>
-        /// Updates the existing header or inserts one if missing.
-        /// </summary>
-        /// <param name="file">
-        /// THe file to check the header on.
-        /// </param>
-        public void InsertFileHeader(ICSharpFile file)
-        {
-            var fileHeader = new FileHeader(file);
-            var docConfig = this.GetDocumentationRulesConfig(file);
-
-            fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
-            fileHeader.CompanyName = docConfig.CompanyName;
-            fileHeader.CopyrightText = docConfig.Copyright;
-            fileHeader.Summary = Utils.GetSummaryText(file);
-
-            fileHeader.Update();
-        }
-
-        /// <summary>
-        /// Inserts a summary into the file's header.
-        /// </summary>
-        /// <param name="file">
-        /// The file to insert into.
-        /// </param>
-        public void InsertFileHeaderSummary(ICSharpFile file)
-        {
-            var fileHeader = new FileHeader(file) { Summary = Utils.GetSummaryText(file) };
-            fileHeader.Update();
-        }
-
-        /// <summary>
-        /// Inserts the file name into the file.
-        /// </summary>
-        /// <param name="file">
-        /// The file to insert into.
-        /// </param>
-        public void InsertFileName(ICSharpFile file)
-        {
-            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
-
-            var fileHeader = new FileHeader(file) { FileName = fileName };
-            fileHeader.Update();
-        }
-
-        /// <summary>
-        /// Insert a summary element if missing.
-        /// </summary>
-        /// <param name="file">
-        /// The <see cref="ICSharpFile"/> to use.
-        /// </param>
-        /// <param name="declaration">
-        /// The <see cref="ITypeDeclaration"/> to check and fix.
-        /// </param>
-        /// <returns>True if it inserted a missing header.</returns>
-        public bool InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
-        {
-            StyleCopTrace.In(file, declaration);
-            Param.RequireNotNull(file, "file");
-            Param.RequireNotNull(declaration, "declaration");
-            Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
-
-            bool returnValue = false;
-            var docConfig = this.GetDocumentationRulesConfig(file);
-
-            var isIFieldDeclaration = declaration is IFieldDeclaration;
-
-            var accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
-
-            var elementType = declaration.DeclaredElement.GetElementType();
-            if ((!isIFieldDeclaration || docConfig.RequireFields) &&
-                (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates) &&
-                (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
-            {
-                DeclarationHeader.CreateNewHeader(declaration, docConfig);
-                returnValue = true;
-            }
-
-            return StyleCopTrace.Out(returnValue);
-        }
-
-        /// <summary>
-        /// Insert a missing parameter element to the comment.
-        /// </summary>
-        /// <param name="declaration">
-        /// The <see cref="IDeclaration"/> to check and fix.
-        /// </param>
-        public void InsertMissingParamElement(IDeclaration declaration)
-        {
-            Param.RequireNotNull(declaration, "declaration");
-
-            var parametersOwnerDeclaration = declaration as IParametersOwnerDeclaration;
-
-            if (parametersOwnerDeclaration == null)
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            var xmlNode = declarationHeader.XmlNode;
-            var ht = new Hashtable();
-
-            var parameters = parametersOwnerDeclaration.ParameterDeclarations;
-
-            if (parameters != null)
-            {
-                foreach (var parameter in parameters)
-                {
-                    ht.Add(parameter.DeclaredName, null);
-
-                    if (declarationHeader.ContainsParameter(parameter.DeclaredName))
-                    {
-                        continue;
-                    }
-
-                    var paramNodeList = xmlNode.SelectNodes("//param");
-                    if (paramNodeList != null)
-                    {
-                        var c = paramNodeList.Count == 0 ? declarationHeader.SummaryXmlNode : paramNodeList.Item(paramNodeList.Count - 1);
-
-                        var parameterNode = CreateParamNode(xmlNode, parameter);
-
-                        xmlNode.InsertAfter(parameterNode, c);
-                    }
-                }
-            }
-
-            RemoveParamsNotRequired(xmlNode, ht);
-            ReorderParams(xmlNode, parameters);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Formats a summary element.
-        /// </summary>
-        /// <param name="declaration">
-        /// The <see cref="IDeclaration"/> to format the text for.
-        /// </param>
-        public void FormatSummaryElement(IDeclaration declaration)
-        {
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited || declarationHeader.HasEmptySummary || !declarationHeader.HasSummary)
-            {
-                return;
-            }
-
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Inserts a missing summary element.
-        /// </summary>
-        /// <param name="declaration">
-        /// The <see cref="IDeclaration"/> to get comment from.
-        /// </param>
-        /// <returns>True if the element was inserted.</returns>
-        public bool InsertMissingSummaryElement(IDeclaration declaration)
-        {
-            bool returnValue = false;
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return false;
-            }
-
-            var summaryText = string.Empty;
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
-            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                string text;
-                if (declaration is IInterfaceDeclaration)
-                {
-                    text = declaration.DeclaredName.Substring(1) + " interface";
-                }
-                else
-                {
-                    text = Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower();
-                }
-
-                summaryText = string.Format("The {0}.", text);
-            }
-
-            summaryText = Utils.UpdateTextWithToDoPrefixIfRequired(summaryText, settingsStore);
-
-            var summaryXmlNode = declarationHeader.SummaryXmlNode;
-
-            if (declarationHeader.HasSummary)
-            {
-                if (declarationHeader.HasEmptySummary)
-                {
-                    summaryXmlNode.InnerText = summaryText;
-                    declarationHeader.Update();
-                    returnValue = true;
-                }
-            }
-            else
-            {
-                var newChild = CreateNode(declarationHeader.XmlNode, "summary");
-                newChild.InnerText = summaryText;
-                declarationHeader.XmlNode.InsertBefore(newChild, declarationHeader.XmlNode.FirstChild);
-                declarationHeader.Update();
-                returnValue = true;
-            }
-
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Updates the summary to include all <c>typeparam</c> and remove any extra ones and in the correct order.
-        /// </summary>
-        /// <param name="declaration">
-        /// The <see cref="ITypeDeclaration"/> to check and fix.
-        /// </param>
-        public void InsertMissingTypeParamElement(IDeclaration declaration)
-        {
-            var declaredElement = declaration.DeclaredElement as ITypeParametersOwner;
-
-            if (declaredElement == null)
-            {
-                return;
-            }
-
-            var declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            var xmlNode = declarationHeader.XmlNode;
-
-            var ht = new Hashtable();
-
-            foreach (var parameter in declaredElement.TypeParameters)
-            {
-                ht.Add(parameter.ShortName, null);
-
-                if (declarationHeader.ContainsTypeParameter(parameter.ShortName))
-                {
-                    continue;
-                }
-
-                var parameterNode = CreateTypeParamNode(xmlNode, parameter.ShortName);
-
-                var paramNodeList = xmlNode.SelectNodes("//typeparam");
-                if (paramNodeList != null)
-                {
-                    var c = paramNodeList.Count == 0 ? declarationHeader.SummaryXmlNode : paramNodeList.Item(paramNodeList.Count - 1);
-
-                    xmlNode.InsertAfter(parameterNode, c);
-                }
-            }
-
-            RemoveTypeParamsNotRequired(xmlNode, ht);
-            ReorderTypeParams(xmlNode, declaredElement.TypeParameters);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Inserts a returns element to the element if its missing.
-        /// </summary>
-        /// <param name="memberDeclaration">
-        /// The <see cref="ITypeMemberDeclaration"/> to check and fix.
-        /// </param>
-        /// <param name="returnType">
-        /// The text to insert as the return type.
-        /// </param>
-        public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
-        {
-            Param.RequireNotNull(memberDeclaration, "memberDeclaration");
-
-            var declarationHeader = new DeclarationHeader(memberDeclaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            var valueText = string.Empty;
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
-            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                valueText = string.Format("The <see cref=\"{0}\"/>.", returnType.SubstringBefore('{'));
-            }
-
-            var xmlNode = declarationHeader.XmlNode;
-
-            var returnsXmlNode = declarationHeader.ReturnsXmlNode;
-
-            if (declarationHeader.HasReturns)
-            {
-                if (string.IsNullOrEmpty(returnsXmlNode.InnerText.Trim()))
-                {
-                    returnsXmlNode.InnerXml = valueText;
-                    declarationHeader.Update();
-                }
-            }
-            else
-            {
-                var valueNode = CreateNode(xmlNode, "returns");
-                valueNode.InnerXml = valueText;
-                xmlNode.AppendChild(valueNode);
-                declarationHeader.Update();
-            }
-        }
-
-        /// <summary>
-        /// Inserts a value element to the element if its missing.
-        /// </summary>
-        /// <param name="propertyDeclaration">
-        /// The <see cref="IPropertyDeclaration"/> to check and fix.
-        /// </param>
-        public void InsertValueElement(IPropertyDeclaration propertyDeclaration)
-        {
-            var declarationHeader = new DeclarationHeader(propertyDeclaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
-            {
-                return;
-            }
-
-            var xmlNode = declarationHeader.XmlNode;
-
-            var valueText = string.Empty;
-
-            var valueXmlNode = declarationHeader.ValueXmlNode;
-
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
-            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
-            {
-                valueText = string.Format("The {0}.", Utils.ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
-            }
-
-            if (declarationHeader.HasValue)
-            {
-                if (string.IsNullOrEmpty(valueXmlNode.InnerText.Trim()))
-                {
-                    valueXmlNode.InnerText = valueText;
-                    declarationHeader.Update();
-                }
-            }
-            else
-            {
-                var valueNode = CreateNode(xmlNode, "value");
-                valueNode.InnerText = valueText;
-                xmlNode.AppendChild(valueNode);
-                declarationHeader.Update();
-            }
-        }
-
-        /// <summary>
-        /// Removes a return element if it currently has one.
-        /// </summary>
-        /// <param name="memberDeclaration">
-        /// The <see cref="ITypeDeclaration"/> to check and fix.
-        /// </param>
-        public void RemoveReturnsElement(ITypeMemberDeclaration memberDeclaration)
-        {
-            var declarationHeader = new DeclarationHeader(memberDeclaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasReturns)
-            {
-                return;
-            }
-
-            declarationHeader.XmlNode.RemoveChild(declarationHeader.ReturnsXmlNode);
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Swaps a DocCommentNode to a CommentNode.
-        /// </summary>
-        /// <param name="currentNode">
-        /// The node to process.
-        /// </param>
-        public void SwapDocCommentNodeToCommentNode(ITreeNode currentNode)
-        {
-            var docCommentNode = currentNode as IDocCommentNode;
-
-            // found a triple slash comment thats not in an ElementHeader
-            if (docCommentNode != null)
-            {
-                var newText = string.Format("//{0}", docCommentNode.CommentText);
-                var newCommentNode = (ICommentNode)CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
-
-                using (currentNode.CreateWriteLock())
-                {
-                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
-                }
-            }
-        }
+        #region Public Methods and Operators
 
         /// <summary>
         /// Checks declaration comment blocks.
@@ -758,7 +93,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 genericTypeParametersMustBeDocumented = options.SA1618GenericTypeParametersMustBeDocumented;
             }
 
-            var declarationHeader = new DeclarationHeader(declaration);
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
 
             bool formatSummary = false;
             if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600) && declarationHeader.IsMissing)
@@ -780,7 +115,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             {
                 if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1611))
                 {
-                    var constructorDeclaration = declaration as IConstructorDeclaration;
+                    IConstructorDeclaration constructorDeclaration = declaration as IConstructorDeclaration;
 
                     if (constructorDeclaration.ParameterDeclarations.Count > 0)
                     {
@@ -794,10 +129,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 }
             }
 
-            var docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
 
             // However it can be on/off depending on the file so we'd have to cache it per file
-            var ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
+            bool ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
 
             if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
             {
@@ -837,6 +172,677 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
             {
                 this.InsertMissingTypeParamElement(declaration);
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the constructor documentation starts with the standard text summary. 
+        /// </summary>
+        /// <remarks>
+        /// Keeps the existing comment, but prepends the standard text.
+        /// </remarks>
+        /// <param name="constructorDeclaration">
+        /// The destructor <see cref="IDeclaration"/>.
+        /// </param>
+        public void EnsureConstructorSummaryDocBeginsWithStandardText(IConstructorDeclaration constructorDeclaration)
+        {
+            if (constructorDeclaration == null)
+            {
+                return;
+            }
+
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(constructorDeclaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            string existingSummaryText = declarationHeader.SummaryXmlNode.InnerXml;
+
+            bool parentIsStruct = Utils.IsContainingTypeAStruct(constructorDeclaration);
+
+            int constructorParameterCount = constructorDeclaration.ParameterDeclarations.Count;
+
+            string xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
+            string structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
+            string textWeShouldStartWith;
+
+            if (constructorDeclaration.IsStatic)
+            {
+                textWeShouldStartWith = string.Format(
+                    CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForStaticConstructor, constructorDeclaration.DeclaredName, structOrClass);
+            }
+            else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorParameterCount == 0)
+            {
+                textWeShouldStartWith = string.Format(
+                    CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForPrivateInstanceConstructor, constructorDeclaration.DeclaredName, structOrClass);
+            }
+            else
+            {
+                string constructorDescriptionText = Utils.CreateConstructorDescriptionText(constructorDeclaration, true);
+                textWeShouldStartWith = string.Format(
+                    CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForInstanceConstructor, constructorDescriptionText, structOrClass);
+            }
+
+            if (constructorDeclaration.IsStatic)
+            {
+                string docStd = string.Format("Initializes the {0} class.", constructorDeclaration.DeclaredName);
+                if (xmlComment == docStd)
+                {
+                    existingSummaryText = string.Empty;
+                }
+            }
+
+            if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
+            {
+                string newSummaryText = Utils.CreateSummaryForConstructorDeclaration(constructorDeclaration);
+
+                declarationHeader.SummaryXmlNode.InnerXml = newSummaryText + " " + existingSummaryText;
+
+                declarationHeader.Update();
+            }
+        }
+
+        /// <summary>
+        /// Ensures that the destructor documentation starts with the standard text summary. 
+        /// </summary>
+        /// <remarks>
+        /// Keeps the existing comment, but prepends the standard text.
+        /// </remarks>
+        /// <param name="destructorDeclaration">
+        /// The destructor <see cref="IDeclaration"/>.
+        /// </param>
+        public void EnsureDestructorSummaryDocBeginsWithStandardText(IDestructorDeclaration destructorDeclaration)
+        {
+            if (destructorDeclaration == null)
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(destructorDeclaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                return;
+            }
+
+            string destructorDescriptionText = Utils.CreateDestructorDescriptionText(destructorDeclaration, true);
+
+            string xmlComment = Utils.GetTextFromDeclarationHeader(declarationHeader.XmlNode);
+
+            string textWeShouldStartWith = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.HeaderSummaryForDestructor, destructorDescriptionText);
+
+            if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
+            {
+                string summaryText = Utils.CreateSummaryForDestructorDeclaration(destructorDeclaration);
+
+                declarationHeader.SummaryXmlNode.InnerXml = Environment.NewLine + summaryText;
+
+                declarationHeader.Update();
+            }
+        }
+
+        /// <summary>
+        /// Ensures the declaration passed has no blank lines unless inside code elements.
+        /// </summary>
+        /// <param name="declaration">
+        /// The destructor <see cref="IDeclaration"/>.
+        /// </param>
+        public void EnsureDocumentationHasNoBlankLines(IDeclaration declaration)
+        {
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            this.RemoveBlankLines(declarationHeader.XmlNode);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Ensures the declaration passed has its comments ending with a full stop.
+        /// </summary>
+        /// <param name="declaration">
+        /// The destructor <see cref="IDeclaration"/>.
+        /// </param>
+        public void EnsureDocumentationTextEndsWithAPeriod(IDeclaration declaration)
+        {
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            this.EnsureTerminatingPeriod(declarationHeader.XmlNode);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Ensures the declaration passed has its comments beginning with a capital letter.
+        /// </summary>
+        /// <param name="declaration">
+        /// The destructor <see cref="IDeclaration"/>.
+        /// </param>
+        public void EnsureDocumentationTextIsUppercase(IDeclaration declaration)
+        {
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            this.SwapToUpper(declarationHeader.XmlNode);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Execute comments processing for declarations.
+        /// </summary>
+        /// <param name="options">
+        /// The <see cref="OrderingOptions"/> to use.
+        /// </param>
+        /// <param name="file">
+        /// The <see cref="ICSharpFile"/> to use.
+        /// </param>
+        public void Execute(DocumentationOptions options, ICSharpFile file)
+        {
+            StyleCopTrace.In(options, file);
+
+            Param.RequireNotNull(options, "options");
+            Param.RequireNotNull(file, "file");
+
+            foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
+            {
+                this.ProcessCSharpTypeDeclarations(options, file, namespaceDeclaration.TypeDeclarations);
+            }
+
+            this.ProcessCSharpTypeDeclarations(options, file, file.TypeDeclarations);
+
+            bool fixSingleLineCommentsOption = options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes;
+
+            if (fixSingleLineCommentsOption)
+            {
+                this.SwapDocCommentsToSingleLineComments(file.FirstChild);
+            }
+
+            this.UpdateFileHeader(options, file);
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Formats a summary element.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to format the text for.
+        /// </param>
+        public void FormatSummaryElement(IDeclaration declaration)
+        {
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || declarationHeader.HasEmptySummary || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Returns a config object exposing the current config settings for this file.
+        /// </summary>
+        /// <param name="file">
+        /// The file to get the config for.
+        /// </param>
+        /// <returns>
+        /// The configuration for the given file.
+        /// </returns>
+        public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
+        {
+            return new DocumentationRulesConfiguration(file.GetSourceFile());
+        }
+
+        /// <summary>
+        /// Inserts the company name into the file's header.
+        /// </summary>
+        /// <param name="file">
+        /// The file to insert the company name into.
+        /// </param>
+        public void InsertCompanyName(ICSharpFile file)
+        {
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+
+            FileHeader fileHeader = new FileHeader(file) { CompanyName = docConfig.CompanyName };
+
+            fileHeader.Update();
+        }
+
+        /// <summary>
+        /// Inserts copyright text into the file's header.
+        /// </summary>
+        /// <param name="file">
+        /// The file to insert the company name into.
+        /// </param>
+        public void InsertCopyrightText(ICSharpFile file)
+        {
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+
+            FileHeader fileHeader = new FileHeader(file) { CopyrightText = docConfig.Copyright };
+
+            fileHeader.Update();
+        }
+
+        /// <summary>
+        /// Updates the existing header or inserts one if missing.
+        /// </summary>
+        /// <param name="file">
+        /// THe file to check the header on.
+        /// </param>
+        public void InsertFileHeader(ICSharpFile file)
+        {
+            FileHeader fileHeader = new FileHeader(file);
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+
+            fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
+            fileHeader.CompanyName = docConfig.CompanyName;
+            fileHeader.CopyrightText = docConfig.Copyright;
+            fileHeader.Summary = Utils.GetSummaryText(file);
+
+            fileHeader.Update();
+        }
+
+        /// <summary>
+        /// Inserts a summary into the file's header.
+        /// </summary>
+        /// <param name="file">
+        /// The file to insert into.
+        /// </param>
+        public void InsertFileHeaderSummary(ICSharpFile file)
+        {
+            FileHeader fileHeader = new FileHeader(file) { Summary = Utils.GetSummaryText(file) };
+            fileHeader.Update();
+        }
+
+        /// <summary>
+        /// Inserts the file name into the file.
+        /// </summary>
+        /// <param name="file">
+        /// The file to insert into.
+        /// </param>
+        public void InsertFileName(ICSharpFile file)
+        {
+            string fileName = file.GetSourceFile().ToProjectFile().Location.Name;
+
+            FileHeader fileHeader = new FileHeader(file) { FileName = fileName };
+            fileHeader.Update();
+        }
+
+        /// <summary>
+        /// Insert a summary element if missing.
+        /// </summary>
+        /// <param name="file">
+        /// The <see cref="ICSharpFile"/> to use.
+        /// </param>
+        /// <param name="declaration">
+        /// The <see cref="ITypeDeclaration"/> to check and fix.
+        /// </param>
+        /// <returns>
+        /// True if it inserted a missing header.
+        /// </returns>
+        public bool InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
+        {
+            StyleCopTrace.In(file, declaration);
+            Param.RequireNotNull(file, "file");
+            Param.RequireNotNull(declaration, "declaration");
+            Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
+
+            bool returnValue = false;
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+
+            bool isIFieldDeclaration = declaration is IFieldDeclaration;
+
+            AccessRights accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
+
+            DeclaredElementType elementType = declaration.DeclaredElement.GetElementType();
+            if ((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
+                && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
+            {
+                DeclarationHeader.CreateNewHeader(declaration, docConfig);
+                returnValue = true;
+            }
+
+            return StyleCopTrace.Out(returnValue);
+        }
+
+        /// <summary>
+        /// Insert a missing parameter element to the comment.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to check and fix.
+        /// </param>
+        public void InsertMissingParamElement(IDeclaration declaration)
+        {
+            Param.RequireNotNull(declaration, "declaration");
+
+            IParametersOwnerDeclaration parametersOwnerDeclaration = declaration as IParametersOwnerDeclaration;
+
+            if (parametersOwnerDeclaration == null)
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            XmlNode xmlNode = declarationHeader.XmlNode;
+            Hashtable ht = new Hashtable();
+
+            IList<IParameterDeclaration> parameters = parametersOwnerDeclaration.ParameterDeclarations;
+
+            if (parameters != null)
+            {
+                foreach (IParameterDeclaration parameter in parameters)
+                {
+                    ht.Add(parameter.DeclaredName, null);
+
+                    if (declarationHeader.ContainsParameter(parameter.DeclaredName))
+                    {
+                        continue;
+                    }
+
+                    XmlNodeList paramNodeList = xmlNode.SelectNodes("//param");
+                    if (paramNodeList != null)
+                    {
+                        XmlNode c = paramNodeList.Count == 0 ? declarationHeader.SummaryXmlNode : paramNodeList.Item(paramNodeList.Count - 1);
+
+                        XmlNode parameterNode = CreateParamNode(xmlNode, parameter);
+
+                        xmlNode.InsertAfter(parameterNode, c);
+                    }
+                }
+            }
+
+            RemoveParamsNotRequired(xmlNode, ht);
+            ReorderParams(xmlNode, parameters);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Inserts a missing summary element.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to get comment from.
+        /// </param>
+        /// <returns>
+        /// True if the element was inserted.
+        /// </returns>
+        public bool InsertMissingSummaryElement(IDeclaration declaration)
+        {
+            bool returnValue = false;
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return false;
+            }
+
+            string summaryText = string.Empty;
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                string text;
+                if (declaration is IInterfaceDeclaration)
+                {
+                    text = declaration.DeclaredName.Substring(1) + " interface";
+                }
+                else
+                {
+                    text = Utils.ConvertTextToSentence(declaration.DeclaredName).ToLower();
+                }
+
+                summaryText = string.Format("The {0}.", text);
+            }
+
+            summaryText = Utils.UpdateTextWithToDoPrefixIfRequired(summaryText, settingsStore);
+
+            XmlNode summaryXmlNode = declarationHeader.SummaryXmlNode;
+
+            if (declarationHeader.HasSummary)
+            {
+                if (declarationHeader.HasEmptySummary)
+                {
+                    summaryXmlNode.InnerText = summaryText;
+                    declarationHeader.Update();
+                    returnValue = true;
+                }
+            }
+            else
+            {
+                XmlNode newChild = CreateNode(declarationHeader.XmlNode, "summary");
+                newChild.InnerText = summaryText;
+                declarationHeader.XmlNode.InsertBefore(newChild, declarationHeader.XmlNode.FirstChild);
+                declarationHeader.Update();
+                returnValue = true;
+            }
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Updates the summary to include all <c>typeparam</c> and remove any extra ones and in the correct order.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="ITypeDeclaration"/> to check and fix.
+        /// </param>
+        public void InsertMissingTypeParamElement(IDeclaration declaration)
+        {
+            ITypeParametersOwner declaredElement = declaration.DeclaredElement as ITypeParametersOwner;
+
+            if (declaredElement == null)
+            {
+                return;
+            }
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            XmlNode xmlNode = declarationHeader.XmlNode;
+
+            Hashtable ht = new Hashtable();
+
+            foreach (ITypeParameter parameter in declaredElement.TypeParameters)
+            {
+                ht.Add(parameter.ShortName, null);
+
+                if (declarationHeader.ContainsTypeParameter(parameter.ShortName))
+                {
+                    continue;
+                }
+
+                XmlNode parameterNode = CreateTypeParamNode(xmlNode, parameter.ShortName);
+
+                XmlNodeList paramNodeList = xmlNode.SelectNodes("//typeparam");
+                if (paramNodeList != null)
+                {
+                    XmlNode c = paramNodeList.Count == 0 ? declarationHeader.SummaryXmlNode : paramNodeList.Item(paramNodeList.Count - 1);
+
+                    xmlNode.InsertAfter(parameterNode, c);
+                }
+            }
+
+            RemoveTypeParamsNotRequired(xmlNode, ht);
+            ReorderTypeParams(xmlNode, declaredElement.TypeParameters);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Inserts a returns element to the element if its missing.
+        /// </summary>
+        /// <param name="memberDeclaration">
+        /// The <see cref="ITypeMemberDeclaration"/> to check and fix.
+        /// </param>
+        /// <param name="returnType">
+        /// The text to insert as the return type.
+        /// </param>
+        public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
+        {
+            Param.RequireNotNull(memberDeclaration, "memberDeclaration");
+
+            DeclarationHeader declarationHeader = new DeclarationHeader(memberDeclaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            string valueText = string.Empty;
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, memberDeclaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                valueText = string.Format("The <see cref=\"{0}\"/>.", returnType.SubstringBefore('{'));
+            }
+
+            XmlNode xmlNode = declarationHeader.XmlNode;
+
+            XmlNode returnsXmlNode = declarationHeader.ReturnsXmlNode;
+
+            if (declarationHeader.HasReturns)
+            {
+                if (string.IsNullOrEmpty(returnsXmlNode.InnerText.Trim()))
+                {
+                    returnsXmlNode.InnerXml = valueText;
+                    declarationHeader.Update();
+                }
+            }
+            else
+            {
+                XmlNode valueNode = CreateNode(xmlNode, "returns");
+                valueNode.InnerXml = valueText;
+                xmlNode.AppendChild(valueNode);
+                declarationHeader.Update();
+            }
+        }
+
+        /// <summary>
+        /// Inserts a value element to the element if its missing.
+        /// </summary>
+        /// <param name="propertyDeclaration">
+        /// The <see cref="IPropertyDeclaration"/> to check and fix.
+        /// </param>
+        public void InsertValueElement(IPropertyDeclaration propertyDeclaration)
+        {
+            DeclarationHeader declarationHeader = new DeclarationHeader(propertyDeclaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited)
+            {
+                return;
+            }
+
+            XmlNode xmlNode = declarationHeader.XmlNode;
+
+            string valueText = string.Empty;
+
+            XmlNode valueXmlNode = declarationHeader.ValueXmlNode;
+
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
+            {
+                valueText = string.Format("The {0}.", Utils.ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
+            }
+
+            if (declarationHeader.HasValue)
+            {
+                if (string.IsNullOrEmpty(valueXmlNode.InnerText.Trim()))
+                {
+                    valueXmlNode.InnerText = valueText;
+                    declarationHeader.Update();
+                }
+            }
+            else
+            {
+                XmlNode valueNode = CreateNode(xmlNode, "value");
+                valueNode.InnerText = valueText;
+                xmlNode.AppendChild(valueNode);
+                declarationHeader.Update();
+            }
+        }
+
+        /// <summary>
+        /// Removes a return element if it currently has one.
+        /// </summary>
+        /// <param name="memberDeclaration">
+        /// The <see cref="ITypeDeclaration"/> to check and fix.
+        /// </param>
+        public void RemoveReturnsElement(ITypeMemberDeclaration memberDeclaration)
+        {
+            DeclarationHeader declarationHeader = new DeclarationHeader(memberDeclaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasReturns)
+            {
+                return;
+            }
+
+            declarationHeader.XmlNode.RemoveChild(declarationHeader.ReturnsXmlNode);
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Swaps a DocCommentNode to a CommentNode.
+        /// </summary>
+        /// <param name="currentNode">
+        /// The node to process.
+        /// </param>
+        public void SwapDocCommentNodeToCommentNode(ITreeNode currentNode)
+        {
+            IDocCommentNode docCommentNode = currentNode as IDocCommentNode;
+
+            // found a triple slash comment thats not in an ElementHeader
+            if (docCommentNode != null)
+            {
+                string newText = string.Format("//{0}", docCommentNode.CommentText);
+                ICommentNode newCommentNode =
+                    (ICommentNode)
+                    CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+
+                using (currentNode.CreateWriteLock())
+                {
+                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
+                }
             }
         }
 
@@ -880,22 +886,22 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
-            var parameterName = parameter.DeclaredName;
+            string parameterName = parameter.DeclaredName;
 
-            var newNode = CreateNode(xmlNode, "param");
-            var newAttribute = xmlNode.OwnerDocument.CreateAttribute("name");
+            XmlNode newNode = CreateNode(xmlNode, "param");
+            XmlAttribute newAttribute = xmlNode.OwnerDocument.CreateAttribute("name");
 
             newAttribute.Value = parameterName;
 
-            var innerText = string.Empty;
+            string innerText = string.Empty;
 
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, parameter.GetSolution());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, parameter.GetSolution());
             if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 innerText = string.Format("The {0}.", Utils.ConvertTextToSentence(parameterName));
             }
 
-            var innerChildTextNode = xmlNode.OwnerDocument.CreateTextNode(innerText);
+            XmlText innerChildTextNode = xmlNode.OwnerDocument.CreateTextNode(innerText);
 
             newNode.AppendChild(innerChildTextNode);
             newNode.Attributes.Append(newAttribute);
@@ -920,8 +926,8 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(xmlNode, "xmlNode");
             Param.RequireValidString(parameterName, "parameterName");
 
-            var newNode = CreateNode(xmlNode, "typeparam");
-            var newAttribute = xmlNode.OwnerDocument.CreateAttribute("name");
+            XmlNode newNode = CreateNode(xmlNode, "typeparam");
+            XmlAttribute newAttribute = xmlNode.OwnerDocument.CreateAttribute("name");
 
             newAttribute.Value = parameterName;
             newNode.Attributes.Append(newAttribute);
@@ -943,16 +949,16 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(xmlNode, "xmlNode");
             Param.RequireNotNull(hashtable, "hashtable");
 
-            var nodeList = xmlNode.SelectNodes("//param");
+            XmlNodeList nodeList = xmlNode.SelectNodes("//param");
 
             if (nodeList != null)
             {
-                for (var i = 0; i < nodeList.Count; i++)
+                for (int i = 0; i < nodeList.Count; i++)
                 {
-                    var node = nodeList[i];
+                    XmlNode node = nodeList[i];
                     if (node != null)
                     {
-                        var attribute = node.Attributes["name"];
+                        XmlAttribute attribute = node.Attributes["name"];
                         if (attribute != null)
                         {
                             if (!hashtable.Contains(attribute.Value))
@@ -979,13 +985,13 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(xmlNode, "xmlNode");
             Param.RequireNotNull(hashtable, "hashtable");
 
-            var nodeList = xmlNode.SelectNodes("//typeparam");
+            XmlNodeList nodeList = xmlNode.SelectNodes("//typeparam");
 
             if (nodeList != null)
             {
-                for (var i = 0; i < nodeList.Count; i++)
+                for (int i = 0; i < nodeList.Count; i++)
                 {
-                    var node = nodeList[i];
+                    XmlNode node = nodeList[i];
 
                     if (!hashtable.Contains(node.Attributes["name"].Value))
                     {
@@ -1008,10 +1014,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         {
             XmlNode refChild = null;
 
-            for (var i = 0; i < parameters.Count; i++)
+            for (int i = 0; i < parameters.Count; i++)
             {
-                var parameter = parameters[i];
-                var node = xmlNode.SelectSingleNode(string.Format("//param[@name='{0}']", parameter.DeclaredName));
+                IParameterDeclaration parameter = parameters[i];
+                XmlNode node = xmlNode.SelectSingleNode(string.Format("//param[@name='{0}']", parameter.DeclaredName));
 
                 if (i == 0)
                 {
@@ -1043,10 +1049,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         {
             XmlNode refChild = null;
 
-            for (var i = 0; i < typeParameters.Count; i++)
+            for (int i = 0; i < typeParameters.Count; i++)
             {
-                var typeParameter = typeParameters[i];
-                var node = xmlNode.SelectSingleNode(string.Format("//typeparam[@name='{0}']", typeParameter.ShortName));
+                ITypeParameter typeParameter = typeParameters[i];
+                XmlNode node = xmlNode.SelectSingleNode(string.Format("//typeparam[@name='{0}']", typeParameter.ShortName));
 
                 if (i == 0)
                 {
@@ -1072,7 +1078,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(typeDeclaration, "typeDeclaration");
             Param.RequireNotNull(options, "options");
 
-            var insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
+            bool insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
 
             if (insertMissingParamTagOption)
             {
@@ -1104,9 +1110,9 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 return;
             }
 
-            var insertMissingParamTagOption = true;
-            var insertMissingReturnTagOption = true;
-            var removeReturnTagOnVoidElementsOption = true;
+            bool insertMissingParamTagOption = true;
+            bool insertMissingReturnTagOption = true;
+            bool removeReturnTagOnVoidElementsOption = true;
 
             if (options != null)
             {
@@ -1128,7 +1134,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 return;
             }
 
-            var declaredTypeFromClrName = methodDeclaration.DeclaredElement.ReturnType as DeclaredTypeFromCLRName;
+            DeclaredTypeFromCLRName declaredTypeFromClrName = methodDeclaration.DeclaredElement.ReturnType as DeclaredTypeFromCLRName;
 
             if (removeReturnTagOnVoidElementsOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1617))
             {
@@ -1159,26 +1165,27 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
-            var elementsThatHaveInnerTextEndingWithPeriod = new List<string>(new[] { "description", "exception", "para", "param", "permission", "remarks", "returns", "summary", "typeparam", "value" });
+            List<string> elementsThatHaveInnerTextEndingWithPeriod =
+                new List<string>(new[] { "description", "exception", "para", "param", "permission", "remarks", "returns", "summary", "typeparam", "value" });
 
-            for (var i = 0; i < xmlNode.ChildNodes.Count; i++)
+            for (int i = 0; i < xmlNode.ChildNodes.Count; i++)
             {
-                var childNode = xmlNode.ChildNodes[i];
-                var strippedInnerText = childNode.InnerText.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant().Trim();
+                XmlNode childNode = xmlNode.ChildNodes[i];
+                string strippedInnerText = childNode.InnerText.Replace(" ", string.Empty).Replace("-", string.Empty).ToLowerInvariant().Trim();
 
                 if (elementsThatHaveInnerTextEndingWithPeriod.Contains(childNode.Name) && strippedInnerText != "or")
                 {
-                    var innerText = childNode.InnerText.Trim();
+                    string innerText = childNode.InnerText.Trim();
                     if (innerText.Length > 0)
                     {
-                        var lastNonWhitespacePosition = Utils.GetLastNonWhitespaceCharacterPosition(innerText);
+                        int lastNonWhitespacePosition = Utils.GetLastNonWhitespaceCharacterPosition(innerText);
 
                         if (innerText[lastNonWhitespacePosition] != '.')
                         {
                             // insert a '.'
                             if (childNode.LastChild is XmlText)
                             {
-                                var text = childNode.LastChild.InnerText;
+                                string text = childNode.LastChild.InnerText;
                                 lastNonWhitespacePosition = Utils.GetLastNonWhitespaceCharacterPosition(text);
 
                                 if (text[lastNonWhitespacePosition] != '.')
@@ -1189,12 +1196,12 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                             }
                             else if (childNode.LastChild is XmlElement && childNode.Name != "member")
                             {
-                                var newNode = childNode.OwnerDocument.CreateTextNode(".\r\n");
+                                XmlText newNode = childNode.OwnerDocument.CreateTextNode(".\r\n");
                                 childNode.AppendChild(newNode);
                             }
                             else if (childNode.LastChild is XmlWhitespace && childNode.Name != "member")
                             {
-                                var newNode = childNode.OwnerDocument.CreateTextNode(".");
+                                XmlText newNode = childNode.OwnerDocument.CreateTextNode(".");
                                 childNode.InsertBefore(newNode, childNode.LastChild);
                             }
                         }
@@ -1223,13 +1230,13 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(typeDeclarations, "typeDeclarations");
 
-            foreach (var typeDeclaration in typeDeclarations)
+            foreach (ICSharpTypeDeclaration typeDeclaration in typeDeclarations)
             {
                 this.CheckDeclarationDocumentation(file, typeDeclaration, options);
 
                 this.CheckClassDeclarationForParams(typeDeclaration, options);
 
-                foreach (var memberDeclaration in typeDeclaration.MemberDeclarations)
+                foreach (ICSharpTypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
                     this.CheckDeclarationDocumentation(file, memberDeclaration, options);
                 }
@@ -1256,13 +1263,13 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(typeDeclarations, "typeDeclarations");
 
-            foreach (var typeDeclaration in typeDeclarations)
+            foreach (ITypeDeclaration typeDeclaration in typeDeclarations)
             {
                 this.CheckDeclarationDocumentation(file, typeDeclaration, options);
 
                 this.CheckClassDeclarationForParams(typeDeclaration, options);
 
-                foreach (var memberDeclaration in typeDeclaration.MemberDeclarations)
+                foreach (ITypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
                     this.CheckDeclarationDocumentation(file, memberDeclaration, options);
                 }
@@ -1302,7 +1309,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
         /// </param>
         private void SwapDocCommentsToSingleLineComments(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is IDocCommentNode)
                 {
@@ -1332,20 +1339,20 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
                 return;
             }
 
-            for (var i = 0; i < xmlNode.ChildNodes.Count; i++)
+            for (int i = 0; i < xmlNode.ChildNodes.Count; i++)
             {
-                var childNode = xmlNode.ChildNodes[i];
+                XmlNode childNode = xmlNode.ChildNodes[i];
 
                 // we only swap the 1st char of the text if we are the first child otherwise we'd capitalise the first char of XmlText that appears after a <see cref> item.
                 if (childNode is XmlText && i == 0)
                 {
-                    var text = childNode.InnerText;
-                    var firstNonWhitespacePosition = Utils.GetFirstNonWhitespaceCharacterPosition(text);
+                    string text = childNode.InnerText;
+                    int firstNonWhitespacePosition = Utils.GetFirstNonWhitespaceCharacterPosition(text);
 
                     if (!char.IsUpper(text[firstNonWhitespacePosition]) && !char.IsDigit(text[firstNonWhitespacePosition]))
                     {
                         // replace the first char here
-                        var a = text.ToCharArray();
+                        char[] a = text.ToCharArray();
                         a[firstNonWhitespacePosition] = char.ToUpperInvariant(a[firstNonWhitespacePosition]);
                         childNode.InnerText = new string(a);
                     }
@@ -1370,17 +1377,17 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
             // The idea here is to load the existing header into our FileHeader object
             // The FileHeader object will ensure that the format of the header is correct even if we're not changing its contents
             // Thus we'll swap it out if its changed at the end.
-            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
-            var updateFileHeaderOption = options.SA1633SA1641UpdateFileHeader;
+            string fileName = file.GetSourceFile().ToProjectFile().Location.Name;
+            UpdateFileHeaderStyle updateFileHeaderOption = options.SA1633SA1641UpdateFileHeader;
 
             if (updateFileHeaderOption == UpdateFileHeaderStyle.Ignore)
             {
                 return;
             }
 
-            var docConfig = this.GetDocumentationRulesConfig(file);
-            var summaryText = Utils.GetSummaryText(file);
-            var fileHeader = new FileHeader(file) { InsertSummary = options.SA1639FileHeaderMustHaveSummary };
+            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            string summaryText = Utils.GetSummaryText(file);
+            FileHeader fileHeader = new FileHeader(file) { InsertSummary = options.SA1639FileHeaderMustHaveSummary };
 
             switch (updateFileHeaderOption)
             {

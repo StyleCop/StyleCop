@@ -51,7 +51,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -64,21 +64,25 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Load(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = new SpacingOptions();
-            var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
+            SpacingOptions options = new SpacingOptions();
+            XmlElement optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
 
             if (optionsElement != null)
             {
                 try
                 {
-                    options.SA1001CommasMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1001CommasMustBeSpacedCorrectly"));
+                    options.SA1001CommasMustBeSpacedCorrectly =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1001CommasMustBeSpacedCorrectly"));
                     options.SA1005SingleLineCommentsMustBeginWithSingleSpace =
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace"));
                     options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace =
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace"));
-                    options.SA1021NegativeSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly"));
-                    options.SA1022PositiveSignsMustBeSpacedCorrectly = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly"));
-                    options.SA1025CodeMustNotContainMultipleWhitespaceInARow = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow"));
+                    options.SA1021NegativeSignsMustBeSpacedCorrectly =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly"));
+                    options.SA1022PositiveSignsMustBeSpacedCorrectly =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly"));
+                    options.SA1025CodeMustNotContainMultipleWhitespaceInARow =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow"));
                 }
                 catch (ArgumentException)
                 {
@@ -113,17 +117,21 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Save(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = profile.GetSetting(this);
-            var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
+            SpacingOptions options = profile.GetSetting(this);
+            XmlElement optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1001CommasMustBeSpacedCorrectly", options.SA1001CommasMustBeSpacedCorrectly.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1001CommasMustBeSpacedCorrectly", options.SA1001CommasMustBeSpacedCorrectly.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1005SingleLineCommentsMustBeginWithSingleSpace", options.SA1005SingleLineCommentsMustBeginWithSingleSpace.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1006PreprocessorKeywordsMustNotBePrecededBySpace", options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow", options.SA1025CodeMustNotContainMultipleWhitespaceInARow.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1021NegativeSignsMustBeSpacedCorrectly", options.SA1021NegativeSignsMustBeSpacedCorrectly.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1022PositiveSignsMustBeSpacedCorrectly", options.SA1022PositiveSignsMustBeSpacedCorrectly.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1025CodeMustNotContainMultipleWhitespaceInARow", options.SA1025CodeMustNotContainMultipleWhitespaceInARow.ToString());
         }
 
         #endregion

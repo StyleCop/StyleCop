@@ -15,13 +15,13 @@
 //   SA1642: ConstructorSummaryDocumentationMustBeginWithStandardTextBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     public class SA1642ConstructorSummaryDocumentationMustBeginWithStandardTextBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,11 +48,11 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
             if (element != null)
             {
-                var constructorDeclaration = element.GetContainingNode<IConstructorDeclaration>(true);
+                IConstructorDeclaration constructorDeclaration = element.GetContainingNode<IConstructorDeclaration>(true);
                 if (constructorDeclaration != null)
                 {
                     new DocumentationRules().EnsureConstructorSummaryDocBeginsWithStandardText(constructorDeclaration);

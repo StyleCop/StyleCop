@@ -47,36 +47,47 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
     /// </summary>
     internal class ReadabilityRules
     {
+        #region Static Fields
+
         /// <summary>
         /// The built-in type aliases for C#.
         /// </summary>
         private static readonly string[][] BuiltInTypes = new[]
-        {
-            new[] { "Boolean", "System.Boolean", "bool" },
-            new[] { "Object", "System.Object", "object" },
-            new[] { "String", "System.String", "string" },
-            new[] { "Int16", "System.Int16", "short" },
-            new[] { "UInt16", "System.UInt16", "ushort" },
-            new[] { "Int32", "System.Int32", "int" },
-            new[] { "UInt32", "System.UInt32", "uint" },
-            new[] { "Int64", "System.Int64", "long" },
-            new[] { "UInt64", "System.UInt64", "ulong" },
-            new[] { "Double", "System.Double", "double" },
-            new[] { "Single", "System.Single", "float" },
-            new[] { "Byte", "System.Byte", "byte" },
-            new[] { "SByte", "System.SByte", "sbyte" },
-            new[] { "Char", "System.Char", "char" },
-            new[] { "Decimal", "System.Decimal", "decimal" }
-        };
+                                                              {
+                                                                  new[] { "Boolean", "System.Boolean", "bool" }, new[] { "Object", "System.Object", "object" }, 
+                                                                  new[] { "String", "System.String", "string" }, new[] { "Int16", "System.Int16", "short" }, 
+                                                                  new[] { "UInt16", "System.UInt16", "ushort" }, new[] { "Int32", "System.Int32", "int" }, 
+                                                                  new[] { "UInt32", "System.UInt32", "uint" }, new[] { "Int64", "System.Int64", "long" }, 
+                                                                  new[] { "UInt64", "System.UInt64", "ulong" }, new[] { "Double", "System.Double", "double" }, 
+                                                                  new[] { "Single", "System.Single", "float" }, new[] { "Byte", "System.Byte", "byte" }, 
+                                                                  new[] { "SByte", "System.SByte", "sbyte" }, new[] { "Char", "System.Char", "char" }, 
+                                                                  new[] { "Decimal", "System.Decimal", "decimal" }
+                                                              };
+
+        #endregion
+
+        #region Fields
 
         private readonly IShellLocks shellLocks;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadabilityRules"/> class.
+        /// </summary>
+        /// <param name="shellLocks">
+        /// The shell locks.
+        /// </param>
         public ReadabilityRules(IShellLocks shellLocks)
         {
             this.shellLocks = shellLocks;
         }
 
-        #region Public Methods
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>
         /// Moves the comment token specified after the next available non whitespace char (normally an open curly bracket).
@@ -90,18 +101,18 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
             {
                 // move comment inside block curly bracket here
                 // we copy it, then insert it and then delete the copied one
-                var startOfTokensToDelete = Utils.GetFirstNonWhitespaceTokenToLeft(commentTokenNode).GetNextToken();
-                var endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(commentTokenNode);
-                var startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
+                ITokenNode startOfTokensToDelete = Utils.GetFirstNonWhitespaceTokenToLeft(commentTokenNode).GetNextToken();
+                ITokenNode endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(commentTokenNode);
+                ITokenNode startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
 
-                var openCurlyBracketTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(commentTokenNode);
-                var newCommentTokenNode = commentTokenNode.Copy(null);
-                var tokenNodeToInsertAfter = Utils.GetFirstNewLineTokenToRight(openCurlyBracketTokenNode);
+                ITokenNode openCurlyBracketTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(commentTokenNode);
+                ITokenNode newCommentTokenNode = commentTokenNode.Copy(null);
+                ITokenNode tokenNodeToInsertAfter = Utils.GetFirstNewLineTokenToRight(openCurlyBracketTokenNode);
                 LowLevelModificationUtil.AddChildAfter(tokenNodeToInsertAfter, new[] { newCommentTokenNode });
                 LowLevelModificationUtil.AddChildAfter(newCommentTokenNode, newCommentTokenNode.InsertNewLineAfter());
 
                 DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                var endOfTokensToFormat = newCommentTokenNode;
+                ITokenNode endOfTokensToFormat = newCommentTokenNode;
 
                 CSharpFormatterHelper.FormatterInstance.Format(startOfTokensToFormat, endOfTokensToFormat);
             }
@@ -117,33 +128,33 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         {
             using (WriteLockCookie.Create(true))
             {
-                var newLocationTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(startRegionNode.Message);
+                ITokenNode newLocationTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(startRegionNode.Message);
 
                 // if its a start region there is probably a corresponding end region
                 // find it, and move it inside the block
                 // find the position to delete from
-                var startOfTokensToDelete = Utils.GetFirstNewLineTokenToLeft(startRegionNode.NumberSign);
-                var endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(startRegionNode.Message);
-                var startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
+                ITokenNode startOfTokensToDelete = Utils.GetFirstNewLineTokenToLeft(startRegionNode.NumberSign);
+                ITokenNode endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(startRegionNode.Message);
+                ITokenNode startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
 
-                var endRegionNode = startRegionNode.EndRegion;
-                var newStartRegion = startRegionNode.Copy(null);
-                var firstNonWhitespaceAfterBracket = Utils.GetFirstNonWhitespaceTokenToRight(newLocationTokenNode);
+                IEndRegion endRegionNode = startRegionNode.EndRegion;
+                IStartRegion newStartRegion = startRegionNode.Copy(null);
+                ITokenNode firstNonWhitespaceAfterBracket = Utils.GetFirstNonWhitespaceTokenToRight(newLocationTokenNode);
 
                 LowLevelModificationUtil.AddChildBefore(firstNonWhitespaceAfterBracket, new[] { newStartRegion });
 
                 newStartRegion.InsertNewLineAfter();
 
                 LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                var endOfTokensToFormat = newStartRegion;
+                IStartRegion endOfTokensToFormat = newStartRegion;
 
                 if (endRegionNode != null)
                 {
                     startOfTokensToDelete = Utils.GetFirstNewLineTokenToLeft(endRegionNode.NumberSign);
                     endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(endRegionNode.NumberSign);
 
-                    var newEndRegionNode = endRegionNode.Copy(null);
-                    var newLineToken = Utils.GetFirstNonWhitespaceTokenToLeft(endRegionNode.NumberSign);
+                    IEndRegion newEndRegionNode = endRegionNode.Copy(null);
+                    ITokenNode newLineToken = Utils.GetFirstNonWhitespaceTokenToLeft(endRegionNode.NumberSign);
                     LowLevelModificationUtil.AddChildBefore(newLineToken, new[] { newEndRegionNode });
 
                     newEndRegionNode.InsertNewLineAfter();
@@ -166,18 +177,18 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         {
             // we don't remove empty lines from Element Doc Comments in here
             // the DeclarationHeader types take care of that.
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var commentNode = currentNode as ICommentNode;
+                    ICommentNode commentNode = currentNode as ICommentNode;
                     if (commentNode != null && !(commentNode is IDocCommentNode))
                     {
                         if (commentNode.CommentText.Trim() == string.Empty)
                         {
-                            var leftToken = Utils.GetFirstNewLineTokenToLeft((ITokenNode)currentNode);
+                            ITokenNode leftToken = Utils.GetFirstNewLineTokenToLeft((ITokenNode)currentNode);
 
-                            var rightToken = Utils.GetFirstNewLineTokenToRight((ITokenNode)currentNode);
+                            ITokenNode rightToken = Utils.GetFirstNewLineTokenToRight((ITokenNode)currentNode);
 
                             if (leftToken == null)
                             {
@@ -220,35 +231,35 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         public static void SwapBaseToThisUnlessLocalImplementation(IInvocationExpression invocationExpression)
         {
-            var isOverride = false;
+            bool isOverride = false;
 
-            var isNew = false;
+            bool isNew = false;
 
-            var invokedExpression = invocationExpression.InvokedExpression;
+            IPrimaryExpression invokedExpression = invocationExpression.InvokedExpression;
 
             if (invokedExpression != null)
             {
-                var referenceExpressionNode = invokedExpression as IReferenceExpression;
+                IReferenceExpression referenceExpressionNode = invokedExpression as IReferenceExpression;
 
                 if (referenceExpressionNode != null)
                 {
-                    var referenceExpression = invokedExpression as IReferenceExpression;
+                    IReferenceExpression referenceExpression = invokedExpression as IReferenceExpression;
                     if (referenceExpression != null)
                     {
-                        var qualifierExpression = referenceExpression.QualifierExpression;
+                        ICSharpExpression qualifierExpression = referenceExpression.QualifierExpression;
                         if (qualifierExpression is IBaseExpression)
                         {
-                            var methodName = referenceExpressionNode.NameIdentifier.Name;
+                            string methodName = referenceExpressionNode.NameIdentifier.Name;
 
-                            var typeDeclaration = invocationExpression.GetContainingNode<ICSharpTypeDeclaration>(true);
+                            ICSharpTypeDeclaration typeDeclaration = invocationExpression.GetContainingNode<ICSharpTypeDeclaration>(true);
 
                             if (typeDeclaration != null)
                             {
-                                foreach (var memberDeclaration in typeDeclaration.MemberDeclarations)
+                                foreach (ICSharpTypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                                 {
                                     if (memberDeclaration.DeclaredName == methodName)
                                     {
-                                        var methodDeclaration = memberDeclaration as IMethodDeclaration;
+                                        IMethodDeclaration methodDeclaration = memberDeclaration as IMethodDeclaration;
                                         if (methodDeclaration != null)
                                         {
                                             isOverride = methodDeclaration.IsOverride;
@@ -266,7 +277,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
                                 using (WriteLockCookie.Create(true))
                                 {
                                     // swap the base to this
-                                    var expression = CSharpElementFactory.GetInstance(invocationExpression.GetPsiModule()).CreateExpression("this");
+                                    ICSharpExpression expression = CSharpElementFactory.GetInstance(invocationExpression.GetPsiModule()).CreateExpression("this");
 
                                     referenceExpression.SetQualifierExpression(expression);
                                 }
@@ -285,44 +296,44 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         public static void SwapToBuiltInTypeAlias(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
-                var typeArgumentListNode = currentNode as ITypeArgumentList;
+                ITypeArgumentList typeArgumentListNode = currentNode as ITypeArgumentList;
                 if (typeArgumentListNode != null)
                 {
                     SwapGenericDeclarationToBuiltInType(typeArgumentListNode);
                 }
                 else
                 {
-                    var methodDeclarationNode = currentNode as IMethodDeclaration;
+                    IMethodDeclaration methodDeclarationNode = currentNode as IMethodDeclaration;
                     if (methodDeclarationNode != null)
                     {
                         SwapReturnTypeToBuiltInType(methodDeclarationNode);
                     }
                     else
                     {
-                        var variableDeclaration = currentNode as IVariableDeclaration;
+                        IVariableDeclaration variableDeclaration = currentNode as IVariableDeclaration;
                         if (variableDeclaration != null)
                         {
                             SwapVariableDeclarationToBuiltInType(variableDeclaration);
                         }
                         else
                         {
-                            var creationExpressionNode = currentNode as IObjectCreationExpression;
+                            IObjectCreationExpression creationExpressionNode = currentNode as IObjectCreationExpression;
                             if (creationExpressionNode != null)
                             {
                                 SwapObjectCreationToBuiltInType(creationExpressionNode);
                             }
                             else
                             {
-                                var arrayCreationNode = currentNode as IArrayCreationExpression;
+                                IArrayCreationExpression arrayCreationNode = currentNode as IArrayCreationExpression;
                                 if (arrayCreationNode != null)
                                 {
                                     SwapArrayCreationToBuiltInType(arrayCreationNode);
                                 }
                                 else
                                 {
-                                    var referenceExpressionNode = currentNode as IReferenceExpression;
+                                    IReferenceExpression referenceExpressionNode = currentNode as IReferenceExpression;
                                     if (referenceExpressionNode != null)
                                     {
                                         SwapReferenceExpressionToBuiltInType(referenceExpressionNode);
@@ -352,15 +363,15 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         public void Execute(ReadabilityOptions options, ICSharpFile file)
         {
             StyleCopTrace.In(options, file);
-            var dontPrefixCallsWithBaseUnlessLocalImplementationExists = options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists;
-            var codeMustNotContainEmptyStatements = options.SA1106CodeMustNotContainEmptyStatements;
-            var blockStatementsMustNotContainEmbeddedComments = options.SA1108BlockStatementsMustNotContainEmbeddedComments;
-            var blockStatementsMustNotContainEmbeddedRegions = options.SA1109BlockStatementsMustNotContainEmbeddedRegions;
-            var commentsMustContainText = options.SA1120CommentsMustContainText;
-            var useBuiltInTypeAlias = options.SA1121UseBuiltInTypeAlias;
-            var useStringEmptyForEmptyStrings = options.SA1122UseStringEmptyForEmptyStrings;
-            var dontPlaceRegionsWithinElements = options.SA1123DoNotPlaceRegionsWithinElements;
-            var codeMustNotContainEmptyRegions = options.SA1124CodeMustNotContainEmptyRegions;
+            bool dontPrefixCallsWithBaseUnlessLocalImplementationExists = options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists;
+            bool codeMustNotContainEmptyStatements = options.SA1106CodeMustNotContainEmptyStatements;
+            bool blockStatementsMustNotContainEmbeddedComments = options.SA1108BlockStatementsMustNotContainEmbeddedComments;
+            bool blockStatementsMustNotContainEmbeddedRegions = options.SA1109BlockStatementsMustNotContainEmbeddedRegions;
+            bool commentsMustContainText = options.SA1120CommentsMustContainText;
+            bool useBuiltInTypeAlias = options.SA1121UseBuiltInTypeAlias;
+            bool useStringEmptyForEmptyStrings = options.SA1122UseStringEmptyForEmptyStrings;
+            bool dontPlaceRegionsWithinElements = options.SA1123DoNotPlaceRegionsWithinElements;
+            bool codeMustNotContainEmptyRegions = options.SA1124CodeMustNotContainEmptyRegions;
 
             if (dontPlaceRegionsWithinElements)
             {
@@ -427,15 +438,15 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         {
             using (WriteLockCookie.Create(true))
             {
-                var a = new List<ITokenNode>();
+                List<ITokenNode> a = new List<ITokenNode>();
 
-                var tokenNodeToStopAt = last.GetNextToken();
-                for (var foundToken = first; foundToken != tokenNodeToStopAt; foundToken = foundToken.GetNextToken())
+                ITokenNode tokenNodeToStopAt = last.GetNextToken();
+                for (ITokenNode foundToken = first; foundToken != tokenNodeToStopAt; foundToken = foundToken.GetNextToken())
                 {
                     a.Add(foundToken);
                 }
 
-                foreach (var tokenNode in a)
+                foreach (ITokenNode tokenNode in a)
                 {
                     LowLevelModificationUtil.DeleteChild(tokenNode);
                 }
@@ -450,7 +461,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private static void ProcessForeachVariableDeclaration(IForeachVariableDeclaration foreachVariableDeclaration)
         {
-            var variable = (ILocalVariable)foreachVariableDeclaration.DeclaredElement;
+            ILocalVariable variable = foreachVariableDeclaration.DeclaredElement;
             if (variable != null)
             {
                 if (!foreachVariableDeclaration.IsVar)
@@ -471,11 +482,11 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private static void ProcessLocalVariableDeclaration(ILocalVariableDeclaration localVariableDeclaration)
         {
-            var multipleDeclaration = MultipleLocalVariableDeclarationNavigator.GetByDeclarator(localVariableDeclaration);
+            IMultipleLocalVariableDeclaration multipleDeclaration = MultipleLocalVariableDeclarationNavigator.GetByDeclarator(localVariableDeclaration);
 
             if (multipleDeclaration.Declarators.Count > 1)
             {
-                var newType = CSharpTypeFactory.CreateType(multipleDeclaration.TypeUsage);
+                IType newType = CSharpTypeFactory.CreateType(multipleDeclaration.TypeUsage);
 
                 using (WriteLockCookie.Create(true))
                 {
@@ -484,7 +495,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
             }
             else
             {
-                var variable = (ILocalVariable)localVariableDeclaration.DeclaredElement;
+                ILocalVariable variable = localVariableDeclaration.DeclaredElement;
                 if (variable != null)
                 {
                     if (!multipleDeclaration.IsVar)
@@ -510,16 +521,16 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    var fileIsCSharp30 = arrayCreationExpression.IsCSharp3Supported(); 
+                    bool fileIsCSharp30 = arrayCreationExpression.IsCSharp3Supported();
 
                     // If the array creation type is the same type as the initializer (and we are CSharp 3.0 or greater) remove it completely
-                    var arrayType = arrayCreationExpression.Type() as IArrayType;
-                    if ((arrayType != null) && arrayCreationExpression.ArrayInitializer != null && fileIsCSharp30 &&
-                        arrayType.ElementType.Equals(arrayCreationExpression.ArrayInitializer.GetElementType(true)))
+                    IArrayType arrayType = arrayCreationExpression.Type() as IArrayType;
+                    if ((arrayType != null) && arrayCreationExpression.ArrayInitializer != null && fileIsCSharp30
+                        && arrayType.ElementType.Equals(arrayCreationExpression.ArrayInitializer.GetElementType(true)))
                     {
-                        var dims = arrayCreationExpression.Dims;
+                        IList<IRankSpecifier> dims = arrayCreationExpression.Dims;
                         arrayCreationExpression.SetArrayType(null);
-                        for (var i = 0; i < (dims.Count - 1); i++)
+                        for (int i = 0; i < (dims.Count - 1); i++)
                         {
                             using (WriteLockCookie.Create(true))
                             {
@@ -527,7 +538,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
                             }
                         }
 
-                        foreach (var size in arrayCreationExpression.Sizes)
+                        foreach (ICSharpExpression size in arrayCreationExpression.Sizes)
                         {
                             if (size != null)
                             {
@@ -557,17 +568,17 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private static void SwapGenericDeclarationToBuiltInType(ITypeArgumentList node)
         {
-            var project = node.GetPsiModule();
-            var typeUsageNodes = node.TypeArgumentNodes;
-            var types = node.TypeArguments;
+            IPsiModule project = node.GetPsiModule();
+            IList<ITypeUsage> typeUsageNodes = node.TypeArgumentNodes;
+            IList<IType> types = node.TypeArguments;
 
             using (WriteLockCookie.Create(true))
             {
-                for (var i = 0; i < typeUsageNodes.Count; i++)
+                for (int i = 0; i < typeUsageNodes.Count; i++)
                 {
                     if (!types[i].IsUnknown)
                     {
-                        var newTypeUsageNode = CSharpElementFactory.GetInstance(project).CreateTypeUsageNode(types[i]);
+                        ITypeUsage newTypeUsageNode = CSharpElementFactory.GetInstance(project).CreateTypeUsageNode(types[i]);
 
                         using (WriteLockCookie.Create(true))
                         {
@@ -586,11 +597,13 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private static void SwapObjectCreationToBuiltInType(IObjectCreationExpression objectCreationExpressionNode)
         {
-            var project = objectCreationExpressionNode.GetPsiModule();
+            IPsiModule project = objectCreationExpressionNode.GetPsiModule();
 
             using (WriteLockCookie.Create(true))
             {
-                var tmpExpression = (IObjectCreationExpression)CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
+                IObjectCreationExpression tmpExpression =
+                    (IObjectCreationExpression)
+                    CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
                 if (tmpExpression != null)
                 {
                     objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
@@ -606,8 +619,8 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private static void SwapReferenceExpressionToBuiltInType(IReferenceExpression referenceExpression)
         {
-            var project = referenceExpression.GetPsiModule();
-            var qualifierExpression = referenceExpression.QualifierExpression;
+            IPsiModule project = referenceExpression.GetPsiModule();
+            ICSharpExpression qualifierExpression = referenceExpression.QualifierExpression;
 
             if (qualifierExpression != null)
             {
@@ -659,8 +672,8 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
             }
             else
             {
-                var declaredElement = variableDeclaration.DeclaredElement;
-                var typeOwner = (ITypeOwner)declaredElement;
+                IDeclaredElement declaredElement = variableDeclaration.DeclaredElement;
+                ITypeOwner typeOwner = (ITypeOwner)declaredElement;
 
                 if (typeOwner != null)
                 {
@@ -680,18 +693,18 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void BlockStatementsMustNotContainEmbeddedComments(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.LBRACE)
                     {
-                        var previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(tokenNode);
+                        ITokenNode previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(tokenNode);
                         if (previousTokenNode.GetTokenType() == CSharpTokenType.END_OF_LINE_COMMENT)
                         {
-                            var commentNode = previousTokenNode.GetContainingNode<ICommentNode>(true);
+                            ICommentNode commentNode = previousTokenNode.GetContainingNode<ICommentNode>(true);
                             MoveCommentInsideNextOpenCurlyBracket(commentNode);
                         }
                     }
@@ -712,20 +725,20 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void BlockStatementsMustNotContainEmbeddedRegions(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.LBRACE)
                     {
-                        var previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(tokenNode);
-                        var previousTokenNode2 = previousTokenNode.GetPrevToken();
+                        ITokenNode previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(tokenNode);
+                        ITokenNode previousTokenNode2 = previousTokenNode.GetPrevToken();
 
                         if (previousTokenNode.GetTokenType() == CSharpTokenType.PP_MESSAGE && previousTokenNode2.GetTokenType() == CSharpTokenType.PP_START_REGION)
                         {
-                            var startRegionNode = previousTokenNode.GetContainingNode<IStartRegion>(true);
+                            IStartRegion startRegionNode = previousTokenNode.GetContainingNode<IStartRegion>(true);
                             if (startRegionNode != null)
                             {
                                 MoveRegionInsideNextOpenCurlyBracket(startRegionNode);
@@ -743,23 +756,23 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
 
         private void CodeMustNotContainEmptyRegions(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.PP_START_REGION)
                     {
-                        var startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
+                        IStartRegion startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
 
-                        var endRegion = startRegionNode.EndRegion;
+                        IEndRegion endRegion = startRegionNode.EndRegion;
 
                         if (endRegion != null)
                         {
-                            var previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(endRegion.NumberSign);
+                            ITokenNode previousTokenNode = Utils.GetFirstNonWhitespaceTokenToLeft(endRegion.NumberSign);
 
-                            var a = previousTokenNode.GetContainingNode<IStartRegion>(true);
+                            IStartRegion a = previousTokenNode.GetContainingNode<IStartRegion>(true);
 
                             if (a != null && a.Equals(startRegionNode))
                             {
@@ -788,15 +801,15 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void CodeMustNotContainEmptyStatements(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.SEMICOLON && !(tokenNode.Parent is IForStatement))
                     {
-                        var nextNonWhitespaceToken = Utils.GetFirstNonWhitespaceTokenToRight(tokenNode);
+                        ITokenNode nextNonWhitespaceToken = Utils.GetFirstNonWhitespaceTokenToRight(tokenNode);
 
                         while (nextNonWhitespaceToken.GetTokenType() == CSharpTokenType.SEMICOLON)
                         {
@@ -830,21 +843,21 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void DoNotPlaceRegionsWithinElements(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.PP_START_REGION)
                     {
-                        var startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
+                        IStartRegion startRegionNode = tokenNode.GetContainingNode<IStartRegion>(true);
                         if (startRegionNode != null)
                         {
                             if (startRegionNode.Parent is IBlock)
                             {
                                 // we're in a block so remove the end and start region
-                                var endRegionNode = startRegionNode.EndRegion;
+                                IEndRegion endRegionNode = startRegionNode.EndRegion;
 
                                 using (WriteLockCookie.Create(true))
                                 {
@@ -871,9 +884,9 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
-                var invocationExpression = currentNode as IInvocationExpression;
+                IInvocationExpression invocationExpression = currentNode as IInvocationExpression;
                 if (invocationExpression != null)
                 {
                     SwapBaseToThisUnlessLocalImplementation(invocationExpression);
@@ -894,26 +907,28 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         private void ReplaceEmptyStringsWithStringDotEmpty(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 if (currentNode is ITokenNode)
                 {
-                    var tokenNode = currentNode as ITokenNode;
+                    ITokenNode tokenNode = currentNode as ITokenNode;
 
                     if (tokenNode.GetTokenType() == CSharpTokenType.STRING_LITERAL)
                     {
-                        var attribute = tokenNode.GetContainingNode<IAttribute>(true);
-                        var switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
-                        var constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
+                        IAttribute attribute = tokenNode.GetContainingNode<IAttribute>(true);
+                        ISwitchLabelStatement switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
+                        IConstantDeclaration constantDeclaration = tokenNode.GetContainingNode<IConstantDeclaration>(true);
 
                         // Not for attributes switch labels or constant declarations
                         if (attribute == null && switchLabelStatement == null && constantDeclaration == null)
                         {
-                            var text = currentNode.GetText();
+                            string text = currentNode.GetText();
                             if (text == "\"\"" || text == "@\"\"")
                             {
                                 const string NewText = "string.Empty";
-                                var newLiteral = (ITokenNode)CSharpTokenType.STRING_LITERAL.Create(new JB::JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
+                                ITokenNode newLiteral =
+                                    (ITokenNode)
+                                    CSharpTokenType.STRING_LITERAL.Create(new JB::JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
 
                                 using (WriteLockCookie.Create(true))
                                 {

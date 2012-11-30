@@ -15,7 +15,6 @@
 //   StyleCopRules definition.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Core
 {
     /// <summary>
@@ -23,7 +22,7 @@ namespace StyleCop.ReSharper513.Core
     /// </summary>
     internal class StyleCopRules
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Short rule name.

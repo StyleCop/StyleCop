@@ -15,7 +15,6 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper700.Options
@@ -40,12 +39,17 @@ namespace StyleCop.ReSharper700.Options
     [SettingsKey(typeof(Missing), "StyleCop Options")]
     public class StyleCopOptionsSettingsKey
     {
-        #region Constants and Fields
+        #region Fields
 
         /// <summary>
         /// Set to true to always check for updates when Visual Studio starts.
         /// </summary>
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
+
+        /// <summary>
+        /// Set to true when we've attempted to get the StyleCop path.
+        /// </summary>
+        private bool attemptedToGetStyleCopPath;
 
         /// <summary>
         /// Tracks whether we should check for updates.
@@ -62,14 +66,27 @@ namespace StyleCop.ReSharper700.Options
         /// </summary>
         private string styleCopDetectedPath;
 
-        /// <summary>
-        /// Set to true when we've attempted to get the StyleCop path.
-        /// </summary>
-        private bool attemptedToGetStyleCopPath;
-
         #endregion
 
-        #region Properties
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the analysis executes as you type.
+        /// </summary>
+        [SettingsEntry(true, "Analysis Enabled")]
+        public bool AnalysisEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to analyze read only files.
+        /// </summary>
+        [SettingsEntry(false, "analyze read only files")]
+        public bool AnalyzeReadOnlyFiles { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
+        /// </summary>
+        [SettingsEntry(true, "Check R# Code Style Options At StartUp")]
+        public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
 
         /// <summary>
         /// Gets or sets DashesCountInFileHeader.
@@ -84,6 +101,12 @@ namespace StyleCop.ReSharper700.Options
         public bool InsertTextIntoDocumentation { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to insert TODO into created documentation text.
+        /// </summary>
+        [SettingsEntry(false, "Insert TODO into new documentation text")]
+        public bool InsertToDoText { get; set; }
+
+        /// <summary>
         /// Gets or sets the ParsingPerformance value. 9 means every time R# calls us, 8 means after 1 second, 7 means after 2 seconds, etc.
         /// </summary>
         /// <value>
@@ -91,12 +114,6 @@ namespace StyleCop.ReSharper700.Options
         /// </value>
         [SettingsEntry(7, "Parsing Performance")]
         public int ParsingPerformance { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the analysis executes as you type.
-        /// </summary>
-        [SettingsEntry(true, "Analysis Enabled")]
-        public bool AnalysisEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the Specified Assembly Path.
@@ -125,27 +142,9 @@ namespace StyleCop.ReSharper700.Options
         [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether declaration comments should be multi line or single line.
-        /// </summary>
-        [SettingsEntry(true, "Check R# Code Style Options At StartUp")]
-        public bool CheckReSharperCodeStyleOptionsAtStartUp { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to analyze read only files.
-        /// </summary>
-        [SettingsEntry(false, "analyze read only files")]
-        public bool AnalyzeReadOnlyFiles { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to insert TODO into created documentation text.
-        /// </summary>
-        [SettingsEntry(false, "Insert TODO into new documentation text")]
-        public bool InsertToDoText { get; set; }
-
         #endregion
 
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Detects the style cop path.
@@ -155,7 +154,7 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         public static string DetectStyleCopPath()
         {
-            var assemblyPath = GetStyleCopPath();
+            string assemblyPath = GetStyleCopPath();
             return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
         }
 
@@ -188,12 +187,19 @@ namespace StyleCop.ReSharper700.Options
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
                     MessageBox.Show(
-                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), 
+                        "Error Finding StyleCop Assembly", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
 
             return this.styleCopDetectedPath;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Gets the StyleCop assembly path.
@@ -203,7 +209,7 @@ namespace StyleCop.ReSharper700.Options
         /// </returns>
         private static string GetStyleCopPath()
         {
-            var directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
         }
@@ -222,7 +228,7 @@ namespace StyleCop.ReSharper700.Options
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
             return registryKey == null ? null : registryKey.GetValue(Key) as string;
         }
-        
+
         #endregion
     }
 }

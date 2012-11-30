@@ -15,7 +15,6 @@
 //   Maintainability rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.CodeCleanup.Rules
 {
     #region Using Directives
@@ -37,7 +36,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
     /// </summary>
     internal class MaintainabilityRules
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Remove parenthesis from node.
@@ -47,29 +46,29 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         public static void RemoveParenthesisFromNode(ITreeNode node)
         {
-            var parenthesizedExpressionNode = node as IParenthesizedExpression;
+            IParenthesizedExpression parenthesizedExpressionNode = node as IParenthesizedExpression;
             if (parenthesizedExpressionNode != null)
             {
                 using (WriteLockCookie.Create(true))
                 {
-                    var innerExpression = parenthesizedExpressionNode.Expression;
+                    ICSharpExpression innerExpression = parenthesizedExpressionNode.Expression;
 
                     if (innerExpression != null && node.Parent != null)
                     {
-                        var innerExpressionNodeType = (innerExpression as TreeElement).NodeType;
+                        NodeType innerExpressionNodeType = (innerExpression as TreeElement).NodeType;
 
-                        if (innerExpressionNodeType != ElementType.ADDITIVE_EXPRESSION && innerExpressionNodeType != ElementType.MULTIPLICATIVE_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.SHIFT_EXPRESSION && innerExpressionNodeType != ElementType.AS_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.ASSIGNMENT_EXPRESSION && innerExpressionNodeType != ElementType.CAST_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CONDITIONAL_AND_EXPRESSION && innerExpressionNodeType != ElementType.CONDITIONAL_OR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.CONDITIONAL_TERNARY_EXPRESSION && innerExpressionNodeType != ElementType.POSTFIX_OPERATOR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.PREFIX_OPERATOR_EXPRESSION && innerExpressionNodeType != ElementType.IS_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.LAMBDA_EXPRESSION && innerExpressionNodeType != ElementType.BITWISE_AND_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.BITWISE_INCLUSIVE_OR_EXPRESSION && innerExpressionNodeType != ElementType.BITWISE_EXCLUSIVE_OR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.OBJECT_CREATION_EXPRESSION && innerExpressionNodeType != ElementType.ARRAY_CREATION_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.NULL_COALESCING_EXPRESSION && innerExpressionNodeType != ElementType.QUERY_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.RELATIONAL_EXPRESSION && innerExpressionNodeType != ElementType.UNARY_OPERATOR_EXPRESSION &&
-                            innerExpressionNodeType != ElementType.EQUALITY_EXPRESSION)
+                        if (innerExpressionNodeType != ElementType.ADDITIVE_EXPRESSION && innerExpressionNodeType != ElementType.MULTIPLICATIVE_EXPRESSION
+                            && innerExpressionNodeType != ElementType.SHIFT_EXPRESSION && innerExpressionNodeType != ElementType.AS_EXPRESSION
+                            && innerExpressionNodeType != ElementType.ASSIGNMENT_EXPRESSION && innerExpressionNodeType != ElementType.CAST_EXPRESSION
+                            && innerExpressionNodeType != ElementType.CONDITIONAL_AND_EXPRESSION && innerExpressionNodeType != ElementType.CONDITIONAL_OR_EXPRESSION
+                            && innerExpressionNodeType != ElementType.CONDITIONAL_TERNARY_EXPRESSION && innerExpressionNodeType != ElementType.POSTFIX_OPERATOR_EXPRESSION
+                            && innerExpressionNodeType != ElementType.PREFIX_OPERATOR_EXPRESSION && innerExpressionNodeType != ElementType.IS_EXPRESSION
+                            && innerExpressionNodeType != ElementType.LAMBDA_EXPRESSION && innerExpressionNodeType != ElementType.BITWISE_AND_EXPRESSION
+                            && innerExpressionNodeType != ElementType.BITWISE_INCLUSIVE_OR_EXPRESSION
+                            && innerExpressionNodeType != ElementType.BITWISE_EXCLUSIVE_OR_EXPRESSION && innerExpressionNodeType != ElementType.OBJECT_CREATION_EXPRESSION
+                            && innerExpressionNodeType != ElementType.ARRAY_CREATION_EXPRESSION && innerExpressionNodeType != ElementType.NULL_COALESCING_EXPRESSION
+                            && innerExpressionNodeType != ElementType.QUERY_EXPRESSION && innerExpressionNodeType != ElementType.RELATIONAL_EXPRESSION
+                            && innerExpressionNodeType != ElementType.UNARY_OPERATOR_EXPRESSION && innerExpressionNodeType != ElementType.EQUALITY_EXPRESSION)
                         {
                             LowLevelModificationUtil.ReplaceChildRange(node, node, new ITreeNode[] { innerExpression });
                             return;
@@ -81,7 +80,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
                             return;
                         }
 
-                        var parent = node.Parent as IAssignmentExpression;
+                        IAssignmentExpression parent = node.Parent as IAssignmentExpression;
 
                         if (parent != null && parent.Source == node)
                         {
@@ -101,7 +100,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         /// </param>
         public static void RemoveUnnecessaryParenthesisFromStatements(ITreeNode node)
         {
-            for (var currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
                 RemoveParenthesisFromNode(currentNode);
 
@@ -125,7 +124,7 @@ namespace StyleCop.ReSharper600.CodeCleanup.Rules
         {
             StyleCopTrace.In(options, file);
 
-            var statementMustNotUseUnnecessaryParenthesis = options.SA1119StatementMustNotUseUnnecessaryParenthesis;
+            bool statementMustNotUseUnnecessaryParenthesis = options.SA1119StatementMustNotUseUnnecessaryParenthesis;
 
             if (statementMustNotUseUnnecessaryParenthesis)
             {

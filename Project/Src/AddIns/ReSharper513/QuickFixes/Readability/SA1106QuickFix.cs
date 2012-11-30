@@ -15,7 +15,6 @@
 //   QuickFix - SA1106: UseStringEmptyForEmptyStrings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.QuickFixes.Readability
 {
     #region Using Directives
@@ -110,15 +109,15 @@ namespace StyleCop.ReSharper513.QuickFixes.Readability
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new CodeMustNotContainEmptyStatements
-                        {
-                            FileName = this.Violation.FileName,
-                            LineNumber = this.Violation.LineNumber,
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Swap ';;' for ';' : " + this.Violation.ToolTip
-                        }
-                };
+                                 {
+                                     new CodeMustNotContainEmptyStatements
+                                         {
+                                             FileName = this.Violation.FileName, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Swap ';;' for ';' : " + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

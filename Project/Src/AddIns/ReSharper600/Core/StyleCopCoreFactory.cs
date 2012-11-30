@@ -15,7 +15,6 @@
 //   The style cop core factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.Core
 {
     #region Using Directives
@@ -29,7 +28,7 @@ namespace StyleCop.ReSharper600.Core
     /// </summary>
     public static class StyleCopCoreFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The create.
@@ -41,12 +40,12 @@ namespace StyleCop.ReSharper600.Core
         {
             StyleCopTrace.In();
 
-            var projectSettingsFactory = new ProjectSettingsFactory();
-            var sourceCodeFactory = new SourceCodeFactory();
+            ProjectSettingsFactory projectSettingsFactory = new ProjectSettingsFactory();
+            SourceCodeFactory sourceCodeFactory = new SourceCodeFactory();
 
-            var environment = new ObjectBasedEnvironment(sourceCodeFactory.Create, projectSettingsFactory.Create);
+            ObjectBasedEnvironment environment = new ObjectBasedEnvironment(sourceCodeFactory.Create, projectSettingsFactory.Create);
 
-            var styleCop = new StyleCopObjectConsole(environment, null, null, true);
+            StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, null, true);
 
             projectSettingsFactory.StyleCopCore = styleCop.Core;
 

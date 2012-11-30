@@ -15,13 +15,13 @@
 //   BulbItem - SA1617VoidReturnValueMustNotBeDocumentedBulbItem : Removes the return from the header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper600.BulbItems.Documentation
     /// </summary>
     internal class SA1617VoidReturnValueMustNotBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +48,9 @@ namespace StyleCop.ReSharper600.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
+            IMethodDeclaration memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
 
             new DocumentationRules().RemoveReturnsElement(memberDeclaration);
         }

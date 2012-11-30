@@ -15,7 +15,6 @@
 //   The s a 1512 single line comments must not be followed by blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Layout
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
     /// </summary>
     public class SA1512SingleLineCommentsMustNotBeFollowedByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,11 +47,11 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
 
-            var currentNode = (ITreeNode)element;
+            ITreeNode currentNode = (ITreeNode)element;
 
-            var rightNode = currentNode.FindFormattingRangeToRight();
+            ITreeNode rightNode = currentNode.FindFormattingRangeToRight();
 
             Utils.RemoveNewLineBefore(rightNode);
         }

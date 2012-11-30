@@ -44,7 +44,9 @@ namespace StyleCop.ReSharper611.Core
     /// </remarks>
     internal class StyleCopRunnerInt : IDisposable
     {
-        #region Constants and Fields
+        #region Fields
+
+        private IDocument document;
 
         /// <summary>
         /// Reference to the file currently being parsed by ReSharper.
@@ -55,8 +57,6 @@ namespace StyleCop.ReSharper611.Core
 
         private StyleCopSettings styleCopSettings;
 
-        private IDocument document;
-
         /// <summary>
         /// List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
         /// violations can be highlighted within the IDE.
@@ -65,7 +65,7 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a  StyleCopCore instance.
@@ -103,7 +103,24 @@ namespace StyleCop.ReSharper611.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this.file = null;
+
+            if (this.styleCopCore != null)
+            {
+                this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
+            }
+
+            this.styleCopCore = null;
+            this.violationHighlights.Clear();
+            this.violationHighlights = null;
+        }
 
         /// <summary>
         /// Executes <see cref="styleCopCore"/> within the <see cref="OnViolationEncountered"/>.
@@ -132,7 +149,7 @@ namespace StyleCop.ReSharper611.Core
 
             if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
             {
-                var fileHeader = new FileHeader(Utils.GetCSharpFile(projectFile.GetSolution(), document));
+                FileHeader fileHeader = new FileHeader(Utils.GetCSharpFile(projectFile.GetSolution(), document));
 
                 if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
                 {
@@ -144,31 +161,6 @@ namespace StyleCop.ReSharper611.Core
 
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IDisposable
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-            this.file = null;
-
-            if (this.styleCopCore != null)
-            {
-                this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
-            }
-
-            this.styleCopCore = null;
-            this.violationHighlights.Clear();
-            this.violationHighlights = null;
-        }
-
-        #endregion
 
         #endregion
 
@@ -193,7 +185,7 @@ namespace StyleCop.ReSharper611.Core
         private void Initialize()
         {
             // make sure we do
-            var initialize = this.StyleCopCore;
+            StyleCopCore initialize = this.StyleCopCore;
         }
 
         /// <summary>
@@ -218,8 +210,8 @@ namespace StyleCop.ReSharper611.Core
                 return;
             }
 
-            var path = e.SourceCode.Path;
-            var lineNumber = e.LineNumber;
+            string path = e.SourceCode.Path;
+            int lineNumber = e.LineNumber;
 
             // if violations fire in the related files we ignore them as we only want to highlight in the current file
             if (path == this.file.Location.FullPath)
@@ -234,9 +226,9 @@ namespace StyleCop.ReSharper611.Core
                 {
                     textRange = Utils.GetTextRange(this.file, e.Violation.Location);
                 }
-                
+
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.
-                var documentRange = new DocumentRange(this.document, textRange);
+                DocumentRange documentRange = new DocumentRange(this.document, textRange);
 
                 if (!textRange.IsEmpty)
                 {
@@ -247,15 +239,13 @@ namespace StyleCop.ReSharper611.Core
 
                 string fileName = this.file.Location.Name;
 
-                if (e.Violation.Element != null &&
-                    e.Violation.Element.Document != null &&
-                    e.Violation.Element.Document.SourceCode != null &&
-                    e.Violation.Element.Document.SourceCode.Name != null)
+                if (e.Violation.Element != null && e.Violation.Element.Document != null && e.Violation.Element.Document.SourceCode != null
+                    && e.Violation.Element.Document.SourceCode.Name != null)
                 {
                     fileName = e.Violation.Element.Document.SourceCode.Name;
                 }
-               
-                var violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
+
+                IHighlighting violation = StyleCopViolationFactory.GetHighlight(e, documentRange, fileName, lineNumber);
 
                 this.CreateViolation(documentRange, violation);
             }
@@ -273,10 +263,10 @@ namespace StyleCop.ReSharper611.Core
 
             try
             {
-                var projects = Utils.GetProjects(this.StyleCopCore, this.file, document);
+                CodeProject[] projects = Utils.GetProjects(this.StyleCopCore, this.file, document);
 
-                var settingsFile = this.styleCopSettings.FindSettingsFilePath(this.file);
-                
+                string settingsFile = this.styleCopSettings.FindSettingsFilePath(this.file);
+
                 this.styleCopSettings.LoadSettingsFiles(projects, settingsFile);
 
                 this.StyleCopCore.FullAnalyze(projects);

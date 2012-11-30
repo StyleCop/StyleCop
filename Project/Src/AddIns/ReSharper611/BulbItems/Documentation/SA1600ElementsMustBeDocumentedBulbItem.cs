@@ -15,12 +15,12 @@
 //   BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts an empty element doc header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
@@ -35,15 +35,15 @@ namespace StyleCop.ReSharper611.BulbItems.Documentation
     /// </summary>
     internal class SA1600ElementsMustBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
             // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration>)
-            var declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+            IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             if (declaration != null)
             {

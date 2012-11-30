@@ -15,7 +15,6 @@
 //   QuickFix - SA1601: PartialElementsMustBeDocumented.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Documentation
 {
     #region Using Directives

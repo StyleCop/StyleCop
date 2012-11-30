@@ -15,7 +15,6 @@
 //   The string based source code.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.Core
 {
     #region Using Directives
@@ -30,7 +29,7 @@ namespace StyleCop.ReSharper600.Core
     /// </summary>
     internal class StringBasedSourceCode : SourceCode
     {
-        #region Constants and Fields
+        #region Fields
 
         private readonly string fileType;
 
@@ -69,7 +68,7 @@ namespace StyleCop.ReSharper600.Core
             this.path = path;
 
             // Strip out the name of the file.
-            var index = path.LastIndexOf(@"\", StringComparison.Ordinal);
+            int index = path.LastIndexOf(@"\", StringComparison.Ordinal);
             if (-1 == index)
             {
                 this.name = this.path;
@@ -102,7 +101,7 @@ namespace StyleCop.ReSharper600.Core
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether Exists.
@@ -161,7 +160,7 @@ namespace StyleCop.ReSharper600.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The read.
@@ -191,7 +190,7 @@ namespace StyleCop.ReSharper600.Core
         {
             Param.Ignore(path);
 
-            var cleanedPath = path;
+            string cleanedPath = path;
             if (cleanedPath != null)
             {
                 // Remove backslashes from the end of the path.

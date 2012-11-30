@@ -111,18 +111,22 @@ namespace StyleCop.ReSharper610.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Violation.LineNumber;
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
+                (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Violation.LineNumber;
 
-            var target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
+            string target = this.Violation.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
             this.BulbItems = new List<IBulbItem>
-                {
-                    new FormatLineBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange, Description = "Fix Spacing : " + this.Violation.ToolTip, LineNumber = this.Violation.LineNumber, Target = target
-                        }
-                };
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                             Target = target
+                                         }
+                                 };
         }
 
         #endregion

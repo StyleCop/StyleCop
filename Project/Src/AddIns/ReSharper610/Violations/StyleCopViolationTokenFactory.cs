@@ -15,7 +15,6 @@
 //   Factory class for getting HighLights for StyleCop violations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.Violations
 {
     #region Using Directives
@@ -29,7 +28,7 @@ namespace StyleCop.ReSharper610.Violations
     /// </summary>
     public static class StyleCopViolationTokenFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the <see cref="CsTokenType"/> for the specified StyleCop Violation.

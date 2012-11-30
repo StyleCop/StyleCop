@@ -15,7 +15,6 @@
 //   QuickFix - SA1628: FileMustHaveHeader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper600.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem { Description = "Uppercase the first letter of documentation : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem
+                                         {
+                                             Description =
+                                                 "Uppercase the first letter of documentation : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

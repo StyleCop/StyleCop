@@ -15,13 +15,13 @@
 //   BulbItem - SA1609PropertyDocumentationMustHaveValue : Add a value to header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Documentation
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper513.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper513.BulbItems.Documentation
     /// </summary>
     internal class SA1609PropertyDocumentationMustHaveValue : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +48,9 @@ namespace StyleCop.ReSharper513.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
 
-            var propertyDeclaration = element.GetContainingElement<IPropertyDeclaration>(true);
+            IPropertyDeclaration propertyDeclaration = element.GetContainingElement<IPropertyDeclaration>(true);
 
             new DocumentationRules().InsertValueElement(propertyDeclaration);
         }

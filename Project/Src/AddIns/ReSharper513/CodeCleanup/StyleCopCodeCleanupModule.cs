@@ -11,6 +11,10 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
+//   We ensure that most of the ReSharper modules are run before we are.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
 
@@ -42,7 +46,7 @@ namespace StyleCop.ReSharper513.CodeCleanup
     [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
-        #region Constants and Fields
+        #region Static Fields
 
         /// <summary>
         /// Documentation descriptor.
@@ -76,7 +80,7 @@ namespace StyleCop.ReSharper513.CodeCleanup
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the collection of option descriptors.
@@ -88,7 +92,10 @@ namespace StyleCop.ReSharper513.CodeCleanup
         {
             get
             {
-                return new CodeCleanupOptionDescriptor[] { DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor };
+                return new CodeCleanupOptionDescriptor[]
+                           {
+                              DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor 
+                           };
             }
         }
 
@@ -122,9 +129,7 @@ namespace StyleCop.ReSharper513.CodeCleanup
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region ICodeCleanupModule
+        #region Public Methods and Operators
 
         /// <summary>
         /// Check if this module can handle given project file.
@@ -139,7 +144,7 @@ namespace StyleCop.ReSharper513.CodeCleanup
         public bool IsAvailable(IProjectFile projectFile)
         {
             // Get the language of the file
-            var languageType = ProjectFileLanguageServiceManager.Instance.GetPrimaryPsiLanguageType(projectFile);
+            PsiLanguageType languageType = ProjectFileLanguageServiceManager.Instance.GetPrimaryPsiLanguageType(projectFile);
 
             return languageType == CSharpLanguageService.CSHARP;
         }
@@ -163,7 +168,11 @@ namespace StyleCop.ReSharper513.CodeCleanup
         /// The progress indicator.
         /// </param>
         public void Process(
-            IProjectFile projectFile, IPsiRangeMarker range, CodeCleanupProfile profile, out bool canIncrementalUpdate, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+            IProjectFile projectFile, 
+            IPsiRangeMarker range, 
+            CodeCleanupProfile profile, 
+            out bool canIncrementalUpdate, 
+            JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
             StyleCopTrace.In(projectFile, range, profile, progressIndicator);
             canIncrementalUpdate = true;
@@ -178,23 +187,23 @@ namespace StyleCop.ReSharper513.CodeCleanup
                 return;
             }
 
-            var solution = projectFile.GetSolution();
+            ISolution solution = projectFile.GetSolution();
 
-            var psiManager = PsiManagerImpl.GetInstance(solution);
+            PsiManagerImpl psiManager = PsiManagerImpl.GetInstance(solution);
 
-            var file = psiManager.GetPsiFile(projectFile, PsiLanguageType.GetByProjectFile(projectFile)) as ICSharpFile;
+            ICSharpFile file = psiManager.GetPsiFile(projectFile, PsiLanguageType.GetByProjectFile(projectFile)) as ICSharpFile;
 
             if (file == null)
             {
                 return;
             }
 
-            var documentationOptions = profile.GetSetting(DocumentationDescriptor);
-            var layoutOptions = profile.GetSetting(LayoutDescriptor);
-            var maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
-            var orderingOptions = profile.GetSetting(OrderingDescriptor);
-            var readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
-            var spacingOptions = profile.GetSetting(SpacingDescriptor);
+            DocumentationOptions documentationOptions = profile.GetSetting(DocumentationDescriptor);
+            LayoutOptions layoutOptions = profile.GetSetting(LayoutDescriptor);
+            MaintainabilityOptions maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
+            OrderingOptions orderingOptions = profile.GetSetting(OrderingDescriptor);
+            ReadabilityOptions readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
+            SpacingOptions spacingOptions = profile.GetSetting(SpacingDescriptor);
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
@@ -220,26 +229,24 @@ namespace StyleCop.ReSharper513.CodeCleanup
         public void SetDefaultSetting(CodeCleanupProfile profile, CodeCleanup.DefaultProfileType profileType)
         {
             // Default option are set in the constructors.
-            var orderingOptions = new OrderingOptions();
+            OrderingOptions orderingOptions = new OrderingOptions();
             profile.SetSetting(OrderingDescriptor, orderingOptions);
 
-            var layoutOptions = new LayoutOptions();
+            LayoutOptions layoutOptions = new LayoutOptions();
             profile.SetSetting(LayoutDescriptor, layoutOptions);
 
-            var documentationOptions = new DocumentationOptions();
+            DocumentationOptions documentationOptions = new DocumentationOptions();
             profile.SetSetting(DocumentationDescriptor, documentationOptions);
 
-            var spacingOptions = new SpacingOptions();
+            SpacingOptions spacingOptions = new SpacingOptions();
             profile.SetSetting(SpacingDescriptor, spacingOptions);
 
-            var readabilityOptions = new ReadabilityOptions();
+            ReadabilityOptions readabilityOptions = new ReadabilityOptions();
             profile.SetSetting(ReadabilityDescriptor, readabilityOptions);
 
-            var maintainabilityOptions = new MaintainabilityOptions();
+            MaintainabilityOptions maintainabilityOptions = new MaintainabilityOptions();
             profile.SetSetting(MaintainabilityDescriptor, maintainabilityOptions);
         }
-
-        #endregion
 
         #endregion
     }

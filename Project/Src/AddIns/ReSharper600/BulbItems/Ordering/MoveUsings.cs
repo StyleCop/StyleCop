@@ -15,13 +15,13 @@
 //   BulbItem - MoveUsings : Moves Using statements inside the closest namespace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Ordering
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper600.BulbItems.Ordering
     /// </summary>
     internal class MoveUsings : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,27 +47,27 @@ namespace StyleCop.ReSharper600.BulbItems.Ordering
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
             if (element == null)
             {
                 return;
             }
 
-            var usingList = element.GetContainingNode(typeof(IUsingList), false) as IUsingList;
+            IUsingList usingList = element.GetContainingNode(typeof(IUsingList), false) as IUsingList;
 
             if (usingList == null)
             {
                 return;
             }
 
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
             // This violation will only run if there are some using statements and definately at least 1 namespace
             // so [0] index will always be OK.
-            var firstNamespace = file.NamespaceDeclarations[0];
+            ICSharpNamespaceDeclaration firstNamespace = file.NamespaceDeclarations[0];
 
-            foreach (var usingDirectiveNode in usingList.Imports)
+            foreach (IUsingDirective usingDirectiveNode in usingList.Imports)
             {
                 firstNamespace.AddImportBefore(usingDirectiveNode, null);
 

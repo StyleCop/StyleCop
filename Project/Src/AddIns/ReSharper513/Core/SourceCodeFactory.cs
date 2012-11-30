@@ -15,7 +15,6 @@
 //   The source code factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Core
 {
     #region Using Directives
@@ -29,7 +28,7 @@ namespace StyleCop.ReSharper513.Core
     /// </summary>
     public class SourceCodeFactory
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The create.
@@ -53,7 +52,7 @@ namespace StyleCop.ReSharper513.Core
         {
             StyleCopTrace.In();
 
-            var source = (string)context;
+            string source = (string)context;
 
             StyleCopTrace.Out();
 

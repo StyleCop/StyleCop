@@ -40,7 +40,5 @@ using StyleCop.ReSharper600.Properties;
 
 // Many of the R# base types are not CLS compliant so we can't be.
 [assembly: CLSCompliant(false)]
-
 [assembly: Guid("A8C6E788-DA9A-434E-A946-2CA216EE57C6")]
-
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]

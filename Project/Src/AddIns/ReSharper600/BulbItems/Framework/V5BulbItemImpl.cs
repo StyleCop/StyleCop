@@ -24,7 +24,6 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
     using System;
 
     using JetBrains.Application;
-    using JetBrains.DocumentManagers;
     using JetBrains.DocumentManagers.impl;
     using JetBrains.DocumentModel;
     using JetBrains.DocumentModel.Transactions;
@@ -40,7 +39,7 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the description of the BulbItem.
@@ -108,7 +107,7 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Actual implementation of Quick Fix should happen within an overridden instance of this method.
@@ -142,8 +141,10 @@ namespace StyleCop.ReSharper600.BulbItems.Framework
             return delegate(ITextControl textControl)
                 {
                     solution.GetComponent<DocumentManagerOperations>().SaveAllDocuments();
-                    
-                    using (var documentTransaction = solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
+
+                    using (
+                        JB::JetBrains.Util.ITransactionCookie documentTransaction =
+                            solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
                         PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl), "Code cleanup");
                     }

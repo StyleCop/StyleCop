@@ -15,7 +15,6 @@
 //   QuickFix - SA1511.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Layout
 {
     #region Using Directives
@@ -110,12 +109,15 @@ namespace StyleCop.ReSharper611.QuickFixes.Layout
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new SA1511WhileDoFooterMustNotBePrecededByBlankLineBulbItem
-                        {
-                            Description = "Remove blank line: " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber
-                        }
-                };
+                                 {
+                                     new SA1511WhileDoFooterMustNotBePrecededByBlankLineBulbItem
+                                         {
+                                             Description =
+                                                 "Remove blank line: " + this.Violation.ToolTip, 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

@@ -15,13 +15,13 @@
 //   The accessors must follow order bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.BulbItems.Ordering
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper610.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper610.BulbItems.Ordering
     /// </summary>
     internal class AccessorsMustFollowOrderBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +48,9 @@ namespace StyleCop.ReSharper610.BulbItems.Ordering
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingNode<IAccessorOwnerDeclaration>(true);
+            IAccessorOwnerDeclaration declaration = element.GetContainingNode<IAccessorOwnerDeclaration>(true);
 
             if (declaration != null)
             {

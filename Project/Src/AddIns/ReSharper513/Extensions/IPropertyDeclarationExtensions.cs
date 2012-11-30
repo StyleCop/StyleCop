@@ -15,7 +15,6 @@
 //   I property declaration extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace JetBrains.ReSharper.Psi.CSharp.Tree
 {
     /// <summary>
@@ -23,7 +22,7 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
     /// </summary>
     public static class IPropertyDeclarationExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets an IAccessor for the Getter.
@@ -36,9 +35,9 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         /// </returns>
         public static IAccessor Getter(this IPropertyDeclaration propertyDeclaration)
         {
-            foreach (var declaration in propertyDeclaration.AccessorDeclarations)
+            foreach (IAccessorDeclaration declaration in propertyDeclaration.AccessorDeclarations)
             {
-                var accessor = (IAccessor)declaration.DeclaredElement;
+                IAccessor accessor = (IAccessor)declaration.DeclaredElement;
 
                 if (accessor != null && accessor.Kind == AccessorKind.GETTER)
                 {
@@ -60,9 +59,9 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
         /// </returns>
         public static IAccessor Setter(this IPropertyDeclaration propertyDeclaration)
         {
-            foreach (var declaration in propertyDeclaration.AccessorDeclarations)
+            foreach (IAccessorDeclaration declaration in propertyDeclaration.AccessorDeclarations)
             {
-                var accessor = (IAccessor)declaration.DeclaredElement;
+                IAccessor accessor = (IAccessor)declaration.DeclaredElement;
 
                 if (accessor != null && accessor.Kind == AccessorKind.SETTER)
                 {

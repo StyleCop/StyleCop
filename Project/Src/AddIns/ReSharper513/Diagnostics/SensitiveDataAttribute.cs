@@ -16,7 +16,6 @@
 //   in trace output.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Diagnostics
 {
     #region Using Directives

@@ -15,7 +15,6 @@
 //   QuickFix - SA1617: VoidReturnValueMustNotBeDocumented.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper610.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1617VoidReturnValueMustNotBeDocumentedBulbItem { Description = "Remove <return> from header : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1617VoidReturnValueMustNotBeDocumentedBulbItem
+                                         {
+                                             Description =
+                                                 "Remove <return> from header : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

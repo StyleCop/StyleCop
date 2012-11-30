@@ -15,10 +15,11 @@
 //   The s a 1121 use built in type alias bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Readability
 {
     #region Using Directives
+
+    using System.Collections.Generic;
 
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -36,7 +37,7 @@ namespace StyleCop.ReSharper513.BulbItems.Readability
     /// </summary>
     public class SA1121UseBuiltInTypeAliasBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -49,46 +50,46 @@ namespace StyleCop.ReSharper513.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
+            IList<ITokenNode> tokensForLine = Utils.GetTokensForLineFromTextControl(solution, textControl);
 
-            foreach (var tokenNode in tokensForLine)
+            foreach (ITokenNode tokenNode in tokensForLine)
             {
-                var typeArgumentListNode = tokenNode.GetContainingElement<ITypeArgumentListNode>(true);
+                ITypeArgumentListNode typeArgumentListNode = tokenNode.GetContainingElement<ITypeArgumentListNode>(true);
 
                 if (typeArgumentListNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(typeArgumentListNode);
                 }
 
-                var objectCreationExpressionNode = tokenNode.GetContainingElement<IObjectCreationExpressionNode>(true);
+                IObjectCreationExpressionNode objectCreationExpressionNode = tokenNode.GetContainingElement<IObjectCreationExpressionNode>(true);
 
                 if (objectCreationExpressionNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(objectCreationExpressionNode);
                 }
 
-                var arrayCreationExpressionNode = tokenNode.GetContainingElement<IArrayCreationExpressionNode>(true);
+                IArrayCreationExpressionNode arrayCreationExpressionNode = tokenNode.GetContainingElement<IArrayCreationExpressionNode>(true);
 
                 if (arrayCreationExpressionNode != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias(arrayCreationExpressionNode);
                 }
 
-                var methodDeclaration = tokenNode.GetContainingElement<IMethodDeclaration>(true);
+                IMethodDeclaration methodDeclaration = tokenNode.GetContainingElement<IMethodDeclaration>(true);
 
                 if (methodDeclaration != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias((ITreeNode)methodDeclaration);
                 }
 
-                var variableDeclaration = tokenNode.GetContainingElement<IVariableDeclaration>(true);
+                IVariableDeclaration variableDeclaration = tokenNode.GetContainingElement<IVariableDeclaration>(true);
 
                 if (variableDeclaration != null)
                 {
                     ReadabilityRules.SwapToBuiltInTypeAlias((ITreeNode)variableDeclaration);
                 }
 
-                var multipleDeclarationNode = tokenNode.GetContainingElement<IMultipleDeclarationNode>(true);
+                IMultipleDeclarationNode multipleDeclarationNode = tokenNode.GetContainingElement<IMultipleDeclarationNode>(true);
 
                 if (multipleDeclarationNode != null)
                 {

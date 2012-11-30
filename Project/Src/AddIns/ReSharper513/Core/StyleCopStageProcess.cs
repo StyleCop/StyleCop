@@ -16,18 +16,19 @@
 //   specified file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Core
 {
     #region Using Directives
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.ReSharper513.Diagnostics;
     using StyleCop.ReSharper513.Options;
@@ -76,9 +77,11 @@ namespace StyleCop.ReSharper513.Core
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess" /> .
+        /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
-        /// <param name="daemonProcess"> <see cref="IDaemonProcess" /> to execute within. </param>
+        /// <param name="daemonProcess">
+        /// <see cref="IDaemonProcess"/> to execute within. 
+        /// </param>
         public StyleCopStageProcess(IDaemonProcess daemonProcess)
         {
             StyleCopTrace.In(daemonProcess);
@@ -96,7 +99,9 @@ namespace StyleCop.ReSharper513.Core
         /// <summary>
         /// The execute.
         /// </summary>
-        /// <param name="committer">The committer.</param>
+        /// <param name="committer">
+        /// The committer.
+        /// </param>
         public void Execute(Action<DaemonStageResult> committer)
         {
             StyleCopTrace.In();
@@ -123,7 +128,7 @@ namespace StyleCop.ReSharper513.Core
 
                 styleCopRunner.Execute(this.daemonProcess.ProjectFile, this.daemonProcess.Document);
 
-                var violations =
+                List<HighlightingInfo> violations =
                     (from info in styleCopRunner.ViolationHighlights
                      let range = info.Range
                      let highlighting = info.Highlighting
@@ -166,7 +171,7 @@ namespace StyleCop.ReSharper513.Core
 
         private bool FileIsValid()
         {
-            var manager = PsiManager.GetInstance(this.daemonProcess.Solution);
+            PsiManager manager = PsiManager.GetInstance(this.daemonProcess.Solution);
 
             if (this.daemonProcess.ProjectFile == null)
             {
@@ -178,14 +183,14 @@ namespace StyleCop.ReSharper513.Core
                 return false;
             }
 
-            var file = manager.GetPsiFile(this.daemonProcess.ProjectFile, PsiLanguageType.GetByProjectFile(this.daemonProcess.ProjectFile));
+            IFile file = manager.GetPsiFile(this.daemonProcess.ProjectFile, PsiLanguageType.GetByProjectFile(this.daemonProcess.ProjectFile));
 
             if (file == null)
             {
                 return false;
             }
 
-            var hasErrorElements = new RecursiveElementCollector<ErrorElement>().ProcessElement(file).GetResults().Any();
+            bool hasErrorElements = new RecursiveElementCollector<ErrorElement>().ProcessElement(file).GetResults().Any();
             StyleCopTrace.Info("File has error elements = {0}", hasErrorElements);
 
             return !hasErrorElements;

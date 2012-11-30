@@ -15,7 +15,6 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper513.Options
@@ -41,7 +40,7 @@ namespace StyleCop.ReSharper513.Options
     [ShellComponentImplementation]
     public class StyleCopOptions : IXmlExternalizableShellComponent
     {
-        #region Constants and Fields
+        #region Fields
 
         private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
 
@@ -90,7 +89,7 @@ namespace StyleCop.ReSharper513.Options
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the instance.
@@ -247,7 +246,7 @@ namespace StyleCop.ReSharper513.Options
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Detects the style cop path.
@@ -257,8 +256,15 @@ namespace StyleCop.ReSharper513.Options
         /// </returns>
         public string DetectStyleCopPath()
         {
-            var assemblyPath = StyleCopLocator.GetStyleCopPath();
+            string assemblyPath = StyleCopLocator.GetStyleCopPath();
             return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
         }
 
         /// <summary>
@@ -290,18 +296,15 @@ namespace StyleCop.ReSharper513.Options
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
                     MessageBox.Show(
-                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), "Error Finding StyleCop Assembly", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), 
+                        "Error Finding StyleCop Assembly", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
 
             return this.styleCopDetectedPath;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComponent
 
         /// <summary>
         /// Initializes this instance.
@@ -309,21 +312,6 @@ namespace StyleCop.ReSharper513.Options
         public void Init()
         {
         }
-
-        #endregion
-
-        #region IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region IXmlExternalizable
 
         /// <summary>
         /// Reads the settings from the XML.
@@ -354,8 +342,6 @@ namespace StyleCop.ReSharper513.Options
 
         #endregion
 
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -374,7 +360,7 @@ namespace StyleCop.ReSharper513.Options
         {
             const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
 
-            var registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
+            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(SubKey);
             if (registryKey != null)
             {
                 registryKey.SetValue(key, value, valueKind);

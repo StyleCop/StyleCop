@@ -15,7 +15,6 @@
 //   QuickFix - SA1013: ClosingCurlyBracketsMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Spacing
 {
     #region Using Directives
@@ -110,17 +109,17 @@ namespace StyleCop.ReSharper600.QuickFixes.Spacing
         protected override void InitialiseBulbItems()
         {
             this.BulbItems = new List<IBulbItem>
-                {
-                    new FormatLineBulbItem
-                        {
-                            DocumentRange = this.Violation.DocumentRange,
-                            Description = "Fix Spacing : " + this.Violation.ToolTip,
-                            LineNumber = this.Violation.LineNumber,
-                            Prefix = " ",
-                            Suffix = string.Empty,
-                            Target = "}"
-                        }
-                };
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             LineNumber = this.Violation.LineNumber, 
+                                             Prefix = " ", 
+                                             Suffix = string.Empty, 
+                                             Target = "}"
+                                         }
+                                 };
         }
 
         #endregion

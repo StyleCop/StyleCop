@@ -15,7 +15,6 @@
 //   QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Readability
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper600.QuickFixes.Readability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem { Description = "Move region inside code block: " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem
+                                         {
+                                             Description =
+                                                 "Move region inside code block: "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

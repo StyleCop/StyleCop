@@ -16,12 +16,12 @@
 //   specified file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.Core
 {
     #region Using Directives
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -67,7 +67,7 @@ namespace StyleCop.ReSharper611.Core
         /// <summary>
         /// Gets set to true after our first run.
         /// </summary>
-        private static bool runOnce = false;
+        private static bool runOnce;
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace StyleCop.ReSharper611.Core
                 // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
                 int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
 
-                var alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
+                bool alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
 
                 bool enoughTimeGoneByToExecuteNow = false;
 
@@ -172,7 +172,7 @@ namespace StyleCop.ReSharper611.Core
 
                 StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document);
 
-                var violations =
+                List<HighlightingInfo> violations =
                     (from info in StyleCopRunnerInternal.ViolationHighlights
                      let range = info.Range
                      let highlighting = info.Highlighting

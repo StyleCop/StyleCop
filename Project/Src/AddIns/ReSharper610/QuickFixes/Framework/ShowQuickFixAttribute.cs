@@ -15,12 +15,12 @@
 //   ReSharper Attribute that allows you to define a custom Icon for a QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Framework
 {
     #region Using Directives
 
     using System.Drawing;
+    using System.IO;
     using System.Reflection;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper610.QuickFixes.Framework
     /// </summary>
     public class ShowQuickFixAttribute : RefactoringFunctionalGroupAttribute
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns an image that represents an Icon that will be displayed in the QuickFix
@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper610.QuickFixes.Framework
         {
             Image image = null;
 
-            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper610.Resources.ShowQuickFix.png");
+            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper610.Resources.ShowQuickFix.png");
 
             if (resourceStream != null)
             {

@@ -13,7 +13,7 @@
 // </license>
 // <summary>
 //   Daemon stage for StyleCop. This class is automatically loaded by ReSharper daemon
-//   because it's marked with the <see cref="DaemonStageAttribute" /> attribute.
+//   because it's marked with the  attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 extern alias JB;
@@ -30,6 +30,7 @@ namespace StyleCop.ReSharper611.Core
     using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.CSharp.Stages;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
@@ -42,9 +43,9 @@ namespace StyleCop.ReSharper611.Core
     /// because it's marked with the <see cref="DaemonStageAttribute"/> attribute.
     /// </summary>
     [DaemonStage]
-    public class StyleCopStage : CSharpDaemonStageBase  
+    public class StyleCopStage : CSharpDaemonStageBase
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether this stage should be run for documents that aren't shown.
@@ -86,7 +87,9 @@ namespace StyleCop.ReSharper611.Core
         }
 
         #endregion
-        
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
         /// </summary>
@@ -176,11 +179,19 @@ namespace StyleCop.ReSharper611.Core
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Checks the given file is valid to check.
         /// </summary>
-        /// <param name="sourceFile">THe file to check.</param>
-        /// <returns>True if its valid.</returns>
+        /// <param name="sourceFile">
+        /// THe file to check.
+        /// </param>
+        /// <returns>
+        /// True if its valid.
+        /// </returns>
         private bool FileIsValid(IPsiSourceFile sourceFile)
         {
             if (sourceFile == null)
@@ -188,16 +199,18 @@ namespace StyleCop.ReSharper611.Core
                 return false;
             }
 
-            var file = CSharpDaemonStageBase.GetPsiFile(sourceFile);
+            ICSharpFile file = CSharpDaemonStageBase.GetPsiFile(sourceFile);
 
             if (file == null)
             {
                 return false;
             }
 
-            var hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
-            
+            bool hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(file).GetResults().Any();
+
             return !hasErrorElements;
         }
+
+        #endregion
     }
 }

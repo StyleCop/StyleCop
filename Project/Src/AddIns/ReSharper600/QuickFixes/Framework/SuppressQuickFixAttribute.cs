@@ -15,12 +15,12 @@
 //   ReSharper Attribute that allows you to define a custom Icon for a Suppress QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Framework
 {
     #region Using Directives
 
     using System.Drawing;
+    using System.IO;
     using System.Reflection;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
     /// </summary>
     public class SuppressQuickFixAttribute : FunctionalGroupAttribute
     {
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Sets the order the QuickFix should appear. 0 being highest.
@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns an image that represents an Icon that will be displayed in the QuickFix
@@ -63,7 +63,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Framework
         {
             Image image = null;
 
-            var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper600.Resources.SuppressQuickFix.png");
+            Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper600.Resources.SuppressQuickFix.png");
 
             if (resourceStream != null)
             {

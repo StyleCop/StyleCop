@@ -11,8 +11,11 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
+// <summary>
+//   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
+//   We ensure that most of the ReSharper modules are run before we are.
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 extern alias JB;
 
 namespace StyleCop.ReSharper700.CodeCleanup
@@ -23,6 +26,7 @@ namespace StyleCop.ReSharper700.CodeCleanup
 
     using JetBrains.Application;
     using JetBrains.DocumentModel;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Psi;
@@ -43,7 +47,7 @@ namespace StyleCop.ReSharper700.CodeCleanup
     [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
-        #region Constants and Fields
+        #region Static Fields
 
         /// <summary>
         ///   Documentation descriptor.
@@ -75,6 +79,10 @@ namespace StyleCop.ReSharper700.CodeCleanup
         /// </summary>
         private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
 
+        #endregion
+
+        #region Fields
+
         /// <summary>
         ///   Locks object passed to our constructor.
         /// </summary>
@@ -82,10 +90,12 @@ namespace StyleCop.ReSharper700.CodeCleanup
 
         #endregion
 
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the StyleCopCodeCleanupModule class.
         /// </summary>
-        /// <param name = "shellLocks">
+        /// <param name="shellLocks">
         /// The IShellLocks object.
         /// </param>
         public StyleCopCodeCleanupModule(IShellLocks shellLocks)
@@ -93,7 +103,9 @@ namespace StyleCop.ReSharper700.CodeCleanup
             this.shellLocks = shellLocks;
         }
 
-        #region Properties
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the collection of option descriptors.
@@ -105,7 +117,10 @@ namespace StyleCop.ReSharper700.CodeCleanup
         {
             get
             {
-                return new CodeCleanupOptionDescriptor[] { DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor };
+                return new CodeCleanupOptionDescriptor[]
+                           {
+                              DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor 
+                           };
             }
         }
 
@@ -139,14 +154,12 @@ namespace StyleCop.ReSharper700.CodeCleanup
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region ICodeCleanupModule
+        #region Public Methods and Operators
 
         /// <summary>
         /// Check if this module can handle given project file.
         /// </summary>
-        /// <param name = "projectFile">
+        /// <param name="projectFile">
         /// The project file to check.
         /// </param>
         /// <returns>
@@ -161,19 +174,20 @@ namespace StyleCop.ReSharper700.CodeCleanup
         /// <summary>
         /// Process clean-up on file.
         /// </summary>
-        /// <param name = "projectFile">
+        /// <param name="projectFile">
         /// The project file to process.
         /// </param>
-        /// <param name = "rangeMarker">
+        /// <param name="rangeMarker">
         /// The range marker to process.
         /// </param>
-        /// <param name = "profile">
+        /// <param name="profile">
         /// The code cleanup settings to use.
         /// </param>
-        /// <param name = "progressIndicator">
+        /// <param name="progressIndicator">
         /// The progress indicator.
         /// </param>
-        public void Process(IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+        public void Process(
+            IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
             if (projectFile == null)
             {
@@ -185,64 +199,72 @@ namespace StyleCop.ReSharper700.CodeCleanup
                 return;
             }
 
-            var solution = projectFile.GetSolution();
+            ISolution solution = projectFile.GetSolution();
 
-            var file = projectFile.GetNonInjectedPsiFile<CSharpLanguage>() as ICSharpFile;
+            ICSharpFile file = projectFile.GetNonInjectedPsiFile<CSharpLanguage>() as ICSharpFile;
 
             if (file == null)
             {
                 return;
             }
-            
+
             PsiManager.GetInstance(solution).DoTransaction(() => this.InternalProcess(profile, file), "Code cleanup");
-            
+
             StyleCopTrace.Out();
         }
-        
+
         /// <summary>
         /// Get default setting for given profile type.
         /// </summary>
-        /// <param name = "profile">
+        /// <param name="profile">
         /// The code cleanup profile to use.
         /// </param>
-        /// <param name = "profileType">
-        /// Determine if it is a full or reformat <see cref = "CodeCleanup.DefaultProfileType" />.
+        /// <param name="profileType">
+        /// Determine if it is a full or reformat <see cref="CodeCleanup.DefaultProfileType"/>.
         /// </param>
         public void SetDefaultSetting(CodeCleanupProfile profile, CodeCleanup.DefaultProfileType profileType)
         {
             // Default option are set in the constructors.
-            var orderingOptions = new OrderingOptions();
+            OrderingOptions orderingOptions = new OrderingOptions();
             profile.SetSetting(OrderingDescriptor, orderingOptions);
 
-            var layoutOptions = new LayoutOptions();
+            LayoutOptions layoutOptions = new LayoutOptions();
             profile.SetSetting(LayoutDescriptor, layoutOptions);
 
-            var documentationOptions = new DocumentationOptions();
+            DocumentationOptions documentationOptions = new DocumentationOptions();
             profile.SetSetting(DocumentationDescriptor, documentationOptions);
 
-            var spacingOptions = new SpacingOptions();
+            SpacingOptions spacingOptions = new SpacingOptions();
             profile.SetSetting(SpacingDescriptor, spacingOptions);
 
-            var readabilityOptions = new ReadabilityOptions();
+            ReadabilityOptions readabilityOptions = new ReadabilityOptions();
             profile.SetSetting(ReadabilityDescriptor, readabilityOptions);
 
-            var maintainabilityOptions = new MaintainabilityOptions();
+            MaintainabilityOptions maintainabilityOptions = new MaintainabilityOptions();
             profile.SetSetting(MaintainabilityDescriptor, maintainabilityOptions);
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Processes all the cleanup.
         /// </summary>
-        /// <param name="profile">The current profile to use.</param>
-        /// <param name="file">The file to clean.</param>
+        /// <param name="profile">
+        /// The current profile to use.
+        /// </param>
+        /// <param name="file">
+        /// The file to clean.
+        /// </param>
         private void InternalProcess(CodeCleanupProfile profile, ICSharpFile file)
         {
-            var documentationOptions = profile.GetSetting(DocumentationDescriptor);
-            var layoutOptions = profile.GetSetting(LayoutDescriptor);
-            var maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
-            var orderingOptions = profile.GetSetting(OrderingDescriptor);
-            var readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
-            var spacingOptions = profile.GetSetting(SpacingDescriptor);
+            DocumentationOptions documentationOptions = profile.GetSetting(DocumentationDescriptor);
+            LayoutOptions layoutOptions = profile.GetSetting(LayoutDescriptor);
+            MaintainabilityOptions maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
+            OrderingOptions orderingOptions = profile.GetSetting(OrderingDescriptor);
+            ReadabilityOptions readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
+            SpacingOptions spacingOptions = profile.GetSetting(SpacingDescriptor);
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
@@ -253,8 +275,6 @@ namespace StyleCop.ReSharper700.CodeCleanup
             new SpacingRules().Execute(spacingOptions, file);
             new OrderingRules().Execute(orderingOptions, file);
         }
-
-        #endregion
 
         #endregion
     }

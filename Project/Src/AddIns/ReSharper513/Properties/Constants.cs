@@ -15,7 +15,6 @@
 //   Defines the core settings and value for the plugin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Properties
 {
     /// <summary>
@@ -23,7 +22,7 @@ namespace StyleCop.ReSharper513.Properties
     /// </summary>
     public static class Constants
     {
-        #region Constants and Fields
+        #region Constants
 
         /// <summary>
         /// Long description of the Plugin.
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper513.Properties
         /// Short description of the plugin.
         /// </summary>
         public const string DescriptionShort = "R# plugin for StyleCop";
-        
+
         #endregion
     }
 }

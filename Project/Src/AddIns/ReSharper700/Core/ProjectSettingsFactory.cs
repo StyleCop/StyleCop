@@ -15,7 +15,6 @@
 //   The project settings factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.Core
 {
     #region Using Directives
@@ -35,13 +34,13 @@ namespace StyleCop.ReSharper700.Core
     /// </summary>
     public class ProjectSettingsFactory
     {
-        #region Constants and Fields
+        #region Static Fields
 
         private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets StyleCopCore.
@@ -50,7 +49,7 @@ namespace StyleCop.ReSharper700.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The create.
@@ -68,7 +67,7 @@ namespace StyleCop.ReSharper700.Core
         {
             StyleCopTrace.In(settingsFilePath);
 
-            var cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
+            string cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
 
             Settings result;
 
@@ -85,14 +84,16 @@ namespace StyleCop.ReSharper700.Core
                 if (File.Exists(settingsFilePath))
                 {
                     // Load the settings document.
-                    var document = new XmlDocument();
+                    XmlDocument document = new XmlDocument();
                     document.Load(settingsFilePath);
 
                     // Get the last write time for the time.
-                    var writeTime = File.GetLastWriteTime(settingsFilePath);
+                    DateTime writeTime = File.GetLastWriteTime(settingsFilePath);
 
                     // Create the settings container.
-                    var settings = readOnly ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime) : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
+                    Settings settings = readOnly
+                                            ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime)
+                                            : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
 
                     StyleCopTrace.Out();
                     this.AddFileWatcher(settingsFilePath);
@@ -134,11 +135,17 @@ namespace StyleCop.ReSharper700.Core
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Called when the file changes.
         /// </summary>
-        /// <param name="source">The source of the event.</param>
-        /// <param name="e">The FileSystemEventArgs for the changing file.</param>
+        /// <param name="source">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The FileSystemEventArgs for the changing file.
+        /// </param>
         private static void FileChanged(object source, FileSystemEventArgs e)
         {
             StyleCopTrace.In(source, e);
@@ -149,8 +156,12 @@ namespace StyleCop.ReSharper700.Core
         /// <summary>
         /// Called when the file renames.
         /// </summary>
-        /// <param name="source">The source of the event.</param>
-        /// <param name="e">The RenamedEventArgs for the changing file.</param>
+        /// <param name="source">
+        /// The source of the event.
+        /// </param>
+        /// <param name="e">
+        /// The RenamedEventArgs for the changing file.
+        /// </param>
         private static void OnRenamed(object source, RenamedEventArgs e)
         {
             StyleCopTrace.In(source, e);
@@ -161,7 +172,9 @@ namespace StyleCop.ReSharper700.Core
         /// <summary>
         /// Creates a FileWatcher.
         /// </summary>
-        /// <param name="path">The file to watch.</param>
+        /// <param name="path">
+        /// The file to watch.
+        /// </param>
         private void AddFileWatcher(string path)
         {
             StyleCopTrace.In(path);
@@ -171,8 +184,8 @@ namespace StyleCop.ReSharper700.Core
                 return;
             }
 
-            var watch = new FileSystemWatcher();
-            var directoryName = Path.GetDirectoryName(path);
+            FileSystemWatcher watch = new FileSystemWatcher();
+            string directoryName = Path.GetDirectoryName(path);
             watch.Path = directoryName;
             watch.Filter = Path.GetFileName(path);
             watch.Changed += FileChanged;
@@ -182,5 +195,7 @@ namespace StyleCop.ReSharper700.Core
             watch.EnableRaisingEvents = true;
             StyleCopTrace.Out();
         }
+
+        #endregion
     }
 }

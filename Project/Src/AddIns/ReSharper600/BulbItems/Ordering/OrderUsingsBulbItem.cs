@@ -15,12 +15,12 @@
 //   BulbItem - OrderUsingsBulbItem : Qualifies all usings, the orders them, groups them and removes duplicates.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.BulbItems.Ordering
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper600.BulbItems.Framework;
@@ -36,7 +36,7 @@ namespace StyleCop.ReSharper600.BulbItems.Ordering
     /// </summary>
     public class OrderUsingsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -49,9 +49,13 @@ namespace StyleCop.ReSharper600.BulbItems.Ordering
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            var options = new OrderingOptions { AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical, ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify };
+            OrderingOptions options = new OrderingOptions
+                                          {
+                                              AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical, 
+                                              ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify
+                                          };
 
             // Fixes SA1208, SA1209, SA1210, SA1211
             new OrderingRules().Execute(options, file);

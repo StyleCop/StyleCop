@@ -15,7 +15,6 @@
 //   Represents the binary switch values used to turn on/off the various types of trace message.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Diagnostics
 {
     #region Using Directives

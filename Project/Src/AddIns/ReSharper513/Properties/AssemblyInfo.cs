@@ -38,5 +38,4 @@ using StyleCop.ReSharper513.Properties;
 
 // Many of the R# base types are not CLS compliant so we can't be.
 [assembly: CLSCompliant(false)]
-
 [assembly: Guid("8c180a9c-bd4d-45eb-becf-02f78e57ed91")]

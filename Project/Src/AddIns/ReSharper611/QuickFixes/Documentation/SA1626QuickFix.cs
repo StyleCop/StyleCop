@@ -15,7 +15,6 @@
 //   QuickFix - SA1626: FileMustHaveHeader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper611.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem { Description = "Change '///' to '//' : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashesBulbItem
+                                         {
+                                             Description =
+                                                 "Change '///' to '//' : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

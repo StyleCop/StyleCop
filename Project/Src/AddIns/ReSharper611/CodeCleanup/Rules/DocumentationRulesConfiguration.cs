@@ -15,11 +15,12 @@
 //   A class that exposes the current Documentation configuration for the file provided.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.CodeCleanup.Rules
 {
     #region Using Directives
 
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     using JetBrains.ReSharper.Psi;
@@ -27,19 +28,23 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     using StyleCop.ReSharper611.Core;
 
     #endregion
-    
+
     /// <summary>
     /// A class that exposes the current Documentation configuration for the file provided.
     /// </summary>
     public class DocumentationRulesConfiguration
     {
-        #region Constants and Fields
+        #region Constants
 
         private const string AnalyzerName = "StyleCop.CSharp.DocumentationRules";
 
-        private readonly Settings settings;
+        #endregion
+
+        #region Fields
 
         private readonly IPsiSourceFile file;
+
+        private readonly Settings settings;
 
         #endregion
 
@@ -58,7 +63,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             this.file = file;
 
             // Default for this property is false
-            var property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");
+            BooleanProperty property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");
             this.IgnorePrivates = property == null ? false : property.Value;
 
             // Default for this property is true
@@ -69,18 +74,18 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
             property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnoreInternals");
             this.IgnoreInternals = property == null ? false : property.Value;
 
-            var stringProperty = this.GetStyleCopRuleProperty<StringProperty>("CompanyName");
+            StringProperty stringProperty = this.GetStyleCopRuleProperty<StringProperty>("CompanyName");
             this.CompanyName = stringProperty != null ? stringProperty.Value : string.Empty;
 
             stringProperty = this.GetStyleCopRuleProperty<StringProperty>("Copyright");
 
-            var fileInfo = file.ToProjectFile().Location.ToFileInfo();
+            FileInfo fileInfo = file.ToProjectFile().Location.ToFileInfo();
             this.Copyright = stringProperty != null ? StyleCop.Utils.ReplaceTokenVariables(stringProperty.Value, fileInfo) : string.Empty;
         }
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the company name setting for this file.
@@ -109,7 +114,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets whether the stylecop rule specified is enabled.
@@ -122,16 +127,16 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         /// </returns>
         public bool GetStyleCopRuleEnabled(string ruleId)
         {
-            var returnValue = false;
+            bool returnValue = false;
 
             if (this.settings != null)
             {
-                var analyzerSettings = this.settings.AnalyzerSettings;
-                foreach (var addInPropertyCollection in analyzerSettings)
+                ICollection<AddInPropertyCollection> analyzerSettings = this.settings.AnalyzerSettings;
+                foreach (AddInPropertyCollection addInPropertyCollection in analyzerSettings)
                 {
                     if (addInPropertyCollection.AddIn.Id == AnalyzerName)
                     {
-                        var property = addInPropertyCollection[ruleId + "#Enabled"] as BooleanProperty;
+                        BooleanProperty property = addInPropertyCollection[ruleId + "#Enabled"] as BooleanProperty;
 
                         if (property != null)
                         {
@@ -159,14 +164,14 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         /// </returns>
         public TProperty GetStyleCopRuleProperty<TProperty>(string propertyName) where TProperty : PropertyValue
         {
-            var propertyValue = this.GetSetting(propertyName);
+            PropertyValue propertyValue = this.GetSetting(propertyName);
             return (TProperty)propertyValue;
         }
 
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Gets the PropertyValue for the PropertyName passed in.
         /// </summary>
@@ -178,7 +183,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
         /// </returns>
         private PropertyValue GetSetting(string propertyName)
         {
-            return this.settings != null ? (from addInProperty in this.settings.AnalyzerSettings where addInProperty.AddIn.Id == AnalyzerName select addInProperty[propertyName]).FirstOrDefault() : null;
+            return this.settings != null
+                       ? (from addInProperty in this.settings.AnalyzerSettings where addInProperty.AddIn.Id == AnalyzerName select addInProperty[propertyName])
+                             .FirstOrDefault()
+                       : null;
         }
 
         #endregion

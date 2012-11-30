@@ -15,12 +15,12 @@
 //   QuickFix action which replaces "" with string.Empty.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.BulbItems.Readability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper611.BulbItems.Framework;
@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper611.BulbItems.Readability
     /// </summary>
     public class UseStringEmptyForEmptyStrings : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper611.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
             ReadabilityRules.ReplaceEmptyStringsWithStringDotEmpty(file.FirstChild);
         }
 

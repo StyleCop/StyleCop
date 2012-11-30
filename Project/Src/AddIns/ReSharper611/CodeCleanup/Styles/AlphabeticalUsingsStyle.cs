@@ -15,7 +15,6 @@
 //   Enumeration to define the behavior of sorting Using Declarations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.CodeCleanup.Styles
 {
     #region Using Directives

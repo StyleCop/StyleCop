@@ -15,10 +15,11 @@
 //   A class that exposes the current Documentation configuration for the file provided.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.CodeCleanup.Rules
 {
     #region Using Directives
+
+    using System.Collections.Generic;
 
     using JetBrains.ProjectModel;
 
@@ -31,9 +32,13 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
     /// </summary>
     public class DocumentationRulesConfiguration
     {
-        #region Constants and Fields
+        #region Constants
 
         private const string AnalyzerName = "StyleCop.CSharp.DocumentationRules";
+
+        #endregion
+
+        #region Fields
 
         private readonly Settings settings;
 
@@ -52,7 +57,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
             this.settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(file);
 
             // Default for this property is false
-            var property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");
+            BooleanProperty property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");
             this.IgnorePrivates = property == null ? false : property.Value;
 
             // Default for this property is true
@@ -63,7 +68,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
             property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnoreInternals");
             this.IgnoreInternals = property == null ? false : property.Value;
 
-            var stringProperty = this.GetStyleCopRuleProperty<StringProperty>("CompanyName");
+            StringProperty stringProperty = this.GetStyleCopRuleProperty<StringProperty>("CompanyName");
             this.CompanyName = stringProperty != null ? stringProperty.Value : string.Empty;
 
             stringProperty = this.GetStyleCopRuleProperty<StringProperty>("Copyright");
@@ -72,7 +77,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the company name setting for this file.
@@ -101,7 +106,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets whether the stylecop rule specified is enabled.
@@ -114,16 +119,16 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
         /// </returns>
         public bool GetStyleCopRuleEnabled(string ruleId)
         {
-            var returnValue = false;
+            bool returnValue = false;
 
             if (this.settings != null)
             {
-                var analyzerSettings = this.settings.AnalyzerSettings;
-                foreach (var addInPropertyCollection in analyzerSettings)
+                ICollection<AddInPropertyCollection> analyzerSettings = this.settings.AnalyzerSettings;
+                foreach (AddInPropertyCollection addInPropertyCollection in analyzerSettings)
                 {
                     if (addInPropertyCollection.AddIn.Id == AnalyzerName)
                     {
-                        var property = addInPropertyCollection[ruleId + "#Enabled"] as BooleanProperty;
+                        BooleanProperty property = addInPropertyCollection[ruleId + "#Enabled"] as BooleanProperty;
 
                         if (property != null)
                         {
@@ -151,7 +156,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
         /// </returns>
         public TProperty GetStyleCopRuleProperty<TProperty>(string propertyName) where TProperty : PropertyValue
         {
-            var propertyValue = this.GetSetting(propertyName);
+            PropertyValue propertyValue = this.GetSetting(propertyName);
             return (TProperty)propertyValue;
         }
 
@@ -172,7 +177,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Rules
         {
             if (this.settings != null)
             {
-                foreach (var addInProperty in this.settings.AnalyzerSettings)
+                foreach (AddInPropertyCollection addInProperty in this.settings.AnalyzerSettings)
                 {
                     if (addInProperty.AddIn.Id == AnalyzerName)
                     {

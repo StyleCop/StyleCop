@@ -15,7 +15,6 @@
 //   Defines the StyleCopOptionsPage type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Options
 {
     #region Using Directives
@@ -62,9 +61,10 @@ namespace StyleCop.ReSharper513.Options
         ///   The order of modifiers for StyleCop.
         /// </summary>
         private static readonly string[] ModifiersOrder = new[]
-            {
-                "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed", "readonly", "extern", "unsafe", "volatile"
-            };
+                                                              {
+                                                                  "public", "protected", "internal", "private", "static", "new", "abstract", "virtual", "override", "sealed",
+                                                                  "readonly", "extern", "unsafe", "volatile"
+                                                              };
 
         /// <summary>
         ///   The instance of this options page.
@@ -90,9 +90,11 @@ namespace StyleCop.ReSharper513.Options
         #region Constructors and Destructors
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="StyleCopOptionsPage" /> class.
+        /// Initializes a new instance of the <see cref="StyleCopOptionsPage"/> class.
         /// </summary>
-        /// <param name="dialog"> The options dialog reference opening our page. </param>
+        /// <param name="dialog">
+        /// The options dialog reference opening our page. 
+        /// </param>
         public StyleCopOptionsPage(IOptionsDialog dialog)
         {
             instance = this;
@@ -159,10 +161,14 @@ namespace StyleCop.ReSharper513.Options
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
+        /// Confirms that the ReSharper code style options are all valid to ensure no StyleCop issues on cleanup.
         /// </summary>
-        /// <param name="solution"> The solution to use to validate the settings. </param>
-        /// <returns> True if options are all valid, otherwise false. </returns>
+        /// <param name="solution">
+        /// The solution to use to validate the settings. 
+        /// </param>
+        /// <returns>
+        /// True if options are all valid, otherwise false. 
+        /// </returns>
         public static bool CodeStyleOptionsValid(ISolution solution)
         {
             CodeStyleSettings settings = solution == null
@@ -171,7 +177,7 @@ namespace StyleCop.ReSharper513.Options
 
             CSharpCodeStyleSettings codeStyleSettings = settings.Get<CSharpCodeStyleSettings>();
 
-            var formatSettings = codeStyleSettings.FormatSettings;
+            CSharpFormatSettings formatSettings = codeStyleSettings.FormatSettings;
 
             if (formatSettings.ALIGN_FIRST_ARG_BY_PAREN)
             {
@@ -1074,7 +1080,7 @@ namespace StyleCop.ReSharper513.Options
                 return false;
             }
 
-            var namingSettings = codeStyleSettings.GetNamingSettings2();
+            NamingSettings namingSettings = codeStyleSettings.GetNamingSettings2();
 
             if (!namingSettings.OverrideDefaultSettings)
             {
@@ -1091,7 +1097,7 @@ namespace StyleCop.ReSharper513.Options
                 return false;
             }
 
-            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
+            foreach (KeyValuePair<NamedElementKinds, NamingPolicy> predefinedRule in namingSettings.PredefinedNamingRules)
             {
                 NamingRule rule = predefinedRule.Value.NamingRule;
                 if (rule.Suffix != string.Empty)
@@ -1138,7 +1144,7 @@ namespace StyleCop.ReSharper513.Options
                 }
             }
 
-            var usingsSettings = codeStyleSettings.UsingsSettings;
+            CSharpUsingsSettings usingsSettings = codeStyleSettings.UsingsSettings;
 
             if (!usingsSettings.AddImportsToDeepestScope)
             {
@@ -1504,9 +1510,11 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Resets the CodeStyleOptions to be StyleCop compatible.
+        /// Resets the CodeStyleOptions to be StyleCop compatible.
         /// </summary>
-        /// <param name="solution"> The solution to reset. </param>
+        /// <param name="solution">
+        /// The solution to reset. 
+        /// </param>
         public static void ResetCodeStyleOptions(ISolution solution)
         {
             CodeStyleSettings settings = solution == null
@@ -1515,7 +1523,7 @@ namespace StyleCop.ReSharper513.Options
 
             CSharpCodeStyleSettings codeStyleSettings = settings.Get<CSharpCodeStyleSettings>();
 
-            var formatSettings = codeStyleSettings.FormatSettings;
+            CSharpFormatSettings formatSettings = codeStyleSettings.FormatSettings;
 
             formatSettings.ALIGN_FIRST_ARG_BY_PAREN = false;
             formatSettings.ALIGN_LINQ_QUERY = true;
@@ -1698,14 +1706,14 @@ namespace StyleCop.ReSharper513.Options
             formatSettings.WRAP_PARAMETERS_STYLE = WrapStyle.CHOP_IF_LONG;
             formatSettings.WRAP_TERNARY_EXPR_STYLE = WrapStyle.CHOP_IF_LONG;
 
-            var namingSettings = codeStyleSettings.GetNamingSettings2();
+            NamingSettings namingSettings = codeStyleSettings.GetNamingSettings2();
 
             namingSettings.OverrideDefaultSettings = true;
 
             namingSettings.EventHandlerPatternLong = "$object$_On$event$";
             namingSettings.EventHandlerPatternShort = "$event$Handler";
 
-            foreach (var predefinedRule in namingSettings.PredefinedNamingRules)
+            foreach (KeyValuePair<NamedElementKinds, NamingPolicy> predefinedRule in namingSettings.PredefinedNamingRules)
             {
                 NamingRule rule = predefinedRule.Value.NamingRule;
                 rule.Suffix = string.Empty;
@@ -1734,7 +1742,7 @@ namespace StyleCop.ReSharper513.Options
                 }
             }
 
-            var usingsSettings = codeStyleSettings.UsingsSettings;
+            CSharpUsingsSettings usingsSettings = codeStyleSettings.UsingsSettings;
 
             usingsSettings.AddImportsToDeepestScope = true;
             usingsSettings.QualifiedUsingAtNestedScope = true;
@@ -1862,7 +1870,7 @@ namespace StyleCop.ReSharper513.Options
         public void Commit()
         {
             string newLocation = null;
-            var oldLocation = StyleCopOptions.Instance.SpecifiedAssemblyPath;
+            string oldLocation = StyleCopOptions.Instance.SpecifiedAssemblyPath;
 
             if (!this.autoDetectCheckBox.Checked)
             {
@@ -1965,7 +1973,7 @@ namespace StyleCop.ReSharper513.Options
             {
                 if (!StyleCopReferenceHelper.LocationValid(this.StyleCopLocationTextBox.Text))
                 {
-                    var message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
+                    string message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
 
                     MessageBox.Show(message, Constants.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
@@ -1994,9 +2002,11 @@ namespace StyleCop.ReSharper513.Options
         #region Methods
 
         /// <summary>
-        ///   Raises the <see cref="E:System.Windows.Forms.UserControl.Load" /> event.
+        /// Raises the <see cref="E:System.Windows.Forms.UserControl.Load"/> event.
         /// </summary>
-        /// <param name="e"> An <see cref="T:System.EventArgs" /> that contains the event data. </param>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs"/> that contains the event data. 
+        /// </param>
         protected override void OnLoad(EventArgs e)
         {
             if (this.solution != null)
@@ -2011,17 +2021,29 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Returns a setting for the profile, descriptor and property name supplied.
+        /// Returns a setting for the profile, descriptor and property name supplied.
         /// </summary>
-        /// <typeparam name="T"> The return type. </typeparam>
-        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
-        /// <param name="profile"> The Cleanup profile to set. </param>
-        /// <param name="descriptorName"> The name to match. </param>
-        /// <param name="propertyName"> The property name to match. </param>
-        /// <returns> The property value. </returns>
+        /// <typeparam name="T">
+        /// The return type. 
+        /// </typeparam>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="profile">
+        /// The Cleanup profile to set. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <returns>
+        /// The property value. 
+        /// </returns>
         private static T GetCodeCleanupProfileSetting<T>(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName)
         {
-            var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
+            CodeCleanupOptionDescriptor cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
 
             if (cleanupOptionDescriptor == null)
             {
@@ -2033,17 +2055,23 @@ namespace StyleCop.ReSharper513.Options
                 return (T)profile[cleanupOptionDescriptor];
             }
 
-            var propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
+            PropertyInfo propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
 
             return propertyInfo != null ? (T)propertyInfo.GetValue(profile[cleanupOptionDescriptor], null) : default(T);
         }
 
         /// <summary>
-        ///   Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
+        /// Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
         /// </summary>
-        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
-        /// <param name="descriptorName"> The name to match. </param>
-        /// <returns> The CodeCleanupOptionDescriptor for the descriptor. </returns>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The name to match. 
+        /// </param>
+        /// <returns>
+        /// The CodeCleanupOptionDescriptor for the descriptor. 
+        /// </returns>
         private static CodeCleanupOptionDescriptor GetDescriptor(CodeCleanup codeCleanup, string descriptorName)
         {
             foreach (ICodeCleanupModule module in codeCleanup.Modules)
@@ -2064,11 +2092,17 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Gets a PropertyInfo object matching the descriptor and the property name supplied.
+        /// Gets a PropertyInfo object matching the descriptor and the property name supplied.
         /// </summary>
-        /// <param name="descriptor"> The name to match. </param>
-        /// <param name="propertyName"> The property name to match. </param>
-        /// <returns> A PropertyInfo matching. </returns>
+        /// <param name="descriptor">
+        /// The name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <returns>
+        /// A PropertyInfo matching. 
+        /// </returns>
         private static PropertyInfo GetPropertyInfo(CodeCleanupOptionDescriptor descriptor, string propertyName)
         {
             return (from info in descriptor.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -2078,16 +2112,26 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Sets a CodeCleanupProfile setting for the profile, descriptor and property name passed in.
+        /// Sets a CodeCleanupProfile setting for the profile, descriptor and property name passed in.
         /// </summary>
-        /// <param name="codeCleanup"> The CodeCleanup object to use. </param>
-        /// <param name="profile"> The Cleanup profile to set. </param>
-        /// <param name="descriptorName"> The descriptor name to match. </param>
-        /// <param name="propertyName"> The property name to match. </param>
-        /// <param name="value"> The new value. </param>
+        /// <param name="codeCleanup">
+        /// The CodeCleanup object to use. 
+        /// </param>
+        /// <param name="profile">
+        /// The Cleanup profile to set. 
+        /// </param>
+        /// <param name="descriptorName">
+        /// The descriptor name to match. 
+        /// </param>
+        /// <param name="propertyName">
+        /// The property name to match. 
+        /// </param>
+        /// <param name="value">
+        /// The new value. 
+        /// </param>
         private static void SetCodeCleanupProfileSetting(CodeCleanup codeCleanup, CodeCleanupProfile profile, string descriptorName, string propertyName, object value)
         {
-            var cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
+            CodeCleanupOptionDescriptor cleanupOptionDescriptor = GetDescriptor(codeCleanup, descriptorName);
 
             if (cleanupOptionDescriptor == null)
             {
@@ -2100,7 +2144,7 @@ namespace StyleCop.ReSharper513.Options
                 return;
             }
 
-            var propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
+            PropertyInfo propertyInfo = GetPropertyInfo(cleanupOptionDescriptor, propertyName);
 
             if (propertyInfo == null)
             {
@@ -2113,10 +2157,14 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Handles the CheckedChanged event of the AutoDetectCheckBox control.
+        /// Handles the CheckedChanged event of the AutoDetectCheckBox control.
         /// </summary>
-        /// <param name="sender"> The source of the event. </param>
-        /// <param name="e"> The <see cref="System.EventArgs" /> instance containing the event data. </param>
+        /// <param name="sender">
+        /// The source of the event. 
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data. 
+        /// </param>
         private void AutoDetectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (this.autoDetectCheckBox.Checked)
@@ -2138,10 +2186,14 @@ namespace StyleCop.ReSharper513.Options
         }
 
         /// <summary>
-        ///   Handles the Click event of the BrowseButton control.
+        /// Handles the Click event of the BrowseButton control.
         /// </summary>
-        /// <param name="sender"> The source of the event. </param>
-        /// <param name="e"> The <see cref="System.EventArgs" /> instance containing the event data. </param>
+        /// <param name="sender">
+        /// The source of the event. 
+        /// </param>
+        /// <param name="e">
+        /// The <see cref="System.EventArgs"/> instance containing the event data. 
+        /// </param>
         private void BrowseButton_Click(object sender, EventArgs e)
         {
             this.ShowFileDialog();
@@ -2167,8 +2219,8 @@ namespace StyleCop.ReSharper513.Options
         {
             ResetCodeStyleOptions(this.dialog.DataContext.GetData(DataConstants.SOLUTION));
             MessageBox.Show(
-                @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.",
-                @"StyleCop",
+                @"C# code style options have been set in order to fix StyleCop violations. Your UserSettings.xml will be saved when you exit Visual Studio.", 
+                @"StyleCop", 
                 MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
         }
@@ -2178,7 +2230,7 @@ namespace StyleCop.ReSharper513.Options
         /// </summary>
         private void ShowDetectedAssemblyLocation()
         {
-            var location = StyleCopOptions.Instance.DetectStyleCopPath();
+            string location = StyleCopOptions.Instance.DetectStyleCopPath();
 
             if (string.IsNullOrEmpty(location))
             {
@@ -2200,7 +2252,7 @@ namespace StyleCop.ReSharper513.Options
         {
             if (!string.IsNullOrEmpty(this.StyleCopLocationTextBox.Text))
             {
-                var dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
+                string dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
 
                 if (!string.IsNullOrEmpty(dir))
                 {
@@ -2221,7 +2273,7 @@ namespace StyleCop.ReSharper513.Options
         /// </summary>
         private void ShowSpecifiedAssemblyLocation()
         {
-            var location = StyleCopOptions.Instance.SpecifiedAssemblyPath;
+            string location = StyleCopOptions.Instance.SpecifiedAssemblyPath;
             this.StyleCopLocationTextBox.Text = location;
             this.BrowseButton.Enabled = true;
             this.StyleCopLocationTextBox.Enabled = true;

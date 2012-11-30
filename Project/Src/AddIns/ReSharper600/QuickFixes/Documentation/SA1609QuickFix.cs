@@ -15,7 +15,6 @@
 //   QuickFix - SA1609: ElementReturnValueMustBeDocumented.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Documentation
 {
     #region Using Directives

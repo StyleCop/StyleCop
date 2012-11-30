@@ -15,7 +15,6 @@
 //   The s a 1022 positive signs must be spaced correctly bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Spacing
 {
     #region Using Directives
@@ -23,6 +22,7 @@ namespace StyleCop.ReSharper513.BulbItems.Spacing
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper513.BulbItems.Framework;
@@ -36,7 +36,7 @@ namespace StyleCop.ReSharper513.BulbItems.Spacing
     /// </summary>
     public class SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -51,8 +51,8 @@ namespace StyleCop.ReSharper513.BulbItems.Spacing
         {
             Utils.FormatLineForTextControl(solution, textControl);
 
-            var element = Utils.GetElementAtCaret(solution, textControl);
-            var containingBlock = element.GetContainingElement<IBlockNode>(true);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
+            IBlockNode containingBlock = element.GetContainingElement<IBlockNode>(true);
             if (containingBlock != null)
             {
                 new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock.ToTreeNode(), CSharpTokenType.PLUS);

@@ -12,10 +12,9 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   A custom <see cref="TraceSwitch" /> class allowing more trace levels than the default switch.
+//   A custom  class allowing more trace levels than the default switch.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Diagnostics
 {
     #region Using Directives
@@ -89,7 +88,7 @@ namespace StyleCop.ReSharper513.Diagnostics
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the current trace level.
@@ -156,7 +155,7 @@ namespace StyleCop.ReSharper513.Diagnostics
         /// </summary>
         protected override void OnSwitchSettingChanged()
         {
-            var value = this.SwitchSetting;
+            int value = this.SwitchSetting;
             this.TraceInOut = 0 != (value & (int)TraceTypes.InOut);
             this.TraceError = 0 != (value & (int)TraceTypes.Error);
             this.TraceWarning = 0 != (value & (int)TraceTypes.Warning);

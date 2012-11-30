@@ -38,9 +38,7 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
     [DisableHighlightingActionProvider]
     public class ChangeStyleCopRule : IDisableHighlightingActionProvider
     {
-        #region Implemented Interfaces
-
-        #region IDisableHighlightingActionProvider
+        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the actions for changing the highlight options for StyleCop rules.
@@ -56,20 +54,21 @@ namespace StyleCop.ReSharper513.QuickFixes.Framework
         /// </returns>
         public IEnumerable<IDisableHighlightingAction> Actions(IHighlighting highlighting, DocumentRange highlightingRange)
         {
-            var violation = highlighting as StyleCopViolationBase;
+            StyleCopViolationBase violation = highlighting as StyleCopViolationBase;
 
             if (violation == null)
             {
                 return JB::JetBrains.Util.EmptyArray<IDisableHighlightingAction>.Instance;
             }
 
-            var ruleID = violation.CheckId;
-            var highlightID = HighlightingRegistering.GetHighlightID(ruleID);
+            string ruleID = violation.CheckId;
+            string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            return new IDisableHighlightingAction[] { new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } };
+            return new IDisableHighlightingAction[]
+                       {
+                          new ChangeStyleCopRuleAction { HighlightID = highlightID, Text = "Inspection Options for \"" + violation.ToolTip + "\"" } 
+                       };
         }
-
-        #endregion
 
         #endregion
     }

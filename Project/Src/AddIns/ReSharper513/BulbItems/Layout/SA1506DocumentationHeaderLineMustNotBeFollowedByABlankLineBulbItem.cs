@@ -15,7 +15,6 @@
 //   The s a 1506 documentation header line must not be followed by a blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Layout
 {
     #region Using Directives
@@ -36,7 +35,7 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
     /// </summary>
     public class SA1506DocumentationHeaderLineMustNotBeFollowedByABlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -49,15 +48,15 @@ namespace StyleCop.ReSharper513.BulbItems.Layout
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
 
-            var currentNode = (ITreeNode)element;
+            ITreeNode currentNode = (ITreeNode)element;
 
-            var docCommentNode = currentNode as IDocCommentNode;
+            IDocCommentNode docCommentNode = currentNode as IDocCommentNode;
 
-            var containingElement = docCommentNode.GetContainingElement<IDocCommentBlockNode>(true);
+            IDocCommentBlockNode containingElement = docCommentNode.GetContainingElement<IDocCommentBlockNode>(true);
 
-            var rightNode = containingElement.FindFormattingRangeToRight();
+            ITreeNode rightNode = containingElement.FindFormattingRangeToRight();
 
             Utils.RemoveNewLineBefore(rightNode);
         }

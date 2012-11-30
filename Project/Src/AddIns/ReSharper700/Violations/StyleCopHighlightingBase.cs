@@ -15,7 +15,6 @@
 //   Highlights the StyleCop Violation within the IDE.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.Violations
 {
     #region Using Directives
@@ -85,7 +84,7 @@ namespace StyleCop.ReSharper700.Violations
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets the attribute id.
@@ -115,11 +114,6 @@ namespace StyleCop.ReSharper700.Violations
                 return null;
             }
         }
-
-        /// <summary>
-        /// Gets the internal Violation.
-        /// </summary>
-        public Violation Violation { get; private set; }
 
         /// <summary>
         /// Gets the check id for the Violation.
@@ -200,11 +194,14 @@ namespace StyleCop.ReSharper700.Violations
         /// </summary>
         public string ToolTip { get; set; }
 
+        /// <summary>
+        /// Gets the internal Violation.
+        /// </summary>
+        public Violation Violation { get; private set; }
+
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IHighlighting
+        #region Public Methods and Operators
 
         /// <summary>
         /// Returns true if valid.
@@ -216,8 +213,6 @@ namespace StyleCop.ReSharper700.Violations
         {
             return true;
         }
-
-        #endregion
 
         #endregion
     }

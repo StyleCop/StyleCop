@@ -15,7 +15,6 @@
 //   The project settings factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.Core
 {
     #region Using Directives
@@ -35,13 +34,13 @@ namespace StyleCop.ReSharper513.Core
     /// </summary>
     public class ProjectSettingsFactory
     {
-        #region Constants and Fields
+        #region Static Fields
 
         private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets StyleCopCore.
@@ -50,7 +49,7 @@ namespace StyleCop.ReSharper513.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The create.
@@ -68,7 +67,7 @@ namespace StyleCop.ReSharper513.Core
         {
             StyleCopTrace.In(settingsFilePath);
 
-            var cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
+            string cacheKey = string.Format("{0}::{1}", settingsFilePath, readOnly);
 
             Settings result;
 
@@ -85,14 +84,16 @@ namespace StyleCop.ReSharper513.Core
                 if (File.Exists(settingsFilePath))
                 {
                     // Load the settings document.
-                    var document = new XmlDocument();
+                    XmlDocument document = new XmlDocument();
                     document.Load(settingsFilePath);
 
                     // Get the last write time for the time.
-                    var writeTime = File.GetLastWriteTime(settingsFilePath);
+                    DateTime writeTime = File.GetLastWriteTime(settingsFilePath);
 
                     // Create the settings container.
-                    var settings = readOnly ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime) : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
+                    Settings settings = readOnly
+                                            ? new Settings(this.StyleCopCore, settingsFilePath, document, writeTime)
+                                            : new WritableSettings(this.StyleCopCore, settingsFilePath, document, writeTime);
 
                     StyleCopTrace.Out();
 

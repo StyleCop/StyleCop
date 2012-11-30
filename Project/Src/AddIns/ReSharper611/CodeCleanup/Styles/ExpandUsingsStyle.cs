@@ -15,7 +15,6 @@
 //   Enumeration to define the behavior of Usings declarations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper611.CodeCleanup.Styles
 {
     #region Using Directives

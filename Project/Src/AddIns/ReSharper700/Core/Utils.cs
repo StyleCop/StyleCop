@@ -43,6 +43,7 @@ namespace StyleCop.ReSharper700.Core
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+    using JetBrains.ReSharper.Psi.Impl.Caches2;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
@@ -61,15 +62,20 @@ namespace StyleCop.ReSharper700.Core
     /// </summary>
     internal class Utils
     {
-        #region Constants and Fields
+        #region Public Static Fields
 
         /// <summary>
         /// This is an array of characters including all whitespace characters plus forward slash.
         /// </summary>
         public static readonly char[] TrimChars = new[]
-            {
-               '/', '\t', '\n', '\v', '\f', '\r', ' ', '\x0085', '\x00a0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '​', '\u2028', '\u2029', '　', '﻿' 
-            };
+                                                      {
+                                                          '/', '\t', '\n', '\v', '\f', '\r', ' ', '\x0085', '\x00a0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 
+                                                          ' ', '​', '\u2028', '\u2029', '　', '﻿'
+                                                      };
+
+        #endregion
+
+        #region Constants
 
         private const string HeaderSummaryForDestructorXml = "Finalizes an instance of the <see cref=\"{0}\" /> class.";
 
@@ -80,6 +86,10 @@ namespace StyleCop.ReSharper700.Core
         private const string HeaderSummaryForStaticConstructorXml = "Initializes static members of the <see cref=\"{0}\" /> {1}.";
 
         private const string PrefixText = "TODO ";
+
+        #endregion
+
+        #region Static Fields
 
         private static readonly NodeTypeSet OurNewLineTokens;
 
@@ -99,7 +109,7 @@ namespace StyleCop.ReSharper700.Core
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Calculates the number of line feeds occurring between the 2 nodes provided.
@@ -115,8 +125,8 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static int CalcLineFeedsBetween(ITreeNode node1, ITreeNode node2)
         {
-            var lineFeedsBetween = 0;
-            for (var node = node1.NextSibling; node != node2; node = node.NextSibling)
+            int lineFeedsBetween = 0;
+            for (ITreeNode node = node1.NextSibling; node != node2; node = node.NextSibling)
             {
                 if (node.IsNewLine())
                 {
@@ -138,7 +148,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string ConvertTextToSentence(string textToParse)
         {
-            var result = Regex.Replace(textToParse, "([^A-Z])([A-Z])", "$1 $2").Trim();
+            string result = Regex.Replace(textToParse, "([^A-Z])([A-Z])", "$1 $2").Trim();
             result = Regex.Replace(result, "([A-Z])([A-Z])([^A-Z])", "$1 $2$3");
             result = Regex.Replace(result, "([A-Za-z])([0-9])", "$1 $2").Trim();
             result = Regex.Replace(result, "([0-9])([A-Za-z])", "$1 $2").Trim();
@@ -160,7 +170,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ICSharpArgument CreateArgumentValueExpression(IPsiModule psiModule, string argument)
         {
-            var factory = CSharpElementFactory.GetInstance(psiModule);
+            CSharpElementFactory factory = CSharpElementFactory.GetInstance(psiModule);
             return factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression("$0", new object[] { argument }));
         }
 
@@ -178,7 +188,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ICSharpArgument CreateConstructorArgumentValueExpression(IPsiModule psiModule, string argument)
         {
-            var factory = CSharpElementFactory.GetInstance(psiModule);
+            CSharpElementFactory factory = CSharpElementFactory.GetInstance(psiModule);
             return factory.CreateArgument(ParameterKind.VALUE, factory.CreateExpression("$0", new object[] { "\"" + argument + "\"" }));
         }
 
@@ -196,14 +206,14 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateConstructorDescriptionText(IConstructorDeclaration constructorDeclaration, bool encodeHtmlTags)
         {
-            var containingTypeDeclaration = constructorDeclaration.GetContainingTypeDeclaration();
-            var newName = constructorDeclaration.DeclaredName;
+            ICSharpTypeDeclaration containingTypeDeclaration = constructorDeclaration.GetContainingTypeDeclaration();
+            string newName = constructorDeclaration.DeclaredName;
             if (containingTypeDeclaration.TypeParameters.Count > 0)
             {
                 newName += encodeHtmlTags ? "{" : "<";
-                for (var i = 0; i < containingTypeDeclaration.TypeParameters.Count; i++)
+                for (int i = 0; i < containingTypeDeclaration.TypeParameters.Count; i++)
                 {
-                    var parameterDeclaration = containingTypeDeclaration.TypeParameters[i];
+                    ITypeParameterOfTypeDeclaration parameterDeclaration = containingTypeDeclaration.TypeParameters[i];
                     newName += parameterDeclaration.DeclaredName;
                     if (i < containingTypeDeclaration.TypeParameters.Count - 1)
                     {
@@ -231,14 +241,14 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateDestructorDescriptionText(IDestructorDeclaration destructorDeclaration, bool encodeHtmlTags)
         {
-            var containingTypeDeclaration = destructorDeclaration.GetContainingTypeDeclaration();
-            var newName = destructorDeclaration.DeclaredName.Substring(1);
+            ICSharpTypeDeclaration containingTypeDeclaration = destructorDeclaration.GetContainingTypeDeclaration();
+            string newName = destructorDeclaration.DeclaredName.Substring(1);
             if (containingTypeDeclaration.TypeParameters.Count > 0)
             {
                 newName += encodeHtmlTags ? "{" : "<";
-                for (var i = 0; i < containingTypeDeclaration.TypeParameters.Count; i++)
+                for (int i = 0; i < containingTypeDeclaration.TypeParameters.Count; i++)
                 {
-                    var parameterDeclaration = containingTypeDeclaration.TypeParameters[i];
+                    ITypeParameterOfTypeDeclaration parameterDeclaration = containingTypeDeclaration.TypeParameters[i];
                     newName += parameterDeclaration.DeclaredName;
                     if (i < containingTypeDeclaration.TypeParameters.Count - 1)
                     {
@@ -269,10 +279,10 @@ namespace StyleCop.ReSharper700.Core
             // Fix up the xml terminators to remove the extra space.
             text = text.Replace(" />", "/>");
 
-            var builder = new StringBuilder();
-            foreach (var line in text.Split('\n'))
+            StringBuilder builder = new StringBuilder();
+            foreach (string line in text.Split('\n'))
             {
-                var outputLine = line;
+                string outputLine = line;
                 if (line.StartsWith(" "))
                 {
                     outputLine = line.Substring(1);
@@ -282,7 +292,8 @@ namespace StyleCop.ReSharper700.Core
             }
 
             builder.Append("void fec();");
-            var declaration = (IDocCommentBlockOwnerNode)CSharpElementFactory.GetInstance(element.GetPsiModule()).CreateTypeMemberDeclaration(builder.ToString());
+            IDocCommentBlockOwnerNode declaration =
+                (IDocCommentBlockOwnerNode)CSharpElementFactory.GetInstance(element.GetPsiModule()).CreateTypeMemberDeclaration(builder.ToString());
 
             return declaration.GetDocCommentBlockNode();
         }
@@ -300,11 +311,11 @@ namespace StyleCop.ReSharper700.Core
         {
             if (declaration is IParameterDeclaration)
             {
-                var openParamElement = "<param name=\"" + declaration.DeclaredName + "\">";
+                string openParamElement = "<param name=\"" + declaration.DeclaredName + "\">";
 
-                var parameterDescription = string.Empty;
+                string parameterDescription = string.Empty;
 
-                var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
+                IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
                 if (settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
                 {
                     parameterDescription = string.Format("The {0}.", ConvertTextToSentence(declaration.DeclaredName).ToLowerInvariant());
@@ -321,17 +332,6 @@ namespace StyleCop.ReSharper700.Core
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Returns the text provided prefixed with the prefix text if required.
-        /// </summary>
-        /// <param name="text">The text to prefix.</param>
-        /// <param name="settingsStore">The settings store.</param>
-        /// <returns>The updated text.</returns>
-        public static string UpdateTextWithToDoPrefixIfRequired(string text, IContextBoundSettingsStore settingsStore)
-        {
-            return settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertToDoText) ? PrefixText + text : text;
         }
 
         /// <summary>
@@ -359,17 +359,17 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateSummaryDocumentationForProperty(IPropertyDeclaration propertyDeclaration)
         {
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
-            var getter = propertyDeclaration.Getter();
-            var setter = propertyDeclaration.Setter();
-            var summaryText = string.Empty;
+            IAccessor getter = propertyDeclaration.Getter();
+            IAccessor setter = propertyDeclaration.Setter();
+            string summaryText = string.Empty;
 
-            var midText = IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : "the ";
+            string midText = IsPropertyBoolean(propertyDeclaration) ? "a value indicating whether " : "the ";
 
             if (getter != null)
             {
@@ -378,10 +378,11 @@ namespace StyleCop.ReSharper700.Core
 
             if (setter != null)
             {
-                var setterAccessRight = setter.GetAccessRights();
+                AccessRights setterAccessRight = setter.GetAccessRights();
 
-                if ((setterAccessRight == AccessRights.PRIVATE && propertyDeclaration.GetAccessRights() == AccessRights.PRIVATE) || setterAccessRight == AccessRights.PUBLIC ||
-                    setterAccessRight == AccessRights.PROTECTED || setterAccessRight == AccessRights.PROTECTED_OR_INTERNAL || setterAccessRight == AccessRights.INTERNAL)
+                if ((setterAccessRight == AccessRights.PRIVATE && propertyDeclaration.GetAccessRights() == AccessRights.PRIVATE)
+                    || setterAccessRight == AccessRights.PUBLIC || setterAccessRight == AccessRights.PROTECTED || setterAccessRight == AccessRights.PROTECTED_OR_INTERNAL
+                    || setterAccessRight == AccessRights.INTERNAL)
                 {
                     if (string.IsNullOrEmpty(summaryText))
                     {
@@ -399,7 +400,7 @@ namespace StyleCop.ReSharper700.Core
 
             return string.Format(summaryText, midText, ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower());
         }
-        
+
         /// <summary>
         /// Creates a new summary string for this constructor.
         /// </summary>
@@ -411,38 +412,44 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateSummaryForConstructorDeclaration(IConstructorDeclaration constructorDeclaration)
         {
-            var declarationHeader = new DeclarationHeader(constructorDeclaration);
+            DeclarationHeader declarationHeader = new DeclarationHeader(constructorDeclaration);
 
             if (declarationHeader.IsInherited)
             {
                 return declarationHeader.XmlNode.InnerXml;
             }
 
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, constructorDeclaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
-            var parentIsStruct = IsContainingTypeAStruct(constructorDeclaration);
+            bool parentIsStruct = IsContainingTypeAStruct(constructorDeclaration);
 
-            var structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
+            string structOrClass = parentIsStruct ? CachedCodeStrings.StructText : CachedCodeStrings.ClassText;
 
             string xmlWeShouldInsert;
 
             if (constructorDeclaration.IsStatic)
             {
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForStaticConstructor + ".", constructorDeclaration.DeclaredName, structOrClass);
+                xmlWeShouldInsert = string.Format(
+                    CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForStaticConstructor + ".", constructorDeclaration.DeclaredName, structOrClass);
             }
             else if (constructorDeclaration.GetAccessRights() == AccessRights.PRIVATE && constructorDeclaration.ParameterDeclarations.Count == 0)
             {
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor + ".", constructorDeclaration.DeclaredName, structOrClass);
+                xmlWeShouldInsert = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    CachedCodeStrings.ExampleHeaderSummaryForPrivateInstanceConstructor + ".", 
+                    constructorDeclaration.DeclaredName, 
+                    structOrClass);
             }
             else
             {
-                var constructorDescriptionText = CreateConstructorDescriptionText(constructorDeclaration, true);
+                string constructorDescriptionText = CreateConstructorDescriptionText(constructorDeclaration, true);
 
-                xmlWeShouldInsert = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor + ".", constructorDescriptionText, structOrClass);
+                xmlWeShouldInsert = string.Format(
+                    CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForInstanceConstructor + ".", constructorDescriptionText, structOrClass);
             }
 
             return xmlWeShouldInsert;
@@ -459,9 +466,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateSummaryForDestructorDeclaration(IDestructorDeclaration destructorDeclaration)
         {
-            var summaryText = string.Empty;
+            string summaryText = string.Empty;
 
-            var declarationHeader = new DeclarationHeader(destructorDeclaration);
+            DeclarationHeader declarationHeader = new DeclarationHeader(destructorDeclaration);
 
             if (declarationHeader.IsInherited)
             {
@@ -473,15 +480,15 @@ namespace StyleCop.ReSharper700.Core
                 summaryText = declarationHeader.SummaryXmlNode.InnerXml;
             }
 
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, destructorDeclaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return summaryText;
             }
 
-            var destructorDescriptionText = CreateDestructorDescriptionText(destructorDeclaration, true);
+            string destructorDescriptionText = CreateDestructorDescriptionText(destructorDeclaration, true);
 
-            var newXmlText = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForDestructor + ".", destructorDescriptionText);
+            string newXmlText = string.Format(CultureInfo.InvariantCulture, CachedCodeStrings.ExampleHeaderSummaryForDestructor + ".", destructorDescriptionText);
 
             return newXmlText + " " + summaryText;
         }
@@ -497,7 +504,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string CreateValueDocumentationForProperty(IPropertyDeclaration propertyDeclaration)
         {
-            var settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, propertyDeclaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
@@ -505,7 +512,7 @@ namespace StyleCop.ReSharper700.Core
 
             valueText = ConvertTextToSentence(propertyDeclaration.DeclaredName).ToLower();
 
-            var prefix = Utils.UpdateTextWithToDoPrefixIfRequired(string.Empty, settingsStore);
+            string prefix = Utils.UpdateTextWithToDoPrefixIfRequired(string.Empty, settingsStore);
 
             return string.Format("<value>{1}The {0}.</value>", valueText, prefix);
         }
@@ -521,10 +528,10 @@ namespace StyleCop.ReSharper700.Core
         /// </param>
         public static void FormatLineForTextControl(ISolution solution, ITextControl textControl)
         {
-            var tokens = GetTokensForLineFromTextControl(solution, textControl).ToArray();
+            ITokenNode[] tokens = GetTokensForLineFromTextControl(solution, textControl).ToArray();
             if (tokens.Length > 0)
             {
-                var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+                ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                 codeFormatter.Format(tokens[0], tokens[tokens.Length - 1]);
             }
         }
@@ -545,9 +552,12 @@ namespace StyleCop.ReSharper700.Core
         /// The line to end the formatting.
         /// </param>
         public static void FormatLines(
-            ISolution solution, IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
+            ISolution solution, 
+            IDocument document, 
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine, 
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
         {
-            var lineCount = document.GetLineCount();
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount = document.GetLineCount();
 
             if (startLine < (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0)
             {
@@ -559,16 +569,16 @@ namespace StyleCop.ReSharper700.Core
                 endLine = lineCount.Minus1();
             }
 
-            var startOffset = document.GetLineStartOffset(startLine);
-            var endOffset = document.GetLineEndOffsetNoLineBreak(endLine);
+            int startOffset = document.GetLineStartOffset(startLine);
+            int endOffset = document.GetLineEndOffsetNoLineBreak(endLine);
 
-            var codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
+            ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
             codeFormatter.Format(
-                solution,
-                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)),
-                CodeFormatProfile.DEFAULT,
-                true,
-                true,
+                solution, 
+                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)), 
+                CodeFormatProfile.DEFAULT, 
+                true, 
+                true, 
                 JB::JetBrains.Application.Progress.NullProgressIndicator.Instance);
         }
 
@@ -612,66 +622,6 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// Gets the Type T that was closest to the ITextControl specified.
-        /// It takes the first token on the line.
-        /// Then moves through the parents looking for the first one that implements T.
-        /// </summary>
-        /// <param name="solution">
-        /// The solution.
-        /// </param>
-        /// <param name="textControl">
-        /// The ITextControl.
-        /// </param>
-        /// <typeparam name="T">
-        /// The type to check for.
-        /// </typeparam>
-        /// <returns>
-        /// The T closest to the textControl or null.
-        /// </returns>
-        public static T GetTypeClosestToTextControl<T>(ISolution solution, ITextControl textControl)
-        {
-            var tokens = GetTokensForLineFromTextControl(solution, textControl);
-
-            // We check all the token on the line first.
-            // For a Method we will find a token (or its parent) that is the T and so use that.
-            foreach (var tokenNode in tokens)
-            {
-                if (tokenNode is T)
-                {
-                    return (T)tokenNode;
-                }
-
-                if (tokenNode.Parent is T)
-                {
-                    return (T)tokenNode.Parent;
-                }
-            }
-
-            // None of the tokens on the line (or their parents) were T. Now check all ancestors of the first token for T.
-            if (tokens.Count > 0)
-            {
-                var tokenNode = tokens[0].Parent;
-
-                while (true)
-                {
-                    if (tokenNode == null)
-                    {
-                        return default(T);
-                    }
-
-                    tokenNode = tokenNode.Parent;
-
-                    if (tokenNode is T)
-                    {
-                        return (T)tokenNode;
-                    }
-                }
-            }
-
-            return default(T);
-        }
-
-        /// <summary>
         /// Returns the DocCommentBlockNode for the declaration provided.
         /// </summary>
         /// <param name="declaration">
@@ -682,7 +632,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static IDocCommentBlockNode GetDocCommentBlockNodeForDeclaration(IDeclaration declaration)
         {
-            var treeNode = declaration;
+            IDeclaration treeNode = declaration;
             return (treeNode is IMultipleDeclarationMember)
                        ? SharedImplUtil.GetDocCommentBlockNode(((IMultipleDeclarationMember)treeNode).MultipleDeclaration)
                        : SharedImplUtil.GetDocCommentBlockNode(treeNode);
@@ -699,7 +649,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static IDocCommentBlockOwnerNode GetDocCommentBlockOwnerNodeForDeclaration(IDeclaration declaration)
         {
-            var treeNode = declaration as ITreeNode;
+            ITreeNode treeNode = declaration as ITreeNode;
             return treeNode is IMultipleDeclarationMember ? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
         }
 
@@ -717,14 +667,14 @@ namespace StyleCop.ReSharper700.Core
         /// </param>
         public static ITreeNode GetElementAtCaret(ISolution solution, ITextControl textControl)
         {
-            var file = GetCSharpFile(solution, textControl);
+            ICSharpFile file = GetCSharpFile(solution, textControl);
 
             if (file == null)
             {
                 return null;
             }
 
-            var element = file.FindTokenAt(new TreeOffset(textControl.Caret.Offset()));
+            ITreeNode element = file.FindTokenAt(new TreeOffset(textControl.Caret.Offset()));
 
             if (element.IsNewLine())
             {
@@ -759,7 +709,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITreeRange GetFileHeaderTreeRange(ITreeNode file)
         {
-            var node = file.FirstChild;
+            ITreeNode node = file.FirstChild;
             while ((node is ITokenNode) && node.GetTokenType().IsWhitespace)
             {
                 node = node.NextSibling;
@@ -767,15 +717,15 @@ namespace StyleCop.ReSharper700.Core
 
             if (node is ICommentNode)
             {
-                var start = node;
-                var lastComment = node as ICommentNode;
+                ITreeNode start = node;
+                ICommentNode lastComment = node as ICommentNode;
                 while ((node = node.NextSibling) != null)
                 {
                     if (!(node is ITokenNode) || !node.GetTokenType().IsWhitespace)
                     {
                         if (node is ICSharpCommentNode)
                         {
-                            var n = node as ICSharpCommentNode;
+                            ICSharpCommentNode n = node as ICSharpCommentNode;
                             if (n.CommentType == CommentType.END_OF_LINE_COMMENT)
                             {
                                 lastComment = (ICommentNode)node;
@@ -808,7 +758,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITokenNode GetFirstNewLineTokenToLeft(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetPrevToken();
+            ITokenNode currentToken = tokenNode.GetPrevToken();
             while (!currentToken.IsNewLine() && currentToken != null)
             {
                 currentToken = currentToken.GetPrevToken();
@@ -828,7 +778,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITokenNode GetFirstNewLineTokenToRight(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetNextToken();
+            ITokenNode currentToken = tokenNode.GetNextToken();
             while (!currentToken.IsNewLine() && currentToken != null)
             {
                 currentToken = currentToken.GetNextToken();
@@ -855,12 +805,12 @@ namespace StyleCop.ReSharper700.Core
                 return -1;
             }
 
-            var textIndex = 0;
+            int textIndex = 0;
 
             while (textIndex < text.Length)
             {
-                var ch = text[textIndex];
-                var whitespaceIndex = 0;
+                char ch = text[textIndex];
+                int whitespaceIndex = 0;
 
                 while (whitespaceIndex < TrimChars.Length)
                 {
@@ -894,7 +844,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITokenNode GetFirstNonWhitespaceTokenToLeft(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetPrevToken();
+            ITokenNode currentToken = tokenNode.GetPrevToken();
             while (currentToken != null && currentToken.IsWhitespace())
             {
                 currentToken = currentToken.GetPrevToken();
@@ -914,7 +864,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITokenNode GetFirstNonWhitespaceTokenToRight(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetNextToken();
+            ITokenNode currentToken = tokenNode.GetNextToken();
             while (currentToken != null && currentToken.IsWhitespace())
             {
                 currentToken = currentToken.GetNextToken();
@@ -944,7 +894,7 @@ namespace StyleCop.ReSharper700.Core
                 return file.TypeDeclarations.Count == 0 ? null : file.TypeDeclarations[0];
             }
 
-            var firstNamespace = file.NamespaceDeclarations[0];
+            ICSharpNamespaceDeclaration firstNamespace = file.NamespaceDeclarations[0];
 
             if (firstNamespace.TypeDeclarations.Count == 0)
             {
@@ -965,9 +915,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string GetFirstTypeName(ICSharpFile file)
         {
-            var returnValue = string.Empty;
+            string returnValue = string.Empty;
 
-            var typeDeclaration = GetFirstType(file);
+            ICSharpTypeDeclaration typeDeclaration = GetFirstType(file);
 
             return typeDeclaration == null ? returnValue : typeDeclaration.DeclaredName;
         }
@@ -990,12 +940,12 @@ namespace StyleCop.ReSharper700.Core
                 return -1;
             }
 
-            var textIndex = text.Length - 1;
+            int textIndex = text.Length - 1;
 
             while (textIndex >= 0)
             {
-                var ch = text[textIndex];
-                var whitespaceIndex = 0;
+                char ch = text[textIndex];
+                int whitespaceIndex = 0;
 
                 while (whitespaceIndex < TrimChars.Length)
                 {
@@ -1029,8 +979,8 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineCount(IProjectFile projectFile)
         {
-            var solution = projectFile.GetSolution();
-            var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+            ISolution solution = projectFile.GetSolution();
+            IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
             JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount;
 
             using (ReadLockCookie.Create())
@@ -1052,11 +1002,11 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(ITreeNode element)
         {
-            var range = element.GetDocumentRange();
+            DocumentRange range = element.GetDocumentRange();
 
             if (range == DocumentRange.InvalidRange)
             {
-                var line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
+                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
 
                 return line.Minus1();
             }
@@ -1089,9 +1039,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static int GetOffsetToStartOfLine(ITokenNode tokenNode)
         {
-            var firstTokenOnLine = GetFirstNewLineTokenToLeft(tokenNode).GetNextToken();
+            ITokenNode firstTokenOnLine = GetFirstNewLineTokenToLeft(tokenNode).GetNextToken();
 
-            var startPosition = firstTokenOnLine.GetTreeStartOffset();
+            TreeOffset startPosition = firstTokenOnLine.GetTreeStartOffset();
 
             return tokenNode.GetTreeStartOffset() - startPosition;
         }
@@ -1118,26 +1068,35 @@ namespace StyleCop.ReSharper700.Core
             StyleCopTrace.In(core);
 
             // TODO We should load the configuration values for the project not just DEBUG and TRACE
-            var configuration = new Configuration(new[] { "DEBUG", "TRACE" });
+            Configuration configuration = new Configuration(new[] { "DEBUG", "TRACE" });
 
-            var projectFiles = GetAllFilesForFile(projectFile);
+            IList<IProjectFile> projectFiles = GetAllFilesForFile(projectFile);
 
-            var codeProjects = new CodeProject[projectFiles.Count];
-            var i = 0;
+            CodeProject[] codeProjects = new CodeProject[projectFiles.Count];
+            int i = 0;
 
-            foreach (var projectfile in projectFiles)
+            foreach (IProjectFile projectfile in projectFiles)
             {
-                var path = projectfile.Location.FullPath;
+                string path = projectfile.Location.FullPath;
 
-                var codeProject = new CodeProject(projectfile.GetHashCode(), path, configuration);
+                CodeProject codeProject = new CodeProject(projectfile.GetHashCode(), path, configuration);
 
-                var documentTextToPass = i == 0 ? document.GetText() : null;
+                string documentTextToPass = i == 0 ? document.GetText() : null;
                 core.Environment.AddSourceCode(codeProject, path, documentTextToPass);
 
                 codeProjects[i++] = codeProject;
             }
 
             return StyleCopTrace.Out(codeProjects);
+        }
+
+        /// <summary>
+        /// Returns the currently active solution.
+        /// </summary>
+        /// <returns>Returns null if no active solution.</returns>
+        public static ISolution GetSolution()
+        {
+            return Shell.Instance.GetComponent<VSSolutionManager>().CurrentSolution;
         }
 
         /// <summary>
@@ -1148,23 +1107,23 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static Settings GetStyleCopSettings()
         {
-            var solution = GetSolution();
+            ISolution solution = GetSolution();
 
             if ((solution == null) || !Shell.HasInstance)
             {
                 return null;
             }
 
-            var control = Shell.Instance.Components.TextControlManager().FocusedTextControl.Value;
+            ITextControl control = Shell.Instance.Components.TextControlManager().FocusedTextControl.Value;
 
             if (control == null)
             {
                 return null;
             }
-            
-            var projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
-            var settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
-            
+
+            IProjectFile projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
+            Settings settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
+
             return settings;
         }
 
@@ -1179,7 +1138,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string GetSummaryForDeclaration(IDeclaration declaration)
         {
-            var declarationHeader = new DeclarationHeader(declaration);
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
 
             if (declarationHeader.IsMissing || declarationHeader.IsInherited || !declarationHeader.HasSummary)
             {
@@ -1205,18 +1164,18 @@ namespace StyleCop.ReSharper700.Core
             {
                 return string.Empty;
             }
-            
-            var settingsStore = file.GetSourceFile().GetSettingsStore();
+
+            IContextBoundSettingsStore settingsStore = file.GetSourceFile().GetSettingsStore();
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
             {
                 return string.Empty;
             }
 
-            var fileName = file.GetSourceFile().ToProjectFile().Location.Name;
+            string fileName = file.GetSourceFile().ToProjectFile().Location.Name;
 
-            var firstTypeName = GetFirstTypeName(file);
+            string firstTypeName = GetFirstTypeName(file);
 
-            var firstTypeSummaryText = GetSummaryForDeclaration(GetFirstType(file));
+            string firstTypeSummaryText = GetSummaryForDeclaration(GetFirstType(file));
 
             string summaryText;
 
@@ -1243,7 +1202,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string GetTextFromDeclarationHeader(XmlNode declarationNode)
         {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             foreach (XmlNode node in declarationNode.ChildNodes)
             {
                 if (node.NodeType == XmlNodeType.Text)
@@ -1252,7 +1211,7 @@ namespace StyleCop.ReSharper700.Core
                 }
                 else if (node.Name == "see" || node.Name == "seealso")
                 {
-                    var attribute = node.Attributes["cref"];
+                    XmlAttribute attribute = node.Attributes["cref"];
                     if (attribute != null)
                     {
                         builder.Append(StripClassName(attribute.Value));
@@ -1260,7 +1219,7 @@ namespace StyleCop.ReSharper700.Core
                 }
                 else if (node.Name == "paramref")
                 {
-                    var attribute2 = node.Attributes["name"];
+                    XmlAttribute attribute2 = node.Attributes["name"];
                     if (attribute2 != null)
                     {
                         builder.Append(attribute2.Value);
@@ -1288,17 +1247,18 @@ namespace StyleCop.ReSharper700.Core
         /// <returns>
         /// A TextRange covering the line number specified.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRange(IProjectFile projectFile, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> resharperLineNumber)
+        public static JB::JetBrains.Util.TextRange GetTextRange(
+            IProjectFile projectFile, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> resharperLineNumber)
         {
             using (ReadLockCookie.Create())
             {
-                var solution = projectFile.GetSolution();
+                ISolution solution = projectFile.GetSolution();
                 if (solution == null)
                 {
                     return new JB::JetBrains.Util.TextRange();
                 }
 
-                var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+                IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
 
                 return GetTextRange(document, resharperLineNumber);
             }
@@ -1320,18 +1280,18 @@ namespace StyleCop.ReSharper700.Core
         {
             using (ReadLockCookie.Create())
             {
-                var solution = projectFile.GetSolution();
+                ISolution solution = projectFile.GetSolution();
                 if (solution == null)
                 {
                     return new JB::JetBrains.Util.TextRange();
                 }
 
-                var document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+                IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
 
                 return GetTextRange(document, location);
             }
         }
-        
+
         /// <summary>
         /// Gets a TextRange covering the entire line specified.
         /// </summary>
@@ -1350,8 +1310,8 @@ namespace StyleCop.ReSharper700.Core
             {
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
-                var start = document.GetLineStartOffset(lineNumber);
-                var end = document.GetLineEndOffsetNoLineBreak(lineNumber);
+                int start = document.GetLineStartOffset(lineNumber);
+                int end = document.GetLineEndOffsetNoLineBreak(lineNumber);
                 return new JB::JetBrains.Util.TextRange(start, end);
             }
         }
@@ -1372,16 +1332,18 @@ namespace StyleCop.ReSharper700.Core
         {
             using (ReadLockCookie.Create())
             {
-                var startLine = ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.StartPoint.LineNumber).Minus1();
-                var endLine = ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.EndPoint.LineNumber).Minus1();
+                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine =
+                    ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.StartPoint.LineNumber).Minus1();
+                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine =
+                    ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.EndPoint.LineNumber).Minus1();
 
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
 
                 // Our index on line needs to be 1 less
                 // For the end it stays where it is as a TextRange needs the extra char to highlight correctly
-                var start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine - 1;
-                var end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine;
+                int start = document.GetLineStartOffset(startLine) + location.StartPoint.IndexOnLine - 1;
+                int end = document.GetLineStartOffset(endLine) + location.EndPoint.IndexOnLine;
                 if (start == end)
                 {
                     end += 1;
@@ -1406,22 +1368,23 @@ namespace StyleCop.ReSharper700.Core
         /// <returns>
         /// A HashSet of tokens for this line.
         /// </returns>
-        public static IList<ITokenNode> GetTokensForLine(ISolution solution, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber, IDocument document)
+        public static IList<ITokenNode> GetTokensForLine(
+            ISolution solution, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber, IDocument document)
         {
-            var tokens = new List<ITokenNode>();
+            List<ITokenNode> tokens = new List<ITokenNode>();
 
-            var file = GetCSharpFile(solution, document);
+            ICSharpFile file = GetCSharpFile(solution, document);
 
             using (ReadLockCookie.Create())
             {
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
-                var start = document.GetLineStartOffset(lineNumber);
-                var end = document.GetLineEndOffsetNoLineBreak(lineNumber);
+                int start = document.GetLineStartOffset(lineNumber);
+                int end = document.GetLineEndOffsetNoLineBreak(lineNumber);
 
-                for (var i = start; i < end; i++)
+                for (int i = start; i < end; i++)
                 {
-                    var t = (ITokenNode)file.FindTokenAt(new TreeOffset(i));
+                    ITokenNode t = (ITokenNode)file.FindTokenAt(new TreeOffset(i));
                     tokens.Add(t);
                 }
             }
@@ -1443,8 +1406,68 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static IList<ITokenNode> GetTokensForLineFromTextControl(ISolution solution, ITextControl textControl)
         {
-            var lineNumber = GetLineNumberForTextControl(textControl);
+            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber = GetLineNumberForTextControl(textControl);
             return GetTokensForLine(solution, lineNumber, textControl.Document);
+        }
+
+        /// <summary>
+        /// Gets the Type T that was closest to the ITextControl specified.
+        /// It takes the first token on the line.
+        /// Then moves through the parents looking for the first one that implements T.
+        /// </summary>
+        /// <param name="solution">
+        /// The solution.
+        /// </param>
+        /// <param name="textControl">
+        /// The ITextControl.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type to check for.
+        /// </typeparam>
+        /// <returns>
+        /// The T closest to the textControl or null.
+        /// </returns>
+        public static T GetTypeClosestToTextControl<T>(ISolution solution, ITextControl textControl)
+        {
+            IList<ITokenNode> tokens = GetTokensForLineFromTextControl(solution, textControl);
+
+            // We check all the token on the line first.
+            // For a Method we will find a token (or its parent) that is the T and so use that.
+            foreach (ITokenNode tokenNode in tokens)
+            {
+                if (tokenNode is T)
+                {
+                    return (T)tokenNode;
+                }
+
+                if (tokenNode.Parent is T)
+                {
+                    return (T)tokenNode.Parent;
+                }
+            }
+
+            // None of the tokens on the line (or their parents) were T. Now check all ancestors of the first token for T.
+            if (tokens.Count > 0)
+            {
+                ITreeNode tokenNode = tokens[0].Parent;
+
+                while (true)
+                {
+                    if (tokenNode == null)
+                    {
+                        return default(T);
+                    }
+
+                    tokenNode = tokenNode.Parent;
+
+                    if (tokenNode is T)
+                    {
+                        return (T)tokenNode;
+                    }
+                }
+            }
+
+            return default(T);
         }
 
         /// <summary>
@@ -1461,8 +1484,22 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            var cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
+            CacheManagerEx cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
             return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+        }
+
+        /// <summary>
+        /// The type to prepare an Xml presentable name for. All less than or greater than signs are replaced with curly brackets.
+        /// </summary>
+        /// <param name="returnType">
+        /// The type to get the presentable name for.
+        /// </param>
+        /// <returns>
+        /// The presentable name.
+        /// </returns>
+        public static string GetXmlPresentableName(IType returnType)
+        {
+            return returnType == null ? string.Empty : returnType.GetPresentableName(CSharpLanguage.Instance).Replace('<', '{').Replace('>', '}');
         }
 
         /// <summary>
@@ -1493,8 +1530,8 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITreeNode InsertNewLineAfter2(ITreeNode currentNode)
         {
-            var newText = Environment.NewLine;
-            var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            string newText = Environment.NewLine;
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
             LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
             return leafElement;
         }
@@ -1510,8 +1547,8 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITreeNode InsertNewLineBefore2(ITreeNode currentNode)
         {
-            var newText = Environment.NewLine;
-            var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            string newText = Environment.NewLine;
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
             LowLevelModificationUtil.AddChildBefore(currentNode, new[] { leafElement });
             return leafElement;
         }
@@ -1530,8 +1567,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITreeNode InsertWhitespaceAfter(ITreeNode currentNode, int count)
         {
-            var newText = " ".PadLeft(count);
-            var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            string newText = " ".PadLeft(count);
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
+                CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
 
             using (WriteLockCookie.Create(true))
             {
@@ -1555,8 +1593,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static ITreeNode InsertWhitespaceBefore(ITreeNode currentNode, int count)
         {
-            var newText = " ".PadLeft(count);
-            var leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            string newText = " ".PadLeft(count);
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
+                CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
 
             using (WriteLockCookie.Create(true))
             {
@@ -1565,7 +1604,7 @@ namespace StyleCop.ReSharper700.Core
 
             return leafElement;
         }
-        
+
         /// <summary>
         /// Indicates whether the type of the constructor passed in is a struct.
         /// </summary>
@@ -1577,7 +1616,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool IsContainingTypeAStruct(IConstructorDeclaration constructorDeclaration)
         {
-            var typeDeclaration = constructorDeclaration.GetContainingTypeDeclaration();
+            ICSharpTypeDeclaration typeDeclaration = constructorDeclaration.GetContainingTypeDeclaration();
 
             return typeDeclaration is IStructDeclaration;
         }
@@ -1593,7 +1632,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool IsFirstNodeOnLine(ITreeNode node)
         {
-            var leftNode = node.FindFormattingRangeToLeft();
+            ITreeNode leftNode = node.FindFormattingRangeToLeft();
 
             return leftNode == null || HasLineBreakBetween(leftNode, node);
         }
@@ -1614,7 +1653,7 @@ namespace StyleCop.ReSharper700.Core
                 return false;
             }
 
-            var declaredType = propertyDeclaration.DeclaredElement.Type as DeclaredTypeFromCLRName;
+            DeclaredTypeFromCLRName declaredType = propertyDeclaration.DeclaredElement.Type as DeclaredTypeFromCLRName;
 
             if (declaredType == null)
             {
@@ -1638,7 +1677,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool IsRuleSuppressed(IDeclaration declaration, string ruleId)
         {
-            var attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
+            IAttributesOwnerDeclaration attributesOwnerDeclaration = declaration as IAttributesOwnerDeclaration;
 
             if (IsRuleSuppressedInternal(attributesOwnerDeclaration, ruleId))
             {
@@ -1667,11 +1706,11 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string RemoveBlankLinesFromMultiLineStringComment(string comment, int whitespacePadding, CommentType commentType)
         {
-            var splitString = comment.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string[] splitString = comment.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-            var newComment = from s in splitString let trimmedString = s.Trim(TrimChars) where trimmedString != string.Empty select trimmedString;
+            IEnumerable<string> newComment = from s in splitString let trimmedString = s.Trim(TrimChars) where trimmedString != string.Empty select trimmedString;
 
-            var commentStart = commentType == CommentType.END_OF_LINE_COMMENT ? "//" : string.Empty;
+            string commentStart = commentType == CommentType.END_OF_LINE_COMMENT ? "//" : string.Empty;
             return newComment.JoinWith(string.Format("{0}{1}{2}", Environment.NewLine, commentStart, new string(' ', whitespacePadding)));
         }
 
@@ -1691,7 +1730,7 @@ namespace StyleCop.ReSharper700.Core
                 {
                     if (currentToken.IsNewLine())
                     {
-                        var prevToken = currentToken.GetPrevToken();
+                        ITokenNode prevToken = currentToken.GetPrevToken();
                         if (prevToken is IWhitespaceNode)
                         {
                             if (prevToken.IsNewLine())
@@ -1720,7 +1759,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static string StripClassName(string fullClassName)
         {
-            var length = fullClassName.LastIndexOf('.');
+            int length = fullClassName.LastIndexOf('.');
             if (length > 0)
             {
                 fullClassName = fullClassName.Substring(length + 1, (fullClassName.Length - length) - 1);
@@ -1743,11 +1782,11 @@ namespace StyleCop.ReSharper700.Core
             // if typeDeclaration is ThisIsSomeText<int> then I need ThisIsSomeText{T}
             // if typeDeclaration is ThisIsSomeText      then I need ThisIsSomeText
             // if typeDeclaration is ThisIsSomeText<int, int> then I need ThisIsSomeText{T, T}
-            var returnValue = new StringBuilder();
+            StringBuilder returnValue = new StringBuilder();
 
-            var insideBrackets = false;
+            bool insideBrackets = false;
 
-            foreach (var c in typeDeclaration)
+            foreach (char c in typeDeclaration)
             {
                 if (c == '<')
                 {
@@ -1789,7 +1828,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool TokenHasNonWhitespaceTokenToLeftOnSameLine(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetPrevToken();
+            ITokenNode currentToken = tokenNode.GetPrevToken();
             if (currentToken == null)
             {
                 return false;
@@ -1804,16 +1843,6 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// The type to prepare an Xml presentable name for. All less than or greater than signs are replaced with curly brackets.
-        /// </summary>
-        /// <param name="returnType">The type to get the presentable name for.</param>
-        /// <returns>The presentable name.</returns>
-        public static string GetXmlPresentableName(IType returnType)
-        {
-            return returnType == null ? string.Empty : returnType.GetPresentableName(CSharpLanguage.Instance).Replace('<', '{').Replace('>', '}');
-        }
-
-        /// <summary>
         /// True if the token is followed on the same line with a non-whitespace token.
         /// </summary>
         /// <param name="tokenNode">
@@ -1824,7 +1853,7 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         public static bool TokenHasNonWhitespaceTokenToRightOnSameLine(ITokenNode tokenNode)
         {
-            var currentToken = tokenNode.GetNextToken();
+            ITokenNode currentToken = tokenNode.GetNextToken();
             if (currentToken == null)
             {
                 return false;
@@ -1851,14 +1880,31 @@ namespace StyleCop.ReSharper700.Core
         {
             using (ReadLockCookie.Create())
             {
-                var textRange = documentRange.TextRange;
-                var text = documentRange.GetText();
-                var newLeft = CountOfWhitespaceAtLeft(text);
-                var newRight = CountOfWhitespaceAtRight(text);
-                var a = textRange.TrimLeft(newLeft);
+                JB::JetBrains.Util.TextRange textRange = documentRange.TextRange;
+                string text = documentRange.GetText();
+                int newLeft = CountOfWhitespaceAtLeft(text);
+                int newRight = CountOfWhitespaceAtRight(text);
+                JB::JetBrains.Util.TextRange a = textRange.TrimLeft(newLeft);
 
                 return new DocumentRange(documentRange.Document, a.TrimRight(newRight));
             }
+        }
+
+        /// <summary>
+        /// Returns the text provided prefixed with the prefix text if required.
+        /// </summary>
+        /// <param name="text">
+        /// The text to prefix.
+        /// </param>
+        /// <param name="settingsStore">
+        /// The settings store.
+        /// </param>
+        /// <returns>
+        /// The updated text.
+        /// </returns>
+        public static string UpdateTextWithToDoPrefixIfRequired(string text, IContextBoundSettingsStore settingsStore)
+        {
+            return settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertToDoText) ? PrefixText + text : text;
         }
 
         #endregion
@@ -1866,22 +1912,13 @@ namespace StyleCop.ReSharper700.Core
         #region Methods
 
         /// <summary>
-        /// Returns the currently active solution.
-        /// </summary>
-        /// <returns>Returns null if no active solution.</returns>
-        public static ISolution GetSolution()
-        {
-            return Shell.Instance.GetComponent<VSSolutionManager>().CurrentSolution;
-        }
-        
-        /// <summary>
         /// Count the number of whitespace characters at the left of the string.
         /// </summary>
         /// <param name="s">
         /// The string to count the whitespace in.
         /// </param>
         /// <returns>
-        /// An <see cref="Int32"/> of the number of whitespace characters.
+        /// An <see cref="int"/> of the number of whitespace characters.
         /// </returns>
         private static int CountOfWhitespaceAtLeft(string s)
         {
@@ -1890,9 +1927,9 @@ namespace StyleCop.ReSharper700.Core
                 return 0;
             }
 
-            for (var i = 0; i < s.Length; i++)
+            for (int i = 0; i < s.Length; i++)
             {
-                var c = s[i];
+                char c = s[i];
                 if (!char.IsWhiteSpace(c))
                 {
                     return i;
@@ -1909,7 +1946,7 @@ namespace StyleCop.ReSharper700.Core
         /// The string to count the whitespace in.
         /// </param>
         /// <returns>
-        /// An <see cref="Int32"/> of the number of whitespace characters.
+        /// An <see cref="int"/> of the number of whitespace characters.
         /// </returns>
         private static int CountOfWhitespaceAtRight(string s)
         {
@@ -1918,9 +1955,9 @@ namespace StyleCop.ReSharper700.Core
                 return 0;
             }
 
-            for (var i = s.Length - 1; i >= 0; i--)
+            for (int i = s.Length - 1; i >= 0; i--)
             {
-                var c = s[i];
+                char c = s[i];
                 if (!char.IsWhiteSpace(c))
                 {
                     return s.Length - i - 1;
@@ -1941,9 +1978,9 @@ namespace StyleCop.ReSharper700.Core
         /// </returns>
         private static IList<IProjectFile> GetAllFilesForFile(IProjectFile projectFile)
         {
-            var list = new List<IProjectFile> { projectFile };
+            List<IProjectFile> list = new List<IProjectFile> { projectFile };
 
-            var rootDependsItem = projectFile.GetDependsUponFile();
+            IProjectFile rootDependsItem = projectFile.GetDependsUponFile();
 
             ICollection<IProjectFile> dependentFiles;
             if (rootDependsItem == null)
@@ -2000,101 +2037,53 @@ namespace StyleCop.ReSharper700.Core
         }
 
         /// <summary>
-        /// If the declaration or its parent has the rule provided suppressed it returns true.
-        /// </summary>
-        /// <param name="attributesOwnerDeclaration">
-        /// The declaration to check.
-        /// </param>
-        /// <param name="ruleId">
-        /// The ruleId to see if its suppressed.
-        /// </param>
-        /// <returns>
-        /// True if suppressed.
-        /// </returns>
-        private static bool IsRuleSuppressedInternal(IAttributesOwnerDeclaration attributesOwnerDeclaration, string ruleId)
-        {
-            if (attributesOwnerDeclaration != null)
-            {
-                var factory = CSharpElementFactory.GetInstance(attributesOwnerDeclaration.GetPsiModule());
-
-                var typeElement = GetTypeElement(attributesOwnerDeclaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
-
-                var attribute = factory.CreateAttribute(typeElement);
-
-                foreach (var s in attributesOwnerDeclaration.Attributes)
-                {
-                    if (s.Name.ShortName == attribute.Name.ShortName)
-                    {
-                        var b = s.ConstructorArgumentExpressions[1] as ICSharpLiteralExpression;
-
-                        if (b == null)
-                        {
-                            return false;
-                        }
-
-                        var d = b.GetText();
-
-                        if (string.IsNullOrEmpty(d))
-                        {
-                            return false;
-                        }
-
-                        var e = d.Trim('\"').Substring(2); // removes the 'SA' bit
-
-                        var f = ruleId.Substring(2); // removes the 'SA' bit
-
-                        return e == f;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Determines whether to reference the set accessor within the property's summary documentation.
         /// </summary>
-        /// <param name="property">The property.</param>
-        /// <param name="setAccessor">The set accessor.</param>
-        /// <returns>Returns true to reference the set accessor in the summary documentation, or false to omit it.</returns>
+        /// <param name="property">
+        /// The property.
+        /// </param>
+        /// <param name="setAccessor">
+        /// The set accessor.
+        /// </param>
+        /// <returns>
+        /// Returns true to reference the set accessor in the summary documentation, or false to omit it.
+        /// </returns>
         private static bool IncludeSetAccessorInDocumentation(IPropertyDeclaration property, IAccessor setAccessor)
         {
             Param.AssertNotNull(property, "property");
             Param.AssertNotNull(setAccessor, "setAccessor");
 
-            var setterAccessRight = setAccessor.GetAccessRights();
-            var propertyAccessRight = property.GetAccessRights();
+            AccessRights setterAccessRight = setAccessor.GetAccessRights();
+            AccessRights propertyAccessRight = property.GetAccessRights();
 
-            var setterDeclarations = setAccessor.GetDeclarations();
+            IList<IDeclaration> setterDeclarations = setAccessor.GetDeclarations();
 
             if (setterDeclarations.Count == 0)
             {
                 return true;
             }
 
-            var accessorDeclaration = setterDeclarations[0] as IAccessorDeclaration;
+            IAccessorDeclaration accessorDeclaration = setterDeclarations[0] as IAccessorDeclaration;
 
             if (accessorDeclaration == null)
             {
                 return true;
             }
 
-            var setterModifiers = accessorDeclaration.ModifiersList;
+            IModifiersList setterModifiers = accessorDeclaration.ModifiersList;
 
             // If the set accessor has the same access modifier as the property, always include it in the documentation.
             // Accessors get 'private' access modifiers by default if no access modifier is defined, in which case they
             // default to having the access of their parent property. Also include documentation for the set accessor
             // if it appears to be private but it does not actually define the 'private' keyword.
-            if (setterAccessRight == propertyAccessRight ||
-                (setterAccessRight == AccessRights.PRIVATE && !setterModifiers.HasModifier(CSharpTokenType.PRIVATE_KEYWORD)))
+            if (setterAccessRight == propertyAccessRight || (setterAccessRight == AccessRights.PRIVATE && !setterModifiers.HasModifier(CSharpTokenType.PRIVATE_KEYWORD)))
             {
                 return true;
             }
 
             // If the set accessor has internal access, and the property also has internal or protected internal access, 
             // then include the set accessor in the docs since it effectively has the same access as the overall property.
-            if (setterAccessRight == AccessRights.INTERNAL &&
-                (propertyAccessRight == AccessRights.INTERNAL || propertyAccessRight == AccessRights.PROTECTED_AND_INTERNAL))
+            if (setterAccessRight == AccessRights.INTERNAL && (propertyAccessRight == AccessRights.INTERNAL || propertyAccessRight == AccessRights.PROTECTED_AND_INTERNAL))
             {
                 return true;
             }
@@ -2117,7 +2106,59 @@ namespace StyleCop.ReSharper700.Core
             // than the access of the property.
             return false;
         }
-        
+
+        /// <summary>
+        /// If the declaration or its parent has the rule provided suppressed it returns true.
+        /// </summary>
+        /// <param name="attributesOwnerDeclaration">
+        /// The declaration to check.
+        /// </param>
+        /// <param name="ruleId">
+        /// The ruleId to see if its suppressed.
+        /// </param>
+        /// <returns>
+        /// True if suppressed.
+        /// </returns>
+        private static bool IsRuleSuppressedInternal(IAttributesOwnerDeclaration attributesOwnerDeclaration, string ruleId)
+        {
+            if (attributesOwnerDeclaration != null)
+            {
+                CSharpElementFactory factory = CSharpElementFactory.GetInstance(attributesOwnerDeclaration.GetPsiModule());
+
+                ITypeElement typeElement = GetTypeElement(attributesOwnerDeclaration, "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute");
+
+                IAttribute attribute = factory.CreateAttribute(typeElement);
+
+                foreach (IAttribute s in attributesOwnerDeclaration.Attributes)
+                {
+                    if (s.Name.ShortName == attribute.Name.ShortName)
+                    {
+                        ICSharpLiteralExpression b = s.ConstructorArgumentExpressions[1] as ICSharpLiteralExpression;
+
+                        if (b == null)
+                        {
+                            return false;
+                        }
+
+                        string d = b.GetText();
+
+                        if (string.IsNullOrEmpty(d))
+                        {
+                            return false;
+                        }
+
+                        string e = d.Trim('\"').Substring(2); // removes the 'SA' bit
+
+                        string f = ruleId.Substring(2); // removes the 'SA' bit
+
+                        return e == f;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         #endregion
     }
 }

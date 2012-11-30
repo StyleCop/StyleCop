@@ -15,7 +15,6 @@
 //   QuickFix for SA1644 : DocumentationHeadersMustNotContainBlankLines.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper610.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1644DocumentationHeadersMustNotContainBlankLinesBulbItem { Description = "Remove blank lines from documentation : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1644DocumentationHeadersMustNotContainBlankLinesBulbItem
+                                         {
+                                             Description =
+                                                 "Remove blank lines from documentation : "
+                                                 + this.Violation.ToolTip
+                                         }
+                                 };
         }
 
         #endregion

@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -65,13 +65,14 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
         /// </returns>
         public override ReadabilityOptions Load(XmlElement element)
         {
-            var options = new ReadabilityOptions();
+            ReadabilityOptions options = new ReadabilityOptions();
 
             try
             {
                 options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists =
                     bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"));
-                options.SA1106CodeMustNotContainEmptyStatements = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1106CodeMustNotContainEmptyStatements"));
+                options.SA1106CodeMustNotContainEmptyStatements =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1106CodeMustNotContainEmptyStatements"));
                 options.SA1108BlockStatementsMustNotContainEmbeddedComments =
                     bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1108BlockStatementsMustNotContainEmbeddedComments"));
                 options.SA1109BlockStatementsMustNotContainEmbeddedRegions =
@@ -79,8 +80,10 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
                 options.SA1120CommentsMustContainText = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1120CommentsMustContainText"));
                 options.SA1121UseBuiltInTypeAlias = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1121UseBuiltInTypeAlias"));
                 options.SA1122UseStringEmptyForEmptyStrings = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1122UseStringEmptyForEmptyStrings"));
-                options.SA1123DoNotPlaceRegionsWithinElements = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1123DoNotPlaceRegionsWithinElements"));
-                options.SA1124CodeMustNotContainEmptyRegions = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1124CodeMustNotContainEmptyRegions"));
+                options.SA1123DoNotPlaceRegionsWithinElements =
+                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1123DoNotPlaceRegionsWithinElements"));
+                options.SA1124CodeMustNotContainEmptyRegions = bool.Parse(
+                    JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1124CodeMustNotContainEmptyRegions"));
             }
             catch (ArgumentNullException)
             {
@@ -118,17 +121,29 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
         public override void Save(XmlElement element, ReadabilityOptions options)
         {
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1106CodeMustNotContainEmptyStatements", options.SA1106CodeMustNotContainEmptyStatements.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists", 
+                options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1108BlockStatementsMustNotContainEmbeddedComments", options.SA1108BlockStatementsMustNotContainEmbeddedComments.ToString(CultureInfo.InvariantCulture));
+                element, "SA1106CodeMustNotContainEmptyStatements", options.SA1106CodeMustNotContainEmptyStatements.ToString(CultureInfo.InvariantCulture));
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                element, "SA1109BlockStatementsMustNotContainEmbeddedRegions", options.SA1109BlockStatementsMustNotContainEmbeddedRegions.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1120CommentsMustContainText", options.SA1120CommentsMustContainText.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1121UseBuiltInTypeAlias", options.SA1121UseBuiltInTypeAlias.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1122UseStringEmptyForEmptyStrings", options.SA1122UseStringEmptyForEmptyStrings.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1123DoNotPlaceRegionsWithinElements", options.SA1123DoNotPlaceRegionsWithinElements.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "SA1124CodeMustNotContainEmptyRegions", options.SA1124CodeMustNotContainEmptyRegions.ToString(CultureInfo.InvariantCulture));
+                element, 
+                "SA1108BlockStatementsMustNotContainEmbeddedComments", 
+                options.SA1108BlockStatementsMustNotContainEmbeddedComments.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, 
+                "SA1109BlockStatementsMustNotContainEmbeddedRegions", 
+                options.SA1109BlockStatementsMustNotContainEmbeddedRegions.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1120CommentsMustContainText", options.SA1120CommentsMustContainText.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1121UseBuiltInTypeAlias", options.SA1121UseBuiltInTypeAlias.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1122UseStringEmptyForEmptyStrings", options.SA1122UseStringEmptyForEmptyStrings.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1123DoNotPlaceRegionsWithinElements", options.SA1123DoNotPlaceRegionsWithinElements.ToString(CultureInfo.InvariantCulture));
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                element, "SA1124CodeMustNotContainEmptyRegions", options.SA1124CodeMustNotContainEmptyRegions.ToString(CultureInfo.InvariantCulture));
         }
 
         #endregion

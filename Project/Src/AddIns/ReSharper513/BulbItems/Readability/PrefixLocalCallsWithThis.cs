@@ -15,7 +15,6 @@
 //   QuickFix action which prefixing the local call with "this.".
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Readability
 {
     #region Using Directives
@@ -23,6 +22,7 @@ namespace StyleCop.ReSharper513.BulbItems.Readability
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper513.BulbItems.Framework;
@@ -35,7 +35,7 @@ namespace StyleCop.ReSharper513.BulbItems.Readability
     /// </summary>
     public class PrefixLocalCallsWithThis : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +48,9 @@ namespace StyleCop.ReSharper513.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var file = Utils.GetCSharpFile(solution, textControl);
+            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            var marker = PsiManager.GetInstance(solution).CreatePsiRangeMarker(this.DocumentRange);
+            IPsiRangeMarker marker = PsiManager.GetInstance(solution).CreatePsiRangeMarker(this.DocumentRange);
 
             file.ArrangeThisQualifier(marker);
         }

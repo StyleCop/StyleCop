@@ -15,7 +15,6 @@
 //   QuickFix - SA1636.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Documentation
 {
     #region Using Directives
@@ -109,7 +108,10 @@ namespace StyleCop.ReSharper610.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1636FileHeaderCopyrightTextMustMatchBulbItem { Description = "Swap copyright text : " + this.Violation.ToolTip } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1636FileHeaderCopyrightTextMustMatchBulbItem { Description = "Swap copyright text : " + this.Violation.ToolTip }
+                                 };
         }
 
         #endregion

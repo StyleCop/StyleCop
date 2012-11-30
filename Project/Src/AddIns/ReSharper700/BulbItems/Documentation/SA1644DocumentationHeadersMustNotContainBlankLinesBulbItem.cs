@@ -15,7 +15,6 @@
 //   BulbItem - SA1644DocumentationHeadersMustNotContainBlankLinesBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.BulbItems.Documentation
 {
     #region Using Directives
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
     /// </summary>
     internal class SA1644DocumentationHeadersMustNotContainBlankLinesBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -48,9 +47,9 @@ namespace StyleCop.ReSharper700.BulbItems.Documentation
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            var declaration = element.GetContainingNode<IDeclaration>(true);
+            IDeclaration declaration = element.GetContainingNode<IDeclaration>(true);
 
             new DocumentationRules().EnsureDocumentationHasNoBlankLines(declaration);
         }

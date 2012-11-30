@@ -15,7 +15,6 @@
 //   BulbItem - FormatDocumentationHeader : Fixes documentation headers.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.BulbItems.Spacing
 {
     #region Using Directives
@@ -34,7 +33,7 @@ namespace StyleCop.ReSharper610.BulbItems.Spacing
     /// </summary>
     internal class FormatDocumentationHeader : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -47,8 +46,8 @@ namespace StyleCop.ReSharper610.BulbItems.Spacing
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var documentation = this.DocumentRange.GetText();
-            var regEx = new Regex("(((///[ ^ ] *)|\"))|((///))");
+            string documentation = this.DocumentRange.GetText();
+            Regex regEx = new Regex("(((///[ ^ ] *)|\"))|((///))");
             documentation = regEx.Replace(documentation, "/// ");
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }

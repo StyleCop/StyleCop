@@ -15,7 +15,6 @@
 //   QuickFix - SA1002: SemicolonsMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper610.QuickFixes.Spacing
 {
     #region Using Directives
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper610.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new FormatLineBulbItem { Description = "Fix Spacing : " + this.Violation.ToolTip, DocumentRange = this.Violation.DocumentRange, LineNumber = this.Violation.LineNumber } };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new FormatLineBulbItem
+                                         {
+                                             Description = "Fix Spacing : " + this.Violation.ToolTip, 
+                                             DocumentRange = this.Violation.DocumentRange, 
+                                             LineNumber = this.Violation.LineNumber
+                                         }
+                                 };
         }
 
         #endregion

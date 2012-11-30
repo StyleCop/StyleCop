@@ -12,10 +12,9 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Extension methods for the <see cref="string" /> class.
+//   Extension methods for the  class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace System
 {
     #region Using Directives
@@ -30,7 +29,7 @@ namespace System
     /// </summary>
     public static class StringExtensions
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Replaces the format item in a <see cref="string"/> with the text equivalent of the value of a corresponding <see cref="object"/> 
@@ -175,7 +174,7 @@ namespace System
         /// </exception>
         public static string SubstringAfter(this string s, char c)
         {
-            var index = s.IndexOf(c);
+            int index = s.IndexOf(c);
             if (index == -1)
             {
                 return s;
@@ -201,7 +200,7 @@ namespace System
         /// </exception>
         public static string SubstringAfterLast(this string s, char c)
         {
-            var index = s.LastIndexOf(c);
+            int index = s.LastIndexOf(c);
             if (index == -1)
             {
                 return s;
@@ -209,7 +208,7 @@ namespace System
 
             return index < s.Length - 1 ? s.Substring(index + 1) : string.Empty;
         }
-  
+
         /// <summary>
         /// Retrieves a substring before the last instance of a character.
         /// </summary>
@@ -227,7 +226,7 @@ namespace System
         /// </exception>
         public static string SubstringBeforeLast(this string s, char c)
         {
-            var index = s.LastIndexOf(c);
+            int index = s.LastIndexOf(c);
             return index != -1 ? s.Substring(0, index) : s;
         }
 

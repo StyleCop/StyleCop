@@ -52,7 +52,7 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
 
         #endregion
 
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -65,28 +65,37 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Load(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = new DocumentationOptions();
-            var optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
+            DocumentationOptions options = new DocumentationOptions();
+            XmlElement optionsElement = (XmlElement)element.SelectSingleNode(this.Name);
 
             if (optionsElement != null)
             {
                 try
                 {
                     options.SA1600ElementsMustBeDocumented = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1600ElementsMustBeDocumented"));
-                    options.SA1604ElementDocumentationMustHaveSummary = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1604ElementDocumentationMustHaveSummary"));
-                    options.SA1609PropertyDocumentationMustHaveValue = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1609PropertyDocumentationMustHaveValueDocumented"));
-                    options.SA1611ElementParametersMustBeDocumented = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1611ElementParametersMustBeDocumented"));
-                    options.SA1615ElementReturnValueMustBeDocumented = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1615ElementReturnValueMustBeDocumented"));
-                    options.SA1617VoidReturnValueMustNotBeDocumented = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1617VoidReturnValueMustNotBeDocumented"));
-                    options.SA1618GenericTypeParametersMustBeDocumented = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1618GenericTypeParametersMustBeDocumented"));
+                    options.SA1604ElementDocumentationMustHaveSummary =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1604ElementDocumentationMustHaveSummary"));
+                    options.SA1609PropertyDocumentationMustHaveValue =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1609PropertyDocumentationMustHaveValueDocumented"));
+                    options.SA1611ElementParametersMustBeDocumented =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1611ElementParametersMustBeDocumented"));
+                    options.SA1615ElementReturnValueMustBeDocumented =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1615ElementReturnValueMustBeDocumented"));
+                    options.SA1617VoidReturnValueMustNotBeDocumented =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1617VoidReturnValueMustNotBeDocumented"));
+                    options.SA1618GenericTypeParametersMustBeDocumented =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1618GenericTypeParametersMustBeDocumented"));
                     options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes =
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes"));
                     options.SA1628DocumentationTextMustBeginWithACapitalLetter =
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1628DocumentationTextMustBeginWithACapitalLetter"));
-                    options.SA1629DocumentationTextMustEndWithAPeriod = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1629DocumentationTextMustEndWithAPeriod"));
+                    options.SA1629DocumentationTextMustEndWithAPeriod =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1629DocumentationTextMustEndWithAPeriod"));
                     options.SA1633SA1641UpdateFileHeader =
-                        (UpdateFileHeaderStyle)Enum.Parse(typeof(UpdateFileHeaderStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1633SA1641UpdateFileHeader"));
-                    options.SA1639FileHeaderMustHaveSummary = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1639FileHeaderMustHaveSummary"));
+                        (UpdateFileHeaderStyle)
+                        Enum.Parse(typeof(UpdateFileHeaderStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1633SA1641UpdateFileHeader"));
+                    options.SA1639FileHeaderMustHaveSummary =
+                        bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1639FileHeaderMustHaveSummary"));
                     options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText =
                         bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(optionsElement, "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText"));
                     options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText =
@@ -127,27 +136,40 @@ namespace StyleCop.ReSharper513.CodeCleanup.Descriptors
         /// </param>
         public override void Save(CodeCleanupProfile profile, XmlElement element)
         {
-            var options = profile.GetSetting(this);
-            var optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
+            DocumentationOptions options = profile.GetSetting(this);
+            XmlElement optionsElement = JB::JetBrains.Util.XmlUtil.CreateElement(element, this.Name);
 
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1600ElementsMustBeDocumented", options.SA1600ElementsMustBeDocumented.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1604ElementDocumentationMustHaveSummary", options.SA1604ElementDocumentationMustHaveSummary.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1609PropertyDocumentationMustHaveValueDocumented", options.SA1609PropertyDocumentationMustHaveValue.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1611ElementParametersMustBeDocumented", options.SA1611ElementParametersMustBeDocumented.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1615ElementReturnValueMustBeDocumented", options.SA1615ElementReturnValueMustBeDocumented.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1617VoidReturnValueMustNotBeDocumented", options.SA1617VoidReturnValueMustNotBeDocumented.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1618GenericTypeParametersMustBeDocumented", options.SA1618GenericTypeParametersMustBeDocumented.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                optionsElement, "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes.ToString());
+                optionsElement, "SA1604ElementDocumentationMustHaveSummary", options.SA1604ElementDocumentationMustHaveSummary.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1609PropertyDocumentationMustHaveValueDocumented", options.SA1609PropertyDocumentationMustHaveValue.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1611ElementParametersMustBeDocumented", options.SA1611ElementParametersMustBeDocumented.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1615ElementReturnValueMustBeDocumented", options.SA1615ElementReturnValueMustBeDocumented.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1617VoidReturnValueMustNotBeDocumented", options.SA1617VoidReturnValueMustNotBeDocumented.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1618GenericTypeParametersMustBeDocumented", options.SA1618GenericTypeParametersMustBeDocumented.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, 
+                "SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes", 
+                options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1628DocumentationTextMustBeginWithACapitalLetter", options.SA1628DocumentationTextMustBeginWithACapitalLetter.ToString());
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1629DocumentationTextMustEndWithAPeriod", options.SA1629DocumentationTextMustEndWithAPeriod.ToString());
+            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+                optionsElement, "SA1629DocumentationTextMustEndWithAPeriod", options.SA1629DocumentationTextMustEndWithAPeriod.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1633SA1641UpdateFileHeader", options.SA1633SA1641UpdateFileHeader.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(optionsElement, "SA1639FileHeaderMustHaveSummary", options.SA1639FileHeaderMustHaveSummary.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                optionsElement, "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText.ToString());
+                optionsElement, 
+                "SA1642ConstructorSummaryDocumentationMustBeginWithStandardText", 
+                options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
-                optionsElement, "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText.ToString());
+                optionsElement, 
+                "SA1643DestructorSummaryDocumentationMustBeginWithStandardText", 
+                options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText.ToString());
             JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 optionsElement, "SA1644DocumentationHeadersMustNotContainBlankLines", options.SA1644DocumentationHeadersMustNotContainBlankLines.ToString());
         }

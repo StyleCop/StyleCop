@@ -15,7 +15,6 @@
 //   QuickFix for StyleCop Rule SA1119.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper600.QuickFixes.Maintainability
 {
     #region Using Directives
@@ -23,7 +22,7 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-  
+
     using StyleCop.ReSharper600.BulbItems.Maintainability;
     using StyleCop.ReSharper600.QuickFixes.Framework;
     using StyleCop.ReSharper600.Violations;
@@ -109,7 +108,15 @@ namespace StyleCop.ReSharper600.QuickFixes.Maintainability
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbItem> { new SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem { Description = "Remove Unnecessary Parenthesis : " + this.Violation.ToolTip }, };
+            this.BulbItems = new List<IBulbItem>
+                                 {
+                                     new SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem
+                                         {
+                                             Description =
+                                                 "Remove Unnecessary Parenthesis : "
+                                                 + this.Violation.ToolTip
+                                         }, 
+                                 };
         }
 
         #endregion

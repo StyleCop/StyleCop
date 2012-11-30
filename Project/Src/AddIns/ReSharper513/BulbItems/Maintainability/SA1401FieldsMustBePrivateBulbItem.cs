@@ -15,7 +15,6 @@
 //   The s a 1401 fields must be private bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper513.BulbItems.Maintainability
 {
     #region Using Directives
@@ -37,7 +36,7 @@ namespace StyleCop.ReSharper513.BulbItems.Maintainability
     /// </summary>
     internal class SA1401FieldsMustBePrivateBulbItem : V5BulbItemImpl
     {
-        #region Public Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -50,13 +49,14 @@ namespace StyleCop.ReSharper513.BulbItems.Maintainability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            var element = Utils.GetElementAtCaret(solution, textControl);
+            IElement element = Utils.GetElementAtCaret(solution, textControl);
 
-            var containingElement = (IElement)element.GetContainingElement<IFieldDeclarationNode>(true) ?? element.GetContainingElement<IMultipleDeclarationNode>(true);
+            IElement containingElement = (IElement)element.GetContainingElement<IFieldDeclarationNode>(true)
+                                         ?? element.GetContainingElement<IMultipleDeclarationNode>(true);
 
             if (containingElement == null)
             {
-                var treeNode = (ITreeNode)element;
+                ITreeNode treeNode = (ITreeNode)element;
 
                 containingElement = treeNode.PrevSibling;
             }

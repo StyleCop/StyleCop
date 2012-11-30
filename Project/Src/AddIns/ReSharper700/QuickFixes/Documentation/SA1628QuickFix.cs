@@ -15,14 +15,13 @@
 //   QuickFix - SA1628: FileMustHaveHeader.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace StyleCop.ReSharper700.QuickFixes.Documentation
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-        using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Intentions.Extensibility;
 
     using StyleCop.ReSharper700.BulbItems.Documentation;
@@ -110,7 +109,15 @@ namespace StyleCop.ReSharper700.QuickFixes.Documentation
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction> { new SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem { Description = "Uppercase the first letter of documentation : " + this.Highlighting.ToolTip } };
+            this.BulbItems = new List<IBulbAction>
+                                 {
+                                     new SA1628DocumentationTextMustBeginWithACapitalLetterBulbItem
+                                         {
+                                             Description =
+                                                 "Uppercase the first letter of documentation : "
+                                                 + this.Highlighting.ToolTip
+                                         }
+                                 };
         }
 
         #endregion
