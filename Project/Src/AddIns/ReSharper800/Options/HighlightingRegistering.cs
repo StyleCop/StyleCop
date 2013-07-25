@@ -15,7 +15,7 @@
 //   Registers StyleCop Highlighters to allow their severity to be set.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Options
 {
@@ -166,8 +166,8 @@ namespace StyleCop.ReSharper800.Options
 
             if (configurableSeverityImplementation != null)
             {
-                JB::JetBrains.Util.OneToListMap<string, PsiLanguageType> mapToLanguage =
-                    configurableSeverityImplementation.GetValue(highlightManager) as JB::JetBrains.Util.OneToListMap<string, PsiLanguageType>;
+                JetBrains.Util.OneToListMap<string, PsiLanguageType> mapToLanguage =
+                    configurableSeverityImplementation.GetValue(highlightManager) as JetBrains.Util.OneToListMap<string, PsiLanguageType>;
 
                 if (mapToLanguage != null)
                 {

@@ -15,7 +15,6 @@
 //   QuickFix action which formats multiple statements on a single line.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.BulbItems.Readability
 {
@@ -51,7 +50,7 @@ namespace StyleCop.ReSharper800.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = Utils.GetLineNumberForTextControl(textControl);
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = Utils.GetLineNumberForTextControl(textControl);
             ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
             IUsingDirective containingElement = element.GetContainingNode<IUsingDirective>(true);
 

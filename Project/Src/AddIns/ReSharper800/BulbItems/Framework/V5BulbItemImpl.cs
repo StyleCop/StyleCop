@@ -15,7 +15,6 @@
 //   BulbItem Implementation for ReSharper 5.0 style build items.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.BulbItems.Framework
 {
@@ -35,7 +34,7 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
     #endregion
 
     /// <summary>
-    /// BulbItem Implementation for ReSharper 6.1 style build items.
+    /// BulbItem Implementation for ReSharper build items.
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {
@@ -136,17 +135,21 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
         /// <returns>
         /// The execute transaction.
         /// </returns>
-        protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, JB::JetBrains.Application.Progress.IProgressIndicator progress)
+        protected override Action<ITextControl> ExecutePsiTransaction(ISolution solution, JetBrains.Application.Progress.IProgressIndicator progress)
         {
             return delegate(ITextControl textControl)
                 {
                     solution.GetComponent<DocumentManagerOperations>().SaveAllDocuments();
 
                     using (
-                        JB::JetBrains.Util.ITransactionCookie documentTransaction =
-                            solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JB::JetBrains.Util.DefaultAction.Commit, "action name"))
+                        JetBrains.Util.ITransactionCookie documentTransaction =
+                            solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
-                        PsiManager.GetInstance(solution).DoTransaction(() => this.ExecuteWriteLockableTransaction(solution, textControl), "Code cleanup");
+                        var services = solution.GetPsiServices();
+                        services.Transactions.Execute(
+                            "Code cleanup",
+                            () => services.Locks.ExecuteWithWriteLock(() => { ExecuteTransactionInner(solution, textControl); }));
+
                     }
                 };
         }
@@ -162,6 +165,7 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
         /// </param>
         protected void ExecuteWriteLockableTransaction(ISolution solution, ITextControl textControl)
         {
+
             using (WriteLockCookie.Create(true))
             {
                 this.ExecuteTransactionInner(solution, textControl);

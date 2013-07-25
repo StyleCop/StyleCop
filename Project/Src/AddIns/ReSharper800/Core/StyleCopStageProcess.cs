@@ -16,7 +16,7 @@
 //   specified file.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -201,7 +201,7 @@ namespace StyleCop.ReSharper800.Core
 
                 ResetPerformanceStopWatch();
             }
-            catch (JB::JetBrains.Application.Progress.ProcessCancelledException)
+            catch (JetBrains.Application.Progress.ProcessCancelledException)
             {
             }
 

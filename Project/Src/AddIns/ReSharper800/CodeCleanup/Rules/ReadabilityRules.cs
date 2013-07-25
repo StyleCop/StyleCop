@@ -15,7 +15,9 @@
 //   Readability rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
+
+using JetBrains.ReSharper.Psi.Modules;
 
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
@@ -257,7 +259,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                                 const string NewText = "string.Empty";
                                 ITokenNode newLiteral =
                                     (ITokenNode)
-                                    CSharpTokenType.STRING_LITERAL.Create(new JB::JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
+                                    CSharpTokenType.STRING_LITERAL.Create(new JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
 
                                 using (WriteLockCookie.Create(true))
                                 {

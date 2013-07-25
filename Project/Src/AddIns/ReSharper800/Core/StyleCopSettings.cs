@@ -15,7 +15,7 @@
 //   The style cop settings.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -372,7 +372,7 @@ namespace StyleCop.ReSharper800.Core
 
             if (project != null)
             {
-                JB::JetBrains.Util.FileSystemPath directory = project.Location;
+                JetBrains.Util.FileSystemPath directory = project.Location;
 
                 if (directory.ExistsDirectory)
                 {

@@ -15,7 +15,7 @@
 //   Layout rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
@@ -111,8 +111,8 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
 
                         if (blockNode != null)
                         {
-                            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForLBrace = Utils.GetLineNumberForElement(blockNode.LBrace);
-                            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForRBrace = Utils.GetLineNumberForElement(blockNode.RBrace);
+                            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForLBrace = Utils.GetLineNumberForElement(blockNode.LBrace);
+                            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumberForRBrace = Utils.GetLineNumberForElement(blockNode.RBrace);
 
                             if (lineNumberForLBrace != lineNumberForRBrace)
                             {

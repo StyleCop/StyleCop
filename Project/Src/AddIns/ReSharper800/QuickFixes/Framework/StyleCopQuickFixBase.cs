@@ -15,16 +15,13 @@
 //   Basic Textual Quick Fix Example for rule SA1400QuickFix.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.QuickFixes.Framework
 {
     #region Using Directives
 
     using System.Collections.Generic;
-    using System.Linq;
-
-    using JetBrains.ReSharper.Daemon;
+   
     using JetBrains.ReSharper.Intentions.Extensibility;
     using JetBrains.ReSharper.Intentions.Extensibility.Menu;
 
@@ -177,13 +174,13 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// </param>
         //public void CreateBulbItems(BulbMenu menu, Severity severity)
         //{
-        //    menu.ArrangeQuickFixes(from bulbItem in this.Items select JB::JetBrains.Util.Pair.Of(bulbItem, severity));
+        //    menu.ArrangeQuickFixes(from bulbItem in this.Items select JetBrains.Util.Pair.Of(bulbItem, severity));
         //}
 
         public IEnumerable<IntentionAction> CreateBulbItems()
-	         {
-	             return Items.ToQuickFixAction();
-	         }
+        {
+            return Items.ToQuickFixAction();
+        }
 
         /// <summary>
         /// Determines whether the current QuickFix is available for the violation.
@@ -197,7 +194,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <returns>
         /// Whether the current QuickFix is available for the violation. 
         /// </returns>
-        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
+        public bool IsAvailable(JetBrains.Util.IUserDataHolder cache)
         {
             // use a more resiliant matching method - this caught me out
             // quite a bit while I was refactoring and debugging and wondering

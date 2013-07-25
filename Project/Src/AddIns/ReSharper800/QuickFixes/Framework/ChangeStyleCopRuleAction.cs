@@ -15,7 +15,6 @@
 //   Adds changing the display option for the style cop rule as context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.QuickFixes.Framework
 {
@@ -134,12 +133,10 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <param name="menu">
         /// The BulbMenu to add the items too. 
         /// </param>
-         
-        //TODO R#8
-        //public void CreateBulbItems(BulbMenu menu)
-        //{
-        //    menu.ArrangeContextActions(this.Items);
-        //}
+        ////public void CreateBulbItems(BulbMenu menu)
+        ////{
+        ////    menu.ArrangeContextActions(this.Items);
+        ////}
 
         /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by the violation.
@@ -152,8 +149,8 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// </param>
         public void Execute(ISolution solution, ITextControl textControl)
         {
-            JB::JetBrains.DataFlow.LifetimeDefinition definition = JB::JetBrains.DataFlow.Lifetimes.Define(solution.GetLifetime());
-            JB::JetBrains.DataFlow.Lifetime lifetime = definition.Lifetime;
+            JetBrains.DataFlow.LifetimeDefinition definition = JetBrains.DataFlow.Lifetimes.Define(solution.GetLifetime());
+            JetBrains.DataFlow.Lifetime lifetime = definition.Lifetime;
             try
             {
                 unsafe
@@ -194,7 +191,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <returns>
         /// <c>True.</c> if the specified cache is available; otherwise, <c>False.</c> . 
         /// </returns>
-        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
+        public bool IsAvailable(JetBrains.Util.IUserDataHolder cache)
         {
             return true;
         }

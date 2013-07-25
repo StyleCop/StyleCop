@@ -15,7 +15,7 @@
 //   File header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -466,7 +466,7 @@ namespace StyleCop.ReSharper800.Core
 
                     newCommentNode =
                         (ICommentNode)
-                        CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
+                        CSharpTokenType.END_OF_LINE_COMMENT.Create(new JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
 
                     LowLevelModificationUtil.AddChildBefore(file.FirstChild, new ITreeNode[] { newCommentNode });
                 }
@@ -494,7 +494,7 @@ namespace StyleCop.ReSharper800.Core
                             newCommentNode =
                                 (ICommentNode)
                                 CSharpTokenType.END_OF_LINE_COMMENT.Create(
-                                    new JB::JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
+                                    new JetBrains.Text.StringBuffer(newHeader), new TreeOffset(0), new TreeOffset(newHeader.Length));
 
                             LowLevelModificationUtil.ReplaceChildRange(existingHeaderRange.First, existingHeaderRange.Last, new ITreeNode[] { newCommentNode });
                         }

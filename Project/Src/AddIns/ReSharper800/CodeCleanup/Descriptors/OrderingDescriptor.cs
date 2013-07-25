@@ -15,7 +15,7 @@
 //   Code Clean Up Description.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
 {
@@ -72,12 +72,12 @@ namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
             {
                 options.AlphabeticalUsingDirectives =
                     (AlphabeticalUsingsStyle)
-                    Enum.Parse(typeof(AlphabeticalUsingsStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "AlphabeticalUsingDirectives"));
+                    Enum.Parse(typeof(AlphabeticalUsingsStyle), JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "AlphabeticalUsingDirectives"));
                 options.ExpandUsingDirectives =
-                    (ExpandUsingsStyle)Enum.Parse(typeof(ExpandUsingsStyle), JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "ExpandUsingDirectives"));
+                    (ExpandUsingsStyle)Enum.Parse(typeof(ExpandUsingsStyle), JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "ExpandUsingDirectives"));
                 options.SA1212PropertyAccessorsMustFollowOrder =
-                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1212PropertyAccessorsMustFollowOrder"));
-                options.SA1213EventAccessorsMustFollowOrder = bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1213EventAccessorsMustFollowOrder"));
+                    bool.Parse(JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1212PropertyAccessorsMustFollowOrder"));
+                options.SA1213EventAccessorsMustFollowOrder = bool.Parse(JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1213EventAccessorsMustFollowOrder"));
             }
             catch (ArgumentNullException)
             {
@@ -114,12 +114,12 @@ namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
         /// </param>
         public override void Save(XmlElement element, OrderingOptions options)
         {
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+            JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 element, "AlphabeticalUsingDirectives", options.AlphabeticalUsingDirectives.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "ExpandUsingDirectives", options.ExpandUsingDirectives.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+            JetBrains.Util.XmlUtil.CreateLeafElementWithValue(element, "ExpandUsingDirectives", options.ExpandUsingDirectives.ToString(CultureInfo.InvariantCulture));
+            JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 element, "SA1212PropertyAccessorsMustFollowOrder", options.SA1212PropertyAccessorsMustFollowOrder.ToString(CultureInfo.InvariantCulture));
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+            JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 element, "SA1213EventAccessorsMustFollowOrder", options.SA1213EventAccessorsMustFollowOrder.ToString(CultureInfo.InvariantCulture));
         }
 

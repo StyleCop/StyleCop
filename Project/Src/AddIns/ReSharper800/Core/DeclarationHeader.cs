@@ -428,7 +428,7 @@ namespace StyleCop.ReSharper800.Core
 
             IParametersOwner parametersOwner = declaredElement as IParametersOwner;
             if ((parametersOwner != null && ((parametersOwner is IMethod) || (parametersOwner is IOperator)))
-                && !parametersOwner.ReturnType.Equals(parametersOwner.Module.GetPredefinedType().Void))
+                && !parametersOwner.ReturnType.Equals(parametersOwner.Module.GetPredefinedType(parametersOwner.ResolveContext).Void))
             {
                 text.AppendLine("<returns></returns>");
             }

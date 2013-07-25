@@ -15,7 +15,7 @@
 //   Declaration comments fixes SA1600, SA1602, SA1611, SA1615, SA1617, SA1642.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
@@ -837,7 +837,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                 string newText = string.Format("//{0}", docCommentNode.CommentText);
                 ICommentNode newCommentNode =
                     (ICommentNode)
-                    CSharpTokenType.END_OF_LINE_COMMENT.Create(new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+                    CSharpTokenType.END_OF_LINE_COMMENT.Create(new JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
 
                 using (currentNode.CreateWriteLock())
                 {
@@ -1134,7 +1134,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                 return;
             }
 
-            DeclaredTypeFromCLRName declaredTypeFromClrName = methodDeclaration.DeclaredElement.ReturnType as DeclaredTypeFromCLRName;
+             DeclaredTypeFromCLRName declaredTypeFromClrName = methodDeclaration.DeclaredParametersOwner.ReturnType as DeclaredTypeFromCLRName;
 
             if (removeReturnTagOnVoidElementsOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1617))
             {
@@ -1150,7 +1150,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                 // Insert the <returns> if the return type is not void and it was missing
                 if ((declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName != "System.Void") || declaredTypeFromClrName == null)
                 {
-                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, Utils.GetXmlPresentableName(methodDeclaration.DeclaredElement.ReturnType));
+                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, Utils.GetXmlPresentableName(methodDeclaration.DeclaredParametersOwner.ReturnType));
                 }
             }
         }

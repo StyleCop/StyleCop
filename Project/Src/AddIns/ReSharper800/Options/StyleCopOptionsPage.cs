@@ -15,7 +15,6 @@
 //   Defines the StyleCopOptionsPage type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.Options
 {
@@ -34,6 +33,7 @@ namespace StyleCop.ReSharper800.Options
     using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
+    using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
     using JetBrains.ReSharper.Psi.CSharp.Naming2;
@@ -85,7 +85,7 @@ namespace StyleCop.ReSharper800.Options
         /// <summary>
         /// The lifetime for this instance.
         /// </summary>
-        private readonly JB::JetBrains.DataFlow.Lifetime lifetime;
+        private readonly JetBrains.DataFlow.Lifetime lifetime;
 
         /// <summary>
         /// The settings context to use.
@@ -108,7 +108,7 @@ namespace StyleCop.ReSharper800.Options
         /// <param name="lifetime">
         /// The lifetime of the settings. 
         /// </param>
-        public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext, IThreading threading, JB::JetBrains.DataFlow.Lifetime lifetime)
+        public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext, IThreading threading, JetBrains.DataFlow.Lifetime lifetime)
         {
             this.smartContext = settingsSmartContext;
             this.lifetime = lifetime;
@@ -384,7 +384,7 @@ namespace StyleCop.ReSharper800.Options
             settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
 
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper710.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
@@ -1488,7 +1488,7 @@ namespace StyleCop.ReSharper800.Options
             }
 
             string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper710.Resources.ReorderingPatterns.xml"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {

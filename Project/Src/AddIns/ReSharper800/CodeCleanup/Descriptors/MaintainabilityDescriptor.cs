@@ -15,7 +15,7 @@
 //   Code Clean Up Description.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
 {
@@ -70,7 +70,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
             try
             {
                 options.SA1119StatementMustNotUseUnnecessaryParenthesis =
-                    bool.Parse(JB::JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
+                    bool.Parse(JetBrains.Util.XmlUtil.ReadLeafElementValue(element, "SA1119StatementMustNotUseUnnecessaryParenthesis"));
             }
             catch (ArgumentNullException)
             {
@@ -107,7 +107,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
         /// </param>
         public override void Save(XmlElement element, MaintainabilityOptions options)
         {
-            JB::JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
+            JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 element, "SA1119StatementMustNotUseUnnecessaryParenthesis", options.SA1119StatementMustNotUseUnnecessaryParenthesis.ToString(CultureInfo.InvariantCulture));
         }
 

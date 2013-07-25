@@ -95,7 +95,7 @@
     <Reference Include="JetBrains.Platform.ReSharper.Util">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.Util.dll</HintPath>
       <Private>False</Private>
-      <Aliases>JB</Aliases>
+      <Aliases>global</Aliases>
     </Reference>
     <Reference Include="JetBrains.Platform.ReSharper.VisualStudio.Core">
       <HintPath>ReferencedAssemblies\JetBrains.Platform.ReSharper.VisualStudio.Core.dll</HintPath>

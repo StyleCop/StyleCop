@@ -15,7 +15,7 @@
 //   BulbItem - SuppressMessageBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.BulbItems.Framework
 {

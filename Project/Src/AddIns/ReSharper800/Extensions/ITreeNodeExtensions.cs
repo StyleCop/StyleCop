@@ -15,7 +15,7 @@
 //   Extension Methods for ITreeNode types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Extensions
 {
@@ -92,7 +92,7 @@ namespace StyleCop.ReSharper800.Extensions
         private static LeafElementBase GetLeafElement()
         {
             string newText = Environment.NewLine;
-            return TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            return TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
         }
 
         #endregion

@@ -15,7 +15,6 @@
 //   The StyleCop CodeStyle Checker.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.ShellComponents
 {
@@ -48,7 +47,7 @@ namespace StyleCop.ReSharper800.ShellComponents
         /// <param name="lifetime">
         /// The lifetime for this instance.
         /// </param>
-        public StyleCopCodeStyleChecker(JB::JetBrains.DataFlow.Lifetime lifetime)
+        public StyleCopCodeStyleChecker(JetBrains.DataFlow.Lifetime lifetime)
         {
             StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init(lifetime);
@@ -71,7 +70,7 @@ namespace StyleCop.ReSharper800.ShellComponents
         /// <param name="lifetime">
         /// The lifetime for this object.
         /// </param>
-        public void Init(JB::JetBrains.DataFlow.Lifetime lifetime)
+        public void Init(JetBrains.DataFlow.Lifetime lifetime)
         {
             RegistryUtils registryUtils = new RegistryUtils();
 

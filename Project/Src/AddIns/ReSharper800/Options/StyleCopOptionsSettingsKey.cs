@@ -15,7 +15,7 @@
 //   Class to hold all of the Configurable options for this addin.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Options
 {

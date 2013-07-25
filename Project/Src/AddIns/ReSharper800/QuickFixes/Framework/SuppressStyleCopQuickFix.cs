@@ -15,7 +15,6 @@
 //   QuickFix - SuppressStyleCopQuickFix. Priority set to 0 to push it down the list.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.QuickFixes.Framework
 {
@@ -181,9 +180,10 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         //{
         //    menu.ArrangeContextActions(this.Items);
         //}
+
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            return Items.ToQuickFixAction();
+           return Items.ToQuickFixAction();
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <returns>
         /// The is available. 
         /// </returns>
-        public bool IsAvailable(JB::JetBrains.Util.IUserDataHolder cache)
+        public bool IsAvailable(JetBrains.Util.IUserDataHolder cache)
         {
             // TODO Not all StyleCop issues can be suppressed. We should check here and return false for those that cannot be handled.
             return true;

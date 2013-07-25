@@ -16,7 +16,7 @@
 //   because it's marked with the  attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -67,7 +67,7 @@ namespace StyleCop.ReSharper800.Core
         {
             get
             {
-                return JB::JetBrains.Util.EmptyArray<Type>.Instance;
+                return JetBrains.Util.EmptyArray<Type>.Instance;
             }
         }
 
@@ -181,7 +181,7 @@ namespace StyleCop.ReSharper800.Core
 
                 return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore, file));
             }
-            catch (JB::JetBrains.Application.Progress.ProcessCancelledException)
+            catch (JetBrains.Application.Progress.ProcessCancelledException)
             {
                 return null;
             }

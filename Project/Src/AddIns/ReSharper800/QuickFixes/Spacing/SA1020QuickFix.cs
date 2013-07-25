@@ -15,7 +15,6 @@
 //   QuickFix - SA1020: IncrementDecrementSymbolsMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.QuickFixes.Spacing
 {
@@ -112,8 +111,8 @@ namespace StyleCop.ReSharper800.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
-                (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
+                (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
 
             string target = this.Highlighting.DocumentRange.Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";

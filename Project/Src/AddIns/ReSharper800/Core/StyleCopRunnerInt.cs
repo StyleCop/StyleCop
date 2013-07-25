@@ -15,7 +15,7 @@
 //   Executes Microsoft StyleCop within the ReSharper Environment.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -215,11 +215,11 @@ namespace StyleCop.ReSharper800.Core
             // if violations fire in the related files we ignore them as we only want to highlight in the current file
             if (path == this.file.Location.FullPath)
             {
-                JB::JetBrains.Util.TextRange textRange;
+                JetBrains.Util.TextRange textRange;
 
                 if (e.Violation.Location == null)
                 {
-                    textRange = Utils.GetTextRange(this.file, ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)lineNumber).Minus1());
+                    textRange = Utils.GetTextRange(this.file, ((JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)lineNumber).Minus1());
                 }
                 else
                 {
@@ -272,7 +272,7 @@ namespace StyleCop.ReSharper800.Core
             }
             catch (Exception exception)
             {
-                JB::JetBrains.Util.Logger.LogException(exception);
+                JetBrains.Util.Logging.Logger.LogException(exception);
             }
             finally
             {

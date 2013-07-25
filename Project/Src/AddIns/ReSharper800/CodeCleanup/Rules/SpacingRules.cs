@@ -15,7 +15,7 @@
 //   Spacing rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
@@ -113,7 +113,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                             {
                                 // insert a space
                                 LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                    CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -163,7 +163,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                             {
                                 // insert a space
                                 LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                    CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(nextToken, new ITreeNode[] { leafElement });
                             }
                         }
@@ -174,7 +174,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                             {
                                 // insert a space
                                 LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                                    CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
+                                    CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(WhiteSpace), 0, WhiteSpace.Length);
                                 LowLevelModificationUtil.AddChildBefore(tokenNode, new ITreeNode[] { leafElement });
                             }
                         }
@@ -360,7 +360,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                                     ICommentNode newCommentNode =
                                         (ICommentNode)
                                         CSharpTokenType.END_OF_LINE_COMMENT.Create(
-                                            new JB::JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+                                            new JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
                                     LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
 
                                     currentNode = newCommentNode;

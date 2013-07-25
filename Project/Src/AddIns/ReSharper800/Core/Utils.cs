@@ -15,7 +15,7 @@
 //   Utilities for many of our QuickFixes.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -43,14 +43,14 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
-    using JetBrains.ReSharper.Psi.Impl.Caches2;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Impl.Types;
-    using JetBrains.ReSharper.Psi.Modules;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
     using JetBrains.VsIntegration.ProjectModel;
+    using JetBrains.ReSharper.Psi.Files;
+    using JetBrains.ReSharper.Psi.Modules;
 
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
@@ -555,14 +555,14 @@ namespace StyleCop.ReSharper800.Core
         public static void FormatLines(
             ISolution solution, 
             IDocument document, 
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine, 
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine,
+             JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine)
         {
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount = document.GetLineCount();
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount = document.GetLineCount();
 
-            if (startLine < (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0)
+            if (startLine < (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0)
             {
-                startLine = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
+                startLine = (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
             }
 
             if (endLine > lineCount.Minus1())
@@ -576,11 +576,11 @@ namespace StyleCop.ReSharper800.Core
             ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
             codeFormatter.Format(
                 solution, 
-                new DocumentRange(document, new JB::JetBrains.Util.TextRange(startOffset, endOffset)), 
+                new DocumentRange(document, new JetBrains.Util.TextRange(startOffset, endOffset)), 
                 CodeFormatProfile.DEFAULT, 
                 true, 
                 true, 
-                JB::JetBrains.Application.Progress.NullProgressIndicator.Instance);
+                JetBrains.Application.Progress.NullProgressIndicator.Instance);
         }
 
         /// <summary>
@@ -619,7 +619,7 @@ namespace StyleCop.ReSharper800.Core
                 return null;
             }
 
-            return document.GetPsiSourceFile(solution).GetNonInjectedPsiFile<CSharpLanguage>() as ICSharpFile;
+            return document.GetPsiSourceFile(solution).GetDominantPsiFile<CSharpLanguage>() as ICSharpFile;
         }
 
         /// <summary>
@@ -978,11 +978,11 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// An integer of the line count for the file.
         /// </returns>
-        public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineCount(IProjectFile projectFile)
+        public static JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineCount(IProjectFile projectFile)
         {
             ISolution solution = projectFile.GetSolution();
             IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount;
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount;
 
             using (ReadLockCookie.Create())
             {
@@ -1001,13 +1001,13 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// An <see cref="int"/> of the line number. 0 based. -1 if the element was invalid.
         /// </returns>
-        public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(ITreeNode element)
+        public static JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForElement(ITreeNode element)
         {
             DocumentRange range = element.GetDocumentRange();
 
             if (range == DocumentRange.InvalidRange)
             {
-                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = (JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
+                JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line = (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)0;
 
                 return line.Minus1();
             }
@@ -1024,7 +1024,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// 0 based line number.
         /// </returns>
-        public static JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForTextControl(ITextControl textControl)
+        public static JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineNumberForTextControl(ITextControl textControl)
         {
             return textControl.Caret.Position.Value.ToDocLineColumn().Line;
         }
@@ -1248,15 +1248,15 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// A TextRange covering the line number specified.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRange(
-            IProjectFile projectFile, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> resharperLineNumber)
+        public static JetBrains.Util.TextRange GetTextRange(
+            IProjectFile projectFile, JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> resharperLineNumber)
         {
             using (ReadLockCookie.Create())
             {
                 ISolution solution = projectFile.GetSolution();
                 if (solution == null)
                 {
-                    return new JB::JetBrains.Util.TextRange();
+                    return new JetBrains.Util.TextRange();
                 }
 
                 IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
@@ -1277,14 +1277,14 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// A TextRange for the CodeLocation.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRange(IProjectFile projectFile, CodeLocation location)
+        public static JetBrains.Util.TextRange GetTextRange(IProjectFile projectFile, CodeLocation location)
         {
             using (ReadLockCookie.Create())
             {
                 ISolution solution = projectFile.GetSolution();
                 if (solution == null)
                 {
-                    return new JB::JetBrains.Util.TextRange();
+                    return new JetBrains.Util.TextRange();
                 }
 
                 IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
@@ -1305,7 +1305,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// A TextRange for the line.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRange(IDocument document, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber)
+        public static JetBrains.Util.TextRange GetTextRange(IDocument document, JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber)
         {
             using (ReadLockCookie.Create())
             {
@@ -1313,7 +1313,7 @@ namespace StyleCop.ReSharper800.Core
                 document.GetLineCount();
                 int start = document.GetLineStartOffset(lineNumber);
                 int end = document.GetLineEndOffsetNoLineBreak(lineNumber);
-                return new JB::JetBrains.Util.TextRange(start, end);
+                return new JetBrains.Util.TextRange(start, end);
             }
         }
 
@@ -1329,14 +1329,14 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// A TextRange for the CodeLocation.
         /// </returns>
-        public static JB::JetBrains.Util.TextRange GetTextRange(IDocument document, CodeLocation location)
+        public static JetBrains.Util.TextRange GetTextRange(IDocument document, CodeLocation location)
         {
             using (ReadLockCookie.Create())
             {
-                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine =
-                    ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.StartPoint.LineNumber).Minus1();
-                JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine =
-                    ((JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.EndPoint.LineNumber).Minus1();
+                JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> startLine =
+                    ((JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.StartPoint.LineNumber).Minus1();
+                JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> endLine =
+                    ((JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)location.EndPoint.LineNumber).Minus1();
 
                 // must call GetLineCount first - it forces the line index to be built
                 document.GetLineCount();
@@ -1350,7 +1350,7 @@ namespace StyleCop.ReSharper800.Core
                     end += 1;
                 }
 
-                return new JB::JetBrains.Util.TextRange(start, end);
+                return new JetBrains.Util.TextRange(start, end);
             }
         }
 
@@ -1370,7 +1370,7 @@ namespace StyleCop.ReSharper800.Core
         /// A HashSet of tokens for this line.
         /// </returns>
         public static IList<ITokenNode> GetTokensForLine(
-            ISolution solution, JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber, IDocument document)
+            ISolution solution, JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber, IDocument document)
         {
             List<ITokenNode> tokens = new List<ITokenNode>();
 
@@ -1407,7 +1407,7 @@ namespace StyleCop.ReSharper800.Core
         /// </returns>
         public static IList<ITokenNode> GetTokensForLineFromTextControl(ISolution solution, ITextControl textControl)
         {
-            JB::JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber = GetLineNumberForTextControl(textControl);
+            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineNumber = GetLineNumberForTextControl(textControl);
             return GetTokensForLine(solution, lineNumber, textControl.Document);
         }
 
@@ -1485,8 +1485,11 @@ namespace StyleCop.ReSharper800.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            CacheManagerEx cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
-            return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+            //JetBrains.ReSharper.Psi.Caches.CacheManagerEx cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
+            //return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
+
+            var symbols = declaration.GetPsiServices().Symbols;     
+            return symbols.GetSymbolScope(LibrarySymbolScope.FULL, true, declaration.GetResolveContext()).GetTypeElementByCLRName(typeName); 
         }
 
         /// <summary>
@@ -1532,7 +1535,7 @@ namespace StyleCop.ReSharper800.Core
         public static ITreeNode InsertNewLineAfter2(ITreeNode currentNode)
         {
             string newText = Environment.NewLine;
-            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
             LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
             return leafElement;
         }
@@ -1549,7 +1552,7 @@ namespace StyleCop.ReSharper800.Core
         public static ITreeNode InsertNewLineBefore2(ITreeNode currentNode)
         {
             string newText = Environment.NewLine;
-            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
             LowLevelModificationUtil.AddChildBefore(currentNode, new[] { leafElement });
             return leafElement;
         }
@@ -1570,7 +1573,7 @@ namespace StyleCop.ReSharper800.Core
         {
             string newText = " ".PadLeft(count);
             LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+                CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
 
             using (WriteLockCookie.Create(true))
             {
@@ -1596,7 +1599,7 @@ namespace StyleCop.ReSharper800.Core
         {
             string newText = " ".PadLeft(count);
             LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                CSharpTokenType.WHITE_SPACE, new JB::JetBrains.Text.StringBuffer(newText), 0, newText.Length);
+                CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
 
             using (WriteLockCookie.Create(true))
             {
@@ -1881,11 +1884,11 @@ namespace StyleCop.ReSharper800.Core
         {
             using (ReadLockCookie.Create())
             {
-                JB::JetBrains.Util.TextRange textRange = documentRange.TextRange;
+                JetBrains.Util.TextRange textRange = documentRange.TextRange;
                 string text = documentRange.GetText();
                 int newLeft = CountOfWhitespaceAtLeft(text);
                 int newRight = CountOfWhitespaceAtRight(text);
-                JB::JetBrains.Util.TextRange a = textRange.TrimLeft(newLeft);
+                JetBrains.Util.TextRange a = textRange.TrimLeft(newLeft);
 
                 return new DocumentRange(documentRange.Document, a.TrimRight(newRight));
             }

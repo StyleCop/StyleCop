@@ -16,7 +16,6 @@
 //   We ensure that most of the ReSharper modules are run before we are.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
 
 namespace StyleCop.ReSharper800.CodeCleanup
 {
@@ -32,6 +31,7 @@ namespace StyleCop.ReSharper800.CodeCleanup
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Files;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper800.CodeCleanup.Descriptors;
@@ -168,7 +168,7 @@ namespace StyleCop.ReSharper800.CodeCleanup
         /// </returns>
         public bool IsAvailable(IPsiSourceFile projectFile)
         {
-            return projectFile.GetNonInjectedPsiFile<CSharpLanguage>() != null;
+            return projectFile.GetDominantPsiFile<CSharpLanguage>() != null;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace StyleCop.ReSharper800.CodeCleanup
         /// The progress indicator.
         /// </param>
         public void Process(
-            IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JB::JetBrains.Application.Progress.IProgressIndicator progressIndicator)
+            IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
             if (projectFile == null)
             {
@@ -201,14 +201,15 @@ namespace StyleCop.ReSharper800.CodeCleanup
 
             ISolution solution = projectFile.GetSolution();
 
-            ICSharpFile file = projectFile.GetNonInjectedPsiFile<CSharpLanguage>() as ICSharpFile;
+            ICSharpFile file = projectFile.GetDominantPsiFile<CSharpLanguage>() as ICSharpFile;
 
             if (file == null)
             {
                 return;
             }
 
-            PsiManager.GetInstance(solution).DoTransaction(() => this.InternalProcess(profile, file), "Code cleanup");
+            var services = solution.GetPsiServices(); 
+            services.Transactions.Execute("Code cleanup", () => this.InternalProcess(profile, file));
 
             StyleCopTrace.Out();
         }

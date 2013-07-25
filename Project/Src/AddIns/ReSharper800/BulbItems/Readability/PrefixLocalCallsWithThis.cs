@@ -51,7 +51,7 @@ namespace StyleCop.ReSharper800.BulbItems.Readability
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            IRangeMarker marker = PsiManager.GetInstance(solution).CreatePsiRangeMarker(this.DocumentRange);
+            IRangeMarker marker = this.DocumentRange.CreateRangeMarker();//PsiManager.GetInstance(solution).CreatePsiRangeMarker(this.DocumentRange);
 
             file.ArrangeThisQualifier(marker);
         }

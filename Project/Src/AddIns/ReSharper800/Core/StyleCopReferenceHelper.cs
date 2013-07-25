@@ -18,7 +18,7 @@
 //   of the StyleCop assemblies.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-extern alias JB;
+
 
 namespace StyleCop.ReSharper800.Core
 {
@@ -115,7 +115,7 @@ namespace StyleCop.ReSharper800.Core
                             }
                             catch (Exception exception)
                             {
-                                JB::JetBrains.Util.Logger.LogException(exception);
+                                JetBrains.Util.Logging.Logger.LogException(exception);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ namespace StyleCop.ReSharper800.Core
                             }
                             catch (Exception exception)
                             {
-                                JB::JetBrains.Util.Logger.LogException(exception);
+                                JetBrains.Util.Logging.Logger.LogException(exception);
                             }
                         }
                     }
