@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper700", "Src\AddIns\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper710", "Src\AddIns\ReSharper710\ReSharper710.csproj", "{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper800", "Src\AddIns\ReSharper800\ReSharper800.csproj", "{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = StyleCop.vsmdi
@@ -141,6 +143,10 @@ Global
 		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
