@@ -52,13 +52,13 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <WarningLevel>0</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper700.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper710.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper700.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper710.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>

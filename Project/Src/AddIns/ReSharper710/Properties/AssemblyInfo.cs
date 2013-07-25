@@ -27,7 +27,7 @@ using JetBrains.ReSharper.Daemon;
 
 #endregion
 
-[assembly: AssemblyTitle("StyleCop R# 6.1.1 Plugin")]
+[assembly: AssemblyTitle("StyleCop R# 7.1.0 Plugin")]
 [assembly: AssemblyDescription("R# plugin for StyleCop")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -39,7 +39,7 @@ using JetBrains.ReSharper.Daemon;
 
 // Many of the R# base types are not CLS compliant so we can't be.
 [assembly: CLSCompliant(false)]
-[assembly: Guid("B566919A-1C80-4778-BA87-A6B7052B525A")]
+[assembly: Guid("FBD53492-B71A-4DBC-8F37-673402087838")]
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
 [assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
 [assembly: PluginVendor(StyleCop.Constants.Vendor)]
