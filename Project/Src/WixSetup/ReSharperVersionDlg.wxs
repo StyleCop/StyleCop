@@ -45,6 +45,11 @@
        <Condition Action="hide"><![CDATA[RESHARPER71_VERSION = ""]]></Condition>
        <Condition Action="show"><![CDATA[RESHARPER71_VERSION <> ""]]></Condition>
      </Control>
+     <Control Id="Supported800VersionInfo" Type="Text" X="135" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+       <Text><![CDATA[8.0 : $(var.SupportedReSharper800Version)]]></Text>
+       <Condition Action="hide"><![CDATA[RESHARPER80_VERSION = ""]]></Condition>
+       <Condition Action="show"><![CDATA[RESHARPER80_VERSION <> ""]]></Condition>
+     </Control>
       <Control Id="RunningVersionInfo51" Type="Text" X="260" Y="100" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
         <Text><![CDATA[5.1 : [RESHARPER51_VERSION]]]></Text>
         <Condition Action="hide"><![CDATA[RESHARPER51_VERSION = ""]]></Condition>
@@ -70,7 +75,11 @@
         <Condition Action="hide"><![CDATA[RESHARPER71_VERSION = ""]]></Condition>
         <Condition Action="show"><![CDATA[RESHARPER71_VERSION <> ""]]></Condition>
       </Control>
-     
+      <Control Id="RunningVersionInfo80" Type="Text" X="260" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+         <Text><![CDATA[8.0 : [RESHARPER80_VERSION]]]></Text>
+         <Condition Action="hide"><![CDATA[RESHARPER80_VERSION = ""]]></Condition>
+         <Condition Action="show"><![CDATA[RESHARPER80_VERSION <> ""]]></Condition>
+      </Control>
       <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 
       <Control Id="ReSharperWarningCheckBox" Type="CheckBox" X="10" Y="243" Width="170" Height="20" Property="ReSharperWarningAccepted" CheckBoxValue="1">

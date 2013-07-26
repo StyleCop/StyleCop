@@ -4,6 +4,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Fragment>
 
+    <Property Id="RESHARPER80_VERSION" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER80_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v8.0" Name="ProductVersion" Type="raw" />
+    </Property>
+
+    <Property Id="RESHARPER80_INSTALLDIR" Admin="yes" Secure="yes">
+      <RegistrySearch Id="REG_RESHARPER80_INSTALLDIR" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v8.0" Name="InstallDir" />
+    </Property>
+    
     <Property Id="RESHARPER71_VERSION" Admin="yes" Secure="yes">
       <RegistrySearch Id="REG_RESHARPER71_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v7.1" Name="ProductVersion" Type="raw" />
     </Property>
@@ -170,6 +178,19 @@
           </Directory>
         </Directory>
       </Directory>
+
+      <Directory Id="RESHARPER80_INSTALLDIR" Name="[RESHARPER80_INSTALLDIR]">
+        <Directory Id="Dir_JetBrains_ReSharper_v80_Plugins" Name="Plugins">
+          <Directory Id="Dir_JetBrains_ReSharper_v80_Plugins_Drop" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
+            <Component Id="COM_RESHARPER800" Guid="*">
+              <File Id="FILE_RESHARPER800" Name="StyleCop.ReSharper800.dll" Checksum="yes" Vital="yes">
+                <netfx:NativeImage Id="ngen_FILE_RESHARPER800" Platform="all" Priority="0"/>
+              </File>
+              <Condition><![CDATA[RESHARPER80_VERSION <> ""]]></Condition>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
     </DirectoryRef>
     
       <!-- Removes the old plugins -->
@@ -255,6 +276,7 @@
       <ComponentRef Id="COM_RESHARPER611" />
       <ComponentRef Id="COM_RESHARPER700" />
       <ComponentRef Id="COM_RESHARPER710" />
+      <ComponentRef Id="COM_RESHARPER800" />
       <ComponentRef Id="StandardRegistryKeys" />
       <ComponentRef Id="COM_RESHARPER60_VS90_StyleCopForReSharper_1"/>
       <ComponentRef Id="COM_RESHARPER60_VS90_StyleCopForReSharper_2"/>
