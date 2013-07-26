@@ -20,6 +20,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
 {
     #region Using Directives
 
+    using System;
     using System.Collections.Generic;
 
     using JetBrains.Application.Settings;
@@ -81,7 +82,10 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// The icon to use.
         /// </param>
         public ChangeStyleCopRule(
-            HighlightingSettingsManager highlightingSettingsManager, ISettingsStore settingsStore, UIApplication application, IThemedIconManager commonIconsComponent)
+            HighlightingSettingsManager highlightingSettingsManager,
+            ISettingsStore settingsStore,
+            UIApplication application,
+            IThemedIconManager commonIconsComponent)
         {
             this.highlightingSettingsManager = highlightingSettingsManager;
             this.settingsStore = settingsStore;
