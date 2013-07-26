@@ -98,49 +98,19 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <param name="highlighting">
         /// The current highlighting. 
         /// </param>
-        /// <param name="solution">
-        /// The solution. 
-        /// </param>
         /// <param name="highlightingRange">
         /// The current highlighting range. 
         /// </param>
         /// <param name="sourceFile">
         /// The file. 
         /// </param>
+        /// <param name="inspectionTitle">
+        /// The title to use.
+        /// </param>
         /// <returns>
         /// The available actions. 
         /// </returns>
-        ////public IEnumerable<JetBrains.Util.Pair<IBulbAction, BulbMenuItemViewDescription>> GetActions(
-        ////    IHighlighting highlighting, ISolution solution, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
-        ////{
-        ////    StyleCopHighlightingBase violation = highlighting as StyleCopHighlightingBase;
-
-        ////    if (violation == null)
-        ////    {
-        ////        yield break;
-        ////    }
-
-        ////    string ruleId = violation.CheckId;
-        ////    string highlightId = HighlightingRegistering.GetHighlightID(ruleId);
-
-        ////    ChangeStyleCopRuleAction changeStyleCopRuleAction = new ChangeStyleCopRuleAction(
-        ////        this.highlightingSettingsManager, this.settingsStore, highlightId, this.commonIconsComponent)
-        ////                                                            {
-        ////                                                                Text =
-        ////                                                                    "Inspection Options for \"" + violation.ToolTip
-        ////                                                                    + "\""
-        ////                                                            };
-
-        ////    yield return
-        ////        JetBrains.Util.Pair.Of<IBulbAction, BulbMenuItemViewDescription>(
-        ////            changeStyleCopRuleAction, 
-        ////            new BulbMenuItemViewDescription(AnchorsForConfigureHighlightingSubmenu.ConfigureItem, BulbThemedIcons.DisableBulb.Id, changeStyleCopRuleAction.Text));
-        ////}
-
-        #endregion
-
-        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile,
-            string inspectionTitle)
+        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile, string inspectionTitle)
         {
             StyleCopHighlightingBase violation = highlighting as StyleCopHighlightingBase;
 
@@ -153,15 +123,15 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
             string highlightId = HighlightingRegistering.GetHighlightID(ruleId);
 
             ChangeStyleCopRuleAction changeStyleCopRuleAction = new ChangeStyleCopRuleAction(
-                this.highlightingSettingsManager, this.settingsStore, highlightId, this.commonIconsComponent)
-            {
-                Text =
-                    "Inspection Options for \"" + violation.ToolTip
-                    + "\""
-            };
+                this.highlightingSettingsManager,
+                this.settingsStore,
+                highlightId,
+                this.commonIconsComponent) { Text = "Inspection Options for \"" + violation.ToolTip + "\"" };
 
-            yield return new IntentionAction(changeStyleCopRuleAction, changeStyleCopRuleAction.Text, BulbThemedIcons.ContextAction.Id, IntentionsAnchors.ContextActionsAnchor);
-
+            yield return
+                new IntentionAction(changeStyleCopRuleAction, changeStyleCopRuleAction.Text, BulbThemedIcons.ContextAction.Id, IntentionsAnchors.ContextActionsAnchor);
         }
+
+        #endregion
     }
 }

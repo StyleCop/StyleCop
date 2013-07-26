@@ -149,7 +149,6 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
                         services.Transactions.Execute(
                             "Code cleanup",
                             () => services.Locks.ExecuteWithWriteLock(() => { ExecuteTransactionInner(solution, textControl); }));
-
                     }
                 };
         }
@@ -165,7 +164,6 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
         /// </param>
         protected void ExecuteWriteLockableTransaction(ISolution solution, ITextControl textControl)
         {
-
             using (WriteLockCookie.Create(true))
             {
                 this.ExecuteTransactionInner(solution, textControl);

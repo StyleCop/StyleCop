@@ -7,9 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using JetBrains.Application.Progress;
-
 namespace StyleCop.ReSharper800.BulbItems.Documentation
 {
     #region Using Directives
@@ -47,7 +44,5 @@ namespace StyleCop.ReSharper800.BulbItems.Documentation
         }
 
         #endregion
-
-
     }
 }

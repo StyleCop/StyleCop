@@ -166,20 +166,10 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <summary>
         /// Arranges the BulbItems in the correct section.
         /// </summary>
-        /// <param name="menu">
-        /// The BulbMenu to add the items too. 
-        /// </param>
-        /// <param name="severity">
-        /// The severity to set the items too. 
-        /// </param>
-        //public void CreateBulbItems(BulbMenu menu, Severity severity)
-        //{
-        //    menu.ArrangeQuickFixes(from bulbItem in this.Items select JetBrains.Util.Pair.Of(bulbItem, severity));
-        //}
-
+        /// <returns>The QuickFix actions.</returns>
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            return Items.ToQuickFixAction();
+            return this.Items.ToQuickFixAction();
         }
 
         /// <summary>

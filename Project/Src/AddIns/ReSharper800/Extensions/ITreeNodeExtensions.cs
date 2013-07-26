@@ -16,7 +16,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace StyleCop.ReSharper800.Extensions
 {
     #region Using Directives

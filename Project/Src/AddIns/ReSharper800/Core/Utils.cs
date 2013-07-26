@@ -16,7 +16,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace StyleCop.ReSharper800.Core
 {
     #region Using Directives
@@ -43,15 +42,15 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+    using JetBrains.ReSharper.Psi.Files;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Impl.Types;
+    using JetBrains.ReSharper.Psi.Modules;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Psi.Util;
     using JetBrains.TextControl;
     using JetBrains.VsIntegration.ProjectModel;
-    using JetBrains.ReSharper.Psi.Files;
-    using JetBrains.ReSharper.Psi.Modules;
-
+   
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper800.Options;
@@ -1485,9 +1484,6 @@ namespace StyleCop.ReSharper800.Core
         /// </returns>
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
-            //JetBrains.ReSharper.Psi.Caches.CacheManagerEx cacheManager = declaration.GetSolution().GetPsiServices().CacheManager;
-            //return cacheManager.GetDeclarationsCache(DeclarationCacheLibraryScope.FULL, true).GetTypeElementByCLRName(typeName);
-
             var symbols = declaration.GetPsiServices().Symbols;     
             return symbols.GetSymbolScope(LibrarySymbolScope.FULL, true, declaration.GetResolveContext()).GetTypeElementByCLRName(typeName); 
         }

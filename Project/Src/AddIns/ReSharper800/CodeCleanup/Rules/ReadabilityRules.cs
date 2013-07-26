@@ -16,9 +16,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-using JetBrains.ReSharper.Psi.Modules;
-
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
     #region Using Directives
@@ -36,6 +33,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.CSharp.Tree.Extensions;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+    using JetBrains.ReSharper.Psi.Modules;
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;

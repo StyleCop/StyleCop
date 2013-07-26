@@ -16,7 +16,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
 {
     #region Using Directives
