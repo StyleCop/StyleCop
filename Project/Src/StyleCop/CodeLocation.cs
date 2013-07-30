@@ -145,12 +145,7 @@ namespace StyleCop
         {
             get
             {
-                if (this.startPoint != null && this.endPoint != null)
-                {
-                    return this.endPoint.LineNumber - this.startPoint.LineNumber + 1;
-                }
-
-                return 0;
+                return this.endPoint.LineNumber - this.startPoint.LineNumber + 1;
             }
         }
 
@@ -189,39 +184,38 @@ namespace StyleCop
             {
                 return location2;
             }
-            else if (location2 == null)
+
+            if (location2 == null)
             {
                 return location1;
             }
+
+            // Figure out which IndexOnLine and EndIndexOnLine to use.
+            int indexOnLine;
+            int endIndexOnLine;
+            if (location1.StartPoint.LineNumber == location2.StartPoint.LineNumber)
+            {
+                indexOnLine = Math.Min(location1.StartPoint.IndexOnLine, location2.StartPoint.IndexOnLine);
+                endIndexOnLine = Math.Max(location1.EndPoint.IndexOnLine, location2.EndPoint.IndexOnLine);
+            }
+            else if (location1.StartPoint.LineNumber < location2.StartPoint.LineNumber)
+            {
+                indexOnLine = location1.StartPoint.IndexOnLine;
+                endIndexOnLine = location2.EndPoint.IndexOnLine;
+            }
             else
             {
-                // Figure out which IndexOnLine and EndIndexOnLine to use.
-                int indexOnLine;
-                int endIndexOnLine;
-                if (location1.StartPoint.LineNumber == location2.StartPoint.LineNumber)
-                {
-                    indexOnLine = Math.Min(location1.StartPoint.IndexOnLine, location2.StartPoint.IndexOnLine);
-                    endIndexOnLine = Math.Max(location1.EndPoint.IndexOnLine, location2.EndPoint.IndexOnLine);
-                }
-                else if (location1.StartPoint.LineNumber < location2.StartPoint.LineNumber)
-                {
-                    indexOnLine = location1.StartPoint.IndexOnLine;
-                    endIndexOnLine = location2.EndPoint.IndexOnLine;
-                }
-                else
-                {
-                    indexOnLine = location2.StartPoint.IndexOnLine;
-                    endIndexOnLine = location1.EndPoint.IndexOnLine;
-                }
-
-                return new CodeLocation(
-                    Math.Min(location1.StartPoint.Index, location2.StartPoint.Index), 
-                    Math.Max(location1.EndPoint.Index, location2.EndPoint.Index), 
-                    indexOnLine, 
-                    endIndexOnLine, 
-                    Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber), 
-                    Math.Max(location2.EndPoint.LineNumber, location2.EndPoint.LineNumber));
+                indexOnLine = location2.StartPoint.IndexOnLine;
+                endIndexOnLine = location1.EndPoint.IndexOnLine;
             }
+
+            return new CodeLocation(
+                Math.Min(location1.StartPoint.Index, location2.StartPoint.Index), 
+                Math.Max(location1.EndPoint.Index, location2.EndPoint.Index), 
+                indexOnLine, 
+                endIndexOnLine, 
+                Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber), 
+                Math.Max(location2.EndPoint.LineNumber, location2.EndPoint.LineNumber));
         }
 
         #endregion

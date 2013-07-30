@@ -11,10 +11,8 @@
 //   by the terms of the Microsoft Public License. You must not remove this 
 //   notice, or any other, from this software.
 // </license>
-// <summary>
-//   Describes a point within a code file.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop
 {
     using System;
@@ -24,9 +22,9 @@ namespace StyleCop
     /// Describes a point within a code file.
     /// </summary>
     /// <subcategory>other</subcategory>
-    public sealed class CodePoint
+    public struct CodePoint
     {
-        #region Fields
+        #region Private Fields
 
         /// <summary>
         /// The index of the first character of the item within the document.
@@ -42,33 +40,24 @@ namespace StyleCop
         /// <summary>
         /// The line number that this item appears on.
         /// </summary>
-        private readonly int lineNumber = 1;
+        private readonly int lineNumber;
 
-        #endregion
+        #endregion Private Fields
 
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the CodePoint class.
-        /// </summary>
-        public CodePoint()
-        {
-        }
+        #region Public Constructors
 
         /// <summary>
         /// Initializes a new instance of the CodePoint class.
         /// </summary>
-        /// <param name="index">
-        /// The index of the first character of the item within the document.
-        /// </param>
-        /// <param name="indexOnLine">
-        /// The index of the last character of the item within the line
-        /// that it appears on.
-        /// </param>
-        /// <param name="lineNumber">
-        /// The line number that the item appears on.
-        /// </param>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "OnLine", Justification = "On Line is two words in this context.")]
+        /// <param name="index">The index of the first character of the item within the document.</param>
+        /// <param name="indexOnLine">The index of the last character of the item within the line
+        /// that it appears on.</param>
+        /// <param name="lineNumber">The line number that the item appears on.</param>
+        [SuppressMessage(
+            "Microsoft.Naming",
+            "CA1702:CompoundWordsShouldBeCasedCorrectly",
+            MessageId = "OnLine",
+            Justification = "On Line is two words in this context.")]
         public CodePoint(int index, int indexOnLine, int lineNumber)
         {
             Param.RequireGreaterThanOrEqualToZero(index, "index");
@@ -80,7 +69,7 @@ namespace StyleCop
             this.lineNumber = lineNumber;
         }
 
-        #endregion
+        #endregion Public Constructors
 
         #region Public Properties
 
@@ -99,7 +88,11 @@ namespace StyleCop
         /// Gets the index of the first character of the item within the line
         /// that it appears on.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "OnLine", Justification = "On Line is two words in this context.")]
+        [SuppressMessage(
+            "Microsoft.Naming",
+            "CA1702:CompoundWordsShouldBeCasedCorrectly",
+            MessageId = "OnLine",
+            Justification = "On Line is two words in this context.")]
         public int IndexOnLine
         {
             get
@@ -119,56 +112,48 @@ namespace StyleCop
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
-        #region Public Methods and Operators
+        #region Public Static Methods
 
         /// <summary>
         /// Joins the two given points.
         /// </summary>
-        /// <param name="point1">
-        /// The first point to join.
-        /// </param>
-        /// <param name="point2">
-        /// The second point to join.
-        /// </param>
-        /// <returns>
-        /// Returns the joined <see cref="CodePoint"/>.
-        /// </returns>
+        /// <param name="point1">The first point to join.</param>
+        /// <param name="point2">The second point to join.</param>
+        /// <returns>Returns the joined <see cref="CodePoint"/>.</returns>
         public static CodePoint Join(CodePoint point1, CodePoint point2)
         {
-            Param.RequireNotNull(point1, "point1");
-            Param.RequireNotNull(point2, "point2");
-
-            if (point1 == null)
+            if (point1.lineNumber == 0 && point1.indexOnLine == 0 && point1.index == 0)
             {
                 return point2;
             }
-            else if (point2 == null)
+            if (point2.lineNumber == 0 && point2.indexOnLine == 0 && point2.index == 0)
             {
                 return point1;
             }
+
+            // Figure out which IndexOnLine to use.
+            int indexOnLine;
+            if (point1.LineNumber == point2.LineNumber)
+            {
+                indexOnLine = Math.Min(point1.IndexOnLine, point2.IndexOnLine);
+            }
+            else if (point1.LineNumber < point2.LineNumber)
+            {
+                indexOnLine = point1.IndexOnLine;
+            }
             else
             {
-                // Figure out which IndexOnLine to use.
-                int indexOnLine;
-                if (point1.LineNumber == point2.LineNumber)
-                {
-                    indexOnLine = Math.Min(point1.IndexOnLine, point2.IndexOnLine);
-                }
-                else if (point1.LineNumber < point2.LineNumber)
-                {
-                    indexOnLine = point1.IndexOnLine;
-                }
-                else
-                {
-                    indexOnLine = point2.IndexOnLine;
-                }
-
-                return new CodePoint(Math.Min(point1.Index, point2.Index), indexOnLine, Math.Min(point1.LineNumber, point2.LineNumber));
+                indexOnLine = point2.IndexOnLine;
             }
+
+            return new CodePoint(
+                Math.Min(point1.Index, point2.Index),
+                indexOnLine,
+                Math.Min(point1.LineNumber, point2.LineNumber));
         }
 
-        #endregion
+        #endregion Public Static Methods
     }
 }
