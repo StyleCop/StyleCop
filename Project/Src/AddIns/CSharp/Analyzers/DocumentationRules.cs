@@ -159,7 +159,7 @@ namespace StyleCop.CSharp
                 {
                     if (dictionaryFolder.StartsWith(".", StringComparison.Ordinal))
                     {
-                        // Check relativ to the source file
+                        // Check relative to the source file
                         namingService.AddDictionaryFolder(StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(document.SourceCode.Path), dictionaryFolder));
                         
                         // Check relative to the settings file
