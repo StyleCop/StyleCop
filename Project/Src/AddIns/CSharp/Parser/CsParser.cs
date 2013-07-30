@@ -21,8 +21,11 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Threading;
+
+    using Microsoft.Build.Framework;
 
     using StyleCop.Diagnostics;
 
@@ -180,6 +183,11 @@ namespace StyleCop.CSharp
             // The document is parsed on the first pass. On any subsequent passes, we do not do anything.
             if (passNumber == 0)
             {
+                if (this.SkipAnalysisForDocument(sourceCode))
+                {
+                    return false;
+                }
+
                 try
                 {
                     using (TextReader reader = sourceCode.Read())
@@ -235,24 +243,24 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Indicates whether to skip analysis on the given document.
         /// </summary>
-        /// <param name="document">
+        /// <param name="sourceCode">
         /// The document.
         /// </param>
         /// <returns>
         /// Returns true to skip analysis on the document.
         /// </returns>
-        public override bool SkipAnalysisForDocument(CodeDocument document)
+        public override bool SkipAnalysisForDocument(SourceCode sourceCode)
         {
-            Param.RequireNotNull(document, "document");
+            Param.RequireNotNull(sourceCode, "sourceCode");
 
-            if (document == null || document.SourceCode == null || document.SourceCode.Name == null
-                || !this.FileTypes.Contains(Path.GetExtension(document.SourceCode.Name).Trim('.').ToUpperInvariant()))
+            if (sourceCode == null || sourceCode.Name == null
+                || !this.FileTypes.Contains(Path.GetExtension(sourceCode.Name).Trim('.').ToUpperInvariant()))
             {
                 return true;
             }
 
             // Get the property indicating whether to analyze designer files.
-            BooleanProperty analyzeDesignerFilesProperty = this.GetSetting(document.Settings, CsParser.AnalyzeDesignerFilesProperty) as BooleanProperty;
+            BooleanProperty analyzeDesignerFilesProperty = this.GetSetting(sourceCode.Settings, AnalyzeDesignerFilesProperty) as BooleanProperty;
 
             // Default the setting to true if it does not exist.
             bool analyzeDesignerFiles = true;
@@ -261,10 +269,10 @@ namespace StyleCop.CSharp
                 analyzeDesignerFiles = analyzeDesignerFilesProperty.Value;
             }
 
-            if (analyzeDesignerFiles || !document.SourceCode.Name.EndsWith(".Designer.cs", StringComparison.OrdinalIgnoreCase))
+            if (analyzeDesignerFiles || !sourceCode.Name.EndsWith(".Designer.cs", StringComparison.OrdinalIgnoreCase))
             {
                 // Get the property indicating whether to analyze generated files.
-                BooleanProperty analyzerGeneratedFilesProperty = this.GetSetting(document.Settings, CsParser.AnalyzeGeneratedFilesProperty) as BooleanProperty;
+                BooleanProperty analyzerGeneratedFilesProperty = this.GetSetting(sourceCode.Settings, AnalyzeGeneratedFilesProperty) as BooleanProperty;
 
                 // Default the setting to false if it does not exist.
                 bool analyzeGeneratedFiles = false;
@@ -283,14 +291,14 @@ namespace StyleCop.CSharp
                 IEnumerable<string> filters = DefaultGeneratedFileFilters;
 
                 // Get the file filter list for generated files.
-                CollectionProperty generatedFileFilterSettings = this.GetSetting(document.Settings, CsParser.GeneratedFileFiltersProperty) as CollectionProperty;
+                CollectionProperty generatedFileFilterSettings = this.GetSetting(sourceCode.Settings, GeneratedFileFiltersProperty) as CollectionProperty;
 
                 if (generatedFileFilterSettings != null)
                 {
                     filters = generatedFileFilterSettings.Values;
                 }
 
-                return Utils.InputMatchesRegExPattern(document.SourceCode.Path, filters);
+                return Utils.InputMatchesRegExPattern(sourceCode.Path, filters);
             }
 
             return true;

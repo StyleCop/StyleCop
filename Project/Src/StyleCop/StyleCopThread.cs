@@ -325,10 +325,13 @@ namespace StyleCop
             {
                 parsingCompleted = !sourceCode.Parser.ParseFile(sourceCode, this.data.PassNumber, ref parsedDocument);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 string details = string.Format(
-                    CultureInfo.CurrentCulture, "Exception thrown by parser '{0}' while processing '{1}'.", sourceCode.Parser.Name, sourceCode.Path);
+                    CultureInfo.CurrentCulture,
+                    "Exception thrown by parser '{0}' while processing '{1}'.",
+                    sourceCode.Parser.Name,
+                    sourceCode.Path);
                 this.data.Core.SignalOutput(MessageImportance.High, details);
                 throw;
             }
@@ -337,6 +340,9 @@ namespace StyleCop
             {
                 if (parsedDocument == null)
                 {
+                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(sourceCode));
+                    this.data.Core.SignalOutput(MessageImportance.Normal, format);
+       
                     documentStatus.Complete = true;
                 }
                 else if (this.TestAndRunAnalyzers(parsedDocument, sourceCode.Parser, analyzers, this.data.PassNumber))
@@ -392,7 +398,7 @@ namespace StyleCop
 
             if (analyzers != null)
             {
-                if (parser.SkipAnalysisForDocument(document))
+                if (parser.SkipAnalysisForDocument(document.SourceCode))
                 {
                     string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(document.SourceCode));
                     this.data.Core.SignalOutput(MessageImportance.Normal, format);
@@ -420,7 +426,7 @@ namespace StyleCop
                                     analyzer.AnalyzeDocument(document);
                                 }
                             }
-                            catch (System.Exception)
+                            catch (Exception)
                             {
                                 string details = string.Format(
                                     CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path);
