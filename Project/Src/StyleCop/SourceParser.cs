@@ -237,16 +237,15 @@ namespace StyleCop
         /// <summary>
         /// Indicates whether to skip analysis on the given document.
         /// </summary>
-        /// <param name="document">
-        /// The document.
+        /// <param name="sourceCode">
+        /// The sourceCode to check.
         /// </param>
         /// <returns>
         /// Returns true to skip analysis on the document.
         /// </returns>
-        public virtual bool SkipAnalysisForDocument(CodeDocument document)
+        public virtual bool SkipAnalysisForDocument(SourceCode sourceCode)
         {
-            Param.Ignore(document);
-
+            Param.Ignore(sourceCode);
             return false;
         }
 
