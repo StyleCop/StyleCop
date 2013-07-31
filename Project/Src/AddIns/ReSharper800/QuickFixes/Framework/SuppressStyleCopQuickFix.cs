@@ -173,7 +173,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <returns>The QuickFix actions.</returns>
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-           return this.Items.ToQuickFixAction();
+           return this.Items.ToQuickFixAction(IntentionsAnchors.ConfigureActionsAnchor);
         }
 
         /// <summary>
