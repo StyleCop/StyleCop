@@ -25,7 +25,7 @@ namespace StyleCop
     /// Describes a location within a code document.
     /// </summary>
     /// <subcategory>other</subcategory>
-    public sealed class CodeLocation
+    public struct CodeLocation
     {
         #region Static Fields
 
@@ -54,16 +54,7 @@ namespace StyleCop
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the CodeLocation class.
-        /// </summary>
-        public CodeLocation()
-        {
-            this.startPoint = new CodePoint();
-            this.endPoint = new CodePoint();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the CodeLocation class.
+        /// Initializes a new instance of the CodeLocation struct.
         /// </summary>
         /// <param name="index">
         /// The index of the first character of the item within the file.
@@ -96,13 +87,11 @@ namespace StyleCop
             Param.RequireGreaterThanOrEqualTo(endLineNumber, lineNumber, "endLineNumber");
 
 #if DEBUG
-
             // If the entire segment is on the same line, make sure the end index is greater or equal to the start index.
             if (lineNumber == endLineNumber)
             {
                 Debug.Assert(endIndexOnLine >= indexOnLine, "The end index must be greater than the start index, since they are both on the same line.");
             }
-
 #endif
 
             this.startPoint = new CodePoint(index, indexOnLine, lineNumber);
@@ -176,9 +165,14 @@ namespace StyleCop
         /// <returns>
         /// Returns the joined <see cref="CodeLocation"/>.
         /// </returns>
-        public static CodeLocation Join(CodeLocation location1, CodeLocation location2)
+        public static CodeLocation? Join(CodeLocation? location1, CodeLocation? location2)
         {
             Param.Ignore(location1, location2);
+
+            if (location1 == null && location2 == null)
+            {
+                return null;
+            }
 
             if (location1 == null)
             {
@@ -189,6 +183,99 @@ namespace StyleCop
             {
                 return location1;
             }
+
+            // Figure out which IndexOnLine and EndIndexOnLine to use.
+            int indexOnLine;
+            int endIndexOnLine;
+            if (location1.Value.StartPoint.LineNumber == location2.Value.StartPoint.LineNumber)
+            {
+                indexOnLine = Math.Min(location1.Value.StartPoint.IndexOnLine, location2.Value.StartPoint.IndexOnLine);
+                endIndexOnLine = Math.Max(location1.Value.EndPoint.IndexOnLine, location2.Value.EndPoint.IndexOnLine);
+            }
+            else if (location1.Value.StartPoint.LineNumber < location2.Value.StartPoint.LineNumber)
+            {
+                indexOnLine = location1.Value.StartPoint.IndexOnLine;
+                endIndexOnLine = location2.Value.EndPoint.IndexOnLine;
+            }
+            else
+            {
+                indexOnLine = location2.Value.StartPoint.IndexOnLine;
+                endIndexOnLine = location1.Value.EndPoint.IndexOnLine;
+            }
+
+            return new CodeLocation(
+                Math.Min(location1.Value.StartPoint.Index, location2.Value.StartPoint.Index),
+                Math.Max(location1.Value.EndPoint.Index, location2.Value.EndPoint.Index), 
+                indexOnLine, 
+                endIndexOnLine,
+                Math.Min(location1.Value.StartPoint.LineNumber, location2.Value.StartPoint.LineNumber),
+                Math.Max(location2.Value.EndPoint.LineNumber, location2.Value.EndPoint.LineNumber));
+        }
+
+        /// <summary>
+        /// Joins the two given locations.
+        /// </summary>
+        /// <param name="location1">
+        /// The first location to join.
+        /// </param>
+        /// <param name="location2">
+        /// The second location to join.
+        /// </param>
+        /// <returns>
+        /// Returns the joined <see cref="CodeLocation"/>.
+        /// </returns>
+        public static CodeLocation Join(CodeLocation location1, CodeLocation? location2)
+        {
+            Param.Ignore(location1, location2);
+            
+            if (location2 == null)
+            {
+                return location1;
+            }
+
+            // Figure out which IndexOnLine and EndIndexOnLine to use.
+            int indexOnLine;
+            int endIndexOnLine;
+            if (location1.StartPoint.LineNumber == location2.Value.StartPoint.LineNumber)
+            {
+                indexOnLine = Math.Min(location1.StartPoint.IndexOnLine, location2.Value.StartPoint.IndexOnLine);
+                endIndexOnLine = Math.Max(location1.EndPoint.IndexOnLine, location2.Value.EndPoint.IndexOnLine);
+            }
+            else if (location1.StartPoint.LineNumber < location2.Value.StartPoint.LineNumber)
+            {
+                indexOnLine = location1.StartPoint.IndexOnLine;
+                endIndexOnLine = location2.Value.EndPoint.IndexOnLine;
+            }
+            else
+            {
+                indexOnLine = location2.Value.StartPoint.IndexOnLine;
+                endIndexOnLine = location1.EndPoint.IndexOnLine;
+            }
+
+            return new CodeLocation(
+                Math.Min(location1.StartPoint.Index, location2.Value.StartPoint.Index),
+                Math.Max(location1.EndPoint.Index, location2.Value.EndPoint.Index),
+                indexOnLine,
+                endIndexOnLine,
+                Math.Min(location1.StartPoint.LineNumber, location2.Value.StartPoint.LineNumber),
+                Math.Max(location2.Value.EndPoint.LineNumber, location2.Value.EndPoint.LineNumber));
+        }
+
+        /// <summary>
+        /// Joins the two given locations.
+        /// </summary>
+        /// <param name="location1">
+        /// The first location to join.
+        /// </param>
+        /// <param name="location2">
+        /// The second location to join.
+        /// </param>
+        /// <returns>
+        /// Returns the joined <see cref="CodeLocation"/>.
+        /// </returns>
+        public static CodeLocation Join(CodeLocation location1, CodeLocation location2)
+        {
+            Param.Ignore(location1, location2);
 
             // Figure out which IndexOnLine and EndIndexOnLine to use.
             int indexOnLine;
@@ -210,11 +297,11 @@ namespace StyleCop
             }
 
             return new CodeLocation(
-                Math.Min(location1.StartPoint.Index, location2.StartPoint.Index), 
-                Math.Max(location1.EndPoint.Index, location2.EndPoint.Index), 
-                indexOnLine, 
-                endIndexOnLine, 
-                Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber), 
+                Math.Min(location1.StartPoint.Index, location2.StartPoint.Index),
+                Math.Max(location1.EndPoint.Index, location2.EndPoint.Index),
+                indexOnLine,
+                endIndexOnLine,
+                Math.Min(location1.StartPoint.LineNumber, location2.StartPoint.LineNumber),
                 Math.Max(location2.EndPoint.LineNumber, location2.EndPoint.LineNumber));
         }
 

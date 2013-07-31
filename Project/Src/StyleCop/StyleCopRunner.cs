@@ -321,19 +321,19 @@ namespace StyleCop
                 {
                     // Add the detailed location if avail.
                     attrib = this.violations.CreateAttribute("StartLine");
-                    attrib.Value = e.Location.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                    attrib.Value = e.Location.Value.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
                     violation.Attributes.Append(attrib);
 
                     attrib = this.violations.CreateAttribute("StartColumn");
-                    attrib.Value = e.Location.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                    attrib.Value = e.Location.Value.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
                     violation.Attributes.Append(attrib);
 
                     attrib = this.violations.CreateAttribute("EndLine");
-                    attrib.Value = e.Location.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                    attrib.Value = e.Location.Value.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
                     violation.Attributes.Append(attrib);
 
                     attrib = this.violations.CreateAttribute("EndColumn");
-                    attrib.Value = e.Location.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                    attrib.Value = e.Location.Value.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
                     violation.Attributes.Append(attrib);
                 }
 

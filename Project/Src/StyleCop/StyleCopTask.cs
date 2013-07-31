@@ -482,11 +482,11 @@ namespace StyleCop
                                 MSBuildSubCategory, 
                                 MSBuildErrorCode, 
                                 null, 
-                                path, 
-                                e.Location.StartPoint.LineNumber, 
-                                e.Location.StartPoint.IndexOnLine, 
-                                e.Location.EndPoint.LineNumber, 
-                                e.Location.EndPoint.IndexOnLine, 
+                                path,
+                                e.Location.Value.StartPoint.LineNumber,
+                                e.Location.Value.StartPoint.IndexOnLine,
+                                e.Location.Value.EndPoint.LineNumber,
+                                e.Location.Value.EndPoint.IndexOnLine, 
                                 description);
                         }
                     }
@@ -502,11 +502,11 @@ namespace StyleCop
                                 MSBuildSubCategory, 
                                 MSBuildErrorCode, 
                                 null, 
-                                path, 
-                                e.Location.StartPoint.LineNumber, 
-                                e.Location.StartPoint.IndexOnLine, 
-                                e.Location.EndPoint.LineNumber, 
-                                e.Location.EndPoint.IndexOnLine, 
+                                path,
+                                e.Location.Value.StartPoint.LineNumber,
+                                e.Location.Value.StartPoint.IndexOnLine,
+                                e.Location.Value.EndPoint.LineNumber,
+                                e.Location.Value.EndPoint.IndexOnLine, 
                                 description);
                         }
                     }

@@ -566,27 +566,27 @@ namespace StyleCop
             if (violation.Location != null)
             {
                 XmlElement index = violationsDocument.CreateElement("index");
-                index.InnerText = violation.Location.StartPoint.Index.ToString(CultureInfo.InvariantCulture);
+                index.InnerText = violation.Location.Value.StartPoint.Index.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(index);
 
                 XmlElement endIndex = violationsDocument.CreateElement("endIndex");
-                endIndex.InnerText = violation.Location.EndPoint.Index.ToString(CultureInfo.InvariantCulture);
+                endIndex.InnerText = violation.Location.Value.EndPoint.Index.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(endIndex);
 
                 XmlElement startLine = violationsDocument.CreateElement("startLine");
-                startLine.InnerText = violation.Location.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                startLine.InnerText = violation.Location.Value.StartPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(startLine);
 
                 XmlElement startColumn = violationsDocument.CreateElement("startColumn");
-                startColumn.InnerText = violation.Location.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                startColumn.InnerText = violation.Location.Value.StartPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(startColumn);
 
                 XmlElement endLine = violationsDocument.CreateElement("endLine");
-                endLine.InnerText = violation.Location.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
+                endLine.InnerText = violation.Location.Value.EndPoint.LineNumber.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(endLine);
 
                 XmlElement endColumn = violationsDocument.CreateElement("endColumn");
-                endColumn.InnerText = violation.Location.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
+                endColumn.InnerText = violation.Location.Value.EndPoint.IndexOnLine.ToString(CultureInfo.InvariantCulture);
                 item.AppendChild(endColumn);
             }
 

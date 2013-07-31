@@ -39,7 +39,7 @@ namespace StyleCop
         /// <summary>
         /// The code location that the violation appears on.
         /// </summary>
-        private readonly CodeLocation location;
+        private readonly CodeLocation? location;
 
         /// <summary>
         /// The context message.
@@ -265,7 +265,7 @@ namespace StyleCop
         /// <summary>
         /// Gets the location the violation occurred on or null if we only know the line number. Location has a 1 based line and 1 based column.
         /// </summary>
-        public CodeLocation Location
+        public CodeLocation? Location
         {
             get
             {
@@ -327,10 +327,10 @@ namespace StyleCop
             {
                 lineText = string.Format(
                     "{0},{1},{2},{3}", 
-                    this.location.StartPoint.LineNumber, 
-                    this.location.StartPoint.IndexOnLine, 
-                    this.location.EndPoint.LineNumber, 
-                    this.location.EndPoint.IndexOnLine);
+                    this.location.Value.StartPoint.LineNumber, 
+                    this.location.Value.StartPoint.IndexOnLine,
+                    this.location.Value.EndPoint.LineNumber,
+                    this.location.Value.EndPoint.IndexOnLine);
             }
 
             this.key = string.Format("{0}:{1}:{2}", this.rule.Name, lineText, this.message).GetHashCode();

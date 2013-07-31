@@ -76,7 +76,7 @@ namespace StyleCop
         /// <summary>
         /// Gets the location in the code where the violation appears or null if only the line number is known.
         /// </summary>
-        public CodeLocation Location
+        public CodeLocation? Location
         {
             get
             {

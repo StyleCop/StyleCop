@@ -40,7 +40,7 @@ namespace StyleCop
         /// <summary>
         /// The line number that this item appears on.
         /// </summary>
-        private readonly int lineNumber;
+        private int lineNumber;
 
         #endregion Private Fields
 
@@ -52,7 +52,7 @@ namespace StyleCop
         /// <param name="index">The index of the first character of the item within the document.</param>
         /// <param name="indexOnLine">The index of the last character of the item within the line
         /// that it appears on.</param>
-        /// <param name="lineNumber">The line number that the item appears on.</param>
+        /// <param name="lineNumber">The line number that the item appears on. Must be greater than zero.</param>
         [SuppressMessage(
             "Microsoft.Naming",
             "CA1702:CompoundWordsShouldBeCasedCorrectly",
@@ -102,12 +102,17 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Gets the line number that this item appears on.
+        /// Gets the line number that this item appears on. Minimum is 1.
         /// </summary>
         public int LineNumber
         {
             get
             {
+                if (this.lineNumber == 0)
+                {
+                    this.lineNumber = 1;
+                }
+
                 return this.lineNumber;
             }
         }

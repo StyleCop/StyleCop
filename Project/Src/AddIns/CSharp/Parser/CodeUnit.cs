@@ -75,7 +75,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The location of this expression.
         /// </summary>
-        private CodeLocation location;
+        private CodeLocation? location;
 
         /// <summary>
         /// The parent of this code unit.
@@ -245,7 +245,7 @@ namespace StyleCop.CSharp
                     this.location = CsToken.JoinLocations(this.tokens.First, this.tokens.Last);
                 }
 
-                return this.location;
+                return this.location.Value;
             }
 
             internal set

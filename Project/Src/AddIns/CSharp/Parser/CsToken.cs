@@ -320,7 +320,7 @@ namespace StyleCop.CSharp
         internal static CodeLocation JoinLocations(CodeLocation location1, CsToken token2)
         {
             Param.Ignore(location1, token2);
-            return CodeLocation.Join(location1, token2 == null ? null : token2.Location);
+            return token2 == null ? CodeLocation.Join(location1, null) : CodeLocation.Join(location1, token2.Location);
         }
 
         /////// <summary>
@@ -379,8 +379,10 @@ namespace StyleCop.CSharp
         /// </returns>
         internal static CodeLocation JoinLocations(CsToken token1, CsToken token2)
         {
-            Param.Ignore(token1, token2);
-            return CodeLocation.Join(token1 == null ? null : token1.Location, token2 == null ? null : token2.Location);
+            Param.AssertNotNull(token1, "token1");
+            Param.AssertNotNull(token2, "token2");
+            
+            return CodeLocation.Join(token1.Location, token2.Location);
         }
 
         /////// <summary>

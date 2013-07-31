@@ -107,7 +107,7 @@ namespace StyleCop.CSharp
             someParametersShareLine = false;
             someParameterOnDifferentLines = false;
 
-            CodeLocation previousArgumentLocation = null;
+            CodeLocation previousArgumentLocation = new CodeLocation();
             for (int i = 0; i < arguments.Count; ++i)
             {
                 CodeLocation argumentLocation = arguments.Location(i);

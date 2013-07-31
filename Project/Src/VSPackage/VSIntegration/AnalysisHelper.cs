@@ -553,7 +553,7 @@ namespace StyleCop.VisualStudio
                     violation.Description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
                     violation.LineNumber = e.LineNumber;
 
-                    violation.ColumnNumber = e.Location != null ? e.Location.StartPoint.IndexOnLine : 1;
+                    violation.ColumnNumber = e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1;
 
                     violation.Rule = e.Violation.Rule;
 

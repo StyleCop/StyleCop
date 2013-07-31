@@ -224,7 +224,7 @@ namespace StyleCop.ReSharper611.Core
                 }
                 else
                 {
-                    textRange = Utils.GetTextRange(this.file, e.Violation.Location);
+                    textRange = Utils.GetTextRange(this.file, e.Violation.Location.Value);
                 }
 
                 // The TextRange could be a completely blank line. If it is just return the line and don't trim it.

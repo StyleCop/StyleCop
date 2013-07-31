@@ -115,23 +115,6 @@ namespace StyleCop.CSharp
             }
         }
 
-        /// <summary>
-        /// Gets the list of tokens that form the statement.
-        /// </summary>
-        public override CsTokenList Tokens
-        {
-            get
-            {
-                return base.Tokens;
-            }
-
-            internal set
-            {
-                base.Tokens = value;
-                this.Location = null;
-            }
-        }
-
         #endregion
 
         #region Public Methods and Operators
