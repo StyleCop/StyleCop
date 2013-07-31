@@ -47,7 +47,7 @@ namespace StyleCop
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the CodePoint class.
+        /// Initializes a new instance of the CodePoint struct.
         /// </summary>
         /// <param name="index">The index of the first character of the item within the document.</param>
         /// <param name="indexOnLine">The index of the last character of the item within the line
@@ -133,6 +133,7 @@ namespace StyleCop
             {
                 return point2;
             }
+
             if (point2.lineNumber == 0 && point2.indexOnLine == 0 && point2.index == 0)
             {
                 return point1;
@@ -153,10 +154,7 @@ namespace StyleCop
                 indexOnLine = point2.IndexOnLine;
             }
 
-            return new CodePoint(
-                Math.Min(point1.Index, point2.Index),
-                indexOnLine,
-                Math.Min(point1.LineNumber, point2.LineNumber));
+            return new CodePoint(Math.Min(point1.Index, point2.Index), indexOnLine, Math.Min(point1.LineNumber, point2.LineNumber));
         }
 
         #endregion Public Static Methods
