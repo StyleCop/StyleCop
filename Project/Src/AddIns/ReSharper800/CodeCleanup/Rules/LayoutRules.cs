@@ -396,7 +396,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                                 }
 
                                 if (siblingMinus2WhitespaceNode == null || siblingMinus3WhitespaceNode == null || !siblingMinus2WhitespaceNode.IsNewLine
-                                    || !siblingMinus3WhitespaceNode.IsNewLine)
+                                    || !(siblingMinus3WhitespaceNode.IsNewLine || siblingMinus3WhitespaceNode.IsWhitespace()))
                                 {
                                     currentNode.InsertNewLineBefore();
 
