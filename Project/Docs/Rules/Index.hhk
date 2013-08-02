@@ -419,11 +419,11 @@
 	<param name="Local" value="SA1500.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
-	<param name="Name" value="SA1501: StatementMustNotBeOnASingleLine">
+	<param name="Name" value="SA1501: StatementMustNotBeOnSingleLine">
 	<param name="Local" value="SA1501.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
-	<param name="Name" value="SA1502: ElementMustNotBeOnASingleLine">
+	<param name="Name" value="SA1502: ElementMustNotBeOnSingleLine">
 	<param name="Local" value="SA1502.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
