@@ -38,6 +38,12 @@
       FriendlyName="Automatically Check For Update"
       Description="Indicates whether to check for an updated version of StyleCop."
     />
+    <BooleanProperty
+     Name="ViolationsAsErrors"
+     DefaultValue="false"
+     FriendlyName="Violations As Errors"
+     Description="Raise StyleCop violations as errors instead of warnings."
+    />
     <IntegerProperty
       Name="DaysToCheckForUpdates"
       DefaultValue="2"

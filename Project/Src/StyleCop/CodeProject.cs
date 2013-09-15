@@ -113,6 +113,8 @@ namespace StyleCop
         /// </summary>
         private bool? writeCache;
 
+        private bool? violationsAsErrors;
+
         #endregion
 
         #region Constructors and Destructors
@@ -573,6 +575,50 @@ namespace StyleCop
                 }
 
                 return this.writeCache.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to treat violations as errors.
+        /// </summary>
+        public bool ViolationsAsErrors
+        {
+            get
+            {
+                if (this.violationsAsErrors == null && this.settingsLoaded)
+                {
+                    if (this.settings != null)
+                    {
+                        PropertyDescriptor<bool> descriptor = this.settings.Core.PropertyDescriptors["ViolationsAsErrors"] as PropertyDescriptor<bool>;
+                        if (descriptor != null)
+                        {
+                            BooleanProperty property = this.settings.GlobalSettings.GetProperty(descriptor.PropertyName) as BooleanProperty;
+                            if (property == null)
+                            {
+                                this.violationsAsErrors = descriptor.DefaultValue;
+                            }
+                            else
+                            {
+                                this.violationsAsErrors = property.Value;
+                            }
+                        }
+                        else
+                        {
+                            this.violationsAsErrors = true;
+                        }
+                    }
+                    else
+                    {
+                        this.violationsAsErrors = true;
+                    }
+                }
+
+                if (this.violationsAsErrors == null)
+                {
+                    return true;
+                }
+
+                return this.violationsAsErrors.Value;
             }
         }
 

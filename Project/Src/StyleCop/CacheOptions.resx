@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 310</value>
+    <value>6, 142</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>367, 38</value>
@@ -135,9 +135,6 @@
   <data name="label1.Text" xml:space="preserve">
     <value>To increase the overall performance of StyleCop, results can be cached after each analysis. </value>
   </data>
-  <data name="label1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -148,13 +145,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="enableCache.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="enableCache.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 103</value>
+    <value>12, 116</value>
   </data>
   <data name="enableCache.Size" type="System.Drawing.Size, System.Drawing">
     <value>178, 17</value>
@@ -175,7 +172,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;enableCache.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="daysLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -349,7 +346,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -364,7 +361,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 128</value>
+    <value>9, 233</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>272, 13</value>
@@ -385,10 +382,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="maxViolationCountMaskedTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>287, 125</value>
+    <value>287, 230</value>
   </data>
   <data name="maxViolationCountMaskedTextBox.Mask" xml:space="preserve">
     <value>999999</value>
@@ -418,7 +415,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;maxViolationCountMaskedTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -430,7 +427,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 161</value>
+    <value>9, 266</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 13</value>
@@ -451,10 +448,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="cultureComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 158</value>
+    <value>114, 263</value>
   </data>
   <data name="cultureComboBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -472,6 +469,36 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cultureComboBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 192</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 17</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="violationsAsErrorsCheckBox.Text" xml:space="preserve">
+    <value>Treat violations as errors</value>
+  </data>
+  <data name="&gt;&gt;violationsAsErrorsCheckBox.Name" xml:space="preserve">
+    <value>violationsAsErrorsCheckBox</value>
+  </data>
+  <data name="&gt;&gt;violationsAsErrorsCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;violationsAsErrorsCheckBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;violationsAsErrorsCheckBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

@@ -70,9 +70,7 @@ namespace StyleCop.VisualStudio
             this.Document = violation.File;
             this.Line = violation.LineNumber - 1;
             this.Text = violation.Description;
-
-            // TODO Whether this is a Warning or Error should come from the settings file.
-            this.ErrorCategory = TaskErrorCategory.Warning;
+            this.ErrorCategory = violation.Severity;
             this.serviceProvider = serviceProvider;
             this.HierarchyItem = hierarchyItem ?? this.GetHierarchyItem();
         }

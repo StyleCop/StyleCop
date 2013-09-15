@@ -24,6 +24,8 @@ namespace StyleCop.VisualStudio
     using System.Xml;
     using EnvDTE;
 
+    using Microsoft.VisualStudio.Shell;
+
     using StyleCop.Diagnostics;
 
     /// <summary>
@@ -545,21 +547,23 @@ namespace StyleCop.VisualStudio
                     }
 
                     var element = e.Element;
-                    var violation = new ViolationInfo();
+                    var violationInfo = new ViolationInfo();
 
+                    violationInfo.Severity = e.SourceCode.Project.ViolationsAsErrors ? TaskErrorCategory.Error : TaskErrorCategory.Warning;
+                        
                     var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
                     trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
 
-                    violation.Description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
-                    violation.LineNumber = e.LineNumber;
+                    violationInfo.Description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
+                    violationInfo.LineNumber = e.LineNumber;
 
-                    violation.ColumnNumber = e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1;
+                    violationInfo.ColumnNumber = e.Location != null ? e.Location.Value.StartPoint.IndexOnLine : 1;
 
-                    violation.Rule = e.Violation.Rule;
+                    violationInfo.Rule = e.Violation.Rule;
 
                     if (element != null)
                     {
-                        violation.File = element.Document.SourceCode.Path;
+                        violationInfo.File = element.Document.SourceCode.Path;
                     }
                     else
                     {
@@ -569,10 +573,10 @@ namespace StyleCop.VisualStudio
                             file = e.SourceCode.Path;
                         }
 
-                        violation.File = file;
+                        violationInfo.File = file;
                     }
 
-                    this.violations.Add(violation);
+                    this.violations.Add(violationInfo);
                 }
             }
         }

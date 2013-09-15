@@ -98,6 +98,12 @@ namespace StyleCop
         /// </summary>
         private BooleanProperty writeCacheParentProperty;
 
+        private CheckBox violationsAsErrorsCheckBox;
+
+        private PropertyDescriptor<bool> violationsAsErrorsPropertyDescriptor;
+
+        private BooleanProperty violationsAsErrorsParentProperty;
+
         /// <summary>
         /// Property writeCachePropertyDescriptor.
         /// </summary>
@@ -193,6 +199,9 @@ namespace StyleCop
                     new BooleanProperty(this.tabControl.Core, this.autoUpdateCheckPropertyDescriptor.PropertyName, this.autoUpdateCheckBox.Checked));
 
                 this.tabControl.LocalSettings.GlobalSettings.SetProperty(
+                   new BooleanProperty(this.tabControl.Core, this.violationsAsErrorsPropertyDescriptor.PropertyName, this.violationsAsErrorsCheckBox.Checked));
+
+                this.tabControl.LocalSettings.GlobalSettings.SetProperty(
                     new IntProperty(this.tabControl.Core, this.daysToCheckPropertyDescriptor.PropertyName, Convert.ToInt32(this.daysMaskedTextBox.Text)));
 
                 this.tabControl.LocalSettings.GlobalSettings.SetProperty(
@@ -238,6 +247,7 @@ namespace StyleCop
 
             this.enableCache.Checked = mergedWriteCacheProperty == null ? this.writeCachePropertyDescriptor.DefaultValue : mergedWriteCacheProperty.Value;
 
+            // Auto update check
             this.autoUpdateCheckPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["AutoCheckForUpdate"] as PropertyDescriptor<bool>;
 
             this.autoUpdateParentProperty = this.tabControl.ParentSettings == null
@@ -252,6 +262,7 @@ namespace StyleCop
 
             this.autoUpdateCheckBox.Checked = mergedAutoUpdateProperty == null ? this.autoUpdateCheckPropertyDescriptor.DefaultValue : mergedAutoUpdateProperty.Value;
 
+            // Days to Check
             this.daysToCheckPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["DaysToCheckForUpdates"] as PropertyDescriptor<int>;
 
             this.daysToCheckParentProperty = this.tabControl.ParentSettings == null
@@ -268,6 +279,7 @@ namespace StyleCop
                                               ? this.daysToCheckPropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
                                               : mergedDaysToCheckProperty.Value.ToString(CultureInfo.InvariantCulture);
 
+            // Max Violation Count
             this.maxViolationCountPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["MaxViolationCount"] as PropertyDescriptor<int>;
 
             this.maxViolationCountParentProperty = this.tabControl.ParentSettings == null
@@ -301,6 +313,23 @@ namespace StyleCop
                     mergedCultureProperty == null
                         ? this.culturePropertyDescriptor.DefaultValue.ToString(CultureInfo.InvariantCulture)
                         : mergedCultureProperty.Value.ToString(CultureInfo.InvariantCulture));
+
+            // Errors As Warnings
+            this.violationsAsErrorsPropertyDescriptor = this.tabControl.Core.PropertyDescriptors["ViolationsAsErrors"] as PropertyDescriptor<bool>;
+
+            this.violationsAsErrorsParentProperty = this.tabControl.ParentSettings == null
+                                                ? null
+                                                : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.violationsAsErrorsPropertyDescriptor.PropertyName) as
+                                                  BooleanProperty;
+
+            BooleanProperty mergedViolationsAsErrorsProperty = this.tabControl.MergedSettings == null
+                                                           ? null
+                                                           : this.tabControl.MergedSettings.GlobalSettings.GetProperty(
+                                                               this.violationsAsErrorsPropertyDescriptor.PropertyName) as BooleanProperty;
+
+            this.violationsAsErrorsCheckBox.Checked = mergedViolationsAsErrorsProperty == null
+                                                          ? this.violationsAsErrorsPropertyDescriptor.DefaultValue
+                                                          : mergedViolationsAsErrorsProperty.Value;
 
             this.SetBoldState();
 
@@ -357,6 +386,12 @@ namespace StyleCop
             this.cultureParentProperty = this.tabControl.ParentSettings == null
                                              ? null
                                              : this.tabControl.ParentSettings.GlobalSettings.GetProperty(this.culturePropertyDescriptor.PropertyName) as StringProperty;
+
+            this.violationsAsErrorsParentProperty = this.tabControl.ParentSettings == null
+                                                        ? null
+                                                        : this.tabControl.ParentSettings.GlobalSettings.GetProperty(
+                                                            this.violationsAsErrorsPropertyDescriptor.PropertyName) as
+                                                          BooleanProperty;
 
             this.SetBoldState();
         }
@@ -555,7 +590,7 @@ namespace StyleCop
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CacheOptions));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CacheOptions));
             this.label1 = new System.Windows.Forms.Label();
             this.enableCache = new System.Windows.Forms.CheckBox();
             this.daysLabel = new System.Windows.Forms.Label();
@@ -569,6 +604,7 @@ namespace StyleCop
             this.maxViolationCountMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cultureComboBox = new System.Windows.Forms.ComboBox();
+            this.violationsAsErrorsCheckBox = new System.Windows.Forms.CheckBox();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
 
@@ -580,7 +616,7 @@ namespace StyleCop
             resources.ApplyResources(this.enableCache, "enableCache");
             this.enableCache.Name = "enableCache";
             this.enableCache.UseVisualStyleBackColor = true;
-            this.enableCache.CheckedChanged += this.EnableCacheCheckedChanged;
+            this.enableCache.CheckedChanged += new System.EventHandler(this.EnableCacheCheckedChanged);
 
             // daysLabel
             resources.ApplyResources(this.daysLabel, "daysLabel");
@@ -596,8 +632,8 @@ namespace StyleCop
             this.daysMaskedTextBox.ResetOnPrompt = false;
             this.daysMaskedTextBox.ResetOnSpace = false;
             this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            this.daysMaskedTextBox.TextChanged += this.DaysMaskedTextBoxTextChanged;
-            this.daysMaskedTextBox.KeyDown += this.DaysMaskedTextBoxKeyDown;
+            this.daysMaskedTextBox.TextChanged += new System.EventHandler(this.DaysMaskedTextBoxTextChanged);
+            this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBoxKeyDown);
 
             // panel3
             resources.ApplyResources(this.panel3, "panel3");
@@ -607,7 +643,7 @@ namespace StyleCop
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.autoUpdateCheckBox);
             this.panel3.Name = "panel3";
-
+ 
             // checkForUpdatesLabel
             resources.ApplyResources(this.checkForUpdatesLabel, "checkForUpdatesLabel");
             this.checkForUpdatesLabel.Name = "checkForUpdatesLabel";
@@ -622,12 +658,12 @@ namespace StyleCop
             this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoUpdateCheckBox.Name = "autoUpdateCheckBox";
             this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
-            this.autoUpdateCheckBox.CheckedChanged += this.AutoUpdateCheckBoxCheckedChanged;
+            this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBoxCheckedChanged);
 
             // label3
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-
+ 
             // maxViolationCountMaskedTextBox
             this.maxViolationCountMaskedTextBox.AllowPromptAsInput = false;
             this.maxViolationCountMaskedTextBox.CausesValidation = false;
@@ -638,8 +674,8 @@ namespace StyleCop
             this.maxViolationCountMaskedTextBox.ResetOnPrompt = false;
             this.maxViolationCountMaskedTextBox.ResetOnSpace = false;
             this.maxViolationCountMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            this.maxViolationCountMaskedTextBox.TextChanged += this.MaxViolationCountTextBoxTextChanged;
-            this.maxViolationCountMaskedTextBox.KeyDown += this.MaxViolationCountMaskedTextBoxKeyDown;
+            this.maxViolationCountMaskedTextBox.TextChanged += new System.EventHandler(this.MaxViolationCountTextBoxTextChanged);
+            this.maxViolationCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaxViolationCountMaskedTextBoxKeyDown);
 
             // label2
             resources.ApplyResources(this.label2, "label2");
@@ -650,9 +686,16 @@ namespace StyleCop
             this.cultureComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.cultureComboBox, "cultureComboBox");
             this.cultureComboBox.Name = "cultureComboBox";
-            this.cultureComboBox.SelectedIndexChanged += this.CultureComboBoxSelectedIndexChanged;
+            this.cultureComboBox.SelectedIndexChanged += new System.EventHandler(this.CultureComboBoxSelectedIndexChanged);
+
+            // violationsAsErrorsCheckBox
+            resources.ApplyResources(this.violationsAsErrorsCheckBox, "violationsAsErrorsCheckBox");
+            this.violationsAsErrorsCheckBox.Name = "violationsAsErrorsCheckBox";
+            this.violationsAsErrorsCheckBox.UseVisualStyleBackColor = true;
+            this.violationsAsErrorsCheckBox.CheckedChanged += new System.EventHandler(this.ViolationsAsErrorsCheckBoxCheckedChanged);
 
             // CacheOptions
+            this.Controls.Add(this.violationsAsErrorsCheckBox);
             this.Controls.Add(this.cultureComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.enableCache);
@@ -712,6 +755,21 @@ namespace StyleCop
                 this.autoUpdateCheckBox.Font = bold ? new Font(this.autoUpdateCheckBox.Font, FontStyle.Bold) : new Font(this.autoUpdateCheckBox.Font, FontStyle.Regular);
             }
 
+            if (this.violationsAsErrorsPropertyDescriptor != null)
+            {
+                bold = this.violationsAsErrorsParentProperty == null
+                           ? this.violationsAsErrorsCheckBox.Checked != this.violationsAsErrorsPropertyDescriptor.DefaultValue
+                           : this.violationsAsErrorsCheckBox.Checked != this.violationsAsErrorsParentProperty.Value;
+
+                this.violationsAsErrorsCheckBox.Font = bold
+                                                           ? new Font(
+                                                                 this.violationsAsErrorsCheckBox.Font,
+                                                                 FontStyle.Bold)
+                                                           : new Font(
+                                                                 this.violationsAsErrorsCheckBox.Font,
+                                                                 FontStyle.Regular);
+            }
+
             if (this.daysToCheckPropertyDescriptor != null)
             {
                 bold = this.daysToCheckParentProperty == null
@@ -748,5 +806,18 @@ namespace StyleCop
         }
 
         #endregion
+
+        private void ViolationsAsErrorsCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            if (!this.dirty)
+            {
+                this.dirty = true;
+                this.tabControl.DirtyChanged();
+            }
+
+            this.SetBoldState();
+        }
     }
 }

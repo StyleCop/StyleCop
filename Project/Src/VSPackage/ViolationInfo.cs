@@ -14,6 +14,8 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.VisualStudio
 {
+    using Microsoft.VisualStudio.Shell;
+
     /// <summary>
     /// Stores information about a single violation in a code file.
     /// </summary>
@@ -43,5 +45,10 @@ namespace StyleCop.VisualStudio
         /// The rule that that was violated.
         /// </summary>
         public Rule Rule;
+
+        /// <summary>
+        /// The severity of the violation.
+        /// </summary>
+        public TaskErrorCategory Severity;
     }
 }
