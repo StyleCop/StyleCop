@@ -249,11 +249,19 @@ namespace VSPackageUnitTest
         public void ViolationTaskConstructorTest()
         {
             Assert.IsNotNull(this.taskUnderTest.violation, "Constructor didn't set internal field 'violation'");
-            Assert.AreEqual(this.violation.File, this.taskUnderTestShell.Document, "Constructor failed to set up property Document");
-            Assert.AreEqual(this.violation.LineNumber, this.taskUnderTestShell.Line + 1, "Constructor failed to set up property Line");
-            Assert.AreEqual(this.violation.Description, this.taskUnderTestShell.Text, "Constructor failed to set up property Text");
+            Assert.AreEqual(
+                this.violation.File,
+                this.taskUnderTestShell.Document,
+                "Constructor failed to set up property Document");
+            Assert.AreEqual(
+                this.violation.LineNumber,
+                this.taskUnderTestShell.Line + 1,
+                "Constructor failed to set up property Line");
+            Assert.AreEqual(
+                this.violation.Description,
+                this.taskUnderTestShell.Text,
+                "Constructor failed to set up property Text");
             Assert.AreEqual(0, this.taskUnderTestShell.Column + 1, "Constructor failed to set up property Column");
-            Assert.AreEqual(TaskErrorCategory.Warning, this.taskUnderTestShell.ErrorCategory, "Constructor failed to set up property ErrorCategory");
         }
 
         #endregion

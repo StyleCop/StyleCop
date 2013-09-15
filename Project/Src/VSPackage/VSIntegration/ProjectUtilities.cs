@@ -140,7 +140,55 @@ namespace StyleCop.VisualStudio
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Sets the active ProjectItem to Excluded or not.
+        /// </summary>
+        /// <param name="type">Type of analysis.</param>
+        /// <param name="value">The value to set it to.</param>
+        /// <returns>True if we've been able to set the value.</returns>
+        internal static bool SetItemExcluded(AnalysisType type, bool value)
+        {
+            Param.Ignore(type);
+
+            DTE applicationObject = GetDTE();
+
+            if (type == AnalysisType.Solution || type == AnalysisType.Project || type == AnalysisType.Folder)
+            {
+                return false;
+            }
+
+            if (type == AnalysisType.Item)
+            {
+                // Check whether there are any selected files.
+                if (applicationObject.SelectedItems.Count == 1)
+                {
+                    foreach (SelectedItem selectedItem in applicationObject.SelectedItems)
+                    {
+                        if (selectedItem.ProjectItem != null && selectedItem.ProjectItem.ContainingProject != null)
+                        {
+                            return SetProjectItemExcluded(selectedItem.ProjectItem, value);
+                        }
+
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+
+            if (type == AnalysisType.File)
+            {
+                Document document = applicationObject.ActiveDocument;
+                if (document != null && !string.IsNullOrEmpty(document.FullName))
+                {
+                    return SetProjectItemExcluded(document.ProjectItem, value);
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Gets the VS Document for the given file.
         /// </summary>
@@ -372,6 +420,57 @@ namespace StyleCop.VisualStudio
                     {
                         return true;
                     }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the selected item is included in StyleCop analysis.
+        /// </summary>
+        /// <param name="helper">The analysis helper instance.</param>
+        /// <param name="type">Indicates the type of solution artifacts to search.</param>
+        /// <returns>True if the selected item would be included in analysis.</returns>
+        internal static bool IsItemIncluded(AnalysisHelper helper, AnalysisType type)
+        {
+            Param.Ignore(helper, type);
+
+            DTE applicationObject = GetDTE();
+
+            if (type == AnalysisType.Solution || type == AnalysisType.Project || type == AnalysisType.Folder)
+            { 
+                return true;
+            }
+
+            if (type == AnalysisType.Item)
+            {
+                // Check whether there are any selected files.
+                // More than 1 selected we just return true
+                if (applicationObject.SelectedItems.Count == 0 || applicationObject.SelectedItems.Count > 1)
+                {
+                    return true;
+                }
+
+                foreach (SelectedItem selectedItem in applicationObject.SelectedItems)
+                {
+                    if (selectedItem.ProjectItem != null && selectedItem.ProjectItem.ContainingProject != null)
+                    {
+                        return CheckProjectItemIsIncluded(selectedItem.ProjectItem);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (type == AnalysisType.File)
+            {
+                Document document = applicationObject.ActiveDocument;
+                if (document != null && !string.IsNullOrEmpty(document.FullName))
+                {
+                    return CheckProjectItemIsIncluded(document.ProjectItem);
                 }
             }
 
@@ -942,14 +1041,95 @@ namespace StyleCop.VisualStudio
         /// Checks to see if the project item is excluded from stylecop in the project file.
         /// </summary>
         /// <param name="item">The ProjectItem to check.</param>
-        /// <param name="key">The key to use for caching.</param>
-        /// <returns>True if the item is excluded otherwise False.</returns>
+        /// <param name="newValue">The value to ensure its set to.</param>
+        /// <returns>True if the item had its setting changed.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
-        private static bool IsProjectItemExcluded(ProjectItem item, string key)
+        private static bool SetProjectItemExcluded(ProjectItem item, bool newValue)
         {
             try
             {
+                string uniqueName = item.ContainingProject.UniqueName;
+
+                var solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
+
+                IVsHierarchy hierarchy;
+
+                solution.GetProjectOfUniqueName(uniqueName, out hierarchy);
+
+                var buildPropertyStorage = hierarchy as IVsBuildPropertyStorage;
+
+                if (buildPropertyStorage == null)
+                {
+                    return false;
+                }
+
+                uint itemId;
+
+                var fullPath = (string)item.Properties.Item("FullPath").Value;
+
+                hierarchy.ParseCanonicalName(fullPath, out itemId);
+
+                string excludeFromStyleCopValue;
+                buildPropertyStorage.GetItemAttribute(itemId, "ExcludeFromStyleCop", out excludeFromStyleCopValue);
+
+                string excludeFromSourceAnalysisValue;
+                buildPropertyStorage.GetItemAttribute(itemId, "ExcludeFromSourceAnalysis", out excludeFromSourceAnalysisValue);
+
+                bool excludeFromStyleCop;
+                bool.TryParse(excludeFromStyleCopValue, out excludeFromStyleCop);
+
+                bool excludeFromSourceAnalysis;
+                bool.TryParse(excludeFromSourceAnalysisValue, out excludeFromSourceAnalysis);
+
+                if (excludeFromStyleCop != newValue)
+                {
+                    // We are setting as the value was different
+                    // If ExcludeFromSourceAnalysis was there set its value too
+                    if (excludeFromSourceAnalysisValue != null)
+                    {
+                        buildPropertyStorage.SetItemAttribute(itemId, "ExcludeFromSourceAnalysis", newValue.ToString());
+                    }
+
+                    buildPropertyStorage.SetItemAttribute(itemId, "ExcludeFromStyleCop", newValue.ToString());
+                    item.ContainingProject.Save();
+                }
+
+                string key = GetKeyForProjectItem(item);
+                
+                if (ProjectItemExcluded.ContainsKey(key))
+                {
+                    ProjectItemExcluded[key] = newValue;
+                }
+                else
+                {
+                    ProjectItemExcluded.Add(key, newValue);
+                }
+
+                return true;
+            }
+            catch
+            {
+                // For some project kinds (and we can't know them all i.e. wixproj) 
+                // The project won't load as the item.ContainingProject.Filename is not the fullpath
+                // Any exceptions whilst attempting this we assume the item is not excluded.
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if the project item is excluded from stylecop in the project file.
+        /// </summary>
+        /// <param name="item">The ProjectItem to check.</param>
+        /// <returns>True if the item is excluded otherwise False.</returns>
+        [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResult", Justification = "Using the default value from bool.TryParse")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
+        private static bool IsProjectItemExcluded(ProjectItem item)
+        {
+            try
+            {
+                string key = GetKeyForProjectItem(item);
+                
                 string uniqueName = item.ContainingProject.UniqueName;
 
                 var solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
@@ -1063,7 +1243,7 @@ namespace StyleCop.VisualStudio
                                     string filePath = GetProjectItemPath(item);
                                     if (!string.IsNullOrEmpty(filePath))
                                     {
-                                        if (CheckProjectItemIsIncluded(item, filePath))
+                                        if (CheckProjectItemIsIncluded(item))
                                         {
                                             object callbackResult = projectItemCallback(item, filePath, AnalysisType.Project,  ref projectContext, ref fileContext);
                                             if (callbackResult != null)
@@ -1110,16 +1290,22 @@ namespace StyleCop.VisualStudio
             return null;
         }
 
+        private static string GetKeyForProjectItem(ProjectItem projectItem)
+        {
+            string filename = GetProjectItemPath(projectItem);
+            var trimmedPath = filename.Substring(Path.GetDirectoryName(projectItem.ContainingProject.FullName).Length + 1).ToUpperInvariant();
+            return projectItem.ContainingProject.FileName + ":" + trimmedPath;
+        }
+
         /// <summary>
         /// Checks to see if this Project Item is included in the analysis.
         /// </summary>
         /// <param name="item">The project item to check.</param>
-        /// <param name="filename">The filename to the item to check.</param>
         /// <returns>True if the item is included in the analysis otherwise False.</returns>
-        private static bool CheckProjectItemIsIncluded(ProjectItem item, string filename)
+        private static bool CheckProjectItemIsIncluded(ProjectItem item)
         {
             Param.AssertNotNull(item, "item");
-            Param.AssertNotNull(filename, "filename");
+            
             try
             {
                 var isLinkProperty = item.Properties.Item("IsLink");
@@ -1131,9 +1317,8 @@ namespace StyleCop.VisualStudio
                     return true;
                 }
 
-                var trimmedPath = filename.Substring(Path.GetDirectoryName(item.ContainingProject.FullName).Length + 1).ToUpperInvariant();
-                var key = item.ContainingProject.FileName + ":" + trimmedPath;
-                return !(ProjectItemExcluded.ContainsKey(key) ? ProjectItemExcluded[key] : IsProjectItemExcluded(item, key));
+                var key = GetKeyForProjectItem(item);
+                return !(ProjectItemExcluded.ContainsKey(key) ? ProjectItemExcluded[key] : IsProjectItemExcluded(item));
             }
             catch (ArgumentException)
             {

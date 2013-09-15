@@ -100,12 +100,44 @@
           <ButtonText>Run Style&amp;Cop</ButtonText>
         </Strings>
       </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdExcludeThisFile" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Exclude From StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdIncludeThisFile" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Include In StyleCop</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeItem" priority="0x0000" type="Button">
         <Parent guid="StyleCopCommandSetId" id="0"/>
         <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings>
           <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdExcludeItem" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Exclude From StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdIncludeItem" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Include In StyleCop</ButtonText>
         </Strings>
       </Button>
       <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x0000" type="Button">
@@ -217,6 +249,12 @@
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeItem" priority="0x900">
       <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
     </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdExcludeItem" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdIncludeItem" priority="0x920">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
+    </CommandPlacement>
     <!--  -->
     <!--   // Placement on a project folder -->
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x900">
@@ -230,6 +268,12 @@
     <!--  -->
     <!--   // Placement on the Code Editor Context Submenu -->
     <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeThisFile" priority="0x0100">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdExcludeThisFile" priority="0x0110">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdIncludeThisFile" priority="0x0120">
       <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
     </CommandPlacement>
     <!--  -->
@@ -278,9 +322,13 @@
       <IDSymbol name="CommandIdAnalyzeFolder" value="0x110" />
       <IDSymbol name="CommandIdAnalyzeItem" value="0x120" />
       <IDSymbol name="CommandIdAnalyzeThisFile" value="0x130" />
+      <IDSymbol name="CommandIdExcludeThisFile" value="0x140" />
+      <IDSymbol name="CommandIdIncludeThisFile" value="0x145" />
       <IDSymbol name="CommandIdAnalyzeSolution" value="0x150" />
       <IDSymbol name="CommandIdReanalyzeSolution" value="0x160" />
       <IDSymbol name="CommandIdReanalyzeProject" value="0x170" />
+      <IDSymbol name="CommandIdExcludeItem" value="0x180" />
+      <IDSymbol name="CommandIdIncludeItem" value="0x190" />
       <IDSymbol name="CommandIdProjectSettings" value="0x240" />
       <IDSymbol name="CommandIdCancel" value="0x250" />
 

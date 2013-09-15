@@ -45,6 +45,16 @@ namespace StyleCop.VisualStudio
         public static readonly CommandID AnalyzeThisFile = new CommandID(GuidList.StyleCopCommandSetId, (int)0x130);
 
         /// <summary>
+        /// Menu Command ID for the menu item that excludes the analysis of an open file.
+        /// </summary>
+        public static readonly CommandID ExcludeThisFile = new CommandID(GuidList.StyleCopCommandSetId, (int)0x140);
+
+        /// <summary>
+        /// Menu Command ID for the menu item that includes the analysis of an open file.
+        /// </summary>
+        public static readonly CommandID IncludeThisFile = new CommandID(GuidList.StyleCopCommandSetId, (int)0x145);
+
+        /// <summary>
         /// Menu Command ID for the menu item that starts analysis of the solution.
         /// </summary>
         public static readonly CommandID AnalyzeSolution = new CommandID(GuidList.StyleCopCommandSetId, (int)0x150);
@@ -58,6 +68,16 @@ namespace StyleCop.VisualStudio
         /// Menu Command ID for the menu item that starts re-analysis of the project.
         /// </summary>
         public static readonly CommandID ReanalyzeProject = new CommandID(GuidList.StyleCopCommandSetId, (int)0x170);
+
+        /// <summary>
+        /// Menu Command ID for the menu item that excludes this item.
+        /// </summary>
+        public static readonly CommandID ExcludeItem = new CommandID(GuidList.StyleCopCommandSetId, (int)0x180);
+
+        /// <summary>
+        /// Menu Command ID for the menu item that includes this item.
+        /// </summary>
+        public static readonly CommandID IncludeItem = new CommandID(GuidList.StyleCopCommandSetId, (int)0x190);
 
         /// <summary>
         /// Menu Command ID for the menu item that shows the project settings dialog.

@@ -87,6 +87,24 @@ namespace StyleCop.VisualStudio
                     new EventHandler(this.StatusAnalyzeSingleProjectItem),
                     CommandIdList.AnalyzeItem));
 
+            // StyleCop -> Exclude
+            // Solution Explorer Context menu item, for a single project item 
+            this.CommandList.Add(
+                new OleMenuCommand(
+                    new EventHandler(this.InvokeExcludeItem),
+                    null,
+                    new EventHandler(this.StatusExcludeSingleProjectItem),
+                    CommandIdList.ExcludeItem));
+
+            // StyleCop -> Include
+            // Solution Explorer Context menu item, for a single project item 
+            this.CommandList.Add(
+                new OleMenuCommand(
+                    new EventHandler(this.InvokeIncludeItem),
+                    null,
+                    new EventHandler(this.StatusIncludeSingleProjectItem),
+                    CommandIdList.IncludeItem));
+
             // StyleCop -> Analyze This File
             // Code editor Context menu item, for an open code editor
             this.CommandList.Add(
@@ -95,6 +113,24 @@ namespace StyleCop.VisualStudio
                     null,
                     new EventHandler(this.StatusAnalyzeThisFile),
                     CommandIdList.AnalyzeThisFile));
+
+            // StyleCop -> Exclude This File
+            // Code editor Context menu item, for an open code editor
+            this.CommandList.Add(
+                new OleMenuCommand(
+                    new EventHandler(this.InvokeExcludeThisFile),
+                    null,
+                    new EventHandler(this.StatusExcludeThisFile),
+                    CommandIdList.ExcludeThisFile));
+
+            // StyleCop -> Include This File
+            // Code editor Context menu item, for an open code editor
+            this.CommandList.Add(
+                new OleMenuCommand(
+                    new EventHandler(this.InvokeIncludeThisFile),
+                    null,
+                    new EventHandler(this.StatusIncludeThisFile),
+                    CommandIdList.IncludeThisFile));
 
             // StyleCop -> Analyze 
             // Tools Main Menu And Solution Explorer Context menu item, for the solution
@@ -193,6 +229,38 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
+        /// Fired when status must be determined for the menu item "Exclude Item" on a single project item.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void StatusExcludeSingleProjectItem(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.Item);
+            
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            this.StatusAnalyzeBase(menuCommand,  show);
+        }
+
+        /// <summary>
+        /// Fired when status must be determined for the menu item "Include Item" on a single project item.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void StatusIncludeSingleProjectItem(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.Item);
+            
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            this.StatusAnalyzeBase(menuCommand, !show);
+        }
+
+        /// <summary>
         /// Fired when status must be determined for the menu item "Analyze" on the context menu of the code editor.
         /// </summary>
         /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
@@ -206,6 +274,38 @@ namespace StyleCop.VisualStudio
 
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             this.StatusAnalyzeBase(menuCommand, show);
+        }
+
+        /// <summary>
+        /// Fired when status must be determined for the menu item "Exclude" on the context menu of the code editor.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void StatusExcludeThisFile(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.File);
+
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            this.StatusAnalyzeBase(menuCommand, show);
+        }
+
+        /// <summary>
+        /// Fired when status must be determined for the menu item "Include" on the context menu of the code editor.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void StatusIncludeThisFile(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.File);
+            
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            this.StatusAnalyzeBase(menuCommand,  !show);
         }
 
         /// <summary>
@@ -286,6 +386,47 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
+        /// Fired when the user invokes the menu item "Exclude Item".
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void InvokeExcludeItem(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            StyleCopTrace.In(sender, eventArgs);
+
+            // This is called from the solution Explorer context menu
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            CommandSet.CheckMenuItemValidity(menuCommand);
+
+            ProjectUtilities.SetItemExcluded(AnalysisType.Item, true);
+          
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Fired when the user invokes the menu item "Include Item".
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void InvokeIncludeItem(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            StyleCopTrace.In(sender, eventArgs);
+
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            CommandSet.CheckMenuItemValidity(menuCommand);
+
+            ProjectUtilities.SetItemExcluded(AnalysisType.Item, false);
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
         /// Fired when the user invokes the menu item Analyze from a code editor window.
         /// </summary>
         /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
@@ -301,6 +442,48 @@ namespace StyleCop.VisualStudio
             CommandSet.CheckMenuItemValidity(menuCommand);
 
             this.helper.Analyze(false, AnalysisType.File);
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Fired when the user invokes the menu item Exclude from a code editor window.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void InvokeExcludeThisFile(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            StyleCopTrace.In(sender, eventArgs);
+
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            CommandSet.CheckMenuItemValidity(menuCommand);
+
+            // Exclude the file
+            ProjectUtilities.SetItemExcluded(AnalysisType.File, true);
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Fired when the user invokes the menu item Include from a code editor window.
+        /// </summary>
+        /// <param name="sender">The <c>OleMenuCommand</c> that represents the menu item.</param>
+        /// <param name="eventArgs">The event arguments.</param>
+        private void InvokeIncludeThisFile(object sender, EventArgs eventArgs)
+        {
+            Param.AssertNotNull(sender, "sender");
+            Param.Ignore(eventArgs);
+
+            StyleCopTrace.In(sender, eventArgs);
+
+            OleMenuCommand menuCommand = (OleMenuCommand)sender;
+            CommandSet.CheckMenuItemValidity(menuCommand);
+
+            // Include the file
+            ProjectUtilities.SetItemExcluded(AnalysisType.File, false);
 
             StyleCopTrace.Out();
         }
