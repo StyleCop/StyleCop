@@ -173,6 +173,11 @@ namespace StyleCop.CSharp
                                 StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(location), dictionaryFolder));
                         }
 
+                        // Check relative to the project location
+                        namingService.AddDictionaryFolder(
+                            StyleCop.Utils.MakeAbsolutePath(
+                                Path.GetDirectoryName(document.SourceCode.Project.Location),
+                                dictionaryFolder));
                     }
                     else
                     {
