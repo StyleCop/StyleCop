@@ -160,10 +160,19 @@ namespace StyleCop.CSharp
                     if (dictionaryFolder.StartsWith(".", StringComparison.Ordinal))
                     {
                         // Check relative to the source file
-                        namingService.AddDictionaryFolder(StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(document.SourceCode.Path), dictionaryFolder));
-                        
+                        namingService.AddDictionaryFolder(
+                            StyleCop.Utils.MakeAbsolutePath(
+                                Path.GetDirectoryName(document.SourceCode.Path),
+                                dictionaryFolder));
+
                         // Check relative to the settings file
-                        namingService.AddDictionaryFolder(StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(document.SourceCode.Settings.Location), dictionaryFolder));
+                        string location = document.SourceCode.Settings.Location;
+                        if (location != null)
+                        {
+                            namingService.AddDictionaryFolder(
+                                StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(location), dictionaryFolder));
+                        }
+
                     }
                     else
                     {
