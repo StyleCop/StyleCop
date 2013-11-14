@@ -273,7 +273,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines whether the given token is part of a file header. It is considered
         /// part of a file header if the only tokens in front of it are single-line comments,
-        /// whitespace, or newlines.
+        /// preprocessor directives, whitespace, or newlines.
         /// </summary>
         /// <param name="comment">
         /// The comment to check.
@@ -289,7 +289,7 @@ namespace StyleCop.CSharp
             while (token != null)
             {
                 if (token.Value.CsTokenType != CsTokenType.SingleLineComment && token.Value.CsTokenType != CsTokenType.WhiteSpace
-                    && token.Value.CsTokenType != CsTokenType.EndOfLine)
+                    && token.Value.CsTokenType != CsTokenType.EndOfLine && token.Value.CsTokenType != CsTokenType.PreprocessorDirective)
                 {
                     return false;
                 }

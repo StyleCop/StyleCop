@@ -88,6 +88,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
             List<TokenNodeType> tokensThatCanBeRightSideOfComma = new List<TokenNodeType>
                                                                       {
                                                                           CSharpTokenType.WHITE_SPACE, 
+                                                                          CSharpTokenType.NEW_LINE, 
                                                                           CSharpTokenType.RBRACKET, 
                                                                           CSharpTokenType.GT, 
                                                                           CSharpTokenType.COMMA, 

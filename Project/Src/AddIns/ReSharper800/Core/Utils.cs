@@ -1605,6 +1605,24 @@ namespace StyleCop.ReSharper800.Core
             return leafElement;
         }
 
+        public static bool IsCommentInFileHeader(ITreeNode comment)
+        {
+            for (ITreeNode currentNode = comment; currentNode != null; currentNode = currentNode.PrevSibling)
+            {
+                if (currentNode is ICommentNode || currentNode is IWhitespaceNode || currentNode is IPreprocessorDirective)
+                {
+                    continue;
+                }
+
+                if (currentNode.NodeType != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Indicates whether the type of the constructor passed in is a struct.
         /// </summary>

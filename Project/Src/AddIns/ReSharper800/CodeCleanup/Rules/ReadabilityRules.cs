@@ -188,7 +188,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                     ICommentNode commentNode = currentNode as ICommentNode;
                     if (commentNode != null && !(commentNode is IDocCommentNode))
                     {
-                        if (commentNode.CommentText.Trim() == string.Empty)
+                        if (commentNode.CommentText.Trim() == string.Empty && !Utils.IsCommentInFileHeader(currentNode))
                         {
                             ITokenNode leftToken = Utils.GetFirstNewLineTokenToLeft((ITokenNode)currentNode);
 
