@@ -208,7 +208,7 @@ IF %SkipTests%.==1. GOTO SUMMARY
 :TEST
 Echo.
 ECHO **** Run tests BEGIN ***********************************************************
-REM TODO Removing BVT run CALL %STTOOLS%\Scripts\RunTests.cmd
+CALL %STTOOLS%\Scripts\RunTests.cmd
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 REM 
 REM 
