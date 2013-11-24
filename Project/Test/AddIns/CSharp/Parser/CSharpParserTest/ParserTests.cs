@@ -80,7 +80,7 @@ namespace CSharpParserTest
         [TestMethod]
         public void CsParserTestAssorted()
         {
-            Console.ReadLine();
+            //Console.ReadLine();
             this.RunTest("Assorted");
         }
 
