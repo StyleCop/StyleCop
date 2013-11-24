@@ -173,7 +173,7 @@ SET BuildLogFile=Build.%BuildTarget%
 REM Build Main Solution
 IF EXIST %PROJECTROOT%\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\%BuildLogFile%.wrn
 IF EXIST %PROJECTROOT%\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
-CALL "%windir%\microsoft.net\framework\%FrameworkVersion%\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:VisualStudioVersion=10.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
+CALL "%windir%\microsoft.net\framework\%FrameworkVersion%\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:VisualStudioVersion=12.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
@@ -208,7 +208,7 @@ IF %SkipTests%.==1. GOTO SUMMARY
 :TEST
 Echo.
 ECHO **** Run tests BEGIN ***********************************************************
-CALL %STTOOLS%\Scripts\RunTests.cmd
+REM TODO Removing BVT run CALL %STTOOLS%\Scripts\RunTests.cmd
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 REM 
 REM 
