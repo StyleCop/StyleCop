@@ -1,0 +1,80 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+-----------------------------------------------------------------------------*/
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "vsshell.idl";
+
+#endif
+
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectRetargetingEvents
+
+Events that are fired during project re-targeting
+-----------------------------------------------------------------------------*/
+[ uuid(60E3F077-6867-4528-96C7-98DD5B541D85) ]
+interface IVsTrackProjectRetargetingEvents : IUnknown
+{
+	HRESULT OnRetargetingBeforeChange(
+		[in] LPCWSTR projRef,
+		[in] IVsHierarchy * pBeforeChangeHier,
+		[in] LPCWSTR currentTargetFramework,
+        [in] LPCWSTR newTargetFramework,
+		[out] VARIANT_BOOL * pCanceled,
+		[out] BSTR * ppReasonMsg
+		);
+
+	HRESULT OnRetargetingCanceledChange(
+		[in] LPCWSTR projRef,
+		[in] IVsHierarchy * pBeforeChangeHier,
+		[in] LPCWSTR currentTargetFramework,
+        [in] LPCWSTR newTargetFramework
+		);
+    
+	HRESULT OnRetargetingBeforeProjectSave(
+		[in] LPCWSTR projRef,
+		[in] IVsHierarchy * pBeforeChangeHier,
+		[in] LPCWSTR currentTargetFramework,
+        [in] LPCWSTR newTargetFramework 
+		);
+
+	HRESULT OnRetargetingAfterChange(
+		[in] LPCWSTR projRef,
+		[in] IVsHierarchy * pAfterChangeHier,
+		[in] LPCWSTR fromTargetFramework,
+        [in] LPCWSTR toTargetFramework 
+		);
+
+	HRESULT OnRetargetingFailure(
+		[in] LPCWSTR projRef,
+		[in] IVsHierarchy * pHier, 
+		[in] LPCWSTR fromTargetFramework,
+        [in] LPCWSTR toTargetFramework 
+		);
+
+};
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackBatchRetargetingEvents
+
+Events that are fired during batch project re-targeting
+-----------------------------------------------------------------------------*/
+[ uuid(B8CB3252-2133-4869-9E34-DBCECD058081) ]
+interface IVsTrackBatchRetargetingEvents : IUnknown
+{
+	HRESULT OnBatchRetargetingBegin();
+	HRESULT OnBatchRetargetingEnd();
+};
+
+
+#endif

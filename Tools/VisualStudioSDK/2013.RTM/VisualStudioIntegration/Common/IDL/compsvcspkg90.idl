@@ -1,0 +1,107 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) 2006 Microsoft Corporation
+// All rights reserved
+//
+//
+// compsvcspkg90.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell90.idl";
+import "compsvcspkg80.idl";
+#endif
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+// Suported Framework Versions enumeration
+[
+    uuid(D92C0B96-E08D-4268-A941-6D7D670F1820),
+    helpstring("IEnumTargetFrameworks interface"),
+    pointer_default(unique)
+]
+interface IEnumTargetFrameworks : IUnknown
+{
+    HRESULT Next([in] ULONG celt,
+                 [out, size_is(celt), length_is(*pceltFetched)] TARGETFRAMEWORKVERSION *rgFrameworks,
+                 [out] ULONG *pceltFetched);
+
+    HRESULT Count([out] ULONG *pCount);
+    HRESULT Skip([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IEnumTargetFrameworks **ppIEnumComponents);
+};
+
+////////////////////////////////////////////////////////////////////////////
+// System Assemblies Enumeration interface
+[
+    uuid(7431FCE8-8E4F-49b6-BB50-E295636CBA6B),
+    helpstring("IEnumSystemAssemblies interface"),
+    pointer_default(unique)
+]
+interface IEnumSystemAssemblies : IUnknown
+{
+    HRESULT Next([in] ULONG celt,
+                 [out, size_is(celt), length_is(*pceltFetched)] BSTR * rgAssemblies,
+                 [out] ULONG *pceltFetched);
+
+    HRESULT Count([out] ULONG *pCount);
+    HRESULT Skip([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IEnumSystemAssemblies **ppIEnumComponents);
+
+};
+
+////////////////////////////////////////////////////////////////////////////
+// IVsTargetFramworkAssemblies
+//
+// Provides base support for the multi-targeting in Visual Studio. 
+[
+    uuid(399DC6D4-84D6-4208-AFA6-362098E7972F),
+    helpstring("IVsTargetFramworkAssemblies Interface"),
+    pointer_default(unique)
+]
+interface IVsTargetFrameworkAssemblies: IUnknown
+{
+    // Returns an enumeration of the supported .NET versions 
+    HRESULT GetSupportedFrameworks([out] IEnumTargetFrameworks **pTargetFrameworks);
+    // Gets a descriptive string for a framework version (used by varios UI components lile property pages 
+    // and Create New project dialog)
+    HRESULT GetTargetFrameworkDescription( [in] TARGETFRAMEWORKVERSION targetVersion, [out] BSTR *pszDescription);
+    // Returns an enumeration containig the system assembly reference for a given framework version 
+    // (i.e assemblies that are guaranteed to have on machine with the specified version of the framework istalled)
+    HRESULT GetSystemAssemblies([in] TARGETFRAMEWORKVERSION targetVersion, [out] IEnumSystemAssemblies **pAssemblies);
+    // Check if the passed assembly is one of the system asssemblies and returns the minimum version of the framework 
+    // that installs it if it is. 
+    HRESULT IsSystemAssembly([in] LPCOLESTR szAssemblyFile, [out] BOOL *pIsSystem,  
+                             [out] TARGETFRAMEWORKVERSION *pTargetFrameworkVersion);
+    // Get the minimum versions of the target framework required for the given assembly to run. This method will return 
+    // a framework version only if that is known with confidence for the given assembly (i.e for the system assemblies). 
+    // Otherwise it will return TARGETFRAMEWORKVERSION_UNKNOWN.
+    HRESULT GetRequiredTargetFrameworkVersion([in] LPCOLESTR szAssemblyFile, 
+                                              [out] TARGETFRAMEWORKVERSION *pTargetFrameworkVersion);
+    // The same as GetRequiredTargetFrameworkVersion, plus in case the version is not known with a confidence, it will 
+    // try to discover the minimum target version from the referenced assembly closure (it will return the maximum known 
+    // target framework version taken from the referenced assemblies). 
+    HRESULT GetRequiredTargetFrameworkVersionFromDependency([in] LPCOLESTR szAssemblyFile, 
+                                                            [out] TARGETFRAMEWORKVERSION *pTargetFrameworkVersion);
+};
+
+// Service Guid
+[
+    uuid("C269ADA8-95F9-4987-A247-151FB2DDFB34"),
+]
+interface SVsTargetFrameworkAssemblies : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsTargetFrameworkAssemblies IID_SVsTargetFrameworkAssemblies")
+
+

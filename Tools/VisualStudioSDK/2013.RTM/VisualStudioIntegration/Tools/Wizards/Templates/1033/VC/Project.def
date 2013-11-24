@@ -1,0 +1,7 @@
+﻿; %ProjectName%.def : Declares the module parameters.
+
+LIBRARY      "%ProjectName%.DLL"
+
+EXPORTS
+	DllCanUnloadNow            PRIVATE
+	DllGetClassObject          PRIVATE

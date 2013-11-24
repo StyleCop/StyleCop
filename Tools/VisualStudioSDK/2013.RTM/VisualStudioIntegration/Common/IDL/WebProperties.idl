@@ -1,0 +1,1267 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (C) 1998-2002 Microsoft Corporation,
+// All rights reserved
+//
+// WebProperties.idl
+//
+// Sources the typelib that needs to be exposed to clients.
+// Exposes the CATID's of the extensibility Project & ProjectItem object.
+// Exposes the diff CATID's for the diff packages for the browse objects.
+// Exposes the browse object interfaces
+// Exposes the interfaces of the package specific extensibility project object.
+
+// While adding new entries please add to following places.
+//========================
+// 1.   In the Rgs file
+// 2. vbprjpkg.cpp GetAutomationObject
+// 3. ExtEvtsRoot.cpp
+// 4 .Add property in IVxWebsiteEventsRoot.
+//---------------------------------------------------------------------------
+
+import "oaidl.idl";
+
+// done because the .idl file does not understand namespaces but these interfaces are in a namespace in the header file.
+cpp_quote("#include \"dte.h\"")
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#define DTE VxDTE::DTE")
+cpp_quote("#define Project VxDTE::Project")
+cpp_quote("#define ProjectItem VxDTE::ProjectItem")
+cpp_quote("#define FileCodeModel VxDTE::FileCodeModel")
+cpp_quote("#define CodeModel VxDTE::CodeModel")
+
+// Don't forget to undef these at the bottom of the file
+cpp_quote("#endif")
+
+
+#define MEMID_Name            (0x80010000)  // as defined by controls spec.
+
+// Version infromation (Should be 8.0, not 9.0 or 10.0)
+cpp_quote("#define VSWEBSITE_VER_MAJ    8")
+cpp_quote("#define VSWEBSITE_VER_MIN    0")
+// should be 8.0, not 9.0 or 10.0
+#define VSWEBSITE_VER        8.0
+
+// Web Site property disp ids
+enum
+{
+    WEBSITEPROPID__First = 1000,
+    // Informational
+    WEBSITEPROPID_OpenedURL,
+    WEBSITEPROPID_FullPath,
+    WEBSITEPROPID_WebSiteType,
+    WEBSITEPROPID_CurrentWebsiteLanguage,
+
+    // Browse settings
+    WEBSITEPROPID_BrowseURL,
+    WEBSITEPROPID_EnableVsWebServer,
+    WEBSITEPROPID_EnableVsWebServerDynamicPort,
+    WEBSITEPROPID_VsWebServerPort,
+
+    // Debug (start) Settings
+    WEBSITEPROPID_StartArguments,
+    WEBSITEPROPID_StartAction,
+    WEBSITEPROPID_StartProgram,
+    WEBSITEPROPID_StartWorkingDirectory,
+    WEBSITEPROPID_StartURL,
+    WEBSITEPROPID_StartPage,
+    WEBSITEPROPID_EnableASPXDebugging,
+    WEBSITEPROPID_EnableUnmanagedDebugging,
+    WEBSITEPROPID_EnableSQLServerDebugging,
+    WEBSITEPROPID_EnableNTLMAuthentication,
+
+    // Extender
+    WEBSITEPROPID_Extender,
+    WEBSITEPROPID_ExtenderNames,
+    WEBSITEPROPID_ExtenderCATID,
+
+    // FxCop
+    WEBSITEPROPID_EnableFxCop,
+    WEBSITEPROPID_FxCopRuleAssemblies,
+    WEBSITEPROPID_FxCopRules,
+    
+    WEBSITEPROPID_ProjectDirty,
+
+    // WebSiteProperties2 disp id's
+    WEBSITEPROPID_VsWebServerVPath,
+};
+
+// Web File property disp ids
+enum 
+{
+    WEBFILEPROPID_FileName = DISPID_VALUE,
+    WEBFILEPROPID_FullPath,
+    WEBFILEPROPID_Extension,
+    WEBFILEPROPID_URL,
+    WEBFILEPROPID_RelativeURL,
+
+    WEBFILEPROPID_Extender,
+    WEBFILEPROPID_ExtenderNames,
+    WEBFILEPROPID_ExtenderCATID,
+
+    WEBFILEPROPID_AutoRefreshPath,
+};
+
+// Web Folder property disp ids
+enum 
+{
+    WEBFOLDERPROPID_FileName = DISPID_VALUE,
+    WEBFOLDERPROPID_FullPath,
+    WEBFOLDERPROPID_URL,
+    WEBFOLDERPROPID_FolderType,
+    WEBFOLDERPROPID_RelativeURL,
+    WEBFOLDERPROPID_CodeLanguage,
+    WEBFOLDERPROPID_MergeInProgress,
+    
+    WEBFOLDERPROPID_Extender,
+    WEBFOLDERPROPID_ExtenderNames,
+    WEBFOLDERPROPID_ExtenderCATID,
+};
+
+// WebService dispatch ids 
+enum 
+{
+     DISPID_WebService_URL = DISPID_VALUE,
+     DISPID_WebService_DTE,
+     DISPID_WebService_ContainingProject,
+     DISPID_WebService_AppRelativeURL,
+     DISPID_WebService_ClassName,
+     DISPID_WebService_ProjectItem,
+     DISPID_WebService_FileCodeModel,
+     DISPID_WebService_ClassFileItem,
+};
+
+// WebServices dispatch ids
+enum 
+{
+     DISPID_WebServices_Item = DISPID_VALUE,
+     DISPID_WebServices_DTE,
+     DISPID_WebServices_ContainingProject,
+     DISPID_WebServices_Count,
+};
+
+// WebReference dispatch ids
+enum 
+{
+    DISPID_WebReference_DynamicUrl = DISPID_VALUE,
+    DISPID_WebReference_DTE,
+    DISPID_WebReference_ContainingProject,
+    DISPID_WebReference_ProjectItem,
+    DISPID_WebReference_Remove,
+    DISPID_WebReference_DynamicPropName,
+    DISPID_WebReference_Namespace,
+    DISPID_WebReference_ServiceName,
+    DISPID_WebReference_ServiceLocationUrl,
+    DISPID_WebReference_Update,
+    DISPID_WebReference_FileCodeModel,
+    DISPID_WebReference_ServiceDefinitionUrl,
+    DISPID_WebReference_Discomap,
+    DISPID_WebReference_WsdlAppRelativeUrl,
+};
+
+// WebReferences dispatch ids
+enum 
+{
+     DISPID_WebReferences_Item = DISPID_VALUE,
+     DISPID_WebReferences_DTE,
+     DISPID_WebReferences_ContainingProject,
+     DISPID_WebReferences_Count,
+     DISPID_WebReferences_Add,
+     DISPID_WebReferences_Update,
+};
+
+// AssemblyReference dispatch ids
+enum 
+{
+     DISPID_AssemblyReference_DTE = DISPID_VALUE,
+     DISPID_AssemblyReference_ContainingProject,
+     DISPID_AssemblyReference_Name,
+     DISPID_AssemblyReference_Remove,
+     DISPID_AssemblyReference_ReferenceKind,
+     DISPID_AssemblyReference_FullPath,
+     DISPID_AssemblyReference_StrongName,
+     DISPID_AssemblyReference_ReferencedProject,
+};
+
+// AssemblyReferences dispatch ids
+enum 
+{
+    DISPID_AssemblyReferences_DTE = DISPID_VALUE,
+    DISPID_AssemblyReferences_ContainingProject,
+    DISPID_AssemblyReferences_Count,
+    DISPID_AssemblyReferences_Item,
+    DISPID_AssemblyReferences_AddFromGac,
+    DISPID_AssemblyReferences_AddFromFile,
+    DISPID_AssemblyReferences_AddFromProject,
+};
+
+// VSWebSite
+enum 
+{
+     DISPID_WebSite_URL = DISPID_VALUE,
+     DISPID_WebSite_DTE,
+     DISPID_WebSite_Project,
+     DISPID_WebSite_VSWebSiteEvents,
+     DISPID_WebSite_TemplatePath,
+     DISPID_WebSite_UserTemplatePath,
+     DISPID_WebSite_Refresh,
+     DISPID_WebSite_GetUniqueFilename,
+     DISPID_WebSite_WebReferences,
+     DISPID_WebSite_WebServices,
+     DISPID_WebSite_References,
+     DISPID_WebSite_CodeFolders,
+     DISPID_WebSite_EnsureServerRunning,
+     DISPID_WebSite_AddFromTemplate,
+     DISPID_WebSite_PreCompileWeb,
+     DISPID_WebSite_WaitUntilReady,
+};
+
+// VSWebProjectItem
+enum 
+{
+    DISPID_WebProjectItem_DTE   = 1,
+    DISPID_WebProjectItem_ProjectItem,
+    DISPID_WebProjectItem_ContainingProject,
+    DISPID_WebProjectItem_UpdateLocalCopy,
+    DISPID_WebProjectItem_UpdateRemoteCopy,
+    DISPID_WebProjectItem_WaitUntilReady,
+    DISPID_WebProjectItem_Load,
+    DISPID_WebProjectItem_Unload,
+    DISPID_RelatedFiles,
+};
+
+// RelatedFiles dispatch ids 
+enum 
+{
+     DISPID_RelatedFiles_Count = DISPID_VALUE,
+     DISPID_RelatedFiles_Item,
+};
+
+// CodeFolders
+enum 
+{
+    DISPID_CodeFolders_DTE   = 1,
+    DISPID_CodeFolders_ContainingProject,
+    DISPID_CodeFolders_Count,
+    DISPID_CodeFolders_Item,
+    DISPID_CodeFolders_Add,
+};
+
+// CodeFolder
+enum 
+{
+    DISPID_CodeFolder_DTE   = 1,
+    DISPID_CodeFolder_ProjectItem,
+    DISPID_CodeFolder_ContainingProject,
+    DISPID_CodeFolder_Language,
+    DISPID_CodeFolder_FolderPath,
+    DISPID_CodeFolder_CodeModel,
+    DISPID_CodeFolder_Remove,
+};
+
+
+// VSWebPackage
+enum 
+{
+    DISPID_WebPackage_DTE   = 1,
+    DISPID_WebPackage_OpenWebSite,
+};
+
+[
+    uuid(A6613CCA-B54B-43B0-AE3C-BA7E299C1CC8),
+    helpstring("Microsoft Visual Studio .NET Web Site Object Model"),
+    version(VSWEBSITE_VER)
+]
+library VSWebSite
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("dte.tlb");
+
+
+    /*****************************************  IMPORTANT  **********************************************************
+       
+       - IF YOU NEED TO CHANGE THE FOLLOWING GUIDS, ALSO UPDATE THEIR CORRESPONDING STRING VERSIONS IN THE 
+         MODULES JUST BELOW THESE.
+        
+       - PLEASE DO NOT USE THE GUIDS(DEFINED BELOW USING DEFINE_GUID) IN YOUR CODE AS GUIDS. USE THE STRING 
+         VERSIONS IN THE MODULES FOLLOWING THESE, INSTEAD. THESE DEFINE_GUID's MAY BE REMOVED IN THE FUTURE.
+
+    *****************************************************************************************************************/
+    cpp_quote("// CATID's for automation extension of extensibility objects ")
+
+    // corresp string in module "PrjConstants" is prjCATIDWebProject.
+    cpp_quote("DEFINE_GUID(CATID_ExtPrj,            0x40c5fc1d, 0x46ab, 0x4d0b, 0xb3, 0x40, 0xd0, 0xa5, 0x7b, 0xd2, 0xb8, 0xd2);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDWebProjectItem
+    cpp_quote("DEFINE_GUID(CATID_ExtPrjItem,        0xd1836bac, 0x7a8d, 0x4f7c, 0xaa, 0xce, 0xf2, 0xd2, 0x17, 0x35, 0x56, 0x4e);")
+
+    cpp_quote("// CATID's for automation extension of browse objects")
+    
+    // corresp string in module "PrjConstants" is prjCATIDWebSiteProjectBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_WebSiteProps, 0xeef81a81, 0xd390, 0x4725, 0xb1, 0x6d, 0xe1, 0x3, 0xe0, 0xf9, 0x67, 0xb4);")
+    
+    // corresp string in module "PrjConstants" is prjCATIDWebFileBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_WebFileProps, 0xe231573c, 0xc018, 0x4768, 0xa3, 0x83, 0x18, 0xb7, 0x3f, 0x26, 0x7e, 0x71);")
+
+    // corresp string in module "PrjConstants" is prjCATIDWebFolderBrowseObject
+    cpp_quote("DEFINE_GUID(CATID_WebFolderProps, 0xa7f7e5e, 0x5d30, 0x41dd, 0x90, 0x65, 0x1a, 0x29, 0x4d, 0x73, 0x6f, 0x44);")
+
+    [ uuid(DD665F72-1AEB-4a7a-966D-B2929CAB9E6A)] 
+    module PrjKind
+    {
+        // Idl file does not compile when these are taken as LPTSTR's, so taking LPSTR's here.
+
+        [helpstring("Venus Projects/Project automation object kind")]          
+        const LPWSTR prjKindVenusProject =  L"{E24C65DC-7377-472b-9ABA-BC803B73C61A}";
+    }
+
+
+    [ uuid(748A1EBD-AA1F-4d4f-A56D-2FB09810BDD2)] 
+    module PrjCATID
+    {
+        // Automation Project and ProjectItem CATIDs'
+        [helpstring("Web Project automation object CATID")]          
+        const LPWSTR prjCATIDWebProject =                L"{40C5FC1D-46AB-4d0b-B340-D0A57BD2B8D2}";
+
+        [helpstring("Web ProjectItem automation object CATID")]          
+        const LPWSTR prjCATIDWebProjectItem =            L"{D1836BAC-7A8D-4f7c-AACE-F2D21735564E}";
+    }
+
+    // Browse (property) CATID's
+    [ uuid(04E7F469-FD4C-4261-BEAC-C9B2B5EB03B7)] 
+    module PrjBrowseObjectCATID
+    {
+        [helpstring("WebSite Project browse object CATID")]          
+        const LPWSTR prjCATIDWebSiteProjectBrowseObject = L"{EEF81A81-D390-4725-B16D-E103E0F967B4}";
+
+        [helpstring("Web File browse object CATID")]          
+        const LPWSTR prjCATIDWebFileBrowseObject =       L"{E231573C-C018-4768-A383-18B73F267E71}";
+
+        [helpstring("Web Folder browse object CATID")]          
+        const LPWSTR prjCATIDWebFolderBrowseObject =     L"{0A7F7E5E-5D30-41DD-9065-1A294D736F44}";
+    }
+
+
+// The command UI guid asserted by the web project package
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_WebPackage = {0x39c9c826, 0x8ef8, 0x4079, { 0x8c, 0x95, 0x42, 0x8f, 0x5b, 0x1c, 0x32, 0x3f}};")
+
+    cpp_quote("// Enum values of project properties")
+//--------------------------------------------------------------------------
+// Enumerations
+//--------------------------------------------------------------------------
+
+    // WEBSITEPROPID_StartAction
+    typedef [uuid(557C19E5-8624-47fe-8080-C37F77AC4A47)]
+    enum webStartAction
+    {
+        webStartActionCurrentPage,
+        webStartActionSpecificPage,
+        webStartActionProgram,
+        webStartActionURL,
+        webStartActionNoStartPage,
+    } webStartAction;
+    cpp_quote("#define webStartActionMin  webStartActionCurrentPage")
+    cpp_quote("#define webStartActionMax  webStartActionNoStartPage")
+
+
+    typedef [uuid(787E1222-5DEB-461d-8234-8E9ABE7F4515)]
+    enum webType
+    {
+        webTypeFileSystem,
+        webTypeLocalhost,
+        webTypeFTP,
+        webTypeFrontPage,
+    } webType;
+    cpp_quote("#define webTypeMin webTypeFileSystem")
+    cpp_quote("#define webTypeMax webTypeFrontPage")
+
+    typedef [uuid(623F3A65-DF2F-448d-9AB6-C61AC1F3D088)]
+    enum webFolderType
+    {
+        webFolderTypeNormal,
+        webFolderTypeBin,
+        webFolderTypeCode,
+        webFolderTypeThemes,
+        webFolderTypeGlobalResources,
+        webFolderTypeLocalResources,
+        webFolderTypeData,
+        webFolderTypeBrowsers,
+        webFolderTypeWebReferences,
+    } webFolderType;
+    cpp_quote("#define webFolderTypeMin webFolderTypeNormal")
+    cpp_quote("#define webFolderTypeMax webFolderTypeWebReferences")
+
+
+    typedef [uuid(0F2BB482-5EDE-45a8-979D-13700E2B2520)]
+    enum AssemblyReferenceType
+    {
+        AssemblyReferenceBin,
+        AssemblyReferenceConfig,
+        AssemblyReferenceClientProject,
+    } AssemblyReferenceType;
+
+    cpp_quote("#define AssemblyReferenceTypeMin AssemblyReferenceBin")
+    cpp_quote("#define AssemblyReferenceTypeMax AssemblyReferenceClientProject")
+
+    // 
+    // WebSiteProperties
+    //
+    [
+        uuid(477BFD8A-5FD5-434f-981B-2FD3C145B473),
+        helpstring("Web Site properties"),
+        pointer_default(unique),
+        dual
+    ]
+    interface WebSiteProperties : IDispatch
+    {
+        // Used internally by the shell to get the name for the object 
+        [propget, id(MEMID_Name), helpstring("Name"), hidden]
+        HRESULT __id([out, retval] BSTR* pbstrName);
+
+        [propget, id(WEBSITEPROPID_OpenedURL), helpstring("Opened URL")]
+        HRESULT OpenedURL([out, retval] BSTR* pbstrURL);
+
+        [propget, id(WEBSITEPROPID_FullPath), helpstring("Full path to the Web Site")]
+        HRESULT FullPath([out, retval]BSTR* pbstrFullPath);
+
+        [propget, id(WEBSITEPROPID_BrowseURL), helpstring("Browse URL")]
+        HRESULT BrowseURL([out, retval] BSTR* pbstrBrowseUrl);
+        [propput, id(WEBSITEPROPID_BrowseURL), helpstring("Browse URL")]
+        HRESULT BrowseURL([in] BSTR bstrBrowseURL);
+
+        [propget, id(WEBSITEPROPID_EnableVsWebServer), helpstring("Use Visual Studio Web Server")]
+        HRESULT EnableVsWebServer([out, retval] VARIANT_BOOL* pbEnableVsWebServer);
+        [propput, id(WEBSITEPROPID_EnableVsWebServer), helpstring("Use Visual Studio Web Server")]
+        HRESULT EnableVsWebServer([in] VARIANT_BOOL bEnableVsWebServer);
+
+        [propget, id(WEBSITEPROPID_WebSiteType), helpstring("Web Site Type")]
+        HRESULT WebSiteType([out, retval]webType *pWebType);
+
+        [propget, id(WEBSITEPROPID_CurrentWebsiteLanguage), helpstring("Current language set by the user")]
+        HRESULT CurrentWebsiteLanguage([out, retval]BSTR *pbstrLanguage);
+        [propput, id(WEBSITEPROPID_CurrentWebsiteLanguage), helpstring("Current language set by the user")]
+        HRESULT CurrentWebsiteLanguage([in]BSTR pbstrLanguage);
+        
+        [propget, id(WEBSITEPROPID_StartProgram), helpstring("Start External Application")]
+        HRESULT StartProgram([out, retval]BSTR* pbstrStartProgram);
+        [propput, id(WEBSITEPROPID_StartProgram), helpstring("Start External Application")]
+        HRESULT StartProgram([in]BSTR bstrStartProgram);
+
+        [propget, id(WEBSITEPROPID_StartWorkingDirectory), helpstring("Start External Application Path")]
+        HRESULT StartWorkingDirectory([out, retval]BSTR *pbstrStartWorkingDirectory);
+        [propput, id(WEBSITEPROPID_StartWorkingDirectory), helpstring("Start External Application Path")]
+        HRESULT StartWorkingDirectory([in]BSTR bstrStartWorkingDirectory);
+        
+        [propget, id(WEBSITEPROPID_StartURL), helpstring("Start External URL")]
+        HRESULT StartURL([out, retval]BSTR *pbstrStartURL);
+        [propput, id(WEBSITEPROPID_StartURL), helpstring("Start External URL")]
+        HRESULT StartURL([in]BSTR bstrStartURL);
+
+        [propget, id(WEBSITEPROPID_StartPage), helpstring("Start Page")]
+        HRESULT StartPage([out, retval]BSTR *pbstrStartPage);
+        [propput, id(WEBSITEPROPID_StartPage), helpstring("Start Page")]
+        HRESULT StartPage([in]BSTR bstrStartPage);
+
+        [propget, id(WEBSITEPROPID_StartArguments), helpstring("Start command line arguments")]
+        HRESULT StartArguments([out, retval]BSTR *pbstrStartArguments);
+        [propput, id(WEBSITEPROPID_StartArguments), helpstring("Start command line arguments")]
+        HRESULT StartArguments([in]BSTR bstrStartArguments);
+
+        [propget, id(WEBSITEPROPID_EnableASPXDebugging), helpstring("Enable ASP+ Debugging")]
+        HRESULT EnableASPXDebugging([out, retval]VARIANT_BOOL *pbEnableASPXDebugging);
+        [propput, id(WEBSITEPROPID_EnableASPXDebugging), helpstring("Enable ASP+ Debugging")]
+        HRESULT EnableASPXDebugging([in]VARIANT_BOOL bEnableASPXDebugging);
+
+        [propget, id(WEBSITEPROPID_EnableUnmanagedDebugging), helpstring("Enable Unmanaged Debugging")]
+        HRESULT EnableUnmanagedDebugging([out, retval]VARIANT_BOOL *pbEnableUnmanagedDebugging);
+        [propput, id(WEBSITEPROPID_EnableUnmanagedDebugging), helpstring("Enable Unmanaged Debugging")]
+        HRESULT EnableUnmanagedDebugging([in]VARIANT_BOOL bEnableUnmanagedDebugging);
+
+        [propget, id(WEBSITEPROPID_StartAction), helpstring("Debug start mode")]
+        HRESULT StartAction([out, retval]webStartAction *pdebugStartMode);
+        [propput, id(WEBSITEPROPID_StartAction), helpstring("Debug start mode")]
+        HRESULT StartAction([in]webStartAction debugStartMode);
+        
+        [propget, id(WEBSITEPROPID_EnableSQLServerDebugging), helpstring("Enable SQLServer Debugging")]
+        HRESULT EnableSQLServerDebugging([out, retval]VARIANT_BOOL *pbEnableSQLServerDebugging);
+        [propput, id(WEBSITEPROPID_EnableSQLServerDebugging), helpstring("Enable SQLServer Debugging")]
+        HRESULT EnableSQLServerDebugging([in]VARIANT_BOOL bEnableSQLServerDebugging);
+
+        [propget, id(WEBSITEPROPID_Extender), nonbrowsable, helpstring("Extender"), hidden]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [propget, id(WEBSITEPROPID_ExtenderNames), nonbrowsable, helpstring("ExtenderNames"), hidden] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [propget, id(WEBSITEPROPID_ExtenderCATID), nonbrowsable, helpstring("ExtenderCATID"), hidden]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);    
+
+        [propget, id(WEBSITEPROPID_EnableFxCop), helpstring("Enable FxCop")]
+        HRESULT EnableFxCop([out, retval] VARIANT_BOOL *pbEnableFxCop);
+        [propput, id(WEBSITEPROPID_EnableFxCop), helpstring("Enable FxCop")]
+        HRESULT EnableFxCop([in] VARIANT_BOOL bEnableFxCop);
+
+        [propget, id(WEBSITEPROPID_FxCopRuleAssemblies), helpstring("FxCop Rule Assemblies")]
+        HRESULT FxCopRuleAssemblies([out, retval] BSTR* pbstrFxCopRuleAssemblies);
+        [propput, id(WEBSITEPROPID_FxCopRuleAssemblies), helpstring("FxCop Rule Assemblies")]
+        HRESULT FxCopRuleAssemblies([in] BSTR bstrFxCopRuleAssemblies);
+
+        [propget, id(WEBSITEPROPID_FxCopRules), helpstring("FxCop Rules")]
+        HRESULT FxCopRules([out, retval] BSTR* pbstrFxCopRules);
+        [propput, id(WEBSITEPROPID_FxCopRules), helpstring("FxCop Rules")]
+        HRESULT FxCopRules([in] BSTR bstrFxCopRules);
+
+        [propget, id(WEBSITEPROPID_EnableVsWebServerDynamicPort), helpstring("Use Visual Studio Web Server dynamic port assignment")]
+        HRESULT EnableVsWebServerDynamicPort([out, retval] VARIANT_BOOL* pbEnableDynamicPort);
+        [propput, id(WEBSITEPROPID_EnableVsWebServerDynamicPort), helpstring("Use Visual Studio Web Server dynamic port assignment")]
+        HRESULT EnableVsWebServerDynamicPort([in] VARIANT_BOOL bEnableDynamicPort);
+
+        [propget, id(WEBSITEPROPID_VsWebServerPort), helpstring("Visual Studio Web Server port")]
+        HRESULT VsWebServerPort([out, retval] USHORT* pusPort);
+        [propput, id(WEBSITEPROPID_VsWebServerPort), helpstring("Visual Studio Web Server port")]
+        HRESULT VsWebServerPort([in] USHORT usPort);
+
+        [propget, id(WEBSITEPROPID_EnableNTLMAuthentication), helpstring("Enable NTLM Authentication")]
+        HRESULT EnableNTLMAuthentication([out, retval]VARIANT_BOOL *pbEnableNTLMAuthentication);
+        [propput, id(WEBSITEPROPID_EnableNTLMAuthentication), helpstring("Enable NTLM Authentication")]
+        HRESULT EnableNTLMAuthentication([in]VARIANT_BOOL bEnableNTLMAuthentication);
+
+        [propget, id(WEBSITEPROPID_ProjectDirty), helpstring("Returns whether project is dirty")]
+        HRESULT ProjectDirty([out, retval]VARIANT_BOOL *pbIsDirty);
+    };
+
+    // 
+    // WebSiteProperties
+    //
+
+    [
+        uuid(0F4EDFB6-C797-42fb-A7E0-0C93D6F4FB6B),
+        helpstring("Web Site properties2"),
+        pointer_default(unique),
+        dual
+    ]
+    interface WebSiteProperties2 : WebSiteProperties
+    {
+
+        [propget, id(WEBSITEPROPID_VsWebServerVPath), helpstring("Visual Studio Web Server virtual path")]
+        HRESULT VsWebServerVPath([out, retval]BSTR * pbstrVPath);
+        [propput, id(WEBSITEPROPID_VsWebServerVPath), helpstring("Visual Studio Web Server virtual path")]
+        HRESULT VsWebServerVPath([in]BSTR bstrVPath);
+
+    };
+
+    //----------------------------------------------------------------------
+    // WebFileProperties interface
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(51B867E4-CD7E-4ff6-93AA-CA151E36351F),
+        dual,
+        helpstring("WebFileProperties Interface"),
+        hidden,
+        local
+    ]
+    interface WebFileProperties : IDispatch
+    {
+        // Used internally by the shell to get the name for the object 
+        [propget, id(MEMID_Name), helpstring("Name"), hidden]
+        HRESULT __id([out, retval] BSTR* pbstrName);
+
+        [propget, id(WEBFILEPROPID_FileName), helpstring("File name")]
+        HRESULT FileName ([out, retval]BSTR* pbstrName);
+        [propput, id(WEBFILEPROPID_FileName), helpstring("File name")]
+        HRESULT FileName ([in]BSTR bstrName);
+
+        [propget, id(WEBFILEPROPID_Extension), helpstring("File extension")]
+        HRESULT Extension ([out, retval]BSTR* pbstrExtension);
+
+        [propget, id(WEBFILEPROPID_FullPath), helpstring("Full path")]
+        HRESULT FullPath ([out, retval]BSTR* pbstrFullPath); 
+
+        [propget, id(WEBFILEPROPID_URL), helpstring("URL")]
+        HRESULT URL ([out, retval]BSTR* pbstrURL);
+
+        [id(WEBFILEPROPID_Extender), propget, nonbrowsable, helpstring("Extender"), hidden]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [id(WEBFILEPROPID_ExtenderNames), propget, nonbrowsable, helpstring("ExtenderNames"), hidden] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [id(WEBFILEPROPID_ExtenderCATID), propget, nonbrowsable, helpstring("ExtenderCATID"), hidden]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+
+        [propget, id(WEBFILEPROPID_RELATIVEURL), helpstring("Relative URL")]
+        HRESULT RelativeURL ([out, retval]BSTR* pbstrRelativeURL);
+
+        [propget, id(WEBFILEPROPID_AutoRefreshPath), helpstring("Auto-refresh path for bin folder reference")]
+        HRESULT AutoRefreshPath([out, retval]BSTR *pbstrAutoRefreshPath);
+        [propput, id(WEBFILEPROPID_AutoRefreshPath), helpstring("Auto-refresh path for bin folder reference")]
+        HRESULT AutoRefreshPath([in]BSTR bstrAutoRefreshPath);
+    };
+
+    //----------------------------------------------------------------------
+    // WebFolderProperties
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(422AC997-E209-4faa-8DC6-9D2E5EFA4216),
+        dual,
+        helpstring("WebFolderProperties Interface"),
+        pointer_default(unique),
+        hidden,
+        local
+    ]
+    interface WebFolderProperties : IDispatch
+    {
+        // Used internally by the shell to get the name for the object 
+        [propget, id(MEMID_Name), helpstring("Name"), hidden]
+        HRESULT __id([out, retval] BSTR* pbstrName);
+
+        [propget, id(WEBFOLDERPROPID_FileName), helpstring("File name")]
+        HRESULT FileName ([out, retval]BSTR *pbstrName);    
+        [propput, id(WEBFOLDERPROPID_FileName), helpstring("File name")]
+        HRESULT FileName ([in]BSTR bstrName);
+
+        [propget, id(WEBFOLDERPROPID_FullPath), helpstring("Full path")]
+        HRESULT FullPath ([out, retval]BSTR* pbstrFullPath); 
+
+        [propget, id(WEBFOLDERPROPID_URL), helpstring("URL")]
+        HRESULT URL ([out, retval]BSTR* pbstrURL);
+
+        [propget, id(WEBFOLDERPROPID_FolderType), helpstring("Folder Type")]
+        HRESULT FolderType([out, retval] webFolderType *pFolderType);
+
+        [propget, id(WEBFOLDERPROPID_RelativeURL), helpstring("Relative URL")]
+        HRESULT RelativeURL ([out, retval]BSTR* pbstrRelativeURL);
+
+        [propget, id(WEBFOLDERPROPID_CodeLanguage), helpstring("Code Directory Language")]
+        HRESULT CodeLanguage ([out, retval]BSTR* pbstrCodeLanguage); 
+
+        [propget, id(WEBFOLDERPROPID_MergeInProgress), helpstring("Folder Merge in Progress")]
+        HRESULT MergeInProgress ([out, retval]VARIANT_BOOL* pvbBOOL); 
+
+        [propget, id(WEBFOLDERPROPID_Extender), nonbrowsable, helpstring("Extender"), hidden]
+        HRESULT Extender([in] BSTR ExtenderName, [out, retval] IDispatch **Extender);
+
+        [propget, id(WEBFOLDERPROPID_ExtenderNames), nonbrowsable, helpstring("ExtenderNames"), hidden] 
+        HRESULT ExtenderNames([out, retval] VARIANT *ExtenderNames);
+
+        [propget, id(WEBFOLDERPROPID_ExtenderCATID), nonbrowsable, helpstring("ExtenderCATID"), hidden]
+        HRESULT ExtenderCATID ([out, retval] BSTR *pRetval);
+
+    };
+    
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.WebServices[i]
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(298682BA-70DD-40bf-95E9-4DD4293BA56D),
+    ]
+    interface WebService : IDispatch
+    {
+        [id(DISPID_WebService_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebService_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        // The full URL for this service
+        [id(DISPID_WebService_URL), propget, helpstring("Url")]
+        HRESULT URL([out, retval] BSTR *bstrUrl);
+
+        // The Class name for this service
+        [id(DISPID_WebService_ClassName), propget, helpstring("ClassName")]
+        HRESULT ClassName([out, retval] BSTR *bstrClassName);
+
+        // This is the app relative url to the service ~/MyService.asmx
+        [id(DISPID_WebService_AppRelativeUrl), propget, helpstring("AppRelativeUrl")]
+        HRESULT AppRelativeUrl([out, retval] BSTR *bstrAppUrl);
+
+        // File code model for this reference
+        [id(DISPID_WebService_FileCodeModel), propget, helpstring("FileCodeModel")]
+        HRESULT FileCodeModel([out, retval] FileCodeModel **ppFileCodeModel);
+
+        // The DTE ProjectItem for this service
+        [id(DISPID_WebService_ProjectItem), propget, helpstring("ProjectItem")]
+        HRESULT ProjectItem([out, retval] ProjectItem **ppProjectItem);
+
+        // The DTE ProjectItem for class file.
+        [id(DISPID_WebService_ClassFileItem), propget, helpstring("ClassFIleItem")]
+        HRESULT ClassFileItem([out, retval] ProjectItem **ppClassFileItem);
+
+    };
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.WebServices
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(7BAEA84D-83B3-449d-B029-D225BD95820E)
+    ]
+    interface WebServices : IDispatch
+    {
+        [id(DISPID_WebServices_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebServices_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_WebServices_Count), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        // Default (value) property/method
+        [id(DISPID_WebServices_Item), helpstring("Item")]
+        HRESULT Item([in] VARIANT index, [out, retval] WebService **ppWebServices);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+
+    }
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.WebReferences[i]
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(DCB348C9-62ED-4332-B90F-077AAC7BAB14),
+    ]
+    interface WebReference : IDispatch
+    {
+        [id(DISPID_WebReference_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebReference_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_WebReference_Remove), helpstring("Remove")]
+        HRESULT Remove();
+
+        // This is the computed url for the referenced based on dynamic prop name if used
+        [id(DISPID_WebReference_DynamicUrl), propget, helpstring("DynamicUrl")]
+        HRESULT DynamicUrl([out, retval] BSTR *pbstrUrl);
+
+        [id(DISPID_WebReference_DynamicUrl), propput, helpstring("DynamicUrl")]
+        HRESULT DynamicUrl([in] BSTR bstrUrl);                       
+
+        // This is the Dynamic prop name from app settings
+        [id(DISPID_WebReference_DynamicPropName), propget, helpstring("DynamicPropName")]
+        HRESULT DynamicPropName([out, retval] BSTR *pbstrDynamicPropNameUrl);   
+
+        // This is the client namespace for this reference
+        [id(DISPID_WebReference_Namespace), propget, helpstring("Namespace")]
+        HRESULT Namespace([out, retval] BSTR *pbstrRefreshUrl);                 
+
+        // This is the WebService Class name
+        [id(DISPID_WebReference_ServiceName), propget, helpstring("ServiceName")]
+        HRESULT ServiceName([out, retval] BSTR *pbstrRefreshUrl);
+
+        // This is the service location from the wsdl file
+        [id(DISPID_WebReference_ServiceLocationUrl), propget, helpstring("ServiceLocationUrl")]
+        HRESULT ServiceLocationUrl([out, retval] BSTR *pbstrUrl);
+
+        // Updates the web references 
+        [id(DISPID_WebReference_Update), helpstring("Update")]
+        HRESULT Update();
+
+        // File code model for this reference
+        [id(DISPID_WebReference_FileCodeModel), propget, helpstring("FileCodeModel")]
+        HRESULT FileCodeModel([out, retval] FileCodeModel **ppFileCodeModel);
+
+        // The DTE ProjectItem for this WebReference
+        [id(DISPID_WebReference_ProjectItem), propget, helpstring("ProjectItem")]
+        HRESULT ProjectItem([out, retval] ProjectItem **ppProjectItem);
+
+        [id(DISPID_WebReference_ServiceDefinitionUrl), propget, helpstring("ServiceD3efinitionUrl")]
+        HRESULT ServiceDefinitionUrl([out, retval] BSTR *pbstrUrl);
+
+        // The DTE ProjectItem for the discomap to this WebReference
+        [id(DISPID_WebReference_Discomap), propget, helpstring("Discomap")]
+        HRESULT Discomap([out, retval] ProjectItem **ppProjectItem);
+
+        // The relative url to the wsdl for this WebReference
+        [id(DISPID_WebReference_WsdlAppRelativeUrl), propget, helpstring("WsdlAppRelativeUrl")]
+        HRESULT WsdlAppRelativeUrl([out, retval] BSTR *pbstrWsdlAppRelativeUrl);
+    };
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.WebReferences
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(C9E6C08E-1FBB-4f2c-9D26-A206BAC90004)
+    ]
+    interface WebReferences : IDispatch
+    {
+        [id(DISPID_WebReferences_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebReferences_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_WebReferences_Count), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        // Default (value) property/method
+        [id(DISPID_WebReferences_Item), helpstring("Item")]
+        HRESULT Item([in] VARIANT index, [out, retval] WebReference **ppProjectReference);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+
+        [id(DISPID_WebReferences_Add), helpstring("Add")]
+        HRESULT Add([in] BSTR bstrUrl, [in] BSTR bstrNamespace);
+
+        [id(DISPID_WebReferences_Update), helpstring("Update")]
+        HRESULT Update();
+    }
+
+    //----------------------------------------------------------------------
+    // WebReference events
+    //----------------------------------------------------------------------
+    [ uuid(63FE9F71-D793-435e-9F80-FD4082CA1444), dual, object ]
+    interface _WebReferencesEvents : IDispatch
+    {
+
+    };
+
+    [ uuid(11C784F8-E5A0-4c19-831A-2C2D00C6D897) ]
+    dispinterface _dispWebReferencesEvents
+    {
+        properties:
+        methods:      // VxDTEEvent_WebReference* contants maintained in VxWebsiteExtensibility.idl
+            [id(1)]   void WebReferenceAdded  ([in] WebReference *WebReference);
+            [id(2)]   void WebReferenceRemoved([in] WebReference *WebReference);
+            [id(3)]   void WebReferenceChanged([in] WebReference *WebReference);
+    };
+
+    [ uuid(83121F90-51F7-452a-AF12-1EFB69B735D3) ]
+    coclass WebReferencesEvents
+    {
+        [default] interface _WebReferencesEvents;
+        [source] dispinterface _dispWebReferencesEvents;
+    };
+
+
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.AssemblyReferences[i]
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(229F3491-6E60-4e50-90E5-7DB14B0DC004)
+    ]
+    interface AssemblyReference : IDispatch
+    {
+        [id(DISPID_AssemblyReference_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_AssemblyReference_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_AssemblyReference_Name), propget, helpstring("Name")]
+        HRESULT Name([out, retval] BSTR *pbstrName);                       
+
+        [id(DISPID_AssemblyReference_Remove), helpstring("Remove")]
+        HRESULT Remove();
+
+        [id(DISPID_AssemblyReference_ReferenceKind), propget, helpstring("Reference Kind")]
+        HRESULT ReferenceKind([out, retval] AssemblyReferenceType *pAssemblyReferenceType);   
+
+        [id(DISPID_AssemblyReference_FullPath), propget, helpstring("FullPath")]
+        HRESULT FullPath([out, retval] BSTR *pbstrFullPath);                 
+
+        [id(DISPID_AssemblyReference_StrongName), propget, helpstring("StrongName")]
+        HRESULT StrongName([out, retval] BSTR *pbstrStrongName);
+
+        [id(DISPID_AssemblyReference_ReferencedProject), propget, helpstring("ReferencedProject")]
+        HRESULT ReferencedProject([out, retval] Project **ppProject);
+
+    };
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.AssemblyReferences
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(2C264A1A-DBFB-43fe-9434-997B5BE0FCCC)
+    ]
+    interface AssemblyReferences : IDispatch
+    {
+        [id(DISPID_AssemblyReferences_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_AssemblyReferences_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_AssemblyReferences_Count), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+
+        // Default (value) property/method
+        [id(DISPID_AssemblyReferences_Item), helpstring("Item")]
+        HRESULT Item([in] VARIANT index, [out, retval] AssemblyReference **ppProjectReference);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+
+        [id(DISPID_AssemblyReferences_AddFromGAC), helpstring("AddFromGAC")]
+        HRESULT AddFromGAC([in] BSTR bstrAssemblyName, [out, retval] AssemblyReference **ppAssemblyReference);
+
+        [id(DISPID_AssemblyReferences_AddFromFile), helpstring("AddFromGAC")]
+        HRESULT AddFromFile([in] BSTR bstrPath, [out, retval] AssemblyReference **ppAssemblyReference);
+
+        [id(DISPID_AssemblyReferences_AddFromProject), helpstring("AddFromProject")]
+        HRESULT AddFromProject([in] Project * pProj);
+    }
+
+    //----------------------------------------------------------------------
+    // AssemblyReference events
+    //----------------------------------------------------------------------
+    [ uuid(E5E56972-0CFE-49b7-9EFB-923613FDA978), dual, object ]
+    interface _AssemblyReferencesEvents : IDispatch
+    {
+
+    };
+
+    [ uuid(A1B04977-56DD-40d1-89E3-65E1902A9103) ]
+    dispinterface _dispAssemblyReferencesEvents
+    {
+        properties:
+        methods:      
+            [id(1)]   void AssemblyReferenceAdded  ([in] AssemblyReference *assemblyReference);
+            [id(2)]   void AssemblyReferenceRemoved([in] AssemblyReference *assemblyReference);
+    };
+
+    [ uuid(F11526E7-4102-4070-9B60-BD4F5CD3006B) ]
+    coclass AssemblyReferencesEvents
+    {
+        [default] interface _AssemblyReferencesEvents;
+        [source] dispinterface _dispAssemblyReferencesEvents;
+    };
+
+
+
+    //----------------------------------------------------------------------
+    // WebService events
+    //----------------------------------------------------------------------
+    [ uuid(E7E27BE0-FF6A-4d94-9B1B-D67F01D1E0FE), dual, object ]
+    interface _WebServicesEvents : IDispatch
+    {
+
+    };
+
+    [ uuid(B3AF808B-B55A-4dfe-A9FC-C3B4F4B37903) ]
+    dispinterface _dispWebServicesEvents
+    {
+        properties:
+        methods:      // VxDTEEvent_WebService* contants maintained in VxWebsiteExtensibility.idl
+            [id(1)]   void WebServiceAdded  ([in] WebService *WebService);
+            [id(2)]   void WebServiceRemoved([in] WebService *WebService);
+            [id(3)]   void WebServiceChanged([in] WebService *WebService);
+            [id(4)]   void WebServiceRenamed([in] BSTR bstrOldUrl, [in] WebService *WebService);
+    };
+
+    [ uuid(F4DD7750-F662-4430-AB7C-74F9E8EA93BF) ]
+    coclass WebServicesEvents
+    {
+        [default] interface _WebServicesEvents;
+        [source] dispinterface _dispWebServicesEvents;
+    };
+
+    //----------------------------------------------------------------------
+    // WebSite Misc events
+    //----------------------------------------------------------------------
+    [ uuid(9D9D4002-3258-4ebb-BF58-AF62C3890990), dual, object ]
+    interface _WebSiteMiscEvents : IDispatch
+    {
+
+    };
+
+    [ uuid(B4C62092-F8DB-4cca-9B73-5C7C56DF72AA) ]
+    dispinterface _dispWebSiteMiscEvents
+    {
+        properties:
+        methods: 
+        [id(1)] void OnBeforeFolderRefresh ([in] IDispatch *pFolderBeingRefreshed);
+        [id(2)] void OnAfterFolderRefresh ([in] IDispatch *pFolderBeingRefreshed);
+    };
+
+    [ uuid(BC6984AB-D661-4b5e-A0CB-6DFD5FE2DDF4) ]
+    coclass WebSiteMiscEvents
+    {
+        [default] interface _WebSiteMiscEvents;
+        [source] dispinterface _dispWebSiteMiscEvents;
+    };
+
+    //----------------------------------------------------------------------
+    // WebSite event interface
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(9F1B1C2C-FA11-44ab-A7DA-926FF1927C70)
+    ]
+    interface VSWebSiteEvents : IDispatch
+    {
+        [id(1), propget, helpstring("WebReferencesEvents")] 
+        HRESULT WebReferencesEvents([out, retval] WebReferencesEvents **ppWebRefsEvents);
+
+        [id(2), propget, helpstring("WebServicesEvents")] 
+        HRESULT WebServicesEvents([out, retval] WebServicesEvents **ppWebServiceEvents);
+
+        [id(3), propget, helpstring("WebSiteReferncesEvents")] 
+        HRESULT AssemblyReferencesEvents([out, retval] AssemblyReferencesEvents **ppWebSiteRefsEvents);
+
+        [id(4), propget, helpstring("WebSiteMiscEvents")] 
+        HRESULT WebSiteMiscEvents([out, retval] WebSiteMiscEvents **ppWebSiteMiscEvents);
+    };
+
+    //----------------------------------------------------------------------
+    // codefolder object
+    //----------------------------------------------------------------------
+    // If you change this interface, please make sure to update with the same change for
+    // VsWebSite.cs in VsDesigner\Designer\Microsoft\VsDesigner\Interop\Venus.
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(58B5E6E3-C2D3-4d56-97EB-26DDA09323F7)
+    ]
+    interface CodeFolder : IDispatch
+    {
+        [id(DISPID_CodeFolder_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_CodeFolder_ProjectItem), propget, helpstring("ProjectItem")]
+        HRESULT ProjectItem([out, retval] ProjectItem **ppProjectItem);
+
+        [id(DISPID_CodeFolder_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_CodeFolder_Language), propget, helpstring("Language")]
+        HRESULT Language([out, retval] BSTR *pbstrLanguage);
+
+        [id(DISPID_CodeFolder_FolderPath), propget, helpstring("Folder Path")]
+        HRESULT FolderPath([out, retval] BSTR *pbstrPath);
+
+        [id(DISPID_CodeFolder_CodeModel), propget, helpstring("CodeModel")]
+        HRESULT CodeModel([out, retval] CodeModel **ppCodeModel);
+
+        [id(DISPID_CodeFolder_Remove), helpstring("Remove")]
+        HRESULT Remove();
+
+    };
+
+    //----------------------------------------------------------------------
+    // Codefolders collection
+    //----------------------------------------------------------------------
+    // If you change this interface, please make sure to update with the same change for
+    // VsWebSite.cs in VsDesigner\Designer\Microsoft\VsDesigner\Interop\Venus.
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(FDCAD245-E468-48f3-B603-2641E020D6D0)
+    ]
+    interface CodeFolders : IDispatch
+    {
+        [id(DISPID_CodeFolders_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_CodeFolders_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+        
+        [id(DISPID_CodeFolders_Count), propget, helpstring("Count")]
+        HRESULT Count([out, retval] long *plCount);
+        
+        [id(DISPID_CodeFolders_Item), helpstring("Item")]
+        HRESULT Item([in] VARIANT index, [out, retval] CodeFolder **ppCodeFolder);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+
+        [id(DISPID_CodeFolders_Add), helpstring("Add Code Folder")]
+        HRESULT Add([in] BSTR bstrPath, [out, retval] ProjectItem **ppProjectItem);
+
+    };
+
+    
+    //----------------------------------------------------------------------
+    // Object exposed via project.object
+    //----------------------------------------------------------------------
+    // If you change this interface, please make sure to update with the same change for
+    // VsWebSite.cs in VsDesigner\Designer\Microsoft\VsDesigner\Interop\Venus.
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(70758CA4-91F8-46ad-80A7-73BC21BAE68B)
+    ]
+    interface VSWebSite : IDispatch
+    {
+        [id(DISPID_WebSite_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebSite_Project), propget, helpstring("Project")]
+        HRESULT Project([out, retval] Project **ppProject);
+
+        [id(DISPID_WebSite_VSWebSiteEvents), propget, helpstring("VSWebSite Events")]
+        HRESULT VsWebSiteEvents([out, retval] VSWebSiteEvents **ppProject);
+
+        [id(DISPID_WebSite_URL), propget, helpstring("Url")]
+        HRESULT URL([out, retval] BSTR *pbstrUrl);
+
+        [id(DISPID_WebSite_TemplatePath), propget, helpstring("TemplatePath")]
+        HRESULT TemplatePath([out, retval] BSTR *pbstrTemplatePath);
+
+        [id(DISPID_WebSite_UserTemplatePath), propget, helpstring("UserTemplatePath")]
+        HRESULT UserTemplatePath([out, retval] BSTR *pbstrUserTemplatePath);
+
+        [id(DISPID_WebSite_Refresh), helpstring("Refresh")]
+        HRESULT Refresh();
+
+        [id(DISPID_WebSite_GetUniqueFilename), helpstring("GetUniqueFilename")]
+        HRESULT GetUniqueFilename([in] BSTR bstrFolder, [in] BSTR bstrRoot, [in] BSTR bstrDesiredExt,  [out,retval] BSTR *pbstrFileName);
+
+        [id(DISPID_WebSite_WebReferences), propget, helpstring("WebReferences")]
+        HRESULT WebReferences([out, retval] WebReferences **ppWebReferences);
+
+        [id(DISPID_WebSite_WebServices), propget, helpstring("WebServices")]
+        HRESULT WebServices([out, retval] WebServices **ppWebServices);
+
+        [id(DISPID_WebSite_References), propget, helpstring("References")]
+        HRESULT References([out, retval] AssemblyReferences **ppReferences);
+
+        [id(DISPID_WebSite_CodeFolders), propget, helpstring("CodeFolders")]
+        HRESULT CodeFolders([out, retval] CodeFolders **ppCodeFolders);
+
+        [id(DISPID_WebSite_EnsureServerRunning), helpstring("EnsureServerRunning")]
+        HRESULT EnsureServerRunning([out, retval] BSTR *pbstrUrl);
+
+        [id(DISPID_WebSite_AddFromTemplate), helpstring("Add From Template")]
+        HRESULT AddFromTemplate([in] BSTR bstrRelFolderUrl, [in] BSTR bstrWizardName, [in] BSTR bstrLanguage, [in] BSTR bstrItemName, [in] VARIANT_BOOL bUseCodeSeparation, [in] BSTR bstrMasterPage, [in] BSTR bstrDocType, [out, retval] ProjectItem **ppNewProjectItem);
+
+        [id(DISPID_WebSite_PreCompileWeb), helpstring("Precompile Web")]
+        HRESULT PreCompileWeb([in] BSTR bstrCompilePath, [in] VARIANT_BOOL bUpdateable, [out, retval] VARIANT_BOOL * pSuccess);
+
+        [id(DISPID_WebSite_WaitUntilReady), helpstring("Waits until the project is ready")]
+        HRESULT WaitUntilReady();
+    }
+
+
+    //----------------------------------------------------------------------
+    // RelatedFiles collection interface
+    //----------------------------------------------------------------------
+    [
+        object,
+        uuid(7C55A332-A2EC-4387-A242-CD1B9A29F1D2),
+        dual,
+        oleautomation,
+        helpstring("RelatedFiles Interface")
+    ]
+    interface RelatedFiles : IDispatch
+    {
+        [propget, id(DISPID_RelatedFiles_Count), helpstring("Count")]
+        HRESULT Count ([out, retval] long* pdwCount);
+
+        [id(DISPID_RelatedFiles_Item), helpstring("Item")]
+        HRESULT Item ([in] long index, [out, retval]ProjectItem **ppProjectItem);
+
+        [restricted, id(DISPID_NEWENUM)]
+        HRESULT _NewEnum([out, retval] IUnknown **ppiuReturn);
+    };
+
+
+    //----------------------------------------------------------------------
+    // Object exposed via ProjectItem.object
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(C77EB2D2-F01E-4c87-8C91-262213C40B31)
+    ]
+    interface VSWebProjectItem : IDispatch
+    {
+        [id(DISPID_WebProjectItem_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebProjectItem_ProjectItem), propget, helpstring("ProjectItem")]
+        HRESULT ProjectItem([out, retval] ProjectItem **ppProjectItem);
+
+        [id(DISPID_WebProjectItem_ContainingProject), propget, helpstring("Containing Project")]
+        HRESULT ContainingProject([out, retval] Project **ppProject);
+
+        [id(DISPID_WebProjectItem_UpdateLocalCopy), helpstring("Update LocalCopy")]
+        HRESULT UpdateLocalCopy([out, retval] BSTR *pbstrPath);
+
+        [id(DISPID_WebProjectItem_UpdateRemoteCopy), helpstring("Update RemoteCopy")]
+        HRESULT UpdateRemoteCopy();
+
+        [id(DISPID_WebProjectItem_WaitUntilReady), helpstring("Waits until the item is ready")]
+        HRESULT WaitUntilReady();
+
+        [id(DISPID_WebProjectItem_Load), helpstring("Loads a document and leaves it hidden")]
+        HRESULT Load();
+
+        [id(DISPID_WebProjectItem_Unload), helpstring("Unloads a hidden document")]
+        HRESULT Unload();
+
+        [propget, id(DISPID_RelatedFiles), helpstring("Related Files")]
+        HRESULT RelatedFiles ([out, retval]RelatedFiles **ppRelatedFiles);
+        
+    };
+    
+    cpp_quote("#define SID_SVSWebProjectItem IID_ProjectItem")
+
+
+    //----------------------------------------------------------------------
+    // Object exposed via DTE.GetObject("WebPackage")
+    //----------------------------------------------------------------------
+    typedef [uuid(63183147-9B1D-45a2-BA93-405EF1A5A8D4)]
+    enum OpenWebsiteOptions
+    {
+        OpenWebsiteOption_None = 0,
+        OpenWebsiteOption_UsePassiveFTP = 1,
+        OpenWebsiteOption_UseFrontpageForLocalhost = 2,
+    }OpenWebsiteOptions;
+    
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(443E6A57-0669-42a7-9B84-51EBF6719D78)
+    ]
+    interface VSWebPackage : IDispatch
+    {
+        [id(DISPID_WebPackage_DTE), propget, helpstring("DTE")]
+        HRESULT DTE([out, retval] DTE **ppDTE);
+
+        [id(DISPID_WebPackage_OpenWebSite), helpstring("Open WebSite")]
+        HRESULT OpenWebSite([in] BSTR bstrUrl, [in] OpenWebsiteOptions options, [in] VARIANT_BOOL bAddToSolution, [out, retval] Project **ppProject);
+    };
+};
+
+cpp_quote("#ifdef FORCE_EXPLICIT_DTE_NAMESPACE")
+cpp_quote("#undef DTE")
+cpp_quote("#undef Project")
+cpp_quote("#undef ProjectItem")
+cpp_quote("#undef FileCodeModel")
+cpp_quote("#undef CodeModel")
+cpp_quote("#endif")

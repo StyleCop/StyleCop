@@ -1,0 +1,181 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsSccManager2.idl - Interface into the Source-Control package |
+
+This interface allows projects and hierarchies to register themselves with
+the source-control package, and obtain information on source-control
+status.
+-----------------------------------------------------------------------------*/
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#if     _MSC_VER > 1000")
+cpp_quote("#pragma once")
+cpp_quote("#endif")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+import "IVsSccProject2.idl";
+
+#endif 
+
+
+/*-----------------------------------------------------------------------------
+Interface: IVsSccManager2
+
+Projects use this interface to retrieve information from SCC, or to register
+themselves with SCC.
+
+@base public | IUnknown
+
+@hung scm2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsSccManager2) ]
+interface IVsSccManager2 : IUnknown
+{
+	/////////////////////////////////////////////////////////////////////
+	// RegisterSccProject
+	/////////////////////////////////////////////////////////////////////
+	// This method is called by projects that are under source-control.
+	// Projects call this method when they are opened.
+	//
+	// The project must pass to this method the same four opaque source-
+	// control strings that were given to it via IVsSccProject2::SetSccLocation
+	// before the project was last closed.
+	//
+	HRESULT RegisterSccProject
+	(
+		[in] IVsSccProject2 *pscp2Project,  // Project pointer
+		[in] LPCOLESTR pszSccProjectName,	// opaque setting
+		[in] LPCOLESTR pszSccAuxPath,		// opaque setting
+		[in] LPCOLESTR pszSccLocalPath,		// opaque setting
+		[in] LPCOLESTR pszProvider			// opaque setting
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// UnregisterSccProject
+	/////////////////////////////////////////////////////////////////////
+	// This method is called by registered projects before they are closed
+	//
+	HRESULT UnregisterSccProject
+	(
+		[in] IVsSccProject2 *pscp2Project
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// GetSccGlyph
+	/////////////////////////////////////////////////////////////////////
+	// This method is called by projects to discover the source-control glyphs 
+	// to use on files. The glyphs are denoted by the shell's icon index, i.e.
+	// the VsStateIcon enumeration.
+	//
+	// NOTE: the source control status per file is also (optionally) returned,
+	// However, projects are encouraged to NOT use these status bits, and to only
+	// look at the glyphs. However:
+	// 1) if a file is under source control, the SCC_STATUS_CONTROLLED flag will
+	// be set
+	// 2) if a file is checked out by the current user into the designated
+	// working directory, the SCC_STATUS_CHECKEDOUT flag will be set (in
+	// addition to the above flag)
+	//
+	// This method returns S_OK if at least one of the files is controlled;
+	// returns S_FALSE if none of them are.
+	//
+	HRESULT GetSccGlyph
+	(
+		[in] int cFiles,										// Number of files: should be > 0
+		[in, size_is(cFiles)] const LPCOLESTR rgpszFullPaths[],	// Array of paths: cannot be NULL
+		[out, size_is(cFiles)] VsStateIcon rgsiGlyphs[],		// Array of icons: cannot be NULL
+		[out, size_is(cFiles)] DWORD rgdwSccStatus[]			// Status bits: can be NULL
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// GetSccGlyphFromStatus
+	/////////////////////////////////////////////////////////////////////
+	// If a project does know the status of a file, this method will return the appropriate glyph.
+	// However projects are encouraged not to cache source-control status, but instead to call
+	// GetSccGlyph when they need the glyph.
+	//
+	HRESULT GetSccGlyphFromStatus
+	(
+		[in] DWORD dwSccStatus,
+		[out, retval] VsStateIcon *psiGlyph
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// IsInstalled
+	/////////////////////////////////////////////////////////////////////
+	// This method indicates if source-control is available
+	//
+	HRESULT IsInstalled
+	(
+		[out, retval] BOOL *pbInstalled
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// BrowseForProject
+	/////////////////////////////////////////////////////////////////////
+	// Deprecated: returns E_NOTIMPL
+	//
+	HRESULT BrowseForProject
+	(
+		[out] BSTR *pbstrDirectory,
+		[out] BOOL *pfOK
+	);
+
+	/////////////////////////////////////////////////////////////////////
+	// CancelAfterBrowseForProject
+	/////////////////////////////////////////////////////////////////////
+	// Deprecated: returns E_NOTIMPL
+	//
+	HRESULT CancelAfterBrowseForProject();
+};
+
+/*-----------------------------------------------------------------------------
+UI Context: ISccManagerLoaded
+
+Defines when the SccManager is loaded
+-----------------------------------------------------------------------------*/
+[ uuid(795635A0-4522-11d1-8DCE-00AA00A3F593) ]
+interface ISccManagerLoaded : IUnknown {};
+
+/*-----------------------------------------------------------------------------
+UI Context Define: UICONTEXT_SccManagerLoaded
+
+This is used to determine when the main source-control package is loaded.
+
+By default on startup, only the "stub" Visual Studio Team Core package is
+loaded.  When this context is loaded, the main source-control package has
+been loaded.
+-----------------------------------------------------------------------------*/
+cpp_quote("#define UICONTEXT_SccManagerLoaded IID_ISccManagerLoaded")
+
+/*-----------------------------------------------------------------------------
+UI Context Define: UICONTEXT_EnlistingInProject
+
+The UI context can be used to determine when SCC package is in the process
+of enlisting in a solution or a project.
+-----------------------------------------------------------------------------*/
+[ uuid(F59FD070-0063-4256-8212-E5DB6FC22253) ]
+interface IEnlistingInProject : IUnknown {};
+cpp_quote("#define UICONTEXT_EnlistingInProject IID_IEnlistingInProject")
+
+///////////////////////////////////////////////////////////
+//
+// SID_SVsSccManager Defined
+//
+[ uuid(uuid_SVsSccManager) ]
+interface SVsSccManager : IUnknown  {};
+cpp_quote("#define SID_SVsSccManager IID_SVsSccManager")
+
+#endif

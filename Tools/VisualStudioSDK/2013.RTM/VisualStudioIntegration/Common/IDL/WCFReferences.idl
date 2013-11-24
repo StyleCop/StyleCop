@@ -1,0 +1,1636 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) Microsoft Corporation 
+// All rights reserved
+//
+//
+// WCFReferences.idl
+//
+//---------------------------------------------------------------------------
+
+//
+// This file provides interfaces for adding, updating, deleting, enumerating
+//   and otherwise managing WCF references ("Service References") in Visual Studio.
+//
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+import "oleipc.idl";
+import "vsshell.idl";
+import "discoveryservice90.idl";
+
+#endif
+
+
+// Forward declarations
+
+interface IVsAddWebReferenceDlg3;
+interface IVsAddWebReferenceResult;
+
+interface IVsWCFMetadataStorageProvider;
+interface IVsEnumWCFMetadataStorages;
+interface IVsWCFMetadataStorageProviderEvents;
+interface IVsASMXMetadataStorageProvider;
+
+interface IVsWCFMetadataStorage;
+interface IVsWCFMetadataStorageEvents;
+
+interface IVsWCFObject;
+interface IVsWCFAsyncResult;
+interface IVsWCFCompletionCallback;
+interface IVsWCFCancellableAsyncResult;
+
+interface IVsWCFReferenceManagerFactory;
+interface IVsWCFReferenceManager;
+interface IVsWCFReferenceEvents;
+
+interface IVsWCFReferenceGroupCollection;
+interface IVsWCFReferenceGroup;
+interface IEnumWCFReferenceGroupMetadataItems;
+interface IVsWCFReferenceGroupMetadataItem;
+interface IEnumWCFReferenceContracts;
+interface IVsWCFReferenceContract;
+interface IEnumWCFReferenceEndpoints;
+interface IVsWCFReferenceEndpoint;
+interface IVsWCFReferenceGroupOptions;
+
+interface IVsServiceReferenceMetadataStorageProvider;
+interface IVsServiceReferenceMetadataStorageProviderEvents;
+interface IVsEnumServiceReferenceMetadataStorages;
+interface IVsServiceReferenceMetadataStorage;
+interface IVsServiceReferenceMetadataStorageEvents;
+
+#ifndef INTEROPLIB
+[
+    uuid(f7b8c4bd-4689-44c2-a282-039e5d2b01b0),
+    version(1.0),
+    helpstring("WCFReferences 1.0 Type Library")
+]
+library WCFReferencesLib
+{
+
+#endif // INTEROPLIB
+
+
+//============================
+//  Add Service Reference Dialog service
+//============================
+
+// Differentiates between different types of service references that are supported
+enum ServiceReferenceType
+{
+    SRT_ASMXReference  = 0x1, // ASMX client ("Web Reference") - deprecated
+    SRT_WCFReference   = 0x2  // WCF service client ("Service Reference")
+};
+typedef enum ServiceReferenceType ServiceReferenceType;
+
+
+// This service controls the new "Add Service Reference" dialog, which replaces
+//   the now-deprecated "Add Web Reference" dialog.  The Add Web Reference dialog is
+//   still supported, but will not show up in the command menus by default for most
+//   project systems, unless the project already contains web references (e.g., the
+//   project was upgraded from Visual Studio 2005 and contained web references).
+//   If SRT_ASMXReference|SRT_WCFReference is passed to referenceTypesAllowed, then
+//   a link will be visible in the Advanced tab of the Add Service Reference dialog
+//   that will bring up the old Web Reference dialog, allowing users to create a
+//   web reference instead of a service reference.
+//
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(46e27779-a3e6-484b-a0ee-15795b173ae6),
+]
+interface IVsAddWebReferenceDlg3 : IUnknown
+{
+    // Display the new Add Service Reference Dialog
+    //
+    // If the user selects a service and accepts the dialog, then the return result
+    //   will be returned in ppReferenceResult.  The service reference is not actually
+    //   added to the project until and unless the Save() method on this return value
+    //   is called.
+    // Note: the current implementation supports only SRT_WCFReference
+    //   or SRT_ASMXReference|SRT_WCFReference as referenceTypesAllowed.
+    //   To show a dialog which allows only creating ASMX-style proxies, use
+    //   IVsAddWebReferenceDlg or IVsAddWebReferenceDlg2.
+    HRESULT ShowAddWebReferenceDialog(
+        [in]  IVsHierarchy* pProject, // Project hierarchy to add the reference to
+        [in]  IDiscoverySession* pDiscoverySession, // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+        [in]  ServiceReferenceType referenceTypesAllowed, // Which reference type or types are supported by the dialog.
+        [in]  LPCOLESTR pszDialogName, // Specify NULL to use the default dialog title "Add Service Reference"
+        [in]  IVsWCFReferenceGroup* pExistingReferenceGroup, // The existing reference group, if any, to add the new service reference to.
+                                                             // With the current implementation, this parameter must be NULL.
+        [in] LPCOLESTR pszReferenceConfigContents, // Initial contents of the Reference.config file (ignored for ASMX references)
+                                                   // Normally this should be NULL to indicate no Reference.config file is created.
+                                                   // A Reference.config file may be necessary in some advanced scenarios where
+                                                   //   it must contain information to enable metadata download for the service.
+        [out] IVsAddWebReferenceResult** ppReferenceResult, // The result. Will be NULL if the dialog is cancelled
+        [out] BOOL* pfCancelled // will be TRUE if the user cancels the dialog.
+    );
+
+    // This provides an extensibility point for packages to add new menu items to the dropdown
+    //   "Discover" button in the Add Service Reference dialog.  The drop-down menu for this
+    //   button is a standard Visual Studio context menu.  To add a new entry in this context menu,
+    //   packages can add new menu groups and menu items to this context menu.  If the user clicks
+    //   the menu item, the package can display UI, if needed, to obtain input from the user, then
+    //   perform calculations necessary to obtain a list of "discovered" service URLs.  The package
+    //   should then call this function with that list of URLs.  They will be displayed in the 
+    //   currently-shown Add Service Reference dialog.  The user can then select one and click OK
+    //   to have a reference to the selected service added to the project.
+    // The context menu's ID is df6db1a3-d973-4316-bdaa-7e21e9677f09:0x1000 (see
+    //   the WCFReferencesIds.h file).
+    //  
+    HRESULT ShowDiscoveredServicesInCurrentDialog(
+        [in] long cItems, // Number of discovered URLs
+        [in, size_is(cItems)] LPCOLESTR ServiceUrls[],         // Discovered URLs to place into the dialog
+        [in, size_is(cItems)] LPCOLESTR ServiceDisplayNames[], //   ... and the matching "friendly" display names
+        [in] LPCOLESTR pszStatusText, // can be NULL for default status
+        [in] LPCOLESTR pszErrorText // should be NULL or empty if there were no errors
+    );
+
+};
+
+[uuid(32d47224-21a6-4d8f-9223-c91f0d69c501)]
+interface SVsAddWebReferenceDlg3 : IUnknown
+{
+}
+cpp_quote("#define SID_SVsAddWebReferenceDlg3 IID_SVsAddWebReferenceDlg3")
+
+
+// This interface represents the result of what the user selected from
+//   the Add Service Reference dialog and wants to be added to the project.
+// However, it will not actually be added to the project unless the caller
+//   calls Save().
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(4b85c5ef-9089-4e4c-a310-325bf87baf23),
+]
+interface IVsAddWebReferenceResult : IUnknown
+{
+    // The URL of the service
+    HRESULT GetReferenceUrl(
+        [out, retval] BSTR* pbstrWebReferenceUrl    // discovery URL
+    );
+
+    // The namespace to use for the generated reference client code
+    HRESULT GetReferenceNamespace(
+        [out, retval] BSTR* pbstrReferenceNamespace  // new reference namespace
+    );
+
+    // The name that will be used for the .svcmap file (not applicable for
+    //   ASMX references)
+    HRESULT GetReferenceName(
+        [out, retval] BSTR* pbstrReferenceName  // new reference name
+    );
+
+    // The type of service reference client (ASMX or WCF)
+    HRESULT GetReferenceType(
+        [out, retval] ServiceReferenceType *pType
+    );
+
+    // Attempts to add the reference to the project.  This may fail if the project
+    //   checkout fails or for other reasons.  If successful, the new (or existing)
+    //   IVsWCFReferenceGroup instance is returned where the reference was saved, if 
+    //   it was a WCF reference.  Currently returns NULL if it was an ASMX reference.
+    HRESULT Save(
+        [out, retval] IUnknown **ppReferenceGroup
+    );
+
+    // If this is a WCF reference, returns a pointer to a managed code interface 
+    //   "IVsWCFReferenceGroupDetails" defined in Microsoft.VisualStudio.ManagedInterfaces.WCF.dll
+    //   that provides access to the WCF runtime endpoint objects for this
+    //   service reference.  Returns NULL for ASMX references.
+    HRESULT GetDetail(
+        [out, retval] IDispatch **ppWCFReferenceGroupDetails // Returns NULL for non-WCF references
+    );
+};
+
+
+//============================
+// Services for adding, deleting, enumerating, modifying service references
+//============================
+
+// Reference Manager Service
+
+// This service retrieves the WCF reference manager for a particular project,
+//   which allows inspecting and modifying service references in the project.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(2fe19f72-edd1-4fa4-9f36-a90a52ed166a),
+]
+interface IVsWCFReferenceManagerFactory : IUnknown
+{
+    // Get the reference manager for a project
+    HRESULT GetReferenceManager(
+        [in] IVsHierarchy *pHierProject, 
+        [out, retval] IVsWCFReferenceManager **pIVsWCFReferenceManager
+    );
+
+    // Check whether the given project hierarchy supports WCF service references
+    HRESULT IsReferenceManagerSupported(
+        [in] IVsHierarchy *pHierProject, 
+        [out, retval] BOOL *pIsSupported
+    );
+};
+
+[uuid(DDD04E59-6B86-4a73-8BC7-3FF5D7B1111C)]
+interface SVsWCFReferenceManagerFactory : IUnknown
+{
+}
+cpp_quote("#define SID_SVsWCFReferenceManagerFactory IID_SVsWCFReferenceManagerFactory")
+
+
+// Reference Manager interfaces
+
+// Use this interface as a starting point for inspecting and modifying
+//   service references and related objects in a project.
+// Use the SVsWCFReferenceManagerFactory service to get the WCF reference manager
+//   for a particular project.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(2349F2F8-D2D5-4268-898C-35F1F013426D),
+]
+interface IVsWCFReferenceManager : IUnknown
+{
+    // Get the collection of reference groups in the project
+    HRESULT GetReferenceGroupCollection (
+        [out, retval] IVsWCFReferenceGroupCollection **pWCFReferenceGroupCollection
+    );
+
+    // Enumerate the WCF endpoints in the project
+    HRESULT GetReferenceEndpointEnumerator(
+        [out, retval] IEnumWCFReferenceEndpoints **ppEnum
+    );
+
+    // Hook up to IVsWCFReferenceEvents nofications
+    HRESULT AdviseWCFReferenceEvents(
+        [in] IVsWCFReferenceEvents *pSink,
+        [out] VSCOOKIE *pCookie        
+    );
+
+    // Unhook IVsWCFReferenceEvents nofications
+    HRESULT UnadviseWCFReferenceEvents(
+        [in] VSCOOKIE cookie
+    );
+
+};
+
+
+// A base interface for WCF automation objects
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(5E1F02CC-7A5F-4db0-8D55-A05CC0A4AA56),
+]
+interface IVsWCFObject: IUnknown 
+{
+    //Returns whether the object is in a invalid state, because of changes in the project, because
+    //  the project has been unloaded, etc.  Most operations will fail when the object is in invalid 
+    // state.
+    HRESULT IsValid(
+        [out, retval] BOOL *pbIsValid
+    );
+
+    //Forces the object to reload from the file system.
+    HRESULT Reload(void);
+};
+
+// Represents the result or pending result from an asynchronous operation
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(70D6D8A3-1D8D-44e8-8CD8-64B047E9F309),
+]
+interface IVsWCFAsyncResult: IUnknown 
+{
+    // Get whether the asynchronous operation has completed (will be TRUE whether there were errors or no 
+    //   errors - use GetMethodResult() to determine if there were errors).  If cancelled,
+    //   this will be FALSE.
+    HRESULT IsCompleted( 
+        [out, retval] BOOL *pbIsCompleted
+    );
+
+    // Get whether the asynchronous operation has been cancelled
+    HRESULT IsCancelled( 
+        [out, retval] BOOL *pIsCancelled
+    );
+
+    // Returns the custom state object passed to the asynchronous begin method
+    HRESULT GetCustomState(
+        [out, retval] IUnknown** ppunknownCustomState 
+    );    
+
+    // Returns the HRESULT returned by the method that was called asynchronously.
+    // Cannot be retrieved before method completes.  For managed code clients,
+    //   this method will throw the exception that was encountered or else will
+    //   do nothing if there was no exception.
+    HRESULT GetMethodResult();
+
+    // Attempt to cancel the asynchronous operation.  If the cancel is successful, it will
+    //   call IVsWCFCompletionCallback::OnFinished().
+    HRESULT Cancel(void);
+}
+
+// Provides a notification to a caller of an asynchronous operation that the
+//   operation has completed
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(183F0821-1F02-4e07-901A-F4F19C162935),
+]
+interface IVsWCFCompletionCallback : IUnknown
+{
+    // Called when the operation is completed, hits an error, or is cancelled by the user.
+    //   Query methods on IVsWCFAsyncResult to determine which result occurred.
+    HRESULT OnFinished(
+        [in] IVsWCFAsyncResult *pResult
+    );
+}
+
+// Provides notifications relating to reference groups
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(729D5091-E77F-4d0b-B03A-2310AD58DDC2),
+]
+interface IVsWCFReferenceEvents: IUnknown
+{
+    // Raised before a new reference is added or an existing reference is deleted
+    HRESULT OnReferenceGroupCollectionChanging();
+
+    // Raised after a new reference is added or an existing reference is deleted
+    HRESULT OnReferenceGroupCollectionChanged();
+
+    // Raised before metadata for a particular reference group is changed
+    HRESULT OnMetadataChanging(
+        [in] IVsWCFReferenceGroup* pReferenceGroup
+    );
+
+    // Raised after metadata for a particular reference group is changed
+    HRESULT OnMetadataChanged(
+        [in] IVsWCFReferenceGroup* pReferenceGroup
+    );
+
+    // Raised before reference group properties (including name/namespace/client generation options/urls) for a particular reference group are changed
+    HRESULT OnReferenceGroupPropertiesChanging(
+        [in] IVsWCFReferenceGroup* pReferenceGroup 
+    );
+
+    // Raised after reference group properties (including name/namespace/client generation options/urls) for a particular reference group are changed
+    HRESULT OnReferenceGroupPropertiesChanged(
+        [in] IVsWCFReferenceGroup* pReferenceGroup
+    );
+
+    // Raised after the project's configuration (app.config or web.config) has been updated
+    HRESULT OnConfigurationChanged();
+};
+
+// The collection representing all WCF reference groups in a hierarchy
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(343173D2-F910-4c03-930D-16AB1568431B),
+]
+interface IVsWCFReferenceGroupCollection : IVsWCFObject
+{   
+    // The hierarchy that owns this collection
+    HRESULT ContainingProject(
+        [out, retval] IVsHierarchy **ppHierProject
+    );
+
+    // Add a new reference group
+    HRESULT Add(
+        [in] LPCOLESTR pszNamespace, // The namespace for the new reference group (not including root/default namespace)
+        [in] LPCOLESTR pszName,      // The name for the new reference group, see ReferenceGroup.GetName() for more info
+        [out, retval] IVsWCFReferenceGroup **ppWCFReferenceGroup 
+    );
+
+    // Updates all reference groups - re-downloads their metadata and regenerates configuration and client code
+    HRESULT UpdateAll(
+        [in] IDiscoverySession* pDiscoverySession // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+    );
+
+    // The number of reference groups in this collection
+    HRESULT Count(
+        [out, retval] long *plCount
+    );
+ 
+    // Gets the reference group at the given index
+    HRESULT Item(
+        [in] long index, 
+        [out, retval] IVsWCFReferenceGroup **ppWCFReferenceGroup
+    );    // 0 based 
+
+    // Removes the given reference group from the collection
+    HRESULT Remove(
+        [in] IVsWCFReferenceGroup *pWCFReferenceGroup
+    );
+
+    // Removes the reference group at the given index
+    HRESULT RemoveAt(
+        [in] long index 
+    );
+
+    // Gets a reference group with the given name and namespace
+    HRESULT GetReferenceGroupByName(
+        [in] LPCOLESTR pszNamespace, 
+        [in] LPCOLESTR pszName, 
+        [out, retval] IVsWCFReferenceGroup **ppWCFReferenceGroup 
+    );
+
+    // Gets the reference group given the path to its .svcmap file
+    HRESULT GetReferenceGroupFromMapFile(
+        [in] LPCOLESTR pszMapFilePath,
+        [out, retval] IVsWCFReferenceGroup **ppWCFReferenceGroup
+    );
+};
+
+// Represents a WCF reference group in a project.
+//   A reference group is a reference to a single or multiple
+//   WCF or ASMX services.  Currently reference groups can only contain a
+//   reference to a single service, but future versions of Visual Studio
+//   may support multiple references in a reference group.  Client code generation
+//   and other options, updates, deletes, etc. all apply to all
+//   services referenced by a reference group.
+// Note that Visual Studio does not mention the term "reference group", but
+//   rather refers to a reference group as simply a "service reference."
+//   For example, in VB/C# projects, a reference group is represented by
+//   a single folder under the Service References node, which contains
+//   a .svcmap file and the files associated with a single reference.
+//   A future implementation might allow the .svcmap file to refer to
+//   multiple service URLs, in which case the files for all of the services
+//   in a reference group will still be under a single node of the Service
+//   References node.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(806cfc9a-2476-4d28-a5b2-c9ebc617b24e),
+]
+interface IVsWCFReferenceGroup : IVsWCFObject
+{
+    // A unique ID that is automatically generated and persisted for this reference group.
+    HRESULT GetID(
+       [out, retval] BSTR *pbstrGUID
+    );
+
+    // Gets a copy of the options for this reference group.  Changes
+    //   made to this copy do not affect the reference group until
+    //   a call is made to SetOptions.
+    HRESULT GetOptions(
+        [out, retval] IVsWCFReferenceGroupOptions **ppOptions
+     );
+
+    // Copies the options represented in an IVsWCFReferenceGroupOptions
+    //   instance into the service reference, and updates the client code
+    //   generation accordingly.
+    HRESULT SetOptions(
+        [in] IVsWCFReferenceGroupOptions *pOptions
+     );
+
+    // Gets the owning collection
+    HRESULT GetCollection(
+        [out, retval] IVsWCFReferenceGroupCollection **ppCollection
+    );
+
+    // Adds a new reference to a service to this reference group
+    //   With the current implementation, a reference group contain no more than
+    //   one references, so the reference group must be empty before calling this.
+    HRESULT AddReference(
+        [in] IDiscoverySession* pDiscoverySession, // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+        [in] LPCOLESTR pszUrl
+    );
+
+    // Async version of AddReference    
+    // Note: Portions of this work occur on the main thread, so messages must be pumped by a dialog or otherwise
+    HRESULT AsyncAddReference(
+        [in] IDiscoverySession* pDiscoverySession, // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+        [in] LPCOLESTR pszUrl,
+        [in] IVsWCFCompletionCallback* pCallback,  // Callback to notify when the operation is completed
+        [in] IUnknown* punknownCustomState, // Custom state object, can be accessed from IVsWCFAsyncResult.  Can be NULL.
+        [out] IVsWCFAsyncResult **ppResult  // Can be queried to determine state of the async operation
+    );
+    
+    // Re-downloads the metadata for this service using the stored URL, and regenerates configuration and client code
+    HRESULT Update(
+        [in] IDiscoverySession* pDiscoverySession // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+    );
+
+    // Async version of Update
+    // Note: Portions of this work occur on the main thread, so messages must be pumped by a dialog or otherwise
+    HRESULT AsyncUpdate(
+        [in] IDiscoverySession* pDiscoverySession, // Existing discovery session to use, may be NULL.  Allows user credentials to be cached between calls.
+        [in] IVsWCFCompletionCallback* pCallback,  // Callback to notify when the operation is completed
+        [in] IUnknown* punknownCustomState, // Custom state object, can be accessed from IVsWCFAsyncResult.  Can be NULL.
+        [out] IVsWCFAsyncResult **ppResult  // Can be queried to determine state of the async operation
+    );
+
+    // Shows the Configure Service Reference dialog for this reference group, and allows the user to
+    //   make changes to the options.
+    HRESULT ShowOptionsDialog();
+
+    // The name of the reference group.
+    // This is used to distinguish between multiple reference groups in the same directory, such as is allowed in ASP.NET.
+    //   For project systems where this is not supported, this distinction is not important.  The default is "Reference."
+    //   This property determines the same of the .svcmap file, e.g. "Reference.svcmap".
+
+    HRESULT GetName(
+        [out, retval] BSTR *pbstrName
+    );
+
+    HRESULT SetName(
+        [in] LPCOLESTR pszName
+    );
+
+    // The namespace (not including the project's root namespace or default namespace)
+    //   to be used for generated client code.
+    HRESULT GetNamespace( 
+        [out, retval] BSTR *pbstrNamespace
+    );
+    
+    HRESULT SetNamespace(
+        [in] LPCOLESTR pszNamespace
+    );
+
+    // The namespace that will be placed into the generated code for the client classes. This is
+    //   affected by what GetNamespace() returns, but could be different from it.
+    //   For example, in C# the client ("proxy") namespace includes the default namespace, while in 
+    //   VB it does not include the root namespace because the VB compiler always adds 
+    //   the root namespace to all types defined in project code.
+    HRESULT GetProxyNamespace( 
+        [out, retval] BSTR *pbstrProxyNamespace
+    );
+
+    // Gets the EnvDTE.ProjectItem interface for this reference group's .svcmap file
+    HRESULT GetMapFileProjectItem(
+        [out, retval] IDispatch **pProjectItem  // EnvDTE.ProjectItem
+    );
+
+    // Retrieves the FileCodeModel object for the service's generated client code, if it exists,
+    HRESULT GetFileCodeModel(
+        [out, retval] IDispatch **ppFileCodeModel // EnvDTE.FileCodeModel
+    );
+
+    // Enumerate the metadata items in this reference group    
+    HRESULT GetMetadataItemsEnumerator(
+        [out, retval] IEnumWCFReferenceGroupMetadataItems **ppenum
+    );
+
+    // Extension data lets you associate additional properties with the reference
+    // group as name-value pairs. The information is currently stored in a separate file and
+    // added to the Extensions element in the SvcMap file.
+    // The name should be a valid file name (without path). The binary data is transparent
+    // to the reference group.
+    HRESULT GetExtensionData(
+        [in] LPCOLESTR name,                    // Name of the item. Should be a valid file name
+        [out, retval] SAFEARRAY(byte) *content  // Returns the data associated with the name, or NULL if no item exists
+    );
+
+    // Extension data lets you associate additional properties with the reference
+    // group as name-value pairs. The information is currently stored in a separate file and
+    // added to the Extensions element in the SvcMap file.
+    // The name should be a valid file name (without path). The binary data is transparent
+    // to the reference group.
+    HRESULT SetExtensionData(
+        [in] LPCOLESTR name,               // Name of the item. Should be a valid file name
+        [in] SAFEARRAY(byte) content       // Binary blob containing the information to associate with the name, or NULL to remove the data file
+    );
+
+    // Enumerate the service contracts that apply to this reference group
+    HRESULT GetContractsEnumerator(
+        [out, retval] IEnumWCFReferenceContracts **ppenum
+    );
+
+    // The number of references in this reference group
+    HRESULT GetReferenceCount(
+        [out, retval] long *pCount
+    );
+
+    // Retrieves the URL for the service reference with the given index
+    HRESULT GetReferenceUrl(
+        [in] long index,
+        [out, retval] BSTR *pbstrReferenceUrl
+    );
+
+    // Sets the URL for the service reference with the given index.
+    // Note: this function does not refresh the metadata files automatically.
+    //   The caller should call Update/AsyncUpdate afterwards.
+    HRESULT SetReferenceUrl(
+        [in] long index,
+        [in] LPCOLESTR pszReferenceUrl
+    );
+
+    // Deletes the given reference from the reference group
+    HRESULT DeleteReference(
+        [in] long index
+    );
+
+    // Regenerate the configuration and proxy code.
+    // NOTE: Unlike 'Update', this function will not refresh the metadata files.
+    HRESULT UpdateConfiguration(
+    );
+
+    // Start a batch update. Any changes made to the reference group will not
+    // be persisted until EndBatch is called a matching number of times.
+    HRESULT BeginBatch();
+
+    // End a batch update. If this is the final batch that is ended (no more nested
+    // EndBatch calls were made), the reference group will be saved to disk and the
+    // single file generator run (in a client project)
+    HRESULT EndBatch();
+};
+
+// Enumerator for IVsWCFReferenceGroupMetadataItem
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(603A2AEA-C925-4a8c-A273-65B3B81CD43A),
+    custom(B64784EB-D8D4-4d9b-9ACD-0E30806426F7,""),
+]
+interface IEnumWCFReferenceGroupMetadataItems : IDispatch
+{
+    HRESULT Next(
+        [in]   ULONG celt, 
+        [out, size_is(celt), length_is(*pceltFetched)] IVsWCFReferenceGroupMetadataItem **rgelt, 
+        [out] ULONG *pceltFetched
+    );
+
+    HRESULT Skip(
+        [in] ULONG celt
+    );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumWCFReferenceGroupMetadataItems **ppenum
+    );
+};
+
+// Represents a downloaded metadata file for a service reference
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(8167CA28-D8BC-4537-9FF8-D237DD447391),
+]
+interface IVsWCFReferenceGroupMetadataItem : IUnknown
+{
+    // Source URL, where it is downloaded
+    HRESULT GetSourceUrl(
+       [out, retval] BSTR *pbstrSourceUrl
+    );
+
+    // The target namespace for a wsdl or xsd metadata file
+    HRESULT GetTargetNamespace(
+        [out, retval] BSTR *pbstrUrl
+    );
+
+    // Content of the metadata
+    HRESULT GetContent(
+        [out, retval] SAFEARRAY(byte) *pbstrXmlContent
+    );
+
+    // Metadata type: DISCO, WSDL, XSD...
+    HRESULT GetNodeType(
+       [out, retval] DiscoveryNodeType *pType
+    );
+
+    // Metadata file name...
+    HRESULT GetFileName(
+       [out, retval] BSTR *pbstFileName
+    );
+};
+
+// Enumerator for IVsWCFReferenceContract
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(A8F120C5-E7DF-465a-A7FB-711805281A3B),
+    custom(B64784EB-D8D4-4d9b-9ACD-0E30806426F7,""),
+]
+interface IEnumWCFReferenceContracts : IDispatch
+{
+    HRESULT Next(
+        [in]   ULONG celt, 
+        [out, size_is(celt), length_is(*pceltFetched)] IVsWCFReferenceContract **rgelt, 
+        [out] ULONG *pceltFetched
+    );
+
+    HRESULT Skip(
+        [in] ULONG celt
+    );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumWCFReferenceContracts **ppenum
+    );
+};
+
+// Represents a WCF contract
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(0ED7423C-615C-47eb-931A-8E7D3F45DDCD),
+]
+interface IVsWCFReferenceContract : IUnknown
+{
+    // The ReferenceGroup that contains this contract
+    HRESULT GetReferenceGroup(
+        [out, retval] IVsWCFReferenceGroup **ppReferenceGroup
+    );
+
+    // Contract name in the app.config/web.config file
+    HRESULT GetName(
+        [out, retval] BSTR *pbstrName
+    );
+
+    // Name of the CLR type that is generated in code (contract type, not client type),
+    //   does not include the root namespace in VB.
+    HRESULT GetTypeName(
+       [out, retval] BSTR *pbstrType
+    );
+
+    // TargetNamespace of the WSDL file
+    HRESULT GetTargetNamespace(
+        [out, retval] BSTR *pbstrTargetNamespace
+    );
+
+    // Name in the WSDL file
+    HRESULT GetPortTypeName(
+        [out, retval] BSTR *pbstrPortTypeName
+    );
+
+    // Enumerate the associated endpoints
+    HRESULT GetReferenceEndpointEnumerator(
+        [out, retval] IEnumWCFReferenceEndpoints **ppEnum
+    );
+};
+
+// Enumerator for IVsWCFReferenceEndpoint
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(0d66f264-c498-44c6-b08a-1a9ef57ddd63),
+    custom(B64784EB-D8D4-4d9b-9ACD-0E30806426F7,""),
+]
+interface IEnumWCFReferenceEndpoints : IDispatch
+{
+    HRESULT Next(
+        [in]   ULONG celt, 
+        [out, size_is(celt), length_is(*pceltFetched)] IVsWCFReferenceEndpoint **rgelt, 
+        [out] ULONG *pceltFetched
+    );
+
+    HRESULT Skip(
+        [in] ULONG celt
+    );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumWCFReferenceEndpoints **ppenum
+    );
+};
+
+// Represents a WCF endpoint
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(EFD57B55-A7DA-4c65-A6DF-90B3B656D749),
+]
+interface IVsWCFReferenceEndpoint: IUnknown
+{
+    // Name in the app.config/web.config
+    HRESULT GetName(
+        [out, retval] BSTR *pbstrName
+    );
+
+    // Contract in the app.config/web.config
+    HRESULT GetContract(
+        [out, retval] BSTR *pbstrContract
+    );
+
+    // Address in the app.config/web.config
+    HRESULT GetAddress(
+        [out, retval] BSTR *pbstrUrl
+    );
+
+    // Binding in the app.config/web.config
+    HRESULT GetBinding(
+        [out, retval] BSTR *pbstrBinding
+    );
+
+    // BindingConfiguration in the app.config/web.config
+    HRESULT GetBindingConfiguration(
+        [out, retval] BSTR *pbstrBindingConfiguration
+    );
+
+    // BehaviorConfiguration in the app.config/web.config
+    HRESULT GetBehaviorConfiguration(
+        [out, retval] BSTR *pbstrBehaviorConfiguration
+    );
+};
+
+typedef enum ProxySerializerType
+{
+    PST_Auto = 0, // Try to use the DataContract serializer, fall back to XMLSerializer
+    PST_DataContractSerializer = 1, //Generates data types that use the Data Contract Serializer for serialization and deserialization.
+    PST_XmlSerializer = 2, //Generates data types that use the XmlSerializer for serialization and deserialization.
+} ProxySerializerType;
+
+typedef enum CollectionCategory
+{
+    //Note: this categorization affects only the design-time UI, not the client generation (see GetCollectionMappings())
+    CC_Unknown = 0, // Unspecified collection type (could be list or dictionary, will not be shown in the Configure Service Reference dialog)
+    CC_List = 1, // Will be shown as the List collection type in the Configure Service Reference dialog
+    CC_Dictionary = 2, // Will be shown as the Dictionary collection type in the Configure Service Reference dialog
+} CollectionCategory;
+
+// Allows client generation options for a reference group to be inspected/modified
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(3CFCB0C9-5A1C-451a-9CCF-CAE41C3A5344),
+]
+interface IVsWCFReferenceGroupOptions : IUnknown
+{
+    // Whether internal/Friend is used instead of public for generated client types
+    HRESULT GetGenerateInternalTypes(
+        [out, retval] BOOL *pfGenerateInternalTypes
+    );
+
+    HRESULT SetGenerateInternalTypes(
+        [in] BOOL fGenerateInternalTypes
+    );
+
+    // Whether asynchronous methods are generated in the client code in addition to synchronous methods
+    HRESULT GetGenerateAsynchronousMethods(
+        [out, retval] BOOL *pbGenerateAsynchronousMethods
+    );
+
+    HRESULT SetGenerateAsynchronousMethods(
+        [in] BOOL bGenerateAsynchronousMethods
+    );
+
+    // Whether generated types are marked with the Serializable attribute
+    HRESULT GetGenerateSerializableTypes(
+        [out, retval] BOOL *pbGenerateSerializableTypes
+    );
+
+    HRESULT SetGenerateSerializableTypes(
+        [in] BOOL bGenerateSerializableTypes
+    );
+
+    // Selects the serializer to use when generating code. If set to Auto, it will try to use the DataContract serializer, 
+    //   and if that fails, then it will revert to the XMLSerializer.
+    HRESULT GetSerializer(
+        [out, retval] ProxySerializerType *pProxySerializerType
+    );
+
+    HRESULT SetSerializer(
+        [in] ProxySerializerType proxySerializerType
+    );
+
+    // Configures the Data Contract serializer to import non-Data Contract types as IXmlSerializable types.
+    HRESULT GetImportXmlTypes(
+        [out, retval] BOOL *pbImportXmlTypes
+    );
+
+    HRESULT SetImportXmlTypes(
+        [in] BOOL bImportXmlTypes
+    );
+
+    // When true, implements the INotifyPropertyChanged interface on all Data Contract types to enable data binding.
+    HRESULT GetEnableDataBinding(
+        [out, retval] BOOL *pbEnableDataBinding
+    );
+
+    HRESULT SetEnableDataBinding(
+        [in] BOOL bEnableDataBinding
+    );
+
+    // Generates Message Contract types.
+    HRESULT GetGenerateMessageContracts(
+        [out, retval] BOOL *pbGenerateMessageContracts
+    );
+
+    HRESULT SetGenerateMessageContracts(
+        [in] BOOL bGenerateMessageContracts
+    );
+
+    // If TRUE, then the list of referenced assemblies will be all assemblies
+    //   referenced by the project (supersedes the list of assemblies specified in 
+    //   SetReferencedAssemblies).
+    HRESULT GetReferenceAllAssemblies(
+        [out, retval] BOOL *pbReferenceAllAssemblies
+    );
+
+    HRESULT SetReferenceAllAssemblies(
+        [in] BOOL bReferenceAllAssemblies
+    );
+
+    // Specify assemblies that might contain types that represent the metadata 
+    //   being imported.  If metadata from a service in this reference group
+    //   use a metadata type that matches a type in one of these assemblies, then 
+    //   the generated client code will use that CLR type directly.
+    HRESULT GetReferencedAssembliesCount(
+        [out, retval] long *plCount
+    );
+
+    HRESULT GetReferencedAssemblies(
+        [in] long cItems, 
+        [out, size_is(cItems)] BSTR rgbstrReferencedAssemblies[]
+    );
+
+    HRESULT SetReferencedAssemblies(
+        [in] long cItems, 
+        [in, size_is(cItems)] LPCOLESTR lpstrReferencedAssemblies[]
+    );
+
+    // GetCollectionMappings - the list of types to be used for collections when 
+    //   generating proxies.  Types are picked heuristically according to how
+    //   closely they match the schema types.
+    //
+    // The collection mappings are kept in three categories, which may affect 
+    //   how design-time user interfaces display this information to the user.
+    //   All three categories are treated the same during client code generation.
+
+    HRESULT GetCollectionMappingsCount(
+        [in] CollectionCategory category,
+        [out, retval] long *plCount
+    );
+
+    HRESULT GetCollectionMappings(
+        [in] CollectionCategory category,
+        [in] long cItems, 
+        [out, size_is(cItems)] BSTR rgbstrCollectionMappings[]
+    );
+
+    HRESULT SetCollectionMappings(
+        [in] CollectionCategory category,
+        [in] long cItems, 
+        [in, size_is(cItems)] LPCOLESTR lpstrCollectionMappings[]
+    );
+
+    // Types to exclude from automatic type mapping
+
+    HRESULT GetExcludedTypesCount(
+        [out, retval] long *plCount
+        );
+
+    HRESULT GetExcludedTypes(
+        [in] long cItems, 
+        [out, size_is(cItems)] BSTR rgbstrExcludedTypes[]
+    );
+
+    HRESULT SetExcludedTypes(
+        [in] long cItems, 
+        [in, size_is(cItems)] LPCOLESTR lpstrExcludedTypes[]
+    );
+
+};
+
+
+//============================
+//  Storage services - Implemented by project hierarchies that want to support
+//                       service references
+//============================
+
+enum StorageNameValidationState
+{
+    SNVS_NewNamespace = 0x0,
+        // It is a new namespace with valid reference name, IsValidNewReferenceName should return true (valid)
+    SNVS_InvalidNamespace = 0x1,
+        // Namespace is invalid in the language
+    SNVS_UnsupportedNamespace = 0x2,
+        // Namespace is valid in language, but is not supported in a special project system. For example a namespace starting with '_' in a website project
+    SNVS_ExistingNamespace = 0x3,
+        // Namespace is already in use.  IsValidNewReferenceName could return true, if the project system supports two storages sharing one namespace.
+    SNVS_InvalidReferenceName = 0x4,
+        // The reference name is invalid (in file system)
+    SNVS_ReferenceNameConflicts = 0x5
+        // A file (referenceName.svcmap) exists in the directory, IsValidNewReferenceName should return false (invalid)
+};
+typedef enum StorageNameValidationState StorageNameValidationState;
+
+// Metadata Storage Provider interfaces
+
+// IVsWCFMetadataStorageProvider should be implemented by a hierarchy that wants to
+//   support service references.  It abstracts the persistence of a reference group's
+//   .wsdl, .svcmap, metadata and other related files.
+// For example, in VB/C# projects, the storage provider handles the folders and
+//   files under the "Service References" node, but other project systems persist
+//   and manage this information diffently.
+//
+// NOTE: most clients should not use these interfaces directly, but rather should
+//   use the IVsWCF* interfaces, which in turn talk to the project via the storage
+//   provide interfaces.
+// 
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(f71d2b05-680f-423b-b00f-52a2944ac45c),
+]
+interface IVsWCFMetadataStorageProvider : IUnknown
+{
+    // Enumerates through the storages for service reference groups in the
+    //   hierarchy
+    HRESULT GetStorages(
+        [out, retval] IVsEnumWCFMetadataStorages **ppenum
+    );
+
+    // Creates a new storage for storing a service reference group in the
+    //   hierarchy
+    HRESULT CreateStorage(
+        [in] LPCOLESTR pszNamespace, // Reference group namespace
+        [in] LPCOLESTR pszReferenceName, // Reference group name
+        [out] IVsWCFMetadataStorage **pWCFMetadataStorage,     // [OUT] Returns the new storage
+        [out] StorageNameValidationState *pNameValidationState // [OUT] Indicates the reason for failure
+    );
+
+    // Given a path to a .svcmap file, retrieves the associated storage
+    HRESULT GetStorageFromMapFile(
+        [in] LPCOLESTR pszMapFilePath,
+        [out, retval] IVsWCFMetadataStorage **pWCFMetadataStorage
+    );
+
+    // Hooks up notification of events on IVsWCFMetadataStorageProviderEvents
+    HRESULT AdviseWCFMetadataStorageProviderEvents(
+        [in] IVsWCFMetadataStorageProviderEvents *pSink,
+        [out] VSCOOKIE *pdwCookie
+    );
+
+    // Unhooks notification of events on IVsWCFMetadataStorageProviderEvents
+    HRESULT UnadviseWCFMetadataStorageProviderEvents(
+        [in] VSCOOKIE dwCookie
+    );
+
+    // Determines if a given name would be a valid service reference group name
+    //   given the name, reference group name, and existing service references
+    HRESULT IsValidNewReferenceName(
+        [in] LPCOLESTR pszNamespace, // The suggested reference group namespace
+        [in] LPCOLESTR pszReferenceName, // The suggested reference group name
+        [out] BOOLEAN *pbValid, // TRUE if the name would be valid
+        [out] StorageNameValidationState *pValidationState, // Provides more specific validation information
+        [out] BSTR *pbstrMessage // A message to display to the user.  Some providers do not support this and may return NULL for all or some calls.
+    );
+
+    // Given a proposed reference group name and namespace, returns 
+    //   a suggested name and namespace that would be valid.  
+    // NOTE: Some provides do not support this function.
+    HRESULT MakeValidReferenceName(
+        [in] LPCOLESTR pszNamespace,
+        [in] LPCOLESTR pszReferenceName,
+        [out] BSTR *pbstrSuggestedNamespace,
+        [out] BSTR *pbstrSuggestedReferenceName
+    );
+};
+
+// Enumerates the metadata storages in a storage provider
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(e9532448-d152-4ad4-be45-8a8a9cbfe14d),
+]
+interface IVsEnumWCFMetadataStorages : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] IVsWCFMetadataStorage **rgelt,
+        [out] ULONG *pceltFetched
+    );
+
+    HRESULT Skip(
+        [in] ULONG celt
+    );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone([out] IVsEnumWCFMetadataStorages **ppenum);
+};
+
+// Events to notify when new storages are added or existing storages
+//   are moved, renamed or removed.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(610dfeb0-5c2b-46c2-bb44-1de7dc42d409),
+]
+interface IVsWCFMetadataStorageProviderEvents : IUnknown
+{
+    HRESULT OnAdded(
+        [in] IVsWCFMetadataStorage *pIVsWCFMetadataStorage
+    );
+
+    HRESULT OnRemoving(
+        [in] LPCOLESTR pszOldSvcmapFilePath
+    );
+
+    HRESULT OnRemoved(
+        [in] LPCOLESTR pszOldSvcmapFilePath
+    );
+
+    HRESULT OnRenamed(
+        [in] LPCOLESTR pszOldSvcmapFilePath,
+        [in] LPCOLESTR pszNewSvcmapFilePath
+    ); // map file name has been changed
+
+    HRESULT OnMoved(
+        [in] LPCOLESTR pszOldSvcmapFilePath,
+        [in] LPCOLESTR pszNewSvcmapFilePath
+    ); // directory has been moved. This means the namespace is changed
+};
+
+
+//============================
+// Metadata Storage interfaces
+//============================
+
+// IVsWCFMetadataStorage represents a storage for all the files
+//   related to a service reference group (.wsdl, .svcmap, .svcinfo, .xsd and other
+//   metadata files, etc.).  For VB/C# projects, this represents a subfolder of the
+//   Service References node, but will have different representations for other
+//   project systems.  For exmaple, ASP.NET projects support multiple levels of
+//   nested folders in the Web References folder, whereas VB/C# projects do not.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(8d095035-ab0c-4363-891a-8c79f5cda259),
+]
+interface IVsWCFMetadataStorage : IUnknown
+{
+    // Name of the service reference group
+    HRESULT GetName(
+        [out, retval] BSTR *pbstrName
+    );
+
+    HRESULT SetName(
+        [in] LPCOLESTR pszName
+    );
+
+    // Namespace of the service reference group's generated client
+    HRESULT GetNamespace(
+        [out, retval] BSTR *pbstrNamespace    // it should return the namespace calculated from the directory only, 
+                                            // do not include DefautNamespace/rootNamespace here
+    );
+
+    // Changes the namespace. 
+    // Note: For website projects, this could call IVsWCFReferenceGroup::GetMetadataItemsEnumerator to list all metadata files and move them
+    HRESULT SetNamespace(
+        [in] LPCOLESTR pszNamespace
+    );
+
+    // Called by IVsWCFReferenceGroup before updating metadata/map files.
+    // This suggests to the storage provide a good time to to check out necessary 
+    //   files through source code control.
+    HRESULT BeginUpdate();
+
+    // Called by IVsWCFReferenceGroup after updating metadata/map files.
+    HRESULT EndUpdate();
+
+    // Force the code generator to run
+    HRESULT RunProxyGenerator();
+
+    // Retrieve the contents of the .svcmap file
+    HRESULT LoadMapFileData(
+        [out, retval] SAFEARRAY(byte) *pContent
+    );
+
+    // Change the contents of the .svcmap file
+    HRESULT SaveMapFileData(
+        [in] SAFEARRAY(byte) content
+    );
+
+    // Retrieve the path to the .svcmap file
+    HRESULT GetMapFilePath(
+        [out, retval] BSTR *pbstrMapFilePath
+    );
+
+    // Retrieves the contents of the given metadata or extension file (i.e., any file 
+    //   associated with the reference group other than the .svcmap file).
+    HRESULT LoadMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName,
+        [out, retval] SAFEARRAY(byte) *pContent // Byte contents for the file
+    );
+
+    // Changes the contents of the given metadata or extension file (i.e., any file 
+    //   associated with the reference group other than the .svcmap file).
+   HRESULT SaveMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName,
+        [in] SAFEARRAY(byte) content // Byte contents for the file
+    );
+
+    // Creates a new metadata/extension file
+    HRESULT CreateMetadataFile(
+        [in] LPCOLESTR pszMetadataSuggestedName, // Suggested name for the storage provider to use
+        [in] SAFEARRAY(byte) content, // Byte contents for the new file
+        [out, retval] BSTR *pbstrRealName // The actual name of the file chosen by the provider
+    );
+
+    // Deletes a metadata/extension file
+    HRESULT DeleteMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName
+    );
+
+    // Hook up IVsWCFMetadataStorageEvents events
+    HRESULT AdviseWCFMetadataStorageEvents(
+        [in] IVsWCFMetadataStorageEvents *pSink,
+        [out] VSCOOKIE *pdwCookie
+    );
+
+    // Unhook up IVsWCFMetadataStorageEvents events
+    HRESULT UnadviseWCFMetadataStorageEvents(
+        [in] VSCOOKIE dwCookie
+    );
+
+    // Removes the whole storage
+    HRESULT Remove();
+
+    // Retrieves the VSITEMID for the storage's .svcmap file
+    HRESULT ProjectItemId(
+        [out, retval] VSITEMID *pProjectItemId
+    );
+
+    // Retrieves the FileCodeModel object for the service's generated client, if it exists,
+    //   otherwise returns NULL.
+    HRESULT FileCodeModel(
+        [out, retval] IDispatch /*FileCodeModel*/ **ppFileCodeModel
+    );
+};
+
+// Notifications for changes that occur to a specific store or
+//   its associated files
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(77fded51-e1ee-42b4-9e6c-bc892487d0ab),
+]
+interface IVsWCFMetadataStorageEvents : IUnknown
+{
+    // The .svcmap file was updated
+    HRESULT OnMapFileUpdated();
+
+    // A metadata or extension file was added
+    HRESULT OnMetadataFileAdded(
+        [in] LPOLESTR pszFileName
+    );
+
+    // A metadata/extension file was deleted
+    HRESULT OnMetadataFileDeleted(
+        [in] LPOLESTR pszFileName
+    );
+
+    // A metadata/extension file was renamed
+    HRESULT OnMetadataFileRenamed(
+        [in] LPOLESTR pszFileNameOld,
+        [in] LPOLESTR pszFileNameNew
+    );
+
+    // A metadata/extension file had its contents changed
+    HRESULT OnMetadataFileUpdated(
+        [in] LPOLESTR pszFileName
+    );
+};
+
+//============================
+// ASMX Metadata Storage Provider interfaces.  Allows the Add Service Reference
+//   dialog's result to be saved to the project when the user selects an
+//   ASMX-style client (using the old Add Web Reference dialog).
+//============================
+
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(c5e5042e-f39a-4c27-ae06-1b1715ea7223),
+]
+interface IVsASMXMetadataStorageProvider : IUnknown
+{
+    HRESULT AddWebReference(
+        [in] LPCOLESTR pszURL,
+        [in] LPCOLESTR pszSuggestName,
+        [in] IDiscoveryResult *pDiscoveryResult,
+        [out, retval] BSTR *pbstrRealName
+    );
+
+    HRESULT IsValidNewASMXReferenceName(
+        [in] LPCOLESTR pszNewName,
+        [out, retval] BOOL *pbValid
+    );
+};
+
+
+// Metadata Storage Provider interfaces
+
+// IVsServiceReferenceMetadataStorageProvider should be implemented by a hierarchy that wants to
+//   support service references.  It abstracts the persistence of a reference group's
+//   .wsdl, .svcmap, metadata and other related files.
+// For example, in VB/C# projects, the storage provider handles the folders and
+//   files under the "Service References" node, but other project systems persist
+//   and manage this information diffently.
+//
+// NOTE: most clients should not use these interfaces directly, but rather should
+//   use the IVsWCF* interfaces, which in turn talk to the project via the storage
+//   provide interfaces.
+// 
+//  The difference between IVsWCFMetadataStorageProvider and IVsServiceReferenceMetadataStorageProvider is that
+//  the new IVsServiceReferenceMetadataStorageProvider support reference leading with any file, but not only .svcmap.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(6D076165-1AFF-4d68-9BD1-FA09ADF57D34),
+]
+interface IVsServiceReferenceMetadataStorageProvider : IUnknown
+{
+    // return whether a storage type is supported in the project system.
+    //  we expect the storage type to be the file extension name with the leading '.'.
+    //  We expect the vsproject to support all valid extensions, but the Venus web site only supports a list of
+    // extensions it knows.
+    HRESULT IsStorageTypeSupported(
+        [in] LPCOLESTR pszStorageType,
+        [out, retval] BOOL *pbSupported
+    );
+
+    // Enumerates through the storages for service reference groups in the
+    //   hierarchy
+    HRESULT GetMetadataStorages(
+        [out, retval] IVsEnumServiceReferenceMetadataStorages **ppenum
+    );
+
+    // Creates a new storage for storing a service reference group in the
+    //   hierarchy
+    HRESULT CreateMetadataStorage(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszNamespace, // Reference group namespace
+        [in] LPCOLESTR pszReferenceName, // Reference group name
+        [out] IVsServiceReferenceMetadataStorage **pServiceReferenceMetadataStorage,     // [OUT] Returns the new storage
+        [out] StorageNameValidationState *pNameValidationState // [OUT] Indicates the reason for failure
+    );
+
+    // Given a path to a .svcmap file, retrieves the associated storage
+    HRESULT GetMetadataStorageFromMapFile(
+        [in] LPCOLESTR pszMapFilePath,
+        [out, retval] IVsServiceReferenceMetadataStorage **pServiceReferenceMetadataStorage
+    );
+
+    // Hooks up notification of events on IVsServiceReferenceMetadataStorageProviderEvents
+    HRESULT AdviseMetadataStorageProviderEvents(
+        [in] IVsServiceReferenceMetadataStorageProviderEvents *pSink,
+        [out] VSCOOKIE *pdwCookie
+    );
+
+    // Unhooks notification of events on IVsServiceReferenceMetadataStorageProviderEvents
+    HRESULT UnadviseMetadataStorageProviderEvents(
+        [in] VSCOOKIE dwCookie
+    );
+
+    // Determines if a given name would be a valid service reference group name
+    //   given the name, reference group name, and existing service references
+    HRESULT IsValidNewServiceReferenceName(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszNamespace, // The suggested reference group namespace
+        [in] LPCOLESTR pszReferenceName, // The suggested reference group name
+        [out] BOOLEAN *pbValid, // TRUE if the name would be valid
+        [out] StorageNameValidationState *pValidationState, // Provides more specific validation information
+        [out] BSTR *pbstrMessage // A message to display to the user.  Some providers do not support this and may return NULL for all or some calls.
+    );
+
+    // Given a proposed reference group name and namespace, returns 
+    //   a suggested name and namespace that would be valid.  
+    // NOTE: Some provides do not support this function.
+    HRESULT MakeValidServiceReferenceName(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszNamespace,
+        [in] LPCOLESTR pszReferenceName,
+        [out] BSTR *pbstrSuggestedNamespace,
+        [out] BSTR *pbstrSuggestedReferenceName
+    );
+};
+
+// IVsServiceReferenceMetadataStorageProviderEvents events fired when a storage is added/removed/renamed.
+//  it is similar to IVsServiceReferenceMetadataStorageEvents, but gives extra storage type information.
+// The VSProject does not allow user to change the type of a storage, even after the map file is renamed.
+//  However, it is valid operation in a web site project. If the user renames the extension of the map file,
+//  we expect the web site to fire two events, one removed events for old storage type, and a new OnAdded event
+//  for the new storage.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(DBFECCE0-41A5-41a6-AD3B-67286C457A4F),
+]
+interface IVsServiceReferenceMetadataStorageProviderEvents : IUnknown
+{
+    HRESULT OnAdded(
+        [in] IVsServiceReferenceMetadataStorage *pIVsServiceReferenceMetadataStorage
+    );
+
+    HRESULT OnRemoving(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszOldSvcmapFilePath
+    );
+
+    HRESULT OnRemoved(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszOldSvcmapFilePath
+    );
+
+    HRESULT OnRenamed(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszOldSvcmapFilePath,
+        [in] LPCOLESTR pszNewSvcmapFilePath
+    ); // map file name has been changed
+
+    HRESULT OnMoved(
+        [in] LPCOLESTR pszStorageType,
+        [in] LPCOLESTR pszOldSvcmapFilePath,
+        [in] LPCOLESTR pszNewSvcmapFilePath
+    ); // directory has been moved. This means the namespace is changed
+};
+
+// Enumerates the metadata storages in a storage provider
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(4C5EE29B-8BE6-4a9b-910B-F57EF6A36D6E),
+]
+interface IVsEnumServiceReferenceMetadataStorages : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] IVsServiceReferenceMetadataStorage **rgelt,
+        [out] ULONG *pceltFetched
+    );
+
+    HRESULT Skip(
+        [in] ULONG celt
+    );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone([out] IVsEnumServiceReferenceMetadataStorages **ppenum);
+};
+
+
+//============================
+// Metadata Storage interfaces
+//============================
+
+// IVsServiceReferenceMetadataStorage represents a storage for all the files
+//   related to a service reference group (a map file, .wsdl, .svcinfo, .xsd and other
+//   metadata files, etc.).  For VB/C# projects, this represents a subfolder of the
+//   Service References node, but will have different representations for other
+//   project systems.  For exmaple, ASP.NET projects support multiple levels of
+//   nested folders in the Web References folder, whereas VB/C# projects do not.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(0743635E-4F48-457c-9323-0AF36982FA28),
+]
+interface IVsServiceReferenceMetadataStorage : IUnknown
+{
+    // the type of the storage, it is the extension of the map file in the storage.
+    HRESULT GetStorageType(
+        [out, retval] BSTR *pbstrStorageType
+    );
+
+    // Name of the service reference group
+    HRESULT GetName(
+        [out, retval] BSTR *pbstrName
+    );
+
+    HRESULT SetName(
+        [in] LPCOLESTR pszName
+    );
+
+    // Namespace of the service reference group's generated client
+    HRESULT GetNamespace(
+        [out, retval] BSTR *pbstrNamespace    // it should return the namespace calculated from the directory only, 
+                                            // do not include DefautNamespace/rootNamespace here
+    );
+
+    // Changes the namespace. 
+    // Note: For website projects, this could call IVsWCFReferenceGroup::GetMetadataItemsEnumerator to list all metadata files and move them
+    HRESULT SetNamespace(
+        [in] LPCOLESTR pszNamespace
+    );
+
+    // Called by IVsWCFReferenceGroup before updating metadata/map files.
+    // This suggests to the storage provide a good time to to check out necessary 
+    //   files through source code control.
+    HRESULT BeginUpdate();
+
+    // Called by IVsWCFReferenceGroup after updating metadata/map files.
+    HRESULT EndUpdate();
+
+    // Force the code generator to run
+    HRESULT RunProxyGenerator();
+
+    // Retrieve the contents of the map file
+    HRESULT LoadMapFileData(
+        [out, retval] SAFEARRAY(byte) *pContent
+    );
+
+    // Change the contents of the .svcmap file
+    HRESULT SaveMapFileData(
+        [in] SAFEARRAY(byte) content
+    );
+
+    // Retrieve the path to the .svcmap file
+    HRESULT GetMapFilePath(
+        [out, retval] BSTR *pbstrMapFilePath
+    );
+
+    // Retrieves the contents of the given metadata or extension file (i.e., any file 
+    //   associated with the reference group other than the map file).
+    HRESULT LoadMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName,
+        [out, retval] SAFEARRAY(byte) *pContent // Byte contents for the file
+    );
+
+    // Changes the contents of the given metadata or extension file (i.e., any file 
+    //   associated with the reference group other than the map file).
+   HRESULT SaveMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName,
+        [in] SAFEARRAY(byte) content // Byte contents for the file
+    );
+
+    // Creates a new metadata/extension file
+    HRESULT CreateMetadataFile(
+        [in] LPCOLESTR pszMetadataSuggestedName, // Suggested name for the storage provider to use
+        [in] SAFEARRAY(byte) content, // Byte contents for the new file
+        [out, retval] BSTR *pbstrRealName // The actual name of the file chosen by the provider
+    );
+
+    // Deletes a metadata/extension file
+    HRESULT DeleteMetadataFile(
+        [in] LPCOLESTR pszMetadataFileName
+    );
+
+    // Hook up IVsServiceReferenceMetadataStorageEvents events
+    HRESULT AdviseServiceReferenceMetadataStorageEvents(
+        [in] IVsServiceReferenceMetadataStorageEvents *pSink,
+        [out] VSCOOKIE *pdwCookie
+    );
+
+    // Unhook up IVsServiceReferenceMetadataStorageEvents events
+    HRESULT UnadviseServiceReferenceMetadataStorageEvents(
+        [in] VSCOOKIE dwCookie
+    );
+
+    // Removes the whole storage
+    HRESULT Remove();
+
+    // Retrieves the VSITEMID for the storage's map file
+    HRESULT ProjectItemId(
+        [out, retval] VSITEMID *pProjectItemId
+    );
+
+    // Retrieves the FileCodeModel object for the service's generated client, if it exists,
+    //   otherwise returns NULL.
+    HRESULT FileCodeModel(
+        [out, retval] IDispatch /*FileCodeModel*/ **ppFileCodeModel
+    );
+};
+
+// Notifications for changes that occur to a specific store or
+//   its associated files
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(C6DF0D84-83E9-4e07-BA41-903A03763C5B),
+]
+interface IVsServiceReferenceMetadataStorageEvents : IUnknown
+{
+    // The map file was updated
+    HRESULT OnMapFileUpdated();
+
+    // A metadata or extension file was added
+    HRESULT OnMetadataFileAdded(
+        [in] LPOLESTR pszFileName
+    );
+
+    // A metadata/extension file was deleted
+    HRESULT OnMetadataFileDeleted(
+        [in] LPOLESTR pszFileName
+    );
+
+    // A metadata/extension file was renamed
+    HRESULT OnMetadataFileRenamed(
+        [in] LPOLESTR pszFileNameOld,
+        [in] LPOLESTR pszFileNameNew
+    );
+
+    // A metadata/extension file had its contents changed
+    HRESULT OnMetadataFileUpdated(
+        [in] LPOLESTR pszFileName
+    );
+};
+
+#ifndef INTEROPLIB
+};
+#endif
+

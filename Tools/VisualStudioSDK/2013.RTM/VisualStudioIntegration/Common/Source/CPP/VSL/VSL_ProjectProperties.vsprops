@@ -1,0 +1,53 @@
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationRoot>$(VSSDK110Install)\VisualStudioIntegration</VSIntegrationRoot>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationCommon>$(VSIntegrationRoot)\Common</VSIntegrationCommon>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationInclude>$(VSIntegrationCommon)\inc</VSIntegrationInclude>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSIntegrationLibraries>$(VSIntegrationCommon)\lib\x86</VSIntegrationLibraries>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSLIncludePath>$(VSIntegrationCommon)\Source\CPP\VSL\Include</VSLIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros">
+    <VSLMockInterfacesPath>$(VSIntegrationCommon)\Source\CPP\VSL\MockInterfaces</VSLMockInterfacesPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(VSLIncludePath);$(VSIntegrationInclude);$(VSLMockInterfacesPath);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>vsguids.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(VSIntegrationLibraries);$(IntDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="VSIntegrationRoot" />
+    <BuildMacro Include="VSIntegrationCommon" />
+    <BuildMacro Include="VSIntegrationInclude" />
+    <BuildMacro Include="VSIntegrationLibraries" />
+    <BuildMacro Include="VSLIncludePath" />
+    <BuildMacro Include="VSLMockInterfacesPath" />
+  </ItemGroup>
+</Project>

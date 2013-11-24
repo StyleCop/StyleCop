@@ -1,0 +1,132 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module VSSCCPRJ.IDL - Interface for source-controlled projects |
+
+Projects that want to be under source code control, and any IVsHierarchys that
+want to be acted on by source code control operations, must implement a
+particular interface so that they can exchange information with SCC.
+
+This interface is now deprecated.  See IVsSccProject2.idl and similarly named files
+for the more recent versions of this interface.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+
+import "objidl.idl";
+import "IVsSccProject2.idl";
+import "vsshell.idl";
+import "vsscceng.idl";
+
+#include "VseeGuids.h"
+
+
+// REVIEW How do we handle const ints across languages? And, extracting them from C/C++ headers?
+cpp_quote("#if defined(_MSC_VER) || defined(__cplusplus) || defined(__STDC__) /* C or C++ */")
+cpp_quote("#include \"scc.h\"")
+//cpp_quote("typedef enum SccStatus VSSCCSTATUS;")
+cpp_quote("#else")
+//typedef enum tagVSSCCSTATUS {VSSCCSTATUS_PAD} VSSCCSTATUS;
+cpp_quote("#endif")
+
+
+typedef DWORD VSSCCSTATUS;
+const VSSCCSTATUS VSSCCSTATUS_INVALID = (VSSCCSTATUS)-1;
+
+
+/*-----------------------------------------------------------------------------
+Name: IVsSccProject
+
+@class IVsSccProject |
+
+This interface has been deprecated. Use IVsSccProject2 instead.
+
+@base public | IUnknown
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsSccProject) ]
+interface IVsSccProject : IUnknown
+{
+	// size can be 0, in which case rgVsitemids and rgdwSccStatus should be NULL
+	// and this is a sloppy statement that some status somewhere changed.
+	// Also, even if size is non zero, one of the arrays can still be NULL, though one should not be.
+	HRESULT SccStatusChanged(
+		[in]				int				size,
+		[in, size_is(size)]	const VSITEMID	rgVsitemids[],
+		[in, size_is(size)]	const DWORD		rgdwSccStatus[]);
+
+	HRESULT SetSccLocation(
+	// REVIEW do we need dwCookie here for add project case or should
+	// the project call us back with Register right after add?
+		[in]	DWORD		dwCookie,
+		[in]	LPCOLESTR	pszSccProjectName, // opaque
+		[in]	LPCOLESTR	pszSccAuxPath, // opaque
+		[in]	LPCOLESTR	pszSccLocalPath, // opqaque
+		[in]	LPCOLESTR	pszSccProvider); // opaque
+
+	// If you return E_NOTIMPL, we'll use IVsProject::GetMkDocument.
+	// If we use GetMkDocument, the flags are assumed to be zero.
+	// pCaFlagsOut->cElems has zero elements, the flags are assumed
+	// to be zero.
+	// If you don't want any scc files, you should return zero
+	// files here or in GetMkDocument (probably here, since GetMkDocument
+	// has other uses.)
+	// If any of the flags are nonzero, or at least if particular
+	// ones are nonzero, we will call GetSccSpecialFiles.
+	HRESULT GetSccFiles(
+		[in]	VSITEMID	itemid,
+		[out]	CALPOLESTR* pCaStringsOut,
+		[out]	CADWORD*	pCaFlagsOut);
+
+	// If E_NOTIMPL, no files.
+	HRESULT GetSccSpecialFiles(
+		[in]	VSITEMID	itemid,
+		[in]	DWORD		dwFlag, // one flag from GetSccFiles.pCaFlagsOut
+		[out]	CADWORD*	pCaFlagsOut);
+
+	// Return E_NOTIMPL or NULL for the default.
+	// Only VID/DB needs to return anything else.
+	HRESULT GetCustomSccEngine(
+		[out] IVsSccEngine** piVsSccEngine);
+
+	// These last bunch are just for non projects to call
+	// the IVsSccManager without knowing a project cookie.
+	// If we need more calls, we should add
+	// HRESULT GetSccCookie(DWORD* pdwSccCookie);
+	// See vssccmgr.idl and sccmanager.doc for information
+	// on these.
+
+	HRESULT SccPollFileChangeCause(
+		[in]  LPCOLESTR pszMkDocument,
+		[out] BOOL* pbResult);
+
+	// See vssccmgr.idl for information.
+	HRESULT SccCheckoutForEdit(
+		[in]					int		cFiles,
+		[in, size_is(cFiles)]	const	LPCOLESTR rgpszMkDocuments[],
+		[in]					BOOL	bReloadOK,
+		[out]					DWORD*	pdwReserved);
+
+	// This forwards to IVsSccManager::FileStatus
+	// See vssccmgr.idl for information.
+	HRESULT SccFileStatus(
+		[in]				  int				cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR	rgpszFullpaths[],
+		[out]				  VSSCCSTATUS*			pStatus,
+		[out]				  CADWORD*			prgStatus // prgStatus holds VSSCCSTATUS
+		);
+
+	// VJ, Database, Genproj, VC, VB - return FALSE.
+	// Web projects, and I think Dataview projects - return TRUE.
+	//
+	// This establishes a tristate for GetCustomSccEngine, so that
+	// a NULL engine does not imply using the default engine, so, eg,
+	// if a Front Page server does not have source control, HasCustomSccEngine
+	// on a web project would return TRUE, GetCustomSccEngine would return NULL,
+	// and no source control would be available for the project.
+	HRESULT HasCustomSccEngine(
+		[out] BOOL* pbResult);
+};
+
+

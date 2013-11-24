@@ -1,0 +1,1582 @@
+/****************************************************************************
+*  The VSSHELL Interfaces
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "vsshell.idl";
+import "vsshell2.idl";
+import "vsshell80.idl";
+import "vsshell90.idl";
+import "vsshell100.idl";
+import "vsshell110.idl";
+import "objext.idl";
+import "olecm.idl";
+import "VsPlatformUI.idl";
+
+#endif
+
+/****************************************************************************
+
+***** General notes for updating this file
+
+***** Proxy Stub
+
+If you modify anything in here, you may need to rebuild the proxy-stub,
+msenv110p.dll, and update its registration file,
+SetupAuthoring\env\Registry\msenv110p.ddr. To do that, once this file has been
+built and published, build from env\msenv\proxies and observe the build output.
+
+If you need to omit something from the proxy/stub file, then put it inside an
+#ifndef PROXYSTUB_BUILD/#endif block
+
+There is no need to define GUIDs in external header files such as
+vsshelluuids.h. Instead, define the GUID directly within the [uuid(...)]
+attribute and use __uuidof in native code.
+
+***** Primary Interop Assemblies
+
+If you modify anything in here, you may need to rebuild the primary interop
+assemblies. To do that, once this file has been built and published, build
+from vscommon\pias using: 'msbuild pias.nativeproj'
+
+***** PreserveSig
+
+Prefer "nopreservesig", which is the default for all new interfaces, because
+it creates cleaner managed code. Managed implementations are free to throw
+exceptions which will automatically be translated to HRESULTs in the CLR's
+COM interop layer. Native implementations will return HRESULTs and they will
+be converted to exceptions for managed callers.
+
+Do not create methods returning S_FALSE. Instead use an additional
+"[out] VARIANT_BOOL*" or "[out,retval] VARIANT_BOOL*" argument.
+
+***** Interface inheritance
+
+You may derive new interfaces from existing ones, but avoid mixing
+"preservesig" (old) with "nopreservesig" (new). Derive from an older interface
+if all of the methods in your interface match the preservesig attributes of the
+older interface.
+
+Remember, when implementing a derived interface in C++, you must implement
+QueryInterface for the base interface(s) too.
+
+***** Enumerators and bitwise flags passed as parameters:
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+the values should be defined and used as follows:
+
+typedef enum __VSSAMPLETYPE
+{
+    ST_THISTYPE     = 0,   // first value should be zero or one, except
+    ST_THATTYPE     = 1,   // in special cases, and following values
+    ST_THEOTHERTYPE = 2,   // should use consecutive numbers
+} VSSAMPLETYPE;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLETYPE stType);
+}
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+and is considered a PROPID, the values should be defined and used as follows:
+
+enum __VSSAMPLEPROPID
+{
+    VSSAMPPROPID_LAST     = -7000,  // first value should be a unique
+    VSSAMPPROPID_This     = -7000,  // number not used by any other
+    VSSAMPPROPID_That     = -7001,  // PROPID, and following values
+    VSSAMPPROPID_FIRST    = -7001,  // should use consecutive numbers
+};
+typedef LONG VSSAMPLEPROPID;
+
+interface IVsSample : IUnknown
+{
+    HRESULT GetProperty([in] VSSAMPLEPROPID propid, [out,retval] VARIANT *pvar);
+    HRESULT SetProperty([in] VSSAMPLEPROPID propid, [in] VARIANT var);
+}
+
+When a parameter can be none of or a combination of values (bitwise),
+the values should be defined and used as follows:
+
+enum __VSSAMPLEOPTS
+{
+    SO_THISOPTION     = 0x00000001,   // first value should be one,
+    SO_THATOPTION     = 0x00000002,   // following values should use
+    SO_THEOTHEROPTION = 0x00000004,   // consecutive powers of two
+};
+typedef DWORD VSSAMPLEOPTS;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLEOPTS grfOptions);
+}
+
+***** Defining properties
+
+Define properties as follows:
+
+interface IVsSample : IUnknown
+{
+    [propget] HRESULT Foo([out, retval] BSTR *pbstrFoo);
+    [propput] HRESULT Foo([in] LPCOLESTR strFoo);
+}
+
+Using [propget], [propput] and [out, retval] makes the interface easier
+to implement and consume in managed code.
+
+Note: The example above shows a case where the get/put methods accept slightly different
+argument types (BSTR versus LPCOLESTR). As long as the equivalent interop types are the
+same, this is fine (MarshalAs[..] attributes will be added as necessary). However, this
+is typically seen only for string arguments.
+
+***** Array typed args
+
+Pass array type arguments (both in and out) using [] and size_is when the corresponding
+size argument is present. You must have the array size as an argument for interop to
+work correctly.
+
+interface IVsSample : IUnknown
+{
+    HRESULT MethodPassesInArray([in] int cItems, [in, size_is(cItems)] int prgiItems[]);
+}
+
+DO NOT use [in] int piItems[].
+
+For simple element types, consider using SAFEARRAY: e.g. SAFEARRAY(VARIANT_BOOL),
+SAFEARRAY(BSTR), SAFEARRAY(INT), etc. because they interop cleanly to managed code, but
+note that there is additional memory allocation and it may not be appropriate for high-
+performance methods. Also see the following note.
+
+******* SAFEARRAY(IVsFoo*)
+
+SAFEARRAY(IVsFoo*) will cause MIDL warning 2456:
+    SAFEARRAY(interface pointer) doesn't work using midl generated proxy
+
+If you know for sure that implementions will never will never need to be called cross
+apartment (cross thread/process), then you can add [local] to the method.
+
+Alternatively, consider creating a custom IEnumXXX interface.
+
+****** Strings
+
+Use "[in] LPCOLESTR" instead of "[in] BSTR"
+
+for faster marshaling and more convenience to native callers.
+(But continue to use "[out] BSTR*" for out args.)
+
+Generally, you don't need to specify [in,string] for NUL-terminated strings
+because most of the "pointer to character" typedefs are already attributed with
+[string]. (e.g. "typedef [string] const OLECHAR *LPCOLESTR")
+
+******* Boolean
+
+Use VARIANT_BOOL instead of BOOL because it interops as System.Boolean instead
+of System.Int
+
+However, exercise caution when assigning or comparing to/from C++ bool in native
+code because VARIANT_BOOL is typedef'd as a short and VARIANT_TRUE is ((short)-1)
+
+******* Optional (may be null) args
+
+Use [in,unique] for optional input arguments which may be NULL.
+Note that pointer_default(unique) does NOT do this automatically.
+
+Do not use [out,unique] because unique cannot be applied to [out]-only top-level
+pointer parameters. However, you can use [in,out,unique].
+
+Do not use [optional]. It only works with VARIANT anyway and it's not
+obvious for managed coders.
+
+******* [out] NonNullableType*
+
+Note that arguments of the type "[out] Foo* pFoo", where Foo is a "non-nullable
+type" such as int, double, VARIANT_BOOL, BSTR, will be converted to
+"out Foo[] pFoo" in managed code. This is a non-standard conversion applied by
+an IL transformation step during the build for the interop assembly.
+
+******* Service GUIDs
+
+Define service GUIDs via an empty interface derived from IUnknown
+and put it inside an #ifndef PROXYSTUB_BUILD/#endif block
+
+******* HWNDs, HANDLE, and other non-marshalable types
+
+Take care if you define an interface with HWND, HGDIOBJ or other Win32
+handle types. These typically need to be marked [local] since they
+cannot cross apartment (specifically, process) boundaries.
+
+****************************************************************************/
+
+#include "vsshelluuids.h" // for uuid_VsPreserveSigAttribute
+
+// forward declarations
+
+enum __VSPROPID6
+{
+    /********************************************** defined in vsshell.idl
+    VSPROPID_LAST                          = -8000,
+    VSPROPID_SolutionDirectory         = -8000, // BSTR directory where solution file is saved
+    VSPROPID_SolutionFileName              = -8001, // BSTR full path to solution file
+    VSPROPID_UserOptionsFileName           = -8002, // BSTR full path to user options file
+    VSPROPID_SolutionBaseName              = -8003, // BSTR (Get/Set) base name of solution file
+    VSPROPID_IsSolutionDirty               = -8004, // BOOL is solution file dirty
+    VSPROPID_IsSolutionOpen            = -8005, // BOOL is a solution file open
+    VSPROPID_ProjectCount                  = -8006, // I4 count of projects open in solution
+    VSPROPID_RegisteredProjExtns           = -8007, // BSTR semicolon-separated list of all project extensions
+    VSPROPID_OpenProjectFilter         = -8008, // BSTR filter/entension list used in Open Project dialog
+    VSPROPID_FileDefaultCodePage           = -8009, // I4 codepage for saving files (CP_ACP/CP_WINUNICODE)
+    VSPROPID_SolutionFileNameBeingLoaded = -8010,   // BSTR full path to file being opened (valid only during open)
+    VSPROPID_SolutionNodeCaption           = -8011, // BSTR caption for solution node in Project Explorer
+    VSPROPID_IsSolutionOpening         = -8013, // BOOL is a solution file being opened
+    VSPROPID_IsSolutionSaveAsRequired      = -8014, // BOOL will saving the solution require a Save As dialog
+    VSPROPID_CountOfProjectsBeingLoaded  = -8015,   // I4 count of projects in file being opened (valid only during open)
+    VSPROPID_SolutionPropertyPages     = -8016, // BSTR a semi-colon delimited list of clsid's of sln level prop pages
+    VSPROPID_FIRST                     = -8016
+    ********************************************** defined in vsshell80.idl
+    VSPROPID_IsSolutionNodeHidden       = -8017, // BOOL True if the sln node is hidden in the IDE
+    VSPROPID_DeferredSaveSolution       = -8018, // BOOL is solution "zero-impact" (permanent save is performed explicitly via File.SaveAll)?
+    VSPROPID_SimplifiedConfigurations   = -8019, // BOOL True if the solution is in simplified configuration mode
+    VSPROPID_IsSolutionClosing          = -8020, // BOOL is a solution file being closed
+    VSPROPID_IsAProjectClosing          = -8021, // IUnknown of IVsHierarchy of project being closed
+    VSPROPID_IsSolutionOpeningDocs      = -8022, // BOOL is the solution re-opening the documents that were open when the solution was last closed?
+    VSPROPID_IsOpenNotificationPending  = -8023, // BOOL is the OnAfterOpenSolution notification pending (is a new project being created with a new solution)?
+    VSPROPID_ProjectLoadSecurityDialogState = -8024, // I4, state of the project load security dialog kept between different lang packages
+    VSPROPID_SolutionUserFileCreatedOnThisComputer = -8025, // BOOL, True if the .suo file accompanying the solution file was originally created on the same
+                                                            // computer it's being opened on. Check inside IVsPersistSolutionOpts.ReadUserOptions. Read only.
+    VSPROPID_NewProjectDlgPreferredLanguage = -8026, // BSTR, preferred language for the New Project dialog; if there is no preferred language an empty length string is returned.
+                                                     // If there is a preferred language, then the non-preferred language project types are displayed under an "Other Languages" node in the New Project dialog. The preferred language is set by the
+                                                     // user's choice of development settings in the "Import and Export Settings" dialog. Any project type can designate itself as a "Language" project by registering a "DeveloperActivity" reg value
+                                                     // with the string for their language (e.g. "VB", "VC#", "VC++", "VJ#") under their top-level template directories for the New Project Dialog, e.g.:
+                                                     // [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\8.0\NewProjectTemplates\TemplateDirs\{FFFFFFFF-EEE-DDDD-CCCC-BBBBBBAAAAAA}\/1] "DeveloperActivity"="MYLANG"
+                                                     // The Language Project can create its own Developer Settings Profile .vssettings file with the following section:
+                                                     // <Category name="Environment_NewProjectDialogPreferredLanguage" Category="{77E22C0C-9F4A-4bfb-AD3A-3F3F4711E9ED}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_NewProjectDialogPreferredLanguage">
+                                                     //   <PropertyValue name="HasNewProjectDialogPreferredLanguage">true</PropertyValue>
+                                                     //   <PropertyValue name="NewProjectDialogPreferredLanguage">MYLANG</PropertyValue>
+                                                     // </Category>
+                                                     // Occurrences of "MYLANG" would be replaced with the appropriate string for the language.
+    VSPROPID_FIRST2                     = -8026
+    ********************************************** defined in vsshell90.idl
+    VSPROPID_IsSavingOnClose            = -8027,
+    VSPROPID_FIRST3                     = -8027
+    ********************************************** defined in vsshell100.idl
+    VSPROPID_NoFrameworkDialogState             = -8028,    // I4, the state of the project load security dialog kept between different language packages.
+    VSPROPID_IsInBackgroundIdleLoadProjectBatch = -8029,    // BOOL, TRUE if Visual Studio is currently loading a batch of pending projects triggered in the background at idle.
+                                                            //    IVsSolutionLoadEvents::OnBeforeLoadProjectBatch(TRUE) has been called
+    VSPROPID_IsInSyncDemandLoadProjectBatch     = -8030,    // BOOL, TRUE if Visual Studio is currently loading a batch of pending projects synchronously triggered
+                                                            //    by some user action/command invocation that requires a set of projects to be loaded.
+                                                            //    IVsSolutionLoadEvents::OnBeforeLoadProjectBatch(FALSE) has been called.
+    VSPROPID_IsSolutionFullyLoaded              = -8031,    // BOOL, TRUE if all projects have been loaded by the Background Solution Load feature.
+    VSPROPID_BaseSolutionExplorerCaption        = -8032,    // BSTR, Gets or sets the base caption for the Solution Explorer tool window. The default is "SolutionExplorer".
+                                                            // The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_SolutionExplorerCaptionSuffix      = -8033,    // BSTR, gets or sets the suffix caption for the Solution Explorer tool window. The default is VT_Empty.
+                                                            // The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_SolutionExplorerCaption            = -8034,    // BSTR, gets the full caption for the Solution Explorer tool window. The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_AddNewProjectAsSibling             = -8035,    // BOOL, TRUE if new projects should be added on the sibling directory of the solution.
+    VSPROPID_ActiveSolutionLoadManager          = -8036,    // IUnknown, gets or sets a pointer to the active Solution Load Manager. The default is NULL.
+                                                            //    A Solution Load Manager is able to control how projects are loaded during
+                                                            //    the Solution Open operation. It can control whether projects are loaded
+                                                            //    immediately, loaded in the background (at idle), left to be loaded if needed,
+                                                            //    or set to stay unloaded. A Solution Load Manager is expected to implement IVsSolutionLoadManager.
+                                                            //    A common approach is to have the Solution Load Manager package AutoLoad for the
+                                                            //    SolutionOpening UIContext, for example, [ProvideAutoLoad(UIContextGuids.SolutionOpening)].
+                                                            //    This property may also be set during IVsSolutionLoadEvents::OnBeforeOpenSolution or
+                                                            //    during IVsPersistSolutionProps::ReadSolutionProps for the pre Solution section.
+    VSPROPID_FIRST4                         = -8036
+    ********************************************** defined in vsshell110.idl
+    VSPROPID_SolutionFileExt                = -8037,  // BSTR - solution file extension (default - ".sln");
+    VSPROPID_UserOptsFileExt                = -8038,  // BSTR - solution options file extension (default - ".suo");
+    VSPROPID_FaultedProjectCount            = -8039,  // INT - Number of faulted projects in the solution
+
+    VSPROPID_ProjectFaultResolutionContext  = -8040,  // IUnknown of IVsPropertyBag that represents the current project fault resolution context.
+                                                      // Read only (but the returned property bag is mutable). This is only non-null if user
+                                                      // had just performed a gesture that requires a batch of faulted projects to be resolved.
+                                                      // In this case, before invoking IVsProjectFaultResolver::ResolveFault for the first time,
+                                                      // a new empty property bag is created and assigned to this property, and the property
+                                                      // remains that way for all calls to ResolveFault that logically belong to that gesture.
+                                                      // After the last call to ResolveFault, the property is set back to null.
+                                                      // Thus, arbitrary data can be preserved and passed between ResolveFault calls in a single
+                                                      // gesture. Typically, this is used when fault resolution requires some modal UI prompt,
+                                                      // and that provides a "Don't ask me for the remaining projects" flag - this flag can be
+                                                      // stored in the property bag along with user's input, and queried on further calls to
+                                                      // ResolveFault to suppress the UI and apply the same choice to all projects.
+                                                      // See IVsProjectFaultResolver (below) for more info.
+
+    VSPROPID_SolutionViewModel              = -8041,  // IUnknown of IVsUIDatasource that contains the view model for some solution properties.
+                                                      // This is primarily used by solution navigator.
+    VSPROPID_IsOpeningProjectUserInitiated  = -8042,  // Indicates that a project load/reload is in flight when receiving the solution load event OnAfterOpenProject.
+                                                      // This property can be used to distinguish between a user loaded project (e.g. User reloaded or Add existing/new project)
+                                                      // vs a project being loaded in the background via the Asynchronous Solution Load feature. 
+                                                      // Using the fAdded flag from OnAfterOpenProject does not distinguish these two conditions.
+                                                      // fAdded only indicates if a project was loaded before or after the OnAfterOpenSolution event.
+    **********************************************/
+    VSPROPID_IsSolutionInEndRetargetingBatch = -8043, // VARIANT_TRUE when solution is in batch retargetting. It is used to avoid reentering retargetting.  
+                                                      
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSPROPID_FIRST6                         = -8043
+};
+typedef [public] DWORD VSPROPID6;
+
+enum __VSHPROPID6
+{
+    /********************************************** defined in vsshell.idl
+    VSHPROPID_NIL   = -1,
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE FIRST PROP DEFINED
+    VSHPROPID_LAST                = -1000,
+    VSHPROPID_Parent                  = -1000, // I4   itemid of Parent node (ITEMID_NIL if no parent)
+
+    // These properties are defined to deterministically walk   the entire contents of the Hierarchy
+    // (or project) independent of which view   is displayed in a UIHierarchyWindow.  Hierarchies
+    // that support special views   that either show a subset of items or a superset of member
+    // items and non-member items   must implement
+    // VSHPROPID_   FirstVisibleChild/NextVisibleSibling/IsHiddenItem/IsNonMemberItem.
+    VSHPROPID_FirstChild              = -1001, // INT_PTR itemid of 1st child node (ITEMID_NIL if no children)
+    VSHPROPID_NextSibling             = -1002, // INT_PTR itemid of next sibling node (ITEMID_NIL if no more siblings)
+
+    VSHPROPID_Root                = -1003, // INT_PTR [obsolete] itemid of Root must be VSITEMID_ROOT.
+    VSHPROPID_TypeGuid            = -1004, // GUID to identify type of node/hierarchy, search on GUID_ItemType
+    VSHPROPID_SaveName            = -2002, // BSTR Needed so Shell (i.e. File.Save menu) can display UI.
+    VSHPROPID_Caption                 = -2003, // BSTR Needed so Shell (i.e. project window) can display UI.
+    VSHPROPID_IconImgList             = -2004, // I4   For icon. Handle to imagelist (Only for itemid==VSITEMID_ROOT)
+    VSHPROPID_IconIndex           = -2005, // I4   For icon.  If Expandable=TRUE, then IconIndex+1 is used for open icon.
+    // Hierarchy    should support IconHandle or IconImageList/IconIndex but not both.
+    VSHPROPID_Expandable              = -2006, // BOOL Should Shell display the "open-this-folder" plus sign?
+    VSHPROPID_ExpandByDefault         = -2011, // BOOL Should Shell expand this item?
+    VSHPROPID_ProjectName             = -2012, // BSTR [obsolete] use VSHPROPID_Name instead
+    VSHPROPID_Name                = -2012, // BSTR Name for project (VSITEMID_ROOT) or item
+    VSHPROPID_IconHandle              = -2013, // I4   handle of an icon, UIHierarchyWindow will NOT call DestroyIcon on it
+    // Hierarchy    should support IconHandle or IconImageList/IconIndex but not both.
+    VSHPROPID_OpenFolderIconHandle  =   -2014, // I4   [optional] handle of an icon for an open folder, UIHierarchyWindow will NOT call DestroyIcon on it
+    VSHPROPID_OpenFolderIconIndex     = -2015, // I4   [optional] for icon
+    VSHPROPID_CmdUIGuid           = -2016, // GUID for cmdbars (for root only)
+    VSHPROPID_SelContainer        = -2017, // UNK  [optional] Returns an ISelectionContainer for property browsing
+    VSHPROPID_BrowseObject        = -2018, // DISP [optional] Returns an IDispatch for property browsing
+    // Hierarchy    should support SelContainer or BrowseObject but not both.
+    VSHPROPID_AltHierarchy        = -2019, // UNK  [optional] Returns an IVsHierarchy for SVsTrackSelectionEx
+    VSHPROPID_AltItemid           = -2020, // I4   [optional] Returns an itemid for SVsTrackSelectionEx
+    VSHPROPID_ProjectDir              = -2021, // BSTR [optional] full path to project directory (for VSITEMID_ROOT only)
+    VSHPROPID_SortPriority        = -2022, // I4   [optional] Sort priority in UIHierarchyWindow. Standard projects have priority 0 (default).
+    //                MiscFiles project has priority 10000, SolutionItems project has priority 9999.
+    VSHPROPID_UserContext             = -2023, // UNK  [optional] IVsUserContext for project/item
+    VSHPROPID_EditLabel           = -2026, // BSTR [optional] string displayed for in-place editing node caption
+    VSHPROPID_ExtObject           = -2027, // DISP [optional] For ITEMID_ROOT this is the ext.object of the project (Project).
+    // For other    itemids it is that item's ext object (ProjectItem), if any.
+    VSHPROPID_ExtSelectedItem         = -2028, // DISP [optional] Returns a custom SelectedItem object for the given itemid.
+    // If not supported,    then a default implementation will be provided.
+    VSHPROPID_StateIconIndex          = -2029, // I4   For state icon index. Use VsStateIcon enumeration
+    VSHPROPID_ProjectType             = -2030, // BSTR [obsolete] use VSHPROPID_TypeName instead
+    VSHPROPID_TypeName            = -2030, // BSTR display name to identify type of node/hierarchy (used in title bar)
+    VSHPROPID_ReloadableProjectFile =   -2031, // BOOL [obsolete] use VSHPROPID_HandlesOwnReload
+    VSHPROPID_HandlesOwnReload    = -2031, // BOOL [optional] project handles unload/reload itself (otherwise environment handles)
+    // (Defaults    to FALSE)
+    VSHPROPID_ParentHierarchy         = -2032, // UNK  IVsHierarchy that owns this hierarchy.  Hold as UNADDREF'ed ptr in SetProperty.
+    VSHPROPID_ParentHierarchyItemid =   -2033, // INT_PTR The itemid of this hierarchy in it's parent hierarchy
+    VSHPROPID_ItemDocCookie       = -2034, // INT_PTR [optional] the doc cookie (VSCOOKIE) of the hierarchy item
+    VSHPROPID_Expanded            = -2035, // BOOL whether the node is currently expanded in the UIHierarchyWindow, start as FALSE
+    // and UIHierarchyWindow    will update
+    VSHPROPID_ConfigurationProvider =   -2036, // UNK  OBSOLETE. Use IVsGetCfgProvider interface instead
+    VSHPROPID_ImplantHierarchy    = -2037, // UNK  [optional] IVsHierarchy implant for this hierarchy. Hold as UNADDREF'ed ptr in SetProperty.
+    // Implant can implement    IVsFilterAddProjectItemDlg and/or IVsToolboxUser.
+    VSHPROPID_OwnerKey            = -2038, // BSTR [optional] owner key string that identifies the project GUID of the owning project.
+    // only projects    that implement IVsOwnedProjectFactory should support SetProperty for this property.
+    VSHPROPID_StartupServices         = -2040, // UNK  [optional] Returns an IVsProjectStartupServices* to add services to be
+    // started on next project load (for    VSITEMID_ROOT only)
+    VSHPROPID_FirstVisibleChild   = -2041, // INT_PTR [optional] similar to FirstChild but only walks items to be displayed in UIHierarchyWindow.
+    // required if hierarchy    supports multiple (subsetted or supersetted)  views of its contents.
+    VSHPROPID_NextVisibleSibling      = -2042, // INT_PTR [optional] similar to NextSibling but only walks items to be displayed in UIHierarchyWindow.
+    // required if hierarchy    supports multiple (subsetted or supersetted)  views of its contents.
+    VSHPROPID_IsHiddenItem        = -2043, // BOOL [optional] is item not displayed in current UIHierarchyWindow view. required if hierarchy
+    // supports multiple    (subsetted)  views of its contents.
+    VSHPROPID_IsNonMemberItem         = -2044, // BOOL [optional] is item not considered a member of the hierarchy. required if hierarchy supports
+    // (supersetted)    views of its contents (e.g. ShowAllFiles displaying files in directory that are not members of the project).
+    VSHPROPID_IsNonLocalStorage   = -2045, // BOOL [optional] is project storage local? IPersistFileFormat is used for
+    // saving project regardless    of whether it is a local "file" or not.
+    VSHPROPID_StorageType             = -2046, // BSTR [optional] non-localize string representing storage type. same as string used in VSDIR file
+    // to differentiate between different location MRU lists.
+    VSHPROPID_ItemSubType             = -2047, // BSTR [optional] non-localize string representing the subtype of the item.
+    // It is    up to each package to agree on the meaning of this string.
+    VSHPROPID_OverlayIconIndex    = -2048, // I4 [optional] Use VSOVERLAYICON enum.  Overlay for the item's main icon
+    VSHPROPID_DefaultNamespace    = -2049, // BSTR [optional] string representing the items folder based namespace: rootnamespace.folder.subfolder
+    VSHPROPID_IsNonSearchable         = -2051, // BOOL [optional] is item not search-and-replace-able via Find/Replace in Files. Should be true for project file itself.
+    VSHPROPID_IsFindInFilesForegroundOnly   =  -2052, // BOOL [optional] if true, Find In Files runs in main thread
+    VSHPROPID_CanBuildFromMemory      = -2053, // BOOL [optional] if TRUE, we dont need to prompt to save before building
+    VSHPROPID_PreferredLanguageSID  =   -2054, // GUID [optional] preferred SID of (text editor) language service for project.
+    // (e.g.    used to determine default language for BreakPoint dialog)
+    VSHPROPID_ShowProjInSolutionPage = -2055,// BOOL [optional] used to filter project when vb/c#   call the component picker for add-reference.
+    // Return VARIANT_TRUE to show the project in the list.
+    VSHPROPID_AllowEditInRunMode      = -2056, // BOOL [optional] If FALSE or E_NOTIMPL, the compiler will disallow edits during run mode
+    // (this    is the most common expected behavior).  TRUE allows edits.  This property enables VSA scenarios.
+    VSHPROPID_IsNewUnsavedItem    = -2057, // BOOL [optional] If TRUE, this is a new unsaved item (as obtained from File.New.File)
+    // so the moniker will be a temporary name and the caption should be    used in the UI instead.
+    VSHPROPID_ShowOnlyItemCaption     = -2058, // BOOL [optional] If TRUE, this is an item for which only the caption should be shown in the UI instead of the full moniker.
+    VSHPROPID_ProjectIDGuid       = -2059, // GUID [optional] Identifies a project across solutions.  Generated and set when project is created.  Retrieved when project is opened.
+
+    VSHPROPID_DesignerVariableNaming = -2060,   // I4 [optional] from the VSDESIGNER_VARIABLENAMING enumeration
+    VSHPROPID_DesignerFunctionVisibility = -2061,   // I4 [optional] from the VSDESIGNER_FUNCTIONVISIBILITY enum
+
+    VSHPROPID_HasEnumerationSideEffects =   -2062, // BOOL [optional] If TRUE, then this hierarchy will not be enumerated for FindInFiles and  similar
+    // hierarchy    enumerations. (useful if enumerating might cause a login dialog or is unacceptably slow)
+
+    VSHPROPID_DefaultEnableBuildProjectCfg = -2063, // BOOL [optional] Should   "Build" be initially checked by default in the solution cfg
+    // Normally "Build" is checked by   default if the project supports IVsBuildableProjectCfg
+
+    VSHPROPID_DefaultEnableDeployProjectCfg =   -2064, // BOOL [optional] Should "Deploy" be initially checked by default in the solution cfg
+    // Normally "Deploy" is checked by default if   the project supports IVsDeployableProjectCfg
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    VSHPROPID_FIRST               = -2064
+
+    ********************************************** defined in vsshell80.idl
+
+    VSHPROPID_PropertyPagesCLSIDList    = -2065, // BSTR [optional] semi-colon delimited list of clsids of the config independent property pages
+    VSHPROPID_CfgPropertyPagesCLSIDList = -2066, // BSTR [optional] semi-colon delimited list of clsids of the config dependent property pages
+
+    VSHPROPID_ExtObjectCATID            = -2067, // GUID [optional] Intrinsic Extender CATID of the ExtObject (Automation Object) for the given IVsHierarchy Itemid. For VSITEMID_ROOT this corresponds to the type of the 'Project' object
+    VSHPROPID_BrowseObjectCATID         = -2068, // GUID [optional] Intrinsic Extender CATID of the BrowseObject for the given IVsHierarchy Itemid. For VSITEMID_ROOT this corresponds to the object used to build the 'Project.Properties' collection.
+    VSHPROPID_CfgBrowseObjectCATID      = -2069, // GUID [optional] Intrinsic Extender CATID of the configuration BrowseObject for the given IVsHierarchy Itemid
+    VSHPROPID_AddItemTemplatesGuid      = -2070, // GUID [optional] alternate project type guid to use to get add item templates
+    VSHPROPID_ChildrenEnumerated        = -2071, // BOOL [optional] returns TRUE if children have been enumerated. Typically, this is only of interest for project
+    // where enumerating children can be expensive (eg. Web projects)
+    VSHPROPID_StatusBarClientText       = -2072, // BSTR hierarchy scoped text for Client Text field of status bar. This text is displayed
+    // while the given hierarchy is the active hierarchy. VT_EMPTY clears hierarchy scoped
+    // text and resets to global text specified by the application.
+    VSHPROPID_DebuggeeProcessId         = -2073, // process id of debuggee if known, otherwise zero
+    VSHPROPID_IsLinkFile                = -2074,
+    VSHPROPID_KeepAliveDocument         = -2075, // BOOL [optional] TRUE if the document should be kept alive in the project regardless of opened/closed state
+    VSHPROPID_SupportsProjectDesigner   = -2076, // BOOL [optional] TRUE if the project uses a Project Designer Editor instead of the property page frame to edit project properties
+    VSHPROPID_IntellisenseUnknown       = -2077, // IUnknown [optional] returns the IUnknown of the Intellisense compiler used by the project system
+    VSHPROPID_IsUpgradeRequired         = -2078, // BOOL [optional] TRUE if the item or any of its children either already in the process of upgrading or must be upgraded
+    VSHPROPID_DesignerHiddenCodeGeneration = -2079, // I4 Indicates which code is supposed to go to the hidden designer file.  Bit flag values in __VSDESIGNER_HIDDENCODEGENERATION
+    VSHPROPID_SuppressOutOfDateMessageOnBuild = -2080, // BOOL [optional] TRUE if the project does not want to participate in the "this configuration is out of date" message on Build/F5
+    VSHPROPID_Container                 = -2081, // BOOL [optional] TRUE if the item is a container (it may not be expandable, but it contains items).
+    // support this property if your folder is not expandable but contains items that should be include in SCC operations.
+    VSHPROPID_UseInnerHierarchyIconList = -2082, // BOOL [optional] set this to TRUE in the outer hierarchy if you want the icon for an inner (nested) hierarchy root to come from the inner hierarchy image list.
+                                                 // by default we're getting that icon from the outer hierarchy image list.
+    VSHPROPID_EnableDataSourceWindow   = -2083, // BOOL [optional] set this to TRUE in your hierarchy to disable the Data Source Window for this project.
+    VSHPROPID_AppTitleBarTopHierarchyName  = -2084, // BSTR [optional] Gives the hierarchy a chance to put its topmost name (solution or server) into the titlebar of the app. ie Foo part of "Foo - Microsoft Visual Studio"
+    VSHPROPID_DebuggerSourcePaths          = -2085, // BSTR [optional] semi-colon delimited list of paths for the debugger to look for source in
+    VSHPROPID_CategoryGuid            = -2086, // GUID to identify the family/category of this non-Solution based Hierarchy (e.g. Portfolio Project Hierarchy)
+    VSHPROPID_DisableApplicationSettings = -2087, // BOOL [optional] set this to TRUE in your hierarchy to disable Application Settings design time support in your project.
+    VSHPROPID_ProjectDesignerEditor        = -2088, // GUID [optional] GUID of the Project Designer Editor that the project uses to edit project properties
+                                                    // (VSHPROPID_SupportsProjectDesigner should return VARIANT_TRUE if a ProjectDesignerEditor GUID is returned)
+                                                    // This GUID should correspond to an IVsEditorFactory that launches an editor for the Project Properties.
+                                                    // A Project Designer is an editor for Project properties that is launched as a document associated with the
+                                                    // root of the project. (see IVsSpecifyProjectDesignerPages below for more info)
+    VSHPROPID_PriorityPropertyPagesCLSIDList = -2089, // BSTR [optional] semi-colon delimited ordered list of clsids of the prefered property pages.
+                                                    // A Project Designer that shows config independent and config dependent property pages in a
+                                                    // flat list should use this order as the prefered order for the pages. A project that uses
+                                                    // the standard property page frame can ignore this property because the property page frame
+                                                    // does not mix the two type of pages in a flat list.
+    VSHPROPID_NoDefaultNestedHierSorting  = -2090,  // BOOL [optional] TRUE if the hierarchy DOES NOT want nested hierarchies sorted first and items after, and sorted alphabetically (like solution folders)
+    VSHPROPID_ExcludeFromExportItemTemplate = -2091,  // BOOL [optional, default is FALSE] TRUE if the project item can not be exported via export item template
+    VSHPROPID_SupportedMyApplicationTypes = -2092,  // BSTR [optional] semi-colon delimited list of application-types supported for project-systems that
+                                                    // support My.Application. The property-page that exposes information about My.Application can use this
+                                                    // list to determine which values appear in the application-type dropdown as selectable choices for the user.
+                                                    // The current list of supported values for VB's implementation is:
+                                                    //
+                                                    // WindowsApp       - a WinExe with support for Windows application concepts such as My.Forms
+                                                    // WindowsClassLib  - a Dll with support for Windows application concepts such as My.Forms
+                                                    // CommandLineApp   - a command-line Exe
+                                                    // WindowsService   - an Exe that can be run as a Windows Service
+                                                    // WebControl       - a Dll with support for Web application concepts
+                                                    //
+                                                    // An example value that supports all types is "WindowsApp;WindowsClassLib;CommandLineApp;WindowsService;WebControl"
+
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSHPROPID_FIRST2               = -2092
+
+    **********************************************defined in vsshell90.idl
+
+
+    VSHPROPID_TargetFrameworkVersion    = -2093, // UI4   For Target Framework version .  Hi word is major version, Lo word is minor version.
+    VSHPROPID_WebReferenceSupported     = -2094,   // VT_BOOL [optional] - the project support for web references.
+    VSHPROPID_ServiceReferenceSupported = -2095,   // VT_BOOL [optional] - the project support for service references.
+
+    VSHPROPID_SupportsHierarchicalUpdate    = -2096, // BOOL [optional] -  set this to TRUE in your project hierarchy to enable Hierarchical Update for this project.
+                             // Setting to TRUE generates typed datasets with a TableAdapterManager and associated methods for enabling hierarchical update.
+    VSHPROPID_SupportsNTierDesigner = -2097, // BOOL [optional] - set this to TRUE in your project hierarchy to enable the N-Tier designer for this project.
+                         // Setting to TRUE creates datasets with the Dataset Project property for generating Datasets and TableAdapters into separate projects.
+    VSHPROPID_SupportsLinqOverDataSet = -2098, // BOOL [optional]- set this to TRUE in your project hierarchy to enable LINQ to DataSet for this project.
+                           // Setting to TRUE generates typed datasets with data tables that inherit from System.Data.TypedTableBase in order to enable LINQ queries.
+
+    VSHPROPID_ProductBrandName = -2099, // VT_BSTR [optional]. Replace application name with hierarchy branding in main window title
+
+    VSHPROPID_RefactorExtensions = -2100, // VT_ARRAY|VT_BSTR [optional] - only defined for VSITEMID_ROOT - array of service GUIDs which implement IVsRefactorNotify and for which
+                                          // this interface should be called for any refactoring operation in the project. Add to this property by creating registry values under
+                                          // the local registry root's Projects\<project type GUID>\FileExtensions\<file extension> key with name "RefactorNotify". Then if there is
+                                          // a file with this extension in the project, the VSHPROPID_Extensions property will contain the data from this registry value.
+
+    VSHPROPID_IsDefaultNamespaceRefactorNotify = -2101,     // VT_BOOL [optional] - set to VARIANT_TRUE if we are in the middle of a default namespace IVsRefactorNotify call; VARIANT_FALSE otherwise.
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+
+    VSHPROPID_FIRST3               = -2101
+
+    **********************************************defined in vsshell100.idl
+
+    VSHPROPID_TargetFrameworkMoniker    = -2102, //VT_BSTR  The format for the target framework moniker is '<Identifier>,Version=<ver>,Profile=<value>'
+                                                         // e.g. '.NETFramework,Version=v3.5,Profile=Client'
+    VSHPROPID_ExternalItem              = -2103, // BOOL [optional] - This item is to be considered external to the solution.
+    VSHPROPID_SupportsAspNetIntegration = -2104, // BOOL [optional] - set this to true in your project hierarchy if your web Project supports being consumed by Silverlight.
+
+    VSHPROPID_DesignTimeDependencies    = -2105, // BSTR [optional], semicolon separated list of projects required to support design time features (Intellisense, Form designers, etc.).
+                                                 //                  If this property is not implemented GetProperty(VSHPROPID_BuildDependencies) will be used instead.
+
+    VSHPROPID_BuildDependencies         = -2106, // BSTR [optional], semicolon separated list of projects required to build this project
+                                                 //                  If this property is not implemented IVsDependencyProvider::EnumDependencies() will be used.
+    VSHPROPID_BuildAction               = -2107, // BSTR [optional], retrieves the build action for an item
+    VSHPROPID_DescriptiveName           = -2108, // BSTR [optional], A more descriptive name of the item. Replace the running document table moniker in document windows tooltips or other parts of the UI.
+
+    VSHPROPID_AlwaysBuildOnDebugLaunch  = -2109, // BOOL [optional] - set this to TRUE in your project hierarchy if you want your project to always build on debug launch(F5) when
+                                                 // "Only build startup projects and dependencies on Run" Tools option is set. This will make sure your project is built even if your project is not declared
+                                                 // as a build dependency of the startup project. This property is a workaround for the fact that currently there is only support for build dependencies
+                                                 // ( IVsBuildDependency ) and not deploy dependencies in the solution build manager.
+                                                 // This property will be used rarely in circumstances where you may have a circular set of dependencies involving a combination of build
+                                                 // and deploy dependencies between multiple projects (e.g. A has a build dependency on B while B has a deploy dependency on A; if B is the
+                                                 // startup project then solution build manager would not realize it needs to build A to satisfy the required deploy dependency when the above
+                                                 // mentioned Tools option is set).
+
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSHPROPID_FIRST4 = -2109
+    **********************************************defined in vsshell110.idl
+
+    VSHPROPID_MinimumDesignTimeCompatVersion = -2110,   // BSTR [optional] - get/set the minimum design time compat version that this project is compatible with,
+                                                        // The set is mostly called by the IVsAppCompat service during the addition of a new feature in the project
+                                                        // that would break compatibility with a previous version of the application
+
+    VSHPROPID_ProvisionalViewingStatus       = -2112,   // VT_UI4 [optional] The provisional viewing status for the item (from the __VSPROVISIONALVIEWINGSTATUS enum).
+                                                        // If this property is not supported and the hierarchy implements IVsProject, the provisional viewing status is
+                                                        // determined by calling IVsUIShellOpenDocument3.GetProvisionalViewingStatusForFile with the name returned by
+                                                        // IVsProject.GetMkDocument.
+
+    VSHPROPID_SupportedOutputTypes           = -2113,   // VT_ARRAY|VT_UI4 [optional] Returns a list of supported output types (specified as values used by the OutputTypeEx
+                                                        // project property).  This allows a flavor to customize the contents of the output type dropdown in the property
+                                                        // pages.  Note that this property will be checked first by the property pages, so this property effectively
+                                                        // overrides the VSHPROPID_SupportedMyApplicationTypes property used by the VB property page.
+
+
+    VSHPROPID_TargetPlatformIdentifier       = -2114,   // BSTR [optional] Provides the Target Platform for a project type.  Examples are 'Windows', 'Windows Phone',
+                                                        // 'Windows Azure', 'XBox 360', 'Portable'.
+
+    VSHPROPID_TargetPlatformVersion          = -2115,   // BSTR [optional, required if VSHPROPID_TargetPlatformIdentifer is provided] Provides the version of the target
+                                                        // platform.  For example '8.0'.
+
+    VSHPROPID_TargetRuntime                  = -2116,   // VT_UI4 [optional] Indicates what runtime the project targets, from VSPROJTARGETRUNTIME enumeration.
+
+    VSHPROPID_AppContainer                   = -2117,   // BOOL [optional] Indicates whether the project's output requires running in an app container or not.
+
+    VSHPROPID_OutputType                     = -2118,   // VT_UI4 [optional] Indicates the output type for a project, from VSPROJOUTPUTTYPE enumeration.
+
+    VSHPROPID_ReferenceManagerUser           = -2119, // VT_UNKNOWN [optional] Returns the implementation of IVsReferenceManagerUser for a project.
+
+    VSHPROPID_ProjectUnloadStatus            = -2120,   // VT_UI4 [optional] representing the unload status (UNLOADSTATUS_UnloadedByUser, UNLOADSTATUS_LoadPendingIfNeeded, etc)
+                                                        // from the _VSProjectUnloadStatus enumeration. This is implemented only by the stub hierarchy.
+
+    VSHPROPID_DemandLoadDependencies         = -2121,   // VT_BOOL [optional] If TRUE, and project was loaded synchronously, all its dependencies will also be loaded
+                                                        // synchronously (the default); if FALSE, and project was loaded synchronously, those of its dependencies that
+                                                        // support asynchronous load may be loaded asynchronously.
+
+    VSHPROPID_IsFaulted                      = -2122,   // VT_BOOL [optional] For project hierarchies, set to TRUE to indicate that the project has encountered an error.
+                                                        // Implementations should raise property change events to all IVsHierarchyEvents sinks whenever this value changes.
+
+    VSHPROPID_FaultMessage                   = -2123,   // VT_BSTR [optional] A localized message indicating the reason for a faulted project. This string will be used
+                                                        // in the fault resolution UI.
+
+    VSHPROPID_ProjectCapabilities            = -2124,   // BSTR [optional] Provides a space-delimited list of the project's capabilities.
+
+    VSHPROPID_RequiresReloadForExternalFileChange = -2125,   // VT_BOOL [optional] Returns TRUE if the file on disk was NOT last written by the project and thus the
+                                                        // user should be prompted to reload due to an external change to the file. This property is defined for ITEMID_ROOT.
+                                                        // If is expected that this property is only called during a FilesChanged event handler. The expected implementation
+                                                        // is for projects to record the timestamp on the project file when the file is saved. Later when this
+                                                        // property is requested, the project should compare the current timestamp of the file to the last recored
+                                                        // save timestamp. If they are not equal then return TRUE, else return FALSE (i.e. reload is not required).
+
+    VSHPROPID_ForceFrameworkRetarget         = -2126,   // VT_BSTR [optional] When set, indicates the target framework moniker that the project system should retarget
+                                                        // to upon first opportunity.  Project is responsible for ensuring the applicability of the framework that is returned.
+
+    VSHPROPID_IsProjectProvisioned           = -2127,   // VT_BOOL [optional] returns TRUE is an unloaded project is in provisioned state (i.e. displayed with "(initializing)" caption).
+                                                        // This is implemented only by the stub hierarchy.
+                                                        // This property is used when a project that supports Asynchronous Solution Load is loaded in the background. 
+                                                        // While such projects are loading they are exposed in the Solution as unloaded project stub. When the background loading
+                                                        // project reaches the "provisioned" state, the real project has been created but has not been publicized via the 
+                                                        // solution load events. Therefore the project IVsHierarchy exposed in the Solution project collection (and Solution Explorer)
+                                                        // is still the stub hierarchy and not the real project hierarchy. Only basic hierarchy properties are available 
+                                                        // such as the project name and icon. When the loading project reaches the provisioned state the 
+                                                        // IVsAsynchronousProjectCreateUI::OnAfterProjectProvisioned event is fired.
+
+    VSHPROPID_SupportsCrossRuntimeReferences = -2128,   // VT_BOOL [optional] Indicates whether a project allows references across runtimes (e.g., native to managed).  The
+                                                        // default is TRUE, so a project must have the property AND set it to FALSE in order to block cross-runtime references.
+
+    VSHPROPID_WinMDAssembly                  = -2129,   // VT_BOOL [optional] Indicates whether the project produces an assembly (.exe or .dll) with WinMD metadata.
+
+    VSHPROPID_MonikerSameAsPersistFile       = -2130,   // Indicates that IVsProject::GetMkDocument for VSITEMID_ROOT returns the same full path to the project file as 
+                                                        // IPersistFileFormat::GetCurFile.  This is useful when it is more expensive to call GetCurFile due to the need 
+                                                        // to get the on-disk format.
+                                                        
+    VSHPROPID_IsPackagingProject             = -2131,   // BOOL [optional] Indicates whether the project;s output is a package of its content (i.e. a zip file).
+
+    VSHPROPID_ProjectPropertiesDebugPageArg  = -2132,   // BSTR or VT_I4 [optional] vaIn argument to be passed to cmdidProjectProperties command to activate the Project's
+                                                        // Debug page. This property is used by the VSConstants.VSStd11CmdID.StartupProjectProperties command to activate
+                                                        // the correct "Debug" property page for the Startup Project.
+                                                        // Projects that use the ProjectDesignerEditor should pass the CLSID of their Debug property page
+                                                        // as a string, e.g. C# would pass "{6185191F-1008-4FB2-A715-3A4E4F27E610}". 
+                                                        // Projects that use the Property Page Frame may pass the CLSID of their "Debug" property page as a string or they 
+                                                        // may pass as a VT_I4 the DISPID of a property on their Debug page that they want to give focus (as long as they 
+                                                        // implement IPerPropertyBrowsing::MapPropertyToPage to associate this property with the CLSID of their "Debug" page).
+
+   // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+   // when this is extended in the next version idl, uses of it must be changed to the new value
+   VSHPROPID_FIRST5 = -2132
+    **********************************************/
+    VSHPROPID_ConnectedServicesPersistence = -2133,      // VT_UNKNOWN [optional] Returns the implementation of IVsPersistConnectedServices for a project.
+    VSHPROPID_ProjectRetargeting = -2134,                // VT_UNKNOWN [optional] Returns the implementation of IVsRetargetProject for a project.
+    VSHPROPID_ShowAllProjectFilesInProjectView = -2135,  // VT_BOOL [optional] Indicates all the project files should be visible in solution explorer by default.
+                                                         // This property is added to give VB flavored project systems the power to change the default visibility of special files in solution explorer.
+                                                         // For example, by default all the dependent files in VB projects won’t be shown in solution explorer, and flavors could return “true” for
+                                                         // this property to show those files.
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSHPROPID_FIRST6 = -2135
+};
+typedef [public] DWORD VSHPROPID6;
+
+
+
+//----------------------------------------------------------------------------
+// VSTASKCONTINUATIONOPTIONS2 enum
+//
+// This needs to be kept in sync with System.Threading.Task.TaskContinuation options
+//----------------------------------------------------------------------------
+enum __VSTASKCONTINUATIONOPTIONS2
+{
+    /* Defined in vsshell110.idl in __VSTASKCONTINUATIONOPTIONS enumeration
+    VSTCO_None = 0,
+    VSTCO_PreferFairness = 1,
+    VSTCO_LongRunning = 2,
+    VSTCO_AttachedToParent = 4,
+    VSTCO_DenyChildAttach = 8,
+    VSTCO_LazyCancelation = 32,
+    VSTCO_NotOnRanToCompletion = 0x10000,
+    VSTCO_NotOnFaulted = 0x20000,
+    VSTCO_OnlyOnCanceled = 0x30000,
+    VSTCO_NotOnCanceled = 0x40000,
+    VSTCO_OnlyOnFaulted = 0x50000,
+    VSTCO_OnlyOnRanToCompletion = 0x60000,
+    VSTCO_ExecuteSynchronously = 0x80000,
+    VSTCO_IndependentlyCanceled = 0x40000000,
+    VSTCO_NotCancelable = 0x80000000,
+    VSTCO_Default = VSTCO_NotOnFaulted
+    */
+
+    VSTCO_CancelWithParent = 0x20000000
+};
+
+typedef DWORD VSTASKCONTINUATIONOPTIONS2;
+
+//----------------------------------------------------------------------------
+// VSTASKCREATIONOPTIONS2 enum
+//
+// This needs to be kept in sync with System.Threading.Task.TaskCreationOptions options
+//----------------------------------------------------------------------------
+enum __VSTASKCREATIONOPTIONS2
+{
+    /* Defined in vsshell110.idl in __VSTASKCREATIONOPTIONS enumeration
+    VSTCRO_None = VSTCO_None,
+    VSTCRO_PreferFairness = VSTCO_PreferFairness,
+    VSTCRO_LongRunning = VSTCO_LongRunning,
+    VSTCRO_AttachedToParent = VSTCO_AttachedToParent,
+    VSTCRO_DenyChildAttach = VSTCO_DenyChildAttach,
+    VSTCRO_NotCancelable = VSTCO_NotCancelable
+    */
+
+    VSTCRO_CancelWithParent = VSTCO_CancelWithParent
+};
+
+typedef DWORD VSTASKCREATIONOPTIONS2;
+
+
+// enum __VSDBGLAUNCHFLAGS120 ADDED IN DEV12
+// NOTE: USE OF THIS ENUM REQUIRES DEV12 OR ABOVE TO BE INSTALLED
+enum __VSDBGLAUNCHFLAGS120
+{
+    /********************************************** defined in vsshell.idl
+    DBGLAUNCH_Silent                = 0x00000001,
+    DBGLAUNCH_LocalDeploy           = 0x00000002, // passed to IVsDebuggableProjectCfg::Launch to allow optimizations
+    DBGLAUNCH_NoDebug               = 0x00000004, // launch without attaching a debugger
+    DBGLAUNCH_DetachOnStop          = 0x00000008, // detach instead of terminate when debugging stopped.
+    DBGLAUNCH_Selected              = 0x00000010, // launch selected project instead of startup project
+    DBGLAUNCH_StopDebuggingOnEnd    = 0x00000020, // when this process ends, debugging is stopped.
+    DBGLAUNCH_WaitForAttachComplete = 0x00000040, // when DLO_LaunchByWebServer, wait for the attach to finish before continuing to launch other targets
+    **********************************************  defined in vsshell80.idl*/
+    /*
+    DBGLAUNCH_MergeEnv              = 0x00000080, // provided environment should be merged with system environment
+    DBGLAUNCH_DesignTimeExprEval    = 0x00000100, // launched for design-time expression evaluation
+    DBGLAUNCH_StopAtEntryPoint      = 0x00000200, // Stop at the entrypoint (step-into)
+    DBGLAUNCH_CannotDebugAlone      = 0x00000400, // this process cannot be debugged alone -- stop debugging when only processes with this flag remain
+    **********************************************/
+    /********************************************** defined in vsshell90.idl
+    DBGLAUNCH_WaitForEvent          = 0x00000800  // Debugger should wait for a named event to become signaled after launching the first debug target and before launching more targets
+    **********************************************/
+    /********************************************** defined in vsshell90.idl (SP1)
+    DBGLAUNCH_UseDefaultBrowser     = 0x00001000  // Debugger should use the Default Web Browser; this flag used in conjunction with DLO_LaunchBrowser.
+                                                  // The default browser is obtained via IVsUIShellOpenDocument:: GetFirstDefaultPreviewer().
+                                                  // The bstrEXE in VsDebugTargetInfo2 points to the URL to be launched. Web Site projects will use
+                                                  // this for Silverlight projects. This allows, for example, Firefox to be used which is single
+                                                  // instance and so has to be handled differently on launch. Other project systems (e.g. C++) that
+                                                  // currently use DLO_LaunchBrowser will continue to use that and IE will get launched as before.
+    **********************************************/
+    /********************************************* defined in vsshell100.idl (dev10)
+    DBGLAUNCH_PrepForDebug          = 0x00002000, // We will eventually debug this process, so allow the debugger to perform additional setup
+    DBGLAUNCH_TerminateOnStop       = 0x00004000, // Terminate the debuggee when debugging is stopped. It is an error to specify both this and DBGLAUNCH_DetachOnStop
+    DBGLAUNCH_BreakOneProcess       = 0x00008000  // Disable 'Break all processes when one process breaks' debugger option for the debugging session; this option is ignoring if debugging has already started.
+    
+    DBGLAUNCH_BlockCredentialsDialog= 0x00010000, // Blocks the creditials dialog from being shown on authentication errors
+    DBGLAUNCH_BlockWWSDialog        = 0x00020000, // Blocks the WWS install dialog from being shown
+    DBGLAUNCH_StartInSimulator      = 0x00040000  // For DLO_AppPackageDebug, debugger should launch the application (or expect the application to start) in the simulator
+    ********************************************** defined in vsshell110.idl (dev11)
+    **********************************************/
+
+    DBGLAUNCH_ALLOW_EVENTS_AFTER_STOPPED = 0x00080000  // Allows stopping events in break-mode
+};
+typedef DWORD VSDBGLAUNCHFLAGS120;
+
+[
+    uuid(21861181-88B1-410A-BCA8-441FB3F3F1FC),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsPackageLoadEvents : IUnknown
+{
+    HRESULT OnPackageLoaded([in] REFGUID packageGuid, [in] IVsPackage* package);
+}
+
+[
+    uuid(D111DB4B-584E-4F93-BCEC-5F7E0990E9E7),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsShell6 : IVsShell5
+{
+    HRESULT AdvisePackageLoadEvents([in] IVsPackageLoadEvents* eventSink, [out, retval] VSCOOKIE* pCookie);
+    HRESULT UnadvisePackageLoadEvents([in] VSCOOKIE cookie);
+
+    // Allows extenders to notify the Shell that settings have changed.
+    HRESULT NotifyExtensionSettingsChanged();
+}
+
+//----------------------------------------------------------------------------
+// IVsFileBackup2 interface
+//
+// IVsFileBackup2 should be supported by doc data interested in being
+// backed up.  Visual Studio File Recovery backs up all objects in the Running 
+// Document Table that support IVsFileBackup2 and have unsaved changes. Implement
+// this interface rather than IVsFileBackup if your component supports asynchronous
+// backups that do not run on the UI thread.
+//----------------------------------------------------------------------------
+
+[uuid (4FFA05A4-6C77-4952-AB60-B33E0A6416C5)]
+interface IVsFileBackup2 : IUnknown
+{
+    //----------------------------------------------------------------------------
+    // BackupFileAsync() asynchronously persists the object to a single file.  It must not
+    // perform I/O on the UI thread, it must not prevent further change to the object
+    // while it is running, and it must persist the state the object had at the time it
+    // was called. It must not modify any internal state, but should record the fact that
+    // the current version has been backed up.
+    // BackupFileAsync() must return either E_STG_S_DATALOSS or STG_E_INVALIDCODEPAGE
+    // if it cannot persist to a file without data loss. BackupFileAsync() may return 
+    // E_UNEXPECTED if it is called while a previous backup of the object
+    // is still in progress.
+    //----------------------------------------------------------------------------
+    HRESULT BackupFileAsync([in] LPCOLESTR szBackupFileName, [out, retval] IVsTask** ppTask);
+
+    //----------------------------------------------------------------------------
+    // IVsFileBackup2 needs to keep track of whether a backup is required for any
+    // particular version of its doc data, to avoid extra backups for cases where the 
+    // doc data is dirty, but the backup matches the current version of the object.
+    // HasChangedSinceLastBackup() returns true if the current version is dirty and it
+    // has not been backed up.
+    //----------------------------------------------------------------------------
+    HRESULT HasChangedSinceLastBackup([out, retval] VARIANT_BOOL* pbObsolete);
+};
+
+enum __XMLMEMBERDATA_DEPRECATION_TYPE
+{
+    XMLMEMBERDATA_DEPRECATION_TYPE_DEPRECATE    = 0x0000,   // <deprecated type="deprecate">
+    XMLMEMBERDATA_DEPRECATION_TYPE_REMOVE       = 0x0001    // <deprecated type="remove">
+};
+
+typedef DWORD XMLMEMBERDATA_DEPRECATION_TYPE;
+
+//---------------------------------------------------------------------------
+// IVsXMLMemberDataDeprecation
+//---------------------------------------------------------------------------
+// Represents deprecation information in xml documentation
+[
+    uuid(AF87BDDD-FB89-4787-9809-1749FD500ABC),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsXMLMemberDataDeprecation : IUnknown
+{
+    [propget] HRESULT Type([out, retval] XMLMEMBERDATA_DEPRECATION_TYPE* pType);
+    [propget] HRESULT Description([out, retval] BSTR* pbstrDescription);
+}
+
+//---------------------------------------------------------------------------
+// IVsXMLMemberData5
+//---------------------------------------------------------------------------
+// Extracts information out of xml documentation
+[
+    uuid(ABF5E2FB-3F36-4B99-B384-BDF85D598C6C),
+    version(1.0),
+    pointer_default(unique)
+]
+// Methods inherited from the base interface should be PreserveSig
+[custom(uuid_VsPreserveSigAttribute, "preservesig")]
+interface IVsXMLMemberData5 : IVsXMLMemberData4
+{
+    // Get the deperecation data from the xml documentation (<deprecated> tag).
+    // If the tag doesn't exist, the function returns S_FALSE.
+    // New methods don't need to be PreserveSig.
+    [custom(uuid_VsPreserveSigAttribute, "nopreservesig")]
+    HRESULT GetDeprecation([out, retval] IVsXMLMemberDataDeprecation** ppDeprecation);
+};
+
+
+interface IVsPersistConnectedServices;
+
+//---------------------------------------------------------------------------
+// IVsConnectedServiceProperties
+//---------------------------------------------------------------------------
+[
+    uuid(6ED0B110-2132-4675-9F87-7715B312CCC2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsConnectedServiceProperties : IUnknown
+{
+    [propget] HRESULT ServiceIdentity([out, retval] BSTR *pszIdentity);
+    [propget] HRESULT Collection([out, retval] IVsPersistConnectedServices **ppCollection);
+
+    HRESULT GetProperty([in] LPCOLESTR szPropertyName, [out, retval] BSTR *pszValue);
+    HRESULT SetProperty([in] LPCOLESTR szPropertyName, [in] LPCOLESTR szValue);
+}
+
+
+//---------------------------------------------------------------------------
+// IVsPersistConnectedServices
+//---------------------------------------------------------------------------
+// Implemented by project system that support's ConnectedServices property persistance.
+// Use IVsHierarchy.GetProperty(VSHPROPID_ConnectedServicesPersistence, ...) to get IVsPersistConnectedServices from the project.
+[
+    uuid(9C68F455-FF06-43D0-8473-195EFAFCB833),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsPersistConnectedServices : IUnknown
+{
+    [propget] HRESULT Project([out, retval] IVsHierarchy **ppProject);
+    [propget] HRESULT Count([out, retval] DWORD  *pdwCount);
+
+    HRESULT GetConnectedServices([in] DWORD dwMaxReferences, [out, size_is(dwMaxReferences), length_is(*pdwConnectedServicesReturned)] IVsConnectedServiceProperties *rgpServices[], [out, retval] DWORD *pdwConnectedServicesReturned);
+    // If there is no "szServiceIdentity" connected service in the project GetConnectedService will return SUCCESS and will set ppConnectedService to NULL
+    HRESULT GetConnectedService([in] LPCOLESTR szServiceIdentity, [out, retval] IVsConnectedServiceProperties **ppConnectedService);
+
+    HRESULT Add([in] LPCOLESTR szServiceIdentity, [in] DWORD dwCountMetadata, [in, size_is(dwCountMetadata)] LPCOLESTR szProperties[], [in, size_is(dwCountMetadata)] LPCOLESTR szValues[], [out, retval] IVsConnectedServiceProperties **ppAdded);
+    HRESULT Remove([in] LPCOLESTR szServiceIdentity);
+}
+
+[
+    odl,
+    uuid(uuid_IVsConnectedServiceInstanceReference),
+    version(1.0),
+    oleautomation,
+]
+interface IVsConnectedServiceInstanceReference : IVsReference {
+    [propget] HRESULT ProviderIdentity([out, retval] BSTR* pRetVal);
+    [propput] HRESULT ProviderIdentity([in] LPCOLESTR pRetVal);
+    [propget] HRESULT InstanceIdentity([out, retval] BSTR* pRetVal);
+    [propput] HRESULT InstanceIdentity([in] LPCOLESTR pRetVal);
+}
+
+cpp_quote("DEFINE_GUID(GUID_ConnectedServiceInstanceReferenceProvider, 0xC18E5D73, 0xE6D1, 0x43AA, 0xAC, 0x5E, 0x58, 0xD8, 0x2E, 0x44, 0xDA, 0x9C);")
+
+[
+    odl,
+    uuid(uuid_IVsConnectedServiceInstanceReferenceProviderContext),
+    version(1.0),
+    oleautomation,
+]
+interface IVsConnectedServiceInstanceReferenceProviderContext : IVsReferenceProviderContext {
+    // This is the project capabilities, which indicates what kind of project it is for "applies to" matching.
+    [propget] HRESULT ProjectCapabilities([out, retval] BSTR* pbstrProjectCapabilities);
+    [propput] HRESULT ProjectCapabilities([in] LPCOLESTR strProjectCapabilities);
+    // This is the target platform identifier, which indicates where to find SDK references.
+    [propget] HRESULT TargetPlatformIdentifier([out, retval] BSTR* pbstrTargetPlatformIdentifier);
+    [propput] HRESULT TargetPlatformIdentifier([in] LPCOLESTR strTargetPlatformIdentifier);
+    // This is the target platform version, used to indicate to the user where the references come from
+    [propget] HRESULT TargetPlatformVersion([out, retval] BSTR* pbstrTargetPlaformVersion);
+    [propput] HRESULT TargetPlatformVersion([in] LPCOLESTR strTargetPlaformVersion);
+    [propget] HRESULT TargetFrameworkMoniker([out, retval] BSTR* pbstrTargetPlatformMoniker);
+    [propput] HRESULT TargetFrameworkMoniker([in] LPCOLESTR strTargetPlatformMoniker);
+    // The support Visual Studio Version (e.g. 11.0). SDKs with higher VisualStudio version will be filtered out.
+    [propget] HRESULT VisualStudioVersion([out, retval] BSTR* pbstrVisualStudioVersion);
+    [propput] HRESULT VisualStudioVersion([in] LPCOLESTR strVisualStudioVersion);
+};
+
+//----------------------------------------------------------------------------
+// Well-known color themes names
+//----------------------------------------------------------------------------
+cpp_quote("extern const __declspec(selectany) GUID GUID_BlueColorTheme             = { 0xa4d6a176, 0xb948, 0x4b29, { 0x8c, 0x66, 0x53, 0xc9, 0x7a, 0x1e, 0xd7, 0xd0} };") // {a4d6a176-b948-4b29-8c66-53c97a1ed7d0}
+cpp_quote("extern const __declspec(selectany) GUID GUID_HighContrastColorTheme     = { 0xA5C004B4, 0x2D4B, 0x494E, { 0xBF, 0x01, 0x45, 0xFC, 0x49, 0x25, 0x22, 0xC7} };") // {A5C004B4-2D4B-494E-BF01-45FC492522C7}
+cpp_quote("extern const __declspec(selectany) GUID GUID_DebugColorTheme            = { 0x72F0B33F, 0xF6D5, 0x47E0, { 0xB8, 0x1C, 0x0E, 0xD3, 0x6B, 0xF9, 0xD6, 0xC7} };") // {72F0B33F-F6D5-47E0-B81C-0ED36BF9D6C7}
+
+enum __VSArrangeWindowFlags
+{
+    AWF_Left   = 0x0001,            // change the x-coordinate of the window
+    AWF_Top    = 0x0002,            // change the y-coordinate of the window
+    AWF_Width  = 0x0004,            // change the width of the window
+    AWF_Height = 0x0008,            // change the height of the window
+};
+typedef DWORD VSArrangeWindowFlags;
+
+
+typedef struct __VSArrangeWindowInfo
+{
+    HWND                    hwnd;   // window to arranged (typically a dialog control)
+    VSArrangeWindowFlags    flags;  // flags describing how the window is to be arranged
+} VSArrangeWindowInfo;
+
+
+cpp_quote("#ifndef WINUSERAPI       // If not already defined by winuser.h...")
+typedef struct tagWINDOWPOS {
+    HWND    hwnd;
+    HWND    hwndInsertAfter;
+    int     x;
+    int     y;
+    int     cx;
+    int     cy;
+    UINT    flags;
+} WINDOWPOS;
+cpp_quote("#endif  // WINUSERAPI")
+
+//----------------------------------------------------------------------------
+// IVsUIShellArrangeWindows
+//
+// This is implemented by the SVsUIShell service.
+//----------------------------------------------------------------------------
+[uuid (54457dad-5384-41b5-b6aa-efffde468cdc)]
+interface IVsUIShellArrangeWindows : IUnknown
+{
+    // Computes the difference between a window's current size and the new size
+    // described in newPos.  This function is typically called when WM_WINDOWPOSCHANGING
+    // is received, in preparation for calling CArrangeWindowHelper::Arrange.
+    HRESULT ComputeWindowSizeChange (
+        [in] HWND       hwnd,       // the window to check (typically a dialog)
+        [in] WINDOWPOS* newPos,     // WINDOWPOS structure describing hwnd's new size
+        [out, retval] SIZE* size);  // the size change
+
+    // Applies a size change to the windows described in the infos[] array.  
+    // The size parameter is commonly returned from ComputeWindowSizeChange.
+    HRESULT Arrange (
+        [in, size_is(count)] VSArrangeWindowInfo infos[],
+        [in] int count,
+        [in] SIZE size);
+};
+
+enum __VSNEWDOCUMENTSTATE2
+{
+    /********************************************** defined in vsshell110.idl
+    NDS_Unspecified     = 0x00000000,
+    NDS_Provisional     = 0x00000001,       // open in preview window
+    NDS_Permanent       = 0x00000002,       // open in permanent window
+    NDS_StateMask       = 0x000000FF,       // mask for the provisional/permanent state values
+    NDS_OnlyFastViews   = 0x40000000,       // editor views marked with PVA_OpensSlowly in the registry cannot be previewed
+    NDS_NoActivate      = 0x80000000,       // don't activate after opening
+    **********************************************/
+
+    NDS_Reserved        = 0x0000FF00,       // reserved
+    NDS_TryProvisional  = 0x20000001,       // open in preview window if the editor supports preview, otherwise open in a permanent window
+                                            // this value must be used alone; it cannot be combined with other flags
+};
+
+// Navigations keys that are passed in to IVsWindowSearch after the search is started. The window may use them to navigate between the found results.
+enum __VSSEARCHNAVIGATIONKEY2
+{
+    /********************************************** defined in vsshell110.idl
+    SNK_ENTER       = 0x00000000,
+    SNK_DOWN        = 0x00000001,
+    SNK_UP          = 0x00000002,
+    SNK_PAGEDOWN    = 0x00000003,
+    SNK_PAGEUP      = 0x00000004,
+    SNK_HOME        = 0x00000005,
+    SNK_END         = 0x00000006
+    **********************************************/
+    SNK_ESCAPE      = 0x00000007
+};
+
+enum __VSIDOFLAGS2
+{
+    /********************************************** defined in vsshell.idl
+    IDO_ActivateIfOpen             = 0x00000001,    // Prompt if owned by different pHier
+    IDO_IgnoreLogicalView          = 0x00000002,
+    **********************************************/
+
+    // By default, IVsUIShellOpenDocument.IsDocumentOpen and IVsUIShellOpenDocument.IsSpecificDocumentViewOpen
+    // do not consider uninitialized frames in their searches.  Using IDO_IncludeUninitializedFrames with
+    // either of these methods will cause them to also consider uninitialized frames in their searches.  If
+    // the matched frame is uninitialized, the frame will be returned but the hierarchy/itemid will not be,
+    // since this would cause the unconditional initialization of the frame and its underlying document.
+    //
+    // If an uninitialized frame is returned, the caller can force the frame to be initialized by querying
+    // the document cookie from the frame (VSFPROPID_DocCookie), and then requesting the hierarchy/itemid or
+    // docdata from the RDT via one of IVsRunningDocumentTable.GetDocumentInfo, 
+    // IVsRunningDocumentTable4.GetDocumentHierarchyItem, or IVsRunningDocumentTable4.GetDocumentData.
+    IDO_IncludeUninitializedFrames = 0x00000004,
+};
+
+enum __VSFPROPID6
+{
+    /********************************************** defined in vsshell.idl
+    VSFPROPID_NIL                  = -1,
+
+    VSFPROPID_LAST                 = -3000,
+    // The following properties are for all frame   windows
+    VSFPROPID_Type                 = -3000,  // I4 -> 1 == Document Frame, 2 == Tool Frame
+    VSFPROPID_DocView              = -3001,  // UNK object filling client area of window
+    VSFPROPID_SPFrame              = -3002,  // UNK IServiceProvider which is site object for DocView object
+    VSFPROPID_SPProjContext        = -3003,  // UNK IServiceProvider provided by the owning IVsHierarchy
+    //     This can be QS'ed for project context services
+    VSFPROPID_Caption              = -3004,  // BSTR -> full window caption
+    //VSFPROPID_                   = -3005,  // obsolete
+    //VSFPROPID_                   = -3006,  // obsolete
+    VSFPROPID_WindowState          = -3007,  // I4 -> see VSWINDOWSTATE above
+    VSFPROPID_FrameMode            = -3008,  // I4 -> see VSFRAMEMODE above
+    VSFPROPID_IsWindowTabbed       = -3009,  // I2 returns 0 if window not tabbed,
+    //            1 if window is Tabbed and is Active Tab
+    //            2 if window is Tabbed and is Not Active tab
+    //    Document windows always return 0
+    //Note: VSFPROPID_UserContext   should now be used by all toolwindows to push context
+    VSFPROPID_UserContext          = -3010,  // UNK IVsUserContext
+    VSFPROPID_ViewHelper           = -3011,  // UNK Helper object can override add/override interfaces
+    //     normally implemented on the DocView object
+    //     ViewHelper can implement following interfaces:
+    //         IVsWindowFrameNotify
+    //         IOleCommandTarget
+    //         IVsToolboxUser
+    //         IVsDocOutlineProvider
+    //         IDocHostUIHandler
+    //         IVsBackForwardNavigation
+    //         IVsWindowView
+    //         IVsStatusbarUser
+    VSFPROPID_ShortCaption         = -3012,  // BSTR -> partial window caption (ie Foo.Txt)
+
+    //Note: to use the default windowhelp   implementation, leave these properties unset
+    //    you should only be using these properties if you are not pushing usercontext
+    //    (e.g. you are a help window and don't want to blank out other user context)
+    VSFPROPID_WindowHelpKeyword    = -3013,  // BSTR -> keyword to be used for cmdidWindowHelp
+    VSFPROPID_WindowHelpCmdText    = -3014,  // BSTR -> command text for cmdidWindowHelp (e.g. Help on: Help Index)
+
+    // The following properties are for all document frames
+    VSFPROPID_DocCookie            = -4000,  // VT_INT_PTR -> IVsRunningDocumentTable (RDT) key
+    VSFPROPID_OwnerCaption         = -4001,  // BSTR portion of caption defined by owner IVsHierarchy
+    VSFPROPID_EditorCaption        = -4002,  // BSTR portion of caption defined by editor implementation
+    VSFPROPID_pszMkDocument        = -4003,  // BSTR pszMkDocument passed to CreateDocumentWindow
+    VSFPROPID_DocData              = -4004,  // UNK returns the AltDocData if available else the RDTDocData
+    VSFPROPID_Hierarchy            = -4005,  // UNK owning IVsHierarchy
+    VSFPROPID_ItemID               = -4006,  // I4  VSITEMID of document
+    VSFPROPID_CmdUIGuid            = -4007,  // GUID used to control visibility of toolbars and AutoVisible tool windows
+    VSFPROPID_CreateDocWinFlags    = -4008,  // I4 VSCREATEDOCWIN flags passed to CreateDocumentWindow
+    VSFPROPID_guidEditorType       = -4009,  // GUID guidEditorType uniquely identify which IVsEditorFactory created the document.
+    VSFPROPID_pszPhysicalView      = -4010,  // BSTR identifies the type of window created by the IVsEditorFactory (e.g. "Form")
+    VSFPROPID_InheritKeyBindings   = -4011,  // GUID most often used by an window to inherit the key bindings of the TextEditor
+    //      e.g.: pFrame->SetGuidProperty(VSFPROPID_InheritKeyBindings, CMDUIGUID_TextEditor)
+    VSFPROPID_RDTDocData           = -4012,  // UNK  the DocData registered in the RDT for the document in this frame
+    VSFPROPID_AltDocData           = -4013,  // UNK  if this window is only editing a piece of a larger document
+    //      then AltDocData is the DocData object for the piece of the document
+    //      that is being edited within the window where as the RDTDocData
+    //      is the DocData object for the entire document registered in the RDT.
+    //      AltDocData objects are not registered in the RDT. Document Windows
+    //      that have AltDocData objects are created using CDW_fAltDocData flag.
+
+    // The following properties are for all tool frames
+    VSFPROPID_GuidPersistenceSlot  = -5000,  // GUID that uniquely identifies a tool window type.
+    VSFPROPID_GuidAutoActivate     = -5001,  // GUID OBSOLETE. Do NOT use.
+    VSFPROPID_CreateToolWinFlags   = -5002,  // I4 VSCREATETOOLWIN flags passed to CreateToolWindow
+
+    // the followin properties are for extensibility
+    VSFPROPID_ExtWindowObject      = -5003,  // UNK returns the Environment's "Window" automation IDispatch object
+
+    // The following properties are for all tool frames
+    VSFPROPID_MultiInstanceToolNum = -5004,  // I4 ID of a multi-instance tool window
+    VSFPROPID_BitmapResource       = -5006,  // I4 Resource number of bitmap in satellite dll
+    VSFPROPID_BitmapIndex          = -5007,  // I4 index into strip if bitmap handle is a strip
+
+    // UNK IVsToolbarHost   used to add toolbars to window.  Property is only valid if
+    // CTW_fToolbarHost or UIHWF_SupportToolWindowToolbars is   specfied.
+    VSFPROPID_ToolbarHost          = -5008,
+
+    VSFPROPID_HideToolwinContainer = -5009,  // I2 make the toolwindow's cntr hidden when saving data file
+
+    VSFPROPID_FIRST                = -5009,
+    **********************************************/
+
+    /********************************************** defined in vsshell80.idl
+    VSFPROPID_OverrideDirtyState   = -4014,  // BOOL/EMPTY -- tri-state value to control dirty star (*) in window caption
+    //      VT_EMPTY: default handling of dirty star
+    //      VARIANT_TRUE: override default handling to SHOW dirty star
+    //      VARIANT_FALSE: override default handling to show NO dirty star
+    VSFPROPID_OLEDocObjectDocument = -4015,  // BOOL if pane is holding OLE doc object
+    VSFPROPID_ParentHwnd           = -4016,  // HWND parent of OwnerDocked window
+    VSFPROPID_ParentFrame          = -4017,  // IVsWindowFrame of parent container for OwnerDocked window
+    VSFPROPID_ToolWindowDocCookie  = -4018,  // VT_INT_PTR -> IVsRunningDocumentTable (RDT) key for document associated with a tool window (eg. Code Definition Window)
+                                             // Setting this property enables both caption dirty indicator (*) management and the firing of OnBeforeDocWindowShow() RDT events
+                                             // for the tool window.  It is assumed that the frame caption is set correctly, without a dirty indicator (*), before this
+                                             // property is set, as setting this property will cause a caption dirty indicator (*) to be added, if the document is dirty.
+                                             // Also, when this property is set, the OnBeforeDocWindowShow() RDT event is immediately fired to indicate that a new document has
+                                             // been show.
+    **********************************************/
+
+    /********************************************** defined in vsshell90.idl
+    VSFPROPID_MDIContainerID       = -5010,  // I4 ID of the container (tab) group for the MDI window. Only valid for an MDI Window when IDE is in 'Tabbed Documents' mode. Else returns -1.
+    VSFPROPID_NotifyOnActivate     = -5011,  // BOOL Send FRAMESHOW_WinActivated notification when a window is activated.
+
+    VSFPROPID3_FIRST               = -5011,
+    **********************************************/
+
+    /********************************************** defined in vsshell100.idl
+    VSFPROPID_Icon                 = -5012,  // retrieve an actual HICON resource if the document has one
+    VSFPROPID_TabImage             = -5013,  // retrieve an HBITMAP for the image to be displayed on a tab for this frame, the caller must cache and release this object
+    VSFPROPID_Thumbnail            = -5014,  // retrieve an HBITMAP thumbnail of the contents of the frame, the caller must cache and release this object, the size will be a best fit in 200x200
+    VSFPROPID_NavigationInterface  = -5015,  // retrieve the navigation delegate for this frame
+    VSFPROPID_NextCloneID          = -5016,  // return the next instance ID available among sibling clones
+
+    VSFPROPID4_FIRST               = -5016
+    **********************************************/
+
+    /********************************************** defined in vsshell110.idl
+    VSFPROPID_SearchHost           = -5017,  // Retrieve the IVsWindowSearchHost associated with the window or creates a
+                                             // search host for a search control with shell-owned positioning within top frame area
+    VSFPROPID_IsSearchEnabled      = -5018,  // Returns whether the window supports search (a IVsWindowSearchHost was created and
+                                             // associated with the frame, the search was setup with the host and the search is enabled by the provider)
+    VSFPROPID_SearchPlacement      = -5019,  // When the frame uses a search control with shell-owned positioning within top frame area
+                                             // I4, with values from VSSEARCHPLACEMENT
+    VSFPROPID_IsProvisional        = -5020,  // BOOL/EMPTY -- tri-state value indicating whether a window is provisional
+                                             // For tool windows, this value is always VARIANT_FALSE and cannot be changed.
+                                             // For document windows, this value is initialized to EMPTY.  After the window
+                                             // is created but before it is shown, this value can be set to VARIANT_TRUE
+                                             // to create a provisional window.  If this value is EMPTY when the window is
+                                             // shown, it will be set to VARIANT_FALSE to indicate a non-provisional window.
+
+                                             // Any transitions from EMPTY are valid, as well as VARIANT_TRUE->VARIANT_FALSE.
+                                             // Any transitions to EMPTY are invalid, as well as VARIANT_FALSE->VARIANT_TRUE,
+                                             // but attempts to make invalid transitions will not result in an error.
+
+    VSFPROPID_IsPinned             = -5021,  // BOOL indicates whether a window is pinned
+
+    VSFPROPID_DontAutoOpen         = -5022,  // BOOL indicates whether a window should be reopened when a solution is opened (default false)
+
+    VSFPROPID_OverrideCaption      = -5023,  // Override the generated caption for this frame.  A null value will restore the default behavior.
+    VSFPROPID_OverrideToolTip      = -5024,  // Override the generated tooltip for this frame.  A null value will restore the default behavior.
+
+    VSFPROPID_ReplaceDocumentToolbars = -5025, // BOOL This property is used only for tool windows.  A value of true indicates
+                                             // that when the tool window is active, any toolbars that are specific to the
+                                             // currently active document should be hidden.  The default is false.
+                                             // This property only has an effect when the tool window also supplies a CmdUI GUID
+                                             // via the VSFPROPID_CmdUIGuid property.
+
+    VSFPROPID_NativeScrollbarThemeMode = -5026, // I4 (with values from __VSNativeScrollbarThemeMode) indicating whether whether the native
+                                             // (i.e. Win32) scrollbars on child windows of this frame should have theming applied.
+                                             //
+                                             // This property only has an effect on frames whose pane meets one the following criteria:
+                                             //
+                                             //    1.  The pane is created with IVsWindowPane.CreatePaneWindow, or
+                                             //    2.  The pane is created with IVsUIElementPane.CreateUIElementPane and CreateUIElementPane
+                                             //        returns IVsUIWin32Element.
+                                             //
+                                             // If the frame's pane is created with CreateUIElementPane returning either a FrameworkElement
+                                             // or IVsUIWpfElement and you wish to control the theming of hosted Win32 scrollbars, you will
+                                             // need to call the Windows ::SetProp function for each HwndHost you need to control, using the
+                                             // following parameters:
+                                             //
+                                             //    hwnd:     HwndHost.Handle
+                                             //    lpString: the string returned by the VSSPROPID_NativeScrollbarThemeModePropName shell property
+                                             //    hData:    a value from __VSNativeScrollbarThemeMode, but not NSTM_Undefined
+                                             //
+                                             // This value is initialized to NSTM_Undefined.  Until the time IVsWindowPane.CreatePaneWindow or
+                                             // IVsUIElementPane.CreateUIElementPane returns, the value can be set to another value from 
+                                             // __VSNativeScrollbarThemeMode but once set the value cannot be changed.  
+                                             // 
+                                             // If this value is NSTM_Undefined when IVsWindowPane.CreatePaneWindow or IVsUIElementPane.CreateUIElementPane
+                                             // returns, it will be set to NSTM_All.
+
+    VSFPROPID5_FIRST               = -5026,
+    **********************************************/
+
+    VSFPROPID_PendingInitialization = -5027, // BOOL True indicates that the window is a delay-loaded frame that hasn't yet
+                                             // yet been fully initialized; False indicates that the frame is fully initialized
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSFPROPID6_FIRST               = -5027,
+};
+typedef LONG VSFPROPID6;
+
+enum __VSRDTATTRIB3
+{
+//  RDTA_Hierarchy              = 0x00000001,
+//  RDTA_ItemID                 = 0x00000002,
+//  RDTA_MkDocument             = 0x00000004,
+//  RDTA_DocDataIsDirty         = 0x00000008,
+//  RDTA_DocDataIsNotDirty      = 0x00000010,
+
+    // The following attribute events are fired by calling NotifyDocumentChanged
+//  RDTA_NOTIFYDOCCHANGEDMASK   = 0xFFFF0000,
+//  RDTA_DocDataReloaded        = 0x00010000,
+//  RDTA_AltHierarchyItemID     = 0x00020000,
+
+//  RDTA_DocDataIsReadOnly      = 0x00040000,
+//  RDTA_DocDataIsNotReadOnly   = 0x00080000,
+
+    // These attribute events can be fired by calling NotifyDocumentChangedEx
+    // (RDTA_NOTIFYDOCCHANGEDMASK | RDTA_DocDataIsDirty | RDTA_DocDataNotIsDirty)
+//  RDTA_NOTIFYDOCCHANGEDEXMASK = 0xFFFF0018,
+
+    RDTA_DocumentInitialized    = 0x00100000,   // a document was added to the RDT in a fully-initialized state, or a 
+                                                // document that had RDT_PendingInitialization has completed its initialization
+    RDTA_HierarchyInitialized   = 0x00200000,   // a document that had RDT_PendingHierarchyInitialization has completed its hierarchy initialization
+};
+typedef DWORD VSRDTATTRIB3;
+
+enum _VSRDTFLAGS4
+{
+//  RDT_NoLock                = 0x00000000,    // can be used with FindAndLockDocument(RDT_NoLock,...,&docCookie) to get DocCookie w/o taking a lock
+//  RDT_ReadLock              = 0x00000001,
+//  RDT_EditLock              = 0x00000002,
+//  RDT_RequestUnlock         = 0x00000004,
+//  RDT_LOCKMASK              = 0x00000007,
+
+//  RDT_DontSaveAs            = 0x00000008,
+//  RDT_NonCreatable          = 0x00000010,
+//  RDT_DontSave              = 0x00000020,
+//  RDT_DontAutoOpen          = 0x00000040,
+//  RDT_CaseSensitive         = 0x00000080,
+//  RDT_CantSave              = RDT_DontSave | RDT_DontSaveAs,
+//  RDT_VirtualDocument       = 0x00001000,
+//  RDT_ProjSlnDocument       = 0x00002000,
+//  RDT_PlaceHolderDoc        = 0x00004000,
+//  RDT_CanBuildFromMemory    = 0x00008000,
+//  RDT_DontAddToMRU          = 0x00010000,
+
+    // Don't poll for changes to the document's dirty or readonly state.
+    // The document owner takes responsibility for explicitly updating
+    // the state via IVsRunningDocumentTable3.UpdateDirtyState or
+    // IVsRunningDocumentTable3.UpdateReadOnlyState.
+//  RDT_DontPollForState      = 0x00020000,
+
+    // The document hasn't yet been initialized; it will be initialized
+    // on demand.  Several things can cause the document to be initialized, including
+    // but not limited to:
+    //
+    //  *   Calling IVsRunningDocumentTable.GetDocumentInfo requesting the docdata.
+    //  *   Requesting various properties from the document's window frame,
+    //      including: 
+    //      -   VSFPROPID_DocView 
+    //      -   VSFPROPID_ViewHelper
+    //      -   VSFPROPID_DocData
+    //      -   VSFPROPID_AltDocData
+    //      -   VSFPROPID_RDTDocData
+    //
+    // Documents that are auto-opened when reloading a solution are created with this
+    // flag.  If the auto-opened document's project has not yet been loaded, it will also
+    // have the RDT_PendingHierarchyInitialization flag.  When the document is fully
+    // initialized, RDT_PendingInitialization will be cleared and OnAfterAttributeChanged(Ex)
+    // will be raised with RDTA_DocumentInitialized.
+    //
+    // This flag is set by the system.  It can not be specified by the caller
+    // when registering the document.
+    RDT_PendingInitialization = 0x00040000,
+
+    // The document's hierarchy hasn't yet been initialized; it will be initialized
+    // on demand.  Several things can cause the hierarchy to be initialized, including
+    // but not limited to:
+    //
+    //  *   Calling IVsRunningDocumentTable.GetDocumentInfo requesting the
+    //      hierarchy or item id.
+    //  *   Requesting various properties from the document's window frame,
+    //      including: 
+    //      -   VSFPROPID_Hierarchy
+    //      -   VSFPROPID_ItemID
+    //  *   The owning project is loaded.
+    //
+    // Documents that have RDT_PendingInitialization will also have this flag if
+    // the document's project has not yet been loaded when the document is created.
+    // When the document's project is eventually loaded, RDT_PendingHierarchyInitialization 
+    // will be cleared and OnAfterAttributeChanged(Ex) will be raised with RDTA_HierarchyInitialized.
+    // RDTA_HierarchyInitialized *may* be followed very closely by RDTA_DocumentInitialized,
+    // but that isn't guaranteed.
+    //
+    // This flag is set by the system.  It can not be specified by the caller
+    // when registering the document.
+    RDT_PendingHierarchyInitialization = 0x00080000,
+
+//  RDT_DOCMASK               = 0xFFFFF0F8,    // allow __VSCREATEDOCWIN flags in doc mask
+
+//  RDT_Unlock_NoSave         = 0x00000100,
+//  RDT_Unlock_SaveIfDirty    = 0x00000200,
+//  RDT_Unlock_PromptSave     = 0x00000400,
+//  RDT_Lock_WeakEditLock     = 0x00000800,
+//  RDT_SAVEMASK              = 0x00000F00,
+//  RDT_LOCKUNLOCKMASK        = 0x00000F00,
+};
+typedef DWORD VSRDTFLAGS4;
+
+//----------------------------------------------------------------------------
+// IVsRunningDocumentTable4
+//----------------------------------------------------------------------------
+[uuid(86a4da78-d580-4ae4-a1be-f805bc663e04)]
+interface IVsRunningDocumentTable4 : IVsRunningDocumentTable3
+{
+    // indicates whether the given moniker exists in the RDT
+    HRESULT IsMonikerValid (
+        [in] LPCOLESTR moniker,                 // the moniker to look up
+        [out, retval] VARIANT_BOOL* valid);     // is it valid?
+
+    // indicates whether the given cookie exists in the RDT
+    HRESULT IsCookieValid (
+        [in] VSCOOKIE cookie,                   // the cookie to check
+        [out, retval] VARIANT_BOOL* valid);     // is it valid?
+
+    // This is functionally identical to calling IVsRunningDocumentTable.FindAndLockDocument with
+    // RDT_NoLock and requesting only the cookie, but it is easier to consume from managed code.  
+    // In managed code it is impossible to request the flags without also requesting 
+    // all of the other information, and requesting all of the other information can
+    // result in the potentially unnecessary initialization of an RDT_PendingInitialization
+    // document.
+    HRESULT GetDocumentCookie (
+        [in] LPCOLESTR moniker,                 // the moniker to look up
+        [out, retval] VSCOOKIE* cookie);        // the cookie for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the flags, but it is easier to consume from managed code.  In
+    // managed code it is impossible to request the flags without also requesting 
+    // all of the other information, and requesting all of the other information can
+    // result in the potentially unnecessary initialization of an RDT_PendingInitialization
+    // document.
+    HRESULT GetDocumentFlags (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] VSRDTFLAGS* flags);       // the flags for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the read lock count, but it is easier to consume from managed code.  In
+    // managed code it is impossible to request the flags without also requesting 
+    // all of the other information, and requesting all of the other information can
+    // result in the potentially unnecessary initialization of an RDT_PendingInitialization
+    // document.
+    HRESULT GetDocumentReadLockCount (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] DWORD* count);            // the number of outstanding read locks for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the edit lock count, but it is easier to consume from managed code.  In
+    // managed code it is impossible to request the flags without also requesting 
+    // all of the other information, and requesting all of the other information can
+    // result in the potentially unnecessary initialization of an RDT_PendingInitialization
+    // document.
+    HRESULT GetDocumentEditLockCount (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] DWORD* count);            // the number of outstanding edit locks for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the moniker, but it is easier to consume from managed code.  In
+    // managed code it is impossible to request the flags without also requesting 
+    // all of the other information, and requesting all of the other information can
+    // result in the potentially unnecessary initialization of an RDT_PendingInitialization
+    // document.
+    HRESULT GetDocumentMoniker (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] BSTR* moniker);           // the moniker for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the hierarchy and item ID, but it is easier to consume from managed code.
+    HRESULT GetDocumentHierarchyItem (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out] IVsHierarchy** hierarchy,         // the hierarchy for the document
+        [out] VSITEMID* itemID);                // the item ID for the document
+
+    // This is functionally identical to calling IVsRunningDocumentTable.GetDocumentInfo
+    // and requesting only the document data, but it is easier to consume from managed code.
+    // This method will initialize an RDT_PendingInitialization document.
+    HRESULT GetDocumentData (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] IUnknown** docdata);      // the data for the document
+
+    // Returns the GUID for the project owning the document
+    HRESULT GetDocumentProjectGuid (
+        [in] VSCOOKIE cookie,                   // the document to check
+        [out, retval] GUID* guid);              // the GUID for the document's project
+}
+
+
+//-----------------------------------------------------------------------------
+// IVsUIHierarchyNativeWindow
+//-----------------------------------------------------------------------------
+[ 
+    uuid(280CC247-9EF8-42F2-9009-A75B86EA871B),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIHierarchyNativeWindow : IUnknown
+{
+	// Sets whether the tree view should enable or disable redraw.
+    HRESULT SetTreeRedraw([in] VARIANT_BOOL fEnabled);
+};
+
+
+//-----------------------------------------------------------------------------
+// IVsPropertiesInfo
+// The interface can be implemented by DTE properties providers to declare which 
+// properties can be synchronized across machines.
+//-----------------------------------------------------------------------------
+[ 
+    uuid(C0975213-3D73-44E1-8B46-4578E16D4457),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsPropertiesInfo : IUnknown
+{
+    // Returns whether the property with the specified DISPID can be transmitted and applied across machines.
+    HRESULT IsTransmittable(DISPID id, [out, retval] VARIANT_BOOL * pfIsTransmittable);
+};
+
+
+//-----------------------------------------------------------------------------
+// IVsTaskSchedulerService2
+//-----------------------------------------------------------------------------
+[ 
+    uuid(8176dc77-36e2-4987-955b-9f63c6f3f229),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsTaskSchedulerService2: IUnknown
+{
+    // Gets the shell's instance of joinable task context
+    // The functionality in this method is intended to be exposed by helper classes in MPF
+    // and not to be directly consumed by users.
+    HRESULT GetAsyncTaskContext([out, retval] IUnknown **ppTaskContext);
+
+    // Gets the task scheduler instance used for the context specified. This will
+    // return a System.Threading.Tasks.TaskScheduler type
+    // The functionality in this method is intended to be exposed by helper classes in MPF
+    // and not to be directly consumed by users.
+    HRESULT GetTaskScheduler([in] VSTASKRUNCONTEXT context, [out,retval] IUnknown **ppTaskScheduler);
+};
+
+//--------------------------------------------------------------------------------------------
+// IVsBuildManagerAccessor3
+//--------------------------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the
+// SID_SVsBuildManagerAccessor service.
+// This interface's sole purpose in life is to provide a way to synchronize access to
+// the default MSBuild BuildManager.
+[
+    uuid(uuid_IVsBuildManagerAccessor3),
+    version(1.0),
+    pointer_default(unique),
+    local // because HANDLE is used
+]
+[custom(uuid_VsPreserveSigAttribute, "preservesig")]
+interface IVsBuildManagerAccessor3 : IVsBuildManagerAccessor2
+{
+    // Gets an event that is signaled whenever a solution build is not in progress.
+    [propget] HRESULT SolutionBuildAvailable([out, retval] HANDLE *phWaitHandle);
+}
+
+// VS-specific HRESULT failure codes - start at 0x80042009
+//
+
+// Error which can be returned by IVsSolution::OpenSolutionFile if the solution file could not be successfully read
+cpp_quote("#define VS_E_READ_SOLUTION_FILE_FAILED    MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x2009)")
+
+//----------------------------------------------------------------------------
+// IVsWindowFrame4
+//----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment on the IVsWindowFrame objects 
+// for tool windows and document windows. This interface may be 
+// retrieved by QueryInterface from an IVsWindowFrame pointer.
+[
+    uuid(841F8242-83BB-4C6D-8357-E12C21BF6CAA),
+    version(1.0)
+]
+interface IVsWindowFrame4 : IUnknown
+{
+    // Gets the frame's position, in screen coordinates.  This rectangle represents
+    // the screen coordinates of the content portion of the tool window, measured in pixels.
+    // This area does not include the title region, but includes any toolbars hosted by the window.
+    // This function behaves the same regardless of the dock state of the window (floating, docked, MDI).
+    // The isOnScreen return value will be set to true if the frame's position and size could
+    // be accurately calculated, or false if the frame's position or size
+    // values could not be accurately calculated.
+    HRESULT GetWindowScreenRect(
+        [out] int* screenLeft,
+        [out] int* screenTop,
+        [out] int* screenWidth,
+        [out] int* screenHeight,
+        [out, retval] VARIANT_BOOL* isOnScreen);
+};
+
+//--------------------------------------------------------------------------------------------
+// Search control settings data source property names
+// Various settings that IVsWindowSearch implementers can provide to override the defaults and control the search behavior
+//--------------------------------------------------------------------------------------------
+cpp_quote("#define szWSS_CONTROL_BORDER_THICKNESS L\"ControlBorderThickness\"")    // VSUI_TYPE_STRING. The thickness of the search control's border. Default="1".
+cpp_quote("#define szWSS_SEARCH_HWNDSOURCE_BGCOLOR L\"HwndSourceBackgroundColor\"")     // VSUI_TYPE_DWORD. An integer representing an ARGB background color for the HwndSource.  This setting is ignored if it is 0 (default), or if the search control is parented under a WPF element.
+
+// this is an extension of VSSPROPID5, see vsshell110.idl, vsshell100.idl, vsshell90.idl, vsshell80.idl, vsshell.idl
+enum __VSSPROPID6
+{
+    VSSPROPID_ShutdownStarted = -9076, // BOOL, Read-Only.  True if the shell has begun shutting down
+    VSSPROPID_FIRST6          = -9076
+};
+typedef LONG VSSPROPID6;
+
+
+enum _VSProjectUnloadStatus2
+{
+    /*  defined in vsshell100.idl
+    UNLOADSTATUS_UnloadedByUser          = 0,  // The user unloaded the project.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file was unloaded."
+    UNLOADSTATUS_LoadPendingIfNeeded     = 1,  // The Solution Load Manager unloaded the project with PLP_LoadIfNeeded.
+                                               //    The project node caption has the suffix "(pending)".
+                                               //    Item node caption is "The project file will automatically load if needed."
+    UNLOADSTATUS_StorageNotLoadable      = 2,  // The project was unloaded because project storage is not loadable.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file cannot be loaded."
+    UNLOADSTATUS_StorageNotAvailable     = 3,  // The project was unloaded because project storage is not available.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file or web cannot be found."
+    UNLOADSTATUS_UpgradeFailed           = 4   // The project was unloaded because project migration/upgrade failed.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project has not been converted."
+    */                                                
+
+    UNLOADSTATUS_NeedRetarget            = 5   // The project was unloaded because project target is not supported by current version of VS [SKU].
+                                               //    In order to be loaded project has to be retarget first.
+};
+

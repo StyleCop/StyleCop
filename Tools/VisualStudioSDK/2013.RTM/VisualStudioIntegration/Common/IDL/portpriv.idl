@@ -1,0 +1,155 @@
+// portpriv.idl : private interfaces for port suppliers
+//
+
+// notes:
+//
+// - define AD7_NO_AD7_IMPORTS to exclude all AD7 imports
+
+import "oaidl.idl";
+import "ocidl.idl";
+#ifndef AD7_NO_AD7_IMPORTS
+import "msdbg.idl";
+#ifndef BUILDING_DEBUGGER_PROXY 
+import "activdbg.idl";
+#endif
+#endif
+
+// IDebugPortSupplierEx2
+[
+	object,
+	uuid(c1f9ba1d-f70f-49f8-839e-5e0caa230306),
+	pointer_default(unique)
+]
+interface IDebugPortSupplierEx2: IUnknown
+{
+	HRESULT SetServer(
+		[in] IDebugCoreServer2* pServer);
+};
+
+// IDebugPortSupplierLocale2
+[
+	object,
+	uuid(1bbab55e-6d13-4a5e-8c81-34ab2a3a6269),
+	pointer_default(unique)
+]
+interface IDebugPortSupplierLocale2: IUnknown
+{
+	HRESULT SetLocale(
+		[in] WORD wLangID);
+};
+
+// IDebugNativePort2
+[
+	object,
+	uuid(521b4726-04e9-47e7-b3a5-cd93a7f74f5b),
+	pointer_default(unique)
+]
+interface IDebugNativePort2: IUnknown
+{
+	HRESULT AddProcess(
+		[in] AD_PROCESS_ID     processId,
+		[in, ptr] LPCOLESTR    pszProcessName,
+		[in] BOOL			   fCanDetach,
+		[out] IDebugProcess2** ppPortProcess
+		);
+};
+
+// IDebugPortEx2
+[
+	object,
+	uuid(e2314ee1-5c8c-4a9d-ad32-0c9a3574f685),
+	pointer_default(unique)
+]
+interface IDebugPortEx2: IUnknown
+{
+	HRESULT LaunchSuspended(
+		[in, ptr] LPCOLESTR pszExe,
+		[in, ptr] LPCOLESTR pszArgs,
+		[in, ptr] LPCOLESTR pszDir,
+		[in, ptr] BSTR bstrEnv,
+		[in] DWORD hStdInput,
+		[in] DWORD hStdOutput,
+		[in] DWORD hStdError,
+		[out] IDebugProcess2** ppPortProcess);
+
+	HRESULT ResumeProcess(
+		[in] IDebugProcess2* pPortProcess);
+
+	HRESULT CanTerminateProcess(
+		[in] IDebugProcess2* pPortProcess);
+
+	HRESULT TerminateProcess(
+		[in] IDebugProcess2* pPortProcess);
+
+	HRESULT GetPortProcessId(
+		[out] DWORD* pdwProcessId);
+
+	HRESULT GetProgram(
+		[in] IDebugProgramNode2* pProgramNode,
+		[out] IDebugProgram2** ppProgram);
+};
+
+// IDebugPortEventsEx2
+[
+	object,
+	uuid(608a5912-e66b-4278-b6ed-847ac9318405),
+	pointer_default(unique)
+]
+interface IDebugPortEventsEx2: IUnknown
+{
+	HRESULT GetSession(
+		[out] IDebugSession2** ppSession);
+};
+
+// IDebugProcessEx2
+[
+	object,
+	uuid(82d71df5-6597-48c4-b5d5-b8b697fa36b5),
+	pointer_default(unique)
+]
+interface IDebugProcessEx2: IUnknown
+{
+	HRESULT Attach(
+		[in] IDebugSession2* pSession);
+
+	HRESULT Detach(
+		[in] IDebugSession2* pSession);
+
+	HRESULT AddImplicitProgramNodes(
+		[in] REFGUID guidLaunchingEngine,
+		[ptr, in, size_is(celtSpecificEngines)] GUID* rgguidSpecificEngines,
+		[in] DWORD celtSpecificEngines);
+};
+
+// IDebugProgramEx2
+[
+	object,
+	uuid(2959618a-a692-48ff-8cef-7a28a4f50954),
+	pointer_default(unique)
+]
+interface IDebugProgramEx2: IUnknown
+{
+	HRESULT Attach(
+		[in] IDebugEventCallback2* pCallback,
+		[in] DWORD dwReason,
+		[in] IDebugSession2* pSession);
+
+	HRESULT GetProgramNode(
+		[out] IDebugProgramNode2** ppProgramNode);
+};
+
+#ifndef BUILDING_DEBUGGER_PROXY 
+
+// IDebugAD1Program2_V7
+[
+	object,
+	uuid(b7bdab6c-9077-43d0-87c4-96d1fd851446),
+	pointer_default(unique)
+]
+interface IDebugAD1Program2_V7: IUnknown
+{
+	HRESULT GetApplication(
+		[out] IRemoteDebugApplication** ppApp);
+};
+
+#endif

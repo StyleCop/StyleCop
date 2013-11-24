@@ -1,0 +1,128 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) Microsoft Corporation 
+// All rights reserved
+//
+//
+// DiscoveryService90.idl
+//
+//---------------------------------------------------------------------------
+
+//
+// This file provides additional services for XML web service discovery.  These definitions 
+//   are available for managed code in the interop assembly 
+//   Microsoft.VisualStudio.WCFReference.Interop.dll.
+//
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+import "oleipc.idl";
+import "vsshell.idl";
+import "discoveryservice80.idl";
+
+#endif
+
+
+// Forward declarations
+
+interface IDiscoveryResult3;
+interface IDiscoverySession2;
+interface IReferenceInfo2;
+
+
+
+//============================
+// Metadata Discovery-related interfaces
+//============================
+
+// Protocols supported by the discovery service
+enum DiscoveryProtocol
+{
+    DP_DiscoveryClientProtocol = 1,
+    DP_MetadataExchangeProtocol = 2,
+    DP_DiscoveryDataServiceProtocol = 3,
+};
+typedef enum DiscoveryProtocol DiscoveryProtocol;
+
+// IDiscoveryResult3 returns which protocol was used to download the metadata files
+//   You can get to this interface by QI'ing an IDiscoveryResult instance for IDiscoveryResult3.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(6e1073e5-a112-441a-8386-232cecc0c29b),
+]
+interface IDiscoveryResult3 : IUnknown
+{
+    HRESULT GetProtocol(
+        [out, retval] DiscoveryProtocol *pDiscoveryProtocol
+    );
+}
+
+
+// The priority for which protocol to try first during the discovery.
+//   This may matter for some scenarios because we can get different metadata from 
+//   different protocols.
+enum DiscoverySessionProtocolPriority
+{
+    DSPP_NoPriority = 0,
+    DSPP_DiscoveryProtocolFirst = 1,
+    DSPP_MetadataExchangeFirst = 2,
+};
+typedef enum DiscoverySessionProtocolPriority DiscoverySessionProtocolPriority;
+
+
+// Similar to IDiscoverySession, but supports the metadata exchange (MEX) protocol
+//   and allows prioritization between the discovery session protocols.
+//   You can get to this interface by QI'ing an IDiscoverySession instance for IDiscoverySession2.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(182b5eb4-9a58-47b7-a3fe-ac7ed8b891ff),
+]
+interface IDiscoverySession2 : IUnknown
+{
+    HRESULT DiscoverUrlWithMetadataExchange(
+        LPCOLESTR url, 
+        DiscoverySessionProtocolPriority protocolPriority, 
+        BOOL resolveAllFiles, 
+        LPCOLESTR toolConfigurationPath, 
+        [out] IDiscoveryResult **ppDiscoverResult
+    );
+
+    // Note: Use IDiscoverySession.CancelDiscoverUrl to cancel the Async call.
+    HRESULT DiscoverUrlAsyncWithMetadataExchange(
+        LPCOLESTR url, 
+        DiscoverySessionProtocolPriority protocolPriority, 
+        BOOL resolveAllFiles, 
+        LPCOLESTR toolConfigurationPath, 
+        IDiscoverUrlCallBack *pDiscoverUrlCallBack, 
+        [out] int *pCookieID
+    );
+};
+
+
+
+// IReferenceInfo2 provides the default filename for a metadata item and its binary contents.
+//   You can get to this interface by QI'ing an IReferenceInfo instance for IReferenceInfo2.
+[
+    version(1.0),
+    pointer_default(unique),
+    uuid(e316ff6d-ca00-49dd-969f-441399132ac7),
+]
+interface IReferenceInfo2 : IUnknown
+{
+        // Returns the default file name of this metadata item
+        //  (returns NULL if there is no default name).
+        HRESULT GetDefaultFileName(
+            [out, retval] BSTR *pbstrDefaultName
+        );
+
+        // Retrieves the reference document as a BYTE array
+        HRESULT GetDocumentContents(
+            [out, retval] SAFEARRAY(byte) *pContent
+        );
+    }

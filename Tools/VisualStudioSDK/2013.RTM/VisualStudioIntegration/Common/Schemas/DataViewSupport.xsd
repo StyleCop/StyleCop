@@ -1,0 +1,994 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+<copyright file="DataViewSupport.xsd" company="Microsoft">
+	Copyright (c) Microsoft Corporation.  All rights reserved.
+</copyright>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	xmlns:dvs="http://schemas.microsoft.com/VisualStudio/2007/07/Data/DataViewSupport"
+	targetNamespace="http://schemas.microsoft.com/VisualStudio/2007/07/Data/DataViewSupport"
+ 	elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>
+			The Data View Support XML file allows a DDEX provider to present the
+			objects on their data source in the form of one or more hierarchies.  It
+			builds on information from the Data Object Support XML file which defines
+			the data source in terms of a set of objects.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element name="DataViewSupport" type="dvs:DataViewSupportType" />
+	<xs:complexType name="DataViewSupportType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the root element in the file.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Import" type="dvs:ImportType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Define" type="dvs:DefineType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice minOccurs="0">
+				<xs:element name="Views" type="dvs:ViewsType" />
+				<xs:element name="ViewsRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="Resources" type="dvs:ResourcesType" />
+				<xs:element name="ResourcesRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ImportType">
+		<xs:annotation>
+			<xs:documentation>
+				Imports definitions from another data view support source.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a name that identifies the source to import.  This name
+					will be passed to the provider's IVsDataSupportImportResolver.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="DefineType">
+		<xs:annotation>
+			<xs:documentation>
+				Defines a shareable fragment of data view support.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Views" type="dvs:ViewsType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Default" type="dvs:DefaultType" />
+				<xs:element name="DefaultRef" type="dvs:InsertType" />
+				<xs:element name="DefaultListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="View" type="dvs:ViewType" />
+				<xs:element name="ViewRef" type="dvs:InsertType" />
+				<xs:element name="ViewListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="GlobalCommands" type="dvs:GlobalCommandsType" minOccurs="0" />
+			<xs:element name="ConnectionNode" type="dvs:ConnectionNodeType" />
+			<xs:element name="SelectionNode" type="dvs:SelectionNodeType" minOccurs="0" />
+			<xs:element name="Properties" type="dvs:PropertiesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Property" type="dvs:PropertyType" />
+				<xs:element name="PropertyRef" type="dvs:InsertType" />
+				<xs:element name="PropertyListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="StandardValues" type="dvs:StandardValuesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="StandardValue" type="dvs:StandardValueType" />
+				<xs:element name="StandardValueRef" type="dvs:InsertType" />
+				<xs:element name="StandardValueListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="Commands" type="dvs:CommandsType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Command" type="dvs:CommandType" />
+				<xs:element name="CommandRef" type="dvs:InsertType" />
+				<xs:element name="CommandListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="Parameters" type="dvs:ParametersType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Parameter" type="dvs:ParameterType" />
+				<xs:element name="ParameterRef" type="dvs:InsertType" />
+				<xs:element name="ParametersRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="Children" type="dvs:ChildrenType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="StaticNode" type="dvs:StaticNodeType" />
+				<xs:element name="StaticNodeRef" type="dvs:InsertType" />
+				<xs:element name="Selection" type="dvs:SelectionType" />
+				<xs:element name="SelectionRef" type="dvs:InsertType" />
+<!-- FUTURE_DDEX
+				<xs:element name="CustomNodes" type="dvs:CustomNodesType" />
+				<xs:element name="CustomNodesRef" type="dvs:InsertType" />
+-->
+				<xs:element name="ChildListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:element name="Resources" type="dvs:ResourcesType" minOccurs="0" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Resource" type="dvs:ResourceType" />
+				<xs:element name="ResourceRef" type="dvs:InsertType" />
+				<xs:element name="ResourceListRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:choice>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of this definition.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="parameters" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the parameters expected by this definition.  Parameters
+					give a way to transform the contents of a define based on inputs
+					from the inserting element.  A parameter value is a string that can be
+					substituted in attribute or element values using the format "$(name)".
+					The format of this attribute is a comma-delimited list of parameter
+					names.  These names can only contain letters or digits.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="InsertType">
+		<xs:annotation>
+			<xs:documentation>
+				Inserts definitions in place of this element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of the definition to insert.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="arguments" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the arguments to pass to the definition as a comma-
+					delimited list of strings.  If a value contains a comma, the comma
+					can be embedded in the value by specifying a double comma (",,").
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ViewsType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the list of views that present the objects on the provider's
+				data source in the form of one or more hierarchies.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Default" type="dvs:DefaultType" />
+				<xs:element name="DefaultRef" type="dvs:InsertType" />
+				<xs:element name="DefaultListRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="View" type="dvs:ViewType" />
+				<xs:element name="ViewRef" type="dvs:InsertType" />
+				<xs:element name="ViewListRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="DefaultType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents information that specifies the default view when there are
+				multiple views defined, based on the source version.  If at runtime
+				multiple default views are found, the first one will be chosen.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dvs:VersionableElementType">
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the programmatic name of a view to pick as a default.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ViewType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the definition of a view.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dvs:VersionableElementType">
+				<xs:sequence>
+					<xs:element name="DisplayName" type="dvs:ResourceElementType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Represents the display name of the view.  If there are multiple
+								views, this display name is shown in the list of available
+								views when the user is picking which view to use.  If
+								unspecified, the programmatic name of the view is used.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice minOccurs="0">
+						<xs:element name="GlobalCommands" type="dvs:GlobalCommandsType" />
+						<xs:element name="GlobalCommandsRef" type="dvs:InsertType" />
+					</xs:choice>
+					<xs:choice>
+						<xs:element name="ConnectionNode" type="dvs:ConnectionNodeType" />
+						<xs:element name="ConnectionNodeRef" type="dvs:InsertType" />
+					</xs:choice>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the programmatic name of the view.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="dragSourceProvider" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies a custom drag source provider type as a string that can be
+							resolved by the provider's object factory GetType() method.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GlobalCommandsType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents commands displayed in a global location like a main menu
+				that are not otherwise associated with specific nodes in the view.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Command" type="dvs:CommandType" />
+			<xs:element name="CommandRef" type="dvs:InsertType" />
+			<xs:element name="CommandListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom command provider type as a string that can be
+					resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ConnectionNodeType">
+		<xs:sequence>
+			<xs:element name="InitialDisplayName" type="dvs:DisplayNameType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Represents the initial display name of the connection node.
+						This is only the initial display name because the user can
+						modify the name of a connection node after it has been created.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="dvs:CommonNodeElements" />
+		</xs:sequence>
+		<xs:attributeGroup ref="dvs:CommonNodeAttributes" />
+		<xs:attribute name="type" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of the type of object represented by this node.
+					The object type must either have no identifier or have a "default"
+					identifier in the sense that the IVsDataObjectIdentifierResolver
+					implementation can expand an empty identifier to a complete one.
+					If not specified, the connection node is assumed to be static.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="StaticNodeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a node that does not have an object.  The node is defined
+				only by information specified underneath this element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dvs:VersionableElementType">
+				<xs:sequence>
+					<xs:element name="DisplayName" type="dvs:DisplayNameType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>
+								Represents a display name for this node.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:group ref="dvs:NodeElements" />
+				</xs:sequence>
+				<xs:attributeGroup ref="dvs:NodeAttributes" />
+				<xs:attribute name="skipWhen" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies an expression that when evaluated to true, indicates
+							that this node should be skipped.  The default is false, to
+							always include the node.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SelectionNodeType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a node that has a source object taken from the result of
+				executing the selection described by the parent Selection element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DisplayName" type="dvs:DisplayNameType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Represents a display name for this node.  If unspecified, the name
+						defaults to the unqualified name of the source object, or the full
+						identifier if the source object does not have a name property.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="dvs:NodeElements" />
+		</xs:sequence>
+		<xs:attributeGroup ref="dvs:NodeAttributes" />
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="DisplayNameType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a specification of or reference to a display name resource
+				string with a conditional expression to decide if it is applicable.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="dvs:ResourceElementType">
+				<xs:attribute name="when" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies an expression to evaluate to determine if this display
+							name is applicable.  The default is the name is always applicable.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="provider" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies a custom caption provider type as a string that can be
+							resolved by the provider's object factory GetType() method.  If
+							this attribute is specified the resource attribute is ignored.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:group name="NodeElements">
+		<xs:annotation>
+			<xs:documentation>
+				Represents elements that are common to both static and selection nodes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Icon" type="dvs:IconType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:group ref="dvs:CommonNodeElements" />
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="IconType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents an icon for a node.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="when" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies an expression to evaluate to determine if this icon should
+					be used for the node.  The default is that it should always be used.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the name of an icon to use.  This name can be either chosen
+					from a common set of available icons or it can be the name of a
+					resource embedded in an assembly.  The latter requires specifying the
+					assembly attribute.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="assembly" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the assembly that contains the icon specified by the name
+					attribute as a string that can be resolved by the provider's object
+					factory GetAssembly() method.  To use the main provider assembly,
+					specify an empty string.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom icon provider type as a string that can be
+					resolved by the provider's object factory GetType() method.  If this
+					attribute is specified the icon and assembly attributes are ignored.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:attributeGroup name="NodeAttributes">
+		<xs:annotation>
+			<xs:documentation>
+				Represents attributes that are common to static and selection nodes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="dvs:CommonNodeAttributes" />
+		<xs:attribute name="visibilityProvider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom visibility provider type as a string that can be
+					resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:group name="CommonNodeElements">
+		<xs:annotation>
+			<xs:documentation>
+				Represents elements that are common to connection nodes, static nodes
+				and selection nodes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="Properties" type="dvs:PropertiesType" />
+				<xs:element name="PropertiesRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="Commands" type="dvs:CommandsType" />
+				<xs:element name="CommandsRef" type="dvs:InsertType" />
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="Children" type="dvs:ChildrenType" />
+				<xs:element name="ChildrenRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:attributeGroup name="CommonNodeAttributes">
+		<xs:annotation>
+			<xs:documentation>
+				Represents attributes that are common to connection nodes, static nodes
+				and selection nodes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="nodeId" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies an identifier that allows children of this node to uniquely
+					reference this node for purposes of retrieving object properties.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="userContextProvider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom user context provider type as a string that can be
+					resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dropTargetProvider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom drop target provider type as a string that can be
+					resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:complexType name="PropertiesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the properties of a node displayed in the properties window.
+				If unspecified and the node is a selection node, a default set of
+				properties based on the source object is created and shown.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TypeDisplayName" type="dvs:ResourceElementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Represents a display name for the type of this node, if applicable.
+						If unspecified, the display name of static nodes or the programmatic
+						name of object types of selection nodes is used respectively.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Property" type="dvs:PropertyType" />
+				<xs:element name="PropertyRef" type="dvs:InsertType" />
+				<xs:element name="PropertyListRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom browse object provider type as a string that
+					can be resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="createAutoBrowseObject" type="xs:boolean" default="true">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a value indicating if a browse object should still be
+					created when a custom browse object provider is specified.  If true,
+					the default browse object will be created based on information under
+					this element, and then this object will be passed to the provider's
+					view browse object provider GetBrowseObject() method for further
+					customization.  If false, no default browse object will be created
+					and the IVsDataViewBrowseObjectProvider implementation is expected to
+					produce a browse object from scratch.  The default is true.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="PropertyType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a property of a node displayed in the properties window.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DisplayName" type="dvs:ResourceElementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Represents the display name of the property.  If unspecified, the
+						programmatic name is used.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Category" type="dvs:ResourceElementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Represents the category of the property.  If unspecified, the
+						default (miscellaneous) category is used.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="dvs:ResourceElementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Represents the description of the property, if any.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="dvs:ResourceElementType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Represents the value of the property, if applicable.  If this
+						property is on a selection node and its name is equal to the name
+						of a property on the source object, this attribute is ignored.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="StandardValues" type="dvs:StandardValuesType" />
+				<xs:element name="StandardValuesRef" type="dvs:InsertType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the programmatic name of the property.  When the enclosing
+					node element is a static node, this name is purely for programmatic
+					access to the information.  When the encosing node element is a
+					selection node and the values of this property should be taken from
+					the source object, this name should match a property name defined on
+					the source object type.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="StandardValuesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of standard values for a property of a node displayed
+				in the properties window.  This can be specified when the value of a
+				property comes from a standard set and each value in this set should
+				be translated into a resource string that can be displayed to the user.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="StandardValue" type="dvs:StandardValueType" />
+			<xs:element name="StandardValueRef" type="dvs:InsertType" />
+			<xs:element name="StandardValueListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="StandardValueType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a standard value for a property of a node displayed in the
+				properties window.  Describes a mapping of a value to a resource string.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="dvs:ResourceElementType">
+				<xs:attribute name="value" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the value from the source object property in its
+							default string form (the equivalent of calling ToString()).
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CommandsType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the commands of a node displayed in the node's context menu.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Command" type="dvs:CommandType" />
+			<xs:element name="CommandRef" type="dvs:InsertType" />
+			<xs:element name="CommandListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom command provider type as a string that can be
+					resolved by the provider's object factory GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="CommandType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a command of a node displayed in the node's context menu.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0">
+			<xs:element name="Parameters" type="dvs:ParametersType" />
+			<xs:element name="ParametersRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:attribute name="guid" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the GUID of the command group that contains the command.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="cmdid" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the ID of the command in the command group that contains
+					the command.  The format of this string may be a decimal integer or
+					in hexadecimal format by prepending "0x" before the number.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom command provider type as a string that can be
+					resolved by the provider's object factory GetType() method.  If
+					unspecified, the provider should supply a global implementation as
+					a service on their data view support object.  If parameters are
+					specified, it is expected that the implementation implements
+					IVsDataSupportObject.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isDefault" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies whether this command should be invoked as the default
+					action.  If multiple commands specify true for the value of this
+					attribute, the first such command listed is chosen as the default.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ParametersType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of parameters that can be passed to a command.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Parameter" type="dvs:ParameterType" />
+			<xs:element name="ParameterRef" type="dvs:InsertType" />
+			<xs:element name="ParameterListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ParameterType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a parameter that can be passed to a command.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Parameter" type="dvs:ParameterType" />
+			<xs:element name="ParameterRef" type="dvs:InsertType" />
+			<xs:element name="ParameterListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:attribute name="type" type="xs:string" default="System.String">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the type of the parameter value as a standard .NET
+					framework type.  The default is "System.String".
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the value of the parameter as a string that can be parsed
+					into the type specified by the type attribute.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="SelectionType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of nodes that have a source object, where each object
+				is taken from the result of selecting objects from the data object store
+				service based on information specified by attributes of this element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dvs:VersionableElementType">
+				<xs:choice minOccurs="0">
+					<xs:element name="SelectionNode" type="dvs:SelectionNodeType" />
+					<xs:element name="SelectionNodeRef" type="dvs:InsertType" />
+				</xs:choice>
+				<xs:attribute name="type" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the type of object that should be selected.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="restrictions" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies restrictions that should be passed to the selector. The
+							format of this string is a comma-delimited list of restriction
+							values that may include data specifiers or null to represent no
+							restriction.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="properties" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies properties that should be passed to the selector. The
+							format of this string is a comma-delimited list of property names.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="filter" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies a filter that should be passed to the object store.  A
+							filter may include data specifiers.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="ordering" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies an ordering that should be passed to the object store.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="skipWhen" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies an expression that when evaluated to true, indicates
+							that this selection of nodes should be skipped.  The default is
+							false, to always include the selection of nodes.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+<!-- FUTURE_DDEX
+	<xs:complexType name="CustomNodesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a set of custom nodes.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a name to be passed to the custom node provider object.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="skipWhen" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies an expression that when evaluated to true, indicates
+					that this set of custom nodes should be skipped.  The default is
+					false, to always include the custom nodes.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="provider" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies an custom nodes provider that supplies the custom nodes
+					as a string that can be resolved by the provider's object factory
+					GetType() method.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+-->
+	<xs:complexType name="ChildrenType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents the children of a node.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="StaticNode" type="dvs:StaticNodeType" />
+			<xs:element name="StaticNodeRef" type="dvs:InsertType" />
+			<xs:element name="Selection" type="dvs:SelectionType" />
+			<xs:element name="SelectionRef" type="dvs:InsertType" />
+<!-- FUTURE_DDEX
+			<xs:element name="CustomNodes" type="dvs:CustomNodesType" />
+			<xs:element name="CustomNodesRef" type="dvs:InsertType" />
+-->
+			<xs:element name="ChildListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ResourcesType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents resources that may be referenced by resource elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Resource" type="dvs:ResourceType" />
+			<xs:element name="ResourceRef" type="dvs:InsertType" />
+			<xs:element name="ResourceListRef" type="dvs:InsertType" />
+		</xs:choice>
+		<xs:attribute name="baseName" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the base name of a string resource embedded in an assembly.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="assembly" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the assembly that contains the string resource identified
+					with the baseName attribute as a string that can be resolved by the
+					provider's object factory GetAssembly() method.  Ignored if baseName
+					is not present.  If unspecified, the provider's main assembly is used.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="manager" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies a custom resource manager type inherited from
+					System.Resources.ResourceManager as a string that can be resolved by
+					the provider's object factory GetType() method.  If baseName is not
+					present, it will attempt to create an instance of the type with no
+					parameters.  Otherwise the instance is created by passing the base
+					name and specified assembly (or default to provider's main assembly).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+	<xs:complexType name="ResourceType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a resource that may be referenced by resource elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the resource.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ResourceElementType">
+		<xs:annotation>
+			<xs:documentation>
+				Represents a specification of or reference to a resource string.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="resource" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>
+							Specifies the name of the resource.  If specified, this overrides
+							any string specified as part of this element.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:anyAttribute namespace="##other" processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="VersionableElementType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				Represents elements that can be versioned by specifying a minimum
+				and maximum source version to which the element applies.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="minSourceVersion" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the minimum source version required for this element.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxSourceVersion" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Specifies the maximum source version supported by this element.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute namespace="##other" processContents="lax" />
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,1197 @@
+// msdbg100.idl
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+#ifndef DEBUGGER_PIA_BUILD
+    // Any imports go here
+    import "msdbg.idl";
+#endif
+
+#if defined(DEBUGGER_PIA_BUILD)
+    // To make the PIA scripts happy, we want to use 'HANDLE'
+    typedef HANDLE WIN32_HANDLE;
+#else
+    // To make MIDL happy, we want to use DWORD_PTR
+    typedef DWORD_PTR WIN32_HANDLE;
+#endif
+
+cpp_quote("// Sentinel engine guid value which may be used to force usage of legacy (cpde.dll) remote managed debugging")
+cpp_quote("// {351668CC-8477-4fbf-BFE3-5F1006E4DB1F}")
+cpp_quote("extern GUID guidCOMPlusLegacyRemoteEngine;")
+cpp_quote("// Sentinel engine guid value which may be used to force usage of new architecture (concord) local managed debugging")
+cpp_quote("// {97552AEF-4F41-447a-BCC3-802EAA377343}")
+cpp_quote("extern GUID guidCOMPlusNewArchEngine;")
+cpp_quote("// {F4453496-1DB8-47F8-A7D5-31EBDDC2EC96}") 
+cpp_quote("extern GUID guidConcordGpuEng;")
+
+interface IDebugExpressionCompilationContext110;
+interface IDebugCompiledExpression110;
+
+interface IQueryComputeThreadInfo110;
+interface IEnumComputeThreadInfo110;
+interface IEnumMatchedStackFrameInfo110;
+interface IEnumDebugComputeKernel110;
+interface IDebugComputeThread110;
+interface IDebugComputeKernel110;
+interface IDebugProgram110;
+interface IDebugPropertyBag110;
+interface IDebugComputeKernelDispatchEvent110;
+
+interface IEnumGroupEvaluationResults110;
+interface IDebugGroupEvaluationCompleteEvent110;
+interface IDebugGroupExpressionEvaluator110;
+
+interface IVsDebugLaunchNotifyListener110;
+
+const UINT32 MAX_DIM = 10;	// max number of group or thread dimensions
+
+enum enum_COMPUTE_THREAD_STATE
+{
+    CTS_UNKNOWN                        = 0x0000,
+
+    CTS_ACTIVE                         = 0x0001,
+    CTS_DIVERGENT                      = 0x0002,
+    CTS_BLOCKED                        = 0x0004,
+    CTS_UNUSED                         = 0x0008,
+    CTS_NOTSTARTED                     = 0x0010,
+    CTS_COMPLETED                      = 0x0020
+};
+typedef DWORD GPU_THREAD_STATE;
+
+enum enum_QUERY_COMPUTETHREAD_INFO_FLAGS
+{
+    QCTIF_NONE                          = 0x0000,
+
+    QCTIF_THREAD_GROUP_ID               = 0x0001,
+    QCTIF_VECTOR_ID                     = 0x0002,
+    QCTIF_THREAD_ID                     = 0x0004,
+    QCTIF_THREAD_STATE                  = 0x0008,
+    QCTIF_FLAG_STATE                    = 0x0010,
+    QCTIF_INSTRUCTION_POINTER           = 0x0020,
+    QCTIF_FROZEN                        = 0x0040,
+
+    QCTIF_ALL                           = 0xffff
+};
+typedef DWORD QUERY_COMPUTETHREAD_INFO_FLAGS;
+
+typedef struct 
+    tagCOMPUTE_THREAD_INFO
+{
+    UINT32            threadCount;          // The number of threads represented by this object, can be greater than one if it is a "coalesced thread
+    UINT32            vectorId;             // Vector index, if threadCount is greater than 1, vectorId is the vector ID of a canonical thread
+    UINT64            groupId;              // Unique-to-kernel group identifier, could be the group index of a caconical thread in a group by result
+    UINT64            threadId;             // Unique-to-kernel thread identifier, could be the thread ID of a caconical thread
+    UINT64            instructionPointer;   // The IP of the thread, could be the IP of a caconical thread
+	
+    GPU_THREAD_STATE  threadState;          // Thread status of the thread, could be the status of a caconical thread
+    BOOL              flagged;              // False if the thread is not flagged    
+    BOOL              frozen;               // True if thread frozen, false if not
+} COMPUTE_THREAD_INFO;
+
+typedef struct
+    tagWHERE_CLAUSE
+{
+    QUERY_COMPUTETHREAD_INFO_FLAGS  columnFlags;
+    COMPUTE_THREAD_INFO             values;
+} WHERE_CLAUSE;
+
+[
+    object,
+    uuid(14A2ADDE-1F63-41B5-AD3E-06F6F8E4C0D5),
+    pointer_default(unique),
+]
+interface IQueryComputeThreadInfo110: IUnknown
+{
+    HRESULT Select(
+        [in]  WHERE_CLAUSE*                pWhereClause,
+        [out] IEnumComputeThreadInfo110**  ppEnum
+        );
+
+    HRESULT GroupBy(
+        [in]  QUERY_COMPUTETHREAD_INFO_FLAGS  dwGroupByFlags,
+        [in]  WHERE_CLAUSE*                   pWhereClause,
+        [out] IEnumComputeThreadInfo110**     ppEnum
+        );
+
+    // Finds all threads in the kernel that have at least one stack frame that matches the one provided
+    HRESULT FindThreadsWithFrame(
+        [in]  IDebugStackFrame2*            pMatchThisFrame,        // Stack frame to match
+        [out] IEnumMatchedStackFrameInfo110**   ppEnum              // Result enum
+        );
+
+    // If these methods are called between UpdateThreadsBegin/UpdateThreadsEnd, only one IDebugComputeThreadPropertyChangedEvent110 will be fired in UpdateThreadsEnd; otherwise
+    // each invocation of UpdateFlaggedState or UpdateFrozenState will fire one IDebugComputeThreadPropertyChangedEvent110 event.
+    HRESULT UpdateFlaggedState(
+        [in]  WHERE_CLAUSE*             pWhereClause,
+        [in]  BOOL                      fFlagged
+        );
+
+    HRESULT UpdateFrozenState(
+        [in]  WHERE_CLAUSE*             pWhereClause,
+        [in]  BOOL                      fFrozen
+        );
+
+    // These two APIs are used when you want to call UpdateFlaggedState or UpdateFrozenState multiple times. If UpdateFlaggedState or UpdateFrozenState is called
+    // between FlagThreadsBegin/FlagThreadsEnd, only one IDebugComputeThreadPropertyChangedEvent110 will be fired in UpdateThreadsEnd;
+    // otherwise each invocation of UpdateFlaggedState or UpdateFrozenState will fire one IDebugComputeThreadPropertyChangedEvent110 event.
+    HRESULT UpdateThreadsBegin();
+    HRESULT UpdateThreadsEnd();
+}
+
+[
+    object,
+    uuid(983C0EF8-F4F3-432C-8D4A-0866C55D4B79),
+    pointer_default(unique),
+]
+interface IEnumComputeThreadInfo110: IUnknown
+{
+    HRESULT Next(
+              [in] ULONG celt,
+              [out, size_is(celt), length_is(*pceltFetched)] COMPUTE_THREAD_INFO* rgelt,
+              [in, out] ULONG* pceltFetched);
+
+       HRESULT Skip(
+              [in] ULONG celt);
+
+       HRESULT Reset(void);
+
+       HRESULT Clone(
+              [out] IEnumComputeThreadInfo110** ppEnum);
+
+       HRESULT GetCount(
+              [out] ULONG* pcelt);
+}
+
+typedef struct
+    tagMATCHED_STACK_FRAME_INFO
+{
+    UINT64          threadId;               // Unique-to-kernel thread identifier
+    INT32           stackFrameIndex;        // Index of the matched stack frame (0 = top of stack, -1 = frame not found)
+} MATCHED_STACK_FRAME_INFO;
+
+[
+    object,
+    uuid(7007BEF7-8A7D-4539-BD92-9B177B75AEC9),
+    pointer_default(unique),
+]
+interface IEnumMatchedStackFrameInfo110: IUnknown
+{
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] MATCHED_STACK_FRAME_INFO* rgelt,
+        [in, out] ULONG* pceltFetched);
+
+    HRESULT Skip(
+        [in] ULONG celt);
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumMatchedStackFrameInfo110** ppEnum);
+
+    HRESULT GetCount(
+        [out] ULONG* pcelt);
+};
+
+/*
+ * Only threads corresponding to kernel executions need implement this interface. Any thread implementing this will also implement
+ * IDebugThread2 and so support stack walking. The logical "current" Vector, Group and Kernel can be determined by walking up
+ * the back pointers from the IDebugComputeThread110.
+*/
+[
+    object,
+    uuid(E50A6E8D-74BA-4F69-956D-9C27D86F5922),
+    pointer_default(unique),
+]
+interface IDebugComputeThread110: IUnknown
+{
+	HRESULT 
+        GetComputeThreadInfo([out] COMPUTE_THREAD_INFO* pInfo);
+	HRESULT GetComputeKernel(
+		[out] IDebugComputeKernel110** ppComputeKernel);
+};
+
+/*
+ * Allow threads to be reference threads - that is placeholder threads for some set of non-system threads. This is simply to provide 
+ * continuity with the existing api set.
+ */
+[
+    object,
+    uuid(ED1847BC-EF75-459F-A1DA-5042CF83F229),
+    pointer_default(unique),
+]
+interface IDebugComputeKernel110: IUnknown
+{
+
+	const UINT32 MAX_COMPUTE_DIM = 10;	// max number of group or thread dimensions
+
+    typedef struct 
+              tagCOMPUTE_INFO
+       {
+        // groupDims and THreadDims always reflect the HLSL virtual machine
+              UINT32 numGroupDims;
+              UINT32 groupDims[MAX_COMPUTE_DIM];
+              UINT32 numThreadDims;             
+              UINT32 threadDims[MAX_COMPUTE_DIM];
+        // if FlatModel is true then format ids based on the flat model thread dims
+              UINT32 numFlatThreadDims;         
+              UINT32 flatThreadDims[MAX_COMPUTE_DIM];
+		      INT32  flatIndexBase[MAX_COMPUTE_DIM];
+              BOOL FlatModel;
+		// Compute Kernel Name	
+              BSTR computeKernelName;
+			  BSTR groupName;     // e.g., “Tile” for DPC, “ThreadGroup” for HLSL
+       } COMPUTE_INFO;
+
+	HRESULT GetComputeParameters(
+		[out] COMPUTE_INFO* pComputeInfo);
+
+	typedef struct 
+			tagPAIR
+	{
+		BSTR name;
+		BSTR value;
+	} Pair;
+
+    HRESULT GetKernelProperties(
+        [in] ULONG cProperties, //max is fixed size
+        [out, size_is(cProperties), length_is(*pcProperties)] Pair* KernelProperties, 
+        [in, out] ULONG *pcProperties);
+
+	HRESULT GetProgram(
+		[out] IDebugProgram2** ppProgram);
+
+    HRESULT GetModule(
+              [out] IDebugModule2** ppModule);
+
+    HRESULT QueryComputeThreadInfo(
+        [out] IQueryComputeThreadInfo110** ppEnum);
+
+    HRESULT GetThreadForComputeThread(
+        [in]  UINT64                   nThreadId,
+        [out] IDebugThread2**          ppThread);
+
+    HRESULT GetComputeKernelId(
+        [out] UINT32*                  pnKernelId);
+};
+
+
+[
+    object,
+    uuid(007D8D53-ACBE-4FC6-99BE-6BBF13D9F8D3),
+    pointer_default(unique),
+]
+interface IDebugProgram110: IUnknown
+{
+    HRESULT EnumDebugComputeKernels(
+        [out] IEnumDebugComputeKernel110** ppEnum);
+};
+
+/*
+ * IDebugPropertyBag110 allows assigning properties to an IDebugProcess2.
+ * This is currently used to provide a different process ID for cluster
+ * programming models (like MPI).  The currently used keys are:
+ *    ProgrammingModelProcessIdName  (example value: "MPI Rank")
+ *    ProgrammingModelProcessId      (example value: "1")
+ */
+[
+    object,
+    uuid(574F2363-BD5B-43D4-A30F-3A0C562D5BEF),
+    pointer_default(unique),
+]
+interface IDebugPropertyBag110: IUnknown
+{
+    HRESULT GetProperty([in] BSTR bstrKey, [out] BSTR* pbstrValue);
+    HRESULT SetProperty([in] BSTR bstrKey, [in] BSTR bstrValue);
+};
+
+[
+    object,
+    uuid(9A663B05-DC59-41D4-BEBF-A6A574D1D3EC),
+    pointer_default(unique),
+]
+interface IEnumDebugComputeKernel110: IUnknown
+{
+    HRESULT Next(
+              [in] ULONG celt,
+              [out, size_is(celt), length_is(*pceltFetched)] IDebugComputeKernel110** rgelt,
+              [in, out] ULONG* pceltFetched);
+
+       HRESULT Skip(
+              [in] ULONG celt);
+
+       HRESULT Reset(void);
+
+       HRESULT Clone(
+              [out] IEnumDebugComputeKernel110** ppEnum);
+
+       HRESULT GetCount(
+              [out] ULONG* pcelt);
+};
+
+[
+    object,
+    uuid(9DAACCD8-4368-4391-B8D5-3E4A6B794A20),
+    pointer_default(unique),
+]
+interface IDebugComputeThreadPropertyChangedEvent110: IUnknown
+{
+};
+
+
+// ------------------------------------------------------------------
+// IDebugComputeKernelDispatchEvent110
+[
+	object,
+	uuid(E157B5E4-7380-4516-9624-C5BA188D8431),
+	pointer_default(unique)
+]
+interface IDebugComputeKernelDispatchEvent110: IUnknown
+{
+	HRESULT GetComputeKernel(
+		[out] IDebugComputeKernel110** pComputeKernel,
+		// Set to TRUE if the compute kernel is dispatched; FALSE if dispatch is finished
+		[in, out] BOOL* pbDispatch);
+};
+
+
+[
+    object,
+    uuid(5CFCAF33-9B58-49B3-9BE3-E47BEC9FA20C),
+    pointer_default(unique),
+]
+interface IDebugStackFrame110: IUnknown
+{
+    HRESULT ShouldShowPropagateSideEffectsIcon([out] BOOL* pfShowIcon);
+    HRESULT GetExpressionCompilationContext(
+        [out] IDebugExpressionCompilationContext110** ppExprCxt);
+
+}
+
+/*
+ * From Gregg: IDebugExpressionCompilationContext110
+ */
+[
+    object,
+    uuid(3DE09ACE-D2B6-4054-B17B-1120B0160283),
+    pointer_default(unique),
+]
+interface IDebugExpressionCompilationContext110: IUnknown
+{
+	HRESULT 
+        CompileText(
+			[in] LPCOLESTR pszCode,
+			[in] DWORD /*EVALFLAGS*/ evalFlags,
+			[in] UINT32 nRadix,
+			[out] IDebugCompiledExpression110** ppExpr,
+			[out] BSTR* pbstrError,
+			[out] UINT32* pichError);
+};
+
+[
+    object,
+    uuid(A528D84A-06D7-48B0-8825-614F4C5C1F68),
+    pointer_default(unique),
+]
+interface IDebugCompiledExpression110: IUnknown
+{
+    HRESULT GetExpressionContext(
+        [out] IDebugExpressionCompilationContext110 ** ppExpressionContext
+        );
+
+	HRESULT GroupEvaluateAsync(
+        [in] ULONG cNumThreads,
+        [in, size_is(cNumThreads)] UINT64 * rgComputeThreadIds
+        );
+
+    HRESULT Abort();
+};
+
+[
+    object,
+    uuid(CB9D13F7-B6EC-4971-8075-7A21554D0F4B),
+    pointer_default(unique),
+]
+interface IEnumGroupEvaluationResultContext110 : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG cResultBufferSize,
+        [out, size_is(cResultBufferSize), length_is(*pcResultsFetched)] UINT64 * rgComputeThreadIds,
+        [out, size_is(cResultBufferSize), length_is(*pcResultsFetched)] BSTR * rgEvaluationValues,
+        [out] ULONG* pcResultsFetched);
+
+    HRESULT Skip(
+        [in] ULONG cResultsToSkip
+        );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumGroupEvaluationResultContext110** ppEnum
+        );
+
+    HRESULT GetCount(
+        [out] ULONG* pcTotalResults
+        );
+
+    HRESULT GetCanonicalProperty(
+        [out] IDebugProperty2** ppCanonicalProperty
+        );
+
+    HRESULT GetEvaluationResult();
+};
+
+[
+    object,
+    uuid(B9AB98D4-0454-4093-8793-2EBA79E8C66E),
+    pointer_default(unique),
+]
+interface IEnumGroupEvaluationResults110 : IUnknown
+{
+    HRESULT Next(
+        [in] ULONG cResultBufferSize,
+        [out, size_is(cResultBufferSize), length_is(*pcResultsFetched)] IEnumGroupEvaluationResultContext110** ppResultContexts,
+        [out] ULONG* pcResultsFetched);
+
+    HRESULT Skip(
+        [in] ULONG cResultsToSkip
+        );
+
+    HRESULT Reset(void);
+
+    HRESULT Clone(
+        [out] IEnumGroupEvaluationResults110** ppEnum
+        );
+
+    HRESULT GetCount(
+        [out] ULONG* pcTotalResults
+        );
+};
+
+[
+    object,
+    uuid(BA675ACF-E798-4B06-A843-C0ED2631E015),
+    pointer_default(unique),
+]
+interface IDebugGroupEvaluationCompleteEvent110 : IUnknown
+{
+    HRESULT GetExpression(
+        [out] IDebugCompiledExpression110 **ppExpression
+        );
+
+    HRESULT GetEvaluationResult();
+
+    HRESULT GetResults(
+        [out] IEnumGroupEvaluationResults110 ** ppResultsEnum
+        );
+};
+
+[
+    object,
+    uuid(8AB88B04-2586-47CE-8A23-E3130F86296F),
+    pointer_default(unique)
+]
+interface IDebugBreakpointRequest110 : IUnknown
+{
+    // Obtain the automation object for a breakpoint. (AddRefs if success)
+    //
+    HRESULT GetAutomationObject([out] IUnknown ** ppAutomationObject);
+
+    // true if the request is to set a barrier breakpoint. For now it works for GPU but
+    // may become useful in CPU scenarios too.
+    HRESULT GetIsBarrier([out] BOOL* isBarrier);
+};
+
+// Optional interface on bound breakpoints used to indicate if a bound breakpoint corresponds to GPU or CPU code. 
+// Currently used to disable breakpoint contraints for GPU breakpoints.
+[
+    object,
+    uuid(F7D19258-7AED-45C5-BB5A-1657B035360D),
+    pointer_default(unique)
+]
+interface IDebugBoundBreakpoint110 : IUnknown
+{
+    // Enumeration that defines the type of code a breakpoint is bound to.
+    typedef enum enum_TARGET_CODE_TYPE
+    {
+        TCT_UNKNOWN,
+        TCT_CPU_CODE,
+        TCT_GPU_CODE
+    }TARGET_CODE_TYPE;
+
+    // Get the type of code the breakpoint is bound to.
+    HRESULT GetTargetCodeType(
+        [out] TARGET_CODE_TYPE* pTargetCodeType);
+}
+
+// Implemented by VS debugger UI document position objects to return the language and 
+// checksum in calls to IDebugProgram2.EnumCodeContexts.
+[
+    object,
+    uuid(d3376546-5c4b-46f4-9e38-2cc7c0c2eb41),
+    pointer_default(unique)
+]
+interface IDebugDocumentPosition110 : IUnknown
+{
+    // get the checksum based on the specified algorithm
+    // pChecksumData->pBytes is allocated by the callee, and should be freed by the caller with CoTaskMemFree
+    HRESULT GetChecksum([in] REFGUID guidAlgorithm, [out] CHECKSUM_DATA* pChecksumData);
+
+    HRESULT IsChecksumEnabled([out] BOOL* pfChecksumEnabled);
+
+    // Returns the language of the document position. Can be GUID_NULL (Guid.Empty) if the language is unknown.
+    HRESULT GetLanguage([out] GUID* pguidLanguage);
+    
+    // Returns the text of the document position.
+    HRESULT GetText([out] BSTR* pbstrText);
+};
+
+// Interface implemented by the debugger UI to provide the user notification on slow operations.
+// This interface can be obtained by VsCoCreate of CLSID_DebugUserNotificationUI110. 
+[
+    object,
+    uuid(43fee995-53cd-41aa-9ec9-ca1281378788),
+    pointer_default(unique)
+]
+interface IDebugUserNotificationUI110 : IUnknown
+{
+	// Called when we have waited for the remote side to return a reply, and the reply has been slow 
+	// to arrive. E_ABORT should be returned if the operation/connection should be aborted.
+	HRESULT WaitOnSlowRemoteDebuggingOperation(
+		[in] WIN32_HANDLE waitHandle, 
+		[in] BOOL isCancelableOperation
+		);
+
+	// This method will bring the waiting UI and will return immediately. 
+	// pCancelWaitHandle is pointer to the wait handle that will become signaled when the user 
+	// presses 'Cancel' button on the dialog. This handle will remain valid until the 
+	// IDebugUserNotificationUI110 instance is released.
+	HRESULT BeginWaitOnSlowSymbolLoad(
+		[in] LPCWSTR moduleName,
+		[out] WIN32_HANDLE* pCancelWaitHandle
+		);
+
+	// This method is called by an engine to shutdown the notification UI. It may only be called after a successful
+	// call to BeginWaitOnSlowSymbolLoad. It doesn't need to be called in the case that the cancel button was
+	// hit.
+	HRESULT EndWaitOnSlowSymbolLoad(
+		);
+
+	// Called on the same instance of IDebugUserNotificationUI110 when the engine would like to notify
+	// that it is now loading a different module. It may only be called after a successful
+	// call to BeginWaitOnSlowSymbolLoad.
+	// 
+	// This method will return:
+	//   S_OK - if window text was successfully updated
+	//   E_FAIL - if WaitOnSlowSymbolLoad() it not currently in progress on this instance of IDebugUserNotificationUI110   
+	HRESULT UpdateModuleNameForCurrentSymbolLoad(
+		[in] LPCWSTR newModuleName
+		);
+
+	// Called when we have waited for group EE operation to finish and it has been slow to finish
+	// E_ABORT should be returned if the operation should be aborted.
+	HRESULT WaitOnSlowGroupEEOperation(
+		[in] WIN32_HANDLE waitHandle 
+		);
+
+};
+
+
+// Interface implemented by the SDM's default port
+[
+    object,
+    uuid(690ffd4f-6336-4689-9bc6-c8f87c1d333c),
+    pointer_default(unique)
+]
+interface IDebugDefaultPort110 : IUnknown
+{
+    // This is an overload of IDebugPort2.EnumProcesses which allows the caller to specify if processes
+    // which are shown only in 'Show processes from all users' case should be included in the enumerator.
+    HRESULT EnumProcesses(
+        [in] BOOL fIncludeFromAllUsers, 
+        [out] IEnumDebugProcesses2** ppEnum);
+};
+
+[
+    object,
+    uuid(712b9487-3492-42a4-87f4-a676ed3707ce),
+    pointer_default(unique)
+]
+interface IDebugSettingsCallback110 : IUnknown
+{
+    //Retrieves the display radix to use when formatting values in the EE windows.
+    HRESULT GetDisplayRadix([out] UINT32* pdwRadix);
+    
+    //Retrieves the user document visual studio path
+    HRESULT GetUserDocumentPath([out] BSTR* pbstrUserDocumentPath);
+    
+    // Retrieves the ShowNonPublicMembers setting for EE
+    HRESULT ShouldHideNonPublicMembers([out] BOOL* pfHideNonPublicMembers);
+
+    // Retrieves the NoToString setting for the EE
+    HRESULT ShouldSuppressImplicitToStringCalls([out] BOOL* pfSuppressImplicitToStringCalls);
+}
+
+// Optional interface that engines may implement
+[
+    object,
+    uuid(6f274ec0-3772-415c-969f-58bac0e2c5a9),
+    pointer_default(unique)
+]
+interface IDebugEngine110 : IUnknown
+{
+    //Called when a debug session gets initialized to notify the engine
+    //of the IDebugSettingsCallback110
+    HRESULT SetMainThreadSettingsCallback110(IDebugSettingsCallback110* pCallback);
+}
+
+// Message structure used to pass information between custom debugger backend
+// components and custom visual studio UI components (packages, addins, etc).
+struct VsComponentMessage
+{
+    // Identifies the source of this message. This may be used to decide which
+    // component understands this message. This value along with MessageCode define
+    // the format of the content. GUIDs can be generated with the guidgen.exe tool.
+    GUID SourceId;
+    // Identifies the type of custom event being sent. Partners are free to define any
+    // set of values.
+    DWORD MessageCode;
+    // Specifies additional message-specific information.
+    VARIANT Parameter1;
+    // Specifies additional message-specific information.
+    VARIANT Parameter2;
+};
+
+// Interface implemented by a VS package to receive a non-stopping debug event
+// (EVENT_STOPPING flag is clear from event attributes).
+[
+    local,
+    object,
+    uuid(b704f6b1-1339-4c29-b402-ddd5a7f6f82a),
+    pointer_default(unique)
+]
+interface IVsCustomDebuggerEventHandler110: IUnknown
+{
+    // Notification method called by the debugger package. Note that a package
+    // sound defend against invalid input to this method as its source may not be
+    // trusted.
+    HRESULT OnCustomDebugEvent(
+        // Uniquely identifies the process which generated this event. More
+        // information about this process can be obtained by querying the debugger
+        // automation model.
+        [in] REFGUID ProcessId,
+        // Identifies the type of custom event being sent. Partners are free to define any
+        // set of values.
+        // message from the debug engine
+        [in] struct VsComponentMessage message
+        );
+};
+
+
+[
+    local,
+    object,
+    uuid(f5cd73fa-13b2-4166-87dc-562ea46e0075),
+    pointer_default(unique)
+]
+interface IVsCustomDebuggerStoppingEventHandler110: IUnknown
+{
+    // Notification method called by the debugger package. Note that a package
+    // sound defend against invalid input to this method as its source may not be
+    // trusted.
+    HRESULT OnCustomStoppingDebugEvent(
+        // Uniquely identifies the process which generated this event. More
+        // information about this process can be obtained by querying the debugger
+        // automation model.
+        [in] REFGUID ProcessId,
+        // message from the debug engine
+        [in] struct VsComponentMessage message,
+        // Should execution be continued?
+        [out] BOOL* pContinueExecution
+        );
+};
+
+
+// Custom event which can be sent from a debug engine to a particular
+// Visual Studio package. This interface is implemented by debug engines
+// and consumed by the Visual Studio UI (package).
+[
+    object,
+    uuid(2615d9bc-1948-4d21-81ee-7a963f20cf59),
+    pointer_default(unique)
+]
+interface IDebugCustomEvent110: IUnknown
+{
+    HRESULT GetCustomEventInfo(
+        // Visual Studio service that this event should be sent to. A VS package must 
+        // register this service id (ex: HKLM\Software\Microsoft\VisualStudio\<ver>\Services\{guidVSService}).
+        // This package must implement the IVsCustomDebuggerEventHandler110 or 
+        // IVsCustomDebuggerStoppingEventHandler110 interface.
+        [out] GUID* guidVSService,
+        // Service to send the message to
+        [out] struct VsComponentMessage* message
+        );
+};
+
+enum VsDebugLaunchNotifyListenerFlags
+{
+    // default set of flags for the listener
+    VsDebugLaunchNotify_Default = 0,
+
+    // Listener has been created for debugging Windows Store apps, or 
+    // Windows Phone applications. When  this flag is present, the debugger will register 
+    // with the operating system to receive notification  when a process is launched with
+    // the specified package full name. When this flag is set, the 
+    // PackagedAppFullName/PackagedAppPlatform fields are required.
+    VsDebugLaunchNotify_RegisterForAppPackage = 0x1,
+
+    // Detach from the process on stop debugging instead of terminating it
+    VsDebugLaunchNotify_DetachOnStopDebugging = 0x2,
+
+    // Instructs Visual Studio to stay in run mode (instead of returning to design mode)
+    // when all the target processes exit. Visual Studio will return to design mode only
+    // if the user does a stop debugging, or until the listener is closed.
+    VsDebugLaunchNotify_DebugWithZeroProcesses = 0x4
+};
+cpp_quote("DEFINE_ENUM_FLAG_OPERATORS(VsDebugLaunchNotifyListenerFlags)")
+
+struct VsDebugLaunchNotifyListenerProperties
+{
+    // Engine filter to use when attaching to processes
+    [size_is(EngineFilterCount)] GUID* EngineFilterArray;
+
+    // Count of engines in EngineFilterArray
+    DWORD EngineFilterCount;
+
+    // Session id of target processes which should be debugged. If requests
+    // come in from a different session id, the debugger will ignore the request. This
+    // may be set to MAXDWORD (uint.MaxValue) to indicate the session of msvsmon.exe 
+    // (remote debugging) / Visual Studio (local debugging).
+    DWORD ExpectedSessionId;
+
+    // [Optional] Packaged application which is allowed to connect to the listener.
+    // If null, Windows Store apps will not be allowed to connect.
+    LPCWSTR PackagedAppFullName;
+
+    // [Optional] Indicates if PackagedAppFullName is for a Windows 8 based, or a 
+    // Windows Phone based application. Values are defined in the VsAppPackagePlatform 
+    // enum which can be found in / Microsoft.VisualStudio.Shell.Interop.11.0/vsshell110.h.
+    DWORD PackagedAppPlatform;
+
+    // [Optional] Double-null terminated string containing additional environment variables
+    // which should be added to the target process.
+    BSTR AdditionalEnvironmentVariables;
+
+    // Flag properties for this listener.
+    enum VsDebugLaunchNotifyListenerFlags Flags;
+
+    // [Optional] Custom options to pass along to the debug engine
+    BSTR Options;
+
+    // [Optional] Project which is being launched. If non-NULL, this value must implement
+    // IVsHierachy. For Windows Store apps, this is used to allow easy editing of 
+    // application capability settings when an exception is thrown due to missing 
+    // capabilities. 
+    IUnknown* Project;
+
+    // [Optional] IUnknown value which can be used to carry settings to a debug engine.
+    IUnknown* LaunchSettingsContainer;
+};
+
+// Implemented by the Debugger package, obtained via the SID_SVsShellDebugger service. 
+[
+    object,
+    uuid(a8ee3398-a74d-429c-8d1c-e3ad96637649),
+    pointer_default(unique)
+]
+interface IVsDebugLaunchNotifyListenerFactory110: IUnknown
+{
+    // Instructs the debugger to connect to the specified computer, and begin
+    // listening for notification that new target process have started. Target
+    // processes should be started suspended, and the debugger can be notified
+    // via the command line returned from 
+    // IVsDebugLaunchNotifyListener110.GetNotifyCommandLine.
+    //
+    // guidPortSupplier may for GUID_NULL or guidLocalPortSupplier for local debugging
+    // or remote debugging over Windows Authentication. It may be guidNativePortSupplier 
+    // for remote debugging without authentication (including non-native scenarios). Other
+    // port suppliers are not currently supported
+    //
+    // E_REMOTE_CONNECT_USER_CANCELED can be returned if the user cancels the remote
+    // connection. VSDEBUG_ERROR_CANNOT_LAUNCH_DEBUG_TARGETS is returned for all other
+    // errors, and error information is available through COM.
+    HRESULT StartListener(
+        [in] LPCWSTR transportQualifier,
+        [in] REFGUID guidPortSupplier,
+        [in] struct VsDebugLaunchNotifyListenerProperties* pProperties,
+        [out] IVsDebugLaunchNotifyListener110** ppListener
+        );
+};
+
+[
+    object,
+    uuid(4a991d8c-4711-448f-90a9-0d962667799b),
+    pointer_default(unique)
+]
+interface IVsDebugLaunchNotifyListener110: IUnknown
+{
+    // Close the listener so that no further requests are sent. The listener is 
+    // automatically closed when the debug session is destroyed.
+    HRESULT Close();
+
+    // Obtains the information required to start the target process, and have the debugger 
+    // immediately attach.
+    // 
+    // pNotifyCommandLine: Returns a command line to execute on the target computer. The
+    // command line will start with a quoted path to where VsDebugLaunchNotify.exe can be
+    // found on the target computer and will include any arguments. The host environment 
+    // is responsible for starting VsDebugLaunchNotify.exe on the target computer with 
+    // this command line, and with the process id and thread id appended as a suffix such
+    // that the full command line is:
+    //   %returnValueFromThisMethod% -p %processId% -t %threadId%
+    //
+    // pTargetProcessEnvironment: environment variables to pass to the target process as 
+    // it starts. This value is depends on the engines being used to debug the target 
+    // process. If no environment variables are required, NULL is returned. When 
+    // environment variables are required, the format is a double-null terminated string.
+    // See the documentation for CreateProcess Win32 API for more information.
+    HRESULT GetTargetStartInfo(
+        [out] BSTR* pNotifyCommandLine,
+        [out] BSTR* pTargetProcessEnvironment);
+
+    // Gets the IDebugCoreServer2 which represents the connection to the target computer.
+    // For remote debugging scenarios, this can be used to communicate with the host
+    // environment on the target computer through DkmCustomMessage.
+    HRESULT GetServer([out] IDebugCoreServer2** ppServer);
+};
+
+// Event which can be sent from debug engines to request that a newly-created
+// process should be debugged. The debugger will treat the new process the same
+// as if the debugger launched it. New processes should be suspended at the initial
+// suspension point the event sender is expected to:
+// 1. Create the process using the CREATE_SUSPENDED (0x4) flag.
+// 2. Leave the process suspended until 'OnAttachComplete' is called by the SDM
+[
+    object,
+    uuid(7a529a0a-d8ed-4abd-8218-f216b081ef3e),
+    pointer_default(unique)
+]
+interface IDebugLaunchedProcessAttachRequestEvent110: IUnknown
+{
+    struct ProcessAttachRequestEventInfo
+    {
+        // Port (transport connection) for the target process
+        IDebugPort2* pPort;
+
+        // process id to attach to.
+        DWORD ProcessId;
+
+        // Engine filter to use when attaching to processes
+        [size_is(EngineFilterCount)] GUID* EngineFilterArray;
+
+        // Count of engines in EngineFilterArray
+        DWORD EngineFilterCount;
+
+        // Name of the process. This is used for error messages in cases where the attach fails.
+        BSTR ProcessName;
+
+        // flag properties from the listener which is sending the request
+        enum VsDebugLaunchNotifyListenerFlags Flags;
+    };
+
+    HRESULT GetInfo(
+        [out] struct ProcessAttachRequestEventInfo* pInfo
+        );
+
+    HRESULT OnAttachComplete(
+        [in] BOOL fAttachSucceeded
+        );
+};
+
+//
+// Retrieves the AppDomain information. Supported on Concord engine only.
+//
+[
+    object,
+    uuid(585dbb5b-a542-4296-bec6-29d12a7b016c),
+    pointer_default(unique)
+]
+interface IAppDomainInfo110: IUnknown
+{
+    HRESULT GetAppDomainInfo(
+        [out] UINT32* pAppDomainId,
+        [out] BSTR* pbstrAppDomainName
+    );
+};
+
+// Interface implemented by Visual Studio packages which provide C++ visualizers.
+// C++ visualizers provided by a package must be registered using the 'UIVisualizer' element on a type in a .natvis file.
+[
+    object,
+    uuid(E8EB78C4-0569-4B6A-BC28-4D5E1B0A350A),
+    pointer_default(unique),
+    local
+]
+interface IVsCppDebugUIVisualizer: IUnknown
+{
+    // Method called by the debug package to instruct the visualizer to show itself and display the given value.
+    HRESULT DisplayValue(
+        // HWND of the owner window.
+        [in] DWORD_PTR ownerHwnd,                           
+
+        // An implementation-defined value to indicate which visualizer id to use.
+        // Packages that provide multiple visualizers can use this to identify 
+        // which visualizer needs to be invoked
+        [in] DWORD visualizerId,                           
+
+        // Value to display.
+        [in] IDebugProperty3* pDebugProperty);     
+};
+
+// Superset of enum_EVALFALGS100 defined in msdbg100.idl
+enum enum_EVALFLAGS110
+{
+    // ---------------------------------------------------------------------
+    // VS 8.0 values
+
+    // the return value is interesting
+    EVAL110_RETURNVALUE                 = 0x0002, // Same as EVAL_RETURNVALUE
+    // don't allow side effects
+    EVAL110_NOSIDEEFFECTS               = 0x0004, // Same as EVAL_NOSIDEEFFECTS
+    // stop on breakpoints
+    EVAL110_ALLOWBPS                    = 0x0008, // Same as EVAL_ALLOWBPS
+    // allow error reporting to the host
+    EVAL110_ALLOWERRORREPORT            = 0x0010, // Same as EVAL_ALLOWERRORREPORT
+    // evaluate any functions as address (instead of invoking the function)
+    EVAL110_FUNCTION_AS_ADDRESS         = 0x0040, // Same as EVAL_FUNCTION_AS_ADDRESS
+    // don't allow function/property evaluation
+    EVAL110_NOFUNCEVAL                  = 0x0080, // Same as EVAL_NOFUNCEVAL
+    // don't allow events
+    EVAL110_NOEVENTS                    = 0x1000, // Same as EVAL_NOEVENTS
+    // design-time expression evaluation
+    EVAL110_DESIGN_TIME_EXPR_EVAL       = 0x2000, // Same as EVAL_DESIGN_TIME_EXPR_EVAL
+    // Allow implicit variable creation
+    EVAL110_ALLOW_IMPLICIT_VARS         = 0x4000, // Same as EVAL_ALLOW_IMPLICIT_VARS
+
+    // ---------------------------------------------------------------------
+    // Values added in VS 9.0
+
+    // Force eval to occur now. Somebody is requesting it (like the user)
+    EVAL110_FORCE_EVALUATION_NOW        = 0x8000,
+
+    // ---------------------------------------------------------------------
+    // Values added in VS 10.0
+
+    //Disable use of the IL interpreter.  DO NOT USE THIS FLAG.  USE EVAL110_ENABLE_ILINTERPRETER instead.
+    EVAL110_NO_IL_INTERPRETER_DEPRECATED	= 0x10000,
+
+    // Force the EE to allow func-evals (not just ToString() or property getters) even if EVAL100_NOSIDEEFFECTS is present.
+    EVAL110_ALLOW_FUNC_EVALS_EVEN_IF_NO_SIDE_EFFECTS = 0x20000,
+
+    // Allow threads to slip during funceval.
+    EVAL110_ALLOW_THREADSLIPPING = 0x40000,
+
+    // ---------------------------------------------------------------------
+    // Values added in VS 11.0
+
+    EVAL110_SHOW_VALUERAW = 0x80000,
+
+    // All function evaluations should actually execute inside the debuggee, as opposed    
+    // to being interpreted through the IL interpreter.
+    EVAL110_FORCE_REAL_FUNCEVAL = 0x100000,
+
+    //Indicates that the IL interpreter is being used for the evaluation.  This includes real-func eval
+    //cases where the EE is talking to vil.  The only time this is cleared is when the interpreter is completely
+    //disabled (as in the C# EE talks directly to vil).  This flag is cleared in all non-Concord scenarios.
+    EVAL110_ILINTERPRETER_BEING_USED = 0x200000,
+};
+
+enum enum_DEBUGPROP_INFO_FLAGS110
+{
+    // ---------------------------------------------------------------------
+    // VS 8.0 values
+
+    DEBUGPROP110_INFO_FULLNAME				= 0x00000001,
+    DEBUGPROP110_INFO_NAME					= 0x00000002,
+    DEBUGPROP110_INFO_TYPE					= 0x00000004,
+    DEBUGPROP110_INFO_VALUE					= 0x00000008,
+    DEBUGPROP110_INFO_ATTRIB				= 0x00000010,
+    DEBUGPROP110_INFO_PROP					= 0x00000020,
+
+    DEBUGPROP110_INFO_VALUE_AUTOEXPAND		= 0x00010000,
+    DEBUGPROP110_INFO_NOFUNCEVAL			= 0x00020000,   // Tell EE not to perform ANY type of func-eval.
+    DEBUGPROP110_INFO_VALUE_RAW				= 0x00040000,   // Tell EE not to return any beautified values or members.
+    DEBUGPROP110_INFO_VALUE_NO_TOSTRING		= 0x00080000,   // Tell EE not to return any special synthesized values (ToString() for instance).
+    DEBUGPROP110_INFO_NO_NONPUBLIC_MEMBERS	= 0x00100000,   // Tell EE to return non-public members for non-user objects.
+
+    DEBUGPROP110_INFO_NONE					= 0x00000000,
+    DEBUGPROP110_INFO_STANDARD				= DEBUGPROP110_INFO_ATTRIB | DEBUGPROP110_INFO_NAME | DEBUGPROP110_INFO_TYPE | DEBUGPROP110_INFO_VALUE,
+    DEBUGPROP110_INFO_ALL					= 0xffffffff,
+
+    // ---------------------------------------------------------------------
+    // VS 9.0 values
+    DEBUGPROP110_INFO_NOSIDEEFFECTS          = 0x00200000,   // Tell EE not to perform any eval that has side effects
+
+    // ---------------------------------------------------------------------
+    // VS 10.0 values
+    //Disable use of the IL interpreter.
+    DEBUGPROP110_INFO_NO_IL_INTERPRETER	= 0x00400000,
+
+    // Force the EE to allow func-evals (not just ToString() or property getters) even if EVAL100_NOSIDEEFFECTS is present.
+    DEBUGPROP110_INFO_ALLOW_FUNC_EVALS_EVEN_IF_NO_SIDE_EFFECTS = 0x00800000,
+
+    DEBUGPROP110_INFO_ALLOW_THREADSLIPPING  = 0x01000000,    // Tell EE that slipping threads during funcevals is ok
+
+    // This flag says to use real funceval for evaluation when interpreted evalutaion is being used.
+    DEBUGPROP110_INFO_FORCE_REAL_FUNCEVAL = 0x02000000,
+
+    //Indicates that the IL interpreter is being used for the evaluation.  This includes real-func eval
+    //cases where the EE is talking to vil.  The only time this is cleared is when the interpreter is completely
+    //disabled (as in the C# EE talks directly to vil).  This flag is cleared in all non-Concord scenarios.
+    DEBUGPROP110_INFO_ILINTERPRETER_BEING_USED = 0x04000000
+};
+typedef DWORD DEBUGPROP110_INFO_FLAGS;
+
+
+// Tell the UI that this eval has side effects which have been discarded.  The user
+// will need to re-evaluate the expression with real func-eval mode turned on
+// in order to propagate the side effects.
+cpp_quote("#define DBG_ATTRIB_VALUE_UNFLUSHED_SIDEEFFECTS 0x0010000000000000")
+
+//Indicates that the property has a module associated with it.  Call IDebugProperty110::GetModule() to retrieve it.
+cpp_quote("#define DBG_ATTRIB_MODULE                      0x0020000000000000")
+
+#ifndef DEBUGGER_PIA_BUILD
+[ uuid(4712d1cd-991d-4896-8154-af95af9d9170) ]
+library msdbg110
+{
+#endif
+
+    [ uuid(7199ed2c-0b58-4d00-bc75-bec5a3b46d5d) ]
+    coclass DebugUserNotificationUI110
+    {
+    	[default] interface IDebugUserNotificationUI110;
+    };
+
+    interface IDebugThread110;
+    interface IDebugStackFrame110;
+    interface IDebugComputeThread110;
+    interface IDebugComputeKernel110;
+    interface IQueryComputeThreadInfo110;
+    interface IEnumComputeThreadInfo110;
+    interface IEnumMatchedStackFrameInfo110;
+    interface IDebugComputeThreadFlagChangeEvent110;
+    interface IDebugProgram110;
+    interface IDebugPropertyBag110;
+    interface IEnumDebugComputeKernel110;
+    interface IDebugComputeKernelDispatchEvent110;
+    interface IDebugExpressionCompilationContext110;
+    interface IDebugCompiledExpression110;
+
+    interface IEnumGroupEvaluationResults110;
+    interface IDebugGroupEvaluationCompleteEvent110;
+    interface IDebugGroupExpressionEvaluator110;
+
+    interface IVsCppDebugUIVisualizer;
+
+#ifndef DEBUGGER_PIA_BUILD
+};
+#endif
+
+// ------------------------------------------------------------------
+// IDebugRestrictedExceptionInfo110
+//
+// Not an event as such, but QI-able from an IDebugExceptionEvent2
+// to get more information about an exception to do with capabilities.
+//
+// The QI will fail if the exception isn't about missing capabilities or
+// is a restricted reference
+//
+// Implemented by debug engines and consumed by debug pkg and Exception
+// Assistant and anyone else listening in on debug events.
+[
+    object,
+    uuid(24EF7776-1EB8-42f6-8146-EC673FBCE5B4),
+    pointer_default(unique)
+]
+interface IDebugRestrictedExceptionInfo110: IUnknown
+{
+    // Either the capability or restricted reference is set. If restricted reference is set
+    // then caller needs to work out the restricted description and any missing capability 
+    // sid. The description needs to be combined with the rest of the exception message.
+    HRESULT GetInfo(
+        [out] BSTR* pbstrCapabilitySid,         
+        [out] BSTR* pbstrRestrictedReference
+    );
+};
+
+// ------------------------------------------------------------------
+// IDebugSessionProcess110 - interface implemented by 
+[
+    object,
+    uuid(e0b1eeac-4cb1-4421-a46b-c7a42f89ab67),
+    pointer_default(unique)
+]
+interface IDebugSessionProcess110: IUnknown
+{
+    // Obtains the processor architecture of the target process. 
+    // Ex: PROCESSOR_ARCHITECTURE_INTEL (0), PROCESSOR_ARCHITECTURE_ARM (5), or 
+    // PROCESSOR_ARCHITECTURE_AMD64 (9). 
+    //
+    // This value is not always available (ex: minidumps, SQL/CLR debugging, 
+    // non-default transport). In such scenarios, E_NOTIMPL is returned.
+    HRESULT GetProcessorArchitecture([out] UINT16* wProcessorArchitecture);
+
+    // Obtains the value for 'bstrOptions' passed from the project system during
+    // start debugging. S_FALSE/nullptr are returned if no options were passed.
+    HRESULT GetLaunchOptionsString([out] BSTR* bstrOptions);
+};
+
+// IDebugBreakpointFileUpdateNotification110 - Interface which may be optionally 
+// implemented by debug engines (on the IDebugEngine2 object) and which is implemented
+// by the SDM to obtain notification when files containing file/line breakpoints have 
+// been updated
+[
+    object,
+    uuid(A87AB572-49C1-4BF5-9F1B-E0A3F94CA27B),
+    pointer_default(unique)
+]
+interface IDebugBreakpointFileUpdateNotification110 : IUnknown
+{
+    // Provides notification that one or more files containing breakpoints have been
+    // updated. This API may be called in scenarios where latency sensitive scenarios,
+    // such as after the user saves a file. Therefore debug engines should implement
+    // any processing for the notification asynchronously.
+    //
+    // File paths will match the value returned from 
+    // IDebugDocumentPosition2.GetFileName. If the file has been renamed, the array will
+    // contain the original file name and the updated file name can be obtained through
+    // the IDebugDocumentPosition2 returned from the breakpoint request.
+    HRESULT OnBreakpointFilesUpdated(
+        [in] DWORD filePathCount,
+        [in, size_is(filePathCount)] LPCWSTR* filePathArray
+        );
+
+    // Called before Visual Studio attempts an operation which requires previous
+    // 'OnBreakpointFilesUpdate' notifications to be fully processed. For example, this
+    // will be called before a step/go command, or before a new launch happens.
+    HRESULT WaitForBreakpointFileUpdateProcessingComplete(
+        );
+};
+
+//Specifies the external modules (not including the current module) which
+//are used to format the object's value.  The display of the object will be enhanced
+//when symbols for each of these modules are loaded.  This does not include modules
+//which don't effect the display of the object until you click the button to expand it.
+//
+//Currently, this is supported only for C++ using Concord.
+[
+    object,
+    uuid("9119092a-be6b-44f0-914a-c9e83b9223cf"),
+    pointer_default(unique)
+]
+interface IDebugProperty110 : IUnknown
+{
+    HRESULT GetExternalModules([out] IEnumDebugModules2** ppEnum);
+};

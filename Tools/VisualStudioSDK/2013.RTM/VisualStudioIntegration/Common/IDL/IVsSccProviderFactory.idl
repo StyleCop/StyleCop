@@ -1,0 +1,43 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccProviderFactory.idl |
+IDL for projects that are bound to a specific kind of provider
+
+@owner Source Control Integration Team 
+-----------------------------------------------------------------------------*/
+
+/////////////////////////////////////////////////////////////////////////
+// interface IVsSccProviderFactory
+/////////////////////////////////////////////////////////////////////////
+
+// This interface is implemented on an object whose Shell Service ID (SID) is given by GetProviderService. Scc Manager QueryService's
+// this object and QIs for IVsSccProviderFactory to create a provider in which to host a project that is
+// being enlisted in. It is used to allow projects to force the source control system to use a specific VAPI-style 
+// source control provider 
+
+// A full description of the scenarios for this interface is in IVsSccProjectProviderBinding.idl
+
+import "objidl.idl";
+#include "SCGuids.h"
+
+[
+uuid(uuid_IVsSccProviderFactory),
+version(1.0),
+pointer_default(unique)
+]
+// @hung ivsspf
+interface IVsSccProviderFactory : IUnknown
+{
+	// @cmember Creates an scc provider ready for an enlistment to be created in it 
+	HRESULT // @rdesc error or S_OK
+	CreateProvider
+	(
+		[in]			LPCOLESTR				lpszProjectServerPath,		// @parm [in] the scc path of the project on the server
+		[in]			LPCOLESTR				lpszProjectLocalPath,		// @parm [in] the scc path of the project on the client
+		[out, retval]	IUnknown **				punkSession					// @parm [out] The provider
+	);
+
+};

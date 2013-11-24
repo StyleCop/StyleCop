@@ -1,0 +1,246 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) 1994-2003 Microsoft Corporation 
+// All rights reserved
+//
+//
+// compsvcspkg80.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell.idl";
+import "compsvcspkg.idl";
+#endif
+
+
+enum __VSCOMPENUMEXFLAGS
+{
+    VSCOMPENUM_IncludeRuntimeInfo = 0x00000001,  // include runtime version information (for assemblies) as a BSTR in the lCustom field of VSCOMPONENTSELECTORDATA struct
+};
+typedef DWORD VSCOMPENUMEXFLAGS;
+
+////////////////////////////////////////////////////////////////////////////
+// IVsComponentEnumeratorFactory3
+// This interface extends the flexibility of IVsComponentEnumeratorFactory2.
+
+[
+    uuid(0C2B582A-DDB2-440c-A777-3D46C3502337),
+    helpstring("IVsComponentEnumeratorFactory3 Interface"),
+    pointer_default(unique)
+]
+interface IVsComponentEnumeratorFactory3: IUnknown
+{  
+    HRESULT GetComponentsOfPathEx([in] BSTR bstrMachineName, [in] LONG lEnumType, [in] BOOL bForceRefresh, [in] VSCOMPENUMEXFLAGS grfFlags, [in] BSTR bstrPath, [out] IEnumComponents** pEnumerator);
+};
+
+////////////////////////////////////////////////////////////////////////
+// IVsSmartOpenScope
+// This service provides a way for a client to do the appropriate OpenScope
+// in one convenient call.  The service will determine whether OpenScope or
+// OpenScopeWithoutLocking should be called and will make the appropriate call.
+
+[
+    uuid(677D16F2-982E-49e6-ACDB-797991764AD8),
+    pointer_default(unique)
+]
+interface IVsSmartOpenScope : IUnknown
+{
+    // parameters are the same as those to IMetaDataDispenser::OpenScope.
+    HRESULT OpenScope([in] LPCOLESTR wszScope, [in] DWORD dwOpenFlags, [in] REFIID riid, [out] IUnknown **ppIUnk);
+}
+
+[
+    uuid(52F0DAB8-99A9-4aea-A037-42581B7009D2),
+    pointer_default(unique)
+]
+interface SVsSmartOpenScope : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsSmartOpenScope IID_SVsSmartOpenScope")
+
+
+////////////////////////////////////////////////////////////////////////
+// IVsAssemblyNameUnification
+// This service provides a way for a client to get the unified Fusion assembly name given a
+// framework directory, a simple Fusion name and a full Fusion name.  This service obtains
+// a list of framework assembly names (from FrameworkList.xml) and uses this list to determine
+// if the given simple name is in the list and if there is an assembly to which the given full
+// Fusion name can be unified.  If so, the full Fusion name for the unified assembly is returned.
+
+[
+    uuid(F33D7D20-49CE-47a7-9E3B-DCC9DD19AF00),
+    pointer_default(unique)
+]
+interface IVsAssemblyNameUnification : IUnknown
+{
+    HRESULT GetUnifiedAssemblyName([in] LPCOLESTR wszFrameworkDirectory,
+        [in] LPCOLESTR wszSimpleAssemblyName,
+        [in] LPCOLESTR wszFullAssemblyName,
+        [out] BSTR *pbstrUnifiedAssemblyName);
+}
+
+[
+    uuid(B54B4062-117D-46fc-BE19-CD20F2867D52),
+    pointer_default(unique)
+]
+interface SVsAssemblyNameUnification : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsAssemblyNameUnification IID_SVsAssemblyNameUnification")
+
+
+//----------------------------------------------------------------------
+// Flags to IVsSQLCLRReferences::UpdateReference
+//----------------------------------------------------------------------
+enum _SqlReferenceUpdateFlags
+{
+    SqlReferenceUpdateFlags_ForceUpdate=1
+};
+typedef DWORD SqlReferenceUpdateFlags;
+
+//----------------------------------------------------------------------
+// Flags to IVsSQLCLRReferences::InvokeNewReferencesDlg
+//----------------------------------------------------------------------
+enum _SqlAddNewReferenceFlags
+{
+    SqlAddNewReferenceFlags_DownloadSelected = 1 // causes the selected references to be downloaded to local cache 
+                                                                  // before caller's IVsComponetUser::AddComponet call
+};
+typedef DWORD SqlAddNewReferenceFlags;
+
+//----------------------------------------------------------------------
+// describes what action SQL Referece Update service did (reproted on IVsSQLCLRReferencesUpdateCallback::UpdateResult)
+//----------------------------------------------------------------------
+enum _SqlReferenceUpdateAction
+{
+    SqlReferenceUpdateAction_None= 1,
+    SqlReferenceUpdateAction_Delete= 2,
+    SqlReferenceUpdateAction_Update= 3
+};
+typedef DWORD SqlReferenceUpdateAction;
+
+//----------------------------------------------------------------------
+// IVsSQLCLRReferences - provides a common SQL CLR references utility
+//----------------------------------------------------------------------
+[
+   // {7E6F344E-52C0-4edc-814B-16C6DE4AE9B4}
+   // (0x7e6f344E, 0x52c0, 0x4edc, 0x81, 0x4b, 0x16, 0xc6, 0xde, 0x4a, 0xe9, 0xb4);
+   // {0x7e6f344E, 0x52c0, 0x4edc, {0x81, 0x4b, 0x16, 0xc6, 0xde, 0x4a, 0xe9, 0xb4}};
+    uuid(7E6F344E-52C0-4edc-814B-16C6DE4AE9B4),
+    version(1.0)
+]
+interface IVsSQLCLRReferencesUpdateCallback: IUnknown
+{
+    HRESULT UpdateResult([in] LPCWSTR szAssembly, [in] DWORD dwPermisionLevel, [in] HRESULT hrUpdateResult, [in] IErrorInfo *pErrorInfo, [in] SqlReferenceUpdateAction updateAction);
+}
+
+[
+   // {7E6F344D-52C0-4edc-814B-16C6DE4AE9B4}
+   // (0x7e6f344d, 0x52c0, 0x4edc, 0x81, 0x4b, 0x16, 0xc6, 0xde, 0x4a, 0xe9, 0xb4);
+   // {0x7e6f344d, 0x52c0, 0x4edc, {0x81, 0x4b, 0x16, 0xc6, 0xde, 0x4a, 0xe9, 0xb4}};
+    uuid(7E6F344D-52C0-4edc-814B-16C6DE4AE9B4),
+    version(1.0)
+]
+interface  IVsSQLCLRReferences: IUnknown
+{
+    // Invokes Sql Clr Add new Reference component picker dialog. 
+    HRESULT InvokeNewReferencesDlg([in] IUnknown *pConnection, [in] IUnknown *pAssemblySupport,
+        [in] SqlAddNewReferenceFlags dwAddNewReferenceFlags, 
+        [in] LPCWSTR szLocalCache, [in] DWORD dwProjectPermisionLevel, 
+        [in] IVsComponentUser *pComponentUserCallback);
+    // Sync the server and local cache.
+    HRESULT UpdateReferences([in] IUnknown *pConnection, [in] IUnknown *pAssemblySupport, 
+        [in] SqlReferenceUpdateFlags dwReferenceUpdateFlags , 
+        [in] ULONG cAssemblyCount, [in, size_is(cAssemblyCount)] LPCWSTR rgszAssemblies[], 
+        [in] LPCWSTR szLocalCache, 
+        [in] DWORD dwProjectPermisionLevel, 
+        [in] IVsSQLCLRReferencesUpdateCallback *pCallBack);
+};
+
+[
+    uuid(8ED9966C-102F-45b0-8293-BB9F2463A6F2),
+]
+interface  SVsSQLCLRReferences: IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsSQLCLRReferences IID_SVsSQLCLRReferences")
+
+
+
+
+//----------------------------------------------------------------------------
+// IEVsnumCryptoProviderContainers
+//----------------------------------------------------------------------------
+[
+    uuid("af855397-c4dc-478b-abd4-c3dbb3759e72"),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsEnumCryptoProviderContainers : IUnknown
+{
+    HRESULT Next([in] ULONG celt, [out, size_is(celt), length_is(*pceltFetched)] BSTR *pbstrContainers, [out] ULONG *pceltFetched);
+    HRESULT Reset();
+}
+
+//----------------------------------------------------------------------------
+// IVsEnumCryptoProviders
+//----------------------------------------------------------------------------
+[
+    uuid("f7fc33a9-10da-42be-9f88-9700e583ec33"),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsEnumCryptoProviders : IUnknown
+{
+    HRESULT Next([in] ULONG celt, [out, size_is(celt), length_is(*pceltFetched)] BSTR *pbstrProviders, [out] ULONG *pceltFetched);
+    HRESULT Reset();
+}
+
+//----------------------------------------------------------------------
+// IVsStrongNameKeys  - provides a common strong name keys utility functions
+//----------------------------------------------------------------------
+[
+    uuid("b0de8148-dabc-4ab9-b418-413e63df6e6c"),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsStrongNameKeys : IUnknown
+{
+    // Enumerate crypto providers
+    HRESULT EnumProviders([out] IVsEnumCryptoProviders **ppEnumProviders);
+
+    // Enumerate key contayners in crypto providers
+    HRESULT EnumContainers([in] LPCOLESTR szProvider, [out] IVsEnumCryptoProviderContainers **ppEnumContainers);
+
+    // Create a new key to be used for signing, exptort to a file and create new key container
+    HRESULT CreateNewKey([in] LPCOLESTR szFileLocation, [out] BSTR *pbstrFileName);
+
+    // Create a new key to be used for signing, exptort to a file and create new key container
+    HRESULT CreateNewKeyNoUI([in] LPCOLESTR szFile, [in] LPCOLESTR szPassword);
+
+    // Create a new key to be used for signing, exptort to a file and create new key container
+    HRESULT CreateNewKeyWithName([in] LPCOLESTR szFile, [in] LPCOLESTR szPassword, [in] LPCOLESTR szSubjectName);
+
+    // Imorts a PFX encrypted file to a key container.
+    HRESULT ImportKeyFromPFX([in] LPCOLESTR szFile, [out] BSTR *pbstrContainerName);
+
+    // change the password of existing file.
+    HRESULT ChangePassword([in] LPCOLESTR szPfxFile, [in] LPCOLESTR szOldPassword, [in] LPCOLESTR szNewPassword);
+}
+
+[
+    uuid("97BAE668-2CF2-4ed8-A019-D279E3D74C80"),
+]
+interface SVsStrongNameKeys : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsStrongNameKeys IID_SVsStrongNameKeys")

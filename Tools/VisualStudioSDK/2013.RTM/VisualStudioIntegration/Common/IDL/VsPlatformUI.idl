@@ -1,0 +1,635 @@
+/****************************************************************************
+*  The VS Platform UI Interfaces for hosting technology-neutral user interface elements
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "ocidl.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in VsPlatformUIuuids.h
+
+The interfaces in this file should obey the same rules defined in VsShell100.idl 
+
+****************************************************************************/
+
+#include "VsPlatformUIuuids.h"
+
+//-----------------------------------------------------------------------------
+// Interfaces between the logic and presentation layers
+//-----------------------------------------------------------------------------
+
+interface IVsUIDataSource;
+interface IVsUICollection;
+interface IVsUIDynamicCollection;
+
+// (not bitflags)
+typedef enum __tagVSUIDATAFORMAT
+{
+    VSDF_RESERVED    = -2,
+    VSDF_INVALID     = -1,
+    VSDF_BUILTIN     = 0,
+    VSDF_WIN32       = 1,
+    VSDF_WINFORMS    = 2,
+    VSDF_WPF         = 3,
+} __VSUIDATAFORMAT;
+
+typedef DWORD VSUIDATAFORMAT;
+
+// A list of supported built-in types
+cpp_quote("#define VSUI_TYPE_CHAR        L\"VsUI.Char\"")         // I8
+cpp_quote("#define VSUI_TYPE_INT16       L\"VsUI.Int16\"")        // I16
+cpp_quote("#define VSUI_TYPE_INT32       L\"VsUI.Int32\"")        // I32
+cpp_quote("#define VSUI_TYPE_INT64       L\"VsUI.Int64\"")        // I64
+cpp_quote("#define VSUI_TYPE_BYTE        L\"VsUI.Byte\"")         // UI8
+cpp_quote("#define VSUI_TYPE_WORD        L\"VsUI.Word\"")         // UI16
+cpp_quote("#define VSUI_TYPE_DWORD       L\"VsUI.DWord\"")        // UI32
+cpp_quote("#define VSUI_TYPE_QWORD       L\"VsUI.QWord\"")        // UI64
+cpp_quote("#define VSUI_TYPE_BOOL        L\"VsUI.Boolean\"")      // BOOL
+cpp_quote("#define VSUI_TYPE_STRING      L\"VsUI.String\"")       // BSTR
+cpp_quote("#define VSUI_TYPE_DATETIME    L\"VsUI.DateTime\"")     // DATETIME
+cpp_quote("#define VSUI_TYPE_SINGLE      L\"VsUI.Single\"")       // R4   
+cpp_quote("#define VSUI_TYPE_DOUBLE      L\"VsUI.Double\"")       // R8
+cpp_quote("#define VSUI_TYPE_DECIMAL     L\"VsUI.Decimal\"")      // DECIMAL
+cpp_quote("#define VSUI_TYPE_UNKNOWN     L\"VsUI.Unknown\"")      // IUnknown
+cpp_quote("#define VSUI_TYPE_DISPATCH    L\"VsUI.Dispatch\"")     // IDispatch
+cpp_quote("#define VSUI_TYPE_DATASOURCE  L\"VsUI.DataSource\"")   // DataSource 
+cpp_quote("#define VSUI_TYPE_COLLECTION  L\"VsUI.Collection\"")   // DataSource collection
+
+// A list of other types (can be extended using data converters)
+cpp_quote("#define VSUI_TYPE_BITMAP      L\"VsUI.Bitmap\"")
+cpp_quote("#define VSUI_TYPE_ICON        L\"VsUI.Icon\"")
+cpp_quote("#define VSUI_TYPE_IMAGELIST   L\"VsUI.ImageList\"")
+cpp_quote("#define VSUI_TYPE_COLOR       L\"VsUI.Color\"")
+
+typedef DWORD VSUICOOKIE;
+cpp_quote("#define VSUICOOKIE_NIL (0)")
+
+// The interface that is implemented by any data value exchanged via IVsUIxxx interfaces between the presentation and logic layer
+[
+    uuid(uuid_IVsUIObject),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIObject : IUnknown
+{
+    // Get the logical type of this object
+    HRESULT get_Type( [out] BSTR * pTypeName );
+
+    // Get the format of this object. This format and the (logical) type together
+    // form the "physical type" of this object. Ojects may be converted to
+    // objects of the same logical type but different formats via data converters.
+    HRESULT get_Format( [out] VSUIDATAFORMAT * pdwDataFormat );
+
+    // Get the value of this object as a VARIANT. The variant type depends on
+    // the physical type.
+    HRESULT get_Data( [out] VARIANT * pVar );
+
+    // Compare this object with another
+    HRESULT Equals( [in] IVsUIObject * pOtherObject, [out] VARIANT_BOOL * pfAreEqual );
+};
+
+// Packages can implement their own data converters for new data types or new presentation technologies/formats
+[
+    uuid(uuid_IVsUIDataConverter),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataConverter : IUnknown
+{
+    // Get the logical type to which this converter applies.
+    HRESULT get_Type( [out] BSTR * pTypeName );
+
+    // Get the 'from' and 'to' formats to which this converter applies.
+    HRESULT get_ConvertibleFormats([out] VSUIDATAFORMAT * pdwDataFormatFrom, [out] VSUIDATAFORMAT * pdwDataFormatTo );
+
+    // Convert an object.
+    HRESULT Convert( [in] IVsUIObject * pObject, [out] IVsUIObject ** ppConvertedObject );
+};
+
+// The converter manager is implemented by the shell on the SVsUIDataConverters service, allowing packages to register converters for additional data types
+[
+    uuid(uuid_IVsUIDataConverterManager),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataConverterManager : IUnknown
+{
+    // Add a new converter for the given type
+    HRESULT RegisterConverter( [in] LPCOLESTR typeName, [in] VSUIDATAFORMAT dwDataFormatFrom, [in] VSUIDATAFORMAT dwDataFormatTo, [in] IVsUIDataConverter * pConverter );
+    
+    // Remove a converter from the list of registered converters
+    HRESULT UnregisterConverter( [in] LPCOLESTR typeName, [in] VSUIDATAFORMAT dwDataFormatFrom, [in] VSUIDATAFORMAT dwDataFormatTo );
+
+    // Retrieve a converter for the given type
+    HRESULT GetConverter( [in] LPCOLESTR typeName, [in] VSUIDATAFORMAT dwDataFormatFrom, [in] VSUIDATAFORMAT dwDataFormatTo, [out] IVsUIDataConverter ** ppConverter);
+    
+    // Retrieve a suitable converter for the given object in the destination format
+    HRESULT GetObjectConverter( [in] IVsUIObject * pObject, [in] VSUIDATAFORMAT dwDataFormatTo, [out] IVsUIDataConverter ** ppConverter);
+};
+
+#ifndef PROXYSTUB_BUILD
+// Implemented by the Environment.
+// The service that implements the data converter manager
+[
+    uuid(uuid_SVsUIDataConverters)
+]
+interface SVsUIDataConverters : IUnknown
+{
+}
+cpp_quote("#define SID_SVsUIDataConverters __uuidof(SVsUIDataConverters)")
+#endif //ndef PROXYSTUB_BUILD
+
+// Represents a property in a VsUI data source.
+typedef struct tagVsUIPropertyDescriptor
+{
+    BSTR name;  // Name of the property
+    BSTR type;  // Type of the property
+} VsUIPropertyDescriptor;
+
+// Enumeration of data source properties (see IEnumXXXX)
+[
+    uuid(uuid_IVsUIEnumDataSourceProperties),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIEnumDataSourceProperties : IUnknown
+{
+    // Retrieves a specified number of items in the enumeration sequence.
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] VsUIPropertyDescriptor *rgelt,
+        [out] ULONG *pceltFetched);
+    
+    // Skips over a specified number of items in the enumeration sequence.
+    HRESULT Skip(
+        [in] ULONG celt);
+
+    // Resets the enumeration sequence to the beginning.
+    HRESULT Reset(void);
+
+    // Creates another enumerator that contains the same enumeration state as the current one.
+    HRESULT Clone(
+        [out] IVsUIEnumDataSourceProperties **ppEnum);
+};
+
+// Enumeration of verbs in a data source (see IEnumXXXX)
+[
+    uuid(uuid_IVsUIEnumDataSourceVerbs),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIEnumDataSourceVerbs : IUnknown
+{
+    // Retrieves a specified number of items in the enumeration sequence.
+    HRESULT Next(
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pceltFetched)] BSTR *rgelt,
+        [out] ULONG *pceltFetched);
+
+    // Skips over a specified number of items in the enumeration sequence.
+    HRESULT Skip(
+        [in] ULONG celt);
+
+    // Resets the enumeration sequence to the beginning.
+    HRESULT Reset(void);
+
+    // Creates another enumerator that contains the same enumeration state as the current one.
+    HRESULT Clone(
+        [out] IVsUIEnumDataSourceVerbs **ppEnum);
+};
+
+// Forward declaration
+interface IVsUISimpleDataSource;
+
+// Base interface for all event interfaces (IVsUIDataSourcePropertyChangeEvents and IVsUICollectionChangeEvents)
+[
+    uuid(uuid_IVsUIEventSink),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIEventSink : IUnknown
+{
+    // Unadvise from and release all references to the given event source
+    HRESULT Disconnect ([in] IVsUISimpleDataSource* pSource);
+};
+
+// Handler for property change event notification
+[
+    uuid(uuid_IVsUIDataSourcePropertyChangeEvents),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataSourcePropertyChangeEvents : IVsUIEventSink
+{
+    // Notification that the given property has changed
+    // Return code is ignored
+    HRESULT OnPropertyChanged( [in] IVsUIDataSource* pDataSource, [in] LPCOLESTR prop, [in] IVsUIObject * pVarOld, [in] IVsUIObject * pVarNew );
+};
+
+// Common functionality for all data sources: command/verb handling
+[
+    uuid(uuid_IVsUIDispatch),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDispatch : IUnknown
+{
+    // Invoke the given verb
+    HRESULT Invoke( [in] LPCOLESTR verb, [in] VARIANT pvaIn, [out] VARIANT* pvaOut );
+    
+    // Discover all available verbs
+    HRESULT EnumVerbs( [out] IVsUIEnumDataSourceVerbs** ppEnum );
+};
+
+// Base interface for all element's data sources (IVsUIDataSource, IVsUICollection, and IVsUIDynamicCollection)
+[
+    uuid(uuid_IVsUISimpleDataSource),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUISimpleDataSource : IVsUIDispatch
+{
+    // Closes the data source - events sinks will be disconnected (if data source supports events), data source items or properties will be closed, too, etc.
+    HRESULT Close();
+};
+
+// Interface representing a VsUI data source.
+// It inherits from IVsUISimpleDataSource
+// A VsUI Data source contains a collection of named properties
+[
+    uuid(uuid_IVsUIDataSource),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataSource : IVsUISimpleDataSource
+{
+    // Retrieve the value of the given named property
+    HRESULT GetValue( [in] LPCOLESTR prop, [out] IVsUIObject ** ppValue );
+
+    // Modify the value of the given named property
+    HRESULT SetValue( [in] LPCOLESTR prop, [in] IVsUIObject * pValue );
+
+    // Register for property change notification
+    HRESULT AdvisePropertyChangeEvents( [in] IVsUIDataSourcePropertyChangeEvents* pAdvise, [out] VSUICOOKIE* pCookie );
+
+    // Unregister from property change notification
+    HRESULT UnadvisePropertyChangeEvents( [in] VSUICOOKIE cookie );
+
+    // Obtain an enumerator for all the named properties
+    HRESULT EnumProperties( [out] IVsUIEnumDataSourceProperties** ppEnum );
+
+    // Get the shape identifier for this data source. Two data sources with the
+    // same shape identifier will have exactly the same properties and verbs.
+    HRESULT GetShapeIdentifier( [out] GUID* pGuid, [out] DWORD* pdw );
+
+    // Fast access to read a property's value. 
+    // Can be used to test whether a property is available by passing NULL
+    // for all optional arguments. S_OK indicates a valid property.
+    // E_INVALIDARG indicates the requested property is unavailable.
+    HRESULT QueryValue(
+        [in] LPCOLESTR prop,
+        [out, optional] BSTR* pTypeName,
+        [out, optional] VSUIDATAFORMAT* pDataFormat,
+        [out, optional] VARIANT* pValue);
+
+    // For implementations which support default or 'fallback' properties
+    // this method indicates that a property should be reset to its initial
+    // value. Note: Some implementations may return E_NOTIMPL.
+    HRESULT ResetValue( [in] LPCOLESTR prop );
+};
+
+// Interface for event notifications on collections
+[
+    uuid(uuid_IVsUICollectionChangeEvents),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUICollectionChangeEvents : IVsUIEventSink
+{
+    // Fired after a new item has been added to the collection
+    // nItem is the zero-based index of the newly added item
+    // Return code is ignored
+    HRESULT OnAfterItemAdded( [in] IVsUICollection* pCollection, [in] UINT nItem );
+
+    // Fired after an item has been removed from the collection
+    // nItem is the zero-based index of the item that was just deleted
+    // Return code is ignored
+    HRESULT OnAfterItemRemoved(
+        [in] IVsUICollection* pCollection,
+        [in] IVsUIDataSource* pRemovedItem,
+        [in] UINT nItem );
+
+    // Fired after an item is updated
+    // nItem is the zero-based index of the modified item
+    // Return code is ignored
+    HRESULT OnAfterItemReplaced(
+        [in] IVsUICollection* pCollection,
+        [in] IVsUIDataSource* pNewItem,
+        [in] IVsUIDataSource* pOldItem,
+        [in] UINT nItem );
+
+
+    // Fired if the entire collection has been cleared or refereshed
+    // Return code is ignored
+    HRESULT OnInvalidateAllItems( [in] IVsUICollection* pCollection );
+};
+
+// Interface which represents a homogenous collection of data sources
+[
+    uuid(uuid_IVsUICollection),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUICollection : IVsUISimpleDataSource
+{
+    // Get the count of elements in the collection
+    HRESULT get_Count( [out] UINT* pnCount );
+
+    // Get the nItem-th element. Items are zero-based.
+    HRESULT GetItem( [in] UINT nItem, [out] IVsUIDataSource **pVsUIDataSource);
+
+    // Register for collection events
+    HRESULT AdviseCollectionChangeEvents( [in] IVsUICollectionChangeEvents* pAdvise, [out] VSUICOOKIE* pCookie );
+
+    // Stop listening to collection events
+    HRESULT UnadviseCollectionChangeEvents( [in] VSUICOOKIE cookie );
+};
+
+// Interface which represents a modifiable collection
+[
+    uuid(uuid_IVsUIDynamicCollection),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDynamicCollection : IVsUICollection
+{
+    // Add an item to the end of the collection. On success, pIndex contains
+    // the zero-based index of the newly added item
+    HRESULT AddItem( [in] IVsUIDataSource* pItem, [out] UINT* pIndex );
+    
+    // Insert an item at the given position in the collection
+    HRESULT InsertItem( [in] UINT nIndex, [in] IVsUIDataSource* pItem );
+
+    // Remove an item from the collection
+    HRESULT RemoveItem( [in] UINT nIndex );
+
+    // Modify an item in the collection
+    HRESULT ReplaceItem( [in] UINT nIndex, [in] IVsUIDataSource* pItem );
+
+    // Remove all items from the collection
+    HRESULT ClearItems();
+
+    // Splice a collection into this one
+    HRESULT InsertCollection( [in] UINT nIndex, [in] IVsUICollection* pCollection );
+};
+
+typedef enum __tagVSUIACCELMODIFIERS
+{
+    VSAM_NONE       = 0x00000000,
+    VSAM_SHIFT      = 0x00000001,
+    VSAM_CONTROL    = 0x00000002,
+    VSAM_ALT        = 0x00000004,
+    VSAM_WINDOWS    = 0x00000008
+} __VSUIACCELMODIFIERS;
+
+typedef DWORD VSUIACCELMODIFIERS;
+
+// Interface for TranslateAccelerator call
+[
+    uuid(uuid_IVsUIAccelerator),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIAccelerator : IUnknown
+{
+    // Get the message
+    HRESULT get_Message([out] MSG* pMsg);
+
+    // Get the keyboard modifiers
+    HRESULT get_Modifiers([out] VSUIACCELMODIFIERS * pdwModifiers);
+};
+
+
+// Any IVsUIElement can also implement IObjectWithSite, and the factories will site the object with a service provider.
+[
+    uuid(uuid_IVsUIElement),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIElement : IUnknown
+{
+    // Get the data source on this element
+    HRESULT get_DataSource([out] IVsUISimpleDataSource** ppDataSource);
+
+    // Bind the given data source to this element
+    HRESULT put_DataSource([in] IVsUISimpleDataSource* pDataSource);
+    
+    // Accelerator translations (used for modeless UI)
+    HRESULT TranslateAccelerator( [in] IVsUIAccelerator* pAccel );
+
+    // Get access to the implementation-specific object (e.g. IVsUIWpfElement, IVsUIWin32Element)
+    HRESULT GetUIObject( [out] IUnknown** ppUnk );
+};
+
+// Creator for WPF framework elements
+[
+    uuid(uuid_IVsUIWpfElement),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIWpfElement : IUnknown
+{
+    // Create the associated framework element.
+    HRESULT CreateFrameworkElement([out] IUnknown** ppUnkElement);
+
+    // Get the associated framework element.
+    HRESULT GetFrameworkElement([out] IUnknown** ppUnkElement);
+};
+
+
+// Creator and handler for Win32 (HWND-based) visual elements
+[
+    uuid(uuid_IVsUIWin32Element),
+    version(1.0),
+    pointer_default(unique),
+    local
+]
+interface IVsUIWin32Element : IUnknown
+{
+    // Create the element as a child of the given HWND
+    HRESULT Create(HWND parent, [out] HWND* pHandle);
+
+    // Destroy the element
+    HRESULT Destroy();
+
+    // Get the HWND
+    HRESULT GetHandle([out] HWND* pHandle);
+
+    // Show the element as a modal dialog
+    HRESULT ShowModal(HWND parent, [out] int* pDlgResult);
+};
+
+// The WPF loader interface is implemented by the ILocalRegistry-creatable object CLSID_VsUIWpfLoader
+[
+    uuid(uuid_IVsUIWpfLoader),
+    version(1.0),
+    pointer_default(unique),
+    local
+]
+interface IVsUIWpfLoader : IUnknown
+{
+    // Create a visual element given its fully-qualified type name
+    // If the element's assembly is in the GAC or on the probing path, the codeBase doesn't need to be specified
+    HRESULT CreateUIElement( [in] LPCWSTR elementFQN, [in] LPCWSTR codeBase, [out] IVsUIElement** ppUIElement );
+    
+    // Create a visual element given its managed type
+    // To be used from managed code, allows specifying directly the System.Type of the element
+    HRESULT CreateUIElementOfType( [in] IUnknown * pUnkElementType, [out] IVsUIElement** ppUIElement );
+
+    // Displays a visual element as a modal dialog in the shell, ensures the right parenting, disables/reenables the shell, etc. 
+    HRESULT ShowModalElement([in] IVsUIElement* pUIElement, [in] HWND hWndParent, [out] int* pResult);
+
+    // Note: To display a visual element as a toolwindow in the shell, create an view object implementing IVsUIElementPane
+    // and return from CreateUIElementPane the implementation-specific object obtained from IVsUIElement->GetUIObject
+    // Pass this IVsUIElementPane view object as the 3rd parameter (punkTool) to IVsUIShell->CreateToolWindow.
+};
+
+// The CLSID for the WPF loader object, which implements IVsUIWpfLoader {0B127700-143C-4AB5-9D39-BFF47151B563}
+// Call ILocalRegistry::CreateInstance to create an instance of this.
+cpp_quote("extern const __declspec(selectany) CLSID CLSID_VsUIWpfLoader = { 0x0B127700, 0x143C, 0x4AB5, { 0x9D, 0x39,  0xBF, 0xF4, 0x71, 0x51, 0xB5, 0x63 } };") 
+
+
+
+// Implemented by packages that supply their own UI factories.
+// Also implemented by the shell as the SVsUIFactory service.
+// Register your UI factory under the UIProviders subkey in the registry.
+// Each factory must be supplied by a package. The package must call
+// IVsRegisterUIFactories::RegisterUIFactory in their SetSite call.
+[
+    uuid(uuid_IVsUIFactory),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIFactory : IUnknown
+{
+    // Create an instance of the given element
+    HRESULT CreateUIElement( [in] REFGUID guid, [in] DWORD dw, [out] IVsUIElement** ppUIElement );
+};
+
+// The UI factory registrar is implemented by the SVsUIFactories service
+// Derives from IVsUIFactory
+[
+    uuid(uuid_IVsRegisterUIFactories),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsRegisterUIFactories : IVsUIFactory
+{
+    // Register this UI factory with the global service
+    HRESULT RegisterUIFactory( [in] REFGUID guid, [in] IVsUIFactory* pUIFactory );
+};
+
+#ifndef PROXYSTUB_BUILD
+// Implemented by the Environment.
+// The service id for the global UI factory registry
+[
+    uuid(uuid_SVsUIFactory)
+]
+interface SVsUIFactory : IUnknown
+{
+}
+cpp_quote("#define SID_SVsUIFactory __uuidof(SVsUIFactory)")
+#endif //ndef PROXYSTUB_BUILD
+
+// Implemented by packages that supply their own DataSource factories.
+// Also implemented by the shell as the SVsDataSourceFactory service.
+// Register your DataSource factory under the UIDataSourceProviders subkey in the registry.
+// Each factory must be supplied by a package. The package must call
+// IVsRegisterDataSourceFactories::RegisterDataSourceFactory in their SetSite call.
+[
+    uuid(uuid_IVsDataSourceFactory),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDataSourceFactory : IUnknown
+{
+    // Return the given data source (singleton)
+    HRESULT GetDataSource( [in] REFGUID guid, [in] DWORD dw, [out] IVsUIDataSource** ppUIDataSource );
+};
+
+// The DataSource factory registrar is implemented by the SVsDataSourceFactories service
+// Derives from IVsDataSourceFactory
+[
+    uuid(uuid_IVsRegisterDataSourceFactories),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsRegisterDataSourceFactories : IVsDataSourceFactory
+{
+    // Register this DataSource factory with the global service
+    HRESULT RegisterDataSourceFactory( [in] REFGUID guid, [in] IVsDataSourceFactory* pDataSourceFactory );
+};
+
+#ifndef PROXYSTUB_BUILD
+// Implemented by the Environment.
+// The service id for the global DataSource factory registry
+[
+    uuid(uuid_SVsDataSourceFactory)
+]
+interface SVsDataSourceFactory : IUnknown
+{
+}
+cpp_quote("#define SID_SVsDataSourceFactory __uuidof(SVsDataSourceFactory)")
+#endif //ndef PROXYSTUB_BUILD
+
+// Interface used by "VsUI.Icon" type in Win32 format to wrap HICONs (also controls lifetime).
+[
+    uuid(uuid_IVsUIWin32Icon),
+    version(1.0),
+    pointer_default(unique),
+    local
+]
+interface IVsUIWin32Icon : IUnknown
+{
+    // Get the HICON
+    HRESULT GetHICON( [out] INT_PTR* phIcon );
+};
+
+// Interface used by "VsUI.ImageList" type in Win32 format to wrap HIMAGELISTs (also controls lifetime).
+[
+    uuid(uuid_IVsUIWin32ImageList),
+    version(1.0),
+    pointer_default(unique),
+    local
+]
+interface IVsUIWin32ImageList : IUnknown
+{
+    // Get the HIMAGELIST
+    HRESULT GetHIMAGELIST( [out] INT_PTR* phImageList );
+};
+
+// Interface used by "VsUI.Bitmap" type in Win32 format to wrap HBITMAPs (also controls lifetime).
+[
+    uuid(uuid_IVsUIWin32Bitmap),
+    version(1.0),
+    pointer_default(unique),
+    local
+]
+interface IVsUIWin32Bitmap : IUnknown
+{
+    // Get the HBITMAP
+    HRESULT GetHBITMAP( [out] INT_PTR* phBitmap );
+    
+    //Gets a BOOL representing whether or not the HBITMAP offered
+    //by this object contains alpha-channel information.
+    HRESULT BitmapContainsAlphaInfo( [out] VARIANT_BOOL *pfHasAlpha);
+};

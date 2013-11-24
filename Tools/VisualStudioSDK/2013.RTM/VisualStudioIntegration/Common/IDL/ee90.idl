@@ -1,0 +1,17 @@
+// ee90.idl : Microsoft Debug EE API
+
+import "ocidl.idl";
+import "oleidl.idl";
+[
+    object,
+    uuid(2B8F1709-EC30-48AC-9BAA-23867A5076DC),
+    pointer_default(unique)
+]
+interface IDebugObject90 : IUnknown
+{
+    HRESULT CreateStrongAlias
+    (
+        [in] REFIID riid,
+        [out, iid_is(riid)] void **ppvObject
+    );        
+}

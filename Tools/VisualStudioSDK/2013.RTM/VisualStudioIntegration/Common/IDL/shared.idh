@@ -1,0 +1,40 @@
+// SHARED.IDH: shared constructs between vsshell.idl and textmgr.idl
+
+#ifndef __SHARED_IDH
+#define __SHARED_IDH
+
+cpp_quote("#ifndef TEXTSPAN_DEFINED")
+cpp_quote("#define TEXTSPAN_DEFINED")
+
+typedef long ViewCol;       // a view column; may include virtual space
+typedef long CharIndex;     // an offset into a buffer line; never includes virtual space
+typedef __int64 TEXTADDR;   // Raw text address type.
+
+//
+// The line and index are in this order so that they can be unioned with TEXTADDR
+// to get composite text addresses that can be directly compared. They aren't defined 
+// as the unions here in order to avoid MIDL/marshalling problems.
+//
+// See TextSpan.h for C++ classes
+//
+
+struct _TextAddress
+{
+    CharIndex   index;
+    long        line;
+};
+typedef struct _TextAddress TextAddress;
+
+struct _TextSpan
+{
+    CharIndex   iStartIndex;	// starting character index within the line (must be <= length of line)
+    long        iStartLine;	    // starting line
+    CharIndex   iEndIndex;	    // ending character index within the line (must be <= length of line)
+    long        iEndLine;		// ending line
+};
+typedef struct _TextSpan TextSpan;
+
+cpp_quote("#endif // TEXTSPAN_DEFINED")
+
+#endif // __SHARED_IDH
+

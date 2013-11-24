@@ -1,0 +1,40 @@
+/****************************************************************************
+*  The TEXTMGR91 Interfaces
+*  Copyright (c) 2001-2008, Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in textmgruuids.h
+
+****************************************************************************/
+#include "..\inc\textmgruuids.h"
+
+[
+        uuid(uuid_lib_TextManager91),
+        version(1.0)
+]
+library TextMgr91
+{
+    importlib("stdole2.tlb");
+
+    // Existing flags (from textmgr.idl) are listed, but commented out.
+    typedef enum _CompletionStatusFlags3
+    {
+        // UCS_* flags are passed to IVsTextView::UpdateCompletionStatus
+        // UCS_NAMESCHANGED        = 0x0001,   // Names or name count has changed
+        // UCS_EXTENTCHANGED       = 0x0002,   // Extent changed
+        // UCS_FLAGSCHANGED        = 0x0004,   // Flags have changed...
+        // UCS_COMPLETEWORD        = 0x0008,   // Attempt word completion
+        UCS_RETAINPOSITIONING      = 0x0010,   // preserve completor position with respect to displaying above/below the line
+        UCS_RETAINWIDTH            = 0x0020    // don't shrink the completor (but we'll grow if we have to)
+    } UpdateCompletionFlags3;
+};

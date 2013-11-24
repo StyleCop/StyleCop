@@ -1,0 +1,3298 @@
+/****************************************************************************
+*  The VSSHELL Interfaces
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "vsshell.idl";
+import "vsshell2.idl";
+import "vsshell80.idl";
+import "vsshell90.idl";
+import "objext.idl";
+import "olecm.idl";
+import "VsPlatformUI.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in vsshelluuids.h
+
+Do NOT derive from interfaces defined in vshell.idl because:
+
+1. We want to be able to independently implement the new interfaces without having
+   to implement all the methods in the old interfaces.
+2. This creates dependencies which causes complications for the build process.
+
+****************************************************************************/
+#include "vsshelluuids.h"
+
+
+/****************************************************************************
+PLEASE READ THE FOLLOWING NOTES:
+
+***** Note on enumerators and bitwise flags passed as parameters:
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+the values should be defined and used as follows:
+
+typedef enum __VSSAMPLETYPE
+{
+    ST_THISTYPE     = 0,   // first value should be zero or one, except
+    ST_THATTYPE     = 1,   // in special cases, and following values
+    ST_THEOTHERTYPE = 2,   // should use consecutive numbers
+} VSSAMPLETYPE;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLETYPE stType);
+}
+
+When a parameter must be exactly one of a set of values (a true enumerator),
+and is considered a PROPID, the values should be defined and used as follows:
+
+enum __VSSAMPLEPROPID
+{
+    VSSAMPPROPID_LAST     = -7000,  // first value should be a unique
+    VSSAMPPROPID_This     = -7000,  // number not used by any other
+    VSSAMPPROPID_That     = -7001,  // PROPID, and following values
+    VSSAMPPROPID_FIRST    = -7001,  // should use consecutive numbers
+};
+typedef LONG VSSAMPLEPROPID;
+
+interface IVsSample : IUnknown
+{
+    HRESULT GetProperty([in] VSSAMPLEPROPID propid, [out] VARIANT *pvar);
+    HRESULT SetProperty([in] VSSAMPLEPROPID propid, [in] VARIANT var);
+}
+
+When a parameter can be none of or a combination of values (bitwise),
+the values should be defined and used as follows:
+
+enum __VSSAMPLEOPTS
+{
+    SO_THISOPTION     = 0x00000001,   // first value should be one,
+    SO_THATOPTION     = 0x00000002,   // following values should use
+    SO_THEOTHEROPTION = 0x00000004,   // consecutive powers of two
+};
+typedef DWORD VSSAMPLEOPTS;
+
+interface IVsSample : IUnknown
+{
+    HRESULT SampleMethod([in] VSSAMPLEOPTS grfOptions);
+}
+
+***** Defining properties
+
+Define properties as follows:
+
+interface IVsSample : IUnknown
+{
+    HRESULT get_Foo([out] BSTR *pbstrFoo);
+    HRESULT put_Foo([in] BSTR bstrFoo);
+}
+
+DO NOT use [propget], [propput] or [propputref] to define properties!!!
+
+***** Array typed args
+
+Pass array type arguments (both in and out) using [] and size_is when the corresponding
+size argument is present. You must have the array size as an argument for interop to
+work correctly.
+
+interface IVsSample : IUnknown
+{
+    HRESULT MethodPassesInArray([in] int cItems, [in, size_is(cItems)] int prgiItems[]);
+}
+
+DO NOT use [in] int piItems[].
+
+
+****************************************************************************/
+
+enum __VSPROPID4
+{
+    /********************************************** defined in vsshell.idl
+    VSPROPID_LAST                          = -8000,
+    VSPROPID_SolutionDirectory         = -8000, // BSTR directory where solution file is saved
+    VSPROPID_SolutionFileName              = -8001, // BSTR full path to solution file
+    VSPROPID_UserOptionsFileName           = -8002, // BSTR full path to user options file
+    VSPROPID_SolutionBaseName              = -8003, // BSTR (Get/Set) base name of solution file
+    VSPROPID_IsSolutionDirty               = -8004, // BOOL is solution file dirty
+    VSPROPID_IsSolutionOpen            = -8005, // BOOL is a solution file open
+    VSPROPID_ProjectCount                  = -8006, // I4 count of projects open in solution
+    VSPROPID_RegisteredProjExtns           = -8007, // BSTR semicolon-separated list of all project extensions
+    VSPROPID_OpenProjectFilter         = -8008, // BSTR filter/entension list used in Open Project dialog
+    VSPROPID_FileDefaultCodePage           = -8009, // I4 codepage for saving files (CP_ACP/CP_WINUNICODE)
+    VSPROPID_SolutionFileNameBeingLoaded = -8010,   // BSTR full path to file being opened (valid only during open)
+    VSPROPID_SolutionNodeCaption           = -8011, // BSTR caption for solution node in Project Explorer
+    VSPROPID_IsSolutionOpening         = -8013, // BOOL is a solution file being opened
+    VSPROPID_IsSolutionSaveAsRequired      = -8014, // BOOL will saving the solution require a Save As dialog
+    VSPROPID_CountOfProjectsBeingLoaded  = -8015,   // I4 count of projects in file being opened (valid only during open)
+    VSPROPID_SolutionPropertyPages     = -8016, // BSTR a semi-colon delimited list of clsid's of sln level prop pages
+    VSPROPID_FIRST                     = -8016
+    ********************************************** defined in vsshell80.idl
+    VSPROPID_IsSolutionNodeHidden       = -8017, // BOOL True if the sln node is hidden in the IDE
+    VSPROPID_DeferredSaveSolution       = -8018, // BOOL is solution "zero-impact" (permanent save is performed explicitly via File.SaveAll)?
+    VSPROPID_SimplifiedConfigurations   = -8019, // BOOL True if the solution is in simplified configuration mode
+    VSPROPID_IsSolutionClosing          = -8020, // BOOL is a solution file being closed
+    VSPROPID_IsAProjectClosing          = -8021, // IUnknown of IVsHierarchy of project being closed
+    VSPROPID_IsSolutionOpeningDocs      = -8022, // BOOL is the solution re-opening the documents that were open when the solution was last closed?
+    VSPROPID_IsOpenNotificationPending  = -8023, // BOOL is the OnAfterOpenSolution notification pending (is a new project being created with a new solution)?
+    ********************************************** defined in vsshell90.idl
+    VSPROPID_ProjectLoadSecurityDialogState = -8024, // I4, state of the project load security dialog kept between different lang packages
+    VSPROPID_SolutionUserFileCreatedOnThisComputer = -8025, // BOOL, True if the .suo file accompanying the solution file was originally created on the same
+                                                            // computer it's being opened on. Check inside IVsPersistSolutionOpts.ReadUserOptions. Read only.
+    VSPROPID_NewProjectDlgPreferredLanguage = -8026, // BSTR, preferred language for the New Project dialog; if there is no preferred language an empty length string is returned.
+                                                     // If there is a preferred language, then the non-preferred language project types are displayed under an "Other Languages" node in the New Project dialog. The preferred language is set by the
+                                                     // user's choice of development settings in the "Import and Export Settings" dialog. Any project type can designate itself as a "Language" project by registering a "DeveloperActivity" reg value
+                                                     // with the string for their language (e.g. "VB", "VC#", "VC++", "VJ#") under their top-level template directories for the New Project Dialog, e.g.:
+                                                     // [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\8.0\NewProjectTemplates\TemplateDirs\{FFFFFFFF-EEE-DDDD-CCCC-BBBBBBAAAAAA}\/1] "DeveloperActivity"="MYLANG"
+                                                     // The Language Project can create its own Developer Settings Profile .vssettings file with the following section:
+                                                     // <Category name="Environment_NewProjectDialogPreferredLanguage" Category="{77E22C0C-9F4A-4bfb-AD3A-3F3F4711E9ED}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_NewProjectDialogPreferredLanguage">
+                                                     //   <PropertyValue name="HasNewProjectDialogPreferredLanguage">true</PropertyValue>
+                                                     //   <PropertyValue name="NewProjectDialogPreferredLanguage">MYLANG</PropertyValue>
+                                                     // </Category>
+                                                     // Occurrences of "MYLANG" would be replaced with the appropriate string for the language.
+    VSPROPID_FIRST2                     = -8026
+    VSPROPID_IsSavingOnClose            = -8027,
+    **********************************************/
+
+    VSPROPID_NoFrameworkDialogState             = -8028,    // I4, the state of the project load security dialog kept between different language packages.
+    VSPROPID_IsInBackgroundIdleLoadProjectBatch = -8029,    // BOOL, TRUE if Visual Studio is currently loading a batch of pending projects triggered in the background at idle.
+                                                            //    IVsSolutionLoadEvents::OnBeforeLoadProjectBatch(TRUE) has been called
+    VSPROPID_IsInSyncDemandLoadProjectBatch     = -8030,    // BOOL, TRUE if Visual Studio is currently loading a batch of pending projects synchronously triggered
+                                                            //    by some user action/command invocation that requires a set of projects to be loaded.
+                                                            //    IVsSolutionLoadEvents::OnBeforeLoadProjectBatch(FALSE) has been called.
+    VSPROPID_IsSolutionFullyLoaded              = -8031,    // BOOL, TRUE if all projects have been loaded by the Background Solution Load feature.
+    VSPROPID_BaseSolutionExplorerCaption        = -8032,    // BSTR, Gets or sets the base caption for the Solution Explorer tool window. The default is "SolutionExplorer".
+                                                            // The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_SolutionExplorerCaptionSuffix      = -8033,    // BSTR, gets or sets the suffix caption for the Solution Explorer tool window. The default is VT_Empty.
+                                                            // The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_SolutionExplorerCaption            = -8034,    // BSTR, gets the full caption for the Solution Explorer tool window. The full caption is built by concatenating
+                                                            // VSPROPID_BaseSolutionExplorerCaption and VSPROPID_SolutionExplorerCaptionSuffix.
+    VSPROPID_AddNewProjectAsSibling             = -8035,    // BOOL, TRUE if new projects should be added on the sibling directory of the solution.
+    VSPROPID_ActiveSolutionLoadManager          = -8036,    // IUnknown, gets or sets a pointer to the active Solution Load Manager. The default is NULL.
+                                                            //    A Solution Load Manager is able to control how projects are loaded during 
+                                                            //    the Solution Open operation. It can control whether projects are loaded 
+                                                            //    immediately, loaded in the background (at idle), left to be loaded if needed,
+                                                            //    or set to stay unloaded. A Solution Load Manager is expected to implement IVsSolutionLoadManager.
+                                                            //    A common approach is to have the Solution Load Manager package AutoLoad for the 
+                                                            //    SolutionOpening UIContext, for example, [ProvideAutoLoad(UIContextGuids.SolutionOpening)].
+                                                            //    This property may also be set during IVsSolutionLoadEvents::OnBeforeOpenSolution or
+                                                            //    during IVsPersistSolutionProps::ReadSolutionProps for the pre Solution section.
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSPROPID_FIRST4                         = -8036
+};
+typedef [public] DWORD VSPROPID4;
+
+// Values used in VSPROPID_NoFrameworkDialogState.
+enum _NoFrameworkDialogState
+{
+    NOFXDS_AlwaysShowDialog = 0,
+    NOFXDS_HideDialog_KeepUnloaded = 1,
+    NOFXDS_HideDialog_RetargetToFramework40 = 2
+};
+typedef DWORD NoFrameworkDialogState;
+
+
+//----------------------------------------------------------------------------
+// IVsDesignTimeAssemblyResolution
+//----------------------------------------------------------------------------
+// Implemented by project objects to provide design time resolution of 
+// assembly reference paths in the current target framework.
+// This interface retrieved as an ItemContext service from the project.
+//
+// Clients may obtain a pointer to the project's IVsDesignTimeAssemblyResolution
+// querying for a SVsDesignTimeAssemblyResolution service on the IServiceProvider
+// that is returned from IVsProject::GetItemContext. To get this service from
+// the project context for the active document, you do the following:
+//     1. get the active DocumentWindow by calling IVsMonitorSelection::
+//        GetCurrentElementValue(SEID_DocumentFrame, ...)
+//     2. get the project item context IServiceProvider from the document
+//        WindowFrame by calling IVsWindowFrame::GetProperty(VSFPROPID_SPProjContext,...)
+//     3. call IServiceProvider::QueryService(SID_SVsDesignTimeAssemblyResolution, ...)
+
+typedef struct _VsResolvedAssemblyPath
+    {
+        BSTR bstrOrigAssemblySpec;       
+        BSTR bstrResolvedAssemblyPath;   
+    } VsResolvedAssemblyPath;
+
+typedef VsResolvedAssemblyPath * PVsResolvedAssemblyPath;
+
+[
+    uuid(uuid_IVsDesignTimeAssemblyResolution),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDesignTimeAssemblyResolution : IUnknown
+{
+    //resolves the assembly reference paths for the passed in assemblies
+    HRESULT ResolveAssemblyPathInTargetFx(
+         [in, size_is(cAssembliesToResolve)] LPCWSTR prgAssemblySpecs[],//array of strings containing the list of assembly names that need to be resolved
+         [in] ULONG cAssembliesToResolve,//no of assembly names passed in prgAssemblySpecs  
+         [in, out, size_is(cAssembliesToResolve)] PVsResolvedAssemblyPath prgResolvedAssemblyPaths, //in_out array containing the resolved assembly reference paths,
+                                                                                                    //the caller needs to pre-allocate this array for 'cAssembliesToResolve' elements 
+         [out] ULONG * pcResolvedAssemblyPaths);//no of resolved assembly paths in the prgResolvedAssemblyPaths output array 
+
+    // returns the corresponding project instance's target framework
+    HRESULT GetTargetFramework(
+            [out] BSTR * ppTargetFramework);
+};
+
+// Service Guid
+[
+    uuid(uuid_SVsDesignTimeAssemblyResolution)
+]
+interface SVsDesignTimeAssemblyResolution : IUnknown
+{
+}
+cpp_quote("#define SID_SVsDesignTimeAssemblyResolution IID_SVsDesignTimeAssemblyResolution")
+
+
+typedef [public] BSTR TargetFrameworkMoniker;
+
+
+enum __VSHPROPID4
+{
+    /********************************************** defined in vsshell.idl
+    VSHPROPID_NIL   = -1,
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE FIRST PROP DEFINED
+    VSHPROPID_LAST                = -1000,
+    VSHPROPID_Parent                  = -1000, // I4   itemid of Parent node (ITEMID_NIL if no parent)
+
+    // These properties are defined to deterministically walk   the entire contents of the Hierarchy
+    // (or project) independent of which view   is displayed in a UIHierarchyWindow.  Hierarchies
+    // that support special views   that either show a subset of items or a superset of member
+    // items and non-member items   must implement
+    // VSHPROPID_   FirstVisibleChild/NextVisibleSibling/IsHiddenItem/IsNonMemberItem.
+    VSHPROPID_FirstChild              = -1001, // INT_PTR itemid of 1st child node (ITEMID_NIL if no children)
+    VSHPROPID_NextSibling             = -1002, // INT_PTR itemid of next sibling node (ITEMID_NIL if no more siblings)
+
+    VSHPROPID_Root                = -1003, // INT_PTR [obsolete] itemid of Root must be VSITEMID_ROOT.
+    VSHPROPID_TypeGuid            = -1004, // GUID to identify type of node/hierarchy, search on GUID_ItemType
+    VSHPROPID_SaveName            = -2002, // BSTR Needed so Shell (i.e. File.Save menu) can display UI.
+    VSHPROPID_Caption                 = -2003, // BSTR Needed so Shell (i.e. project window) can display UI.
+    VSHPROPID_IconImgList             = -2004, // I4   For icon. Handle to imagelist (Only for itemid==VSITEMID_ROOT)
+    VSHPROPID_IconIndex           = -2005, // I4   For icon.  If Expandable=TRUE, then IconIndex+1 is used for open icon.
+    // Hierarchy    should support IconHandle or IconImageList/IconIndex but not both.
+    VSHPROPID_Expandable              = -2006, // BOOL Should Shell display the "open-this-folder" plus sign?
+    VSHPROPID_ExpandByDefault         = -2011, // BOOL Should Shell expand this item?
+    VSHPROPID_ProjectName             = -2012, // BSTR [obsolete] use VSHPROPID_Name instead
+    VSHPROPID_Name                = -2012, // BSTR Name for project (VSITEMID_ROOT) or item
+    VSHPROPID_IconHandle              = -2013, // I4   handle of an icon, UIHierarchyWindow will NOT call DestroyIcon on it
+    // Hierarchy    should support IconHandle or IconImageList/IconIndex but not both.
+    VSHPROPID_OpenFolderIconHandle  =   -2014, // I4   [optional] handle of an icon for an open folder, UIHierarchyWindow will NOT call DestroyIcon on it
+    VSHPROPID_OpenFolderIconIndex     = -2015, // I4   [optional] for icon
+    VSHPROPID_CmdUIGuid           = -2016, // GUID for cmdbars (for root only)
+    VSHPROPID_SelContainer        = -2017, // UNK  [optional] Returns an ISelectionContainer for property browsing
+    VSHPROPID_BrowseObject        = -2018, // DISP [optional] Returns an IDispatch for property browsing
+    // Hierarchy    should support SelContainer or BrowseObject but not both.
+    VSHPROPID_AltHierarchy        = -2019, // UNK  [optional] Returns an IVsHierarchy for SVsTrackSelectionEx
+    VSHPROPID_AltItemid           = -2020, // I4   [optional] Returns an itemid for SVsTrackSelectionEx
+    VSHPROPID_ProjectDir              = -2021, // BSTR [optional] full path to project directory (for VSITEMID_ROOT only)
+    VSHPROPID_SortPriority        = -2022, // I4   [optional] Sort priority in UIHierarchyWindow. Standard projects have priority 0 (default).
+    //                MiscFiles project has priority 10000, SolutionItems project has priority 9999.
+    VSHPROPID_UserContext             = -2023, // UNK  [optional] IVsUserContext for project/item
+    VSHPROPID_EditLabel           = -2026, // BSTR [optional] string displayed for in-place editing node caption
+    VSHPROPID_ExtObject           = -2027, // DISP [optional] For ITEMID_ROOT this is the ext.object of the project (Project).
+    // For other    itemids it is that item's ext object (ProjectItem), if any.
+    VSHPROPID_ExtSelectedItem         = -2028, // DISP [optional] Returns a custom SelectedItem object for the given itemid.
+    // If not supported,    then a default implementation will be provided.
+    VSHPROPID_StateIconIndex          = -2029, // I4   For state icon index. Use VsStateIcon enumeration
+    VSHPROPID_ProjectType             = -2030, // BSTR [obsolete] use VSHPROPID_TypeName instead
+    VSHPROPID_TypeName            = -2030, // BSTR display name to identify type of node/hierarchy (used in title bar)
+    VSHPROPID_ReloadableProjectFile =   -2031, // BOOL [obsolete] use VSHPROPID_HandlesOwnReload
+    VSHPROPID_HandlesOwnReload    = -2031, // BOOL [optional] project handles unload/reload itself (otherwise environment handles)
+    // (Defaults    to FALSE)
+    VSHPROPID_ParentHierarchy         = -2032, // UNK  IVsHierarchy that owns this hierarchy.  Hold as UNADDREF'ed ptr in SetProperty.
+    VSHPROPID_ParentHierarchyItemid =   -2033, // INT_PTR The itemid of this hierarchy in it's parent hierarchy
+    VSHPROPID_ItemDocCookie       = -2034, // INT_PTR [optional] the doc cookie (VSCOOKIE) of the hierarchy item
+    VSHPROPID_Expanded            = -2035, // BOOL whether the node is currently expanded in the UIHierarchyWindow, start as FALSE
+    // and UIHierarchyWindow    will update
+    VSHPROPID_ConfigurationProvider =   -2036, // UNK  OBSOLETE. Use IVsGetCfgProvider interface instead
+    VSHPROPID_ImplantHierarchy    = -2037, // UNK  [optional] IVsHierarchy implant for this hierarchy. Hold as UNADDREF'ed ptr in SetProperty.
+    // Implant can implement    IVsFilterAddProjectItemDlg and/or IVsToolboxUser.
+    VSHPROPID_OwnerKey            = -2038, // BSTR [optional] owner key string that identifies the project GUID of the owning project.
+    // only projects    that implement IVsOwnedProjectFactory should support SetProperty for this property.
+    VSHPROPID_StartupServices         = -2040, // UNK  [optional] Returns an IVsProjectStartupServices* to add services to be
+    // started on next project load (for    VSITEMID_ROOT only)
+    VSHPROPID_FirstVisibleChild   = -2041, // INT_PTR [optional] similar to FirstChild but only walks items to be displayed in UIHierarchyWindow.
+    // required if hierarchy    supports multiple (subsetted or supersetted)  views of its contents.
+    VSHPROPID_NextVisibleSibling      = -2042, // INT_PTR [optional] similar to NextSibling but only walks items to be displayed in UIHierarchyWindow.
+    // required if hierarchy    supports multiple (subsetted or supersetted)  views of its contents.
+    VSHPROPID_IsHiddenItem        = -2043, // BOOL [optional] is item not displayed in current UIHierarchyWindow view. required if hierarchy
+    // supports multiple    (subsetted)  views of its contents.
+    VSHPROPID_IsNonMemberItem         = -2044, // BOOL [optional] is item not considered a member of the hierarchy. required if hierarchy supports
+    // (supersetted)    views of its contents (e.g. ShowAllFiles displaying files in directory that are not members of the project).
+    VSHPROPID_IsNonLocalStorage   = -2045, // BOOL [optional] is project storage local? IPersistFileFormat is used for
+    // saving project regardless    of whether it is a local "file" or not.
+    VSHPROPID_StorageType             = -2046, // BSTR [optional] non-localize string representing storage type. same as string used in VSDIR file
+    // to differentiate between different location MRU lists.
+    VSHPROPID_ItemSubType             = -2047, // BSTR [optional] non-localize string representing the subtype of the item.
+    // It is    up to each package to agree on the meaning of this string.
+    VSHPROPID_OverlayIconIndex    = -2048, // I4 [optional] Use VSOVERLAYICON enum.  Overlay for the item's main icon
+    VSHPROPID_DefaultNamespace    = -2049, // BSTR [optional] string representing the items folder based namespace: rootnamespace.folder.subfolder
+    VSHPROPID_IsNonSearchable         = -2051, // BOOL [optional] is item not search-and-replace-able via Find/Replace in Files. Should be true for project file itself.
+    VSHPROPID_IsFindInFilesForegroundOnly   =  -2052, // BOOL [optional] if true, Find In Files runs in main thread
+    VSHPROPID_CanBuildFromMemory      = -2053, // BOOL [optional] if TRUE, we dont need to prompt to save before building
+    VSHPROPID_PreferredLanguageSID  =   -2054, // GUID [optional] preferred SID of (text editor) language service for project.
+    // (e.g.    used to determine default language for BreakPoint dialog)
+    VSHPROPID_ShowProjInSolutionPage = -2055,// BOOL [optional] used to filter project when vb/c#   call the component picker for add-reference.
+    // Return VARIANT_TRUE to show the project in the list.
+    VSHPROPID_AllowEditInRunMode      = -2056, // BOOL [optional] If FALSE or E_NOTIMPL, the compiler will disallow edits during run mode
+    // (this    is the most common expected behavior).  TRUE allows edits.  This property enables VSA scenarios.
+    VSHPROPID_IsNewUnsavedItem    = -2057, // BOOL [optional] If TRUE, this is a new unsaved item (as obtained from File.New.File)
+    // so the moniker will be a temporary name and the caption should be    used in the UI instead.
+    VSHPROPID_ShowOnlyItemCaption     = -2058, // BOOL [optional] If TRUE, this is an item for which only the caption should be shown in the UI instead of the full moniker.
+    VSHPROPID_ProjectIDGuid       = -2059, // GUID [optional] Identifies a project across solutions.  Generated and set when project is created.  Retrieved when project is opened.
+
+    VSHPROPID_DesignerVariableNaming = -2060,   // I4 [optional] from the VSDESIGNER_VARIABLENAMING enumeration
+    VSHPROPID_DesignerFunctionVisibility = -2061,   // I4 [optional] from the VSDESIGNER_FUNCTIONVISIBILITY enum
+
+    VSHPROPID_HasEnumerationSideEffects =   -2062, // BOOL [optional] If TRUE, then this hierarchy will not be enumerated for FindInFiles and  similar
+    // hierarchy    enumerations. (useful if enumerating might cause a login dialog or is unacceptably slow)
+
+    VSHPROPID_DefaultEnableBuildProjectCfg = -2063, // BOOL [optional] Should   "Build" be initially checked by default in the solution cfg
+    // Normally "Build" is checked by   default if the project supports IVsBuildableProjectCfg
+
+    VSHPROPID_DefaultEnableDeployProjectCfg =   -2064, // BOOL [optional] Should "Deploy" be initially checked by default in the solution cfg
+    // Normally "Deploy" is checked by default if   the project supports IVsDeployableProjectCfg
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    VSHPROPID_FIRST               = -2064
+
+    ********************************************** defined in vsshell80.idl
+
+    VSHPROPID_PropertyPagesCLSIDList    = -2065, // BSTR [optional] semi-colon delimited list of clsids of the config independent property pages
+    VSHPROPID_CfgPropertyPagesCLSIDList = -2066, // BSTR [optional] semi-colon delimited list of clsids of the config dependent property pages
+
+    VSHPROPID_ExtObjectCATID            = -2067, // GUID [optional] Intrinsic Extender CATID of the ExtObject (Automation Object) for the given IVsHierarchy Itemid. For VSITEMID_ROOT this corresponds to the type of the 'Project' object
+    VSHPROPID_BrowseObjectCATID         = -2068, // GUID [optional] Intrinsic Extender CATID of the BrowseObject for the given IVsHierarchy Itemid. For VSITEMID_ROOT this corresponds to the object used to build the 'Project.Properties' collection.
+    VSHPROPID_CfgBrowseObjectCATID      = -2069, // GUID [optional] Intrinsic Extender CATID of the configuration BrowseObject for the given IVsHierarchy Itemid
+    VSHPROPID_AddItemTemplatesGuid      = -2070, // GUID [optional] alternate project type guid to use to get add item templates
+    VSHPROPID_ChildrenEnumerated        = -2071, // BOOL [optional] returns TRUE if children have been enumerated. Typically, this is only of interest for project
+    // where enumerating children can be expensive (eg. Web projects)
+    VSHPROPID_StatusBarClientText       = -2072, // BSTR hierarchy scoped text for Client Text field of status bar. This text is displayed
+    // while the given hierarchy is the active hierarchy. VT_EMPTY clears hierarchy scoped
+    // text and resets to global text specified by the application.
+    VSHPROPID_DebuggeeProcessId         = -2073, // process id of debuggee if known, otherwise zero
+    VSHPROPID_IsLinkFile                = -2074,
+    VSHPROPID_KeepAliveDocument         = -2075, // BOOL [optional] TRUE if the document should be kept alive in the project regardless of opened/closed state
+    VSHPROPID_SupportsProjectDesigner   = -2076, // BOOL [optional] TRUE if the project uses a Project Designer Editor instead of the property page frame to edit project properties
+    VSHPROPID_IntellisenseUnknown       = -2077, // IUnknown [optional] returns the IUnknown of the Intellisense compiler used by the project system
+    VSHPROPID_IsUpgradeRequired         = -2078, // BOOL [optional] TRUE if the item or any of its children either already in the process of upgrading or must be upgraded
+    VSHPROPID_DesignerHiddenCodeGeneration = -2079, // I4 Indicates which code is supposed to go to the hidden designer file.  Bit flag values in __VSDESIGNER_HIDDENCODEGENERATION
+    VSHPROPID_SuppressOutOfDateMessageOnBuild = -2080, // BOOL [optional] TRUE if the project does not want to participate in the "this configuration is out of date" message on Build/F5
+    VSHPROPID_Container                 = -2081, // BOOL [optional] TRUE if the item is a container (it may not be expandable, but it contains items).
+    // support this property if your folder is not expandable but contains items that should be include in SCC operations.
+    VSHPROPID_UseInnerHierarchyIconList = -2082, // BOOL [optional] set this to TRUE in the outer hierarchy if you want the icon for an inner (nested) hierarchy root to come from the inner hierarchy image list.
+                                                 // by default we're getting that icon from the outer hierarchy image list.
+    VSHPROPID_EnableDataSourceWindow   = -2083, // BOOL [optional] set this to TRUE in your hierarchy to disable the Data Source Window for this project.
+    VSHPROPID_AppTitleBarTopHierarchyName  = -2084, // BSTR [optional] Gives the hierarchy a chance to put its topmost name (solution or server) into the titlebar of the app. ie Foo part of "Foo - Microsoft Visual Studio"
+    VSHPROPID_DebuggerSourcePaths          = -2085, // BSTR [optional] semi-colon delimited list of paths for the debugger to look for source in
+    VSHPROPID_CategoryGuid            = -2086, // GUID to identify the family/category of this non-Solution based Hierarchy (e.g. Portfolio Project Hierarchy)
+    VSHPROPID_DisableApplicationSettings = -2087, // BOOL [optional] set this to TRUE in your hierarchy to disable Application Settings design time support in your project.
+    VSHPROPID_ProjectDesignerEditor        = -2088, // GUID [optional] GUID of the Project Designer Editor that the project uses to edit project properties
+                                                    // (VSHPROPID_SupportsProjectDesigner should return VARIANT_TRUE if a ProjectDesignerEditor GUID is returned)
+                                                    // This GUID should correspond to an IVsEditorFactory that launches an editor for the Project Properties.
+                                                    // A Project Designer is an editor for Project properties that is launched as a document associated with the
+                                                    // root of the project. (see IVsSpecifyProjectDesignerPages below for more info)
+    VSHPROPID_PriorityPropertyPagesCLSIDList = -2089, // BSTR [optional] semi-colon delimited ordered list of clsids of the prefered property pages.
+                                                    // A Project Designer that shows config independent and config dependent property pages in a
+                                                    // flat list should use this order as the prefered order for the pages. A project that uses
+                                                    // the standard property page frame can ignore this property because the property page frame
+                                                    // does not mix the two type of pages in a flat list.
+    VSHPROPID_NoDefaultNestedHierSorting  = -2090,  // BOOL [optional] TRUE if the hierarchy DOES NOT want nested hierarchies sorted first and items after, and sorted alphabetically (like solution folders)
+    VSHPROPID_ExcludeFromExportItemTemplate = -2091,  // BOOL [optional, default is FALSE] TRUE if the project item can not be exported via export item template
+    VSHPROPID_SupportedMyApplicationTypes = -2092,  // BSTR [optional] semi-colon delimited list of application-types supported for project-systems that
+                                                    // support My.Application. The property-page that exposes information about My.Application can use this
+                                                    // list to determine which values appear in the application-type dropdown as selectable choices for the user.
+                                                    // The current list of supported values for VB's implementation is:
+                                                    //
+                                                    // WindowsApp       - a WinExe with support for Windows application concepts such as My.Forms
+                                                    // WindowsClassLib  - a Dll with support for Windows application concepts such as My.Forms
+                                                    // CommandLineApp   - a command-line Exe
+                                                    // WindowsService   - an Exe that can be run as a Windows Service
+                                                    // WebControl       - a Dll with support for Web application concepts
+                                                    //
+                                                    // An example value that supports all types is "WindowsApp;WindowsClassLib;CommandLineApp;WindowsService;WebControl"
+
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+    VSHPROPID_FIRST2               = -2092
+
+    **********************************************defined in vsshell90.idl
+
+
+    VSHPROPID_TargetFrameworkVersion    = -2093, // UI4   For Target Framework version .  Hi word is major version, Lo word is minor version.
+    VSHPROPID_WebReferenceSupported     = -2094,   // VT_BOOL [optional] - the project support for web references.
+    VSHPROPID_ServiceReferenceSupported = -2095,   // VT_BOOL [optional] - the project support for service references.
+
+    VSHPROPID_SupportsHierarchicalUpdate    = -2096, // BOOL [optional] -  set this to TRUE in your project hierarchy to enable Hierarchical Update for this project.
+                             // Setting to TRUE generates typed datasets with a TableAdapterManager and associated methods for enabling hierarchical update.
+    VSHPROPID_SupportsNTierDesigner = -2097, // BOOL [optional] - set this to TRUE in your project hierarchy to enable the N-Tier designer for this project.
+                         // Setting to TRUE creates datasets with the Dataset Project property for generating Datasets and TableAdapters into separate projects.
+    VSHPROPID_SupportsLinqOverDataSet = -2098, // BOOL [optional]- set this to TRUE in your project hierarchy to enable LINQ to DataSet for this project.
+                           // Setting to TRUE generates typed datasets with data tables that inherit from System.Data.TypedTableBase in order to enable LINQ queries.
+
+    VSHPROPID_ProductBrandName = -2099, // VT_BSTR [optional]. Replace application name with hierarchy branding in main window title
+
+    VSHPROPID_RefactorExtensions = -2100, // VT_ARRAY|VT_BSTR [optional] - only defined for VSITEMID_ROOT - array of service GUIDs which implement IVsRefactorNotify and for which
+                                          // this interface should be called for any refactoring operation in the project. Add to this property by creating registry values under
+                                          // the local registry root's Projects\<project type GUID>\FileExtensions\<file extension> key with name "RefactorNotify". Then if there is
+                                          // a file with this extension in the project, the VSHPROPID_Extensions property will contain the data from this registry value.
+
+    VSHPROPID_IsDefaultNamespaceRefactorNotify = -2101,     // VT_BOOL [optional] - set to VARIANT_TRUE if we are in the middle of a default namespace IVsRefactorNotify call; VARIANT_FALSE otherwise.
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    // when this is extended in the next version idl, uses of it must be changed to the new value
+
+    VSHPROPID_FIRST3               = -2101
+    **********************************************/
+
+   VSHPROPID_TargetFrameworkMoniker    = -2102, //VT_BSTR  The format for the target framework moniker is '<Identifier>,Version=<ver>,Profile=<value>'
+                                                        // e.g. '.NETFramework,Version=v3.5,Profile=Client'
+   VSHPROPID_ExternalItem              = -2103, // BOOL [optional] - This item is to be considered external to the solution.
+   VSHPROPID_SupportsAspNetIntegration = -2104, // BOOL [optional] - set this to true in your project hierarchy if your web Project supports being consumed by Silverlight.
+
+   VSHPROPID_DesignTimeDependencies    = -2105, // BSTR [optional], semicolon separated list of projects required to support design time features (Intellisense, Form designers, etc.). 
+                                                //                  If this property is not implemented GetProperty(VSHPROPID_BuildDependencies) will be used instead.
+
+   VSHPROPID_BuildDependencies         = -2106, // BSTR [optional], semicolon separated list of projects required to build this project 
+                                                //                  If this property is not implemented IVsDependencyProvider::EnumDependencies() will be used.
+   VSHPROPID_BuildAction               = -2107, // BSTR [optional], retrieves the build action for an item
+   VSHPROPID_DescriptiveName           = -2108, // BSTR [optional], A more descriptive name of the item. Replace the running document table moniker in document windows tooltips or other parts of the UI.
+
+   VSHPROPID_AlwaysBuildOnDebugLaunch  = -2109, // BOOL [optional] - set this to TRUE in your project hierarchy if you want your project to always build on debug launch(F5) when
+                                                // "Only build startup projects and dependencies on Run" Tools option is set. This will make sure your project is built even if your project is not declared 
+                                                // as a build dependency of the startup project. This property is a workaround for the fact that currently there is only support for build dependencies
+                                                // ( IVsBuildDependency ) and not deploy dependencies in the solution build manager.
+                                                // This property will be used rarely in circumstances where you may have a circular set of dependencies involving a combination of build 
+                                                // and deploy dependencies between multiple projects (e.g. A has a build dependency on B while B has a deploy dependency on A; if B is the 
+                                                // startup project then solution build manager would not realize it needs to build A to satisfy the required deploy dependency when the above 
+                                                // mentioned Tools option is set).
+
+   // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+   // when this is extended in the next version idl, uses of it must be changed to the new value
+   VSHPROPID_FIRST4 = -2109
+
+};
+typedef [public] DWORD VSHPROPID4;
+
+//----------------------------------------------------------------------------
+// IVsEditorFactoryChooser
+//----------------------------------------------------------------------------
+// Implemented by a special kind of EditorFactory that acts as a chooser (or
+// delegator) to other types of EditorFactory. A chooser EditorFactory will
+// "sniff" the input file and determine the correct EditorFactory to use.
+// IVsUIShellOpenDocument methods OpenStandardEditor and OpenSpecificEditor
+// will automatically handle checking if an IVsEditorFactory implements
+// IVsEditorFactoryChooser and if so, delegate on to the chosen
+// IVsEditorFactory.
+//
+// An example of a IVsEditorFactoryChooser is the XmlEditorFactoryChooser
+// which handles sniffing an XML file and then determines the best
+// EditorFactory based on the contents of the file (e.g. is it a XSD DataSet,
+// WPF XAML file, Workflow XAML file, etc.)
+//
+// NOTE: IVsUIShellOpenDocument::GetStandardEditor does not automatically
+// call to IVsEditorFactoryChooser.
+[
+    uuid(uuid_IVsEditorFactoryChooser),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsEditorFactoryChooser : IUnknown
+{
+    HRESULT ChooseEditorFactory(
+        [in] LPCOLESTR pszMkDocument,
+        [in] IVsHierarchy *pHier,
+        [in] VSITEMID itemid,
+        [in] IUnknown *punkDocDataExisting, // may be DOCDATAEXISTING_UNKNOWN in which case check for doc in RDT
+        [in] REFGUID rguidLogicalView,
+        [out] GUID *pguidEditorTypeActual,
+        [out] GUID *pguidLogicalViewActual);
+}
+
+
+
+enum __VSRESTARTTYPE
+{
+    RESTART_Normal              = 0,
+    RESTART_Elevated            = 1,   // Request process elevation (UAC)
+};
+typedef DWORD VSRESTARTTYPE;
+
+//-----------------------------------------------------------------------------
+// IVsShell4
+//-----------------------------------------------------------------------------
+[
+    uuid(uuid_IVsShell4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsShell4 : IUnknown
+{
+    //Restart the application, using the requested mode
+    HRESULT Restart([in] VSRESTARTTYPE rtRestartMode);
+}
+
+
+
+
+
+enum __WindowFrameTypeFlags
+{
+    WINDOWFRAMETYPE_Document      = 0x00000001,
+    WINDOWFRAMETYPE_Tool          = 0x00000002,
+   
+    // top 8 bits reserved for states
+    WINDOWFRAMETYPE_All           = 0x00FFFFFF,
+
+    WINDOWFRAMETYPE_Uninitialized = 0x80000000,
+    WINDOWFRAMETYPE_AllStates     = 0xFF000000
+};
+typedef DWORD WINDOWFRAMETYPEFLAGS;
+
+interface IVsUIElement; // forward declaration for GetToolbarTray below
+
+//-----------------------------------------------------------------------------
+// IVsToolbarTrayHost
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment and returned to user when user calls 
+// IVsUIShell4::CreateToolbarTray method.
+[
+    uuid(2B3321EE-693F-4b46-9536-E44DAD8C6E60),
+    version(1.0)
+]
+interface IVsToolbarTrayHost : IUnknown
+{
+    // Adds the toolbar that is specified with GUID, Id to the tray.
+    HRESULT AddToolbar(
+        [in] REFGUID pGuid,                // Guid of the toolbar to be added.
+        [in] DWORD dwId                    // Id of the toolbar to be added.
+        );
+
+    // Returns the UI element that represent the toolbar tray. User then can place
+    // the UI element to their window as they like. Users are responsible to ensure
+    // the layout of this UI element.
+    HRESULT GetToolbarTray(
+        [out] IVsUIElement **ppToolbarTray // Toolbar tray UI element.
+        );
+
+    // Closes the toolbar tray once it is no longer needed.
+    HRESULT Close();
+};
+
+//-----------------------------------------------------------------------------
+// IVsUIShell4
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the SID_SVsUIShell service.
+[
+    uuid(uuid_IVsUIShell4),
+    version(1.0)
+]
+interface IVsUIShell4 : IUnknown
+{
+    // Get a window enumerator containing the requested type(s) of windows
+    HRESULT GetWindowEnum(WINDOWFRAMETYPEFLAGS type, [out] IEnumWindowFrames   **ppEnum);
+
+    // Extends IVsUIShell::SetupToolbar to allow routing of commands placed on
+    // the toolbar to a specific command target.
+    [local] HRESULT SetupToolbar2(
+         [in] HWND hwnd,                         // Toolbar tray hosting HWND
+         [in] IVsToolWindowToolbar *ptwt,        // Toolbar tray space negotiator
+         [in] IOleCommandTarget *pCmdTarget,     // Command target for window-specific command handling
+         [out] IVsToolWindowToolbarHost **pptwth // Toolbar hosting interface to add toolbars
+         );
+
+    // This version is designed to be used directly with IVsWindowFrame instances. As we switched to
+    // new WPF windowing system it is much more convenient to use the IVsWindowFrame instead of trying
+    // to get the HWND of it. If the IVsWindowFrame object supports IOleCommandTarget interface then
+    // it will be used as the target for the commands that appear on the toolbars and shell's global
+    // command target will be used otherwise.
+    HRESULT SetupToolbar3(
+         [in] IVsWindowFrame *pFrame,            // Window frame to setup the toolbar tray.
+         [out] IVsToolWindowToolbarHost **pptwth // Toolbar hosting interface to add toolbars
+         );
+
+    // This method is similar to the SetupToolbar alternatives but allows you to attach toolbars that are
+    // not contained inside a IVsWindowFrame such as dialogs. IVsToolbarTrayHost instance it returns allows 
+    // you to add toolbars and to retrieve the IVsUIElement that represents the UI element for the toolbar 
+    // tray.
+    HRESULT CreateToolbarTray(
+         [in] IOleCommandTarget *pCmdTarget,           // Command target for window-specific command handling
+         [out] IVsToolbarTrayHost **ppToolbarTrayHost  // UI object that represents the toolbar tray
+         );
+}
+
+//-----------------------------------------------------------------------------
+// IVsToolWindowToolbarHost2
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment. It is retrieved by QueryInterface on 
+// the IVsToolWindowToolbarHost that is returned as an out parameter from one of the 
+// IVsUIShellX.SetupToolbarX flavors.
+// It is used by tool window clients that want to have a toolbar within their window and 
+// need to provide a specific drop target for intercepting drag & drop operations 
+// over the toolbar area.
+[
+    uuid(uuid_IVsToolWindowToolbarHost2),
+    version(1.0)
+]
+interface IVsToolWindowToolbarHost2 : IUnknown
+{
+    // Extends IVsToolWindowToolbarHost::AddToolbar to allow specifying the drop target
+    // to handle drop operations over the toolbar area
+    HRESULT AddToolbar2(
+        [in] VSTWT_LOCATION dwLoc,
+        [in] const GUID *pguid,
+        [in] DWORD dwId,
+        [in] IDropTarget* pDropTarget );
+}
+
+
+//----------------------------------------------------------------------------
+// IVsUIElementPane
+//----------------------------------------------------------------------------
+// Implemented by packages that support creating Document Windows or ToolWindows.
+// This interface retrieved by QI from view object that fills the client area
+// of a IVsWindowFrame. 
+// This interface is similar to IVsWindowPane except that it now supports
+// views implemented in Windows Presentation Foundation (WPF) as well as Win32.
+[
+    local,
+    uuid(uuid_IVsUIElementPane),
+    version(1.0)
+]
+interface IVsUIElementPane : IUnknown
+{
+    // The environment will call this method to site the pane with the
+    // service provider of the surface it is creatd in
+    HRESULT SetUIElementSite([in] IServiceProvider   *pSP);
+    // The environment will call this method to request the content for the
+    // frame.  This may be any of the folowing:
+    // 1. A FrameworkElement
+    // 2. IVsUIWpfElement
+    // 3. IVsUIWin32Element
+    // The appropriate containment will be generated depending on the implementation
+    HRESULT CreateUIElementPane([out] IUnknown** punkUIElement);
+
+    // The environment will call this method to request the dimensions of the tool
+    // for its initial display.  Subsequent sizing will come from the persisted layout.
+    HRESULT GetDefaultUIElementSize([out] SIZE   *psize);
+
+    // This method will be called upon final destruction of the frame.
+    HRESULT CloseUIElementPane(void);
+    
+    // Implement any custom state storeage required to be remembered across sessions
+    // this may include selected items, caret position, data connections etc...
+    HRESULT LoadUIElementState([in] IStream *pstream);
+    HRESULT SaveUIElementState([in] IStream *pstream);
+
+    // Allows the UI Element to translate accelerators before the shell processes the message 
+    // return S_OK if the element translated the message and no further translation and processing is required
+    // return S_FALSE if you want the shell to translate the message
+    HRESULT TranslateUIElementAccelerator(MSG * lpmsg);
+};
+
+
+//----------------------------------------------------------------------------
+// IVsWindowFrame3
+//----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment on the IVsWindowFrame objects 
+// for tool windows and document windows. This interface may be 
+// retrieved by QueryInterface from an IVsWindowFrame pointer.
+[
+    uuid(uuid_IVsWindowFrame3),
+    version(1.0)
+]
+interface IVsWindowFrame3 : IUnknown
+{
+    // Create a new thumbnail with the best fit possible in the bounds of the provided width and height
+    [local]
+    HRESULT CreateThumbnail(int width, int height, [out] HBITMAP* thumbnail);
+};
+
+
+
+enum __VSCREATETOOLWIN2
+{
+    CTW_fDocumentLikeTool       = 0x00800000 // A tool window that behaves and has a lifetime like a document
+};
+typedef DWORD VSCREATETOOLWIN2;
+
+
+
+//----------------------------------------------------------------------------
+// IVsWindowFrameSwitcher
+//----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment. This interface is used to manage a 
+// Tool Window that supports switching between multiple client area views.
+// In this way multiple tools with conceptualy the same information can operate
+// as a single functional unit with a group identity.  One example of this is
+// the Properties Window.
+// This interface is retrieved by QI from an IVsWindowFrame of a Tool Window. 
+//----------------------------------------------------------------------------
+[
+    uuid(uuid_IVsWindowFrameSwitcher),
+    version(1.0)
+]
+interface IVsWindowFrameSwitcher : IUnknown
+{
+    // Add a tool to this switchers functional group, the tool added should be designed
+    // for this purpose since it will not be avilable as a top level tool.  The switchContext
+    // represents the value in the selelem for the group upon which the tool will be activated.
+    // Any tool can be added multiple times for multiple context values.
+    HRESULT AddTool([in] REFGUID guidTool, [in] LPWSTR switchContext);
+    // Remove a switch context instance of a tool.
+    HRESULT RemoveTool([in] REFGUID guidTool, [in] LPWSTR switchContext);
+    // Retrieve the inner frame of the active tool for the group.
+    HRESULT GetActiveFrame([out] IVsWindowFrame** pFrame);
+    // Initialize the switcher by indicating what selelem it will monitor for switching
+    // between tools in the group.   This can be one of the existing selem ID's (see documentation
+    // for VSSELELEMID) or a custom package registered selelem slot (see the SelectionElements
+    // registry key)
+    HRESULT InitializeSwitcher([in] UINT selelem);
+};
+
+
+
+
+// extention of VSFPROPID3
+enum __VSFPROPID4
+{
+    VSFPROPID_Icon                 = -5012, // retrieve an actual HICON resource if the document has one
+    VSFPROPID_TabImage             = -5013, // retrieve an HBITMAP for the image to be displayed on a tab for this frame, the caller must cache and release this object
+    VSFPROPID_Thumbnail            = -5014, // retrieve an HBITMAP thumbnail of the contents of the frame, the caller must cache and release this object, the size will be a best fit in 200x200
+    VSFPROPID_NavigationInterface  = -5015, // retrieve the navigation delegate for this frame
+    VSFPROPID_NextCloneID          = -5016, // return the next instance ID available among sibling clones
+
+    VSFPROPID4_FIRST               = -5016
+};
+typedef LONG VSFPROPID4;
+
+enum __VSTABBEDMODE
+{
+    VSTABBEDMODE_NotTabbed = 0,
+    VSTABBEDMODE_SelectedTab = 1,
+    VSTABBEDMODE_Tabbed = 2
+};
+typedef LONG VSTABBEDMODE;
+
+// Rich effects are synchronized with vsRichClientExperienceOptions in
+// dte100.idl and dteproperties100.idl
+enum __VISUALEFFECTS
+{
+    VISUALEFFECTS_None = 0,
+    VISUALEFFECTS_Animations = 0x0001,
+    VISUALEFFECTS_Gradients = 0x0002,
+    VISUALEFFECTS_AllRichEffects = 0xFFFF,
+    VISUALEFFECTS_UseHardwareAcceleration = 0x00010000
+};
+typedef LONG VISUALEFFECTS;
+
+// this is an extension of VSSPROPID3, see vsshell90.idl, vsshell80.idl, vsshell.idl
+enum __VSSPROPID4
+{
+    VSSPROPID_ShellInitialized      = -9053, // BOOL, Read-Only.  True if the shell has entered its main message loop
+    VSSPROPID_ZeroConfigProjectDir  = -9054, // BSTR, Read-Only.  Zero-impact project path
+    VSSPROPID_LocalAppDataDir       = -9055, // BSTR, Local application data directory
+    VSSPROPID_LayoutIsRightToLeft   = -9056, // BOOL, Read-Write. True if UI layout should be Right to Left
+    VSSPROPID_OpenFileStartDir      = -9057, // VT_BSTR, Read-Only. Initial directory for Open File dialog (affected by VSSPROPID_OpenFromCurrDocDir).
+    VSSPROPID_IsModal               = -9058, // VT_BOOL, Read-Only. Shell is in a modal state. To set this, call IVsUIShell::EnableModeless
+    VSSPROPID_MainWindowDataSource  = -9059, // VT_UNKNOWN, Read-Only. Returns the VsUI data source for the main window 
+    VSSPROPID_VisualEffectsOption   = -9060, // VT_BOOL, Read-Write. False if visual effects are set automatically, True if set manually.
+    VSSPROPID_VisualEffectsAllowed  = -9061, // VT_I4, Read-Only. Indicates the visual effects currently in use.  Values for this property come from the __VISUALEFFECTS enumeration.
+    VSSPROPID_IsExecutingCommand    = -9062, // VT_BOOL, Read-Only. Indicates if the shell is currently executing a command. No property change events will be raised for this property.
+    VSSPROPID_ReuseSavedActiveDocWindow = -9063, // VT_BOOL, Read+Write. Maps to _EnvironmentDocumentsProperties.ReuseSavedActiveDocWindow. No property change events will be raised for this property.
+    VSSPROPID_ActivityLogPath           = -9064, // VT_BSTR, Read-Only. Path to ActivityLog file.
+    VSSPROPID_ConfigurationTimestampUtc = -9065, // VT_DATE value that represents the last time the configuration cache was built. The value is normalized to UTC.
+    VSSPROPID_FIRST4                = -9065
+};
+typedef LONG VSSPROPID4;
+
+//---------------------------------------------------------------------------
+// Color ID's To be used with IVsUIShell2:GetVSSysColorEx
+//---------------------------------------------------------------------------
+typedef enum __tagVSSYSCOLOREX3
+{
+    // see vsshell90.idl for previous values
+    VSCOLOR_ACTIVEBORDER = -192,
+    VSCOLOR_ACTIVECAPTION = -193,
+    VSCOLOR_APPWORKSPACE = -194,
+    VSCOLOR_BACKGROUND = -195,
+    VSCOLOR_BUTTONFACE = -196,
+    VSCOLOR_BUTTONHIGHLIGHT = -197,
+    VSCOLOR_BUTTONSHADOW = -198,
+    VSCOLOR_BUTTONTEXT = -199,
+    VSCOLOR_CAPTIONTEXT = -200,
+    VSCOLOR_GRAYTEXT = -201,
+    VSCOLOR_HIGHLIGHT = -202,
+    VSCOLOR_HIGHLIGHTTEXT = -203,
+    VSCOLOR_INACTIVEBORDER = -204,
+    VSCOLOR_INACTIVECAPTION = -205,
+    VSCOLOR_INACTIVECAPTIONTEXT = -206,
+    VSCOLOR_INFOBACKGROUND = -207,
+    VSCOLOR_INFOTEXT = -208,
+    VSCOLOR_MENU = -209,
+    VSCOLOR_MENUTEXT = -210,
+    VSCOLOR_SCROLLBAR = -211,
+    VSCOLOR_THREEDDARKSHADOW = -212,
+    VSCOLOR_THREEDFACE = -213,
+    VSCOLOR_THREEDHIGHLIGHT = -214,
+    VSCOLOR_THREEDLIGHTSHADOW = -215,
+    VSCOLOR_THREEDSHADOW = -216,
+    VSCOLOR_WINDOW = -217,
+    VSCOLOR_WINDOWFRAME = -218,
+    VSCOLOR_WINDOWTEXT = -219,
+
+    VSCOLOR_AUTOHIDE_TAB_TEXT = -220,
+    VSCOLOR_AUTOHIDE_TAB_BACKGROUND_BEGIN = -221,
+    VSCOLOR_AUTOHIDE_TAB_BACKGROUND_END = -222,
+    VSCOLOR_AUTOHIDE_TAB_BORDER = -223,
+    VSCOLOR_AUTOHIDE_TAB_MOUSEOVER_TEXT = -224,
+    VSCOLOR_AUTOHIDE_TAB_MOUSEOVER_BACKGROUND_BEGIN = -225,
+    VSCOLOR_AUTOHIDE_TAB_MOUSEOVER_BACKGROUND_END = -226,
+    VSCOLOR_AUTOHIDE_TAB_MOUSEOVER_BORDER = -227,
+    VSCOLOR_AUTOHIDE_RESIZEGRIP = -228,
+    
+    VSCOLOR_CLASSDESIGNER_CLASSCOMPARTMENT = -229,
+    VSCOLOR_CLASSDESIGNER_CLASSHEADERBACKGROUND = -230,
+    VSCOLOR_CLASSDESIGNER_COMMENTBORDER = -231,
+    VSCOLOR_CLASSDESIGNER_COMMENTSHAPEBACKGROUND = -232,
+    VSCOLOR_CLASSDESIGNER_COMMENTTEXT = -233,
+    VSCOLOR_CLASSDESIGNER_COMPARTMENTSEPARATOR = -234,
+    VSCOLOR_CLASSDESIGNER_CONNECTIONROUTEBORDER = -235,
+    VSCOLOR_CLASSDESIGNER_DEFAULTCONNECTION = -236,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPETITLEBACKGROUND = -237,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPEBACKGROUND = -238,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPEBORDER = -239,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPESUBTITLE = -240,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPETEXT = -241,
+    VSCOLOR_CLASSDESIGNER_DEFAULTSHAPETITLE = -242,
+    VSCOLOR_CLASSDESIGNER_DELEGATECOMPARTMENT = -243,
+    VSCOLOR_CLASSDESIGNER_DELEGATEHEADER = -244,
+    VSCOLOR_CLASSDESIGNER_DIAGRAMBACKGROUND = -245,
+    VSCOLOR_CLASSDESIGNER_EMPHASISBORDER = -246,
+    VSCOLOR_CLASSDESIGNER_ENUMHEADER = -247,
+    VSCOLOR_CLASSDESIGNER_FIELDASSOCIATION = -248,
+    VSCOLOR_CLASSDESIGNER_GRADIENTEND = -249,
+    VSCOLOR_CLASSDESIGNER_INHERITANCE = -250,
+    VSCOLOR_CLASSDESIGNER_INTERFACEHEADER = -251,
+    VSCOLOR_CLASSDESIGNER_INTERFACECOMPARTMENT = -252,
+    VSCOLOR_CLASSDESIGNER_LASSO = -253,
+    VSCOLOR_CLASSDESIGNER_LOLLIPOP = -254,
+    VSCOLOR_CLASSDESIGNER_PROPERTYASSOCIATION = -255,
+    VSCOLOR_CLASSDESIGNER_REFERENCEDASSEMBLYBORDER = -256,
+    VSCOLOR_CLASSDESIGNER_RESIZINGSHAPEBORDER = -257,
+    VSCOLOR_CLASSDESIGNER_SHAPEBORDER = -258,
+    VSCOLOR_CLASSDESIGNER_SHAPESHADOW = -259,
+    VSCOLOR_CLASSDESIGNER_TEMPCONNECTION = -260,
+    VSCOLOR_CLASSDESIGNER_TYPEDEF = -261,
+    VSCOLOR_CLASSDESIGNER_TYPEDEFHEADER = -262,
+    VSCOLOR_CLASSDESIGNER_UNRESOLVEDTEXT = -263,
+    VSCOLOR_CLASSDESIGNER_VBMODULECOMPARTMENT = -264,
+    VSCOLOR_CLASSDESIGNER_VBMODULEHEADER = -265,
+
+    VSCOLOR_COMBOBOX_BACKGROUND = -266,
+    VSCOLOR_COMBOBOX_BORDER = -267,
+    VSCOLOR_COMBOBOX_DISABLED_BACKGROUND = -268,
+    VSCOLOR_COMBOBOX_DISABLED_BORDER = -269,
+    VSCOLOR_COMBOBOX_DISABLED_GLYPH = -270,
+    VSCOLOR_COMBOBOX_GLYPH = -271,
+    VSCOLOR_COMBOBOX_MOUSEDOWN_BACKGROUND = -272,
+    VSCOLOR_COMBOBOX_MOUSEDOWN_BORDER = -273,
+    VSCOLOR_COMBOBOX_MOUSEOVER_BACKGROUND_BEGIN = -274,
+    VSCOLOR_COMBOBOX_MOUSEOVER_BACKGROUND_MIDDLE1 = -275,
+    VSCOLOR_COMBOBOX_MOUSEOVER_BACKGROUND_MIDDLE2 = -276,
+    VSCOLOR_COMBOBOX_MOUSEOVER_BACKGROUND_END = -277,
+    VSCOLOR_COMBOBOX_MOUSEOVER_BORDER = -278,
+    VSCOLOR_COMBOBOX_MOUSEOVER_GLYPH = -279,
+    VSCOLOR_COMBOBOX_POPUP_BACKGROUND_BEGIN = -280,
+    VSCOLOR_COMBOBOX_POPUP_BACKGROUND_END = -281,
+    VSCOLOR_COMBOBOX_POPUP_BORDER = -282,
+
+    VSCOLOR_COMMANDBAR_CHECKBOX = -283,
+
+    VSCOLOR_COMMANDBAR_MENU_BACKGROUND_GRADIENTBEGIN = -284,  // CBMenuBkgd
+    VSCOLOR_COMMANDBAR_MENU_BACKGROUND_GRADIENTEND = -285,
+    VSCOLOR_COMMANDBAR_MENU_BORDER = -286, // CBMenuBdrOuter
+    VSCOLOR_COMMANDBAR_MENU_ICONBACKGROUND = -287, // CBGradMenuIconBkgdBegin/CBGradMenuIconBkgdMiddle/CBGradMenuIconBkgdEnd
+    VSCOLOR_COMMANDBAR_MENU_MOUSEOVER_SUBMENU_GLYPH = -288,
+    VSCOLOR_COMMANDBAR_MENU_SEPARATOR = -289,
+    VSCOLOR_COMMANDBAR_MENU_SUBMENU_GLYPH = -290,
+
+    VSCOLOR_COMMANDBAR_MOUSEDOWN_BACKGROUND_BEGIN = -291, // CBGradMouseDownBegin
+    VSCOLOR_COMMANDBAR_MOUSEDOWN_BACKGROUND_MIDDLE = -292, // CBGradMouseDownMiddle
+    VSCOLOR_COMMANDBAR_MOUSEDOWN_BACKGROUND_END = -293, // CBGradMouseDownEnd
+    VSCOLOR_COMMANDBAR_MOUSEDOWN_BORDER = -294, // CBGradMouseDownBorder
+
+    VSCOLOR_COMMANDBAR_MOUSEOVER_BACKGROUND_BEGIN = -295, // CBGradMouseOverBegin 
+    VSCOLOR_COMMANDBAR_MOUSEOVER_BACKGROUND_MIDDLE1 = -296, // CBGradMouseOverMiddle
+    VSCOLOR_COMMANDBAR_MOUSEOVER_BACKGROUND_MIDDLE2 = -297, // CBGradMouseOverMiddle2
+    VSCOLOR_COMMANDBAR_MOUSEOVER_BACKGROUND_END = -298, // CBGradMouseOverEnd
+
+    VSCOLOR_COMMANDBAR_OPTIONS_BACKGROUND = -299, // CBGradOptionsBegin/CBGradOptionsMiddle/CBGradOptionsEnd
+    VSCOLOR_COMMANDBAR_OPTIONS_GLYPH = -300,
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEDOWN_BACKGROUND_BEGIN = -301, // CBGradOptionsSelectedBegin
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEDOWN_BACKGROUND_MIDDLE = -302, // CBGradOptionsSelectedMiddle
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEDOWN_BACKGROUND_END = -303, // CBGradOptionsSelectedEnd
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEOVER_BACKGROUND_BEGIN = -304, // CBGradOptionsMouseOverBegin
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEOVER_BACKGROUND_MIDDLE1 = -305, // CBGradOptionsMouseOverMiddle
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEOVER_BACKGROUND_MIDDLE2 = -306, // CBGradOptionsMouseOverMiddle2
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEOVER_BACKGROUND_END = -307, // CBGradOptionsMouseOverEnd
+    VSCOLOR_COMMANDBAR_OPTIONS_MOUSEOVER_GLYPH = -308,
+
+    VSCOLOR_COMMANDBAR_SELECTED_BORDER = -309, // CBCtlBdrSelected
+    VSCOLOR_COMMANDBAR_TOOLBAR_BORDER = -310,
+    VSCOLOR_COMMANDBAR_TOOLBAR_SEPARATOR = -311, // CBSplitterLine
+
+    VSCOLOR_COMMANDSHELF_BACKGROUND_GRADIENTBEGIN = -312,
+    VSCOLOR_COMMANDSHELF_BACKGROUND_GRADIENTMIDDLE = -313,
+    VSCOLOR_COMMANDSHELF_BACKGROUND_GRADIENTEND = -314,
+    VSCOLOR_COMMANDSHELF_HIGHLIGHT_GRADIENTBEGIN = -315,
+    VSCOLOR_COMMANDSHELF_HIGHLIGHT_GRADIENTMIDDLE = -316,
+    VSCOLOR_COMMANDSHELF_HIGHLIGHT_GRADIENTEND = -317,
+
+    VSCOLOR_DIAGREPORT_BACKGROUND = -318,
+    VSCOLOR_DIAGREPORT_SECONDARYPAGE_HEADER = -319,
+    VSCOLOR_DIAGREPORT_SECONDARYPAGE_SUBTITLE = -320,
+    VSCOLOR_DIAGREPORT_SECONDARYPAGE_TITLE = -321,
+    VSCOLOR_DIAGREPORT_SUMMARYPAGE_HEADER = -322,
+    VSCOLOR_DIAGREPORT_SUMMARYPAGE_SUBTITLE = -323,
+    VSCOLOR_DIAGREPORT_SUMMARYPAGE_TITLE = -324,
+    VSCOLOR_DIAGREPORT_TEXT = -325,
+
+    VSCOLOR_DOCKTARGET_BACKGROUND = -326,
+    VSCOLOR_DOCKTARGET_BORDER = -327,
+    VSCOLOR_DOCKTARGET_BUTTON_BACKGROUND_BEGIN = -328,
+    VSCOLOR_DOCKTARGET_BUTTON_BACKGROUND_END = -329,
+    VSCOLOR_DOCKTARGET_BUTTON_BORDER = -330,
+    VSCOLOR_DOCKTARGET_GLYPH_BACKGROUND_BEGIN = -331,
+    VSCOLOR_DOCKTARGET_GLYPH_BACKGROUND_END = -332,
+    VSCOLOR_DOCKTARGET_GLYPH_ARROW = -333,
+    VSCOLOR_DOCKTARGET_GLYPH_BORDER = -334,
+
+    VSCOLOR_DROPDOWN_BACKGROUND = -335,
+    VSCOLOR_DROPDOWN_BORDER = -336,
+    VSCOLOR_DROPDOWN_DISABLED_BACKGROUND = -337,
+    VSCOLOR_DROPDOWN_DISABLED_BORDER = -338,
+    VSCOLOR_DROPDOWN_DISABLED_GLYPH = -339,
+    VSCOLOR_DROPDOWN_GLYPH = -340,
+    VSCOLOR_DROPDOWN_MOUSEDOWN_BACKGROUND = -341,
+    VSCOLOR_DROPDOWN_MOUSEDOWN_BORDER = -342,
+    VSCOLOR_DROPDOWN_MOUSEOVER_BACKGROUND_BEGIN = -343,
+    VSCOLOR_DROPDOWN_MOUSEOVER_BACKGROUND_MIDDLE1 = -344,
+    VSCOLOR_DROPDOWN_MOUSEOVER_BACKGROUND_MIDDLE2 = -345,
+    VSCOLOR_DROPDOWN_MOUSEOVER_BACKGROUND_END = -346,
+    VSCOLOR_DROPDOWN_MOUSEOVER_BORDER = -347,
+    VSCOLOR_DROPDOWN_MOUSEOVER_GLYPH = -348,
+    VSCOLOR_DROPDOWN_POPUP_BACKGROUND_BEGIN = -349,
+    VSCOLOR_DROPDOWN_POPUP_BACKGROUND_END = -350,
+    VSCOLOR_DROPDOWN_POPUP_BORDER = -351,
+
+    VSCOLOR_DROPSHADOW_BACKGROUND = -352,
+
+    VSCOLOR_ENVIRONMENT_BACKGROUND_GRADIENTMIDDLE1 = -353,
+    VSCOLOR_ENVIRONMENT_BACKGROUND_GRADIENTMIDDLE2 = -354,
+    VSCOLOR_ENVIRONMENT_BACKGROUND_TEXTURE1 = -355,
+    VSCOLOR_ENVIRONMENT_BACKGROUND_TEXTURE2 = -356,
+
+    VSCOLOR_EXTENSIONMANAGER_STAR_HIGHLIGHT1 = -357,
+    VSCOLOR_EXTENSIONMANAGER_STAR_HIGHLIGHT2 = -358,
+    VSCOLOR_EXTENSIONMANAGER_STAR_INACTIVE1 = -359,
+    VSCOLOR_EXTENSIONMANAGER_STAR_INACTIVE2 = -360,
+
+    VSCOLOR_FILETAB_HOT_BORDER = -361,
+    VSCOLOR_FILETAB_HOT_TEXT = -362,
+    VSCOLOR_FILETAB_HOT_GLYPH = -363,
+
+    VSCOLOR_FILETAB_INACTIVE_GRADIENTTOP = -364,
+    VSCOLOR_FILETAB_INACTIVE_GRADIENTBOTTOM = -365,
+    VSCOLOR_FILETAB_INACTIVE_DOCUMENTBORDER_BACKGROUND = -366,
+    VSCOLOR_FILETAB_INACTIVE_DOCUMENTBORDER_EDGE = -367,
+    VSCOLOR_FILETAB_INACTIVE_TEXT = -368,
+
+    VSCOLOR_FILETAB_LASTACTIVE_GRADIENTTOP = -369,
+    VSCOLOR_FILETAB_LASTACTIVE_GRADIENTMIDDLE1 = -370,
+    VSCOLOR_FILETAB_LASTACTIVE_GRADIENTMIDDLE2 = -371,
+    VSCOLOR_FILETAB_LASTACTIVE_GRADIENTBOTTOM = -372,
+    VSCOLOR_FILETAB_LASTACTIVE_DOCUMENTBORDER_BACKGROUND = -373,
+    VSCOLOR_FILETAB_LASTACTIVE_DOCUMENTBORDER_EDGE = -374,
+    VSCOLOR_FILETAB_LASTACTIVE_TEXT = -375,
+    VSCOLOR_FILETAB_LASTACTIVE_GLYPH = -376,
+
+    VSCOLOR_FILETAB_SELECTED_GRADIENTMIDDLE1 = -377,
+    VSCOLOR_FILETAB_SELECTED_GRADIENTMIDDLE2 = -378,
+
+    VSCOLOR_NEWPROJECT_BACKGROUND = -379,
+    VSCOLOR_NEWPROJECT_PROVIDER_HOVER_FOREGROUND = -380,
+    VSCOLOR_NEWPROJECT_PROVIDER_HOVER_BEGIN = -381,
+    VSCOLOR_NEWPROJECT_PROVIDER_HOVER_MIDDLE1 = -382,
+    VSCOLOR_NEWPROJECT_PROVIDER_HOVER_MIDDLE2 = -383,
+    VSCOLOR_NEWPROJECT_PROVIDER_HOVER_END = -384,
+    VSCOLOR_NEWPROJECT_PROVIDER_INACTIVE_FOREGROUND = -385,
+    VSCOLOR_NEWPROJECT_PROVIDER_INACTIVE_BEGIN = -386,
+    VSCOLOR_NEWPROJECT_PROVIDER_INACTIVE_END = -387,
+    VSCOLOR_NEWPROJECT_ITEM_SELECTED_BORDER = -388,
+    VSCOLOR_NEWPROJECT_ITEM_SELECTED = -389,
+    VSCOLOR_NEWPROJECT_ITEM_INACTIVE_BEGIN = -390,
+    VSCOLOR_NEWPROJECT_ITEM_INACTIVE_END = -391,
+    VSCOLOR_NEWPROJECT_ITEM_INACTIVE_BORDER = -392,
+
+    VSCOLOR_PAGE_CONTENTEXPANDER_CHEVRON = -393,
+    VSCOLOR_PAGE_CONTENTEXPANDER_SEPARATOR = -394,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_BODY = -395,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_CHEVRON = -396,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_HEADER = -397,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_HEADER_HOVER = -398,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_HEADER_PRESSED = -399,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_SEPARATOR = -400,
+    VSCOLOR_PAGE_SIDEBAREXPANDER_TEXT = -401,
+
+    VSCOLOR_SCROLLBAR_ARROW_BACKGROUND = -402,
+    VSCOLOR_SCROLLBAR_ARROW_DISABLED_BACKGROUND = -403,
+    VSCOLOR_SCROLLBAR_ARROW_MOUSEOVER_BACKGROUND = -404,
+    VSCOLOR_SCROLLBAR_ARROW_PRESSED_BACKGROUND = -405,
+    VSCOLOR_SCROLLBAR_BACKGROUND = -406,
+    VSCOLOR_SCROLLBAR_DISABLED_BACKGROUND = -407,
+    VSCOLOR_SCROLLBAR_THUMB_BACKGROUND = -408,
+    VSCOLOR_SCROLLBAR_THUMB_BORDER = -409,
+    VSCOLOR_SCROLLBAR_THUMB_GLYPH = -410,
+    VSCOLOR_SCROLLBAR_THUMB_MOUSEOVER_BACKGROUND = -411,
+    VSCOLOR_SCROLLBAR_THUMB_PRESSED_BACKGROUND = -412,
+
+    VSCOLOR_SEARCHBOX_BACKGROUND = -413,
+    VSCOLOR_SEARCHBOX_BORDER = -414,
+    VSCOLOR_SEARCHBOX_MOUSEOVER_BACKGROUND_BEGIN = -415,
+    VSCOLOR_SEARCHBOX_MOUSEOVER_BACKGROUND_MIDDLE1 = -416,
+    VSCOLOR_SEARCHBOX_MOUSEOVER_BACKGROUND_MIDDLE2 = -417,
+    VSCOLOR_SEARCHBOX_MOUSEOVER_BACKGROUND_END = -418,
+    VSCOLOR_SEARCHBOX_MOUSEOVER_BORDER = -419,
+    VSCOLOR_SEARCHBOX_PRESSED_BACKGROUND = -420,
+    VSCOLOR_SEARCHBOX_PRESSED_BORDER = -421,
+
+    VSCOLOR_STARTPAGE_BACKGROUND_GRADIENTBEGIN = -422,
+    VSCOLOR_STARTPAGE_BACKGROUND_GRADIENTEND = -423,
+    VSCOLOR_STARTPAGE_BUTTON_BORDER = -424,
+    VSCOLOR_STARTPAGE_BUTTON_MOUSEOVER_BACKGROUND_BEGIN = -425,
+    VSCOLOR_STARTPAGE_BUTTON_MOUSEOVER_BACKGROUND_END = -426,
+    VSCOLOR_STARTPAGE_BUTTON_MOUSEOVER_BACKGROUND_MIDDLE1 = -427,
+    VSCOLOR_STARTPAGE_BUTTON_MOUSEOVER_BACKGROUND_MIDDLE2 = -428,
+    VSCOLOR_STARTPAGE_BUTTON_PINNED = -429,
+    VSCOLOR_STARTPAGE_BUTTON_PIN_DOWN = -430,
+    VSCOLOR_STARTPAGE_BUTTON_PIN_HOVER = -431,
+    VSCOLOR_STARTPAGE_BUTTON_UNPINNED = -432,
+    VSCOLOR_STARTPAGE_BUTTONTEXT = -433,
+    VSCOLOR_STARTPAGE_BUTTONTEXT_HOVER = -434,
+    VSCOLOR_STARTPAGE_SELECTEDITEM_BACKGROUND = -435,
+    VSCOLOR_STARTPAGE_SELECTEDITEM_STROKE = -436,
+    VSCOLOR_STARTPAGE_SEPARATOR = -437,
+    VSCOLOR_STARTPAGE_TAB_BACKGROUND_BEGIN = -438,
+    VSCOLOR_STARTPAGE_TAB_BACKGROUND_END = -439,
+    VSCOLOR_STARTPAGE_TAB_MOUSEOVER_BACKGROUND_BEGIN = -440,
+    VSCOLOR_STARTPAGE_TAB_MOUSEOVER_BACKGROUND_END = -441,
+    VSCOLOR_STARTPAGE_TEXT_BODY = -442,
+    VSCOLOR_STARTPAGE_TEXT_BODY_SELECTED = -443,
+    VSCOLOR_STARTPAGE_TEXT_BODY_UNSELECTED = -444,
+    VSCOLOR_STARTPAGE_TEXT_CONTROL_LINK_SELECTED = -445,
+    VSCOLOR_STARTPAGE_TEXT_CONTROL_LINK_SELECTED_HOVER = -446,
+    VSCOLOR_STARTPAGE_TEXT_DATE = -447,
+    VSCOLOR_STARTPAGE_TEXT_HEADING = -448,
+    VSCOLOR_STARTPAGE_TEXT_HEADING_MOUSEOVER = -449,
+    VSCOLOR_STARTPAGE_TEXT_HEADING_SELECTED = -450,
+    VSCOLOR_STARTPAGE_TEXT_SUBHEADING = -451,
+    VSCOLOR_STARTPAGE_TEXT_SUBHEADING_MOUSEOVER = -452,
+    VSCOLOR_STARTPAGE_TEXT_SUBHEADING_SELECTED = -453,
+    VSCOLOR_STARTPAGE_UNSELECTEDITEM_BACKGROUND_BEGIN = -454,
+    VSCOLOR_STARTPAGE_UNSELECTEDITEM_BACKGROUND_END = -455,
+    VSCOLOR_STARTPAGE_UNSELECTEDITEM_STROKE = -456,
+
+    VSCOLOR_STATUSBAR_TEXT = -457,
+
+    VSCOLOR_TITLEBAR_ACTIVE_GRADIENTMIDDLE1 = -458,
+    VSCOLOR_TITLEBAR_ACTIVE_GRADIENTMIDDLE2 = -459,
+
+    VSCOLOR_TOOLBOX_SELECTED_HEADING_BEGIN = -460,
+    VSCOLOR_TOOLBOX_SELECTED_HEADING_MIDDLE1 = -461,
+    VSCOLOR_TOOLBOX_SELECTED_HEADING_MIDDLE2 = -462,
+    VSCOLOR_TOOLBOX_SELECTED_HEADING_END = -463,
+
+    VSCOLOR_TOOLWINDOW_BUTTON_INACTIVE_GLYPH = -464,
+    VSCOLOR_TOOLWINDOW_BUTTON_INACTIVE = -465,
+    VSCOLOR_TOOLWINDOW_BUTTON_INACTIVE_BORDER = -466,
+    VSCOLOR_TOOLWINDOW_BUTTON_HOVER_INACTIVE_GLYPH = -467,
+    VSCOLOR_TOOLWINDOW_BUTTON_DOWN_INACTIVE_GLYPH = -468,
+    VSCOLOR_TOOLWINDOW_BUTTON_ACTIVE_GLYPH = -469,
+    VSCOLOR_TOOLWINDOW_BUTTON_HOVER_ACTIVE_GLYPH = -470,
+    VSCOLOR_TOOLWINDOW_BUTTON_DOWN_ACTIVE_GLYPH = -471,
+    VSCOLOR_TOOLWINDOW_CONTENTTAB_GRADIENTBEGIN = -472,
+    VSCOLOR_TOOLWINDOW_CONTENTTAB_GRADIENTEND = -473,
+    VSCOLOR_TOOLWINDOW_FLOATING_FRAME = -474,
+    VSCOLOR_TOOLWINDOW_TAB_MOUSEOVER_BACKGROUND_BEGIN = -475,
+    VSCOLOR_TOOLWINDOW_TAB_MOUSEOVER_BACKGROUND_END = -476,
+    VSCOLOR_TOOLWINDOW_TAB_MOUSEOVER_BORDER = -477,
+    VSCOLOR_TOOLWINDOW_TAB_MOUSEOVER_TEXT = -478,
+
+    VSCOLOR_VIZSURFACE_BROWN_DARK = -479,
+    VSCOLOR_VIZSURFACE_BROWN_LIGHT = -480,
+    VSCOLOR_VIZSURFACE_BROWN_MEDIUM = -481,
+    VSCOLOR_VIZSURFACE_DARKGOLD_DARK = -482,
+    VSCOLOR_VIZSURFACE_DARKGOLD_LIGHT = -483,
+    VSCOLOR_VIZSURFACE_DARKGOLD_MEDIUM = -484,
+    VSCOLOR_VIZSURFACE_GOLD_DARK = -485,
+    VSCOLOR_VIZSURFACE_GOLD_LIGHT = -486,
+    VSCOLOR_VIZSURFACE_GOLD_MEDIUM = -487,
+    VSCOLOR_VIZSURFACE_GREEN_DARK = -488,
+    VSCOLOR_VIZSURFACE_GREEN_LIGHT = -489,
+    VSCOLOR_VIZSURFACE_GREEN_MEDIUM = -490,
+    VSCOLOR_VIZSURFACE_PLUM_DARK = -491,
+    VSCOLOR_VIZSURFACE_PLUM_LIGHT = -492,
+    VSCOLOR_VIZSURFACE_PLUM_MEDIUM = -493,
+    VSCOLOR_VIZSURFACE_RED_DARK = -494,
+    VSCOLOR_VIZSURFACE_RED_LIGHT = -495,
+    VSCOLOR_VIZSURFACE_RED_MEDIUM = -496,
+    VSCOLOR_VIZSURFACE_SOFTBLUE_DARK = -497,
+    VSCOLOR_VIZSURFACE_SOFTBLUE_LIGHT = -498,
+    VSCOLOR_VIZSURFACE_SOFTBLUE_MEDIUM = -499,
+    VSCOLOR_VIZSURFACE_STEELBLUE_DARK = -500,
+    VSCOLOR_VIZSURFACE_STEELBLUE_LIGHT = -501,
+    VSCOLOR_VIZSURFACE_STEELBLUE_MEDIUM = -502,
+    VSCOLOR_VIZSURFACE_STRONGBLUE_DARK = -503,
+    VSCOLOR_VIZSURFACE_STRONGBLUE_LIGHT = -504,
+    VSCOLOR_VIZSURFACE_STRONGBLUE_MEDIUM = -505,
+
+    // NOTE: This must be the same as the last property defined above.
+    VSCOLOR_LASTEX3 = -505
+
+} __VSSYSCOLOREX3;
+
+typedef enum __tagGRADIENTTYPE3
+{
+    /********************************************** defined in vsshell80.idl
+    VSGRADIENT_FILETAB                                      = 1,
+    VSGRADIENT_PANEL_BACKGROUND                             = 2,
+    VSGRADIENT_SHELLBACKGROUND                              = 3,
+    VSGRADIENT_TOOLBOX_HEADING                              = 4,
+    VSGRADIENT_TOOLTAB                                      = 5,
+    VSGRADIENT_TOOLWIN_ACTIVE_TITLE_BAR                     = 6,
+    VSGRADIENT_TOOLWIN_INACTIVE_TITLE_BAR                   = 7,
+    VSGRADIENT_TOOLWIN_BACKGROUND                           = 8
+    *********************************************** defined in vsshell90.idl
+    VSGRADIENT_FILETAB_SELECTED                             = 9,
+    VSGRADIENT_FILETAB_HOT                                  = 10
+    **********************************************/
+    VSGRADIENT_TOOLBOX_SELECTED_HEADING_TOP                 = 11,
+    VSGRADIENT_TOOLBOX_SELECTED_HEADING_BOTTOM              = 12
+} __GRADIENTTYPE3;
+
+typedef DWORD GRADIENTTYPE3;
+
+//----------------------------------------------------------------------------
+// IVsConfigureToolboxItem
+//----------------------------------------------------------------------------
+// Implemented by clients that provide managed ToolboxItems for the 
+// System.Drawing.Design.IToolbox service for special Form designer platforms. This 
+// interface enables the client to configure their items as they are added to the toolbox. 
+// For example, the CompactFramework Designer system uses this mechanism to add a 
+// ToolboxItemFilterAttribute("NETCF", ToolboxItemFilterType.Require) to hide
+// their toolbox items from the Desktop Forms designer. 
+// Objects that implement IVsConfigureeToolboxItem interface are created
+// via ILocalRegistry:CreateInstance. They should be registered under
+// the "$RegRoot$\ToolboxItemConfiguration" key.
+[
+    uuid(uuid_IVsConfigureToolBoxItem),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsConfigureToolboxItem : IUnknown
+{
+    // Configure the given tool box item. The "item" parameter will be a 
+    // System.Drawing.Design.ToolboxItem object.
+    HRESULT ConfigureToolboxItem([in] IUnknown* item);
+}
+
+// Mostly analogous to the STARTF_* constants defined in winbase.h
+enum __DSI_FLAGS
+{
+    DSI_USESHOWWINDOW       = 0x00000001,   // equivalent to STARTF_USESHOWWINDOW
+    DSI_USESIZE             = 0x00000002,   // equivalent to STARTF_USESIZE
+    DSI_USEPOSITION         = 0x00000004,   // equivalent to STARTF_USEPOSITION
+    DSI_USECOUNTCHARS       = 0x00000008,   // equivalent to STARTF_USECOUNTCHARS
+    DSI_USEFILLATTRIBUTE    = 0x00000010,   // equivalent to STARTF_USEFILLATTRIBUTE
+    DSI_RUNFULLSCREEN       = 0x00000020,   // equivalent to STARTF_RUNFULLSCREEN
+    DSI_FORCEONFEEDBACK     = 0x00000040,   // equivalent to STARTF_FORCEONFEEDBACK
+    DSI_FORCEOFFFEEDBACK    = 0x00000080,   // equivalent to STARTF_FORCEOFFFEEDBACK
+    DSI_USESTDHANDLES       = 0x00000100,   // equivalent to STARTF_USESTDHANDLES
+    // These are not present in winbase.h
+    DSI_USECREATIONFLAGS    = 0x40000000,   // the dwCreationFlags field of VsDebugStartupInfo is valid and should be passed to CreateProcess
+    DSI_INHERITHANDLES      = 0x80000000    // call CreateProcess with bInheritHandles = TRUE
+};
+typedef DWORD DSI_FLAGS;
+
+// VsDebugStartupInfo specifies additional settings that the debugger should pass to
+// CreateProcess when LaunchDebugTargets3 is called with DLO_CreateProcess. The contents of
+// this struct are largely analogous to those in STARTUPINFO (defined in winbase.h)
+typedef struct _VsDebugStartupInfo
+{
+    LPCWSTR lpReserved;       // equivalent to lpReserved in STARTUPINFO
+    LPCWSTR lpDesktop;        // equivalent to lpDesktop in STARTUPINFO
+    LPCWSTR lpTitle;          // equivalent to lpTitle in STARTUPINFO
+    DWORD dwCreationFlags;    // Process creation flags to be passed to CreateProcess. Supports any of the flags that CreateProcess supports,
+                              //    except for DEBUG_ONLY_THIS_PROCESS, DEBUG_PROCESS, and EXTENDED_STARTUPINFO_PRESENT
+    DWORD dwX;                // equivalent to dwX in STARTUPINFO
+    DWORD dwY;                // equivalent to dwY in STARTUPINFO
+    DWORD dwXSize;            // equivalent to dwXSize in STARTUPINFO  
+    DWORD dwYSize;            // equivalent to dwYSize in STARTUPINFO
+    DWORD dwXCountChars;      // equivalent to dwXCountChars in STARTUPINFO
+    DWORD dwYCountChars;      // equivalent to dwYCountChars in STARTUPINFO
+    DWORD dwFillAttribute;    // equivalent to dwFillAttribute in STARTUPINFO
+    DSI_FLAGS flags;          // equivalent to dwFlags in STARTUPINFO
+    WORD wShowWindow;         // equivalent to wShowWindow in STARTUPINFO
+    WORD cbReserved2;         // equivalent to cbReserved2 in STARTUPINFO
+    BYTE* lpReserved2;        // equivalent to lpReserved2 in STARTUPINFO
+    DWORD_PTR hStdInput;      // equivalent to hStdInput in STARTUPINFO
+    DWORD_PTR hStdOutput;     // equivalent to hStdOutput in STARTUPINFO
+    DWORD_PTR hStdError;      // equivalent to hStdError in STARTUPINFO
+} VsDebugStartupInfo;
+
+typedef DEBUG_LAUNCH_OPERATION2 DEBUG_LAUNCH_OPERATION3;
+
+// enum __VSDBGLAUNCHFLAGS5 ADDED IN DEV10
+// NOTE: USE OF THIS ENUM REQUIRES DEV10 OR ABOVE TO BE INSTALLED
+enum __VSDBGLAUNCHFLAGS5
+{
+    /********************************************** defined in vsshell.idl
+    DBGLAUNCH_Silent                = 0x00000001,
+    DBGLAUNCH_LocalDeploy           = 0x00000002, // passed to IVsDebuggableProjectCfg::Launch to allow optimizations
+    DBGLAUNCH_NoDebug               = 0x00000004, // launch without attaching a debugger
+    DBGLAUNCH_DetachOnStop          = 0x00000008, // detach instead of terminate when debugging stopped.
+    DBGLAUNCH_Selected              = 0x00000010, // launch selected project instead of startup project
+    DBGLAUNCH_StopDebuggingOnEnd    = 0x00000020, // when this process ends, debugging is stopped.
+    DBGLAUNCH_WaitForAttachComplete = 0x00000040, // when DLO_LaunchByWebServer, wait for the attach to finish before continuing to launch other targets
+    **********************************************  defined in vsshell80.idl*/
+    /*DBGLAUNCH_MergeEnv              = 0x00000080, // provided environment should be merged with system environment
+    DBGLAUNCH_DesignTimeExprEval    = 0x00000100, // launched for design-time expression evaluation
+    DBGLAUNCH_StopAtEntryPoint      = 0x00000200, // Stop at the entrypoint (step-into)
+    DBGLAUNCH_CannotDebugAlone      = 0x00000400, // this process cannot be debugged alone -- stop debugging when only processes with this flag remain
+    **********************************************/
+    /********************************************** defined in vsshell90.idl
+    DBGLAUNCH_WaitForEvent          = 0x00000800  // Debugger should wait for a named event to become signaled after launching the first debug target and before launching more targets
+    **********************************************/
+    /********************************************** defined in vsshell90.idl (SP1)
+    DBGLAUNCH_UseDefaultBrowser     = 0x00001000  // Debugger should use the Default Web Browser; this flag used in conjunction with DLO_LaunchBrowser.
+                                                  // The default browser is obtained via IVsUIShellOpenDocument:: GetFirstDefaultPreviewer(). 
+                                                  // The bstrEXE in VsDebugTargetInfo2 points to the URL to be launched. Web Site projects will use 
+                                                  // this for Silverlight projects. This allows, for example, Firefox to be used which is single 
+                                                  // instance and so has to be handled differently on launch. Other project systems (e.g. C++) that 
+                                                  // currently use DLO_LaunchBrowser will continue to use that and IE will get launched as before.
+    **********************************************/
+    DBGLAUNCH_PrepForDebug          = 0x00002000, // We will eventually debug this process, so allow the debugger to perform additional setup
+    DBGLAUNCH_TerminateOnStop       = 0x00004000, // Terminate the debuggee when debugging is stopped. It is an error to specify both this and DBGLAUNCH_DetachOnStop
+    DBGLAUNCH_BreakOneProcess       = 0x00008000  // Disable 'Break all processes when one process breaks' debugger option for the debugging session; this option is ignoring if debugging has already started.
+};
+typedef DWORD VSDBGLAUNCHFLAGS5;
+
+typedef struct _VsDebugTargetInfo3
+{
+    DEBUG_LAUNCH_OPERATION3 dlo;  // specifies how this process should be launched or attached
+    VSDBGLAUNCHFLAGS5 LaunchFlags;// launch flags that were passed to IVsDebuggableProjectCfg::Launch
+    BSTR bstrRemoteMachine;       // NULL for local machine, or remote machine name
+    BSTR bstrExe;                 // The name of the executable
+    BSTR bstrArg;                 // command line arguments to the exe (DLO_CreateProcess)
+    BSTR bstrCurDir;              // current directory (DLO_CreateProcess)
+    BSTR bstrEnv;                 // environment settings (DLO_CreateProcess)
+    DWORD dwProcessId;            // process id (DLO_AlreadyRunning)
+    VsDebugStartupInfo* pStartupInfo;  // additional options to be passed to CreateProcess (DLO_CreateProcess)
+    GUID guidLaunchDebugEngine;   // guid of debug engine used for launch, (DLO_CreateProcess)
+    DWORD dwDebugEngineCount;     // number of debug engine guids in the array
+    [size_is(dwDebugEngineCount)]
+    GUID* pDebugEngines;          // array of debug engine guids, or NULL is if DebugEngineCount is zero
+    GUID guidPortSupplier;        // port supplier guid
+    BSTR bstrPortName;            // name of port from above supplier (NULL is fine)
+    BSTR bstrOptions;             // custom options, specific to each guidLaunchDebugEngine (NULL is recommended)
+    BOOL fSendToOutputWindow;     // if TRUE, stdout and stderr will be routed to the output window
+    IUnknown* pUnknown;           // interface pointer - usage depends on DEBUG_LAUNCH_OPERATION
+    GUID guidProcessLanguage;     // Language of the hosting process. Used to preload EE's
+} VsDebugTargetInfo3;
+
+typedef struct _VsDebugTargetProcessInfo
+{
+    DWORD dwProcessId;
+    FILETIME creationTime;
+} VsDebugTargetProcessInfo;
+
+//----------------------------------------------------------------------------
+// IVsDebugger3
+//----------------------------------------------------------------------------
+// Implemented by the Debugger, obtained via the SID_SVsDebugger service.
+[
+    uuid(uuid_IVsDebugger3),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDebugger3 : IUnknown
+{
+    // Launch the given debug targets, and return their PIDs and creation times
+    HRESULT LaunchDebugTargets3(
+        [in] ULONG DebugTargetCount, 
+        [in, size_is(DebugTargetCount)] VsDebugTargetInfo3* pDebugTargets,
+        [out, size_is(DebugTargetCount)] VsDebugTargetProcessInfo* pLaunchResults);
+
+    // Returns S_OK if the process with the given PID/Creation time needs to be shutdown
+    // and relaunched due to changes in the debugger options. Otherwise returns S_FALSE
+    HRESULT IsProcessRecycleRequired([in] VsDebugTargetProcessInfo* pProcessInfo);
+}
+
+//----------------------------------------------------------------------------
+// IVsDebugLaunchHook
+//----------------------------------------------------------------------------
+// Implemented by 3rd parties that want to modify the debug targets before the
+// debugger does a launch. Implementers must register their CLSID under
+// $RegRoot$\Debugger\LaunchHooks.
+//
+// ***
+// *** DO NOT USE THIS INTERFACE - THIS HAS BEEN DEPRECATED - CONTACT THE
+// *** DEBUGGER TEAM IF YOU NEED TO HOOK PROCESS LAUNCH
+// ***
+//
+[
+    uuid(uuid_IVsDebugLaunchHook),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDebugLaunchHook : IUnknown
+{
+    // The debugger will call SetNextHook as part of the initialization process.
+    // Implementors should save pNextHook so as to call into it when
+    // OnLaunchDebugTargets is called.
+    HRESULT SetNextHook(
+        [in] IVsDebugLaunchHook* pNextHook);
+
+    // Returns S_OK if the process with the given PID/Creation time needs to be shutdown
+    // and relaunched due to changes in the launch options. Otherwise returns S_FALSE
+    HRESULT IsProcessRecycleRequired(
+        [in] VsDebugTargetProcessInfo* pProcessInfo);
+
+    // OnLaunchDebugTargets will get called by the debugger when a project
+    // system initiates a debug launch using IVsDebugger::LaunchDebugTargets*. 
+    // The hook can modify the targets before calling the next hook in the chain.
+    HRESULT OnLaunchDebugTargets(
+        [in] ULONG DebugTargetCount, 
+        [in, size_is(DebugTargetCount)] VsDebugTargetInfo3* pDebugTargets,
+        [out, size_is(DebugTargetCount)] VsDebugTargetProcessInfo* pLaunchResults);
+}
+
+//-----------------------------------------------------------------------------
+// Enumerations for Settings Store
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Scope of the settings to retrieve from the IVsSettingsManager
+// Note: Keep the values listed here synchronozed with the VSENCLOSINGSCOPES
+// enumeration and keep them them bitwise exclusive.
+// Note: This enumeration is being wrapped by the managed ones in MPF and Managed
+// standalone library so update them as well whenever this enumeration changes.
+//-----------------------------------------------------------------------------
+enum __VsSettingsScope
+{           
+    SettingsScope_Configuration = 0x00000001,  // Read-only installation configuration scope             
+    SettingsScope_UserSettings  = 0x00000002,  // User settings scope
+};
+typedef DWORD VSSETTINGSSCOPE;
+
+//-----------------------------------------------------------------------------
+// Returned as a result of querying the enclosed scopes that contain the provided
+// property or collection.
+// Note: This is a flagged enumeration meaning that more than one of those bits
+// could be set as a result of the query.
+// Note: This enumeration is being wrapped by the managed ones in MPF and Managed
+// standalone library so update them as well whenever this enumeration changes.
+//-----------------------------------------------------------------------------
+enum __VsEnclosingScopes
+{       
+    EnclosingScopes_None =          0x00000000,                     // None of the valid scopes
+    EnclosingScopes_Configuration = SettingsScope_Configuration,    // Installation configuration scope
+    EnclosingScopes_UserSettings  = SettingsScope_UserSettings,     // User settings scope
+};
+typedef DWORD VSENCLOSINGSCOPES;
+
+//-----------------------------------------------------------------------------
+// Data type of the properties in the settings store
+// Note: This enumeration is being wrapped by the managed ones in MPF and Managed
+// standalone library so update them as well whenever this enumeration changes.
+//-----------------------------------------------------------------------------
+enum __VsSettingsType
+{      
+    // Invalid data type for the property
+    SettingsType_Invalid = 0,         
+    
+    // Data type used for 4 byte properties INT, DWORD and BOOL
+    SettingsType_Int = 1,             
+
+    // Data type used for 8 byte properties INT64 and UINT64
+    SettingsType_Int64 = 2,
+
+    // Data type for zero terminated strings (BSTR or PCWSTR)
+    SettingsType_String = 3,
+
+    // Data type for BYTE arrays
+    SettingsType_Binary = 4
+};
+typedef DWORD VSSETTINGSTYPE;
+
+//-----------------------------------------------------------------------------
+// Visual Studio application data folders.
+// Note: This enumeration is being wrapped by the managed ones in MPF and Managed
+// standalone library so update them as well whenever this enumeration changes.
+//-----------------------------------------------------------------------------
+enum __VsApplicationDataFolder
+{      
+    // Folder that VS uses for storing the local files specific to user. 
+    // Example: C:\Users\<user name>\AppData\Local\Microsoft\VisualStudio\<VS version specifier>
+    ApplicationDataFolder_LocalSettings = 0,         
+    
+    // Folder that VS uses for storing the roaming files specific to user.
+    // Example: C:\Users\<user name>\AppData\Roaming\Microsoft\VisualStudio\<VS version specifier>
+    ApplicationDataFolder_RoamingSettings = 1,             
+
+    // Folder that VS uses for storing the machine wide files.
+    // Example: C:\ProgramData\Microsoft\VisualStudio\<VS version specifier>
+    ApplicationDataFolder_Configuration = 2,
+
+    // Folder that VS uses for the user generated files like project, snippets or backup files.
+    // Example: C:\Users\<user name>\Documents\<VS version specifier>
+    ApplicationDataFolder_Documents = 3,
+
+    // Folder that Visual Studio uses for loading user extensions.
+    // Example: C:\Users\<user name>\AppData\Local\Microsoft\VisualStudio\<VS version specifier>\Extensions
+    ApplicationDataFolder_UserExtensions = 4,
+
+    // Folder that Visual Studio specifies for installing per-machine Extensions
+    // Example: C:\Program Files\Microsoft Visual Studio <VS version>\Common7\IDE\Extensions
+    ApplicationDataFolder_ApplicationExtensions = 5,
+};
+typedef DWORD VSAPPLICATIONDATAFOLDER;
+
+//-----------------------------------------------------------------------------
+// Interfaces of the Settings Store
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// SVsSettingsManager
+// The service id for vs IVsSettingsManager service.
+//-----------------------------------------------------------------------------
+[
+    uuid(uuid_SVsSettingsManager)
+]
+interface SVsSettingsManager : IUnknown
+{
+}
+//Service IIDs
+cpp_quote("#define SID_SVsSettingsManager IID_SVsSettingsManager")
+
+//-----------------------------------------------------------------------------
+// IVsSettingsStore 
+//-----------------------------------------------------------------------------
+// Interface for reading/enumerating the selected scope's collections and properties. It is obtained from 
+// GetReadOnlySettingsStore method of the IVsSettingsManager interface.
+// 
+// In the methods of this interface if the collection path is provided as the empty string ("") then it 
+// denotes the top level collection. If the property name is empty string then it denotes the default 
+// property of the collection.
+
+// Collections can contain properties and sub collections. Sub collection paths are described with the strings 
+// like the directory paths of file systems. Path contains names of all the parent collections. Similarly, separator 
+// used between the names of the parent collections is '\' (back-slash) character. Example of a sub collection path 
+// would be: "Root Collection\Internal Collection\Leaf Collection".
+[
+    uuid(uuid_IVsSettingsStore),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSettingsStore : IUnknown
+{
+    // Outputs the value of the requested property whose data type is SettingsType_Int as BOOL. If the property was
+    // stored as a signed or unsigned int value then regular C++ type casting semantics are applied on the output value. 
+    // If the property is of a different data type or if it does not exist, the method returns E_INVALIDARG.
+    HRESULT GetBool([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] BOOL* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int as int. If the property was
+    // stored as an unsigned value then regular C++ type casting semantics are applied on the output value. If the property    
+    // is of a different data type or if it does not exist, the method returns E_INVALIDARG.
+    HRESULT GetInt([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] int* value);    
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int as DWORD. If the property was
+    // stored as a signed value then regular C++ type casting semantics are applied on the output value. If the property
+    // is of a different data type or if it does not exist, the method E_INVALIDARG.
+    HRESULT GetUnsignedInt([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] DWORD* value);    
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int64 as INT64. If the property was
+    // stored as an unsigned value then regular C++ type casting semantics are applied on the output value. If the property
+    // is of a different data type or if it does not exist, the method returns E_INVALIDARG.
+    HRESULT GetInt64([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] INT64* value);    
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int64 as UINT64. If the property was
+    // stored as a signed value then regular C++ type casting semantics are applied on the output value. If the property
+    // is of a different data type or if it does not exist, the method returns E_INVALIDARG.
+    HRESULT GetUnsignedInt64([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] UINT64* value);    
+
+    // Outputs the value of the requested property whose data type is SettingsType_String as BSTR. 'value' parameter should 
+    // point to an uninitialized BSTR and the method will allocate enough space to hold the value of the property. The caller 
+    // should call SysFreeString to release the BSTR when it is no longer needed. If the property is of a different type or if 
+    // it does not exist, the method returns E_INVALIDARG.
+    HRESULT GetString([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] BSTR* value);    
+
+    // Writes the value of the requested property whose data type is SettingsType_Binary to the passed BYTE array. 'byteLength'
+    // parameter holds the size of the BYTE array passed. Optional parameter 'actualByteLength' is written the actual size of
+    // the data copied to the array and it can be NULL if the caller is not interested in. Caller can pass NULL for pBytes and
+    // 0 for byteLength to learn the size of the property. In that case, 'actualByteLength' parameter will be set to the size 
+    // of the property without copying the actual data. If the property is of a different type or if it does not exist, the 
+    // method returns E_INVALIDARG.
+    HRESULT GetBinary([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] ULONG byteLength, 
+                      [out, optional, size_is(byteLength)] BYTE *pBytes, [out, optional] ULONG *actualByteLength);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int as BOOL. If the property was
+    // stored as a signed or unsigned int value then regular C++ type casting semantics are applied on the output value. 
+    // If the property does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. 
+    // If the property is of a different data type, the method returns E_INVALIDARG.
+    HRESULT GetBoolOrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] BOOL defaultValue, [out] BOOL* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int as int. If the property was
+    // stored as a unsigned value then regular C++ type casting semantics are applied on the output value. If the 
+    // property does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. If 
+    // the property is of a different data type, the method returns E_INVALIDARG.
+    HRESULT GetIntOrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] int defaultValue, [out] int* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int as DWORD. If the property was
+    // stored as a signed value then regular C++ type casting semantics are applied on the output value. If the 
+    // property does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. If 
+    // the property is of a different data type, the method returns E_INVALIDARG.
+    HRESULT GetUnsignedIntOrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] DWORD defaultValue, [out] DWORD* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int64 as INT64. If the property was
+    // stored as an unsigned value then regular C++ type casting semantics are applied on the output value. If the property 
+    // does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. If the property is
+    // of a different data type, the method returns E_INVALIDARG.
+    HRESULT GetInt64OrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] INT64 defaultValue, [out] INT64* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_Int64 as UINT64. If the property was
+    // stored as a signed value then regular C++ type casting semantics are applied on the output value. If the property
+    // does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. If the property is 
+    // of a different data type, the method returns E_INVALIDARG.
+    HRESULT GetUnsignedInt64OrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] UINT64 defaultValue, [out] UINT64* value);
+
+    // Outputs the value of the requested property whose data type is SettingsType_String as BSTR. 'value' parameter should 
+    // point to an uninitialized BSTR and the method will allocate enough space to hold the value of the property. If the property 
+    // does not exist, the 'value' parameter is set to 'defaultValue' and the method returns S_FALSE. The caller should call 
+    // SysFreeString to release the BSTR when it is no longer needed. If the property is of a different data type, the method 
+    // returns E_INVALIDARG.
+    HRESULT GetStringOrDefault([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] LPCOLESTR defaultValue, [out] BSTR* value);
+
+    // Outputs the data type of the requested property. If the property does not exist, the method returns E_INVALIDARG.
+    HRESULT GetPropertyType([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] VSSETTINGSTYPE* type);    
+
+    // Outputs whether the given property exists or not. It sets 'pfExists' to FALSE if the property or its collection does not 
+    // exist and TRUE otherwise.
+    HRESULT PropertyExists([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] BOOL* pfExists);
+
+    // Outputs whether the given collection exists or not. It sets 'pfExists' to FALSE if the collection does not exist and TRUE 
+    // otherwise.
+    HRESULT CollectionExists([in] LPCOLESTR collectionPath, [out] BOOL* pfExists);    
+
+    // Outputs the number of sub collections under the given collection. If the collection does not exist, the method 
+    // returns E_INVALIDARG.
+    HRESULT GetSubCollectionCount([in] LPCOLESTR collectionPath, [out] DWORD* subCollectionCount);
+
+    // Outputs the number of properties under the given collection. If there is a default property in the collection then it is 
+    // added to the total number of properties. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT GetPropertyCount([in] LPCOLESTR collectionPath, [out] DWORD* propertyCount);
+
+    // Outputs the last write time of the properties and sub collections immediate to the given collection. The method does report 
+    // any further changes internal to the sub collections (i.e. non-recursive). The last write time of a collection is updated if
+    // properties are created, deleted or their values modified or if a sub collection is created or deleted. If the collection 
+    // does not exist, the method returns E_INVALIDARG.
+    HRESULT GetLastWriteTime([in] LPCOLESTR collectionPath, [out] SYSTEMTIME* lastWriteTime);
+
+    // Outputs the name of the sub collection indexed with 'index' parameter for the given collection. Passed index is zero based 
+    // hence it should be smaller than the number of available sub collections. 'subCollectionName' parameter should point to an
+    // uninitialized BSTR and the method will allocate enough space to hold the name of the requested sub collection. The caller 
+    // should call SysFreeString to release the BSTR when it is no longer needed. If the collection does not exist or the 
+    // index is bigger than or equal to the number of sub collections, the method returns E_INVALIDARG.
+    HRESULT GetSubCollectionName([in] LPCOLESTR collectionPath, [in] DWORD index, [out] BSTR* subCollectionName);
+
+    // Outputs the name of the property indexed with 'index' parameter for the given collection. Passed index is zero based hence 
+    // it should be smaller than the number of available properties. 'propertyName' parameter should point to an uninitialized BSTR 
+    // and the method will allocate enough space to hold the name of the requested sub collection. The caller should call 
+    // SysFreeString to release the BSTR when it is no longer needed. If the index denotes the default property then the output 
+    // name is an empty string (""). If the collection does not exist or the index is bigger than or equal to the number of sub 
+    // collections, the method returns E_INVALIDARG.
+    HRESULT GetPropertyName([in] LPCOLESTR collectionPath, [in] DWORD index, [out] BSTR* propertyName);
+};
+
+//-----------------------------------------------------------------------------
+// IVsWritableSettingsStore 
+//-----------------------------------------------------------------------------
+// Interface for both reading/enumerating and creating/deleting the selected 
+// scope's collections and properties. It is obtained from GetWritableSettingsStore 
+// method of the IVsSettingsManager interface. It is derived from the IVsSettingsStore
+// interface to inherit reading/enumerating abilities of that interface.
+[
+    uuid(uuid_IVsWritableSettingsStore),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWritableSettingsStore : IVsSettingsStore
+{
+    // Updates the value of the specified property to the given BOOL value, setting its data type to SettingsType_Int. If the 
+    // previous data type of the property is different than SettingsType_Int, it overwrites it. If the property does not exist it 
+    // creates one. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetBool([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] BOOL value);
+
+    // Updates the value of the specified property to the given int value, setting its data type to SettingsType_Int. If the previous
+    // data type of the property is different than SettingsType_Int, it overwrites it. If the property does not exist it creates one.
+    // If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetInt([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] int value);
+
+    // Updates the value of the specified property to the given DWORD value, setting its data type to SettingsType_Int. If the 
+    // previous data type of the property is different than SettingsType_Int, it overwrites it. If the property does not exist it 
+    // creates one. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetUnsignedInt([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] DWORD value);
+
+    // Updates the value of the specified property to the given INT64 value, setting its data type to SettingsType_Int. If the 
+    // previous data type of the property is different than SettingsType_Int64, it overwrites it. If the property does not exist it 
+    // creates one. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetInt64([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] INT64 value);
+
+    // Updates the value of the specified property to the given UINT64 value, setting its data type to SettingsType_Int. If the
+    // previous data type of the property is different than SettingsType_Int64, it overwrites it. If the property does not exist it 
+    // creates one. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetUnsignedInt64([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] UINT64 value);
+
+    // Updates the value of the specified property to the given zero terminated string value, setting its data type to 
+    // SettingsType_String. If the previous data type of the property is different than SettingsType_String, it overwrites it. 
+    // If the property does not exist it creates one. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetString([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] LPCOLESTR value);
+
+    // Updates the value of the specified property with the given BYTE array, setting its data type to SettingsType_Binary. If the 
+    // previous data type of the property is different than SettingsType_Binary, it overwrites it. If the property does not exist 
+    // it creates one. If the 'byteLength' argument is 0 then 'pBytes' can be NULL but otherwise it should point to a BYTE array 
+    // of specified size. If the collection does not exist, the method returns E_INVALIDARG.
+    HRESULT SetBinary([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [in] ULONG byteLength, [in, size_is(byteLength)] BYTE *pBytes);
+
+    // Deletes the given property from the collection. If the property or the collection does not exist then the method returns 
+    // S_FALSE.
+    HRESULT DeleteProperty([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName);
+
+    // Creates the given collection path by creating each nested collection while skipping the ones that already exist. If the full
+    // path of collections already exist, the method simply returns successfully. If empty string ("") is passed to the method, 
+    // the method returns E_INVALIDARG.
+    HRESULT CreateCollection([in] LPCOLESTR collectionPath);
+
+    // Deletes the given collection recursively deleting all of the sub collections and properties in it. If the collection does
+    // not exist or an empty string ("") is passed then the method returns S_FALSE.
+    HRESULT DeleteCollection([in] LPCOLESTR collectionPath);
+};
+
+//-----------------------------------------------------------------------------
+// IVsSettingsManager
+//-----------------------------------------------------------------------------
+// Interface implemented by the Settings Store service. Main gateway to the 
+// settings store functionality.
+[
+    uuid(uuid_IVsSettingsManager),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSettingsManager : IUnknown
+{
+    // Outputs the scopes that contain the given collection. If more than one scope contains the collection,
+    // the corresponding bit flags of those scopes are set. If none of the scopes contains the collection,
+    // the 'scope' parameter is set to EnclosingScopes_None.
+    HRESULT GetCollectionScopes([in] LPCOLESTR collectionPath, [out] VSENCLOSINGSCOPES* scopes);
+
+    // Outputs the scopes that contain the given property in the given collection. If more than one scope 
+    // contains the property then the corresponding bit flags of those scopes are switched on. If none of the 
+    // scopes contains the property, 'scope' parameter is set to EnclosingScopes_None.
+    HRESULT GetPropertyScopes([in] LPCOLESTR collectionPath, [in] LPCOLESTR propertyName, [out] VSENCLOSINGSCOPES* scopes);
+
+    // Provides the IVsSettingsStore interface for the requested scope which can be used for read-only operations.
+    HRESULT GetReadOnlySettingsStore([in] VSSETTINGSSCOPE scope, [out] IVsSettingsStore** store);
+
+    // Provides the IVsWritableSettingsStore interface for the requested scope. If scope is not a writable scope 
+    // (SettingsScope_Configuration for instance) then the method returns E_INVALIDARG.
+    HRESULT GetWritableSettingsStore([in] VSSETTINGSSCOPE scope, [out] IVsWritableSettingsStore** writableStore);
+
+    // Returns the specified application data folder path that Visual Studio uses to store various files.
+    HRESULT GetApplicationDataFolder([in] VSAPPLICATIONDATAFOLDER folder, [out] BSTR *folderPath);
+
+    // Returns the list of all common extension search paths. Callers should first call GetCommonExtensionsSearchPaths(0, NULL, &cExpected)
+    // to obtain the number of paths in the list and allocate a corresponding array. Callers should then call
+    // GetCommonExtensionsSearchPaths(cExpected, pbstrExtensionPaths, &cActual) to obtain the actual list of common extension search paths.
+    HRESULT GetCommonExtensionsSearchPaths(
+        [in] ULONG paths,                                   // The size of the array for the resulting list of extension folder paths.
+        [out, size_is(paths)] BSTR* commonExtensionsPaths,  // The array of common extension folder paths. 
+        [out] ULONG *actualPaths);                          // The actual number of paths returned in rgbstrCommonExtensionsPaths.
+};
+
+// This is returned from IVsStringMap methods when the specified key is not found.
+cpp_quote("#define E_VS_KEYMISSING MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x2000)")
+
+//-----------------------------------------------------------------------------
+// IVsStringMap
+//-----------------------------------------------------------------------------
+// Interface implemented by the Settings Store service implementation. 
+// It manages a set of key-value pairs of strings.
+[
+    uuid(uuid_IVsStringMap),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsStringMap : IUnknown
+{
+    // NULL and empty strings are not valid key names.  Any string (including NULL) is a valid
+    // value.  (NULL values are returned from GetValue as empty strings.)  If an entry with the
+    // given key name already exists, it will be overwritten.
+    HRESULT SetValue([in] LPCWSTR szKey, [in] LPCWSTR szValue);
+
+    // Returns E_VS_KEYMISSING if there is no map entry with the given key name.
+    HRESULT GetValue([in] LPCWSTR szKey, [out] BSTR* pbstrValue);
+
+    HRESULT RemoveValue([in] LPCWSTR szKey);
+
+    // Note that IEnumString::Next returns LPOLESTRs, which must be freed by the caller using
+    // CoTaskMemFree.
+    HRESULT EnumKeys([out] IEnumString** ppEnum);
+
+    HRESULT Clear();
+}
+
+//-----------------------------------------------------------------------------
+// IVsDataObjectStringMapEvents
+//-----------------------------------------------------------------------------
+// Implemented by clients of IVsDataObjectStringMapManager that are interested
+// in getting a callback when the String Map changes.
+[
+    uuid(uuid_IVsDataObjectStringMapEvents),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDataObjectStringMapEvents : IUnknown
+{
+    HRESULT OnStringMapChanged([in] IDataObject* pObject, [in] LPCWSTR szStringMapName);
+}
+
+// This is returned from IVsDataObjectStringMapManager::ReadStringMap when the specified map is not
+// found.
+cpp_quote("#define E_VS_MAPMISSING MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x2001)")
+
+//-----------------------------------------------------------------------------
+// IVsDataObjectStringMapManager
+//-----------------------------------------------------------------------------
+// This VS service (obtained through SVsDataObjectStringMapManager) enables storage of name/value
+// pairs in an IDataObject.  Multiple string maps with different names can exist in a single data
+// object.
+[
+    uuid(uuid_IVsDataObjectStringMapManager),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDataObjectStringMapManager : IUnknown
+{
+    // Returns E_VS_MAPMISSING if the data object does not contain a string map with the given
+    // name.
+    HRESULT ReadStringMap([in] IDataObject* pObject, [in] LPCWSTR szStringMapName, [out] IVsStringMap** ppStringMap);
+
+    // Requires the IDataObject implementation to support SetData for storage medium type
+    // TYMED_HGLOBAL, NULL target device, and aspect DVASPECT_CONTENT.  Returns E_ACCESSDENIED if
+    // fOverwriteExisting is FALSE and the data object already contains a map by this name.  The
+    // IVsStringMap* passed to this method must be one obtained from ReadStringMap or
+    // CreateStringMap.
+    HRESULT WriteStringMap([in] IDataObject* pObject, [in] LPCWSTR szStringMapName, [in] BOOL fOverwriteExisting, [in] IVsStringMap* pStringMap);
+
+    // Creates an empty string map.
+    HRESULT CreateStringMap([out] IVsStringMap** ppStringMap);
+
+    HRESULT AdviseChanges([in] IDataObject* pObject, [in] IVsDataObjectStringMapEvents* pStringMapEvents, [out] VSCOOKIE* pdwCookie);
+    HRESULT UnadviseChanges([in] VSCOOKIE dwCookie);
+}
+
+// Service Guid
+[
+    uuid(uuid_SVsDataObjectStringMapManager)
+]
+interface SVsDataObjectStringMapManager : IUnknown
+{
+}
+cpp_quote("#define SID_SVsDataObjectStringMapManager IID_SVsDataObjectStringMapManager")
+
+// The name of the string map to use for multi-targeting data.
+cpp_quote("#define szTOOLBOX_MULTITARGETING_STRINGMAP L\"MultiTargeting:{FBB22D27-7B21-42ac-88C8-595F94BDBCA5}\"")
+
+#ifdef INTEROPLIB
+[hidden]
+module WellKnownToolboxStringMaps
+{
+    const LPSTR MultiTargeting = "MultiTargeting:{FBB22D27-7B21-42ac-88C8-595F94BDBCA5}";
+}
+#endif // INTEROPLIB
+
+// The names of the well-known fields in the toolbox multi-targeting string map.  See interop
+// definitions for comments on specific fields.
+//
+// For toolbox items which have this metadata, the toolbox will ensure that only items which meet
+// the following requirements can be enabled in the toolbox:
+//   1. The target framework of the active designer's project is included in the "Frameworks" field
+//      (ignoring profile differences), or a lower version of the project's target framework
+//      appears there and the object has been "promoted" according to the default logic.
+//   2. EITHER:
+//          The target framework of the active designer's project does not have a profile.
+//      OR:
+//          The assembly is not a framework assembly.
+//      OR:
+//          a. The assembly name (of ANY version) can be resolved against the project's target
+//             framework.
+//          b. The type name is present in the resolved assembly.
+//
+// The "Frameworks" field may be omitted, in which case the toolbox will query the item provider
+// by calling IVsProvideTargetedToolboxItems.GetInstanceOfExistingTypeForNewFramework when a
+// designer in a managed project is activated.
+//
+// If the "ItemProvider" field is omitted, the toolbox will apply its default compatibility logic
+// rather than relying on a package's IVsProvideTargetedToolboxItems implementation.
+cpp_quote("#define szTOOLBOX_MULTITARGETING_TYPENAME L\"TypeName\"")
+cpp_quote("#define szTOOLBOX_MULTITARGETING_ASSEMBLYNAME L\"AssemblyName\"")
+cpp_quote("#define szTOOLBOX_MULTITARGETING_FRAMEWORKS L\"Frameworks\"")
+cpp_quote("#define szTOOLBOX_MULTITARGETING_ITEMPROVIDER L\"ItemProvider\"")
+cpp_quote("#define szTOOLBOX_MULTITARGETING_USEPTF_TOOLTIP L\"UseProjectTargetFrameworkVersionInTooltip\"")
+
+#ifdef INTEROPLIB
+[hidden]
+module ToolboxMultitargetingFields
+{
+    const LPSTR TypeName = "TypeName"; // The full type name, e.g. System.Windows.Forms.Button
+    const LPSTR AssemblyName = "AssemblyName"; // The full assembly name (strong name), including version
+    const LPSTR Frameworks = "Frameworks"; // A semicolon-delimited list of TFMs this item supports (without profiles)
+    const LPSTR ItemProvider = "ItemProvider"; // The GUID of the package that implements IVsProvideTargetedToolboxItems and knows about this item type
+    const LPSTR UseProjectTargetFrameworkVersionInTooltip = "UseProjectTargetFrameworkVersionInTooltip"; // A boolean value indicating whether to use the project target framework's version in toolbox item tooltips
+}
+#endif // INTEROPLIB
+
+//-----------------------------------------------------------------------------
+// IVsAddToolboxItems
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment. An instance of this interface is passed to methods of
+// IVsProvideTargetedToolboxItems to allow the item provider to add new content.  The signatures of
+// its methods match those of IVsToolbox::AddItem and IVsToolbox2::AddItem2 (except for the
+// addition of the item ID parameter) to facilitate migration of existing toolbox population code.
+// For both methods, lpszTab is the localized name of the tab (use IVsToolbox3's GetIDOfTab and
+// GetTabOfID to translate between localized and non-localized tab names).  If the given tab does
+// not exist, it will be created before adding the item.
+//
+// All parameters except the data object and the package GUID are marked as unique because there
+// are scenarios in which we want to allow callers to pass NULL.
+[
+    uuid(uuid_IVsAddToolboxItems),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsAddToolboxItems : IUnknown
+{
+    HRESULT AddItem([in] IDataObject* pDO, [in, unique] TBXITEMINFO * ptif, [in, unique] LPCWSTR szItemID, [in, unique] LPCWSTR lpszTab);
+    HRESULT AddItemWithOwningPackage([in] IDataObject* pDO, [in, unique] TBXITEMINFO * ptif, [in, unique] LPCWSTR szItemID, [in, unique] LPCWSTR lpszTab, [in] REFGUID guidPkg);
+}
+
+//-----------------------------------------------------------------------------
+// IVsProvideTargetedToolboxItems
+//-----------------------------------------------------------------------------
+// Packages implement this interface (on the same object as IVsPackage) to provide toolbox content
+// in response to the presence of new frameworks.  This is used to facilitate compatibility with
+// future out-of-band framework releases by allowing existing packages to provide updated content
+// from those new frameworks after they are installed.
+//
+// Items added by these methods must have the multitargeting metadata (specified above) set using
+// IVsDataObjectStringMapManager (specific exceptions are noted in the method descriptions).
+[
+    uuid(uuid_IVsProvideTargetedToolboxItems),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProvideTargetedToolboxItems : IUnknown
+{
+    // Consider a set of toolbox items that have the same type name, assembly name (ignoring
+    // version differences), and framework ID (a framework ID is the first component of a TFM, e.g.
+    // ".NETFramework" in the TFM ".NETFramework,Version=v4.0,Profile=Client") according to their
+    // "TypeName", "AssemblyName", and "Frameworks" multitargeting stringmap fields, respectively.
+    // (Although an item may support multiple frameworks, all the frameworks supported by an item
+    // must have the same ID.)  For example, there might be:
+    //   TypeName = System.Windows.Forms.Button
+    //   AssemblyName = System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    //   Frameworks = .NETFramework,Version=v2.0;.NETFramework,Version=v4.0
+    // and:
+    //   TypeName = System.Windows.Forms.Button
+    //   AssemblyName = System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+    //   Frameworks = .NETFramework,Version=v4.0
+    // The toolbox understands that all the items in the set represent the "same type".  Let us
+    // call this set a "unique type set".
+    // 
+    // For each unique type set, this method is called by the toolbox when the active designer
+    // belongs to a project targeting a version of that framework which is not already supported by
+    // an item in that unique type set and for which we have not called this method before.
+    // If any items in the unique type set support a framework with a lower version than the
+    // project's framework, pExistingItem will be the one of those with the highest assembly
+    // version; otherwise, if there is no existing item supporting a TFM with a lower version
+    // number than the new TFM, it is the item that supports the lowest-versioned TFM of the same
+    // ID.  The package on which this method is called is the one identified by the multi-targeting
+    // metadata of pExistingItem.  Packages should use IVsDataObjectStringMapManager to examine
+    // that metadata.  This method implementation should use pAdder to do one of the following:
+    //   * If there is no item of the same type as pExistingItem that supports the given TFM, do
+    //     not call pAdder at all (but still return S_OK).
+    //   * If the existing item should be used with the given TFM, use pAdder to add the existing
+    //     item.  The toolbox will recognize that you're not actually creating a new item and will
+    //     simply update the framework support of the existing item.  In this case, the item info,
+    //     item ID, tab name, and package GUID parameters to the methods of IVsAddToolboxItems will
+    //     be ignored.
+    //   * If the new framework contains a new implementation of this type, create a new toolbox
+    //     item and use pAdder to add it.  Setting the multi-targeting metadata on this object is
+    //     optional.  If the type name, assembly name, or item provider GUID are not set, they will
+    //     be copied from the existing item.  If the framework list is not set, it will be set to
+    //     szNewTFM; if the framework list is set but does not include szNewTFM, szNewTFM will be
+    //     appended to it.  When calling IVsAddToolboxItems methods to add new items, you may pass
+    //     NULL or an empty string for the tab name to indicate that the item should be placed on
+    //     the same tab as the existing item.
+    HRESULT GetInstanceOfExistingTypeForNewFramework(
+        [in] IDataObject* pExistingItem,
+        [in] LPCWSTR szNewTFM,
+        [in] IVsAddToolboxItems* pAdder);
+
+    // This is called by the toolbox when the active designer belongs to a project targeting a
+    // framework which the toolbox has never seen before (ignoring profile differences) and whose
+    // version is greater than that of any framework with the same ID that the toolbox HAS seen
+    // before.  The toolbox calls on each package identified as an item provider by an existing
+    // toolbox item (see the multitargeting string map definition above).  The item providers
+    // should determine the set of new types added between szHighestExistingTFMWithSameID and
+    // szNewTFM, and add toolbox items for those types using pAdder.  If the toolbox has not yet
+    // seen any framework with the same ID as the new framework, szHighestExistingTFMWithSameID
+    // will be an empty string.
+    //
+    // This method must set the type name and assembly name metadata on the items it adds.  It is
+    // not necessary to set the item provider GUID, as that will be set automatically.  If the
+    // framework list is not set, it will be set to szNewTFM; if the framework list is set but
+    // does not include szNewTFM, szNewTFM will be appended to it.
+    HRESULT AddNewTypesForNewFramework(
+        [in] LPCWSTR szHighestExistingTFMWithSameID,
+        [in] LPCWSTR szNewTFM,
+        [in] IVsAddToolboxItems* pAdder);
+}
+
+//-----------------------------------------------------------------------------
+// IVsDesignerInfo
+//-----------------------------------------------------------------------------
+// IVsDesignerInfo is used to retrieve the designer technology
+// and other language agnostic information associated with a designer.
+// It can be retrieved from VS IDE's document framework.
+// This interface is designed initially for DataSourceWindow to detect
+// the active designer. The designer (Cider, Winform) should implement the
+// interface and associate it with a WindowFrame.
+[
+    uuid(uuid_IVsDesignerInfo),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsDesignerInfo: IUnknown
+{
+    HRESULT get_DesignerTechnology([out] BSTR *pbstrTechnology);
+}
+
+// extension of VSTREEFLAGS
+enum _VSTREEFLAGS2
+{
+    TF_AVOIDPRECACHE    = 0x0200, // Early caching of items will be avoided
+};
+typedef DWORD VSTREEFLAGS2;
+
+
+// extension of VSTREETEXTOPTIONS
+typedef enum _VSTREETEXTOPTIONS2
+{
+    TTO_SORTTEXT2       = 0x0080,       // Unique pointer used for secondary sorting, if any
+} VSTREETEXTOPTIONS2;
+
+enum __VSLITETREEOPTS2
+{
+    //LT_ALLOWMULTISELECT   = 0x00000001,
+    //LT_ALLOWEDITLABELS    = 0x00000002
+    LT_ENABLEEXPLORERTHEME  = 0x00000004  // Use Explorer-style theming for tree nodes
+};
+
+//-----------------------------------------------------------------------------
+// IVsProjectSpecialFiles enums
+//-----------------------------------------------------------------------------
+// extension of PSFFILEID
+enum __PSFFILEID4
+{
+    PSFFILEID_WcfServiceReferencesConfig = -1009,
+
+    // !!!! NOTE !!!!   THIS MUST BE THE SAME AS THE LAST PROP DEFINED
+    PSFFILEID_FIRST4                = -1009
+};
+typedef LONG PSFFILEID4;
+
+// project type CLSID for Unloaded Project "stub project" {76E22BD3-C2EC-47F1-802B-53197756DAE8}
+// cpp_quote("DEFINE_GUID(CLSID_UnloadedProject, 0x76E22BD3, 0xC2EC, 0x47F1, 0x80, 0x2B, 0x53, 0x19, 0x77, 0x56, 0xDA, 0xE8);")
+cpp_quote("extern const __declspec(selectany) CLSID CLSID_UnloadedProject = { 0x76E22BD3, 0xC2EC, 0x47F1, { 0x80, 0x2B, 0x53, 0x19, 0x77, 0x56, 0xDA, 0xE8 } };") 
+
+// {10534154-102D-46E2-ABA8-A6BFA25BA0BE}
+// Set only after all project loading has completed. If Background Solution Loading is enabled, the loading of projects is completed at idle time.
+// Solution load will only load projects required for currently open documents. All other projects load asynchronously during Idle.
+// This UIContext allows notification of when background solution load is complete. Features can wait for this context to delay 
+// expensive operations that would otherwise run on each project load event until the background solution load has completed.
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_SolutionExistsAndFullyLoaded = { 0x10534154, 0x102d, 0x46e2, { 0xab, 0xa8, 0xa6, 0xbf, 0xa2, 0x5b, 0xa0, 0xbe } };")
+
+// {D2567162-F94F-4091-8798-A096E61B8B50}
+// Set when a Solution begins loading and cleared once the loading has completed.
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_SolutionOpening = { 0xd2567162, 0xf94f, 0x4091, { 0x87, 0x98, 0xa0, 0x96, 0xe6, 0x1b, 0x8b, 0x50 } };")
+
+// {DE039A0E-C18F-490c-944A-888B8E86DA4B}
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_ProjectRetargeting = { 0xde039a0e, 0xc18f, 0x490c, { 0x94, 0x4a, 0x88, 0x8b, 0x8e, 0x86, 0xda, 0x4b } };")
+
+// {D1B1E38F-1A7E-4236-AF55-6FA8F5FA76E6}
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_HistoricalDebugging = { 0xd1b1e38f, 0x1a7e, 0x4236, { 0xaf, 0x55, 0x6f, 0xa8, 0xf5, 0xfa, 0x76, 0xe6 } };")
+
+// {5705AD15-40EE-4426-AD3E-BA750610D599}
+cpp_quote("extern const __declspec(selectany) GUID UICONTEXT_DataSourceWizardSuppressed = { 0x5705ad15, 0x40ee, 0x4426, { 0xad, 0x3e, 0xba, 0x75, 0x06, 0x10, 0xD5, 0x99 } };")
+
+
+//-----------------------------------------------------------------------------
+// IVsToolboxItemProvider
+//-----------------------------------------------------------------------------
+// Implemented by packages that want to provide statically registered toolbox items (same object as
+// IVsPackage).  If toolbox content is declared in the registry, this interface will be called by
+// the toolbox to retrieve item content on demand (instead of creating it all with a single call to
+// IVsPackage::ResetDefaults).  If content is declared in the registry but this interface is not
+// implemented, ResetDefaults will still be called, but the call will be delayed until a toolbox
+// item's content is needed (e.g. when the user drags an item onto a designer).
+//
+// To declare toolbox content in the registry, follow this schema:
+//     Under "HKLM\Software\Microsoft\<appid>\<version>\Packages\<package GUID>", create key
+//     "Toolbox\DefaultContent".
+//
+//     Under that DefaultContent key, create one key for each toolbox group you want to create or
+//     place items in.  The name of the key is the "unique ID" (e.g. a non-localized name); the
+//     default value of the key is the name.  If the name is localizable, you should set the
+//     default value to "#123", where 123 is the ID of a resource in your satellite DLL.  If you
+//     want to place items in the group but don't want to create it (because you know another
+//     package has already created it), the name may be omitted.
+//
+//     Under each group key, create one key for each toolbox item you want to add to the group.
+//     The key name and default value are the unique ID and name (same as for group keys).  The
+//     following values are also required:
+//         HelpKeyword : string
+//         Formats : a semicolon-delimited list of data format names.  The contents of these data
+//             formats will be loaded on demand using IVsToolboxItemProvider or
+//             IVsPackage::ResetDefaults as described above.
+//         Either...
+//             Bitmap : binary data representing the pixels of an image, with four bytes per pixel
+//                 (<unused>, red, green, blue) arranged left-to-right and top-to-bottom (as retrieved
+//                 by the GetDIBits function using DIB_RGB_COLORS, 1 plane, BI_RGB compression, and
+//                 32 bits per pixel).  The bitmap must be 16x16 pixels unless it is an image strip
+//                 (see BitmapIndex below), in which case it must be 16 pixels high and a multiple
+//                 of 16 pixels wide.
+//         or...
+//             BitmapResourceID : a string identifying a bitmap resource in the package's satellite
+//                 DLL.  The size constraints described for 'Bitmap' apply here too.
+//         TransparentColor : a DWORD (with bytes <unused>, red, green, blue) indicating the color
+//             that should be rendered transparently in the item's bitmap
+//     The following optional values may also be specified:
+//         String values TipTitle, TipVersion, TipPublisher, TipType, and TipDescription (see
+//         comments on IVsToolboxDataProvider2::GetItemTipInfo in vsshell80.idl).
+//
+//         String values AssemblyName, TypeName, TFMs, and TargetedItemProvider (see comments on
+//         multitargeting metadata further down in this file).
+//
+//         String value MinimumFrameworkVersion is also supported, for compatibility with VS 2008.
+//
+//         DWORD value BitmapIndex, which indicase that the bitmap is actually an image strip and
+//         identifies the image to be extracted from it.
+//
+//     Each item key may optionally have a subkey called "ItemContent" containing data formats
+//     whose content is known at install time.  For each of these, a value is created under this
+//     key whose name is the name of the data format and whose value is a binary blob containing
+//     the bytes of the format.
+//
+// The HGLOBAL returned from this method is owned (and will be freed) by the caller.
+[
+    uuid(uuid_IVsToolboxItemProvider),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsToolboxItemProvider : IUnknown
+{
+    HRESULT GetItemContent([in] LPCWSTR szItemID, [in] CLIPFORMAT format, [out] HGLOBAL* pGlobal);
+}
+
+
+//-----------------------------------------------------------------------------
+// IVsComponentSelectorDlg4
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the 
+// SID_SVsComponentSelectorDlg service.
+[
+    uuid(uuid_IVsComponentSelectorDlg4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsComponentSelectorDlg4 : IUnknown
+{
+    // This method is same as IVsComponentSelectorDlg3::ComponentSelectorDlg4, except that it
+    // takes a TargetFrameworkMoniker instead of a TargetFrameworkVersion - thus it is extensible multitargeting
+    // compliant
+    // Note: In the internal processing for the .NET tab population of the Add Reference dialog
+    // we no longer use the older IVsComponentEnumeratorFactory or IVsComponentEnumeratorFactory2 service interface
+    // implementations; we always expect the IVsComponentEnumeratorFactory3 interface to be available
+
+    HRESULT ComponentSelectorDlg5([in]   VSCOMPSELFLAGS2 grfFlags,         // VSCOMSEL_* flags
+        [in]      IVsComponentUser *pUser,         // interface on which AddComponent will be called
+        [in]      ULONG cComponents,
+        [in, size_is(cComponents)] VSCOMPONENTSELECTORDATA * rgpcsdComponents[], //prepopulation of Selected Components
+        [in]      LPCOLESTR lpszDlgTitle,          // dialog caption (NULL == "Component Selector")
+        [in]      LPCOLESTR lpszHelpTopic,         // F1 help topic (NULL == "VS.ComponentPicker")
+        [in, out] ULONG * pxDlgSize,   // 0 to use default
+        [in, out] ULONG * pyDlgSize,   // 0 to use default
+        [in]      ULONG cTabInitializers,          // number of tabs
+        [in, size_is(cTabInitializers)] VSCOMPONENTSELECTORTABINIT rgcstiTabInitializers[], // tabs in show order and their initialization info
+        [in, out] GUID *  pguidStartOnThisTab,     // tab to show when the dialog starts up
+        [in]      LPCOLESTR pszBrowseFilters,      // list of filters to use in 'Browse...' dialog
+        [in, out] BSTR *pbstrBrowseLocation,       // directory (initial/return value) to start the 'Browse...' dialog in
+        [in]      LPCWSTR targetFrameworkMoniker);       // Target framework Moniker.
+};
+
+[
+    uuid(uuid_SVsComponentModelHost),
+    local   // No need to generate a proxy-stub for an empty service interface
+]
+interface SVsComponentModelHost : IUnknown
+{
+}
+cpp_quote("#define SID_SVsComponentModelHost IID_SVsComponentModelHost")
+
+//-----------------------------------------------------------------------------
+// IVsComponentModelHost
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the 
+// SID_SVsComponentModelHost service. It exposes information needed for VS MEF hosting.
+[
+    uuid(uuid_IVsComponentModelHost),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsComponentModelHost : IUnknown
+{
+    // Returns the list of all component assemblies discovered.
+    HRESULT GetComponentAssemblies(
+        [in] ULONG cAssemblies,                                 // The size of the array for the resulting list of asseblies.
+        [out, size_is(cAssemblies)] BSTR rgbstrAssemblyPaths[], // The array is populated with the list of component assemblies discovered. 
+                                                                // The array is not changed if the actual number of assemblies is greater than cAssemblies.
+        [out] ULONG *pcActualAssemblies);                       // The actual number of component assemblies discovered.
+
+    // Returns the path of the folder that can be used for storying MEF catalog caches.
+    HRESULT GetCatalogCacheFolder(
+        [out] BSTR* pbstrFolderPath);   // The full path of the cache folder.
+
+    // Allows host to filter out assemblies before they are made a part of any catalog..
+    HRESULT QueryLoadComponentAssemblies(
+        [in] ULONG cAssemblies,                                             // The number of the assemblies to consider.
+        [in, size_is(cAssemblies)] LPCWSTR prgAssemblyPaths[],              // The list of assemblies to consider.
+        [out, size_is(cAssemblies)] VARIANT_BOOL rgCanLoad[]);              // The resulting array of booleans where each value indicates whether
+};
+//---------------------------------------------------------------------------
+// IVsBuildPropertyStorage2
+//---------------------------------------------------------------------------
+// Implemented by the project system to give flavors access to the msbuild 
+// property system. This interface provides more flexibility around setting
+// properties over IVsBuildPropertyStorage. It allows for adding a new
+// conditional property group and does not escape the values.
+[
+    uuid(uuid_IVsBuildPropertyStorage2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsBuildPropertyStorage2 : IUnknown
+{
+    HRESULT SetPropertyValueEx( [in] LPCOLESTR pszPropName, [in] LPCOLESTR pszPropertyGroupCondition, [in] PersistStorageType storage, [in] LPCOLESTR pszPropValue);
+};
+
+// Flags used in IVsProjectBuildSystem.GetBuildSystemKind. Flag values 0x0001-0x8000 are reserved for Visual Studio use
+// BSK_MSBUILD_VS9 is the equivalent of _BuildSystemKindFlags.BSK_MSBUILD
+enum _BuildSystemKindFlags2
+{
+    BSK_MSBUILD_VS9     = 1,    // indicates that the build system stores files in the MSBuild VS9 format (.NET 3.5 and earlier)
+    BSK_MSBUILD_VS10    = 2     // indicates that the build system stores files in the MSBuild VS10 format (.NET 4.0 and later)
+};
+typedef DWORD BuildSystemKindFlags2;
+
+//--------------------------------------------------------------------------------------------
+// IVsLanguageServiceBuildErrorReporter 
+//--------------------------------------------------------------------------------------------
+// This interface is optionally implemented by a language service object that is connected to
+// the project system.
+//
+// If this interface is implemented, the project system will first call ReportError before
+// doing any error handling.  If the language service handles the reporting (returning
+// anything other than E_NOTIMPL), the project system will not report the error to the error
+// list.
+// 
+// The project system will call ClearErrors when the errors reported to the language service
+// are no longer valid, such as when the next build happens.
+//
+[
+    uuid(uuid_IVsLanguageServiceBuildErrorReporter),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsLanguageServiceBuildErrorReporter : IUnknown
+{
+    HRESULT ReportError([in] BSTR bstrErrorMessage, [in] BSTR bstrErrorId, [in] VSTASKPRIORITY nPriority, [in] long iLine, [in] long iColumn, [in] BSTR bstrFileName);
+    HRESULT ClearErrors();
+};
+
+//--------------------------------------------------------------------------------------------
+// ILocalRegistry5
+//-----------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the 
+// SID_SLocalRegistry service.
+// It adds one method similar to ILocalRegistry3.CreateManagedInstance but which supports
+// COM aggregation with a given outer object.
+//--------------------------------------------------------------------------------------------
+[
+    object,
+    local,
+    uuid(uuid_ILocalRegistry5),
+    pointer_default(unique)
+]
+interface ILocalRegistry5 : IUnknown
+{
+    HRESULT CreateAggregatedManagedInstance(
+        [in] LPCWSTR codeBase,
+        [in] LPCWSTR assemblyName,
+        [in] LPCWSTR typeName,
+        [in] LPVOID pUnkOuter,
+        [in] REFIID riid,
+        [out] void** ppvObj);
+};
+
+//--------------------------------------------------------------------------------------------
+// IVsErrorItem2
+//--------------------------------------------------------------------------------------------
+// Implemented by error list items (in addition to IVsTaskItem).  Prefer this to IVsErrorItem2
+// when you want to specify your own custom icon in the error list window.
+[
+    uuid(uuid_IVsErrorItem2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsErrorItem2 : IUnknown
+{
+    // Returns the custom icon index
+    HRESULT GetCustomIconIndex([out] long* index);
+}
+
+// Implemented by the Visual Studio Environment (QI from IVsOutputWindow).
+[
+    uuid(uuid_IVsOutputWindow3),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsOutputWindow3 : IUnknown
+{
+    // Create an output window pane with the specified content type and text view roles.
+    HRESULT CreatePane2([in] REFGUID rguidPane, [in] LPCOLESTR   pszPaneName, [in] BOOL fInitVisible, [in] BOOL fClearWithSolution, [in] LPCOLESTR lpszContentType, [in] LPCOLESTR lpszTextViewRoles);
+}
+
+// Flags passed to EnsureXXXLoaded methods
+enum __VSBSLFLAGS
+{
+    VSBSLFLAGS_None                     = 0x00000000,
+    VSBSLFLAGS_NotCancelable            = 0x00000001,   // Disable the Cancel button on the wait dialog during project load. (The Cancel button is not implemented by Visual Studio 2010.)
+    VSBSLFLAGS_LoadBuildDependencies    = 0x00000002,   // Load all build dependencies of the project (this include references between projects and user-defined dependencies at solution level)
+                                                        // By default Visual Studio loads only the dependencies that are necessary for design-time features (IntelliSense, form designers, etc.)
+    VSBSLFLAGS_ExpandProjectOnLoad      = 0x00000004,   // If this project is loaded, expand it in the Solution Explorer.
+    VSBSLFLAGS_SelectProjectOnLoad      = 0x00000008,   // If this project is loaded, select it in the Solution Explorer.
+    VSBSLFLAGS_LoadAllPendingProjects   = 0x00000010,   // Force all projects to load except for PLP_ExplicitLoadOnly projects. This flag is valid for the EnsureSolutionIsLoaded only. 
+                                                        // By default Visual Studio completes the loading only of PLP_DemandLoad and PLP_BackgroundLoad projects.
+};
+typedef DWORD VSBSLFLAGS;
+
+
+enum _VSProjectLoadPriority
+{
+    PLP_DemandLoad       = 0,  // Force immediate load on the next idle point (or synchronously if IVsSolution4::EnsureXXXIsLoaded is called).
+    PLP_BackgroundLoad   = 1,  // Load in the background on idle.
+    PLP_LoadIfNeeded     = 2,  // Load only if needed as a dependency of another PLP_DemandLoad project.
+    PLP_ExplicitLoadOnly = 3,  // Keep the project unloaded, even if it is needed as a dependency of another project, until it is explicitly loaded.
+};
+typedef DWORD VSProjectLoadPriority;
+
+enum _VSProjectUnloadStatus
+{
+    UNLOADSTATUS_UnloadedByUser          = 0,  // The user unloaded the project.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file was unloaded."
+    UNLOADSTATUS_LoadPendingIfNeeded     = 1,  // The Solution Load Manager unloaded the project with PLP_LoadIfNeeded.
+                                               //    The project node caption has the suffix "(pending)".
+                                               //    Item node caption is "The project file will automatically load if needed."
+    UNLOADSTATUS_StorageNotLoadable      = 2,  // The project was unloaded because project storage is not loadable.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file cannot be loaded."
+    UNLOADSTATUS_StorageNotAvailable     = 3,  // The project was unloaded because project storage is not available.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project file or web cannot be found."
+    UNLOADSTATUS_UpgradeFailed           = 4   // The project was unloaded because project migration/upgrade failed.
+                                               //    The project node caption has the suffix "(unavailable)".
+                                               //    The item node caption is "The project has not been converted."
+};
+typedef DWORD VSProjectUnloadStatus;
+
+//---------------------------------------------------------------------------
+// IVsSolution4
+//---------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment.
+//
+// Available via QueryService(SVsSolution)
+[
+    uuid(uuid_IVsSolution4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolution4 : IUnknown
+{
+    // Write the Solution User Options file (.SUO)
+    HRESULT WriteUserOptsFile();
+
+    // Indicates if the background solution load feature has already been enabled
+    // (i.e. has a VSPROPID_ActiveSolutionLoadManager been set).
+    HRESULT IsBackgroundSolutionLoadEnabled([out] VARIANT_BOOL *pfIsEnabled);
+
+    // Ensures this list of projects and all required dependencies are loaded.
+    HRESULT EnsureProjectsAreLoaded([in] DWORD cProjects, [in, size_is(cProjects)] GUID guidProjects[], [in] VSBSLFLAGS grfFlags);
+    
+    // Ensures this project and all required dependencies are loaded.
+    HRESULT EnsureProjectIsLoaded([in] REFGUID guidProject, [in] VSBSLFLAGS grfFlags);
+
+    // Force the loading of the entire solution synchronously before this function returns. 
+    // By default we only complete the loading of PLP_DemandLoad and PLP_BackgroundLoad projects.
+    // If VSBSLFLAGS_LoadAllPendingProjects is passed, then we additionally force the loading
+    // of PLP_LoadIfNeeded projects (i.e., all projects will be loaded except except for
+    // PLP_ExplicitLoadOnly projects).
+    HRESULT EnsureSolutionIsLoaded([in] VSBSLFLAGS grfFlags);
+
+    // Reload a single unloaded project without requiring any _explicitly_ unloaded dependencies to be loaded.
+    // (note: during background solution load, unloaded dependencies that are pending load will still be demand-loaded).
+    // If the project was not actually unloaded, then this method is a NOP and returns S_FALSE.
+    HRESULT ReloadProject([in] REFGUID guidProjectID);
+
+    // Unload a project and set the reason for the unload.
+    // This method is similar to IVsSolution::CloseSolutionElement but gives more control on the status (or reason) for the 
+    // unloading of the project; CloseSolutionElement always sets the UnloadStatus to UNLOADSTATUS_UnloadedByUser.  
+    HRESULT UnloadProject([in] REFGUID guidProjectID, [in] VSProjectUnloadStatus dwUnloadStatus);
+}
+
+//---------------------------------------------------------------------------
+// IVsSolutionLoadManagerSupport
+//---------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment.
+//
+// This interface is passed to the VSPROPID_ActiveSolutionLoadManager object
+// during the Open Solution process via IVsSolutionLoadManager::OnBeforeOpenProject.
+// This allows the Solution Load Manager to control how projects are loaded 
+// during the Open Solution operation. Projects can be loaded 
+// immediately, loaded in the background (at idle), left to be loaded if needed,
+// or set to stay unloaded. A Solution Load Manager is expected to implement the
+// IVsSolutionLoadManager interface. A common approach is to have the Solution Load Manager 
+// package AutoLoad for the SolutionOpening UIContext, 
+// for example [ProvideAutoLoad(UIContextGuids.SolutionOpening)].
+// This property may also be set during IVsSolutionLoadEvents::OnBeforeOpenSolution or
+// during IVsPersistSolutionProps::ReadSolutionProps for the pre Solution section.
+[
+    uuid(uuid_IVsSolutionLoadManagerSupport),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolutionLoadManagerSupport : IUnknown
+{
+    // Sets whether the project should be kept as an unloaded project the next time the solution is opened.
+    // There are four states for an unloaded project: 
+    //     PLP_DemandLoad -- force the immediate load of the project during the Open Solution operation.
+    //                       If SetProjectLoadPriority(guid, PLP_DemandLoad) is called after the 
+    //                       solution is opened, then this will force the load of the project
+    //                       on the very next idle point (or synchronously if IVsSolution4::EnsureXXXLoaded 
+    //                       is also called).
+    //     PLP_BackgroundLoad -- load in background on idle.
+    //     PLP_LoadIfNeeded -- load only if needed as a dependency of another loaded project,
+    //                       or if the user expands the project in the Solution Explorer.
+    //     PLP_ExplicitLoadOnly -- keep unloaded even if needed as a dependency of another project.
+    //                       PLP_ExplicitLoadOnly projects behave the same as projects unloaded by the user.
+    //
+    // The VSProjectLoadPriority setting for a project is persisted during solution close in the
+    // .suo file (per-user, per-solution) and will be used as the load priority for the project on the 
+    // next solution open, unless the Solution Load Manager overrides the persisted value by calling SetProjectLoadPriority 
+    // in OnBeforeOpenProject.
+    HRESULT SetProjectLoadPriority([in] REFGUID refguidProject, [in] VSProjectLoadPriority loadState);
+
+    //Gets whether the project should be kept as an unloaded project the next time the solution is opened.
+    HRESULT GetProjectLoadPriority([in] REFGUID refguidProject, [out] VSProjectLoadPriority *pLoadState);
+};
+
+
+//---------------------------------------------------------------------------
+// IVsSolutionLoadManager
+//---------------------------------------------------------------------------
+// Implemented by a Package that wants to control Solution Load behavior.
+//
+[
+    uuid(uuid_IVsSolutionLoadManager),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolutionLoadManager : IUnknown
+{
+    // Called when VSPROPID_ActiveSolutionLoadManager is cleared. Normally this happens only
+    // on shutdown or when another package calls SetProperty(VSPROPID_ActiveSolutionLoadManager, ...)
+    // to take over as the active Solution Load Manager.
+    HRESULT OnDisconnect();
+
+    // Fired before each project is created. Typically a Solution Load Manager will
+    // use this method to set the load priority by calling IVsSolutionLoadManagerSupport::SetProjectLoadPriority.
+    HRESULT OnBeforeOpenProject(
+        [in] REFGUID guidProjectID, 
+        [in] REFGUID guidProjectType, 
+        [in] LPCOLESTR pszFileName, 
+        [in] IVsSolutionLoadManagerSupport *pSLMgrSupport);
+};
+
+
+//---------------------------------------------------------------------------
+// IVsSolutionLoadEvents
+//---------------------------------------------------------------------------
+// Implemented by clients interested in solution events.
+// Subscribe to these events via IVsSolution::AdviseSolutionEvents.
+[
+    uuid(uuid_IVsSolutionLoadEvents),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolutionLoadEvents : IUnknown
+{
+    // Fired before a Solution Open begins. Extenders can activate a Solution Load Manager 
+    // by setting VSPROPID_ActiveSolutionLoadManager.
+    HRESULT OnBeforeOpenSolution([in] LPCOLESTR pszSolutionFilename);
+
+    // Fired when background loading of projects is beginning again after the initial solution open 
+    // operation has completed. This event does not fire when a solution is first opened.
+    // OnAfterBackgroundSolutionLoadComplete fires after all background loading projects
+    // have completed and the initial opening of the solution has reached the UIContext_SolutionExistsAndFullyLoaded
+    // state. After this point, if a new group of projects begins loading in the background, then this 
+    // event will fire. This could occur if the user causes the 
+    // loading of a PLP_LoadIfNeeded project (for example, by expanding the pending project in the Solution Explorer)
+    // or if the solution load manager changes an unloaded project's load priority 
+    // from PLP_ExplicitLoadOnly or PLP_LoadIfNeeded to PLP_BackgroundLoad. When a new group of projects
+    // starts loading in the background in this manner, the UIContext_SolutionExistsAndFullyLoaded context
+    // is deactivated again. When background loading is completed, then
+    // the OnAfterBackgroundSolutionLoadComplete event fires, and the UIContext_SolutionExistsAndFullyLoaded
+    // is activated again.
+    HRESULT OnBeforeBackgroundSolutionLoadBegins();
+
+    // Fired before background loading a batch of projects. Normally a background batch
+    // loads a single pending project. This is a cancelable event.
+    // Clients of this event can cause the start of the batch loading to be delayed
+    // in order to ensure that other background operations complete before a new batch of 
+    // projects starts to load by returning TRUE for *pfShouldDelayBatchStartToNextIdle.
+    // For example, a project system may want to ensure that the IntelliSense state for the 
+    // currently loaded projects is up-to-date before starting new background load operations.
+    HRESULT OnQueryBackgroundLoadProjectBatch([out] VARIANT_BOOL *pfShouldDelayLoadToNextIdle);
+
+    // Fired when loading a batch of dependent projects as part of loading a solution in the background. 
+    // Some batches may be loaded synchronously to satisfy user demand load requests; 
+    // other batches are loaded in the background at idle time. 
+    // Clients may request that background batch project loading be delayed if they have 
+    // higher-priority idle time tasks. The OnQueryBackgroundLoadProjectBatch event is  
+    // fired only for background batches. 
+    // Examples of user demand load requests (that is, synchronous, not background batches) include:
+    //   * The projects required to open the documents in the .suo open document list are 
+    //     loaded synchronously during the initial solution open operation.
+    //   * When the user expands a "(pending)" project in the Solution Explorer, that 
+    //     project and all of its dependencies are opened synchronously.
+    //   * Before building the solution, the Startup project(s) and all build
+    //     dependencies are loaded.
+    // Clients should defer expensive operations normally done during OnAfterOpenProject 
+    // until they receive OnAfterLoadProjectBatch.
+    HRESULT OnBeforeLoadProjectBatch([in] VARIANT_BOOL fIsBackgroundIdleBatch);
+
+    // Fired when the loading of a batch of dependent projects is complete. 
+    HRESULT OnAfterLoadProjectBatch([in] VARIANT_BOOL fIsBackgroundIdleBatch);
+
+    // Fired when the solution load process is fully complete, including all background loading 
+    // of projects. This event always fires after the initial opening of a solution 
+    // when the solution reaches the UIContext_SolutionExistsAndFullyLoaded state for the first time. 
+    // It is fired whether or not a solution load manager exists. If 
+    // background loading of solutions is not enabled, then this event fires synchronously at the 
+    // end of the solution opening process. If background loading of projects is enabled, then
+    // this event will fire at an idle point after all project loading has completed. If some activity
+    // causes a new group of projects to start loading in the background after the initial 
+    // opening of the solution has completed, then an OnBeforeBackgroundSolutionLoadBegins event is
+    // fired and UIContext_SolutionExistsAndFullyLoaded is deactivated. When the 
+    // new background loading of projects completes, then this event fires again. At that point 
+    // the solution returns to the UIContext_SolutionExistsAndFullyLoaded state.
+    HRESULT OnAfterBackgroundSolutionLoadComplete();
+};
+
+interface IVsThreadedWaitDialog2;
+
+//---------------------------------------------------------------------------
+// IVsThreadedWaitDialogFactory
+//---------------------------------------------------------------------------
+// The original SVsThreadedWaitDialog service is now obsolete and is replaced by 
+// the SVsThreadedWaitDialogFactory service.
+[
+    uuid(uuid_IVsThreadedWaitDialogFactory),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsThreadedWaitDialogFactory : IUnknown
+{
+    // CreateInstance provides instances of IVsThreadedWaitDialog and IVsThreadedWaitDialog2
+    HRESULT CreateInstance([out] IVsThreadedWaitDialog2 **ppIVsThreadedWaitDialog);
+}
+
+#ifndef PROXYSTUB_BUILD
+
+// declare the service type for interop
+[uuid(uuid_SVsThreadedWaitDialogFactory)]
+interface SVsThreadedWaitDialogFactory : IUnknown {}
+
+cpp_quote("#define SID_SVsThreadedWaitDialogFactory IID_SVsThreadedWaitDialogFactory")
+
+#endif
+
+
+//---------------------------------------------------------------------------
+// IVsThreadedWaitDialog2
+//---------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment.
+// Interface allows a modal dialog to be displayed on a background thread to
+// allow the IDE to appear responsive even when the foreground thread is busy
+// with an extended operation
+//
+// Available via QueryService(SVsThreadedWaitDialogFactory)
+// This dialog differs from IVsThreadedWaitDialog in that it can have a progress AND
+// Cancel button at the same time. Additionally supports progress with accurate percentage.
+[
+    uuid(uuid_IVsThreadedWaitDialog2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsThreadedWaitDialog2 : IUnknown
+{
+    HRESULT StartWaitDialog(
+        [in]  LPCWSTR       szWaitCaption, 
+        [in]  LPCWSTR       szWaitMessage, 
+        [in]  LPCWSTR       szProgressText,         // Can be NULL
+        [in]  VARIANT       varStatusBmpAnim,       // Optional: should be a VT_INT_PTR containing a valid BMP, or VT_NULL
+        [in]  LPCWSTR       szStatusBarText,        // Can be NULL
+        [in]  LONG          iDelayToShowDialog,     // Number of seconds to delay showing dialog.
+        [in]  VARIANT_BOOL  fIsCancelable,          // Should there be a cancelable button on the dialog.
+        [in]  VARIANT_BOOL  fShowMarqueeProgress);  // Marquee style progress will be shown with VARIANT_BOOL, otherwise no visible progress bar.
+
+    HRESULT StartWaitDialogWithPercentageProgress(
+        [in]  LPCWSTR       szWaitCaption, 
+        [in]  LPCWSTR       szWaitMessage, 
+        [in]  LPCWSTR       szProgressText,     // Can be NULL
+        [in]  VARIANT       varStatusBmpAnim,   // Optional: should be a VT_INT_PTR containing a valid BMP, or VT_NULL
+        [in]  LPCWSTR       szStatusBarText,    // Can be NULL
+        [in]  VARIANT_BOOL  fIsCancelable,      // Should there be a cancelable button on the dialog.
+        [in]  LONG          iDelayToShowDialog, // Number of seconds to delay showing dialog.
+        [in]  LONG          iTotalSteps,        // How many steps equals 100% complete.
+        [in]  LONG          iCurrentStep);      // How many steps have complete so far.
+
+    HRESULT EndWaitDialog([out] BOOL *pfCanceled);
+
+    HRESULT UpdateProgress(
+        [in]  LPCWSTR szUpdatedWaitMessage,     // Can be NULL
+        [in]  LPCWSTR szProgressText,           // Can be NULL
+        [in]  LPCWSTR szStatusBarText,          // Can be NULL
+        [in]  LONG iCurrentStep,                // How many steps have complete so far.
+        [in]  LONG iTotalSteps,                 // Total number of steps
+        [in]  VARIANT_BOOL fDisableCancel,      // If the operation becomes uncancelable, disable the button
+        [out] VARIANT_BOOL *pfCanceled);
+
+    HRESULT HasCanceled([out] VARIANT_BOOL *pfCanceled);
+};
+
+//---------------------------------------------------------------------------
+// IVsToolboxPageChooser
+//---------------------------------------------------------------------------
+// Optionally implemented by designers which implement IVsToolboxUser.
+[
+    uuid(uuid_IVsToolboxPageChooser),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsToolboxPageChooser : IUnknown
+{
+    // The GUID returned here identifies the page to show by default in the "Choose Toolbox Items"
+    // dialog when this designer is active.  The available pages are registered under the
+    // "ToolboxPages" key in the VS configuration hive.
+    HRESULT GetPreferredToolboxPage([out] GUID* pguidPage);
+}
+
+//---------------------------------------------------------------------------
+// IVsResourceManager2
+//---------------------------------------------------------------------------
+// Implemented by the resource manager (SID_SVsResourceManager).
+[
+    uuid(uuid_IVsResourceManager2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsResourceManager2 : IUnknown
+{
+    // Parses a resource ID (which may contain an embedded package GUID or DLL path) into its
+    // components.  The syntax looks like "<prefix><resID>[;<source>]" where:
+    //     <prefix> is '@' (for managed resources) or '#' (for native resources)
+    //     <resName> is the resource ID (either the name or numeric ID)
+    //     <source> is a package GUID in squiggly brackets ("{...}") or a DLL path
+    // DLL paths may contain the tokens "%lcid%" and "%lang%"; these are expanded to the numeric
+    // value of the current locale (e.g. "1033") and the primary language from the locale name
+    // (e.g. "en"), respectively.  If 'lcid' is -1, the current thread locale will be used.
+    //
+    // If szId identifies a resource (begins with a prefix character), *pbstrUnadornedId will be
+    // set to the portion to the left of the semicolon.  If there is a semicolon, either
+    // *pguidPackage or *pbstrDllPath will be set to the portion to the right of the semicolon
+    // (with special path tokens expanded as explained above).
+    HRESULT ParseResourceID([in] LPCWSTR szId, [in] LCID lcid, [out] BSTR* pbstrUnadornedId, [out] GUID* pguidPackage, [out] BSTR* pbstrDllPath);
+
+    // If szId is not a resource ID or szId is a resource ID that already has an embedded package
+    // GUID or DLL path, bstrAnnotatedId is set equal to szId.  Otherwise, if guidPackage is !=
+    // GUID_NULL, it is appended to szId and the result is copied to bstrAnnotatedId.  Otherwise,
+    // if szDllPath is != NULL, it is appended to szId and the result is copied to bstrAnnotatedId.
+    //
+    // Examples:
+    //     szId    guidPackage                             szDllPath                      *pbstrAnnotatedId
+    //     ------- --------------------------------------- ------------------------------ ----------------------------------------------
+    //     "foo"   <anything>                              <anything>                     "foo"
+    //     "@foo"  GUID_NULL                               ""                             "@foo"
+    //     "@foo"  {F1DE2D75-3B95-4510-9B2B-565BC0E38877}  ""                             "@foo;{F1DE2D75-3B95-4510-9B2B-565BC0E38877}"
+    //     "@foo"  GUID_NULL                               "..\bin\%lcid%\PackageUI.dll"  "@foo;..\bin\%lcid%\PackageUI.dll"
+    HRESULT AnnotateIDIfNecessary([in] LPCWSTR szId, [in] REFGUID guidPackage, [in] LPCWSTR szDllPath, [out] BSTR* pbstrAnnotatedId);
+}
+
+//--------------------------------------------------------------------------------------------
+// IVsProject4
+//--------------------------------------------------------------------------------------------
+// Optional interface for projects to allow for more efficient querying of project info.
+[
+    uuid(uuid_IVsProject4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProject4 : IVsProject3
+{
+    // Returns TRUE if the project contains at least one file whose name ends with the given string (case insensitive).
+    // This method should be used if the query is only whether such a value exists, but no interest in the number of ITEMIDs
+    // of the matches, because the method returns immediately after finding a single match.
+    HRESULT ContainsFileEndingWith([in] LPCOLESTR pszEndingWith, [out, retval] BOOL* pfDoesContain);
+
+    // Returns TRUE if the project contains at least one file whose MSBuild ItemType matches (case insensitive) the given string.
+    // This method should be used if the query is only whether such a value exists, but no interest in the number of ITEMIDs
+    // of the matches, because the method returns immediately after finding a single match.
+    HRESULT ContainsFileWithItemType([in] LPCOLESTR pszItemType, [out, retval] BOOL* pfDoesContain);
+
+    // Returns the VSITEMID collection of files whose name ends with the given string (case insensitive).
+    // If celt is zero and rgItemids is NULL, the number of matching files is is returned in *pcActual.
+    // If celt is not zero, rgItemids must not be NULL, or E_POINTER is returned.
+    //
+    // An extremely common pattern is something like (omitting error checks for readability):
+    //
+    // hr = pIVsProject4->GetFilesEndingWith(szEndingWith, 0, NULL, &cExpected);
+    // VSITEMID *rgItemids = ::CoTaskMemAlloc(cExpected * sizeof(VSITEMID));
+    // hr = pIVsProject4->GetFilesEndingWith(szEndingWith, cExpected, rgItemids, &cActual);
+    HRESULT GetFilesEndingWith([in] LPCOLESTR pszEndingWith,
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pcActual)] VSITEMID rgItemids[],
+        [out] ULONG *pcActual);
+
+    // Returns the VSITEMID collection of files whose MSBuild ItemType matches (case insensitive) the given string.
+    // If celt is zero and rgbstr is NULL, the number of matching files is is returned in *pcActual.
+    // If celt is not zero, rgbstr must not be NULL, or E_POINTER is returned.
+    //
+    // An extremely common pattern is something like (omitting error checks for readability):
+    //
+    // hr = pIVsProject4->GetFilesWithItemType(szItemType, 0, NULL, &cExpected);
+    // VSITEMID *rgItemids = ::CoTaskMemAlloc(cExpected * sizeof(VSITEMID));
+    // hr = pIVsProject4->GetFilesWithItemType(szItemType, cExpected, rgItemids, &cActual);
+    HRESULT GetFilesWithItemType([in] LPCOLESTR pszItemType,
+        [in] ULONG celt,
+        [out, size_is(celt), length_is(*pcActual)] VSITEMID rgItemids[],
+        [out] ULONG *pcActual);
+}
+
+//---------------------------------------------------------------------------
+// IVsProjectUpgradeViaFactory3
+//
+// The interface fits into IVsProjectUpgradeViaFactory architecture allowing to check whether
+// projects migration is complete and to obtain post migration the name of the upgraded project
+// The information needs to be persisted until the new upgraded project is closed/unloaded. 
+[
+    uuid(uuid_IVsProjectUpgradeViaFactory3),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProjectUpgradeViaFactory3 : IUnknown
+{
+    HRESULT CheckProjectUpgraded (
+        [in]  LPCOLESTR            pszFileName,                     // The project file name to check (project file after the upgrade)
+        [out] VARIANT_BOOL       * pUpgradeComplete,                // Whether the project was upgraded and the upgrade completed successfully
+        [out, optional] BSTR     * pbstrUpgradedProjectFileName     // The file name of the old project, before upgrade
+        );
+};
+
+// Service Guid
+[
+    uuid(uuid_SVsBuildManagerAccessor)
+]
+interface SVsBuildManagerAccessor : IUnknown
+{
+}
+cpp_quote("#define SID_SVsBuildManagerAccessor IID_SVsBuildManagerAccessor")
+
+//--------------------------------------------------------------------------------------------
+// IVsBuildManagerAccessor
+//--------------------------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the 
+// SID_SVsBuildManagerAccessor service.
+// This interface's sole purpose in life is to provide a way for unmanaged code to
+// get access to the global Engine object, without having to instantiate some
+// expensive object such as a Project for example.  Unmanaged code cannot access
+// Engine.GlobalEngine directly because that object is marked as "static", and 
+// "static" objects are not easily accessible across a COM-interop boundary.
+[
+    uuid(uuid_IVsBuildManagerAccessor),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsBuildManagerAccessor : IUnknown
+{
+    // Registers a logger for the submission.
+    // param name="submissionId" : The submission for which the logger should be registered.</param>
+    // param name="logger" : The logger to register, must implement Microsoft.Build.Framework.ILogger.</param>
+    HRESULT RegisterLogger([in] LONG submissionId, [in] IUnknown* punkLogger);
+
+    // Unregisters all loggers for a given submission.
+    // param name="submissionId" : The submission id.</param>
+    HRESULT UnregisterLoggers([in] LONG submissionId);
+
+    // Used to attempt to get the UI thread for purposes of build. 
+    HRESULT ClaimUIThreadForBuild();
+
+    // Used to release a previously-claimed UI thread. 
+    HRESULT ReleaseUIThreadForBuild();
+
+    // Used to signal that a modal, design-time build, such as reference resolution, is about to take place.
+    HRESULT BeginDesignTimeBuild();
+
+    // Used to signal that a modal, design-time build, such as reference resolution, should end. 
+    HRESULT EndDesignTimeBuild();
+
+    // Return the current batch build id. 0 if there is no batch build going on.
+    HRESULT GetCurrentBatchBuildId([out] ULONG* pBatchId);
+
+    // Gets the value that should go into the MSBuild CurrentSolutionConfigurationContents property
+    // in order for project-to-project references to resolve with the intended configuration as dictated by the solution.
+    // param name="rootProject" : The IVsHierarchy project about to be built that will receive the returned solution configuration.
+    // returns : An XML fragment, interpreted as a string, that should be passed to MSBuild.</returns>
+    HRESULT GetSolutionConfiguration([in] IUnknown* punkRootProject, [out, retval] BSTR* pbstrXmlFragment);
+
+    // Prepares a string to be persisted within MSBuild without MSBuild performing special evaluation on it.
+    HRESULT Escape([in] LPCOLESTR pwszUnescapedValue, [out, retval] BSTR* pbstrEscapedValue);
+
+    // Restores a previously escaped string to its original value.
+    HRESULT Unescape([in] LPCOLESTR pwszEscapedValue, [out, retval] BSTR* pbstrUnescapedValue);
+}
+
+//---------------------------------------------------------------------------
+// IVsSolutionBuildManager4
+//---------------------------------------------------------------------------
+[
+    uuid(uuid_IVsSolutionBuildManager4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolutionBuildManager4 : IUnknown
+{
+    // Forces solution build manager to update build dependencies for the given project.
+    HRESULT UpdateProjectDependencies([in] IVsHierarchy *pHier);
+};
+
+
+//--------------------------------------------------------------------------------------------
+// IVsSolutionLoadLogger
+//
+// This interface is implemented by the solution and used by projects to report any project load related issues.
+// To get it call IServiceProvider::QueryService(SID__SVsSolution, ...)
+
+enum __VsErrorType
+{
+      VsErrorType_Error = 1,   
+      VsErrorType_Warning = 2, 
+};
+
+typedef DWORD VSERRORTYPE;
+
+[
+    uuid(uuid_IVsSolutionLogger),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsSolutionLogger : IUnknown
+{
+    HRESULT LogMessage(LPCOLESTR pszMessage);
+    HRESULT LogError(VSERRORTYPE ErrorType, LPCOLESTR pszMessage, LPCOLESTR pszFile, long nLine, long nColumn, LPCOLESTR pszErrorCode, LPCOLESTR pszTaskListMessage, LPCOLESTR pszUniqueProjectName, LPCOLESTR pszHelpKeyword);
+};
+typedef DWORD VSCREATENEWPROJVIADLGEXFLAGS2;
+
+[
+    uuid(uuid_IVsToolbox5),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsToolbox5 : IUnknown
+{
+    // Gets a copy of the bitmap for the specified item.  The caller is responsible for freeing the
+    // bitmap using DeleteObject or equivalent.
+    [local] HRESULT GetItemBitmap([in] IDataObject* pDataObject, [out, retval] HBITMAP* pBitmap);
+
+    HRESULT GetItemFlags([in] IDataObject* pDataObject, [out, retval] TBXITEMINFOFLAGS* pFlags);
+
+    // Gets the enabled state of the specified item.  If the item is currently pending for idle-
+    // time evaluation, *pEnabled will be VARIANT_FALSE unless fForceEvaluation is set to TRUE.
+    HRESULT IsItemEnabled([in] IDataObject* pDataObject, [in] VARIANT_BOOL fForceEvaluation, [out, retval] VARIANT_BOOL* pEnabled);
+
+    // Gets the last time the toolbox item states were re-evaluated.  This typically happens as a
+    // result of designer activation or in response to a call to IVsToolbox::UpdateToolboxUI.
+    HRESULT GetLastRefreshTime([out, retval] DATE *pTime);
+}
+
+//--------------------------------------------------------------------------------------------
+// IVsProfferCommands4
+//--------------------------------------------------------------------------------------------
+// Implemented by the Visual Studio Environment, obtained via the 
+// SID_SVsProfferCommands service.
+// This is a small extension to IVsProfferCommands3 that allows specifying a new command's image
+// using IPicture, System.Drawing.Bitmap, or System.Drawing.Icon.
+[
+    uuid(uuid_IVsProfferCommands4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProfferCommands4 : IVsProfferCommands3
+{
+    HRESULT AddNamedCommand3 (
+        [in] const GUID *pguidPackage, 
+        [in] const GUID *pguidCmdGroup, 
+        [in, string] LPCOLESTR pszCmdNameCanonical,
+        [out] DWORD *pdwCmdId, 
+        [in, string] LPCOLESTR pszCmdNameLocalized,
+        [in, string] LPCOLESTR pszBtnText, 
+        [in, string] LPCOLESTR pszCmdTooltip,
+        [in] IUnknown* punkImage,
+        [in] DWORD dwCmdFlagsDefault, 
+        [in] DWORD cUIContexts, 
+        [in, size_is(cUIContexts)] const GUID *rgguidUIContexts, 
+        [in] DWORD dwUIElementType);
+}
+
+#ifndef PROXYSTUB_BUILD
+// This service type was missing in previous versions of the PIA's
+// It is the same ID as EnvDTE.IVsProfferCommands
+[
+    uuid(8cc0cde1-c16a-4749-99af-6f7523c34a57)
+]
+interface SVsProfferCommands : IUnknown
+{
+}
+#endif
+
+enum __VSADDITEMFLAGS3
+{
+    /********************************************** defined in vsshell.idl & vsshell80.idl
+    VSADDITEM_AllowMultiSelect       = 0x00000001,  // multi-select
+    VSADDITEM_HideNameField          = 0x00000002,  // disable the item name field
+    VSADDITEM_SuggestTemplateName    = 0x00000008,  // suggest template name for item
+    VSADDITEM_ShowLocationField      = 0x00000010,  // show the location field
+    VSADDITEM_ShowDontShowAgain      = 0x00000040,  // show the "Don't show again" checkbox
+    VSADDITEM_AllowStickyFilter      = 0x00000080,  // allow pbstrFilter[out] parameter to be returned
+    VSADDITEM_AddNewItems            = 0x00000100,  // use the Add New Item dialog (mutually exclusive with VSADDITEM_AddExistingItems)
+    VSADDITEM_AddExistingItems       = 0x00000200,  // use the Add Existing Item dialog (mutually exclusive with VSADDITEM_AddNewItems)
+    VSADDITEM_NoUserTemplateFeatures = 0x00001000,  // dialog does not have 'Standard Templates/User-defined Templates' tabs or 'Online Templates' button
+    VSADDITEM_ProjectHandlesLinks    = 0x00008000,  // project adds items as links--enables "Link" menu item
+    VSADDITEM_NewDirectoryForItem    = 0x00010000,  // item is placed in new directory (location field tracks name field)
+    VSADDITEM_AllowHiddenTreeView    = 0x00020000,  // allow tree view to be hidden if only one template node present
+    VSADDITEM_ShowOpenButtonDropDown = 0x00040000,  // show drop-down menu under Open button on dialog (default is to not dropdown, see comment for VSADDITEM_NoOpenButtonDropDown)
+    VSADDITEM_NoOpenButtonDropDown   = 0x00080000,  // don't show drop-down menu under Open button on dialog (OBSOLETE/default, use VSADDITEM_ShowOpenButtonDropDown to show dropdown)
+    VSADDITEM_AllowSingleTreeRoot    = 0x00100000,  // allow the tree view to have only one root node (default is to use sub-nodes)
+    VSADDITEM_ExpandSingleTreeRoot   = 0x00200000,  // ask the tree view to expand a single root node (default is to not expand it)
+    VSADDITEM_ShowProjectTypesOnly   = 0x00400000,  // show only project types in the dialog (not items associated with projects)
+    VSADDITEM_AllowOnlyFileSysLocs   = 0x00800000,  // allow only local file system locations in the Add Existing Item dialog (no http://)
+    **********************************************/ 
+    VSADDITEM_NoOnlineTemplates      = 0x01000000,  // don't show online templates provider in the Add New Item dialog. No effect on Add Existing Item dialog.
+};
+typedef DWORD VSADDITEMFLAGS3;
+
+
+enum __VSCREATENEWPROJVIADLGEXFLAGS2
+{
+    /********************************************** defined in vsshell80.idl
+    VNPVDE_ALWAYSNEWSOLUTION    = 0x00000001, // new solution is always created (no Add To Solution and Close Solution radio buttons)
+    VNPVDE_OVERRIDEBROWSEBUTTON = 0x00000002, // browse button functionality is overridden (requires IVsBrowseProjectLocation interface)
+    VNPVDE_ALWAYSADDTOSOLUTION  = 0x00000004, // project is always added to solution (Add New Project dialog is used)
+    VNPVDE_ADDNESTEDTOSELECTION = 0x00000008, // project is added nested to currently selected project if supported
+    VNPVDE_USENEWWEBSITEDLG     = 0x00000010, // Uses the New WebSite flavor of the dialog
+    **********************************************/
+    VNPVDE_NOONLINETEMPLATES    = 0x00000020, // don't show the online templates provider in the New Project dialog.
+    VNPVDE_NORECENTTEMPLATES    = 0x00000040, // don't show the recent templates provider in the New Project dialog.
+    VNPVDE_NOFRAMEWORKSELECTION = 0x00000080, // don't show the framework selection combobox in the New Project dialog.
+    VNPVDE_HIDESOLUTIONNAME     = 0x00000100, // don't show the solution name in the New Project Dialog, if flag is specified project name will be used for solution name as well.
+};
+
+//An enum whose members have constant defined values that match the WM_ and EN_ message values sent to combo owners who
+//have applied the FilterKeys flag to their combo.
+enum __FILTERKEYSMESSAGES
+{
+    //Message receieved when the combo gets focus.
+    FilterKeysMessage_GotFocus    = 0x0007,
+
+    //Message received when the combo loses focus.
+    FilterKeysMessage_LostFocus   = 0x0008,
+
+    //Message received when a system key is pressed.
+    FilterKeysMessage_SysKeyDown  = 0x0104,
+
+    //Message receieved when a non-system key is pressed.
+    FilterKeysMessage_KeyDown     = 0x0100,
+   
+    //Message received when a character key is pressed.
+    FilterKeysMessage_Character   = 0x0102,
+
+    //Message received when text is dropped onto the combo as a result of a Drag & Drop operation.
+    FilterKeysMessage_DragDrop    = 0x070c,
+
+    //Message received when text is changed in the combo.  For Drag & Drop this message will be receieved before FilterKeyMessage_DragDrop.
+    FilterKeysMessage_TextChanged = 0x0005
+};
+
+typedef DWORD FilterKeysMessages;
+
+
+//--------------------------------------------------------------------------------------------
+// IVsHelpProvider
+//
+// Implement IVsHelpProvider if you want to override the default help experience.
+// This is most appropriate for Isolated Shell applications which don't want Visual Studio help to appear.
+//
+// To register as a Help Provider, add the following registration with a pkgdef file:
+//
+// [$RootKey$\HelpProviders]
+// @="<HelpProviderServiceGUID>"
+// [$RootKey$\HelpProviders\<HelpProviderServiceGUID>]
+// @="<Help Provider Name>"
+// Name="<resourceID>"
+// Package="<HelpProviderPackageGUID>"
+//
+// The Name and Package values indicate the resource ID and Visual Studio Package for the Help Provider's
+// localized name.
+//
+// Updating the HelpProviders key Default value to the new Help Provider Service GUID
+// sets the new help provider as the default.
+// 
+// Users may override the default help provider by setting a CurrentHelpProvider preference through IVsSettingStore:
+//
+// [SettingsScope_UserSettings\Help]
+// CurrentHelpProvider="<preferred Help Provider Service GUID>"
+// 
+//--------------------------------------------------------------------------------------------
+[
+    uuid(uuid_IVsHelpProvider),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsHelpProvider : IUnknown
+{
+    // Display help topic for the given context
+    [id(1)]
+    HRESULT DisplayTopic([in] SAFEARRAY(VARIANT) Keywords, [in] SAFEARRAY(VARIANT) Attributes);
+}
+
+
+//------------------------------------------------------------------
+// State returned by IVsProjectFlavorReferences2.QueryCheckIsProjectReferenceOutputValid call.
+enum __ProjectReferenceOutputValidity
+{
+    PROV_DoDefaultCheck  = 0, // Let base project determine the referenced output validity.
+    PROV_OutputValid     = 1, // Skip base project out validity check and add the reference.
+    PROV_OutputInvalid   = 2  // Reject project reference.
+};
+typedef DWORD ProjectReferenceOutputValidity;
+
+//------------------------------------------------------------------
+// IVsProjectFlavorReferences2
+//
+// Optional interface implemented by a project flavor.
+// It gives the project flavor to control certain aspects of project reference handling.
+//------------------------------------------------------------------
+[
+    uuid(uuid_IVsProjectFlavorReferences2),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsProjectFlavorReferences2 : IUnknown
+{
+    // Called before adding a project refernece. Allow the flavor to accept/reject a project reference based on
+    // referenced project output path. This function allows flavor to override the reference validity check performed 
+    // by the base project. this call occurs prior to IVsProjectFlavorReferences.QueryAddProjectReference() call.
+    HRESULT QueryCheckIsProjectReferenceOutputValid([in] IUnknown *pReferencedProject,
+                                                    [in] LPCOLESTR pszReferencedProjectOutput,
+                                                    [out, retval] ProjectReferenceOutputValidity *pOutputValidity);
+}
+
+#ifndef PROXYSTUB_BUILD
+
+[uuid(uuid_SVsCommonMessagePumpFactory)]
+interface SVsCommonMessagePumpFactory : IUnknown {}
+cpp_quote("#define SID_SVsCommonMessagePumpFactory IID_SVsCommonMessagePumpFactory")
+
+#endif
+
+interface IVsCommonMessagePumpClientEvents;
+interface IVsCommonMessagePump;
+
+[
+    uuid(uuid_IVsCommonMessagePumpFactory),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsCommonMessagePumpFactory : IUnknown
+{
+    // Creates a new instance of the IVsCommonMessagePump service.
+    HRESULT CreateInstance([out] IVsCommonMessagePump **ppIVsCommonMessagePump);
+}
+
+// The interface provides a convenient common way for keeping 
+// Visual Studio responsive while doing some long time processing on 
+// the main thread or waiting for objects (e.g. events, mutexes, 
+// semaphores, etc) to signal. Using this interface won't solve all 
+// problems related to the reentrancy caused by pumping window 
+// messages while doing some other processing on the main VS thread 
+// but at least it will allow for the uniform processing of windows 
+// messages and the correct handling of things like accelerator keys. 
+// Additionally, moving most of message pumping code in VS to use this 
+// interface will allow building effective troubleshooting mechanisms 
+// for detecting the reentrancy related issues.
+// Ideally all new functionality is designed in such a way that it is 
+// completely asynchronous (i.e. never blocks the UI thread or needs to 
+// explicitly pump messages) and therefore doesn't need to use this 
+// interface at all.
+// The interface can be obtained via SVsCommonMessagePumpFactory service.
+[
+    uuid(uuid_IVsCommonMessagePump),
+    version(1.0),
+    pointer_default(unique),
+    local // because HANDLE is used
+]
+interface IVsCommonMessagePump : IUnknown
+{
+    // Allows to wait for objects to signal (likely by some background 
+    // processing) while keeping VS responsive and dramatically 
+    // reducing the likelihood of reentrancy. 
+    // This is the preferred method to use in this API. It's very 
+    // simple because it doesn't require the consumer to implement 
+    // anything. The method automatically puts VS IDE in a modal state 
+    // which reduces the reentrancy risk. The method as well handles 
+    // putting out the default UI explaining the reason for the wait. 
+    // This wait UI is shown roughly 2 seconds after the wait has been 
+    // initiated.
+    // Return values:
+    // S_OK      - the wait condition was met; pdwWaitResult 
+    //             parameter will contain more information about 
+    //             the wait result.
+    // E_PENDING - the method had to quit because user cancelled 
+    //             the wait operation.
+    // E_ABORT   - likely WM_QUIT was received.
+    HRESULT ModalWaitForObjects(
+        // The array containing the object handles to wait on.
+        [in, size_is(cHandles)] HANDLE rgHandles[],
+        // The number of object handles to wait on. 64 is the maximum.
+        [in] UINT cHandles,
+        // The returned wait result that is set when the wait condition
+        // was met (i.e. when the method returned S_OK):
+        // - WAIT_OBJECT_0 to (WAIT_OBJECT_0 + cHandles - 1) indicates 
+        //   the signaled object (only applies when fWaitForAllObjects is FALSE);
+        //   WAIT_OBJECT_0 if fWaitForAllObjects was TRUE.
+        // - WAIT_TIMEOUT the time-out interval elapsed before 
+        //   the condition specified by fWaitForAllObjects was met.
+        [out] DWORD *pdwWaitResult);
+
+    // The method's behavior is very similar to ModalWaitForObjects, 
+    // but allows for a custom wait and events processing logic to be 
+    // supplied. The method makes VS modal and automatically provides 
+    // the default wait UI after about 2 seconds of waiting.
+    // Return values:
+    // S_OK      - the wait condition was met;
+    // E_PENDING - the method had to quit because user cancelled 
+    //             the wait operation.
+    // E_ABORT   - likely WM_QUIT was received.
+    HRESULT ModalWaitForObjectsWithClient(
+        // The array containing the object handles to wait on.
+        [in, size_is(cHandles)] HANDLE rgHandles[],
+        // The number of object handles to wait on. 64 is the maximum.
+        [in] UINT cHandles,
+        [in] IVsCommonMessagePumpClientEvents *pClient);
+
+    // Timeout period for waiting for the handle(s) to be signaled.
+    // Default value if INFINITE
+    HRESULT SetTimeout(
+        // Maximum time (in milliseconds) to wait for objects 
+        // to signal. The method returns if the interval elapses, even
+        // if the conditions specified by the fWaitForAllObjects 
+        // parameter was not met. If dwMilliseconds is zero, the method
+        // tests the states of the specified objects and returns 
+        // immediately. If the parameter is INFINITE, 
+        // the methods's time-out interval never elapses.
+        [in] DWORD dwTimeoutInMilliseconds);
+
+    HRESULT SetAllowCancel(
+        // VARIANT_TRUE shows a Cancel button on the wait dialog.
+        // VARIANT_FALSE disables the cancel button.
+        [in] VARIANT_BOOL fAllowCancel);
+
+    HRESULT SetWaitText(
+        // The text for the default wait UI that explains 
+        // the reason for the wait.
+        [in] LPCOLESTR pszWaitText);
+
+    HRESULT SetWaitTitle(
+        // The optional title for the default wait UI. If NULL or 
+        // empty string, then the application name is used as title.
+        [in] LPCOLESTR pszWaitTitle);
+
+    HRESULT SetStatusBarText(
+        // The optional text for the status bar. If NULL or 
+        // empty string, then no status bar update is made.
+        [in] LPCOLESTR pszStatusBarText);
+
+    HRESULT EnableRealProgress( 
+        // VARIANT_TRUE progress dialog will show a % progress control. 
+        // NOTE: Requires the caller to provider TotalSteps and CurrentStep values.
+        // VARIANT_FALSE progress dialog shows a marquee style progress control. (default)
+        [in] VARIANT_BOOL fEnableRealProgress);
+
+    HRESULT SetProgressInfo(
+        // Total number of steps for progress control.
+        [in] long iTotalSteps,
+        // Current step value between 1 and iTotalSteps
+        [in] long iCurrentStep,
+        // Text to describe the current step
+        [in] LPCOLESTR pszProgressText);
+};
+
+// The interface is used to provide a custom logic for handling wait 
+// events like time-out elapsing, handles signaling, window message 
+// arriving, etc. The interface is only required for more advanced 
+// waiting scenarios where a greater control over the waiting logic is 
+// needed. In most cases though the default functionality offered by 
+// ModalWaitForObjects API should be enough. The interface is a 
+// simplified version of IOleComponent2 interface therefore most of its
+// documentation applies to this interface as well.
+[
+    uuid(uuid_IVsCommonMessagePumpClientEvents),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsCommonMessagePumpClientEvents : IUnknown
+{
+    // The event is called when a handle becomes signaled.
+    // Client implementations should decide if the wait can continue
+    // based on which handle(s) have been signaled so far.
+    HRESULT OnHandleSignaled(
+        // The index of the handle in the list provided in the property SetWaitHandles.
+        [in] UINT nHandle,
+        // Setting this argument to VARIANT_FALSE tells the common 
+        // message pump implementation to quit and return S_OK. 
+        [out] VARIANT_BOOL *pfContinue);
+
+    // Called when a time-out elapses.
+    HRESULT OnTimeout(
+        // Setting this argument to VARIANT_FALSE tells the common 
+        // message pump implementation to quit and return S_OK. 
+        [out] VARIANT_BOOL *pfContinue);
+    
+    // Called after every window message is processed by the VS common 
+    // message pump implementation.
+    HRESULT OnAfterMessageProcessed(
+        // Setting this argument to VARIANT_FALSE tells the common 
+        // message pump implementation to quit and return S_OK. 
+        [out] VARIANT_BOOL *pfContinue);
+};
+
+// This interface gives an object the ability to dynamically control reentrancy 
+// to its object from calls from other COM apartments (i.e. background threads).
+// This interface enables the object to influence the return result from the
+// IMessageFilter::HandleIncomingCall for the main UI thread of the IDE.
+// To enable the capability the interface the object implements needs to be
+// registered under $RootKey$\HandleInComingCallDynamicInProc. 
+// Alternatively, if an object wants to block reentrancy from inproc callers from 
+// other COM apartments statically (without needing to make a dynamic decision),
+// then it can register its interface under $RootKey$\HandleInComingCallRejectInProc.
+// In this static case there is no extra implementation required.
+// Both of these mechanisms (HandleInComingCallDynamicInProc and HandleInComingCallRejectInProc)
+// are only able to potentially reject CALLTYPE_TOPLEVEL and CALLTYPE_TOPLEVEL_CALLPENDING calls. 
+// CALLTYPE_NESTED, CALLTYPE_ASYNC, and CALLTYPE_ASYNC_CALLPENDING calls are never 
+// allowed to be rejected.
+// If IVsHandleInComingCallDynamicInProc::AllowIncomingCall returns pfAllow as VARIANT_FALSE,
+// then SERVERCALL_RETRYLATER will be returned from the IMessageFilter::HandleIncomingCall.
+[
+    uuid(uuid_IVsHandleInComingCallDynamicInProc),
+    version(1.0),
+    local,
+    pointer_default(unique)
+]
+interface IVsHandleInComingCallDynamicInProc : IUnknown
+{
+    HRESULT AllowIncomingCall(  
+        [in]  DWORD dwCallType,
+        [in]  HTASK htaskCaller,
+        [in]  DWORD dwTickCount,
+        [in]  REFIID iid,
+        [in]  WORD wMethod,
+        [out, retval] VARIANT_BOOL *pfAllow);
+}
+
+
+
+// VS-specific HRESULT failure codes - start at 0x80042003
+//
+
+// Error returned by a project system in the call to IVsProjectFactory::CreateProject during Open Project
+// if it detects that the project is "poisoned" i.e. it has features added from a higher version of VS
+cpp_quote("#define VS_E_INCOMPATIBLEPROJECT    MAKE_HRESULT(SEVERITY_ERROR, FACILITY_ITF, 0x2003)")

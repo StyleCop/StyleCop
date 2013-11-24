@@ -1,0 +1,53 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccProjectEnlistmentChoice.idl |
+IDL for custom enlistment interfaces
+
+@owner Source Control Integration Team 
+-----------------------------------------------------------------------------*/
+
+/////////////////////////////////////////////////////////////////////////
+// interface IVsSccProjectEnlistmentChoice
+/////////////////////////////////////////////////////////////////////////
+
+// This interface is a QI on IVsProject. It is used to allow projects to force the source
+// control system to prompt the user when the user enlists in the project. It is used in 
+// conjunction with IVsSccProjectEnlistmentFactory and IVsSccEnlistmentPathTranslation 
+
+// See comments in IVsSccProjectEnlistmentFactory for details of scenarios
+
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+
+#endif
+
+#include "SCGuids.h"
+
+// @hung vscec
+typedef enum __VSSCCENLISTMENTCHOICE
+{
+  VSSCC_EC_NEVER		= 0,   // This project doesn't support enlistment choice. This is the default in 7.0, same as if you didn't implement the interface
+  VSSCC_EC_OPTIONAL		= 1,   // The project allows enlistment choice, but does not require it. Possible default in next major version after 7.0. In 7.0, the same behaviour as NEVER
+  VSSCC_EC_COMPULSORY	= 2,   // The project requires the user to pick an enlistment
+} VSSCCENLISTMENTCHOICE;
+
+[
+uuid(uuid_IVsSccProjectEnlistmentChoice),
+version(1.0),
+pointer_default(unique)
+]
+// @hung ivspec
+interface IVsSccProjectEnlistmentChoice : IUnknown
+{
+	// @cmember Allows a project to explain whether it wants the shell to prompt for an enlistment 
+	// choice or not. 
+	HRESULT // @rdesc error or S_OK
+	GetEnlistmentChoice
+	(
+		[out, retval]	VSSCCENLISTMENTCHOICE *	pvscecEnlistmentChoice	// @parm [out] an enum value explaining whether ui is required, optional, or impossible
+	);
+};

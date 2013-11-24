@@ -1,0 +1,822 @@
+////////////////////////////////////////////////////////////////////////////////
+// SingleFileEditor.idl
+//
+// Interfaces for single file ASPX editing in Venus
+//
+// NOTE: These interfaces are currently stored in this single IDL file. This
+// is most likely *NOT* how we want them permenantly.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "oleidl.idl";
+import "textmgr.idl";
+import "textmgr2.idl";
+import "vsshell.idl";
+
+#endif
+
+#include "textmgruuids.h"
+
+interface IVsContainedLanguage;
+interface IVsWebFormDesignerSupport;
+interface IVsEnumCodeBlocks;
+interface IVsContainedCode;
+interface IVsContainedLanguageFactory;
+interface IVsTextBufferCoordinator;
+interface IVsContainedLanguageHost;
+interface IVsContainedLanguageHostEvents;
+interface IVsReportExternalErrors;
+interface IVsEnumExternalErrors;
+coclass VsTextBufferCoordinator;
+coclass VsIntellisenseCompletor;
+coclass VsIntellisenseLangTip;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Represents a pairing of two textspans. Used to express corrisponding pairs in two seperate buffers
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef struct _TEXTSPANPAIR
+{
+    TextSpan span1;
+    TextSpan span2;
+} TextSpanPair;
+
+typedef struct _TEXTSPANANDCOOKIE
+{
+
+    ULONG ulHTMLCookie;         //html needs to handle nuggets like <%foo%> <%foo%> at the same line
+    TextSpan CodeSpan;          //Code textspan between line paragma 
+} TextSpanAndCookie;
+
+enum IntellisenseHostFlags
+{
+    IHF_READONLYCONTEXT         = 0x00000001,   // Context buffer is read-only (REVIEW:  Would be nice to have some enforcement of this...)
+    IHF_NOSEPARATESUBJECT       = 0x00000002,   // No subject text -- context buffer contains intellisense-target (implies !IHF_READONLYCONTEXT)
+    IHF_SINGLELINESUBJECT       = 0x00000004,   // Subject text is not multi-line capable
+    IHF_FORCECOMMITTOCONTEXT    = 0x00000008,   // == to CanCommitIntoReadOnlyBuffer, *really* need to rethink this name
+    IHF_OVERTYPE                = 0x00000010    // editing (in subject or context) should be done in overtype mode
+};
+
+typedef enum _CODEMEMBERTYPE
+{
+    CODEMEMBERTYPE_EVENTS         = 0x00000001,
+    CODEMEMBERTYPE_EVENT_HANDLERS = 0x00000002,
+    CODEMEMBERTYPE_USER_FUNCTIONS = 0x00000004
+} CODEMEMBERTYPE;
+
+enum ContainedLanguageRefreshMode
+{
+    CLRM_COMPILEFILE            = 1, // Recompile the file - gets called when primary editor replaces the entire buffer and wants full recompile
+    CLRM_COMPILEPROJECT         = 2, // Recompile entire project (say, when compiler options have changed)
+};
+
+typedef enum _CONTAINEDLANGUAGERENAMETYPE
+{
+    CLRT_CLASS,
+    CLRT_CLASSMEMBER,
+    CLRT_NAMESPACE,
+    CLRT_OTHER
+} ContainedLanguageRenameType;
+
+
+#ifndef INTEROPLIB
+[
+    uuid(14F5E18F-4A4C-456d-A140-639BC7C2E80D),
+    version(1.0)
+]
+library SingleFileEditor
+{
+
+#endif
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by clients (including IVsTextView) to provide intellisense hosting functionality
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(0377986B-C450-453c-A7BE-67116C9129A6) ]
+interface IVsIntellisenseHost : IOleCommandTarget
+{
+    // Host flags (see IntellisenseHostFlags enum above)
+    HRESULT GetHostFlags([out, retval] DWORD *pdwFlags);
+
+    // The context buffer 
+    HRESULT GetContextBuffer([out, retval] IVsTextLines **ppCtxBuffer);
+
+    // The "focal point" or position in the context buffer that should be considered the starting context point
+    HRESULT GetContextFocalPoint([out] TextSpan *pSpan, long *piLen);
+
+    // Caret/selection setting relative to the context buffer.  (Any editing should be done via the buffer)
+    HRESULT SetContextCaretPos([in] long iLine, [in] long iIndex);
+    HRESULT GetContextCaretPos([out] long *piLine, [out] long *piIndex);
+    HRESULT SetContextSelection([in] long iStartLine, [in] long iStartIndex, [in] long iEndLine, [in] long iEndIndex);
+    HRESULT GetContextSelection([out] TextSpan *pSelectionSpan);    // Returns ??? if selection is a box?
+
+    // Subject text -- the text upon which intellisense should operate.  Returns E_NOTIMPL if GetHostFlags()
+    // includes IHF_NOSEPARATESUBJECT; the contents of the context buffer should be considered the subject text.
+    HRESULT GetSubjectText([out, retval] BSTR *pbstrSubjectText);
+
+    // Caret/selection management for subject text (all return E_NOTIMPL if IHF_NOSEPARATESUBJECT is set in flags)
+    HRESULT SetSubjectCaretPos([in] long iIndex);
+    HRESULT GetSubjectCaretPos([out] long *piIndex);
+    HRESULT SetSubjectSelection([in] long iAnchorIndex, [in] long iEndIndex);
+    HRESULT GetSubjectSelection([out] long *piAnchorIndex, [out] long *piEndIndex);
+
+    // Editing subject text.  Will return E_FAIL (or something) if text contains CR/LF's and flags 
+    // contain IHF_SINGLELINESUBJECT.
+    HRESULT ReplaceSubjectTextSpan([in] long iStartIndex, [in] long iEndIndex, [in] LPCWSTR pszText);
+
+    // Intellisense UI handling
+    HRESULT UpdateCompletionStatus([in] IVsCompletionSet *pCompSet, [in] DWORD dwFlags);
+    HRESULT UpdateTipWindow([in] IVsTipWindow *pTipWindow, [in] DWORD dwFlags);
+    HRESULT HighlightMatchingBrace([in] DWORD dwFlags, [in] ULONG cSpans, [in, size_is(cSpans)] TextSpan *rgBaseSpans); 
+
+    HRESULT BeforeCompletorCommit();
+    HRESULT AfterCompletorCommit();
+
+    HRESULT GetServiceProvider([out]IServiceProvider **ppSP);
+    HRESULT GetHostWindow([out] HWND *hwnd);
+    HRESULT GetContextLocation([in]long iPos, [in]long iLen, [in] BOOL fUseCaretPosition, [out]RECT *prc, [out]long *piTopX);
+    HRESULT UpdateSmartTagWindow([in]IVsSmartTagTipWindow *pSmartTagWnd, [in] DWORD dwFlags);
+    HRESULT GetSmartTagRect([out]RECT *rcSmartTag);
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Core editor provided intellisense host for standard editor views
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(0816A38B-2B41-4d2a-B1FF-23C1E28D8A18) ]
+interface IVsTextViewIntellisenseHost : IVsIntellisenseHost
+{
+    // NOTE: it seems that since the primary buffer will have the nugget text as the user is typing,
+    // then all this object needs to know is the span in the primary buffer. Needs thought...
+    // NOTE: If above is true, can an empty span be used when the user first types in nugget?
+    // NOTE: Yes, I realize this name is stupid...
+    HRESULT SetSubjectFromPrimaryBuffer(TextSpan *pSpanInPrimary);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a text view which provides IVsTextViewIntellisenseHost
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[uuid (2E758295-344B-48d6-86AC-BD81F89CB4B8) ]
+interface IVsTextViewIntellisenseHostProvider : IUnknown
+{
+    // If pBufferCoordinator is NULL, the returned host is simply a pass-through directly to this view.
+    HRESULT CreateIntellisenseHost([in] IVsTextBufferCoordinator *pBufferCoordinator, [in] REFIID riid, [out, iid_is(riid)] void **ppunkHost);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// VsIntellisenseCompletor coclass
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[
+uuid(F2073DB0-75B9-43ae-8681-0962C0CD4BE2),
+helpstring("VsTextBufferCoordinator Class")
+]
+coclass VsIntellisenseCompletor
+{
+    interface IVsIntellisenseCompletor;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IVsIntellisenseCompleter is used to create and display a completor window
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[uuid (05DFCF7A-C78A-4e20-AAFB-4A0F4D26E0FB)]
+interface IVsIntellisenseCompletor : IOleCommandTarget
+{
+    HRESULT Initialize(IVsIntellisenseHost *pHost, HWND hwndParent);
+    HRESULT Update(IVsCompletionSet *pCompSet, DWORD dwFlags);
+    HRESULT GetWidth(DWORD *dwWidth);
+    HRESULT GetHeight(DWORD *dwHeight);
+    HRESULT GetCompletionSpan(TextSpan *ts);
+    HRESULT SetLocation(POINT *p);
+    HRESULT Hide();
+    HRESULT IsActive([out] BOOL *pfIsActive);
+    HRESULT GetWindowHandle([out] HWND *phwnd);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// VsIntellisenseLangTip coclass
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[
+uuid(39F4B568-7166-42b3-87E6-6B856864AE55),
+helpstring("VsIntellisenseLangTip Class")
+]
+coclass VsIntellisenseLangTip
+{
+    interface IVsIntellisenseLangTip;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IVsIntellisenseLangTip
+//
+// This interface is used to expose the method tips (CLangTip class).
+// THe CProxyLangTip class implements this interface. Most calls are simply delegated to the actual CLangTip
+// (instance of which is created in this proxy class).
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[uuid (1E34D422-7120-4d9e-96FF-E880B665D30D)]
+interface IVsIntellisenseLangTip : IUnknown
+{
+    HRESULT Initialize          ([in] IVsIntellisenseHost *pHost);
+    HRESULT GetSizePreferences  ([in] RECT *prcCtxBounds, [in] TIPSIZEDATA *pSizeData);
+    HRESULT Create              ([in] IVsTipWindow *pTipWnd);
+    HRESULT Update              ([in] IVsTipWindow *pTipWnd, [in] DWORD dwFlags);
+    HRESULT UpdatePosition      ();
+    HRESULT GetSizeY            ([out]short *pSizeY);
+    HRESULT Close               ([in] BOOL fDeleteThis);
+    HRESULT IsActive            ([out]BOOL* pfIsActive);
+    HRESULT GetOverloadCount    ([out] long *plOverloadCount);
+    HRESULT ScrollUp            ();
+    HRESULT ScrollDown          ();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by the editor that uses contained languages
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[uuid (0429916F-69E1-4336-AB7E-72086FB0D6BC) ]
+interface IVsContainedLanguageHost: IUnknown
+{
+    HRESULT Advise([in] IVsContainedLanguageHostEvents* pHost, [out] VSCOOKIE* pvsCookie);
+    HRESULT Unadvise([in] VSCOOKIE vsCookie);
+
+    // Secondary language should call this during pretty listing, document
+    // fomatting, event handler generation, etc in order to obtain information 
+    // on the base indent level and indent settings (tabs, spaces, etc) of 
+    // the primary language service.
+    //
+    // Base indent level is the indent level of the containing (parent) block:
+    //
+    // <script language="vb" runat="server">
+    //      Sub Foo()
+    //          Dim x as String
+    //      End Sub
+    // </script>
+    //
+    // Base indent is the indent of the <script> block.
+    // Line number is number of the line in the secondary buffer.
+    // If host decides to derive the indent form file, pbstrIndentString provides the exact indent string.
+    // plParentIndentLevel then does not have any meaning.
+    // If host is not able to derive indent from file, it should return NULL as pbstrIndentString
+    // and then the contained language should use value in the plParentIndentLevel.
+    HRESULT GetLineIndent([in] long lLineNumber, [out] BSTR* pbstrIndentString, [out] long* plParentIndentLevel, [out] long* plIndentSize, [out] BOOL* pfTabs, [out] long* plTabSize);
+
+    // Host may need to suppress reformatting such as pretty listing when there are no span mappings 
+    // established yet between primary and secondary buffers (say, a new server script block is 
+    // just being inserted and hasn't been compiled yet so the host hasn't yet called 
+    // IVsContainedCode::EnumOriginalCodeBlocks.
+    HRESULT CanReformatCode([out] BOOL* pfCanReformat);
+
+    // If contained language is not able to figure out where to create a marker for compile error
+    // so it is visible to the user, the contained language service should call host so host can
+    // provide closest item to create marker on. Example: 
+    //
+    // <script runat=server language=vb>
+    //		Sub Foo()
+    // </script>
+    //
+    // Normally VB squggles the End Class statement or whatever follows the missing End Sub.
+    // However, in ASP.NET case all this text is outside the visible range (outside 
+    // of the #external source - #end external source block). The secondary language 
+    // can figure this out by calling IVsTextBufferCoordinator::MapSecondaryToPrimary which 
+    // will fail. 
+    //
+    // The squggle should appear on the </script> tag. That is what the host returns: 
+    // statement nearest to the requested line. 
+    HRESULT GetNearestVisibleToken([in] TextSpan tsSecondaryToken, [out] TextSpan* ptsPrimaryToken);
+
+    // Ensures that span in the primary buffer is visible. If host is in a view
+    // that does not show the span, it must switch to the view where the span is visible.
+    // For instance, if HTML editor is in Design view, it should switch to HTML (source) view.
+    // If it is in Code Only view and the requested span is not visible, then the editor 
+    // should switch to the HTML view. 
+    // This method should be called by the secondary language when it needs to navigate
+    // to the code when user double-click on an item in the task list. 
+    HRESULT EnsureSpanVisible([in] TextSpan tsPrimary); 
+
+    // Returns S_OK if it is OK to modify secondary buffer, BUFFER_E_SCC_READONLY otherwise.
+    HRESULT QueryEditFile(); 
+
+    // Notification from ContainedLanguage that a rename of the specified type was initiated.
+    // bstrOldID and bstrNewID are fully qualified.
+    HRESULT OnRenamed([in] ContainedLanguageRenameType clrt, [in] BSTR bstrOldID, [in] BSTR bstrNewID);
+
+    // Requests from contained language to insert markup. The full type is the dot
+    // delimited namespace and object that you wish to insert markup.
+    HRESULT InsertControl( [in]const WCHAR * pwcFullType, [in]const WCHAR * pwcID );
+
+    // Add an assembly that is currently in the GAC. The string looks something like:
+    // "system,version=1.0.0.1,culture=neutral,publickeytoken=9b35aa32c8d4fb1"
+    HRESULT	InsertReference( [in]const WCHAR * );
+
+    // Returns IVsHierarchy and ITEMID for the primary text buffer. Useful to return from IVsErrorItem::GetProject
+    // since secondary buffer does not have associated IVsHierarchy and hence compiler is not able to implement
+    // IVsErrorItem correctly when working as a contained language.
+    HRESULT GetVSHierarchy([out] IVsHierarchy** ppVsHierarchy);
+    HRESULT GetErrorProviderInformation([out] BSTR* pbstrTaskProviderName, [out] GUID* pguidTaskProviderGuid);
+
+    // The string is the namespace for an <%@ import asp tag.
+    HRESULT InsertImportsDirective( [in]const WCHAR * );
+
+	// If contained language changes its editor settings (specifically, colors), there is no way for the host
+	// to get the event from the Core IDE. Therefore, contained language must notify the host when it changes
+	// Fonts and Colors setting
+	HRESULT OnContainedLanguageEditorSettingsChange();
+
+	// If code generation is in progress (which means secondary buffer content is stale),
+	// the call will block until secondary buffer is generated. If language service needs
+	// buffer to be in ready state and doesn't want it to be updated in the middle of the action,
+	// it should call this method. However, be careful not to block UI too much.
+	HRESULT EnsureSecondaryBufferReady();
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Must be implemented by the secondary language in order to receive host events
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[uuid (F2A52136-803E-4cef-BBA7-52D610FE34BA) ]
+interface IVsContainedLanguageHostEvents: IUnknown
+{
+    // Signals that the view has changed. Flag tells if the new view is text-based.
+    HRESULT OnViewChange([in] BOOL fTextView);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a language to provide simplistic contained language service features
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// E_CONTAINEDLANGUAGE_CANNOTFINDITEM is a custom HRESULT, meaning the name passed to 
+// IVsContainedLanguage::OnRenamed couldn't be found in order to be renamed by the contained language.
+cpp_quote ("#define E_CONTAINEDLANGUAGE_CANNOTFINDITEM MAKE_HRESULT(1, FACILITY_ITF, 0x8003)")
+
+// E_CONTAINEDLANGUAGE_RENAMECANCELLED is a custom HRESULT, meaning that the user cancelled the rename
+// operation.
+cpp_quote ("#define E_CONTAINEDLANGUAGE_RENAMECANCELLED MAKE_HRESULT(1, FACILITY_ITF, 0x8004)")
+
+
+[ uuid(518ab114-e3c6-4bbc-a469-99279f1a54e9) ]
+interface IVsContainedLanguage : IUnknown
+{
+    // Sets host of the secondary language. NULL pointer is acceptable. 
+    // If the interface is NULL the secondary language should release 
+    // the cached host interface pointer.
+    HRESULT SetHost([in] IVsContainedLanguageHost* pHost);
+
+    // returns a colorizer object for the language
+    HRESULT GetColorizer([out, retval] IVsColorizer **ppColorizer);
+
+    // returns a text view filter to handle delegated text view filtering responsibility. The full text view is passed in
+    HRESULT GetTextViewFilter([in] IVsIntellisenseHost* pISenseHost, [in] IOleCommandTarget *pNextCmdTarget, [out, retval] IVsTextViewFilter **pTextViewFilter);
+
+    // returns the GUID for the contained language’s full language service
+    HRESULT GetLanguageServiceID ([out] GUID *pguidLangService); 
+
+    // Allows to change coordinators on the fly
+    HRESULT SetBufferCoordinator([in] IVsTextBufferCoordinator* pBC);
+
+    // See ContainedLanguageRefreshMode enum
+    HRESULT Refresh([in] DWORD dwRefreshMode);
+
+    // Called to ensure the contained language is ready
+    HRESULT WaitForReadyState();
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a language to provide colorization for line fragments
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(88105779-D75B-459e-B7AD-78F63BD40714) ]
+interface IVsContainedLanguageColorizer : IUnknown
+{
+        HRESULT ColorizeLineFragment([in] long iLine,
+                                 [in] long iIndex,
+                                 [in] long iLength,
+                                 [in] const WCHAR *pszText,
+                                 [in] long iState,
+                                 [out] ULONG * pAttributes,
+                                 [out] long *piNewState);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a language to provide support for code navigation, event generation, etc.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(f386be91-0e80-43af-8eb6-8b829fa06282) ]
+interface IVsContainedLanguageCodeSupport : IUnknown
+{
+    //
+    // Creates a unique event handler name given the class context, name of the object instance, and the name of event.
+    // Name must be unique within all parts of a partial class in the compiler project.
+    //
+    HRESULT CreateUniqueEventName([in]  LPCWSTR pszClassName,
+                                  [in]  LPCWSTR pszObjectName,
+                                  [in]  LPCWSTR pszNameOfEvent,
+                                  [out] BSTR*   pbstrEventHandlerName);
+
+    //
+    // Creates an event handler given the class context, name of the object instance, name of the event,
+    // and the (unique) name of event handler, if none exist already.
+    //
+    // Returns the entire event handler body and a string representation that uniquely identifies the
+    // event member within the given class context. Or alteratively may make the edits and return NULL
+    // for the handler body.
+    // 
+    // In the case where the event handler already exists, the unique member ID of that class member is
+    // returned with a NULL for both the event body and insertion point.
+    //
+    // You may also return NULL for event body and insertion point if your language inserts the event
+    // handler itself.  In this case you must return a unique member ID for the event handler you created.
+    // 
+    // itemidInsertionPoint indicates the file/buffer where the designer would like to put a new method.
+    // If the method doesn't exist the insertion point returned through pSpanInsertionPoint is for the 
+    // buffer of the requested itemid.
+    //
+    // If pszEventHandlerName is not a valid event handler name E_INVALIDARG should be returned
+    //
+    // A FAILED() HRESULT must be returned if pszClassName does not exist in the requested buffer specified
+    // by itemidInsertionPoint.
+    //
+    // If you choose to make the edits to the file yourself E_ABORT should be returned in the case the user
+    // cancels checkout or the file is read only.
+    //
+    HRESULT EnsureEventHandler([in]  LPCWSTR   pszClassName,
+                               [in]  LPCWSTR   pszObjectTypeName,
+                               [in]  LPCWSTR   pszNameOfEvent,
+                               [in]  LPCWSTR   pszEventHandlerName,
+                               [in]  VSITEMID  itemidInsertionPoint,
+                               [out] BSTR*     pbstrUniqueMemberID,
+                               [out] BSTR*     pbstrEventBody,
+                               [out] TextSpan* pSpanInsertionPoint);
+
+
+    // 
+    // Given a class member, this obtains the position (viz., starting character index, starting line,
+    // ending character index, ending line, and itemid of file) in the secondary buffer co-ordinates
+    // or partial class file buffer coordinates that could be cached and later used to navigate to that member.
+    //
+    HRESULT GetMemberNavigationPoint([in]  LPCWSTR   pszClassName,
+                                     [in]  LPCWSTR   pszUniqueMemberID,
+                                     [out] TextSpan* pSpanNavPoint,
+                                     [out] VSITEMID* pItemID);
+
+    //
+    // Returns a collection of members corresponding to the flags passed in.
+    // For each member, its name and unique member identifier are returned.
+    // GetMembers must work on all parts of partial class in compiler project.
+    //
+    HRESULT GetMembers([in]  LPCWSTR pszClassName,
+                       [in]  DWORD   dwFlags,
+                       [out] int*    pcMembers,
+                       [out] BSTR**  ppbstrDisplayNames,
+                       [out] BSTR**  ppbstrMemberIDs);
+
+
+    // Notification from ContainedLanguageHost that a rename of the specified type was initiated.
+    // bstrOldID and bstrNewID are fully qualified.
+    HRESULT OnRenamed([in] ContainedLanguageRenameType clrt, 
+                      [in] BSTR bstrOldID, 
+                      [in] BSTR bstrNewID);
+
+    //
+    // Examines the provided ID to see if it is a valid identifier for the contained language
+    // If you implement DTE::CodeModel::IsValidID this should be implemented similarly
+    //
+    HRESULT IsValidID([in] BSTR bstrID, [out] VARIANT_BOOL* pfIsValidID);
+
+    //
+    // Returns the base class name for the provided class
+    //    pszClassname       - The full name of the class Namespace1.Namespace2.Class1
+    //    pbstrBaseClassName - The full name of the baseclass System.Web.UI.Page
+    //
+    HRESULT GetBaseClassName([in]LPCWSTR pszClassName, [out]BSTR* pbstrBaseClassName);
+
+    //
+    // Returns the unique member id of an event handler matching
+    // the provided description if exists.  If the handler does not exist
+    // SUCCESS is retuned and pbstrUniqueMemberID is NULL.
+    //
+    HRESULT GetEventHandlerMemberID([in]  LPCWSTR   pszClassName,
+                                    [in]  LPCWSTR   pszObjectTypeName,
+                                    [in]  LPCWSTR   pszNameOfEvent,
+                                    [in]  LPCWSTR   pszEventHandlerName,
+                                    [out] BSTR*     pbstrUniqueMemberID);
+
+    //
+    // Returns a collection of existing members that match the 
+    // the signature of the provided event description.
+    //
+    HRESULT GetCompatibleEventHandlers([in]  LPCWSTR   pszClassName,
+                                       [in]  LPCWSTR   pszObjectTypeName,
+                                       [in]  LPCWSTR   pszNameOfEvent,
+                                       [out] int*      pcMembers,
+                                       [out] BSTR**    ppbstrEventHandlerNames,
+                                       [out] BSTR**    ppbstrMemberIDs);
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a language to provide support for static event generation.
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(22ff7776-2c9a-48c4-809f-39e5184cc32d) ]
+interface IVsContainedLanguageStaticEventBinding : IUnknown
+{
+    //
+    // Returns a collection of events that are statically handled.
+    // For each event, its name and the handler name and its unique member identifier are returned.
+    // GetHandledEventsForObject must work on all parts of partial class in compiler project.
+    //
+    HRESULT GetStaticEventBindingsForObject([in]  LPCWSTR pszClassName,
+                                      [in]  LPCWSTR pszObjectName,
+                                      [out] int*    pcMembers,
+                                      [out] BSTR**  ppbstrEventNames,
+                                      [out] BSTR**  ppbstrDisplayNames,
+                                      [out] BSTR**  ppbstrMemberIDs);
+
+    //
+    // Removes the event binding from the specified member.
+    //
+    // Returns E_ABORT if file is read-only or can not be checked out.
+    //
+    HRESULT RemoveStaticEventBinding([in] LPCWSTR pszClassName,
+                                     [in] LPCWSTR pszUniqueMemberID,
+                                     [in] LPCWSTR pszObjectName,
+                                     [in] LPCWSTR pszNameOfEvent);
+
+    //
+    // Adds an event binding to the specified member.
+    //
+    // Returns E_ABORT if file is read-only or can not be checked out.
+    //
+    HRESULT AddStaticEventBinding([in] LPCWSTR pszClassName,
+                                  [in] LPCWSTR pszUniqueMemberID,
+                                  [in] LPCWSTR pszObjectName,
+                                  [in] LPCWSTR pszNameOfEvent);
+
+
+    //
+    // Creates an event handler given the class context, name of the object instance, name of the event,
+    // and the (unique) name of event handler, if none exist already.
+    //
+    // Returns the entire event handler body and a string representation that uniquely identifies the
+    // event member within the given class context. Or alteratively may make the edits and return NULL
+    // for the handler body.
+    // 
+    // In the case where the event handler already exists, the unique member ID of that class member is
+    // returned with a NULL for both the event body and insertion point.
+    //
+    // You may also return NULL for event body and insertion point if your language inserts the event
+    // handler itself.  In this case you must return a unique member ID for the event handler you created.
+    // 
+    // itemidInsertionPoint indicates the file/buffer where the designer would like to put a new method.
+    // If the method doesn't exist the insertion point returned through pSpanInsertionPoint is for the 
+    // buffer of the requested itemid.
+    //
+    // If pszEventHandlerName is not a valid event handler name E_INVALIDARG should be returned
+    //
+    // A FAILED() HRESULT must be returned if pszClassName does not exist in the requested buffer specified
+    // by itemidInsertionPoint.
+    //
+    // If you choose to make the edits to the file yourself E_ABORT should be returned if the user
+    // cancels checkout or the file is read only.
+    //
+    HRESULT EnsureStaticEventHandler([in]  LPCWSTR      pszClassName,
+                                 [in]  LPCWSTR      pszObjectTypeName,
+                                 [in]  LPCWSTR      pszObjectName,
+                                 [in]  LPCWSTR      pszNameOfEvent,
+                                 [in]  LPCWSTR      pszEventHandlerName,
+                                 [in]  VSITEMID     itemidInsertionPoint,
+                                 [out] BSTR*        pbstrUniqueMemberID,
+                                 [out] BSTR*        pbstrEventBody,
+                                 [out] TextSpan*    pSpanInsertionPoint);
+
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by project to provide single-file web form support
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid (2139dfc1-b0ad-4c17-a817-74f2ba47c714) ]
+interface IVsWebFormDesignerSupport : IUnknown
+{
+    // returns the pointer for the language’s code dom provider
+    HRESULT GetCodeDomProvider([out] IUnknown **ppProvider);
+
+    // adds a reference to the page
+    HRESULT AddReference([in] LPCWSTR pszReference);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Standard enumerator for code block TextSpan pairs
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(07a45a82-5354-4dde-ac7d-60f2cdd5573b) ]
+interface IVsEnumCodeBlocks : IUnknown
+{
+    HRESULT     Next ([in] ULONG celt, [out, size_is(celt), length_is(*pceltFetched)] TextSpanAndCookie *rgelt, [out] ULONG *pceltFetched);
+    HRESULT     Skip ([in] ULONG celt);
+    HRESULT     Reset (void);
+    HRESULT     Clone ([out] IVsEnumCodeBlocks **ppenum);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by a language to support buffer span mapping
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(171a72ae-bae6-4b66-9a58-4691f08ed9f2)]
+interface IVsContainedCode : IUnknown
+{
+    // returns an enumerator of original code block mappings
+    HRESULT EnumOriginalCodeBlocks([out] IVsEnumCodeBlocks **ppEnum);
+
+    // notifies provider of spans that buffer coordinator has been updated with new spans
+    HRESULT HostSpansUpdated();
+};
+
+ 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by language service to provide creation of contained languages
+//
+// NOTE: This can be QSed globally with a language service ID and this as the interface
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(9fd1bd52-9d32-4697-b446-36582b865c34) ]
+interface IVsContainedLanguageFactory : IUnknown
+{
+    // returns an IVsContainedLanguage that a primary language can use to delegate certain responsibilities to a contained language
+    HRESULT GetLanguage([in] IVsHierarchy *pHierarchy,
+                        [in] VSITEMID itemid,
+                        [in] IVsTextBufferCoordinator *pBufferCoordinator, 
+                        [out, retval] IVsContainedLanguage **ppLanguage);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implemented by project to provide the project name used in the creation of the contained language
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[ uuid(f77b0dd6-420b-4e7c-a0b3-c8d5b10a0997) ]
+interface IVsContainedLanguageProjectNameProvider : IUnknown
+{
+    HRESULT GetProjectName([in] VSITEMID itemid, [out, retval] BSTR *pbstrProjectName);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Used to create a new span mapping. More fields coming later
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef struct _tag_NewSpanMapping
+{
+    // tspSpans.span1 is primary buffer span, tspSpans.span2 is secondary buffer span
+    TextSpanPair tspSpans;
+    // Any data supplied by the user. The data is copied during SetSpanMappings
+    // and release when span marker goes away or SetSpanMappings(NULL, 0) is called.
+    VARIANT varUserData; 
+} NewSpanMapping;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Used to create a new external error
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+typedef struct _tag_ExternalError
+{
+    long iLine;
+    long iCol;
+    long iErrorID;
+    BOOL fError;        // True for error, false for warning.
+    BSTR bstrText;
+    BSTR bstrFileName;
+} ExternalError;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// VsTextBufferCoordinator coclass
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[ uuid(5FCEEA4C-D49F-4acd-B816-130A5DCD4C54) ]
+interface IVsEnumBufferCoordinatorSpans : IUnknown
+{
+    HRESULT Next([in] ULONG celt, [in, out] NewSpanMapping* rgelt, [out] ULONG* pceltFetched);
+    HRESULT Skip([in] ULONG celt);
+    HRESULT Reset();
+    HRESULT Clone([out] IVsEnumBufferCoordinatorSpans** ppEnum);
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// VsTextBufferCoordinator coclass
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[
+uuid(3e77fa94-526f-4233-bf81-b2b0329a62b9),
+helpstring("VsTextBufferCoordinator Class")
+]
+coclass VsTextBufferCoordinator
+{
+    interface IVsTextBufferCoordinator;
+};
+
+enum BufferCoordinatorReplicationDirection
+{
+    BCRD_PRIMARY_TO_SECONDARY   = 1,
+    BCRD_SECONDARY_TO_PRIMARY   = 2
+};
+
+enum _BufferCoordinatorMappingMode
+{
+    // default, primary span = secondary span
+    BCMM_NORMAL = 0, 
+    // Primary span is 2 characters wider, but only inner part gets replicated. 
+    // Used to prevent deletion of text markers when one of the spans collapses
+    // into 0 characters (say, user deletes everything in the span range).
+    // For instance, when user deletes everything in a script block. In extended
+    // mode primary span includes > from opening <script> and < from closing </script>.
+    // However, only inner (+1, -1 character) part gets replicated between buffers.
+    // Normally the mode should only be changed when there are no mappings.
+    // If you change mapping mode when coordinator already has span mappings, 
+    // the result is unpredictable.
+    // Note : BCMM_EXTENDED is ( BCMM_EXTENDEDLEFT | BCMM_EXTENDEDRIGHT )
+    BCMM_EXTENDEDLEFT   = 0x2,
+    BCMM_EXTENDEDRIGHT  = 0x1,
+    BCMM_EXTENDED       = 0x3,
+    // 'Entire buffer' mode means that the buffer is a single span, so no markers
+    // are required. This is  a special mode since if one creates a marker to track
+    // the entire buffer, the marker will be deleted when user deletes the entire 
+    // buffer content and all subsecuent events will be lost. There is no way to 
+    // create a marker that is wider than the buffer.
+    // This mode superseeds any other bit flags set.
+    BCMM_ENTIREBUFFER = 0x4 
+};
+typedef DWORD BufferCoordinatorMappingMode;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Provides text buffer mapping services
+//
+// NOTE: The buffer coordinator will only fire events to secondary buffer that fall entirely within mapped spans
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[uuid(84465401-2886-4ce0-af50-c0560226ed40)]
+interface IVsTextBufferCoordinator : IUnknown
+{
+    HRESULT SetBuffers([in] IVsTextLines *pPrimaryBuffer, [in] IVsTextLines *pSecondaryBuffer);
+    HRESULT SetSpanMappings([in] long cSpans, [in, size_is(cSpans)] NewSpanMapping *rgSpans);
+    HRESULT MapPrimaryToSecondarySpan([in] TextSpan tsPrimary, [out] TextSpan *ptsSecondary);
+    HRESULT MapSecondaryToPrimarySpan([in] TextSpan tsSecondary, [out] TextSpan *ptsPrimary);
+    HRESULT GetPrimaryBuffer([out] IVsTextLines **ppBuffer);
+    HRESULT GetSecondaryBuffer([out] IVsTextLines **ppBuffer);
+    HRESULT EnableReplication([in] DWORD bcrd, [in] BOOL fEnable);
+    HRESULT GetMappingOfPrimaryPosition([in] long lPosition, [out] TextSpan *ptsPrimary, [out] TextSpan *ptsSecondary);
+    // Both modes must be the same except when one of them is BCMM_ENTIREBUFFER.
+    HRESULT SetBufferMappingModes([in] DWORD bcmmPrimary, [in] DWORD bcmmSecondary);
+    // Enumerates existing spans. Note that state is copied, so if you change the buffer
+    // during enumeration, the change will not be reflected and enum becomes out of date.
+    HRESULT EnumSpans(IVsEnumBufferCoordinatorSpans** ppEnum);
+};
+
+[uuid(98CEEDBD-07A4-4376-ADE8-5A46B7F5F384)]
+interface IVsSetSpanMappingEvents : IUnknown
+{
+    HRESULT OnBeginSetSpanMappings([in] long cSpans, [in, size_is(cSpans)] NewSpanMapping *rgSpans);
+    HRESULT OnEndSetSpanMappings();
+    HRESULT OnMarkerInvalidated([in]IVsTextLines *pBuffer, [in]IVsTextMarker *pMarker);
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+// IVsCompletionSetEx interface
+/////////////////////////////////////////////////////////////////////////////////
+[
+    uuid(uuid_IVsExternalCompletionSet)
+]
+interface IVsExternalCompletionSet : IUnknown
+{
+        HRESULT     SetIntellisenseHost ([in] IVsIntellisenseHost *pHost);
+        HRESULT     UpdateCompSet();
+};
+[
+     uuid(uuid_IVsExpansionIntellisenseHost)
+]
+interface IVsExpansionIntellisenseHost : IUnknown
+{
+     HRESULT GetTextLen([out] long *iLen);
+     HRESULT GetText([out] BSTR *bstrText);
+     HRESULT GetSelection([out] long *iStart, [out] long *iEnd);
+     HRESULT SetSelection([in] long iStart, [in] long iEnd);
+     // if fReplaceAll is true, this will replace all text in the buffer (including prefix text).
+     // otherwise, it will replace anything within the selection or insert at the selection location if there is a zero-len selection.
+     HRESULT SetText([in] BSTR bstrText, [in] BOOL fReplaceAll);
+     HRESULT GetCurrentLevel([out] long *pLevel);
+};
+
+[
+     uuid(uuid_IVsReportExternalErrors)
+]
+interface IVsReportExternalErrors : IUnknown
+{
+    HRESULT ClearAllErrors();
+    HRESULT AddNewErrors([in]IVsEnumExternalErrors *pErrors);
+    HRESULT GetErrors([out] IVsEnumExternalErrors **pErrors);
+};
+
+[
+     uuid(uuid_IVsEnumExternalErrors)
+]
+interface IVsEnumExternalErrors : IUnknown
+{    
+    HRESULT Next([in] ULONG celt, [in, out] ExternalError *rgelt, [out] ULONG* pceltFetched);
+    HRESULT Skip([in] ULONG celts);
+    HRESULT Reset();
+    HRESULT Clone([out] IVsEnumExternalErrors **ppErrors);
+
+};
+
+#ifndef INTEROPLIB
+
+}; //library
+
+#endif

@@ -1,0 +1,177 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module vstrkdoc.idl -	This file describes SVsTrackProjectDocuments
+This is now a deprecated version of the interface.
+See IVsTrackProjectDocuments80.idl and IVsTrackProjectDocumentsEvents80.idl 
+and similarly named files for more recent versions of this interface.
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. The alternative design would be to have all
+IVsTrackProjectDocumentsEventsSink open/close project events and QI the
+hierarchies for IVsTrackProjectDocumentsEventsSource. Instead, packages can
+Advise with the service at SetSite time. The alternative would let packages
+be selective about who they registered with, where this design gives you
+all or none of the sources.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+///////////////////////////////////////////////////////////
+//
+// Imports
+//
+import "oaidl.idl";
+#include "VseeGuids.h"
+import "IVsTrackProjectDocuments110.idl";
+import "IVsTrackProjectDocumentsEvents110.idl";
+import "vssccmgr.idl";
+
+///////////////////////////////////////////////////////////
+//
+// IID_IVsTrackProjectDocuments
+//
+
+interface IVsTrackProjectDocuments;
+interface IVsTrackProjectDocumentsEvents;
+
+[
+	uuid(uuid_IVsTrackProjectDocuments)
+
+]
+interface IVsTrackProjectDocuments : IUnknown
+{
+// Batching nests, so EndBatch is possibly asynchronous. This should be ok,
+// and no known nestings will occur, but Flush will be provided if needed.
+// Note that since we don't know the sources of batching and calls or keep
+// track of a queued operation batching level, Flush will rudely flush anything
+// batched "outside" its caller.
+	HRESULT BeginBatch();
+	HRESULT EndBatch();
+	HRESULT	Flush(); // synchronous
+
+	HRESULT OnAfterAddFiles(
+		[in]				  IVsProject*			pProject,
+		[in]				  int					cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR		rgpszMkDocuments[]);
+		//[in, size_is(cFiles)] const VSADDFILEFLAGS	rgFlags[]);
+
+	HRESULT OnAfterAddDirectories(
+		[in]						IVsProject*					pProject,
+		[in]						int							cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR				rgpszMkDocuments[]);
+		//[in, size_is(cDirectories)] const VSADDDIRECTORYFLAGS	rgFlags[]);
+
+	HRESULT OnAfterRemoveFiles(
+		[in]				  IVsProject*				pProject,
+		[in]				  int						cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR			rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSREMOVEFILEFLAGS	rgFlags[]);
+
+	HRESULT OnAfterRemoveDirectories(
+		[in]						IVsProject*					 pProject,
+		[in]						int							 cDirectories,
+		[in, size_is(cDirectories)]	const LPCOLESTR				 rgpszMkDocuments[],
+		[in, size_is(cDirectories)]	const VSREMOVEDIRECTORYFLAGS rgFlags[]);
+
+	HRESULT OnAfterSccStatusChanged(
+		[in]					IVsProject*		  pProject, // can be NULL?
+		[in]					int				  cFiles,
+		[in, size_is(cFiles)]	const LPCOLESTR	  rgpszMkDocuments[],
+		[in, size_is(cFiles)]	const VSSCCSTATUS rgSccStatus[]
+		/* ,
+		[in, size_is(cFiles)]	DWORD		rgdwFlags[] // REVIEW what's this for?
+		*/
+		);
+
+	HRESULT OnQueryRenameFile(
+		[in]	IVsProject*			pProject,
+		[in]	LPCOLESTR			pszMkOldName,
+		[in]	LPCOLESTR			pszMkNewName,
+		[in]	VSRENAMEFILEFLAGS	flags,
+		[out]	BOOL*				pfRenameCanContinue);
+
+	HRESULT OnAfterRenameFile(
+		[in]	IVsProject*		  pProject,
+		[in]	LPCOLESTR		  pszMkOldName,
+		[in]	LPCOLESTR		  pszMkNewName,
+		[in]	VSRENAMEFILEFLAGS flags);
+
+	HRESULT AdviseTrackProjectDocumentsEvents(
+		[in]	IVsTrackProjectDocumentsEvents* pEventSink,
+		[out]	VSCOOKIE*						pdwCookie);
+
+	HRESULT UnadviseTrackProjectDocumentsEvents(
+		[in]	VSCOOKIE	dwCookie);
+};
+
+[
+	uuid(uuid_IVsTrackProjectDocumentsEvents)
+]
+interface IVsTrackProjectDocumentsEvents : IUnknown
+{
+// These methods are very much like IVsTrackProjectDocuments, except they
+// might have been batched.
+
+	HRESULT OnAfterAddFiles(
+		[in]						int					 cProjects,
+		[in]						int					 cFiles,
+		[in, size_is(cProjects)]	IVsProject*			 rgpProjects[],
+		[in, size_is(cProjects)]	const int			 rgFirstIndices[],
+		[in, size_is(cFiles)]		const LPCOLESTR		 rgpszMkDocuments[]);
+		//[in, size_is(cFiles)]		const VSADDFILEFLAGS rgFlags[]);
+
+	HRESULT OnAfterAddDirectories(
+		[in]						  int						cProjects,
+		[in]						  int						cDirectories,
+		[in, size_is(cProjects)]	  IVsProject*				rgpProjects[],
+		[in, size_is(cProjects)]	  const int					rgFirstIndices[],
+		[in, size_is(cDirectories)]	  const LPCOLESTR			rgpszMkDocuments[]);
+		//[in, size_is(cDirectories)] const VSADDDIRECTORYFLAGS	rgFlags[]);
+
+	HRESULT OnAfterRemoveFiles(
+		[in]						int						cProjects,
+		[in]						int						cFiles,
+		[in, size_is(cProjects)]	IVsProject*				rgpProjects[],
+		[in, size_is(cProjects)]	const int				rgFirstIndices[],
+		[in, size_is(cFiles)]		const LPCOLESTR			rgpszMkDocuments[],
+		[in, size_is(cFiles)]		const VSREMOVEFILEFLAGS	rgFlags[]);
+
+	HRESULT OnAfterRemoveDirectories(
+		[in]						int								cProjects,
+		[in]						int								cDirectories,
+		[in, size_is(cProjects)]	IVsProject*						rgpProjects[],
+		[in, size_is(cProjects)]	const int						rgFirstIndices[],
+		[in, size_is(cDirectories)]	const LPCOLESTR					rgpszMkDocuments[],
+		[in, size_is(cDirectories)]	const VSREMOVEDIRECTORYFLAGS	rgFlags[]);
+
+	HRESULT OnAfterSccStatusChanged(
+		[in]					int					cProjects,
+		[in]					int					cFiles,
+		[in, size_is(cProjects)]IVsProject*			rgpProjects[], // elements can be NULL?
+		[in, size_is(cProjects)]const int			rgFirstIndices[],
+		[in, size_is(cFiles)]	const LPCOLESTR		rgpszMkDocuments[],
+		[in, size_is(cFiles)]	const VSSCCSTATUS	rgSccStatus[]);
+		//[in, size_is(cFiles)]	DWORD		rgdwFlags[] // REVIEW what's this for?
+
+// no batching on these.
+	HRESULT OnQueryRenameFile(
+		[in]	IVsProject*			pProject,
+		[in]	LPCOLESTR			pszMkOldName,
+		[in]	LPCOLESTR			pszMkNewName,
+		[in]	VSRENAMEFILEFLAGS	flags,
+		[out]	BOOL*				pfRenameCanContinue);
+
+	HRESULT OnAfterRenameFile(
+		[in]	IVsProject*			pProject,
+		[in]	LPCOLESTR			pszMkOldName,
+		[in]	LPCOLESTR			pszMkNewName,
+		[in]	VSRENAMEFILEFLAGS	flags);
+};
+
+#endif

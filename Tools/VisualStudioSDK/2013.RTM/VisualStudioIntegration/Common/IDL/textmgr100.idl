@@ -1,0 +1,168 @@
+/****************************************************************************
+*  The TEXTMGR100 Interfaces
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "ocidl.idl";
+import "textmgr.idl";
+import "textmgr2.idl";
+
+#endif
+
+/****************************************************************************
+********    IMPORTANT!!   *********
+
+All guids for interfaces and co-creatable objects in this file should be defined
+in textmgruuids.h
+
+****************************************************************************/
+#include "..\inc\textmgruuids.h"
+
+#ifndef INTEROPLIB
+
+[
+    uuid(uuid_lib_TextManager100),
+    version(1.0)
+]
+library TextMgr100
+{
+
+#endif
+
+    //importlib("stdole2.tlb");
+
+    /////////////////////////////////////////////////////////////////////////
+    // TextViewInitFlags3 enum
+    /////////////////////////////////////////////////////////////////////////
+    typedef enum _TextViewInitFlags3
+    {
+        // Taken from TextViewInitFlags in textmgr.idl
+        //VIF_DEFAULT                   = 0x00000000,   // no view-owned scrollbars, and no forced settings
+        //VIF_SET_WIDGET_MARGIN         = 0x00000001,   // use the widget margin setting from the VIEWPREFERENCES struct
+        //VIF_SET_SELECTION_MARGIN      = 0x00000002,   // use the selection margin setting from the VIEWPREFERENCES struct
+        //VIF_SET_VIRTUAL_SPACE         = 0x00000004,   // use the virtual space setting from the VIEWPREFERENCES struct
+        //VIF_SET_INDENT_MODE           = 0x00000008,   // use the autoindent suppression setting from the VIEWPREFERENCES struct
+        //VIF_SET_STREAM_SEL_MODE       = 0x00000010,   // OBSOLETE
+        //VIF_SET_VISIBLE_WHITESPACE    = 0x00000020,   // use visible whitespace setting
+        //VIF_SET_OVERTYPE              = 0x00000040,   // use overtype mode setting
+        //VIF_SET_DRAGDROPMOVE          = 0x00000080,   // use dd move setting
+        //VIF_SET_HOTURLS               = 0x00000100,   // use the Hot URLs setting
+        //VIF_HSCROLL                   = 0x00100000,   // WS_HSCROLL; indicates that the view should have a horizontal scrollbar
+        //VIF_VSCROLL                   = 0x00200000,   // WS_VSCROLL; indicates that the view should have a vertical scrollbar
+        //VIF_UPDATE_STATUS_BAR         = 0x00400000,   // tells view to update status bar
+
+        //VIF_READONLY                    = 0x00000200,   // indicates view should be read only
+        //VIF_ACTIVEINMODALSTATE          = 0x00000400,   // indicates view should be read only active in modal state (allows commands even when shell is in a modal state)
+        //VIF_SUPPRESS_STATUS_BAR_UPDATE  = 0x00000800,   // tells the view to supress status bar updates
+        //VIF_SUPPRESSTRACKCHANGES        = 0x00001000,   // indicates view should suppress track changes (view will not ask buffer to track changes)
+        //VIF_SUPPRESSBORDER              = 0x00002000,   // indicates view should suppress drawing border (intended for use when view is hosted in a dialog, for example)
+        //VIF_SUPPRESSTRACKGOBACK         = 0x00004000,   // indicates view should suppress go back tracking (intended for use when view is hosted in a tool window, for example)
+
+        VIF_NO_HWND_SUPPORT           = 0x00008000,   // indicates view will not create an hwnd host
+        //VIF_ENABLEAUTONOMOUSFIND    = 0x00010000,   // indicates that the view should react to the locate find target command (defined in env\msenv\idl\privtext.idl)
+        //VIF_ISEMBEDDEDVIEW          = 0x00020000,   // indicates that the text view is an embedded view (defined in env\msenv\idl\privtext.idl)
+    } TextViewInitFlags3;
+
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsMethodTipWindow3 interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsMethodTipWindow3)
+    ]
+    interface IVsMethodTipWindow3 : IUnknown
+    {
+        HRESULT GetMethodData ( [out] IVsMethodData **pMethodData );
+    };
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsTextTipWindow2 interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsTextTipWindow2)
+    ]
+    interface IVsTextTipWindow2 : IUnknown
+    {
+        HRESULT GetTextTipData( [out] IVsTextTipData **pMethodData );
+    };
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsSmartTagTipWindow2 interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsSmartTagTipWindow2)
+    ]
+    interface IVsSmartTagTipWindow2 : IUnknown
+    {
+        HRESULT GetSmartTagData ([out] IVsSmartTagData **pSmartTagData);
+    };
+
+    /////////////////////////////////////////////////////////////////////////
+    // IVsHiddenTextSessionEx2 interface
+    /////////////////////////////////////////////////////////////////////////
+    [
+        uuid(uuid_IVsHiddenTextSessionEx2)
+    ]
+    interface IVsHiddenTextSessionEx2 : IUnknown
+    {
+        // This tells the editor to stop outlining.  It has the effect of removing
+        // all hidden regions (adhoc and client provided) from the session and
+        // disabling outlining.
+        HRESULT StopOutlining();
+
+        // This tells the editor to start outlining.  Passing fRemoveAdhoc of TRUE
+        // has the effect of removing any adhoc regions.
+        HRESULT StartOutlining([in] BOOL fRemoveAdhoc);
+
+        // This tells the hidden text session to start batching outlining changes.
+        // This can be used in combination with EndBatch() to fold together events
+        // which are raised when calling IVsHiddenRegion.Invalidate() multiple times.
+        HRESULT StartBatch();
+
+        // This tells the hidden text session to end batching outlining changes.
+        // This can be used in combination with StartBatch() to fold together events
+        // which are raised when calling IVsHiddenRegion.Invalidate() multiple times.
+        HRESULT EndBatch();
+    };
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Buffer-defined UserData GUIDs
+    //
+    ////////////////////////////////////////////////////////////////////////////
+    //--------------------------------------------------------------------------
+    // GUID_VsBufferContentType  VT_BSTR {1BEB4195-98F4-4589-80E0-480CE32FF059}
+    //
+    // The ContentType for the text buffer.
+    //
+    cpp_quote("extern const __declspec(selectany) GUID GUID_VsBufferContentType = { 0x1beb4195, 0x98f4, 0x4589, { 0x80, 0xe0, 0x48, 0xc, 0xe3, 0x2f, 0xf0, 0x59 } };")
+
+    ////////////////////////////////////////////////////////////////////////////
+    // View-defined UserData GUIDs
+    //
+    ////////////////////////////////////////////////////////////////////////////
+    //--------------------------------------------------------------------------
+    // GUID_VsTextViewRoles  VT_BSTR {297078FF-81A2-43D8-9CA3-4489C53C99BA}
+    //
+    // The comma-separated list of text view roles for the text view.
+    //
+    cpp_quote("extern const __declspec(selectany) GUID GUID_VsTextViewRoles = { 0x297078ff, 0x81a2, 0x43d8, { 0x9c, 0xa3, 0x44, 0x89, 0xc5, 0x3c, 0x99, 0xba } };")
+
+    ////////////////////////////////////////////////////////////////////////////
+    //--------------------------------------------------------------------------
+    // GUID_UseLazyInitialization  VT_BSTR {FEA19C13-32CE-447B-8CC3-720DDF138BB8}
+    // Whether or not the code window or view should initialize lazily (the default
+    // is true, if not set by clients).  Setting it to false will also force the editor
+    // to finish initialization, if it was waiting to be shown or accessed programmatically.
+    //
+    cpp_quote("extern const __declspec(selectany) GUID GUID_UseLazyInitialization = { 0xfea19c13, 0x32ce, 0x447b, { 0x8c, 0xc3, 0x72, 0x0d, 0xdf, 0x13, 0x8b, 0xb8 } };")
+
+#ifndef INTEROPLIB
+
+};
+
+#endif
+
