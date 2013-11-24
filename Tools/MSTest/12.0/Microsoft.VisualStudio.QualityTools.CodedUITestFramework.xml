@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.VisualStudio.QualityTools.CodedUITestFramework</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute">
+      <summary>Specifies that the method to which this attribute applies can be edited and played back by the coded UI testing framework.</summary>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute" /> class.</summary>
+    </member>
+    <member name="P:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute.ExtensionId">
+      <summary>Gets the universal resource indicator (URI) for the coded UI test.</summary>
+      <returns>the universal resource identifier (URI) for the Coded UI Test.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute.GetClientSide">
+      <summary>Returns an object that represents the client side of the Coded UI Test.</summary>
+      <returns>An object that represents the client side of the coded UI test.</returns>
+    </member>
+    <member name="M:Microsoft.VisualStudio.TestTools.UITesting.CodedUITestAttribute.GetExecution">
+      <summary>Returns an object that implements events for unit test events.</summary>
+      <returns>An object that implements events for unit test events.</returns>
+    </member>
+  </members>
+</doc>
