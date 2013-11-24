@@ -169,7 +169,14 @@ namespace CSharpParserTest
         private void RunTest(string testName)
         {
             Assert.IsTrue(
-                StyleCopTestRunner.Run(testName, TestRoot, TestContext.DeploymentDirectory, TestContext.TestResultsDirectory, false, Path.Combine(TestBin, "StyleCop.CSharp.Rules.dll")), 
+                StyleCopTestRunner.Run(
+                    testName,
+                    TestRoot,
+                    TestContext.DeploymentDirectory,
+                    TestContext.TestResultsDirectory,
+                    false,
+                    Path.Combine(TestBin, "StyleCop.CSharp.Rules.dll"),
+                    Path.Combine(TestBin, "CSharpParserTestRules.dll")),
                 TestContext.TestResultsDirectory);
         }
 
