@@ -1,0 +1,290 @@
+////////////////////////////////////////////////////////////////////////////////
+// containedlanguage.IDL
+//
+// Interface definitions for Visual Studio Language Project System
+////////////////////////////////////////////////////////////////////////////////
+
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+import "oleipc.idl";
+import "vsshell.idl";
+import "singlefileeditor.idl";
+
+#endif
+
+#include "vsshelluuids.h"
+
+interface IVsIntellisenseProjectManager;
+interface IVsIntellisenseProjectEventSink;
+interface IVsCompilerParameterExaminer;
+interface IVsItemTypeResolutionService;
+interface IVsIntellisenseProjectHost;
+interface IVsIntellisenseProject;
+
+enum INTELLIPROJSTATUS
+{
+    INTELLIPROJSTATUS_LOADING       = 1,
+    INTELLIPROJSTATUS_LOADCOMPLETE  = 2,
+    INTELLIPROJSTATUS_CLOSE         = 3,
+    INTELLIPROJSTATUS_REFRESH       = 4,
+};
+
+enum HOSTPROPID
+{
+    HOSTPROPID_PROJECTNAME          = 1,
+    HOSTPROPID_HIERARCHY            = 2,
+    HOSTPROPID_RELURL               = 3,
+    HOSTPROPID_INTELLISENSECACHE_FILENAME = 4,
+};
+
+enum REFERENCECHANGETYPE
+{
+    REFERENCE_Added = 1,
+    REFERENCE_Removed = 2,
+    REFERENCE_Changed = 3,
+};
+
+//----------------------------------------------------------------------
+// IVsIntellisenseProjectManager
+//----------------------------------------------------------------------
+[
+    object,
+    uuid(uuid_IVsIntellisenseProjectManager)
+]
+interface IVsIntellisenseProjectManager : IUnknown
+{
+    // Sets up an event sink to receive the load status of the intellisense projects.
+    HRESULT AdviseIntellisenseProjectEvents(
+        [in]  IVsIntellisenseProjectEventSink *pSink,
+        [out] VSCOOKIE  *pdwCookie);
+    // Dis-connects the sink from receiving any events.
+    HRESULT UnadviseIntellisenseProjectEvents(
+        [in]  VSCOOKIE   dwCookie);
+    // Obtains the contained language factory associated to this node.
+    HRESULT GetContainedLanguageFactory(
+        [in]  BSTR bstrLanguage,
+        [out] IVsContainedLanguageFactory **ppContainedLanguageFactory);
+    // Called by editors to explicitly shutdown the intellisense
+    HRESULT CloseIntellisenseProject();
+    // Called by editors when they are ready. This is used to delay generate the 
+    // compiler params to refresh the intellisense project with references.
+    HRESULT OnEditorReady();
+    // Called by editors when the intellisense project status is INTELLIPROJSTATUS_LOADING
+    // and the editor needs the intellisense project to reach INTELLIPROJSTATUS_LOADCOMPLETE
+    // so that it can complete an editing action
+    HRESULT CompleteIntellisenseProjectLoad();
+}
+
+// declare the service type for interop
+[uuid(uuid_SVsIntellisenseProjectManager)]
+interface SVsIntellisenseProjectManager : IUnknown
+{
+}
+
+// use the service type guid, distinct from the proffered interface
+cpp_quote("#define SID_SVsIntellisenseProjectManager IID_SVsIntellisenseProjectManager")
+
+
+//----------------------------------------------------------------------
+// IVsIntellisenseEngine
+//----------------------------------------------------------------------
+[
+    object,
+    uuid(uuid_IVsIntellisenseEngine)
+]
+interface IVsIntellisenseEngine : IUnknown
+{
+    // Called by C# Refactoring to ensure the Intellisense engine is fully loaded
+    HRESULT Load();
+    // Called by C# Refactoring to ensure the Intellisense engine is unloaded
+    HRESULT Unload();
+    // Called by C# Refactoring to see if the file supports Load being called on it
+    // Returns S_OK if supported else, E_FAIL.
+    HRESULT SupportsLoad();
+}
+
+// declare the service type for interop
+[uuid(uuid_SVsIntellisenseEngine)]
+interface SVsIntellisenseEngine : IUnknown
+{
+}
+
+// use the service type guid, distinct from the proffered interface
+cpp_quote("#define SID_SVsIntellisenseEngine IID_SVsIntellisenseEngine")
+
+
+//
+// IVsIntellisenseProjectEventSink
+//
+[
+    uuid(uuid_IVsIntellisenseProjectEventSink),
+    version(1.0)
+]
+interface IVsIntellisenseProjectEventSink : IUnknown
+{
+    HRESULT OnStatusChange([in] DWORD dwStatus);
+    HRESULT OnReferenceChange([in] DWORD dwChangeType, LPCWSTR pszAssemblyPath);
+    HRESULT OnConfigChange();               // Generated when the config file changes
+    HRESULT OnCodeFileChange([in] LPCWSTR pszOldCodeFile, [in] LPCWSTR pszNewCodeFile);
+};
+
+
+
+// Interop interface.
+// Defined in: src\vsdesigner\designer\microsoft\vsdesigner\interop\IVsItemTypeResolutionService.cs
+// CAUTION:
+// This interface definition must be manually synchonized with that in IVsItemTypeResolutionService.cs
+// at all times!
+//
+[
+    object,
+    uuid(uuid_IVsItemTypeResolutionService), 
+    pointer_default(unique)
+]
+interface IVsItemTypeResolutionService : IUnknown
+{
+    HRESULT SetSite(
+        [in]  IUnknown* punkVsItemTypeResolutionSite);
+    HRESULT InitializeReferences(
+        [in]  IUnknown* punkCompilerParameters);
+    // Called by the project system when a new reference is added
+    HRESULT ReferenceAdded(
+        [in]  BSTR pszReference);
+    // Called by the project system when a reference is removed
+    HRESULT ReferenceRemoved(
+        [in]  BSTR pszReference);
+    // Called by the project system when a reference is changed.
+    HRESULT ReferenceChanged(
+        [in]  BSTR pszReference);
+    HRESULT Reset();
+}
+
+
+// Interop interface.
+// Defined in: src\vsdesigner\designer\microsoft\vsdesigner\interop\IVsItemTypeResolutionService.cs
+// CAUTION:
+// This interface definition must be manually synchonized with that in IVsItemTypeResolutionService.cs
+// at all times!
+//
+[
+    object,
+    uuid(uuid_IVsItemTypeResolutionSite), 
+    pointer_default(unique)
+]
+interface IVsItemTypeResolutionSite: IUnknown
+{
+    // Callback from the VsTypeResolutionService to add a reference to the bin or web.config
+    HRESULT AddReference(
+        [in]  BSTR bstrReferencePath);
+    // Callback from the VsTypeResolutionService to ensure that any pending compiler
+    // param generations are completed.
+    HRESULT WaitForReferencesReady();
+    // Callback from the VsTypeResolutionService to determine if an assembly comes from a code directory
+    HRESULT IsCodeDirectoryAssembly(
+        [in]  BSTR  bstrAssembly,
+        [out] BOOL* pfIsCodeAssembly);
+}
+
+
+//----------------------------------------------------------------------
+// IVsIntellisenseProjectHost
+//----------------------------------------------------------------------
+[
+    object,
+    uuid(uuid_IVsIntellisenseProjectHost)
+]
+interface IVsIntellisenseProjectHost : IUnknown
+{
+    // Return the (string) property described by HOSTPROPID
+    HRESULT GetHostProperty([in] DWORD dwPropID, [out, retval] VARIANT *pvar);
+    HRESULT GetCompilerOptions(
+        [out, retval] BSTR *pbstrOptions);
+    HRESULT GetOutputAssembly(
+        [out, retval] BSTR* pbstrOutputAssembly);
+    // Called by IVsIntellisenseProject's to get the code model for the given filename. This will
+    // typically loop back and call IVsIntelliseProject::GetFileCodeModel(). 
+    HRESULT CreateFileCodeModel([in] LPCWSTR pszFilename, [out, retval] IUnknown** ppCodeModel);
+}
+
+// declare the service type for interop
+[uuid(uuid_SVsIntellisenseProjectHost)]
+interface SVsIntellisenseProjectHost : IUnknown
+{
+}
+
+// use the service type guid, distinct from the proffered interface
+cpp_quote("#define SID_SVsIntellisenseProjectHost IID_SVsIntellisenseProjectHost")
+
+
+//----------------------------------------------------------------------
+// IVsIntellisenseProject
+//----------------------------------------------------------------------
+[
+    object,
+    uuid(uuid_IVsIntellisenseProject)
+]
+interface IVsIntellisenseProject : IUnknown
+{
+    // Initializes the specific intellisense project
+    HRESULT Init([in] IVsIntellisenseProjectHost* pHost);
+    // Release any interfaces/resources held by this implementation.
+    HRESULT Close();
+    HRESULT AddFile([in] BSTR bstrAbsPath, [in] VSITEMID itemid);
+    HRESULT RemoveFile([in] BSTR bstrAbsPath, [in] VSITEMID itemid);
+    HRESULT RenameFile([in] BSTR bstrAbsPath, [in] BSTR bstrNewAbsPath, [in] VSITEMID itemid);
+    // Return S_OK if the file is compilable based on the extension, S_FALSE otherwise.
+    HRESULT IsCompilableFile([in] BSTR bstrFileName);
+    HRESULT GetContainedLanguageFactory([out, retval] IVsContainedLanguageFactory** ppContainedLanguageFactory);
+    HRESULT GetCompilerReference([out, retval] IUnknown** ppCompilerReference); // HACK (M1) Project to Project References
+    HRESULT GetFileCodeModel([in] IUnknown *pProj, [in]IUnknown *pProjectItem, [out, retval] IUnknown** ppCodeModel);
+    HRESULT GetProjectCodeModel([in] IUnknown *pProj, [out, retval] IUnknown** ppCodeModel);
+    HRESULT RefreshCompilerOptions();
+    HRESULT GetCodeDomProviderName([out, retval] BSTR *pbstrProvider);
+    // VB projects require that ASPX files NOT be added to Intellisense projects,
+    // C# and J# require that they ARE. Rather than fool with IsCompilableFile
+    // (which would have side effects on code directories) we'll simply state
+    // whether this type of project needs the web file here:
+    HRESULT IsWebFileRequiredByProject([out, retval] BOOL *pbReq);
+    //  Adds an assembly reference to this project
+    HRESULT AddAssemblyReference([in] BSTR bstrAbsPath);
+    //  Removes an assembly reference from this project
+    HRESULT RemoveAssemblyReference([in] BSTR bstrAbsPath);
+    //  Adds a P2P reference to this project
+    HRESULT AddP2PReference([in] IUnknown *pUnk);
+    //  Removes a P2P reference to this project
+    HRESULT RemoveP2PReference([in] IUnknown *pUnk);
+    HRESULT StopIntellisenseEngine();
+    HRESULT StartIntellisenseEngine();
+    // Returns S_OK if the P2P reference is supported
+    HRESULT IsSupportedP2PReference([in] IUnknown *pUnk);
+    // Waits until the Intellisense engine is ready
+    HRESULT WaitForIntellisenseReady();
+    HRESULT GetExternalErrorReporter([out, retval] IVsReportExternalErrors** ppErrorReporter);
+
+    // Disable\Enable posting compiler messages.
+    HRESULT SuspendPostedNotifications();
+    HRESULT ResumePostedNotifications();
+}
+
+// Interop interface.
+// Defined in: src\venus\mvw\interop\WebProject\IVsDataEnvironment.cs
+// CAUTION:
+// This interface definition must be manually synchonized with that in IVsDataEnvironment.cs
+// at all times!
+//
+[
+    object,
+    uuid(uuid_IVsDataEnvironment), 
+    pointer_default(unique)
+]
+interface IVsDataEnvironment : IUnknown
+{
+    HRESULT Initialize(
+        [in]  IServiceProvider* pServiceProvider);
+
+    HRESULT Dispose();
+}

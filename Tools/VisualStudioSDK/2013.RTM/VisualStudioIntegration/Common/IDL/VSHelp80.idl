@@ -1,0 +1,153 @@
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+// import "vshelp.idl"; // One cannot import the idl file as the generated tlb contains a copy of the interfaces.
+
+///////////////////////////////////////////
+// Help object
+
+[
+    uuid(DB7A405D-208F-4e88-BA0A-132ACFA0B5B6),
+    version(1.0)
+]
+library VsHelp80
+{
+    importlib("stdole2.tlb");  // Needed for IDispatch
+    importlib("vshelp.tlb");
+
+
+    //-------------------------------------------------------------------------
+    // Public automation interfaces
+    //
+
+    // #cpp quoted to IVsHelp2 for a convenient name in native code. One can get
+    // access to it by doing a QueryService for SVsHelp.
+    interface Help2; 
+   
+
+    //-------------------------------------------------------------------------
+    // Public package interfaces
+    //
+
+    // Get access to it by doing a QS for SVsHelpFavorites.
+    interface IVsHelpFavorites;
+
+    //-------------------------------------------------------------------------
+    // enums used on calls to Help2 methods
+    //
+    enum __vsSearchFlags
+    {
+        vsSearchFlagsNone                      = 0x00000000,
+        vsSearchFlagsExecuteSearch             = 0x00000001,
+        vsSearchFlagsAddToExistingQueryString  = 0x00000002,
+        vsSearchFlagsFilterTransformSpecified  = 0x00000004
+    };
+    typedef DWORD vsSearchFlags;
+
+    enum __vsAskQuestionFlags
+    {
+        vsAskQuestionFlagsAskNew = 0x00000001,
+        vsAskQuestionFlagsCheckStatus = 0x00000002,
+        vsAskQuestionFlagsSendFeedback = 0x00000004
+    };
+    typedef DWORD vsAskQuestionFlags;
+
+    enum __vsHelpDisplayUrlFlags
+    {
+        vsHelpDisplayUrlFlagsNone              = 0x00000000,
+        vsHelpDisplayUrlFlagsHighlightTerm     = 0x00000001,
+        vsHelpDisplayUrlFlagsOpenNewWindow     = 0x00000002,
+        vsHelpDisplayUrlFlagsGuidLocal         = 0x00000010,
+        vsHelpDisplayUrlFlagsGuidOnline        = 0x00000020,
+        vsHelpDisplayUrlFlagsGuidLocale        = 0x00000040,
+        vsHelpDisplayUrlFlagsGuidFailover      = 0x00000080,
+        vsHelpDisplayUrlFlagsNamedUrl          = 0x00000100,
+        vsHelpDisplayUrlFlagsNoHistory         = 0x00000200,
+        vsHelpDisplayUrlFlagsNoHistoryThisPage = 0x00000400
+    };
+    typedef DWORD vsHelpDisplayUrlFlags;
+
+    enum __vsHelpUrlFromTopicIDFlags
+    {
+        HUFTID_Default = 0x00000000,
+        HUFTID_Local = 0x00000001,
+        HUFTID_Online = 0x00000002,
+        HUFTID_Locale = 0x00000004
+    };
+    typedef DWORD vsHelpUrlFromTopicIDFlags;
+
+    module vsHelpSearchFilterTransforms
+    {
+        const LPWSTR vsHelpSearchFilterTransformsHelp           = L"Help";
+        const LPWSTR vsHelpSearchFilterTransformsControls       = L"Controls";
+        const LPWSTR vsHelpSearchFilterTransformsSamples        = L"Samples";
+        const LPWSTR vsHelpSearchFilterTransformsSnippets       = L"Snippets";
+        const LPWSTR vsHelpSearchFilterTransformsStarterKits    = L"StarterKits";
+        const LPWSTR vsHelpSearchFilterTransformsAddins         = L"Addins";
+        const LPWSTR vsHelpSearchFilterTransformsUnfiltered     = L"Unfiltered";
+    }
+
+    // Help2 
+    //-------------------------------------------------------------------------
+    [
+        dual, 
+        oleautomation, 
+        object,
+        uuid(78413D2D-0492-4a9b-AB25-730633679977)
+    ]
+    interface Help2 : Help
+    {
+        // show Search, optionally fill the search box with a term or execute a search for a specific term
+        [id(28)]
+        HRESULT SearchEx([in] BSTR bstrSearchFilterTransform, [in] BSTR pszSearchTerm, [in] vsSearchFlags vssfSearchFlags);
+
+        // show How Do I...
+        [id(29)]
+        HRESULT HowDoI();
+
+        // show Favorites tool wnd
+        [id(30)]
+        HRESULT Favorites();
+
+        // Ask a Question or Send Feedback
+        [id(31)]
+        HRESULT AskAQuestion([in] vsAskQuestionFlags askQuestionFlags);
+
+        // specify bstrParam based on flags
+        [id(32)]
+        HRESULT DisplayTopicFromURLEx2([in] BSTR bstrURL, [in] vsHelpDisplayUrlFlags displayUrlFlags, [in] BSTR bstrParam);
+
+        [id(33)]
+        HRESULT InitializeSettingsToken([in] BSTR bstrSettingsToken);
+    };
+
+    //-------------------------------------------------------------------------
+    // IVsHelpFavorites
+    // Interface used drive the Help Favorites UI. 
+    //
+    [
+        uuid(D1333514-2B6B-4479-8135-A39E286E146D),
+        oleautomation, 
+        object
+    ]
+    interface IVsHelpFavorites : IUnknown
+    {
+        [id(1)]
+        HRESULT ShowFavorites();
+
+        [id(2)]
+        HRESULT AddFavoriteTopic([in] BSTR strTitle, [in] BSTR strUrl, [in] BSTR topicKeyword, [in] BSTR strTopicLocale);
+    };
+
+    [
+        uuid(4A81432B-BFCC-4832-9BE9-15977DA82072)
+    ]
+    interface SVsHelpFavorites : IUnknown {};
+};
+
+//Provide easy access to Help2 for package code, using a conventional name
+cpp_quote("#define IVsHelp2     Help2")
+cpp_quote("#define IID_IVsHelp2 IID_Help2")
+
+//Service IIDs
+cpp_quote("#define SID_SVsHelpFavorites IID_SVsHelpFavorites")

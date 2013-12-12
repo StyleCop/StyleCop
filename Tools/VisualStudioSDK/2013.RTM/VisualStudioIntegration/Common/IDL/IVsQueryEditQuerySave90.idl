@@ -1,0 +1,118 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsQueryEditQuerySave90.idl - Query Edit and Query Save service |
+
+This service is called immediately before a document is edited for the
+first time, and immediately before a document is saved.
+
+This allows the source-control package to ensure that the file is checked-
+out at the correct time.  Editors are required to call QueryEdit before
+dirtying a file, and QuerySave before saving it.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "IVsQueryEditQuerySave2.idl";
+import "IVsQueryEditQuerySave80.idl";
+
+#endif
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+/*-----------------------------------------------------------------------------
+Enum: VSQuerySaveFlags2
+
+Conditions for the QuerySave
+-----------------------------------------------------------------------------*/
+enum __VSQuerySaveFlags2
+{
+    /********************************************** defined in IVsQueryEditQuerySave2.idl
+	QSF_DefaultOperation      = 0x00000000,	// Normal operation: put up UI if necessary
+	QSF_SilentMode            = 0x00000001,	// No UI is put up
+    **********************************************/ 
+	QSF_DetectAnyChangedFile  = 0x00000002,	// Detect changes in any file involved in the operation and return QER_Changed if any file was changed on disk. 
+	// QSF_NextFlag = 0x00000004
+};
+typedef DWORD VSQuerySaveFlags2;
+
+/*-----------------------------------------------------------------------------
+Enum: VSQuerySaveResultFlags
+
+@enum Detailed results of the QuerySave
+-----------------------------------------------------------------------------*/
+enum tagVSQuerySaveResultFlags
+{
+	QSR_DefaultFlag              = 0x00000000,
+	QSR_Reloaded                 = 0x00000001, // A file involved in the operation was checked out, a new version was retrieved from the source control database and the file was reloaded in the editor or in the shell (if the file is a project or solution file).
+						   // The editor may need to abort the initial operation that caused the edit if it cannot tollerate the reload (e.g. when the editor made some calculations that cannot be remade to match the new file content after the operation).
+	QSR_Changed                  = 0x00000002, // A file involved in the operation was checked out, a new version was retrieved from the source control database (so the file changed on disk).
+						   // A source control provider should normally detect file changes only in files opened in editors (so it can reload them if they change during the operation).
+						   // However, in scenarios like find_in_files, QuerySave may be called with files that are not open in editor, and the caller may be interested if the files were changed should they get checked out during the operation.
+						   // The caller should pass in QSF_DetectAnyChangedFile flag, and the source control provider should detect accurately if any of the file has changed and return QSR_Changed if so.
+	// QSR_NextFlag = 0x00000800
+};
+typedef DWORD VSQuerySaveResultFlags;
+
+/*-----------------------------------------------------------------------------
+Interface: IVsQueryEditQuerySave3
+
+See IVsQueryEditQuerySave2 in IVsQueryEditQuerySave2.idl for more details.
+
+@base public | IUnknown
+
+@hung qeqs2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsQueryEditQuerySave3) ]
+interface IVsQueryEditQuerySave3 : IUnknown
+{
+	////////////////////////////////////////////////////////////////////////////////
+	// QuerySaveFiles2
+	////////////////////////////////////////////////////////////////////////////////
+	// See QuerySaveFiles in IVsQueryEditQuerySave2.idl for more details
+	HRESULT QuerySaveFiles2
+	(
+		[in] VSQuerySaveFlags rgfQuerySave,					// Silent mode?
+		[in] int cFiles,							// File count
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],		// File to process
+		[in, size_is(cFiles)] const VSQEQSFlags rgrgf[],			// Valid file attributes?
+		[in, size_is(cFiles)] const VSQEQS_FILE_ATTRIBUTE_DATA rgFileInfo[],	// File attributes
+		[out] VSQuerySaveResult *pdwQSResult,				// Result:
+											// 1) Proceed with save
+											// 2) Don't save
+											// 3) Save as
+											// 4) Cancel save
+											// 5) Cancel save b/c need to prompt (in silent mode only)
+		[out] VSQuerySaveResultFlags *prgfMoreInfo				// Result:
+											// 1) if any files got reloaded
+											// 2) if any files got changed
+	);
+
+	////////////////////////////////////////////////////////////////////////////////
+	// QuerySaveFile2
+	////////////////////////////////////////////////////////////////////////////////
+	// See QuerySaveFile2 in IVsQueryEditQuerySave2.idl for more details
+	HRESULT QuerySaveFile2
+	(
+		[in] LPCOLESTR pszMkDocument,						// Document that wants to be saved
+		[in] VSQEQSFlags rgf,							// Valid file attributes?
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA *pFileInfo,			// File attributes
+		[out] VSQuerySaveResult *pdwQSResult,				// Result (see above)
+		[out] VSQuerySaveResultFlags *prgfMoreInfo				// Result:
+											// 1) if the file got reloaded
+											// 2) if the file got changed
+	);
+};
+
+/////////////////////////////////////////////////////////////////////////////
+
+#endif

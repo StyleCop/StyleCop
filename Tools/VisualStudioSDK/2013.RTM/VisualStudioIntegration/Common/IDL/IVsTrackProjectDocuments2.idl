@@ -1,0 +1,195 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsTrackProjectDocuments2.idl - Interface to broadcast document events |
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. Packages can Advise with the service at SetSite time. 
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "IVsTrackProjectDocumentsEvents2.idl";
+
+#endif
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectDocuments2
+
+Projects use this service to signal that they want to receive document events,
+and to signal events that are about to happen.
+
+Before adding, renaming, or deleting a file or directory, the project must call
+the appropriate TrackProjectDocuments2 method in order to check whether this
+operation is allowed.  When the operation is completion, the project must
+notify the TrackProjectDocuments2 service, so that appropriate notifications
+can be sent out.
+
+See IVsTrackProjectDocuments2Events.idl for the definition of the VSQUERYxxx
+flags.
+
+@base public | IUnknown
+
+@hung scm2
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsTrackProjectDocuments2) ]
+interface IVsTrackProjectDocuments2 : IUnknown
+{
+
+	// Note: Batching nests, so EndBatch is possibly asynchronous. This should be ok,
+	// and no known nestings will occur, but Flush will be provided if needed.
+	// Note that since we don't know the sources of batching and calls or keep
+	// track of a queued operation batching level, Flush will rudely flush anything
+	// batched "outside" its caller.
+	HRESULT BeginBatch();
+	HRESULT EndBatch();
+	HRESULT	Flush();
+
+	HRESULT OnQueryAddFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYADDFILEFLAGS rgFlags[],
+		[out] VSQUERYADDFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYADDFILERESULTS rgResults[]);
+
+	HRESULT OnAfterAddFilesEx(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSADDFILEFLAGS rgFlags[]);
+
+	HRESULT OnAfterAddFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[]);
+
+	HRESULT OnAfterAddDirectoriesEx(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSADDDIRECTORYFLAGS rgFlags[]);
+
+	HRESULT OnAfterAddDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[]);
+
+	HRESULT OnAfterRemoveFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSREMOVEFILEFLAGS rgFlags[]);
+
+	HRESULT OnAfterRemoveDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)]	const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)]	const VSREMOVEDIRECTORYFLAGS rgFlags[]);
+
+	HRESULT OnQueryRenameFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cFiles)] const VSQUERYRENAMEFILEFLAGS rgflags[],
+		[out] VSQUERYRENAMEFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYRENAMEFILERESULTS rgResults[]);
+
+	HRESULT OnQueryRenameFile(
+		[in] IVsProject *pProject,
+		[in] LPCOLESTR pszMkOldName,
+		[in] LPCOLESTR pszMkNewName,
+		[in] VSRENAMEFILEFLAGS flags,
+		[out] BOOL *pfRenameCanContinue);
+
+	HRESULT OnAfterRenameFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cFiles)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cFiles)] const VSRENAMEFILEFLAGS rgflags[]);
+
+	HRESULT OnAfterRenameFile(
+		[in] IVsProject *pProject,
+		[in] LPCOLESTR pszMkOldName,
+		[in] LPCOLESTR pszMkNewName,
+		[in] VSRENAMEFILEFLAGS flags);
+
+	HRESULT OnQueryRenameDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirs,
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cDirs)] const VSQUERYRENAMEDIRECTORYFLAGS rgflags[],
+		[out] VSQUERYRENAMEDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirs)] VSQUERYRENAMEDIRECTORYRESULTS rgResults[]);
+
+	HRESULT OnAfterRenameDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirs,
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkOldNames[],
+		[in, size_is(cDirs)] const LPCOLESTR rgszMkNewNames[],
+		[in, size_is(cDirs)] const VSRENAMEDIRECTORYFLAGS rgflags[]);
+
+	HRESULT AdviseTrackProjectDocumentsEvents(
+		[in] IVsTrackProjectDocumentsEvents2 *pEventSink,
+		[out] VSCOOKIE *pdwCookie);
+
+	HRESULT UnadviseTrackProjectDocumentsEvents(
+		[in] VSCOOKIE dwCookie);
+
+	HRESULT OnQueryAddDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSQUERYADDDIRECTORYFLAGS rgFlags[],
+		[out] VSQUERYADDDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirectories)] VSQUERYADDDIRECTORYRESULTS rgResults[]);
+
+	HRESULT OnQueryRemoveFiles(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYREMOVEFILEFLAGS rgFlags[],
+		[out] VSQUERYREMOVEFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYREMOVEFILERESULTS rgResults[]);
+
+	HRESULT OnQueryRemoveDirectories(
+		[in] IVsProject *pProject,
+		[in] int cDirectories,
+		[in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cDirectories)] const VSQUERYREMOVEDIRECTORYFLAGS rgFlags[],
+		[out] VSQUERYREMOVEDIRECTORYRESULTS *pSummaryResult,
+		[out, size_is(cDirectories)] VSQUERYREMOVEDIRECTORYRESULTS rgResults[]);
+
+	HRESULT OnAfterSccStatusChanged(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[in, size_is(cFiles)] const DWORD rgdwSccStatus[]);
+};
+
+///////////////////////////////////////////////////////////
+//
+// SID_SVsTrackProjectDocuments Defined
+//
+[uuid (uuid_SVsTrackProjectDocuments)]
+interface SVsTrackProjectDocuments : IUnknown {};
+cpp_quote("#define SID_SVsTrackProjectDocuments IID_SVsTrackProjectDocuments")
+
+#endif

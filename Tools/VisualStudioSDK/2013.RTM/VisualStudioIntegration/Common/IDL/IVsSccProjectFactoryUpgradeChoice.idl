@@ -1,0 +1,51 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccProjectFactoryUpgradeChoice.idl |
+IDL for custom enlistment interfaces
+
+@owner Source Control Integration Team 
+-----------------------------------------------------------------------------*/
+
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+import "IVsSccProjectEnlistmentChoice.idl";
+#endif
+
+#include "SCGuids.h"
+
+// @hung vscec
+typedef enum __VSSCCPROJECTSTYLE
+{
+    VSSCC_PS_USESPROJECTFILE          = 0,   // This is a standard project that uses a project file to persist the list of files in the project
+    VSSCC_PS_FOLDERBASED              = 1,   // The project has no project file; contents of project is based on files in a file system folder.
+} VSSCCPROJECTSTYLE;
+
+//---------------------------------------------------------------------------
+// IVsSccProjectFactoryUpgradeChoice
+//
+// This is an optional interface. It is implemented by an advanced project 
+// system's IVsProjectFactory to indicate that special handling must be
+// made by SCC when upgrading a project. This is used to change a project
+// from a Project File-based project (e.g. a VB 2003 Web Project) to a Folder-based
+// project (e.g. Visual Web Developer 2005 Web Site project) without a project file.
+// This is also used to change whether the project has an EnlistmentChoice 
+// (e.g. a VB 2003 Web Project) to a standard project that does not (e.g. a
+// (Visual Web Developer 2005 Web Application Project).
+[
+uuid(uuid_IVsSccProjectFactoryUpgradeChoice),
+version(1.0),
+pointer_default(unique)
+]
+
+interface IVsSccProjectFactoryUpgradeChoice : IUnknown
+{
+    HRESULT GetSccUpgradeChoice(
+                               [in] LPOLESTR pszProjectFileName,
+                               [out] VSSCCPROJECTSTYLE* projectStyle,
+                               [out] VSSCCENLISTMENTCHOICE* enlistmentChoice);
+};
+

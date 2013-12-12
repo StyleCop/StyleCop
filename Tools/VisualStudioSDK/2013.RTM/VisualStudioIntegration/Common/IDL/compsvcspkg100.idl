@@ -1,0 +1,171 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) Microsoft Corporation
+// All rights reserved
+//
+//
+// compsvcspkg100.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell90.idl";
+import "vsshell100.idl";
+import "compsvcspkg80.idl";
+import "compsvcspkg90.idl";
+#endif
+
+typedef enum _tagVSFRAMEWORKASSEMBLYTYPE
+{
+    VSFRAMEWORKASSEMBLYTYPE_FRAMEWORK = 0x00000001,  //only framework assemblies
+    VSFRAMEWORKASSEMBLYTYPE_EXTENSIONS = 0x00000002, //only extensions
+    VSFRAMEWORKASSEMBLYTYPE_ALL = 0x00008000         //This is a special flag that indicates that all assembly
+                                                     //types should be returned. It is equivalent
+                                                     //to the logical OR of all other assemblyType flags 
+}__VSFRAMEWORKASSEMBLYTYPE; 
+typedef DWORD VSFRAMEWORKASSEMBLYTYPE;
+
+typedef enum _tagVSFRAMEWORKCOMPATIBILITY
+{
+    VSFRAMEWORKCOMPATIBILITY_COMPATIBLE = 0x00000000,                 //the target framework monikers being compared are equal   
+    VSFRAMEWORKCOMPATIBILITY_INCOMPATIBLEIDENTITY = 0x00000001,
+    VSFRAMEWORKCOMPATIBILITY_INCOMPATIBLEVERSION = 0x00000002,
+    VSFRAMEWORKCOMPATIBILITY_INCOMPATIBLEPROFILE = 0x00000004
+}__VSFRAMEWORKCOMPATIBILITY;
+typedef DWORD VSFRAMEWORKCOMPATIBILITY;
+
+
+
+////////////////////////////////////////////////////////////////////////////
+// IVsFrameworkMultiTargeting
+// This is a global service implemented by the Visual Studio Common IDE Package
+// Provides base support for the extensible framework multi-targeting in Visual Studio 10. 
+[
+    uuid(B096B75C-5DF5-42c6-888F-A007CCEB6635),
+    helpstring("IVsFrameworkMultiTargeting Interface"),
+    pointer_default(unique)
+]
+interface IVsFrameworkMultiTargeting: IUnknown
+{
+    //Returns 'true' if the provided assembly name/spec is a part of the provided target framework
+    HRESULT IsReferenceableInTargetFx([in] LPCWSTR pwszAssemblySpec, [in]LPCWSTR pwszTargetFrameworkMoniker, [out, retval]VARIANT_BOOL * pbIsReferenceable);
+
+    //Takes a path to an assembly and returns the TargetFrameworkMoniker of the target framework, in the provided identifier, that it belongs to
+    HRESULT GetTargetFramework([in] LPCWSTR pwszAssemblyPath, [in] LPCWSTR pwszTargetFrameworkIdentifier, [out, retval] BSTR * pbstrTargetFrameworkMoniker);
+
+    //Enumerates the installed target framework monikers on a machine
+    HRESULT GetSupportedFrameworks([out, retval] SAFEARRAY(BSTR) * prgSupportedFrameworks);
+    
+    //Enumerates the list of both system and non-system assemblies that corresponds to a given TFM
+    //returns the assembly paths
+    HRESULT GetFrameworkAssemblies([in] LPCWSTR pwszTargetFrameworkMoniker, [in] VSFRAMEWORKASSEMBLYTYPE atAssemblyType, [out, retval] SAFEARRAY(BSTR) * prgAssemblyPaths);
+
+    // Takes two TFMs and compare them for compatibility.
+    // returns VSFRAMEWORKCOMPATIBILITY_COMPATIBLE (0) to mean compatible.  Otherwise it it sets the bits to indicate the TargetFrameworkMoniker components that are incompatible
+    // as per the __VSFRAMEWORKCOMPATIBILITY flags enum
+    HRESULT CheckFrameworkCompatibility([in] LPCWSTR pwszTargetFrameworkMonikerSource, [in] LPCWSTR pwszTargetFrameworkMonikerTarget, [out, retval] VSFRAMEWORKCOMPATIBILITY* pdwCompat);
+
+    // Takes an assembly name/spec/path and TargetFrameworkMoniker and tries to resolve the assembly path in the given Target Framework
+    // Returns 'null' if the assembly does not belong in the given Target Framework.
+    HRESULT ResolveAssemblyPath(
+        [in] LPCWSTR pwszAssemblySpec,             // Assembly spec here is either a path or assembly name. If path, the assembly name
+                                                  // is loaded from the path.               
+        [in] LPCWSTR pwszTargetFrameworkMoniker, 
+        [out, retval] BSTR* pbstrResolvedAssemblyPath);
+   
+    // Returns the Display Name for a given target framework moniker
+    HRESULT GetDisplayNameForTargetFx(
+        [in] LPCWSTR pwszTargetFrameworkMoniker, 
+        [out, retval] BSTR * pbstrDisplayName);
+
+    //resolves the assembly reference paths for the passed in assemblies in the given target fx
+    HRESULT ResolveAssemblyPathsInTargetFx(
+         [in] LPCWSTR pwszTargetFrameworkMoniker, // the target fx in which to resolve the assemblies        
+         [in, size_is(cAssembliesToResolve)] SAFEARRAY(BSTR) prgAssemblySpecs,//array of strings containing the list of assembly specs that need to be resolved
+         [in] ULONG cAssembliesToResolve,//no of assembly specs passed in prgAssemblySpecs  
+         [in, out, size_is(cAssembliesToResolve)] PVsResolvedAssemblyPath prgResolvedAssemblyPaths, //in_out array containing the resolved assembly reference paths,
+                                                                                                    //the caller needs to pre-allocate this array for 'cAssembliesToResolve' elements 
+         [out] ULONG * pcResolvedAssemblyPaths);//no of resolved assembly paths in the prgResolvedAssemblyPaths output array 
+    
+    // Returns the Installable Framework for a given target framework moniker
+    HRESULT GetInstallableFrameworkForTargetFx(
+        [in] LPCWSTR pwszTargetFrameworkMoniker, 
+        [out, retval] BSTR * pbstrInstallableFrameworkMoniker);
+};
+
+// Service Guid
+[
+    uuid("6F209208-4D8F-4412-B125-CD839B055D52"),
+]
+interface SVsFrameworkMultiTargeting : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsFrameworkMultiTargeting IID_SVsFrameworkMultiTargeting")
+
+
+////////////////////////////////////////////////////////////////////////////
+// IVsFrameworkRetargetingDlg
+// 
+
+typedef enum _tagFRD_FLAGS
+{
+    FRDF_SUPPORTS_RETARGETING        = 1,
+    FRDF_DEFAULT                     = FRDF_SUPPORTS_RETARGETING
+} __FRD_FLAGS;
+
+typedef DWORD FRD_FLAGS;
+
+typedef enum _tagFRD_OUTCOME
+{
+    FRDO_RETARGET_TO_40              = 1,
+    FRDO_LEAVE_UNLOADED              = 2,
+    FRDO_GOTO_DOWNLOAD_SITE          = 3
+} __FRD_OUTCOME;
+
+typedef DWORD FRD_OUTCOME;
+
+[
+    uuid(47f60934-4361-443a-9411-020bc2055608),
+    helpstring("IVsFrameworkRetargetingDlg Interface"),
+    pointer_default(unique)
+]
+interface IVsFrameworkRetargetingDlg : IUnknown
+{
+    HRESULT ShowFrameworkRetargetingDlg([in] LPCWSTR pszProjectType,
+                                        [in] LPCWSTR pszProjectName,
+                                        [in] LPCWSTR pszTargetedFrameworkMoniker,
+                                        [in] FRD_FLAGS dwFlags, 
+                                        [out] FRD_OUTCOME* pdwOutcome,
+                                        [out] BOOL* pbDontShowAgain); 
+
+    HRESULT NavigateToFrameworkDownloadUrl();
+};
+
+// Service Guid
+[
+    uuid("d4d51b8e-6ecf-4c42-a3e2-e0925e5115d6")
+]
+interface SVsFrameworkRetargetingDlg : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsFrameworkRetargetingDlg IID_SVsFrameworkRetargetingDlg")
+
+////////////////////////////////////////////////////////////////////////////
+// IVsComponentEnumeratorFactory4
+// This interface enumerates the components in accordance with extensible multi-targeting
+
+[
+    uuid(8F18FE7E-ACB7-4031-AAE5-039B49DF5191),
+    helpstring("IVsComponentEnumeratorFactory4 Interface"),
+    pointer_default(unique)
+]
+interface IVsComponentEnumeratorFactory4: IUnknown
+{  
+    HRESULT GetReferencePathsForTargetFramework([in] LPCWSTR targetFrameworkMoniker, [out] IEnumComponents** ppEnumerator);
+};

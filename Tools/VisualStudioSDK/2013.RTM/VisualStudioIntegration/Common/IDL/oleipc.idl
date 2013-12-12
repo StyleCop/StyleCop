@@ -1,0 +1,429 @@
+/****************************************************************************
+ *  The OLEIPC Interfaces
+ *  Copyright (c) 1997-1999, Microsoft Corporation, All Rights Reserved
+ ****************************************************************************/
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "docobj.idl";
+
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+interface IOleInPlaceComponent;
+interface IOleInPlaceComponentSite;
+interface IOleComponentUIManager;
+interface IOleInPlaceComponentUIManager;
+
+//////////////////////////////////////////////////////////////////////////////
+// Useful combinations of flags for IOleCommandTarget
+cpp_quote("#define OLECMDSTATE_DISABLED						OLECMDF_SUPPORTED")
+cpp_quote("#define OLECMDSTATE_UP			    (OLECMDF_SUPPORTED | OLECMDF_ENABLED)")
+cpp_quote("#define OLECMDSTATE_DOWN	  (OLECMDF_SUPPORTED | OLECMDF_ENABLED | OLECMDF_LATCHED)")
+cpp_quote("#define OLECMDSTATE_NINCHED 	  (OLECMDF_SUPPORTED | OLECMDF_ENABLED | OLECMDF_NINCHED)")
+cpp_quote("#define OLECMDSTATE_INVISIBLE		  (OLECMDF_SUPPORTED | OLECMDF_INVISIBLE)")
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEROLE enumeration
+typedef enum tagOLEROLE {
+	OLEROLE_UNKNOWN			=  -1,
+	OLEROLE_COMPONENTHOST		=  0,
+	OLEROLE_HOSTEXTENSION		=  0,
+	OLEROLE_MAINCOMPONENT		=  1,
+	OLEROLE_SUBCOMPONENT		=  2,
+	OLEROLE_COMPONENTCONTROL	=  3,
+	OLEROLE_TOPLEVELCOMPONENT	=  0
+} OLEROLE;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLECOMPFLAG enumeration
+typedef enum tagOLECOMPFLAG {
+	OLECOMPFLAG_ROUTEACTIVEASCNTRCMD	= 1,
+	OLECOMPFLAG_INHIBITNESTEDCOMPUI 	= 2
+} OLECOMPFLAG;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEMENU enumeration
+//
+// The hardwired in-place component returns these flags from
+// GetCntrContextMenu to control how the component control's
+// context menu is merged into the container's.
+//
+// OLEMENU_MENUMERGE - merge the two menus
+// OLEMENU_CNTRMENUONLY -	suppress the component control's menu
+//							in favor of the main component's.
+// OLEMENU_OBJECTMENUONLY - display only the component control's menu
+// these three flags are mutually exclusive; if none are set, then
+// no context menu is displayed.
+//
+// OLEMENU_ROUTEACTIVEASCNTRCMD is analogous to
+// OLECOMPFLAG_ROUTEACTIVEASCNTRCMD
+typedef enum tagOLEMENU {
+	OLEMENU_MENUMERGE		= 1,
+	OLEMENU_CNTRMENUONLY		= 2,
+	OLEMENU_OBJECTMENUONLY		= 4,
+	OLEMENU_ROUTEACTIVEASCNTRCMD	= 8
+} OLEMENU;
+
+
+cpp_quote("#define OLECONTEXT_NULLMENU 		-1")
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEACTIVATE enumeration
+typedef enum tagOLEACTIVATE {
+	OLEACTIVATE_FRAMEWINDOW = 1,
+	OLEACTIVATE_DOCWINDOW	= 2
+} OLEACTIVATE;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEMENUID enumeration
+typedef struct tagOLEMENUID {
+	long nMenuId;		// Menu ID; -1 if specified by name
+	ULONG cwBuf;		// size, in characters, of the buffer
+	LPOLESTR pwszNameBuf;	// buffer for menu name
+} OLEMENUID;
+
+
+cpp_quote ("#if 0")
+typedef struct tagPOINTS
+{
+#ifndef _MAC
+    SHORT   x;
+    SHORT   y;
+#else
+    SHORT   y;
+    SHORT   x;
+#endif
+} POINTS, *PPOINTS, *LPPOINTS;
+
+typedef POINTS *REFPOINTS;
+
+cpp_quote ("#endif")
+
+cpp_quote("#if defined(__cplusplus)")
+
+cpp_quote("#ifndef _REFPOINTS_DEFINED")
+cpp_quote("#define _REFPOINTS_DEFINED")
+cpp_quote("#define REFPOINTS POINTS &")
+cpp_quote("#endif // !_REFPOINTS_DEFINED")
+
+cpp_quote("#else // !__cplusplus")
+
+cpp_quote("#ifndef _REFPOINTS_DEFINED")
+cpp_quote("#define _REFPOINTS_DEFINED")
+cpp_quote("#define REFPOINTS POINTS * const")
+cpp_quote("#endif // !_REFPOINTS_DEFINED")
+
+cpp_quote("#endif // !__cplusplus")
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEMSGBUTTON enumeration
+// Buttons to display with a message. This controls the button set used in
+// the message.
+typedef enum {
+	OLEMSGBUTTON_OK			= 0,
+	OLEMSGBUTTON_OKCANCEL		= 1,
+	OLEMSGBUTTON_ABORTRETRYIGNORE	= 2,
+	OLEMSGBUTTON_YESNOCANCEL	= 3,
+	OLEMSGBUTTON_YESNO		= 4,
+	OLEMSGBUTTON_RETRYCANCEL	= 5,
+	OLEMSGBUTTON_YESALLNOCANCEL	= 6
+} OLEMSGBUTTON;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEMSGDEFBUTTON enumeration
+// Which button is the default. This determines which button is the default.
+typedef enum {
+	OLEMSGDEFBUTTON_FIRST	= 0,
+	OLEMSGDEFBUTTON_SECOND	= 1,
+	OLEMSGDEFBUTTON_THIRD	= 2,
+	OLEMSGDEFBUTTON_FOURTH	= 3
+} OLEMSGDEFBUTTON;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEMSGICON enumeration
+// Icon to display and message type. This controls the icon displayed in a 
+// message and indicates the type of message.
+typedef enum {
+	OLEMSGICON_NOICON	= 0,	// Informational
+	OLEMSGICON_CRITICAL	= 1,	// Critical
+	OLEMSGICON_QUERY	= 2,	// Query (Informational)
+	OLEMSGICON_WARNING	= 3,	// Warning
+	OLEMSGICON_INFO		= 4		// Informational
+} OLEMSGICON;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEHELPCMD enumeration
+// Specifies the type of help requested for IOleComponentUIManager::ShowHelp.
+// This enumeration gives the valid values for the dwHelpCmd parameter.
+typedef enum {
+	OLEHELPCMD_CONTEXT   	= 0,	// Display help topic (for a context id)
+	OLEHELPCMD_CONTEXTPOPUP	= 1 	// Display help in popup window
+} OLEHELPCMD;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEUIEVENTSTATUS enumeration
+// Indicates the status of a UI Event
+// used with IOLEComponentUIManager::OnUIEvent method
+typedef enum tagOLEUIEVENTSTATUS {
+	OLEUIEVENTSTATUS_OCCURRED 		= 0,
+	OLEUIEVENTSTATUS_START			= 1,
+	OLEUIEVENTSTATUS_STOP	 		= 2,
+	OLEUIEVENTSTATUS_STARTNODIALOG		= 1,
+	OLEUIEVENTSTATUS_STARTBEFOREDIALOG	= 3,
+	OLEUIEVENTSTATUS_CONTINUEINDIALOG	= 4,
+	OLEUIEVENTSTATUS_CONTINUEAFTERDIALOG	= 5
+} OLEUIEVENTSTATUS;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEUIEVENTFREQ enumeration
+// Indicates the frequency that a particular UI Event normally occurs in 
+// the component used with IOleComponentUIManager::OnUIEvent method
+typedef enum tagOLEUIEVENTFREQ {
+	OLEUIEVENTFREQ_NULL		= 0,	// frequency not applicable
+	OLEUIEVENTFREQ_CONSISTENTLY	= 2,	// high frequency
+	OLEUIEVENTFREQ_FREQUENTLY 	= 4,	// ...
+	OLEUIEVENTFREQ_OFTEN	 	= 6,	// ...
+	OLEUIEVENTFREQ_SOMETIMES 	= 8,	// ...
+	OLEUIEVENTFREQ_SELDOM 		= 10	// low frequency
+} OLEUIEVENTFREQ;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEIPCSTATE enumeration
+//  OLEIPCSTATE_ values: state IDs passed to 
+//	IOleInPlaceComponent::OnEnterState, 
+//	IOleInPlaceComponentUIManager::OnUIComponentEnterState/FOnUIComponentExitState/FUIComponentInState,
+//	When the host or a component is notified through one of these methods that 
+//	another entity (component or host) is entering or exiting a state 
+//	identified by one of these state IDs, the host/component should take
+//	appropriate action:
+//		OLEIPCSTATE_MODAL (modal state):
+//			If app is entering modal state, host/component should disable
+//			its toplevel windows, and reenable them when app exits this
+//			state.  Also, when this state is entered or exited, host/component
+//			should notify approprate inplace objects via 
+//			IOleInPlaceActiveObject::EnableModeless.
+//		OLEIPCSTATE_REDRAWOFF (redrawOff state):
+//			If app is entering redrawOff state, host/component should disable
+//			repainting of its windows, and reenable repainting when app exits
+//			this state.
+//		OLEIPCSTATE_WARNINGSOFF (warningsOff state):
+//			If app is entering warningsOff state, host/component should disable
+//			the presentation of any user warnings, and reenable this when
+//			app exits this state.
+//		OLEIPCSTATE_RECORDING (Recording state):
+//			Used to notify host/component when Recording is turned on or off. */
+typedef enum tagOLEIPCSTATE {
+	OLEIPCSTATE_MODAL       = 1, // modal state; disable toplevel windows
+	OLEIPCSTATE_REDRAWOFF   = 2, // redrawOff state; disable window repainting
+	OLEIPCSTATE_WARNINGSOFF = 3, // warningsOff state; disable user warnings
+	OLEIPCSTATE_RECORDING   = 4, // Recording state
+} OLEIPCSTATE;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// OLEIPCOMPERR_E_xxxx result codes
+// NOTE: All three interfaces share a common per-interface error space
+cpp_quote("#define OLEIPCOMPERR_E_FIRST			MAKE_SCODE(SEVERITY_ERROR, FACILITY_ITF, 0x200)")
+cpp_quote("#define OLEIPCOMPERR_E_MUSTBEMAINCOMP				 (OLEIPCOMPERR_E_FIRST)")
+
+
+//////////////////////////////////////////////////////////////////////////////
+//    IOleInPlaceComponent
+[
+uuid(5efc7970-14bc-11cf-9b2b-00aa00573819),
+version(1.0)
+]
+interface IOleInPlaceComponent : IUnknown
+{
+	HRESULT UseComponentUIManager ([in] DWORD dwCompRole, 
+				       [out] DWORD *pgrfCompFlags,
+        			       [in] IOleComponentUIManager *pCompUIMgr, 
+				       [in] IOleInPlaceComponentSite *pIPCompSite);
+
+	HRESULT OnWindowActivate ([in] DWORD dwWindowType,
+				  [in] BOOL fActivate);
+
+	[local] void    OnEnterState ([in] DWORD dwStateId, 
+				      [in] BOOL fEnter);
+
+	[local] BOOL    FDoIdle ([in] DWORD grfidlef);
+
+	[local] BOOL    FQueryClose ([in] BOOL fPromptUser);
+
+	HRESULT TranslateCntrAccelerator ([in] MSG *pMsg);
+
+	HRESULT GetCntrContextMenu ([in]  DWORD dwRoleActiveObj,
+				    [in]  REFCLSID rclsidActiveObj,
+        			    [in]  LONG nMenuIdActiveObj, 
+				    [in]  REFPOINTS pos, 
+				    [out] CLSID *pclsidCntr,
+				    [out] OLEMENUID *menuid, 
+				    [out] DWORD *pgrf);
+
+	HRESULT GetCntrHelp  ([in][out] DWORD *pdwRole, 
+			      [in][out] CLSID *pclsid,
+			      [in]      POINT posMouse, 
+			      [in]      DWORD dwHelpCmd,
+			      [in]      LPOLESTR pszHelpFileIn, 
+			      [out]     LPOLESTR *ppszHelpFileOut,
+			      [in]      DWORD dwDataIn, 
+			      [out]     DWORD *pdwDataOut);
+
+	HRESULT GetCntrMessage ([in][out] DWORD *pdwRole, 
+				[in][out] CLSID *pclsid,
+				[in]      LPOLESTR pszTitleIn, 
+				[in]      LPOLESTR pszTextIn,
+				[in]      LPOLESTR pszHelpFileIn,
+				[out]     LPOLESTR *ppszTitleOut, 
+				[out]     LPOLESTR *ppszTextOut,
+				[out]     LPOLESTR *ppszHelpFileOut,
+				[in][out] DWORD *pdwHelpContextID,
+				[in][out] OLEMSGBUTTON *pmsgbtn, 
+				[in][out] OLEMSGDEFBUTTON *pmsgdefbtn,
+				[in][out] OLEMSGICON *pmsgicon, 
+				[in][out] BOOL *pfSysAlert);
+}
+
+cpp_quote("#define SID_SOleInPlaceComponent IID_IOleInPlaceComponent")
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//    IOleInPlaceComponentSite
+[
+uuid(5efc7971-14bc-11cf-9b2b-00aa00573819),
+version(1.0)
+]
+interface IOleInPlaceComponentSite : IUnknown
+{
+	HRESULT SetUIMode ([in] DWORD dwUIMode);
+}
+
+cpp_quote("#define SID_SOleInPlaceComponentSite IID_IOleInPlaceComponentSite")
+
+
+#pragma warning(push)
+#pragma warning(disable:28718)	/* suppress warning 28718 for interface IOleComponentUIManager */
+//////////////////////////////////////////////////////////////////////////////
+//    IOleComponentUIManager
+[
+uuid(5efc7972-14bc-11cf-9b2b-00aa00573819),
+version(1.0)
+]
+interface IOleComponentUIManager : IUnknown
+{
+	HRESULT Deleted1 ();
+	HRESULT Deleted2 ();
+	[local] void    OnUIEvent  ([in] DWORD dwCompRole, 
+				    [in] REFCLSID rclsidComp, 
+				    [in] const GUID *pguidUIEventGroup, 
+				    [in] DWORD nUIEventId,
+				    [in] DWORD dwUIEventStatus, 
+				    [in] DWORD dwEventFreq, 
+				    [in] RECT *prcEventRegion, 
+				    [in] VARIANT *pvarEventArg);
+
+	HRESULT OnUIEventProgress ([in][out] DWORD_PTR *pdwCookie, 
+				   [in]      BOOL fInProgress,
+				   [in]      LPOLESTR pwszLabel, 
+				   [in]      ULONG nComplete, 
+				   [in]      ULONG nTotal);
+
+	HRESULT SetStatus ([in] LPCOLESTR pwszStatusText, 
+			   [in] DWORD dwReserved);
+
+	HRESULT ShowContextMenu ([in] DWORD dwCompRole, 
+				 [in] REFCLSID rclsidActive,
+				 [in] LONG nMenuId, 
+				 [in] REFPOINTS pos, 
+				 [in] IOleCommandTarget *pCmdTrgtActive);
+
+	HRESULT ShowHelp ([in] DWORD dwCompRole, 
+			  [in] REFCLSID rclsidComp,
+			  [in] POINT posMouse, 
+			  [in] DWORD dwHelpCmd,
+			  [in] LPOLESTR pszHelpFile, 
+			  [in] DWORD dwData);
+
+	HRESULT ShowMessage ([in]	    DWORD dwCompRole, 
+			     [in]	    REFCLSID rclsidComp,
+			     [in]	    LPOLESTR pszTitle, 
+			     [in]	    LPOLESTR pszText,
+			     [in]	    LPOLESTR pszHelpFile, 
+			     [in]	    DWORD dwHelpContextID,
+			     [in]	    OLEMSGBUTTON msgbtn, 
+			     [in]	    OLEMSGDEFBUTTON msgdefbtn,
+			     [in]	    OLEMSGICON msgicon, 
+			     [in]	    BOOL fSysAlert, 
+			     [out][retval]  LONG *pnResult);
+}
+#pragma warning(pop)
+
+cpp_quote("extern const __declspec(selectany) GUID SID_SOleComponentUIManager = { 0x5efc7974, 0x14bc, 0x11cf, { 0x9b, 0x2b, 0x00, 0xaa, 0x00, 0x57, 0x38, 0x19 } };")
+cpp_quote("#define SID_OleComponentUIManager SID_SOleComponentUIManager")
+
+cpp_quote("extern const __declspec(selectany) GUID CMDSETID_StandardCommandSet97 = { 0x5efc7975, 0x14bc, 0x11cf, { 0x9b, 0x2b, 0x00, 0xaa, 0x00, 0x57, 0x38, 0x19} };")
+cpp_quote("#define CLSID_StandardCommandSet97 CMDSETID_StandardCommandSet97")
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+//    IOleInPlaceComponentUIManager
+[
+uuid(5efc7973-14bc-11cf-9b2b-00aa00573819),
+version(1.0)
+]
+interface IOleInPlaceComponentUIManager : IUnknown
+{
+	HRESULT UIActivateForMe ([in] DWORD dwCompRole, 
+				 [in] REFCLSID rclsidActive,
+        			 [in] IOleInPlaceActiveObject *pIPActObj, 
+				 [in] IOleCommandTarget *pCmdTrgtActive,
+        			 [in] ULONG cCmdGrpId, 
+				 [in] LONG *rgnCmdGrpId);
+
+	HRESULT UpdateUI ([in] DWORD dwCompRole, 
+			  [in] BOOL fImmediateUpdate, 
+			  [in] DWORD dwReserved);
+
+	HRESULT SetActiveUI ([in] DWORD dwCompRole, 
+			     [in] REFCLSID rclsid,
+			     [in] ULONG cCmdGrpId, 
+			     [in] LONG *rgnCmdGrpId);
+
+	[local] void OnUIComponentEnterState ([in] DWORD dwCompRole, 
+					      [in] DWORD dwStateId, 
+					      [in] DWORD dwReserved);
+					      
+	[local] BOOL FOnUIComponentExitState ([in] DWORD dwCompRole, 
+					      [in] DWORD dwStateId, 
+					      [in] DWORD dwReserved);
+
+	[local] BOOL FUIComponentInState ([in] DWORD dwStateId);
+	[local] BOOL FContinueIdle ();
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Obsolete constants. These are no longer used but are kept here for 
+//   backward compatibility. Use the OLECOMPFLAG_ flags instead.
+cpp_quote("#define MSOCMDSTATE_DISABLED	   OLECMDSTATE_DISABLED")
+cpp_quote("#define MSOCMDSTATE_UP 		 OLECMDSTATE_UP")
+cpp_quote("#define MSOCMDSTATE_DOWN	       OLECMDSTATE_DOWN")
+cpp_quote("#define MSOCMDSTATE_NINCHED 	    OLECMDSTATE_NINCHED")
+cpp_quote("#define MSOCMDSTATE_INVISIBLE  OLECMDSTATE_INVISIBLE")
+
+

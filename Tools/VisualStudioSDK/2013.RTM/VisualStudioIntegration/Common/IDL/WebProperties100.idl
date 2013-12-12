@@ -1,0 +1,98 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (C) 2008 Microsoft Corporation,
+// All rights reserved
+//
+// WebProperties100.idl
+//
+// Defines extensions to the DTE object model and properties for Dev10 (VS10.0)
+//---------------------------------------------------------------------------
+cpp_quote("#pragma once")
+
+import "oaidl.idl";
+
+// Version infromation
+cpp_quote("#define VSWEBSITE100_VER_MAJ    10")
+cpp_quote("#define VSWEBSITE100_VER_MIN    0")
+#define VSWEBSITE100_VER        10.0
+
+[
+    uuid(AE445664-2B39-4a6a-9A1B-88B9C2BF13FC),
+    helpstring("Microsoft Visual Studio 10.0 Web Site Object Model"),
+    version(VSWEBSITE100_VER)
+]
+library VSWebSite100
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("dte.tlb");
+    importlib("webproperties.tlb");
+    importlib("webproperties90.tlb");
+
+    // WebSiteProperties4. 
+    enum VSWebSitePropID100
+    {
+        //WEBSITEPROPID_TargetFramework   = 3000,
+        //WEBSITEPROPID_StartOnDebug      = 3001,
+        WEBSITEPROPID_TargetFrameworkMoniker = 3002,
+        WEBSITEPROPID_CodeAnalysisRuleSet               = 3003,
+        WEBSITEPROPID_CodeAnalysisRuleSetDirectories    = 3004,
+        WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRuleSets = 3005,
+        WEBSITEPROPID_CodeAnalysisRuleDirectories       = 3006,
+        WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRules    = 3007,
+        WEBSITEPROPID_CodeAnalysisFailOnMissingRules    = 3008,
+        WEBSITEPROPID_DevelopmentServerCommandLine      = 3009,
+    };
+
+    
+    // WebSiteProperties4. 
+    [
+        uuid(102301AB-2290-4067-B0AE-9CB1AF9C14B5),
+        helpstring("Web Site properties 4"),
+        pointer_default(unique),
+        dual
+    ]
+    interface WebSiteProperties4 : WebSiteProperties3
+    {
+        [propget, nonbrowsable, id(WEBSITEPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([out, retval] BSTR *pbstrTargetFrameworkMoniker);
+        [propput, nonbrowsable, id(WEBSITEPROPID_TargetFrameworkMoniker), helpstring("Target Framework Moniker")]
+        HRESULT TargetFrameworkMoniker([in] BSTR bstrTargetFrameworkMoniker);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([out, retval] BSTR* pbstrRuleSet);
+        [propput, id(WEBSITEPROPID_CodeAnalysisRuleSet), helpstring("The path to a file which contains the list of rules to run.")]
+        HRESULT CodeAnalysisRuleSet([in] BSTR bstrRuleSet);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([out, retval] BSTR* pbstrRuleSetDirectories);
+        [propput, id(WEBSITEPROPID_CodeAnalysisRuleSetDirectories), helpstring("Directories in which to search for rule set files.")]
+        HRESULT CodeAnalysisRuleSetDirectories([in] BSTR bstrRuleSetDirectories);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRuleSets);
+        [propput, id(WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRuleSets), helpstring("Ignore the default rule set directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRuleSets([in] VARIANT_BOOL IgnoreBuiltInRuleSets);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([out, retval] BSTR* pbstrRuleDirectories);
+        [propput, id(WEBSITEPROPID_CodeAnalysisRuleDirectories), helpstring("Directories in which to search for rules specified in rule set files.")]
+        HRESULT CodeAnalysisRuleDirectories([in] BSTR bstrRuleDirectories);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([out, retval] VARIANT_BOOL* pbIgnoreBuiltInRules);
+        [propput, id(WEBSITEPROPID_CodeAnalysisIgnoreBuiltInRules), helpstring("Ignore the default rule directories.")]
+        HRESULT CodeAnalysisIgnoreBuiltInRules([in] VARIANT_BOOL IgnoreBuiltInRules);
+
+        [propget, id(WEBSITEPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([out, retval] VARIANT_BOOL* pbFailOnMissingRules);
+        [propput, id(WEBSITEPROPID_CodeAnalysisFailOnMissingRules), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT CodeAnalysisFailOnMissingRules([in] VARIANT_BOOL FailOnMissingRules);
+
+        [propget, id(WEBSITEPROPID_DevelopmentServerCommandLine), helpstring("Causes analysis to fail if any rule or rule set is missing.")]
+        HRESULT DevelopmentServerCommandLine([out, retval] BSTR* pbstrCommandLine);
+    }
+
+};
+

@@ -1,0 +1,147 @@
+/****************************************************************************
+*   completion.idl
+*
+*   Copyright (c) 2002, Microsoft Corporation, All Rights Reserved
+*   Information Contained Herein Is Proprietary and Confidential.
+****************************************************************************/
+
+// imports
+#ifndef INTEROPLIB
+import "textmgr.idl";
+#endif
+
+#include "completionuuids.h"
+
+
+//----------------------------------------------------------------------------
+// IVsCommandWindowCompletion
+//----------------------------------------------------------------------------
+// Implemented by the Environment on the Command Window tool window.
+// This interface is called by the debugger to coordinate statement
+// completion when the Command Window is in immediate mode.
+ 
+[
+uuid(uuid_IVsCommandWindowCompletion),
+version(1.0)
+]
+interface IVsCommandWindowCompletion : IUnknown
+{
+  // This sets the current context for statement completion. 
+  // The debugger calls this every time the current statement 
+  // changes due to stepping, changing stack frames, hitting a
+  // breakpoint, etc. “punkContext” may be used to pass additional
+  // debugger context in future. If none is available, NULL is passed.
+  // (e.g. The Command Window will listen for this event and in turn
+  // call IVsImmediateStatementCompletion::SetCompletionContext on the 
+  // current language service.)
+    
+  HRESULT SetCompletionContext(
+	  [in] LPCOLESTR pszFilePath, 
+	  [in] IVsTextLines *pBuffer, 
+	  [in] const TextSpan *ptsCurStatement, 
+	  [in] IUnknown *punkContext);
+};
+
+//----------------------------------------------------------------------------
+// IVsImmediateStatementCompletion
+//----------------------------------------------------------------------------
+// Implemented by a language service object that wants to support
+// statement completion and other intellisense features in the 
+// immediate mode of the Command Window (i.e. when the debugger
+// is in break mode). This interface is accessed via QueryInterface
+// on the same object that implements IVsLanguageInfo.
+// This interface is called by the Command Window of the Environment.
+ 
+[
+uuid(uuid_IVsImmediateStatementCompletion),
+version(1.0)
+]
+interface IVsImmediateStatementCompletion : IUnknown
+{
+  // Called by the Command Window when the debugger sets an active language 
+  // service (via IVsCommandWindow::SetCurrentLanguageService). This informs 
+  // the language service to either add or remove (according to fInstall) its
+  // TextViewFilter from the CommandFilter chain for the Command Window’s 
+  // IVsTextView (ie. call IVsTextView::AddCommandFilter or 
+  // RemoveCommandFilter).  fInitialEnable determines whether statement 
+  // completion should be active upon return from this method; if the filter 
+  // is being removed, this parameter is ignored.
+    
+  HRESULT InstallStatementCompletion(
+	  [in] BOOL fInstall,
+	  [in] IVsTextView *pCmdWinView, 
+	  [in] BOOL fInitialEnable);
+
+  // This method is deprecated. Please use EnableStatementCompletion in IVsImmediateStatementCompletion2. 
+
+  [hidden, restricted]
+  HRESULT EnableStatementCompletion_Deprecated(
+	  [in] BOOL fEnable,
+      [in] CharIndex iStartIndex,
+      [in] CharIndex iEndIndex);
+
+  // This method is deprecated. Please use SetCompletionContext in IVsImmediateStatementCompletion2. 
+
+  [hidden, restricted]
+  HRESULT SetCompletionContext_Deprecated(
+	  [in] LPCOLESTR pszFilePath, 
+	  [in] IVsTextLines *pBuffer, 
+	  [in] const TextSpan *ptsCurStatement, 
+	  [in] IUnknown *punkContext);
+};
+
+//----------------------------------------------------------------------------
+// IVsImmediateStatementCompletion2
+//----------------------------------------------------------------------------
+// Implemented by a language service object that wants to support
+// statement completion and other intellisense features in the 
+// immediate mode of the Command Window (i.e. when the debugger
+// is in break mode). This interface is accessed via QueryInterface
+// on the same object that implements IVsLanguageInfo.
+// This interface is called by the Command Window of the Environment.
+//
+// This interface was created when Statement Completion support was
+// added to the Watch Window, and the support for multiple filters in the
+// language was required.
+// Only use this interface from now on, do not use the old interface
+[
+uuid(uuid_IVsImmediateStatementCompletion2),
+version(1.0)
+]
+interface IVsImmediateStatementCompletion2 : IVsImmediateStatementCompletion
+{
+  // Called by the Command Window when user actions in the Command Window 
+  // require statement completion to be turned on or off.  The language service
+  // should not install or remove its filter from the filter chain.  If 
+  // statement completion is being enabled, the iStartIndex and iEndIndex 
+  // parameters instruct the language service to consider only the indicated 
+  // part of the current line for statement completion purposes.  If iEndIndex
+  // is -1, it indicates that the rest of the line is to be used.
+
+  HRESULT EnableStatementCompletion(
+	  [in] BOOL fEnable,
+      [in] CharIndex iStartIndex,
+      [in] CharIndex iEndIndex,
+	  [in] IVsTextView *pTextView);
+
+  // This sets the current context for statement completion for the Command 
+  // Window. The Command Window will call this method on the language service 
+  // to forward the information that the debugger passed via 
+  // IVsCommandWindowCompletion::SetCompletionContext. See the comments for 
+  // that method, above.
+   
+  HRESULT SetCompletionContext(
+	  [in] LPCOLESTR pszFilePath, 
+	  [in] IVsTextLines *pBuffer, 
+	  [in] const TextSpan *ptsCurStatement, 
+	  [in] IUnknown *punkContext,
+	  [in] IVsTextView *pTextView);
+
+  // This will retrieve the filter that is associated with a particular view.
+  // This is useful when an operation needs to be performed on the filter,
+  // such as GetWordExtent.
+
+  HRESULT GetFilter(
+	  [in] IVsTextView *pTextView,
+	  [out] IVsTextViewFilter **ppFilter);
+};

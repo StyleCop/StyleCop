@@ -1,0 +1,140 @@
+//--------------------------------------------------------------------------
+// Microsoft Venus
+//
+// Copyright (c) 2002 Microsoft Corporation Inc.
+// All rights reserved
+//
+//
+// webmigration.idl 
+//---------------------------------------------------------------------------
+
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+import "vsshell80.idl";
+
+// Version infromation
+cpp_quote("#define VSWEBMIGRATION_VER_MAJ    10")
+cpp_quote("#define VSWEBMIGRATION_VER_MIN    0")
+#define VSWEBMIGRATION_VER        10.0
+
+
+[
+
+    uuid(D3C034DF-6E00-46cb-BB79-C4FB6A7EFE48),
+    helpstring("Microsoft Visual Studio .NET Web Site Migration Model"),
+    version(VSWEBMIGRATION_VER)
+]
+library VSWebMigration
+{
+
+#endif //INTEROPLIB
+
+    interface IVsMigrationService;
+    // NOTE: billhie. IVsWebMigrationService is not used anymore in Dev10. It was implemented
+    // by the WebMigration.dll to support VS2003->Website migration but this is no longer
+    // supported. VS2003 web projects now migrate to WAP. It is left here
+    // only because it is included in Microsoft.VisualStudio.Shell.Interop9.0.dll
+    //----------------------------------------------------------------------
+    // IVsWebMigrationService
+    //----------------------------------------------------------------------
+    [
+        uuid(DB0AD857-2F21-40c2-80F2-7CB9300F9DCA),
+        version(1.0)
+    ]
+    interface  IVsWebMigrationService: IUnknown
+    {
+        HRESULT MigrateWeb(
+                    [in] IVsProject* pIVsProj,
+                    [in] LPCOLESTR pszLocation,
+                    [in] LPCOLESTR pszProjFile
+                    );
+        HRESULT IsWebProject(
+                    [in] LPCOLESTR pszProjFile,
+                    [out] BOOL * pIsWeb);
+        HRESULT GetProjectSCCInfo(
+                    [in] BSTR bstrProjectFIle,
+                    [out] BSTR * pbstrSccProjectName,
+                    [out] BSTR * pbstrSccAuxPath,
+                    [out] BSTR * pbstrSccLocalPath,
+                    [out] BSTR * pbstrProvider);
+
+    };
+    cpp_quote("#define SID_SVsWebMigrationService IID_IVsWebMigrationService")
+
+
+    // Interop interface.
+    // Implemented in: src\venus\mvw\Webform\VsWebMigration.cs
+    // Defined in: src\venus\mvw\interop\webproject\IVsWebMigration.cs
+    // CAUTION:
+    // This interface definition must be manually synchonized with that in IVsWebMigration.cs
+    // at all times!
+    //
+    [
+        object,
+        uuid(1D1851BE-913D-40f4-AD7C-AD1F69A34E27), 
+        pointer_default(unique)
+    ]
+        interface IVsWebMigration : IUnknown
+    {
+        HRESULT LoadAssembly( 
+            [in]  BSTR  bstrFilePath); 
+
+        HRESULT GetBaseType(
+            [in]  BSTR       bstrClassName,
+            [out] BSTR*      pbstrBaseClass);
+
+        HRESULT Unload();
+    }
+
+    // Interface to convert VS2003 Webproject to VS2005 Web Application.
+    // {D1A24B44-033E-445f-B3AA-BE3F23C5617C}
+    [
+        object,
+        uuid(D1A24B44-033E-445f-B3AA-BE3F23C5617C), 
+        pointer_default(unique)
+    ]
+        interface IVsWebAppMigration: IUnknown
+    {
+        // Implementation has to get user input to identify if webproject
+        // needs to be converted to WebApp.
+        // Needs to map the http path local path and set at pbstrNewProjPath.
+        HRESULT CanConvertToWebApp( 
+            [in]  LPCOLESTR  lpszProjectPath,
+            [out] BOOL  * pConverToWebApp,
+            [out] BSTR  * pbstrNewProjPath); 
+
+        // Needs to convert the VS03 proj file to VS2005 msbuild project.
+        HRESULT ConvertProjFileToWebAppProj(
+            [in]  LPCOLESTR      lpszProjectPath,
+            [out] BSTR*          pbstrTempFileWithConvertedProject,
+            [out] GUID *         pProjectFactoryGuid);
+
+        // Checkout the legacy projects for conversion
+        HRESULT CheckOutProjectFile(
+            [in]  LPCOLESTR    lpszProjectPath);  
+
+        //Retrieve SCC properties from converted project
+        HRESULT GetSCCProperties(
+            [out] BSTR * pbstrSccProjectName,
+            [out] BSTR * pbstrSccLocalPath,
+            [out] BSTR * pbstrSccAuxPath,
+            [out] BSTR * pbstrSccProvider);
+
+        //Update the gloabl array marking the project has been converted
+        HRESULT SetProjFileConverted(
+            [in]  LPCOLESTR    lpszProjectPath);
+     }
+   // {26FA29E5-8A81-45e0-AEEB-0B1D6E5DD977}
+   cpp_quote("DEFINE_GUID(CLSID_WebAppMigration, 0x26fa29e5, 0x8a81, 0x45e0, 0xae, 0xeb, 0xb, 0x1d, 0x6e, 0x5d, 0xd9, 0x77);")
+
+#ifndef INTEROPLIB
+
+}
+
+#endif // INTEROPLIB
+
+// End of webmigration.idl

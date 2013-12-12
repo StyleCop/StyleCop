@@ -1,0 +1,117 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc 
+
+@module IVsSccAddWebProjectFromSourceControl.idl - The IDL File describing the "Add Web Project From Source Control" interface |
+IDL source for interface allowing adding a web project from source control and.
+
+@owner Microsoft Corporation, Visual Studio Core Team
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+
+#endif
+
+//------------------------------------------------------------------------------
+//  How this interface should be used:
+//------------------------------------------------------------------------------
+//
+//  VB/C#/etc project will query this interface from SccMangager and they will be guaranteed to receive a non-NULL pointer
+//  because the interface is implemented by the Scci integration package.
+//
+//  To determine whether the active scc provider supports indeed web functionality, the project system should call
+//  IsAddWebProjectSupported(). If the scenario is supported, the controls on the AddWeb...FromSourceControl dialog will be enabled.
+//
+//  When the user clicks the Browse button in such dialog, the project system will call BrowseForServerLocation().
+//  The returned values are: suggested local path, displayable server location, some opaque strings identifying the provider and server location
+//  Examples of strings that can be returned by BrowseForServerLocation():
+//
+//	VisualSourceSafe 7.0:
+//			'WebProject1 from FriendlyDatabaseName'
+//			'C:\Web Projects\WebProject1'
+//			'msss://SomeServer/SourceSafe70Share:/~files:Ws="SSWorkspace"/Web Projects/WebProject1'
+//			''
+//			'{53544C4D-B03D-4209-A7D0-D9DD13A4019B}:VAPI:VSS70'
+//
+//	VisualSourceSafe 6.0 using MSSCCI:
+//			'$/Web Projects/WebProject1 from \\SomeServer\SourceSafe70Share'
+//			'C:\Web Projects\WebProject1'
+//			'$/Web Projects/WebProject1'
+//			'\\SomeServer\SourceSafe70Share'
+//			'{53544C4D-B03D-4209-A7D0-D9DD13A4019B}:MSSCCI:SourceSafe'
+//
+//  The project system is allowed to display only the database description string and the local path
+//  The user can change the local path before the project will call
+//  All other strings returned by BrowseForServerLocation() should be passed unchanged to AddWebProjectFromSourceControl()
+
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// IDL source for interface allowing adding a web project from source control.
+// Interface GUID {53544c4d-724A-46C8-8D01-6D4518CA118C}
+// DEFINE_GUID(GUID_IVsSccAddWebProjectFromSourceControl, 0x53544c4d, 0x724A, 0x46C8, 0x8D, 0x01, 0x6D, 0x45, 0x18, 0xCA, 0x11, 0x8C);
+////////////////////////////////////////////////////////////////////////////
+[ uuid(53544c4d-724A-46C8-8D01-6D4518CA118C) ]
+interface IVsSccAddWebProjectFromSourceControl : IUnknown
+{
+    // @cmember Returns whether the provider supports adding web projects from scc scenarios
+	// S_OK    - check the value from pfResult to see if the provider can add web from scc.
+	// S_FALSE - there is no active provider set or the provider does not implement this interface, don't enable the controls
+	// E_FAIL or other failure code - unknown error, don't enable the controls
+    HRESULT IsAddWebProjectSupported
+    (
+		[out] VARIANT_BOOL * pfResult				// @parm [out] Whether AddWeb project scenario is supported
+	);   
+
+	// @cmember Displays the provider specific dialog that allows browsing for a server location which is returned to the caller
+	// S_OK    - project was selected
+	// S_FALSE - the user canceled the browse dialog
+	// E_FAIL or other failure code - unknown error, don't call AddWebProjectFromSourceControl
+    HRESULT BrowseForServerLocation
+	(
+		[out] BSTR * pbstrLocationDescription,		// @parm [out] A nice description string of the returned path that can be shown to the user (e.g. "Project <MyProject> from database <GemSS>");
+		[out] BSTR * pbstrLocalPath,				// @parm [out] The suggested local path where this project will be get from scc. The user can override this string and pass a custom local path when calling AddWebProjectFromSourceControl
+		[out] BSTR * pbstrDatabasePath,				// @parm [out] The location in the database, in a non-displayable format. This string will be passed unmodified to AddWebProjectFromSourceControl.
+		[out] BSTR * pbstrAuxiliarPath,				// @parm [out] Additional path. Providers are not required to use this path, but some of them might do it (e.g. MSSCCI providers)
+		[out] BSTR * pbstrProviderName				// @parm [out] A string identifying the source control provider used. This string will be passed unmodified to AddWebProjectFromSourceControl.
+	);   
+
+	// @cmember Add the specified web project (to the solution) from source control.
+    HRESULT AddWebProjectFromSourceControl
+	(
+		[in] BSTR bstrLocalPath,					// @parm [in] The local path where this project will be get from scc
+		[in] BSTR bstrDatabasePath,					// @parm [in] The location of the project in the database
+		[in] BSTR bstrAuxiliarPath,					// @parm [in] Additional path that can be used to locate the project in the database 
+		[in] BSTR bstrProviderName,					// @parm [in] The string identifying the source control provider used
+		[in] BSTR bstrDebuggingPath					// @parm [in] The debugging path to be used when the project will be opened with the solution, if the project will be opened as a localhost web project
+	);   
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don't get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+//
+
+#endif

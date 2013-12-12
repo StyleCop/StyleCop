@@ -1,0 +1,59 @@
+/*----------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsGetScciProviderInterface.idl |
+
+The interface allows getting direct access to the currently active source control provider.
+Calling directly into the provider is discuraged. Packages should always call into the interfaces
+implemented by the source control services.
+
+The interface allows identifying the currently active source control provider.
+
+@owner Source Control Integration Team
+----------------------------------------------------------------------*/
+
+#ifndef INTEROPLIB
+	// Includes -------------------------------------------------------------------
+	import "oaidl.idl";
+#endif
+
+// Types and Constants --------------------------------------------------------
+//	None.
+
+// Globals --------------------------------------------------------------------
+//	None.
+
+// Interfaces -----------------------------------------------------------------
+
+/*----------------------------------------------------------------------------- 
+Name: IVsGetScciProviderInterface 
+
+@interface IVsGetScciProviderInterface  | 
+
+@owner Source Control Integration Team
+
+@base public | IUnknown 
+-----------------------------------------------------------------------------*/
+[
+	object,
+	uuid(53544C4D-C1F3-0ADC-BEA7-EA1A8FECFDD9),
+	helpstring("IVsGetScciProviderInterface"),
+	pointer_default(unique)
+]
+interface IVsGetScciProviderInterface : IUnknown
+{
+
+	// @cmember Returns the requested interface pointer from the scc provider 
+	HRESULT GetSourceControlProviderInterface
+	(
+        [in] REFIID riid,
+        [out, iid_is(riid)] void **ppvObject
+	);
+
+	// @cmember Returns the active scc provider GUID
+	HRESULT GetSourceControlProviderID
+	(
+        [out] GUID *pguidSCCProvider
+	);
+};

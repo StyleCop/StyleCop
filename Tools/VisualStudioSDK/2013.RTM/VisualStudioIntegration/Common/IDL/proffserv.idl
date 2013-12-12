@@ -1,0 +1,38 @@
+//+---------------------------------------------------------------------------
+//
+//  Microsoft Windows
+//  Copyright (C) Microsoft Corporation, 1992 - 1997.
+//
+//  File:       proffserv.idl
+//-----------------------------------------------------------------------------
+
+// imports
+import "servprov.idl";
+
+cpp_quote("//+-------------------------------------------------------------------------")
+cpp_quote("//")
+cpp_quote("//  Microsoft Windows")
+cpp_quote("//  Copyright 1995 - 1997 Microsoft Corporation. All Rights Reserved.")
+cpp_quote("//")
+cpp_quote("//  File: proffserv.h")
+cpp_quote("//")
+cpp_quote("//--------------------------------------------------------------------------")
+
+
+cpp_quote("#ifndef _PROFFSERV_H_")
+cpp_quote("#define _PROFFSERV_H_")
+
+[
+	object,
+	local,
+	uuid(CB728B20-F786-11ce-92AD-00AA00A74CD0),
+    pointer_default(unique)
+]
+interface IProfferService : IUnknown
+{
+	HRESULT ProfferService( [in] REFGUID rguidService, [in] IServiceProvider* psp, [out] DWORD* pdwCookie);
+	HRESULT RevokeService( [in] DWORD dwCookie);
+};
+
+cpp_quote("#define SID_SProfferService IID_IProfferService")
+cpp_quote("#endif")

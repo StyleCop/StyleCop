@@ -1,0 +1,151 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (C) 2006 Microsoft Corporation,
+// All rights reserved
+//
+// WebProperties90.idl
+//
+// Defines extensions to the DTE object model and properties for Orcas (VS9.0)
+//---------------------------------------------------------------------------
+cpp_quote("#pragma once")
+
+import "oaidl.idl";
+
+// Version infromation
+cpp_quote("#define VSWEBSITE90_VER_MAJ    9")
+cpp_quote("#define VSWEBSITE90_VER_MIN    0")
+#define VSWEBSITE90_VER        9.0
+
+//WebReference2_MapType
+enum __WebReference_MapType
+{
+    WebReference2_MapType_Unknown = 0,
+    WebReference2_MapType_Discomap,
+    WebReference2_MapType_Svcmap, 
+    WebReference2_MapType_Max=WebReference2_MapType_Svcmap,
+};
+typedef DWORD WebReference_MapType;
+
+[
+    uuid(8689211B-2B18-4914-A1CB-BC38A3CE22E4),
+    helpstring("Microsoft Visual Studio 9.0 Web Site Object Model"),
+    version(VSWEBSITE90_VER)
+]
+library VSWebSite90
+{
+    importlib("stdole32.tlb");
+    importlib("stdole2.tlb");
+    importlib("dte.tlb");
+    importlib("webproperties.tlb");
+
+    // VSWebProjectItem2. 
+    enum
+    {
+        DISPID_WebProjectItem_RunCustomTool = 2000,
+    };
+
+    // WebSiteProperties3. 
+    enum
+    {
+        WEBSITEPROPID_TargetFramework   = 2000,
+        WEBSITEPROPID_StartOnDebug      = 2001,
+    };
+
+    // WebFileProperties2.
+    enum
+    {
+        WEBFILEPROPID_CustomTool = 100,
+        WEBFILEPROPID_CustomToolNamespace,
+        WEBFILEPROPID_IsDependent,
+        WEBFILEPROPID_IsCustomToolOutput,
+        WEBFILEPROPID_CustomToolOutput,
+    };
+    
+    //WebReference2
+    enum
+    {
+        DISPID_WebReference2_MapType = 2000,
+    };
+
+    // VSWebProjectItem2. 
+    [
+        uuid(AC170AC6-D938-4796-BADA-BB4DECE4C2C5),
+        helpstring("VS Web Project Item 2"),
+        pointer_default(unique),
+        dual
+    ]
+    interface VSWebProjectItem2 : VSWebProjectItem
+    {
+        [id(DISPID_WebProjectItem_RunCustomTool), helpstring("Run item's custom tool")]
+        HRESULT RunCustomTool();
+    }
+
+    // WebSiteProperties3. 
+    [
+        uuid(42B54C4B-2A9C-4ebc-A9A2-344A8F96107F),
+        helpstring("Web Site properties 3"),
+        pointer_default(unique),
+        dual
+    ]
+    interface WebSiteProperties3 : WebSiteProperties2
+    {
+        [propget, nonbrowsable, id(WEBSITEPROPID_TargetFramework), helpstring("Target Framework Verision")]
+        HRESULT TargetFramework([out, retval] DWORD *pdwTargetFramework);
+        [propput, nonbrowsable, id(WEBSITEPROPID_TargetFramework), helpstring("Target Framework Verision")]
+        HRESULT TargetFramework([in] DWORD dwTargetFramework);
+        
+        [propget, id(WEBSITEPROPID_StartOnDebug), helpstring("Always start web server when debugging")]
+        HRESULT StartWebServerOnDebug([out, retval] VARIANT_BOOL *pbAlwaysStart);
+        [propput, id(WEBSITEPROPID_StartOnDebug), helpstring("Always start web server when debugging")]
+        HRESULT StartWebServerOnDebug([in] VARIANT_BOOL bAlwaysStart);
+    }
+
+    // WebFileProperties2. 
+    [
+        uuid(899456B4-E5AD-49ef-AB04-1CED913A6E44),
+        helpstring("Web File properties 2"),
+        pointer_default(unique),
+        dual
+    ]
+    interface WebFileProperties2 : WebFileProperties
+    {
+        [propget, id(WEBFILEPROPID_CustomTool), helpstring("CustomTool ProgID")]
+        HRESULT CustomTool([out, retval]BSTR* pbstrCustomTool);
+        [propput, id(WEBFILEPROPID_CustomTool), helpstring("CustomTool ProgID")]
+        HRESULT CustomTool([in]BSTR bstrCustomTool); 
+
+        [propget, id(WEBFILEPROPID_CustomToolNamespace), helpstring("Custom tool namespace")]
+        HRESULT CustomToolNamespace([out, retval]BSTR* pbstrCustomToolNamespace);
+        [propput, id(WEBFILEPROPID_CustomToolNamespace), helpstring("Custom tool namespace")]
+        HRESULT CustomToolNamespace([in]BSTR bstrCustomToolNamespace);
+
+        [propget, id(WEBFILEPROPID_CustomToolOutput), nonbrowsable, helpstring("Custom tool output filename")]
+        HRESULT CustomToolOutput([out, retval]BSTR *pbstrCustomToolOutput);
+
+        [propget, id(WEBFILEPROPID_IsCustomToolOutput), nonbrowsable, helpstring("Is an output of a custom tool")]
+        HRESULT IsCustomToolOutput([out, retval]VARIANT_BOOL *pbIsCustomToolOutput);
+
+        [propget, id(WEBFILEPROPID_IsDependent), nonbrowsable, helpstring("Is a Dependent File")]
+        HRESULT IsDependentFile([out, retval]VARIANT_BOOL *pbIsDependentFile);
+    }
+
+
+    //----------------------------------------------------------------------
+    // Object exposed via project.object.WebReferences[i]
+    //----------------------------------------------------------------------
+    [
+        dual,
+        oleautomation,
+        object,
+        uuid(9D6065EC-93A1-4caa-8985-9B7783330BE7),
+    ]
+    interface WebReference2 : WebReference
+    {
+        [propget, nonbrowsable, id(DISPID_WebReference2_MapType), helpstring("WebReference MapType")]
+        HRESULT MapType([out, retval] DWORD *pdwMapType);
+    }
+
+
+};
+

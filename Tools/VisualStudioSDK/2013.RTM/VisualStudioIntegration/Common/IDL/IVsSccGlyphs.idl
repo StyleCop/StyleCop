@@ -1,0 +1,69 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc 
+
+@module IVsSccGlyphs.idl - The IDL File describing the "Custom Source Control Glyphs" interface |
+IDL source for interface allowing full customization of source control glyphs.
+If GetSccGlyph returns a value greater than or equal to BaseIndex then the IDE
+should look in the custom glyph list to draw the state icon, else it should use
+the existing image list
+
+@owner Microsoft Corporation, Visual Studio Core Team
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+
+#endif
+
+//------------------------------------------------------------------------------
+// Forward declarations
+
+//------------------------------------------------------------------------------
+// Enumerations
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// IDL source for interface allowing open from source control and add from source control.
+// Interface GUID {9C82CA77-A583-4fd1-8C15-0B3995D9AB2F}
+// DEFINE_GUID(GUID_IVsSccGlyphs, 0x9c82ca77, 0xa583, 0x4fd1, 0x8c, 0x15, 0xb, 0x39, 0x95, 0xd9, 0xab, 0x2f);
+
+////////////////////////////////////////////////////////////////////////////
+[ uuid(9C82CA77-A583-4fd1-8C15-0B3995D9AB2F) ]
+interface IVsSccGlyphs : IUnknown
+{
+    // @cmember Open the specified solution from source control.
+    HRESULT GetCustomGlyphList
+	(
+		[in] ULONG BaseIndex,				// Value to add when returning glyph index
+		[out] PDWORD_PTR pdwImageListHandle	// HIMAGELIST as DWORD_PTR
+	);
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don't get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+//
+
+#endif

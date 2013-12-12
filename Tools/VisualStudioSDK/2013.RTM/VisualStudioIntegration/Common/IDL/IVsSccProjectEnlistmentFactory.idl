@@ -1,0 +1,160 @@
+/*----------------------------------------------------------------------------- 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+ 
+@doc 
+ 
+@module IVsSccProjectEnlistmentFactory.idl |
+IDL for custom enlistment interfaces
+
+@owner Source Control Integration Team 
+-----------------------------------------------------------------------------*/
+
+/////////////////////////////////////////////////////////////////////////
+// interface IVsSccProjectEnlistmentFactory
+/////////////////////////////////////////////////////////////////////////
+
+// This interface is a QI on IVsProjectFactory. It is used to allow projects to force the source
+// control system to prompt the user when the user enlists in the project. Instead of just using
+// the local relative root implied by the project, we prompt for a new root. 
+
+// This allows, for example, for a class of projects whose enlistment paths change on a per-user basis
+
+/* Each enlistment may have two names if need be
+	The enlistment is used for editing, display, and browsing. This is a fake path, not normally valid when dealing with source control here. It is allowed here for two reasons
+		* First, this allows the project factory to get another string than the UNC string. This helps web scenarios
+		* Second, it looks nice for the user.
+	The UNC version of the enlistment is the actual path used for enlisting, and the only thing ever passed to VAPI or MSSCCI
+
+	Note that most projects do not have two paths in this scenario, and can safely return the same thing for both strings.
+*/
+
+/* Enlistment scenario for projects that support this interface
+
+Add to source control 
+	This continues as normal. The only difference is
+	During add to source control, the scc system calls IVsProjectEnlistmentChoice::GetEnlistmentChoice
+	This value explains to the scc system whether the project needs to use this interface during enlistment
+	The SCC system stores the return value from this in its project source control information file (project.vspscc)
+
+Enlist then works like this:
+	User selects solution or project from source control server
+	SCC Manager brings solution or project down to client system
+	Solution starts reading solution properties
+	SCC Enumerates projects in solution. [The projects are not created yet]
+	For each project 
+		Get its project source control information file (project.vspscc)
+	End for
+	If any projects supported need IVsSccProjectEnlistmentFactory::GetEnlistmentChoice
+		SCC Manager puts up the enlistment choice dialog (spec already checked into the Source Control UI specs)
+		This involves calling 
+			IVsSccProjectEnlistmentFactory::GetDefaultEnlistment
+			IVsSccProjectEnlistmentFactory::GetEnlistmentFactoryOptions
+			IVsSccProjectEnlistmentFactory::ValidateEnlistmentEdit
+			IVsSccProjectEnlistmentFactory::BrowseEnlistment
+	End If
+	If the user pressed the Cancel button 
+		delete the solution enlistment
+		end
+	End if
+
+	SCC Manager calls IVsSccProjectEnlistmentFactory::OnBeforeCreateEnlistment
+	SCC Manager records the local enlistment destinations in the SUO file
+	The enlistments get created
+		The paths passed to these functions are the UNC versions of the paths
+		Either CREATE WORKSPACE ENLISTMENT (VAPI) or
+		Get (MSSCCI)
+	SCC Manager calls IVsSccProjectEnlistmentFactory::OnAfterCreateEnlistment
+
+	The solution starts loading the projects
+		For each project, the solution calls IVsSccManagerPathTranslation::TranslateProjectPathToPersistencePath, 
+		and loads the project from there
+		The paths returned by the translation path are both the enlistment path and the UNC path.
+
+The enlistment is done
+
+When the solution saves the project file, or gets its name as a property, it similarly calls IVsSccManagerPathTranslation::TranslateProjectPathToPersistencePath
+
+*/
+
+#ifndef INTEROPLIB
+
+import "objidl.idl";
+
+#endif
+
+// @hung vscefo
+enum __VSSCCENLISTMENTFACTORYOPTIONS
+{
+  VSSCC_EFO_CANBROWSEENLISTMENTPATH	= 0x00000001,   // Used by the enlistment choice UI. Set if the user should be allowed to edit the field through use of a browse dialog. Unset to rely on edit UI. 
+  VSSCC_EFO_CANEDITENLISTMENTPATH	= 0x00000002,   // Used by the enlistment choice UI. Set if the user should be allowed to edit the field manually (by typing). Unset to rely on browse UI.
+  VSSCC_EFO_CANBROWSEDEBUGGINGPATH	= 0x00000004,    // Used by the enlistment choice UI. Set if the project supports an additional debugging path and if the user should be allowed to edit the field through a browse dialog. Unset to rely on edit UI. 
+  VSSCC_EFO_CANEDITDEBUGGINGPATH	= 0x00000008    // Used by the enlistment choice UI. Set if the project supports an additional debugging path and if the user should be allowed to edit the field manually (by typing). Unset to rely on browse UI.
+  // next val 0x000000010,   
+};
+typedef DWORD VSSCCENLISTMENTFACTORYOPTIONS;
+
+[
+uuid(53544c4d-00f8-11d0-8e5e-00a0c911005a),
+version(1.0),
+pointer_default(unique)
+]
+// @hung ivspef
+interface IVsSccProjectEnlistmentFactory : IUnknown
+{
+	// @cmember Called by the enlistment choice ui to allow the project factory to suggest a default enlistment
+	// path based on the initial project path. For example, a server-based project might choose to append the user name.
+	HRESULT // @rdesc error or S_OK
+	GetDefaultEnlistment
+	(
+		[in]	LPCOLESTR	lpszProjectPath,				// @parm [in] the project's path, read from the solution file. This will be the name the project is known to the solution as.
+		[out]	BSTR *		pbstrDefaultEnlistment,			// @parm [out] the proposed enlistment destination, or NULL if the enlistment has no suggestion [ui will be blank]. This may be any arbitrary string.
+		[out]	BSTR *		pbstrDefaultEnlistmentUNC		// @parm [out] the proposed enlistment destination, or NULL if the enlistment has no suggestion [ui will be blank]. This must be a unc path, c: path or file: path
+	);
+
+	// @cmember Gets the enlistment factory options
+	HRESULT // @rdesc error or S_OK
+	GetEnlistmentFactoryOptions
+	(
+		[out, retval]	VSSCCENLISTMENTFACTORYOPTIONS* pvscefoOptions		// @parm [out] Options
+	);
+
+	// @cmember Called after a user does a manual edit, to see if the edit is safe/valid, and to return the enlistment to go with the edited string
+	HRESULT // @rdesc error or S_OK
+	ValidateEnlistmentEdit
+	(
+		[in]	BOOL		fQuick,						// @parm [in] True if the validation should be fast. Used during interactive editing, this validation should not do anything slow like network access
+		[in]	LPCOLESTR	lpszProjectPath,			// @parm [in] The original project path. This is the name the project is known to the solution as.
+		[in]	LPCOLESTR	lpszChosenEnlistment,		// @parm [in] The user's edited enlistment, in arbitrary string terms
+		[out]	BSTR *		pbstrChosenEnlistmentUNC,	// @parm [out] the edited enlistment destination. This must be a unc path, c: path or file: path
+		[out]	BOOL *		pfValidEnlistment			// @parm [out] True if it is valid, false if not
+	);
+
+	// @cmember Called to actually put up the browse dialog. If VSSCC_EFO_CANBROWSEENLISTMENTPATH flag is not set in the factory options, we put up a standard windows SHBrowseForFolder-style dialog. We put the shell into a modal state before calling this method.
+	HRESULT // @rdesc error, E_NOTIMPL, S_FALSE (if the dialog was cancelled) or S_TRUE
+	BrowseEnlistment
+	(
+		[in]	LPCOLESTR	lpszProjectPath,			// @parm [in] The original project path	
+		[in]	LPCOLESTR	lpszInitialEnlistment,		// @parm [in] The user's latest edited text
+		[out]	BSTR *		pbstrChosenEnlistment,		// @parm [out] New enlistment path
+		[out]	BSTR *		pbstrChosenEnlistmentUNC	// @parm [out] the edited enlistment destination. This must be a unc path, c: path or file: path
+	);
+
+	// @cmember Once the UI has been confirmed by the user, but before we pass CREATE WORKSPACE ENLISTMENT to the provider, this is called, allowing project factories to do special stuff, such as create a share
+	// Note: If this call returns an error HRESULT, the enlistment will not be created.
+	HRESULT // @rdesc error or S_OK
+	OnBeforeEnlistmentCreate
+	(
+		[in]	LPCOLESTR	lpszProjectPath,		// @parm [in] The original project path	
+		[in]	LPCOLESTR	lpszEnlistment,			// @parm [in] New enlistment path
+		[in]	LPCOLESTR	lpszEnlistmentUNC		// @parm [in] New enlistment path in UNC form
+	);
+
+	// @cmember After this project's enlistment is completely created, this is called, allowing project factories to do special stuff, such as set security
+	HRESULT // @rdesc error or S_OK
+	OnAfterEnlistmentCreate
+	(
+		[in]	LPCOLESTR	lpszProjectPath,		// @parm [in] The original project path	
+		[in]	LPCOLESTR	lpszEnlistment,			// @parm [in] New enlistment path
+		[in]	LPCOLESTR	lpszEnlistmentUNC		// @parm [in] New enlistment path in UNC form
+	);
+};

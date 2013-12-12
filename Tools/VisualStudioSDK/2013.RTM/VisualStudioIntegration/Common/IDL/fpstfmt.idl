@@ -1,0 +1,125 @@
+//+---------------------------------------------------------------------------
+//
+//  (C) Copyright 1997 Microsoft Corporation. All Rights Reserved.
+//
+//  Contents:   Declarations for the Vegas Shell IPersistFileFormat
+//
+//----------------------------------------------------------------------------
+
+cpp_quote("//=--------------------------------------------------------------------------=")
+cpp_quote("// fpstfmt.h")
+cpp_quote("//=--------------------------------------------------------------------------=")
+cpp_quote("// (C) Copyright 1997 Microsoft Corporation.  All Rights Reserved.")
+cpp_quote("//")
+cpp_quote("// THIS CODE AND INFORMATION IS PROVIDED \"AS IS\" WITHOUT WARRANTY OF")
+cpp_quote("// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO")
+cpp_quote("// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A")
+cpp_quote("// PARTICULAR PURPOSE.")
+cpp_quote("//=--------------------------------------------------------------------------=")
+cpp_quote("//")
+cpp_quote("// Declarations for Vegas Shell's IPersistFileFormat.")
+cpp_quote("//")
+
+#ifndef INTEROPLIB
+
+import "oleidl.idl";
+import "oaidl.idl";
+
+#endif
+
+interface IPersistFileFormat;
+
+cpp_quote("////////////////////////////////////////////////////////////////////////////")
+cpp_quote("// CLSID for CLSID_PersistFileFormat  {3AFAE241-B530-11d0-8199-00A0C91BBEE3}")
+cpp_quote("// DEFINE_GUID(CLSID_PersistFileFormat, ")
+cpp_quote("// 0x3afae241, 0xb530, 0x11d0, 0x81, 0x99, 0x0, 0xa0, 0xc9, 0x1b, 0xbe, 0xe3);")
+cpp_quote(" ")
+cpp_quote("////////////////////////////////////////////////////////////////////////////")
+cpp_quote("// Interface ID for IPersistFileFormat  {3AFAE242-B530-11d0-8199-00A0C91BBEE3}")
+cpp_quote("// DEFINE_GUID(IID_IPersistFileFormat, ")
+cpp_quote("// 0x3afae242, 0xb530, 0x11d0, 0x81, 0x99, 0x0, 0xa0, 0xc9, 0x1b, 0xbe, 0xe3);")
+cpp_quote(" ")
+cpp_quote("#ifndef ___DEF_FORMAT_INDEX_DECLARATION__")
+cpp_quote("#define ___DEF_FORMAT_INDEX_DECLARATION__")
+cpp_quote("#define DEF_FORMAT_INDEX  ((DWORD) 0)    // used when caller does not know a specific format to specify")
+cpp_quote("#endif ___DEF_FORMAT_INDEX_DECLARATION__")
+
+/*
+[
+uuid(3AFAE241-B530-11d0-8199-00A0C91BBEE3),
+]
+coclass PersistFileFormat
+{
+interface IPersistFileFormat;
+};
+*/
+
+// HRESULT formation macros
+#define FACILITY_STORAGE 3  // from winerror.h
+#define PFF_FACILITY (FACILITY_STORAGE)
+#define PFF_ERROR(x)  (0x80000000 /* sev */ | (PFF_FACILITY << 16) /* facility */ | (x) /* code */)
+#define PFF_SUCCESS(x)(0x00000000 /* sev */ | (PFF_FACILITY << 16) /* facility */ | (x) /* code */)
+#define PFF_INFO(x)   (0x40000000 /* sev */ | (PFF_FACILITY << 16) /* facility */ | (x) /* code */)
+
+typedef enum _PFF_RESULTS {
+    // STG_E_INVALIDCODEPAGE
+    // The codepage specified for Ansi<->Unicode conversion is not valid on this system.
+    //
+    // The codepage may be a defined codepage, but the necessary NLS files may not 
+    // be available to carry out the conversion.
+    //
+    STG_E_INVALIDCODEPAGE       = PFF_ERROR(0x0300),
+
+	// STG_E_NOTTEXT
+	// The data is not text. It appears to be binary.
+	//
+	STG_E_NOTTEXT               = PFF_ERROR(0x0302),
+
+    // STG_S_DATALOSS
+    // The operation completed successfully, but some or all data was lost.
+    //
+    // For example, this code may be returned when converting from Unicode to Ansi and
+    // chars were mapped to the default character.
+    //
+    // ::SetErrorInfo is used by the IPersistFileFormat implementation to provide 
+    // additional information.
+    //
+    // The caller should call ::GetErrorInfo to retrieve an informational message 
+    // to display to the user.
+    //
+    STG_S_DATALOSS              = PFF_SUCCESS(0x0301)
+} PFF_RESULTS;
+
+//----------------------------------------------------------------------------
+//	interface IPersistFileFormat
+//----------------------------------------------------------------------------
+[
+object,
+uuid(3AFAE242-B530-11d0-8199-00A0C91BBEE3),
+version(1.0),
+pointer_default(unique)
+]
+interface IPersistFileFormat : IPersist
+{
+  HRESULT IsDirty([out] BOOL *pfIsDirty);
+
+  HRESULT InitNew([in] DWORD nFormatIndex);
+
+  // IPersistFileFormat::Load may return STG_E_INVALIDCODEPAGE or STG_S_DATALOSS 
+  HRESULT Load([in] LPCOLESTR pszFilename,
+               [in] DWORD     grfMode,
+               [in] BOOL      fReadOnly);
+
+  // IPersistFileFormat::Save may return STG_E_INVALIDCODEPAGE or STG_S_DATALOSS 
+  HRESULT Save([in] LPCOLESTR pszFilename,
+               [in] BOOL      fRemember,
+               [in] DWORD     nFormatIndex);
+
+  HRESULT SaveCompleted([in] LPCOLESTR pszFilename);
+
+  HRESULT GetCurFile([out] LPOLESTR *ppszFilename,
+                     [out] DWORD    *pnFormatIndex);
+
+  HRESULT GetFormatList([out] LPOLESTR *ppszFormatList);
+};
+

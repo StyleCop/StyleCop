@@ -1,0 +1,68 @@
+/*------------------------------------------------------------------------------ 
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc 
+
+@module IVsSccProvider.idl - The IDL File describing the SCC Provider interface |
+Third-party VSIP partners implement this interface if they want to provide
+their own Source Control provider.  These methods toggle whether their SCC provider
+is currently active or not.
+
+@owner Microsoft Corporation, Visual Studio Core Team
+------------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+//------------------------------------------------------------------------------
+// Imports
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+
+#endif
+
+//------------------------------------------------------------------------------
+// Forward declarations
+
+//------------------------------------------------------------------------------
+// Enumerations
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// IDL source for interface allowing open from source control and add from source control.
+// Interface GUID {49440575-E33C-4169-9735-F3FD5AE54D8D}
+// DEFINE_GUID(GUID_IVsSccProvider, 0x49440575, 0xe33c, 0x4169, 0x97, 0x35, 0xf3, 0xfd, 0x5a, 0xe5, 0x4d, 0x8d);
+
+////////////////////////////////////////////////////////////////////////////
+[ uuid(49440575-E33C-4169-9735-F3FD5AE54D8D) ]
+interface IVsSccProvider : IUnknown
+{
+    // @cmember Signal SCC provider is active
+    HRESULT SetActive();
+    // @cmember Signal SCC provider is inactive
+    HRESULT SetInactive();
+    // @cmember Ask if any items in the solution are under source control
+    HRESULT AnyItemsUnderSourceControl([out] BOOL* pfResult);
+};
+
+//------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////////////////////////
+// CLSIDs and Service IDs that don't get defined in the generated .h file
+////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------
+
+#elif defined(RGS_INVOKED)
+
+
+//------------------------------------------------------------------------------
+
+#elif defined(CTC_INVOKED)
+
+//
+
+#endif

@@ -1,0 +1,81 @@
+/*----------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module IVsRegisterProvider.idl    |
+
+IDL source for registering SCC provider with the QEQS stub
+@owner Source Control Integration Team
+----------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+#ifndef INTEROPLIB
+    // Includes -------------------------------------------------------------------
+    import "oaidl.idl";
+    import "ocidl.idl";
+#endif
+    // Types and Constants --------------------------------------------------------
+    //  None.
+
+    // Globals --------------------------------------------------------------------
+    //  None.
+
+    // Interfaces -----------------------------------------------------------------
+
+    /*----------------------------------------------------------------------------- 
+    Name: IVsRegisterScciProvider 
+
+    @interface IVsRegisterScciProvider  | 
+
+    @owner Source Control Integration Team
+
+    @base public | IUnknown 
+    -----------------------------------------------------------------------------*/
+    [
+        object,
+        uuid(53544C4D-C1F3-4fa8-BEA7-EA1A8FECFDD9),
+        helpstring("IVsRegisterScciProvider"),
+        pointer_default(unique)
+    ]
+    interface IVsRegisterScciProvider : IUnknown
+    {
+        HRESULT RegisterSourceControlProvider(
+            [in] GUID           guidProviderService);
+    };
+
+
+    #if !defined(HATTERAS) && !defined(INTEROPLIB)
+    // Library --------------------------------------------------------------------
+    [
+        uuid(53544C4D-C1F3-4fa8-BEA7-EA1A8FECFDDA),
+        version(1.0),
+        helpstring("Microsoft Development Environment Register SCC Provider")
+    ]
+    library TdScciRegisterProvider
+    {
+        importlib("stdole32.tlb");
+        importlib("stdole2.tlb");
+
+        [
+            uuid(53544C4D-C1F3-4fa8-BEA7-EA1A8FECFDDB),
+            helpstring("Register Provider Class")
+        ]
+        coclass ScciRegisterProvider
+        {
+            interface IUnknown;
+        }
+    
+    cpp_quote("#define SID_SVsRegisterScciProvider IID_IVsRegisterScciProvider")
+ 
+ 	// The command context to be asserted when there is no source control provider active
+	cpp_quote("extern const __declspec(selectany) GUID GUID_SourceControlProviderNone = { 0x53544C4D, 0x0486, 0x4938, {0xa9, 0x02, 0x8e, 0x99, 0xf3, 0xa2, 0xb4, 0x62} };") 
+    }
+    #endif
+
+#elif defined(RGS_INVOKED)
+    // Define constants to be used in RGS files
+    #define SID_SVsRegisterScciProvider         {53544C4D-C1F3-4fa8-BEA7-EA1A8FECFDD9}
+    #define CHAR_SVsRegisterScciProvider_Name   'Visual Studio Register Source Control Integration Provider Service'
+#elif defined(CTC_INVOKED)
+#endif

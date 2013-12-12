@@ -1,0 +1,124 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Module IVsTrackProjectDocumentsEvents80.idl - Interface to receive document events  |
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. The alternative design would be to have all
+IVsTrackProjectDocumentsEventsSink open/close project events and QI the
+hierarchies for IVsTrackProjectDocumentsEventsSource. Instead, packages can
+Advise with the service at SetSite time. The alternative would let packages
+be selective about who they registered with, where this design gives you
+all or none of the sources.
+
+See also IVsTrackProjectDocumentsEvents2.idl
+
+Owner: Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "IVsTrackProjectDocumentsEvents2.idl";
+
+#endif
+
+/*-----------------------------------------------------------------------------
+Enum: HANDSOFFMODE
+
+Flags for HandsOn/Off functions	of IVsTrackProjectDocuments3 interface
+-----------------------------------------------------------------------------*/
+enum __HANDSOFFMODE
+{
+    HANDSOFFMODE_ReadAccess         = 0x00000001,   // caller only needs read access (shared read locks are OK to keep open)
+    HANDSOFFMODE_WriteAccess        = 0x00000002,   // caller only needs write access (shared write locks are OK to keep open)
+    HANDSOFFMODE_DeleteAccess       = 0x00000004,   // caller needs power to rename or delete the file
+    HANDSOFFMODE_AsyncOperation     = 0x80000000,   // caller wants to hold access to the file for an extended period of time;
+                                                    // caller guarantees to call HandsOnFiles to tell parties when it is OK to 
+                                                    // re-access the file. Normally you are not guaranteed to get a HandsOnFiles
+                                                    // call after a HandsOffFiles. If this flag is set, then this *is* guaranteed.
+                                                    // This flag is always used in combination with one of the other "Access" flags. 
+                                                    // A typical scenario where this is used is with a project system during a 
+                                                    // Build operation. The Build operation is asynchronous; the user may work
+                                                    // while the build operation is proceeding. A project system will call 
+                                                    // HandsOffFiles(HANDSOFFMODE_AsyncOperation | HANDSOFFMODE_FullAccess, ...) 
+                                                    // for (ideally) all of the files that it will generate during its Build operation. 
+                                                    // Well behaved clients that hold build output files open, will let go of the
+                                                    // file(s) when HandsOffFiles is called and track the state that an AsyncOperation
+                                                    // is in effect. They will avoid opening the file(s) again until HandsOnFiles is 
+                                                    // called. Otherwise, they would interfere with the Build operation. While there
+                                                    // is a pending Async operation they should treat it as an E_ACCESSDENIED situation 
+                                                    // even though in reality the file might not be locked in the file system.
+                                                    //
+                                                    // NOTE: incompatible HANDSOFFMODE_AsyncOperations do not nest. A call to 
+                                                    // IVsTrackProjectDocuments3:: HandsOffFiles will return E_ACCESSDENIED if there 
+                                                    // already is a pending incompatible AsyncOperation. There can be multiple
+                                                    // nested Async ReadAccess operations but WriteAccess and DeleteAccess operations
+                                                    // are not allowed to be nested. Thus AsyncOperations|ReadAccess operations
+                                                    // must be refcounted.
+    HANDSOFFMODE_FullAccess         = HANDSOFFMODE_DeleteAccess | HANDSOFFMODE_ReadAccess | HANDSOFFMODE_WriteAccess,
+    HANDSOFFMODE_ReadWriteAccess    = HANDSOFFMODE_ReadAccess | HANDSOFFMODE_WriteAccess    // caller needs both read & write
+};
+typedef DWORD HANDSOFFMODE;
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectDocumentsEvents3
+
+This interface is implemented by clients that try to keep track of changes 
+to the contents of projects in the Solution.
+
+Before adding, renaming, or deleting a file or directory, the project must call
+the appropriate TrackProjectDocuments2 method in order to check whether this
+operation is allowed. The methods of this interface allows batching of the queries,
+allowing the event subscribers to deny all the queries with one answer.
+
+This interface sinks batching calls from the project system. When the project 
+issues the calls to TrackProjectDocuments3, the service passes the notifications 
+and queries on to the sinks.
+
+@base public | IUnknown
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsTrackProjectDocumentsEvents3) ]
+interface IVsTrackProjectDocumentsEvents3 : IUnknown
+{
+	// batching of OnQuery calls. 
+	// See comments on corresponding methods of IVsTrackProjectDocuments3.
+	HRESULT OnBeginQueryBatch(void);
+	HRESULT OnEndQueryBatch([out, retval] BOOL *pfActionOK);
+	HRESULT OnCancelQueryBatch(void);
+
+	// See comments on corresponding method of IVsTrackProjectDocuments3.
+	HRESULT OnQueryAddFilesEx(
+		[in] IVsProject *pProject,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszNewMkDocuments[],
+		[in, size_is(cFiles)] const LPCOLESTR rgpszSrcMkDocuments[],
+		[in, size_is(cFiles)] const VSQUERYADDFILEFLAGS rgFlags[],
+		[out] VSQUERYADDFILERESULTS *pSummaryResult,
+		[out, size_is(cFiles)] VSQUERYADDFILERESULTS rgResults[]);
+
+	// See comments on corresponding method of IVsTrackProjectDocuments3.
+	HRESULT HandsOffFiles(
+		[in] HANDSOFFMODE grfRequiredAccess,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[]
+	);
+	HRESULT HandsOnFiles(
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[]
+	);
+		
+}
+
+#endif

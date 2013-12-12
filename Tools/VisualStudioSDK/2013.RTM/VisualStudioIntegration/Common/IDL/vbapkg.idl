@@ -1,0 +1,164 @@
+//-----------------------------------------------------------------------------
+// Copyright 1995 - 1998 Microsoft Corporation. All Rights Reserved.
+//
+// @doc
+// @module  vbapkg.idl - VSMacros package
+// IDL source for vbapkg.  This file will be processed by the MIDL tool to
+// produce the type library (VbaPkg.tlb) and marshalling code.
+//-----------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell.idl";
+
+[
+  uuid(A659F1B1-AD34-11d1-ABAD-0080C7B89C95),
+  version(1.0),
+  helpstring("VsVba package 1.0 Type Library")
+]
+library VsVbaPackageLib
+{
+  importlib("stdole32.tlb");
+  importlib("stdole2.tlb");
+  importlib("DTE.tlb");
+
+#endif
+
+#ifdef INTEROPLIB
+
+// define GUID's here to be exposed to managed code
+module VsMacrosGuids
+{
+    const LPSTR ModeRecorder = "{85A70471-270A-11d2-88F9-0060083196C6}";
+    const LPSTR MacroProject = "{23162FF1-3C3F-11d2-890A-0060083196C6}";
+    const LPSTR Macro = "{23162FF2-3C3F-11d2-890A-0060083196C6}";
+    const LPSTR VsVbaPackage = "{A659F1B3-AD34-11d1-ABAD-0080C7B89C95}";
+}
+
+#endif
+
+
+// {85A70471-270A-11d2-88F9-0060083196C6}
+cpp_quote("const GUID GUID_Mode_Recorder = { 0x85a70471, 0x270a, 0x11d2, {0x88, 0xf9, 0x0, 0x60, 0x8, 0x31, 0x96, 0xc6} };")
+
+// {23162FF2-3C3F-11d2-890A-0060083196C6}
+cpp_quote("const GUID GUID_Macro = { 0x23162ff2, 0x3c3f, 0x11d2, {0x89, 0xa, 0x0, 0x60, 0x8, 0x31, 0x96, 0xc6} };")
+
+// guidVsVbaPkg is just an alias for CLSID_VsVbaPackage
+//{A659F1B3-AD34-11d1-ABAD-0080C7B89C95}
+cpp_quote("const GUID guidVsVbaPkg = { 0xa659f1b3, 0xad34, 0x11d1, {0xab, 0xad, 0x0, 0x80, 0xc7, 0xb8, 0x9c, 0x95} };")
+
+cpp_quote("const GUID GUID_MacroProject = { 0x23162ff1, 0x3c3f, 0x11d2, {0x89, 0xa, 0x0, 0x60, 0x8, 0x31, 0x96, 0xc6} };")
+
+  [
+    uuid(A659F1B2-AD34-11d1-ABAD-0080C7B89C95),
+    helpstring("IVsVba Interface"),
+    pointer_default(unique)
+  ]
+  interface IVsVba : IUnknown
+  {
+    HRESULT ShowVBA();
+    HRESULT GetVbaUnk(IUnknown **pUnknown);
+  };
+
+  cpp_quote("#define SID_SVsVba IID_IVsVba")
+
+
+  [
+    uuid(55ED27C1-4CE7-11d2-890F-0060083196C6),
+    helpstring("IVsMacros Interface"),
+    pointer_default(unique)
+  ]
+  interface IVsMacros : IUnknown
+  {
+    HRESULT GetMacroCommands(
+      [out] SAFEARRAY **ppsaMacroCanonicalNames);
+  }
+
+  cpp_quote("#define SID_SVsMacros IID_IVsMacros")
+
+
+  typedef enum _VSRECORDMODE 
+  {
+    VSRECORDMODE_ABSOLUTE = 1,
+    VSRECORDMODE_RELATIVE = 2
+  } VSRECORDMODE;
+
+  [
+    uuid(04BBF6A5-4697-11d2-890E-0060083196C6),
+    helpstring("IVsMacroRecorder Interface"),
+    pointer_default(unique)
+  ]
+  interface IVsMacroRecorder : IUnknown
+  {
+    HRESULT RecordStart(
+        [in]  LPCOLESTR pszReserved // must be NULL, maybe used later to specify recorded macro
+        );
+
+    HRESULT RecordEnd();
+
+    HRESULT RecordLine(
+      [in]  LPCOLESTR pszLine,
+      [in]  REFGUID rguidEmitter);
+
+    HRESULT GetLastEmitterId(
+      [out] GUID *pguidEmitter);
+
+    HRESULT ReplaceLine(
+      [in]  LPCOLESTR pszLine,
+      [in]  REFGUID rguidEmitter);
+
+    HRESULT RecordCancel();
+
+    HRESULT RecordPause();
+
+    HRESULT RecordResume();
+
+    HRESULT SetCodeEmittedFlag(
+      [in]  BOOL fFlag);
+
+    HRESULT GetCodeEmittedFlag(
+      [out] BOOL *pfFlag);
+
+    HRESULT GetKeyWord(
+      [in]  UINT uiKeyWordId,
+      [out] BSTR *pbstrKeyWord);
+
+    HRESULT IsValidIdentifier(
+      [in]  LPCOLESTR pszIdentifier);
+  
+    HRESULT GetRecordMode(
+      [out] VSRECORDMODE *peRecordMode);
+
+    HRESULT SetRecordMode(
+      [in] VSRECORDMODE eRecordMode);
+
+    HRESULT GetStringLiteralExpression(
+      [in] LPCOLESTR pszStringValue,
+      [out] BSTR *pbstrLiteralExpression);
+
+    HRESULT ExecuteLine(
+      [in] LPCOLESTR pszLine);
+
+    HRESULT AddTypeLibRef(
+      [in] REFGUID guidTypeLib,
+      [in] UINT uVerMaj,
+      [in] UINT uVerMin);
+  };
+
+  cpp_quote("#define SID_SVsMacroRecorder IID_IVsMacroRecorder")
+
+#ifndef INTEROPLIB
+  [
+    uuid(A659F1B3-AD34-11d1-ABAD-0080C7B89C95),
+    helpstring("VsVbaPackage Class")
+  ]
+  coclass VsVbaPackage
+  {
+    [default] interface IVsPackage;
+  };
+};
+
+#endif

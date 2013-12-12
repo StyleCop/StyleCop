@@ -1,0 +1,162 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Module IVsTrackProjectDocumentsEvents110.idl - Interface to receive document events  |
+
+The point of the SVsTrackProjectDocuments is to bottleneck certain
+shell events. The alternative design would be to have all
+IVsTrackProjectDocumentsEventsSink open/close project events and QI the
+hierarchies for IVsTrackProjectDocumentsEventsSource. Instead, packages can
+Advise with the service at SetSite time. The alternative would let packages
+be selective about who they registered with, where this design gives you
+all or none of the sources.
+
+See also IVsTrackProjectDocumentsEvents80.idl
+
+Owner: Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+cpp_quote("#pragma once")
+
+//----------------------------
+// Includes
+//----------------------------
+#include "SCGuids.h"
+
+//----------------------------
+// Imports
+//----------------------------
+#ifndef INTEROPLIB
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "IVsTrackProjectDocumentsEvents80.idl";
+
+#endif
+
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEFILEFLAGS2
+
+@enum Flags associated with QueryRemove
+-----------------------------------------------------------------------------*/
+enum __VSQUERYREMOVEFILEFLAGS2
+{
+    /********************************************** defined in IVsTrackProjectDocumentsEvents2.idl
+    VSQUERYREMOVEFILEFLAGS_NoFlags = 0,
+    VSQUERYREMOVEFILEFLAGS_IsSpecialFile = 1, // "Special" file i.e. an invisible file associated with another file in the project
+    VSQUERYREMOVEFILEFLAGS_IsNestedProjectFile = 2 // Nested project (file) i.e. the file sitting on the root node of a nested project
+    **********************************************/
+
+    VSQUERYREMOVEFILEFLAGS_IsRemovedFromProjectOnly = 4, // This flag is used to distinguish these 2 operations: "Remove From Project" VS. "Delete"
+                                                         // If it's set, which means the file is just removed from project, but still exists in dis
+};
+typedef DWORD VSQUERYREMOVEFILEFLAGS2;
+
+
+/*-----------------------------------------------------------------------------
+Enum: VSQUERYREMOVEDIRECTORYFLAGS2
+
+@enum Flags associated with QueryRemoveDirectory
+-----------------------------------------------------------------------------*/
+enum __VSQUERYREMOVEDIRECTORYFLAGS2
+{
+    /********************************************** defined in IVsTrackProjectDocumentsEvents2.idl
+    VSQUERYREMOVEDIRECTORYFLAGS_padding // no flags yet
+    **********************************************/
+
+    VSQUERYREMOVEDIRECTORYFLAGS_IsRemovedFromProjectOnly = 1, // This flag is used to distinguish these 2 operations: "Remove From Project" VS. "Delete"
+                                                              // If it's set, which means the directory is just removed from project, but still exists in dis
+};
+typedef DWORD VSQUERYREMOVEDIRECTORYFLAGS2;
+
+
+/*-----------------------------------------------------------------------------
+Enum: VSREMOVEFILEFLAGS2
+
+@enum Flags associated with OnAfterRemoveFiles
+-----------------------------------------------------------------------------*/
+enum __VSREMOVEFILEFLAGS2
+{
+    /********************************************** defined in IVsTrackProjectDocumentsEvents2.idl
+    VSREMOVEFILEFLAGS_NoFlags = 0,
+    VSREMOVEFILEFLAGS_IsDirectoryBased = 1,
+    VSREMOVEFILEFLAGS_RemoveFromSourceControlDoneExternally = 2, // Already been removed from source control
+    VSREMOVEFILEFLAGS_IsSpecialFile = 4, // "Special" file i.e. an invisible file associated with another file in the project
+    VSREMOVEFILEFLAGS_IsNestedProjectFile = 8 // Nested project (file) i.e. the file sitting on the root node of a nested project
+    **********************************************/
+
+    VSREMOVEFILEFLAGS_IsRemovedFromProjectOnly = 16, // This flag is used to distinguish these 2 operations: "Remove From Project" VS. "Delete"
+                                                     // If it's set, which means the file is just removed from project, but still exists in disk
+};
+typedef DWORD VSREMOVEFILEFLAGS2;
+
+
+/*-----------------------------------------------------------------------------
+Enum: VSREMOVEDIRECTORYFLAGS2
+
+@enum Flags associated with OnAfterRemoveDirectories
+-----------------------------------------------------------------------------*/
+enum __VSREMOVEDIRECTORYFLAGS2
+{
+    /********************************************** defined in IVsTrackProjectDocumentsEvents2.idl
+    VSREMOVEDIRECTORYFLAGS_NoFlags = 0,
+    VSREMOVEDIRECTORYFLAGS_IsDirectoryBased = 1,
+    VSREMOVEDIRECTORYFLAGS_RemoveFromSourceControlDoneExternally = 2 // Dir has already been removed from source control
+    **********************************************/
+
+    VSREMOVEDIRECTORYFLAGS_IsRemovedFromProjectOnly = 4, // This flag is used to distinguish these 2 operations: "Remove From Project" VS. "Delete"
+                                                         // If it's set, which means the directory is just removed from project, but still exists in disk
+};
+typedef DWORD VSREMOVEDIRECTORYFLAGS2;
+
+
+/*-----------------------------------------------------------------------------
+Interface: IVsTrackProjectDocumentsEvents4
+
+This interface is implemented by clients that try to keep track of changes 
+to the contents of projects in the Solution.
+
+The value of this interface is we replace the enumerations by DWORD in these functions so
+it's convenient to add more flags in this and future releases.
+
+@base public | IUnknown
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsTrackProjectDocumentsEvents4) ]
+interface IVsTrackProjectDocumentsEvents4 : IUnknown
+{
+    HRESULT OnQueryRemoveFilesEx(
+        [in] IVsProject *pProject,
+        [in] int cFiles,
+        [in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+        [in, size_is(cFiles)] const VSQUERYREMOVEFILEFLAGS2 rgFlags[],
+        [out] VSQUERYREMOVEFILERESULTS *pSummaryResult,
+        [out, size_is(cFiles)] VSQUERYREMOVEFILERESULTS rgResults[]);
+
+    HRESULT OnQueryRemoveDirectoriesEx(
+        [in] IVsProject *pProject,
+        [in] int cDirectories,
+        [in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+        [in, size_is(cDirectories)] const VSQUERYREMOVEDIRECTORYFLAGS2 rgFlags[],
+        [out] VSQUERYREMOVEDIRECTORYRESULTS *pSummaryResult,
+        [out, size_is(cDirectories)] VSQUERYREMOVEDIRECTORYRESULTS rgResults[]);
+
+    HRESULT OnAfterRemoveFilesEx(
+        [in] int cProjects,
+        [in] int cFiles,
+        [in, size_is(cProjects)] IVsProject *rgpProjects[],
+        [in, size_is(cProjects)] const int rgFirstIndices[],
+        [in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+        [in, size_is(cFiles)] const VSREMOVEFILEFLAGS2 rgFlags[]);
+
+    HRESULT OnAfterRemoveDirectoriesEx(
+        [in] int cProjects,
+        [in] int cDirectories,
+        [in, size_is(cProjects)] IVsProject *rgpProjects[],
+        [in, size_is(cProjects)] const int rgFirstIndices[],
+        [in, size_is(cDirectories)] const LPCOLESTR rgpszMkDocuments[],
+        [in, size_is(cDirectories)] const VSREMOVEDIRECTORYFLAGS2 rgFlags[]);
+};
+
+
+#endif

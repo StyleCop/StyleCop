@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="PropertyPageBase.PropertyPage" Collapsed="true">
+    <Position X="3.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PropertyPageBase.cs</FileName>
+      <HashCode>CAAAAAQAAJBIAClAQCAAAAQUgAAEAAAAAEAAAARAkAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IPropertyPageSite" />
+      <Property Name="MyPageView" />
+      <Property Name="IPropertyStore" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PropertyPageBase.PageView" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PageView.cs</FileName>
+      <HashCode>AAAAAAAAAOAAAQAAAQAgAEACBAAAAASAAEEAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Forms.UserControl" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="PropertyPageBase.PropertyStore">
+    <Position X="3.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PropertyStore.cs</FileName>
+      <HashCode>AAAAAAAAACAAAQAAAAAAAAIEAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Microsoft.VisualStudio.OLE.Interop.IPropertyPageSite">
+    <Position X="5.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="PropertyPageBase.IPageView" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>IPageView.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAQAAAQAAAAAAAAAAAASAAEAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Microsoft.VisualStudio.OLE.Interop.IPropertyPage2">
+    <Position X="7.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="PropertyPageBase.IPropertyStore" Collapsed="true">
+    <Position X="1.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>IPropertyStore.cs</FileName>
+      <HashCode>AAAAAAAAACAAAQAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

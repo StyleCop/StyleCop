@@ -1,0 +1,217 @@
+/****************************************************************************
+*  The VS Platform UI Interfaces for hosting technology-neutral user interface elements
+*  Copyright (c) Microsoft Corporation, All Rights Reserved
+****************************************************************************/
+
+#ifndef INTEROPLIB
+
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "ocidl.idl";
+import "VsPlatformUI.idl";
+
+#endif
+
+
+// Additional built-in property type for IVsUIDataSource
+cpp_quote("#define VSUI_TYPE_GUID  L\"VsUI.Guid\"")   // GUID (VT_RECORD)
+
+//
+// Interfaces for low-overhead databinding to Gel data models
+//
+
+//
+// Base interface for all bound property accessor interfaces
+//
+[
+    uuid(42261aac-332f-4360-b925-0f532f9944be),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundPropertyBase : IUnknown
+{
+    HRESULT ResetValue([in] IUnknown* owner);
+    [propget] HRESULT CanReset([out,retval] VARIANT_BOOL* pCanReset);
+    [propget] HRESULT CanWrite([out,retval] VARIANT_BOOL* pCanWrite);
+    [propget] HRESULT Name([out,retval] BSTR* pPropertyName);
+    [propget] HRESULT Type([out,retval] BSTR* pPropertyType);
+};
+
+//
+// Specialized access for a bound boolean property
+//
+[
+    uuid(1406a251-7ebd-49d9-ae68-454f1906e6ff),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundBooleanProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] VARIANT_BOOL* boolVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] VARIANT_BOOL boolVal);
+};
+
+//
+// Specialized access for a bound string property
+//
+[
+    uuid(d86e711d-1ca3-4541-87ce-ffc8f604f454),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundStringProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] BSTR* strVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] LPCOLESTR strVal);
+};
+
+//
+// Specialized access for a bound 32 bit signed integer property
+//
+[
+    uuid(e5d6702c-cec1-4f24-b74e-abebccd65bf0),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundInt32Property : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] INT* intVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] INT intVal);
+};
+
+//
+// Specialized access for a bound 32 bit unsigned integer property
+//
+[
+    uuid(ae72464d-2866-46c1-b088-21838df1c1ed),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundDWordProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] DWORD* dwordVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] DWORD dwordVal);
+};
+
+//
+// Specialized access for a bound 64 bit unsigned integer property
+//
+[
+    uuid(2ca8b41c-091c-4d98-ad2e-23d075551e1a),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundQWordProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] ULONGLONG* qwordVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] ULONGLONG qwordVal);
+};
+
+//
+// Specialized access for a bound 64 bit floating point property
+//
+[
+    uuid(00705016-e9ef-4caf-bab1-8e4484ed7b69),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundDoubleProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] double* dblVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] double dblVal);
+};
+
+//
+// Specialized access for a bound GUID property
+//
+[
+    uuid(6d0f82bc-c086-44f0-9ab0-92f67db1c896),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundGuidProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] GUID* guidVal);
+    HRESULT SetValue([in] IUnknown* owner, [in] REFGUID guidVal);
+};
+
+//
+// Specialized access for a bound DataSource property
+//
+[
+    uuid(b47682c3-726d-48f0-bcc9-247c8d1c4e1f),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundDataSourceProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] IVsUIDataSource** dataSourceVal);
+    HRESULT SetValue([in] IUnknown* owner, [in,unique] IVsUIDataSource* dataSourceVal);
+};
+
+//
+// Specialized access for a bound collection property
+//
+[
+    uuid(b957e62c-a5e4-4c0a-b33f-51edeabff367),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundCollectionProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] IVsUICollection** collectionVal);
+    HRESULT SetValue([in] IUnknown* owner, [in,unique] IVsUICollection* collectionVal);
+};
+
+//
+// Generic formatted value access to a bound property.
+// Implementations should, if appropriate, return one of the type-specific
+// property binders above, and use this as a general purpose fall-back for all
+// other types.
+//
+[
+    uuid(6e4a81aa-6694-4261-940d-837d8991dba4),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIBoundFormattedProperty : IVsUIBoundPropertyBase
+{
+    HRESULT GetValue([in] IUnknown* owner, [out,retval] IVsUIObject** ppValue);
+    HRESULT SetValue([in] IUnknown* owner, [in] IVsUIObject* pValue);
+};
+
+//
+// Shape information for data sources
+//
+[
+    uuid(ddd2cb35-dc38-46a9-8c9e-f8bc0649cf80),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataSourceShape : IUnknown
+{
+    // Obtain an enumerator for all the named properties
+    HRESULT EnumProperties([out,retval] IVsUIEnumDataSourceProperties** ppEnum);
+
+    // Provide a low-overhead binding object for a property
+    HRESULT GetBoundProperty(
+        [in] LPCOLESTR name,
+        [out,retval] IVsUIBoundPropertyBase** boundProperty
+        );
+};
+
+//
+// Optionally implemented by an IVsUIDataSource object to provide access to
+// static shape information and low-overhead databinding
+//
+[
+    uuid(7eef6797-7698-42a9-9157-dd8c90f5854a),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsUIDataSourceShapeProvider : IUnknown
+{
+    // If two data sources have the same shape, they must return the
+    // same object here. COM identity will be used to match them.
+    [propget] HRESULT Shape([out,retval] IVsUIDataSourceShape** ppShape);
+};

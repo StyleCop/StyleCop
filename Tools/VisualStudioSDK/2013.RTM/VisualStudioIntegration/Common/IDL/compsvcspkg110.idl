@@ -1,0 +1,673 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) Microsoft Corporation
+// All rights reserved
+//
+//
+// compsvcspkg110.idl
+//
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB
+// Imports - all imports should go here (inside the ifndef)
+import "oaidl.idl";
+import "ocidl.idl";
+import "vsshell90.idl";
+import "vsshell100.idl";
+import "compsvcspkg80.idl";
+import "compsvcspkg90.idl";
+#endif
+
+#include "vsshelluuids.h"
+
+////////////////////////////////////////////////////////////////////////////
+//
+//
+enum _AppContainerDeployOptions
+{
+    ACDO_ForceRegistration = 0x00000001,              // Always do a clean registration (unregister and register)
+    ACDO_ForceCleanLayout = 0x00000002,               // Always do a clean layout update (remove all old files and copy new files over)
+    ACDO_UseUniqueDeployPackageIdentity = 0x00000004, // Allow changing the package identity during deploy to ensure no collisions with already installed instances.
+    ACDO_RefreshLayoutOnly =  0x00000008,             // Indicates a fast refresh deployment of a JavaScript WWA debuggee.  Will not terminate debuggee or force clean layout/registration.
+    ACDO_SetNetworkLoopback       = 0x00000010,       // Force deployment to set network loopback exception for the app
+    ACDO_NetworkLoopbackEnable    = 0x00000020        // Desired network loopback state for the app.
+};
+typedef DWORD AppContainerDeployOptions;
+
+
+////////////////////////////////////////////////////////////////////////////
+//
+//
+enum _DevLicenseCheckOptions
+{
+    DLCO_SilenCheckOnly = 0x0000001
+};
+typedef DWORD DevLicenseCheckOptions;
+
+
+////////////////////////////////////////////////////////////////////////////
+//
+//
+typedef enum _DevLicenseStatus
+{
+    DLS_NoDevLicense      = 1,
+    DLS_DevLicenseValid   = 2,
+    DLS_DevLicenseExpired = 3
+}  DevLicenseStatus;
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerProjectDeployResult
+//
+[
+    uuid(96785CEA-89F6-4FE6-AB54-F86E877DDFCD),
+    helpstring("IVsAppContainerProjectDeployResult Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerProjectDeployResult: IDispatch
+{
+    // Deploy outcome: true means deploy was successful, false - deploy failed
+    [propget] HRESULT DeploySuccess( [out, retval] VARIANT_BOOL *fSuccess);
+    // Full package name of installed app
+    [propget] HRESULT PackageFullName( [out, retval] BSTR *bstrPackageFullName);
+    // First entry point in the manifest
+    [propget] HRESULT FirstAppUserModelID( [out, retval] BSTR *bstrFirstAppUserModelID);
+    // Layout folder where app was installed
+    [propget] HRESULT LayoutFolder( [out, retval] BSTR *bstrLayoutFolder);
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerProjectDeployOperation
+//
+[
+    uuid(7773BD9E-1F28-4787-986B-1C42C000E31C),
+    helpstring("IVsAppContainerProjectDeployOperation Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerProjectDeployOperation: IUnknown
+{
+    // Can be used to cancel deploy operation. Calling this function will cause deploy process to be terminated as soon as possible.
+    // If fSync = false, the cancelation is asynchronous. Caller have to wait for IVsAppContainerProjectDeployCallback::OnEndDeploy(...) notification.
+    // if fSync = true, the StopDeploy will not return until the cancelation is complete.
+    HRESULT StopDeploy([in] VARIANT_BOOL fSync);
+    // Can be used to get detailed result of deployment operation. GetDeployResult() is valid after OnEndDeploy() event occurred. Before that point it will return E_PENDING.
+    HRESULT GetDeployResult([out, retval] IVsAppContainerProjectDeployResult **result);
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerProjectDeployCallback
+//
+[
+    uuid(D1F433DF-B126-49A7-A1FD-F4099EFC1A05),
+    helpstring("IVsAppContainerProjectDeployCallback Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerProjectDeployCallback: IUnknown
+{
+    // This will always be called when the service finishes the async deployment process if IVsAppContainerProjectDeploy::StartDeployAsync succeeds
+    // If IVsAppContainerProjectDeploy::StartDeployAsync fails OnEndDeploy will not be called.
+    HRESULT OnEndDeploy([in] VARIANT_BOOL successful, [in] LPCOLESTR deployedPackageMoniker, [in] LPCOLESTR deployedAppUserModelID);
+
+    // Called by deployment service to log errors and messages
+    HRESULT OutputMessage([in] LPCOLESTR message);
+}
+
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerProjectDeployEvents
+//
+[
+    uuid(35CC3FD8-5435-4B9E-95CD-7E30C378FBDF),
+    helpstring("IVsAppContainerProjectDeployEvents Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerProjectDeployEvents: IUnknown
+{
+    // Called before Application deploy begins. This event gives opportunity for components to stop the deployment process or force local machine deploy.
+    HRESULT QueryDeployStart([in] LPCOLESTR projectUniqueName, [out] VARIANT_BOOL *fForceLocalDeployment, [out] VARIANT_BOOL *fCancel, [out] BSTR *cancelReason);
+    // Called before deployment begins. Only fired if no-one canceled deploy in QueryDeployStart(..)
+    HRESULT OnDeployStart([in] LPCOLESTR projectUniqueName);
+    // Called afted deployment complete. Note the event will be fired after IVsAppContainerProjectDeployCallback::OnEndDeploy(..) is called.
+    HRESULT OnDeployEnd([in] LPCOLESTR projectUniqueName, [in] IVsAppContainerProjectDeployResult *result);
+}
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerProjectDeploy
+// This is a global service implemented by the AppContainer Project Services Package
+[
+    uuid(A830AC2A-4D69-45A3-A157-6574756034D5),
+    helpstring("IVsAppContainerProjectDeploy Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerProjectDeploy: IUnknown
+{
+    // AppContainer Deployment events support
+    HRESULT AdviseAppContainerDeployEvents([in] IVsAppContainerProjectDeployEvents *sink, [out, retval] VSCOOKIE *pCookie);
+    HRESULT UnadviseAppContainerDeployEvents([in] VSCOOKIE cookie);
+
+    // Initiate deploy of the appcontainer application on the local machine. It will create a "layout folder" containing the Appx files as defined in the package recipe file and
+    // register the application with Windows pacakge manager. After successfull executing of this process application is ready to be launched on the local
+    // box or on the simulatror.
+    HRESULT StartDeployAsync(
+        [in] AppContainerDeployOptions deployFlags,
+        [in] LPCOLESTR packageContentsRecipe,
+        [in] LPCOLESTR layoutLocation,
+        [in] LPCOLESTR projectUniqueName,
+        [in] IVsAppContainerProjectDeployCallback *deployCallback,
+        [out, retval] IVsAppContainerProjectDeployOperation **deployOperation);
+
+    // Initiate deploy of the appcontainer application on a remote machine.
+    HRESULT StartRemoteDeployAsync(
+        [in] AppContainerDeployOptions deployFlags,
+        [in] IUnknown *deployConnection,
+        [in] LPCOLESTR packageContentsRecipe,
+        [in] LPCOLESTR projectUniqueName,
+        [in] IVsAppContainerProjectDeployCallback *deployCallback,
+        [out, retval] IVsAppContainerProjectDeployOperation **deployOperation);
+}
+
+// Service Guid
+[
+    uuid("7E97079C-BB7C-4003-8DFB-730CD0B88250")
+]
+interface SVsAppContainerProjectDeploy : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsAppContainerProjectDeploy IID_SVsAppContainerProjectDeploy")
+
+////////////////////////////////////////////////////////////////////////////
+// IVsAppContainerDeveloperLicensing
+// This is a global service implemented by the Visual Studio Common IDE Package
+// Provides base support for dealing with developer licensing
+// For those APIs which take a machine, if machine is NULL or empty, the
+// function will be applied to the local machine.
+// The following errors may be returned from these methods:
+// S_OK                The function succeeded
+// E_FAIL           Unspecified error (this is not expected)
+// E_INVALIDARG        One or more arguments are invalid
+// E_OUTOFMEMORY    Insufficient memory
+// HRESULT_FROM_WIN32(ERROR_NOT_FOUND)                The license was not found
+// HRESULT_FROM_WIN32(ERROR_NOT_AUTHENTICATED)        The call requires authentication
+// HRESULT_FROM_WIN32(ERROR_NETWORK_UNREACHABLE)    The network can’t be reached
+// HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED)            The caller doesn’t have access to the resource (license)
+// HRESULT_FROM_WIN32(ERROR_BAD_NET_NAME)            The specified machine doesn't exist
+// HRESULT_FROM_WIN32(ERROR_CANCELLED)              The licensing sequence was cancelled
+// E_WS_LICENSE_EXPIRED            The dev license is expired
+// E_WS_USER_NOT_AUTHORIZED        If user or machine requesting isn’t authorized to get any license.  Should map to a “contact support” message.
+
+[
+    uuid(AB6D6E32-671E-444F-8B52-EA446698B038),
+    helpstring("IVsImmersivDeveloperLicensing Interface"),
+    pointer_default(unique)
+]
+interface IVsAppContainerDeveloperLicensing: IUnknown
+{
+    // Determines whether the specified machine has a dev license.
+    HRESULT CheckDeveloperLicense([in] BSTR* pbstrMachine, [out, retval] DATE* pExpiration);
+
+    // Acquires the license on the specified machine
+    HRESULT AcquireDeveloperLicense([in] BSTR* pbstrMachine, [out, retval] DATE *pExpiration);
+
+    // Removes the license from the specified machine
+    HRESULT RemoveDeveloperLicense([in] BSTR* pbstrMachine);
+}
+
+// Service Guid
+[
+    uuid("46B0C039-DE36-4DAE-A038-9F1635F5F962")
+]
+interface SVsAppContainerDeveloperLicensing : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsAppContainerDeveloperLicensing IID_SVsAppContainerDeveloperLicensing")
+
+// UI Commands for AppContainer Developer Licensing.  Must match values in src\vsproject\ImmersiveProjectServices\Package\ImmersiveGlobalDebugTargetTypes.vsct
+cpp_quote("extern const __declspec(selectany) GUID guidDeveloperLicensingTypesCmdSet = { 0x92C03CE4, 0x4B7C, 0x4144, { 0xAC, 0x32, 0x1A, 0x24, 0xAA, 0xF6, 0xFF, 0x5E } };")
+
+enum __VSDEVELOPERLICENSINGCOMMANDS
+{
+    CMDID_AcquireDeveloperLicense = 0x100
+};
+
+typedef DWORD VSDEVELOPERLICENSINGCOMMANDS;
+
+////////////////////////////////////////////////////////////////////////////
+// IVsFrameworkMultiTargeting2
+// This is a global service implemented by the Visual Studio Common IDE Package
+// Provides base support for the extensible framework multi-targeting in Visual Studio 11.
+[
+    uuid(0F0CC2B9-8293-4756-9516-ECB1DB326487),
+    helpstring("IVsFrameworkMultiTargeting2 Interface"),
+    pointer_default(unique)
+]
+
+interface IVsFrameworkMultiTargeting2: IUnknown
+{
+    //Gets the list of sdk root folders, both platform and extension sdk
+    HRESULT GetSDKRootFolders([out, retval] SAFEARRAY(BSTR) * sdkRootFolders);
+
+    // Takes an SDK root directory and returns the display name.
+    HRESULT GetSDKDisplayName([in] LPCWSTR pwszSDKRootDirectory, [out, retval] BSTR *pbstrDisplayName);
+
+    //Enumerates the list of installed SDKs and returns an array of sdk references as paths.
+    HRESULT GetSDKReferences([in] LPCWSTR pwszSDKRootDirectory, [out, retval] SAFEARRAY(BSTR) * sdkReferences);
+
+    //resolves the assembly reference paths for the passed in assemblies in the given target fx while ignore version for resolving framework references (as described in the framework redist list)
+    HRESULT ResolveAssemblyPathsInTargetFx2(
+         [in] LPCWSTR pwszTargetFrameworkMoniker, // the target fx in which to resolve the assemblies        
+         [in, size_is(cAssembliesToResolve)] SAFEARRAY(BSTR) prgAssemblySpecs,//array of strings containing the list of assembly specs that need to be resolved
+         [in] ULONG cAssembliesToResolve,//no of assembly specs passed in prgAssemblySpecs  
+         [in] VARIANT_BOOL ignoreVersionForFrameworkReferences,//should the version be ignored when resolving framework references  
+         [in, out, size_is(cAssembliesToResolve)] PVsResolvedAssemblyPath prgResolvedAssemblyPaths, //in_out array containing the resolved assembly reference paths,
+                                                                                                    //the caller needs to pre-allocate this array for 'cAssembliesToResolve' elements 
+         [out] ULONG * pcResolvedAssemblyPaths);//no of resolved assembly paths in the prgResolvedAssemblyPaths output array 
+
+    // Takes an assembly name/spec/path and TargetFrameworkMoniker and tries to resolve the assembly path in the given Target Framework
+    // has the ability to ignore version for framework references when resolving the reference in the targeted framework
+    // Returns 'null' if the assembly does not belong in the given Target Framework.
+    HRESULT ResolveAssemblyPath2(
+        [in] LPCWSTR pwszAssemblySpec,             // Assembly spec here is either a path or assembly name. If path, the assembly name
+                                                  // is loaded from the path.               
+        [in] LPCWSTR pwszTargetFrameworkMoniker, 
+        [in] VARIANT_BOOL ignoreVersionForFrameworkReferences,//should the version be ignored when resolving framework references
+        [out, retval] BSTR* pbstrResolvedAssemblyPath);
+};
+
+////////////////////////////////////////////////////////////////////////////
+// AppX Manifest Document Interfaces
+[
+    uuid(893AC9E5-23A5-4561-9500-C27EF5A058AC),
+    helpstring("IAppxBaseExtension Interface"),
+    pointer_default(unique)
+]
+interface IAppxBaseExtension : IUnknown
+{
+    [propget] HRESULT SupportsAnyFileType([out, retval] VARIANT_BOOL *supportsAnyFileType);
+    [propput] HRESULT SupportsAnyFileType([in] VARIANT_BOOL supportsAnyFileType);
+
+    HRESULT HasSupportedFileType(
+        [in] LPCOLESTR supportedFileType,
+        [out, retval] VARIANT_BOOL *hasSupportedFileType
+    );
+    HRESULT AddSupportedFileType([in] LPCOLESTR supportedFileType);
+    HRESULT RemoveSupportedFileType([in] LPCOLESTR supportedFileType);
+
+    [propget] HRESULT SupportedFileTypes([out, retval] SAFEARRAY(BSTR) *supportedFileTypes);
+}
+
+[
+    uuid(01B7617F-B00A-4290-870E-D329B5A43033),
+    helpstring("IAppxFileOpenPickerExtension Interface"),
+    pointer_default(unique)
+]
+interface IAppxFileOpenPickerExtension : IAppxBaseExtension { }
+
+[
+    uuid(1323D2E8-A6E1-498D-93B9-16CA249C9306),
+    helpstring("IAppxShareExtension Interface"),
+    pointer_default(unique)
+]
+interface IAppxShareExtension : IAppxBaseExtension {
+    HRESULT HasDataFormat(
+        [in] LPCOLESTR dataFormat,
+        [out, retval] VARIANT_BOOL *hasDataFormat
+    );
+    HRESULT AddDataFormat([in] LPCOLESTR dataFormat);
+    HRESULT RemoveDataFormat([in] LPCOLESTR dataFormat);
+
+    [propget] HRESULT DataFormats([out, retval] SAFEARRAY(BSTR) *dataFormats);
+}
+
+////////////////////////////////////////////////////////////////////////////
+// IAppxManifestDocument
+// This interface provides an object model for the AppX Manifest of the current
+// project. It is implemented by the DocData object of the AppX Manifest Designer.
+// IAppxManifestDesignerService.OpenAppxManifestDocument() may be used to
+// programmatically (invisibly) open a project's AppX Manifest and return an object
+// implementing this interface.
+[
+    uuid(80CAD0DE-8ECC-48FC-B81E-D11B13AB9E8A),
+    helpstring("IAppxManifestDocument Interface"),
+    pointer_default(unique)
+]
+interface IAppxManifestDocument : IDispatch
+{
+    // Capabilities
+    //
+    // There are two types of capabilities, which encompass three distinct types of
+    // capability IDs:
+    //  1. Standard capabilities: These capabilities are natively supported in Windows
+    //     and have fixed names, essentially creating an enumerated type.
+    //     StandardCapabilities lists all of these IDs.
+    //  2. Device capabilities come in two forms:
+    //      a. An identifier such as "webcam" or "printer" which represents a device or
+    //         class of devices on the system.
+    //      b. A GUID of the form "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", which
+    //         represents a specific third-party device interface.
+    // Capabilities may also be referred to by SID.
+
+    // Detects if the given capability is currently declared in the manifest.
+    HRESULT HasCapability(
+        [in] LPCOLESTR capabilityId,
+        [out, retval] VARIANT_BOOL *hasCapability
+    );
+
+    // Adds the given capability to the manifest if it is not already present.
+    HRESULT AddCapability([in] LPCOLESTR capabilityId);
+
+    // Removes the given capability from the manifest if it is currently present.
+    HRESULT RemoveCapability([in] LPCOLESTR capabilityId);
+
+    // Returns a list of all capabilities currently declared in the manifest, which may
+    // include both standard capabilities and device capabilities.
+    [propget] HRESULT Capabilities(
+        [out, retval] SAFEARRAY(BSTR) *capabilities
+    );
+
+    // Returns the fixed list of standard capabilities.
+    [propget] HRESULT StandardCapabilities(
+        [out, retval] SAFEARRAY(BSTR) *standardCapabilities
+    );
+
+    // Given a capbility SID (such as "S-1-15-3-1" or "S-1-15-3-BFA794E4-F964-4FDB-90F6-51056BFE4B44"), produces
+    // an id and a localized name.
+    HRESULT MapCapabilitySid([in] LPCOLESTR sid, [out] BSTR * capabilityId, [out] BSTR * localizedCapabilityName);
+
+    // Extensions
+
+    // We provide a getter, setter, and deleter for the Search extension. Because at
+    // most one Search extension is allowed per manifest, there is no ambiguity as to
+    // which data is returned by GetSearchExtension or removed by RemoveSearchExtension.
+    // In addition, SetSearchExtension will always overwrite any existing Search
+    // extension.
+    HRESULT GetSearchExtension(
+        [out] BSTR *executable,
+        [out] BSTR *entryPoint,
+        [out] BSTR *runtimeType,
+        [out] BSTR *startPage,
+        [out, retval] VARIANT_BOOL *hasSearchExtension
+    );
+    HRESULT SetSearchExtension(
+        [in, optional] LPOLESTR executable,
+        [in, optional] LPOLESTR entryPoint,
+        [in, optional] LPOLESTR runtimeType,
+        [in, optional] LPOLESTR startPage
+    );
+    HRESULT RemoveSearchExtension(void);
+
+    // We provide a getter, setter, and deleter for the Share extension. Like Search,
+    // Share is a singleton, so there is only one allowed per manifest.
+    // GetShareExtension returns a IAppxShareExtension object which allows mutation
+    // of the manifest's Share extension. This Share extension data object goes stale
+    // whenever there is no Share extension associated with the manifest. So, when
+    // GetShareExtension is called, the resulting shareExtensionData is useful only
+    // if hasShareExtension is also returned as true. If RemoveShareExtension is
+    // called, shareExtensionData becomes stale, and must be replenished with another
+    // call to GetShareExtension.
+    HRESULT GetShareExtension(
+        [out] BSTR *executable,
+        [out] BSTR *entryPoint,
+        [out] BSTR *runtimeType,
+        [out] BSTR *startPage,
+        [out] IAppxShareExtension **shareExtensionData,
+        [out, retval] VARIANT_BOOL *hasShareExtension
+    );
+    HRESULT SetShareExtension(
+        [in, optional] LPOLESTR executable,
+        [in, optional] LPOLESTR entryPoint,
+        [in, optional] LPOLESTR runtimeType,
+        [in, optional] LPOLESTR startPage,
+        [out, retval] IAppxShareExtension **shareExtensionData
+    );
+    HRESULT RemoveShareExtension(void);
+
+    // FileOpenPicker's Get/Set/Remove behave similarly to the Share extension, except
+    // the IAppxFileOpenPickerExtension has slightly less information. (FileOpenPicker
+    // extensions do not have DataFormat elements.)
+    HRESULT GetFileOpenPickerExtension(
+        [out] BSTR *executable,
+        [out] BSTR *entryPoint,
+        [out] BSTR *runtimeType,
+        [out] BSTR *startPage,
+        [out] IAppxFileOpenPickerExtension **fileOpenPickerExtensionData,
+        [out, retval] VARIANT_BOOL *hasFileOpenPickerExtension
+    );
+    HRESULT SetFileOpenPickerExtension(
+        [in, optional] LPOLESTR executable,
+        [in, optional] LPOLESTR entryPoint,
+        [in, optional] LPOLESTR runtimeType,
+        [in, optional] LPOLESTR startPage,
+        [out, retval] IAppxFileOpenPickerExtension **fileOpenPickerExtensionData
+    );
+    HRESULT RemoveFileOpenPickerExtension();
+
+	// Get the StartPage recorded in the manifest.
+	[propget] HRESULT ApplicationStartPage([out, retval] BSTR *startPage);
+}
+
+////////////////////////////////////////////////////////////////////////////
+// IAppxManifestDesignerService
+// This is a global service implemented by the AppX Manifest Designer Package.
+// Provides programmatic access to a project's AppX Manifest file.
+[
+    uuid(11D31BA1-480F-435F-B711-8F192A1C226E),
+    helpstring("IAppxManifestDesignerService Interface"),
+    pointer_default(unique),
+    custom(uuid_VsPreserveSigAttribute, "preservesig")
+]
+interface IAppxManifestDesignerService: IUnknown
+{
+    // Provides programmatic access to a project's AppX Manifest file by opening
+    // a DocData object provided by the Manifest Designer, ensures it is registered
+    // in the running document table (RDT), and returns a document handle object that
+    // implements two interfaces: IVsDocumentLockHolder and IVsInvisibleEditor. This
+    // document handle operates as a RDLH_WeakLockHolder on the file, meaning that a
+    // RDT_EditLock is held only if the document is not already open. The returned
+    // object model may be used immediately after calling this function but may expire
+    // in the future if the document is closed by the user. When holding onto the
+    // document handle for longer periods of time, cast it to IVsInvisibleEditor and
+    // use GetDocData to get a pointer to a fresh object model. When finished with the
+    // document handle, always call IVsDocumentLockHolder.CloseDocumentHolder(...),
+    // usually passing (uint)__FRAMECLOSE.FRAMECLOSE_SaveIfDirty as the save option.
+    HRESULT OpenAppxManifestDocument(
+        [in] IUnknown *project, // Can be either IVsHierarchy or EnvDTE.Project
+        [out] IVsDocumentLockHolder **documentHandle,
+        [out] IAppxManifestDocument **appxManifestDocument
+    );
+
+    typedef enum _AppxManifestDesignerTab
+    {
+        AppxManifestDesignerTab_Current = 0,
+        AppxManifestDesignerTab_Application = 1,
+        AppxManifestDesignerTab_Capabilities = 2,
+        AppxManifestDesignerTab_Declarations = 3,
+        AppxManifestDesignerTab_ContentURIs = 4,
+        AppxManifestDesignerTab_Packaging = 5
+    } AppxManifestDesignerTab;
+
+    HRESULT OpenAppxManifestDesigner(
+        [in] IVsDocumentLockHolder *documentHandle, // Can be either IVsHierarchy or EnvDTE.Project
+        [in, optional] AppxManifestDesignerTab tab // Optionally specify which tab has focus after opening
+    );
+}
+
+// Service Guid
+[
+    uuid(5692CB97-BF4F-49EE-B62E-718A6C8F9CB2)
+]
+interface SAppxManifestDesignerService : IUnknown
+{
+}
+
+cpp_quote("#define SID_SAppxManifestDesignerService IID_SAppxManifestDesignerService")
+
+
+/// Global debug dropdown
+////////////////////////////////////////////////////////////////////////////
+
+//-----------------------------------------------------------------------------
+// IVsDebugTargetSelectionService 
+// This interface is implemented by the singleton DebugTargetHandler package.
+// Project's can optionally participate with this common implementation of the
+// DebugTarget menu controller (aka DebugTarget dropdown).
+// If the project ever wants to inform the menu controller that the CurrentDebugTarget has changed by some other
+// mechanism than the user making a selection with the menu controller, then the project can call 
+// IVsDebugTargetSelectionService.UpdateDebugTargets to tell the menu control to update its state at the next idle time.
+// For the convenience of the project the DebugTargetHandler's implementation of IVsDebugTargetSelectionService
+// is passed as a parameter to this method. In addition, this interface can be retrieved by QueryService for
+// SVsDebugTargetSelectionService.
+//-----------------------------------------------------------------------------
+[
+    uuid(310466BA-2B59-4CCE-9592-95E195096939),
+    helpstring("IVsDebugTargetSelectionService Interface"),
+    pointer_default(unique),
+]
+interface IVsDebugTargetSelectionService: IUnknown
+{
+   HRESULT UpdateDebugTargets();
+}
+
+
+//-----------------------------------------------------------------------------
+// IVsProjectCfgDebugTargetSelection 
+// This optional interface is implemented by projects that want to participate
+// with the DebugTarget Menu Controller feature. This interface is retrieved
+// by QueryInterface from the project's configuration object that implements
+// IVsDebuggableProjectCfg.
+//
+// The DebugTarget menu controller acts as a short cut for directing the 
+// target for debugging of the project that otherwise is normally set by
+// choices made on the Debug page of the project's configuration dependent
+// settings. This feature is defined in a manner that allows many project
+// kinds participate with the feature. New project kinds can define their
+// own DebugTarget type commands (with icons) for the menu controller.
+// One package is responsible for defining the new DebugTargetType commands/icons.
+// These definitions are made in the standard manner (i.e. using a .vsct file)
+// for adding new commands for the IDE, but with the following special requirments:
+//    1. the commands should be owned by the DebugTargetHandler package
+//    2. the commands should be placed in a group on the DebugTarget menu controller
+// This is an example of defining a new DebugTargetType:
+//    <Button guid="guidWindowsAppContainerDebugTargetTypesCmdSet" id="cmdidWindowsAppContainer_Simulator" priority="0x1000" type="Button">
+//        <Parent guid="guidDebugTargetHandlerPackage_string" id="DebugTargetMenuControllerGroup"/>
+//        <Icon guid="guidWindowsAppContainerSimulatorImage" id="bmpPicSimulator" />
+//        <CommandFlag>TextChanges</CommandFlag>
+//        <CommandFlag>DynamicVisibility</CommandFlag>
+//        <CommandFlag>DefaultInvisible</CommandFlag>
+//        <CommandFlag>DefaultDisabled</CommandFlag>
+//        <CommandFlag>DynamicItemStart</CommandFlag>
+//        <Strings>
+//            <CommandName>cmdidWindowsAppContainer_Simulator</CommandName>
+//            <ButtonText>Simulator</ButtonText>
+//        </Strings>
+//    </Button>
+//    <GuidSymbol name="guidDebugTargetHandlerCmdSet" value="{6E87CFAD-6C05-4adf-9CD7-3B7943875B7C}}">
+//        <IDSymbol name="DebugTargetMenuControllerGroup" value="0x1000" />
+//        <IDSymbol name="DebugTargetMenuControllerFooterGroup" value="0x2000" />
+//        <IDSymbol name="DebugTargetMenuControler" value="0x0100" />
+//        <IDSymbol name="cmdidDebugTargetAnchorItem" value="0x0101" />
+//    </GuidSymbol>
+//-----------------------------------------------------------------------------
+[
+    uuid(255B9803-BA83-421B-924E-CDE7FAAA86A3),
+    helpstring("IVsProjectCfgDebugTargetSelection Interface"),
+    pointer_default(unique),
+]
+interface IVsProjectCfgDebugTargetSelection: IUnknown
+{
+    // HasDebugTargets returns the list of supported "<Guid>:<Id>" pairs as an array of strings.
+    // These Guid:Id pairs identify the supported debug target types and are expected to be
+    // installed as CommandIDs with the command sytem of Visual Studio owned by the DebugTargetHandler Package.
+    // If the project ever wants to inform the menu controller that the CurrentDebugTarget has changed by some other
+    // mechanism than the user making a selection with the menu controller, then the project can call
+    // IVsDebugTargetSelectionService.UpdateDebugTargets to tell the menu control to update its state at the next idle time.
+    // For the convenience of the project the DebugTargetHandler's implementation of IVsDebugTargetSelectionService
+    // is passed as a parameter to this method. In addition, this interface can be retrieved by QueryService for
+    // SVsDebugTargetSelectionService.
+    HRESULT HasDebugTargets(IVsDebugTargetSelectionService *pDebugTargetSelectionService, [out] SAFEARRAY(BSTR) *pbstrSupportedTargetCommandIDs, [out, retval] VARIANT_BOOL *pHasDebugTarget);
+
+    // GetDebugTargetListOfType returns the list of strings the project wants for the particular DebugTargetType command.
+    // Each DebugTargetType command is handled as a "DynamicItemStart" command that can be expanded to a list of
+    // instances of the same command. This enables the project to have repeating commands to reference multiple
+    // target machines for remote debugging for example.
+    HRESULT GetDebugTargetListOfType([in] GUID guidDebugTargetType, [in] DWORD debugTargetTypeId, [out, retval] SAFEARRAY(BSTR) *pbstrDebugTargetListArray);
+
+    // GetCurrentDebugTarget returns the command that should be currently latched on the DebugTarget menu controller.
+    // The latched command will be displayed as the visible command icon on the toolbar for the menu controller.
+    // If the project ever wants to inform the menu controller that the CurrentDebugTarget has changed by some other
+    // mechanism than the user making a selection with the menu controller, then the project can call
+    // IVsDebugTargetSelectionService.UpdateDebugTargets to tell the menu control to update its state at the next idle time.
+    HRESULT GetCurrentDebugTarget([out] GUID *pguidDebugTargetType, [out] DWORD *pDebugTargetTypeId, [out] BSTR *pbstrCurrentDebugTarget);
+
+    // SetCurrentDebugTarget is called when the user picks an item on the DebugTarget menu controller. After calling
+    // SetCurrentDebugTarget, the DebugTargetHandler package will immediately call GetCurrentDebugTarget to reconfirm
+    // if the just selected item is infact to be left as the currently latched item for the menu controller. This
+    // accomodates that there may be commands on the menu controller that bring up a dialog or performs some other
+    // operation that should not be left as the latched state for the controller.
+    // be left as the latched item
+    HRESULT SetCurrentDebugTarget([in] GUID guidDebugTargetType, [in] DWORD debugTargetTypeId, [in] BSTR bstrCurrentDebugTarget);
+}
+
+// Service Guid
+[
+    uuid(89291C82-99BC-4FA3-98C0-802EEB2FBD70)
+]
+interface SVsDebugTargetSelectionService : IUnknown
+{
+}
+
+cpp_quote("#define SID_SVsDebugTargetSelectionService IID_SVsDebugTargetSelectionService")
+
+
+//-----------------------------------------------------------------------------
+// IVsProjectCfgDebugTypeSelection 
+// This optional interface is implemented by projects that want to expose the debugger type
+// to the VS toolbar.
+//-----------------------------------------------------------------------------
+[
+    uuid("1021A0EE-5E4E-4A9B-ACDA-B607FEF3AB65"),
+    helpstring("IVsProjectCfgDebugTypeSelection Interface"),
+    pointer_default(unique),
+]
+interface IVsProjectCfgDebugTypeSelection: IUnknown
+{
+	// Get the list of debugger types.  These are enum properties with metadata key=IsDebugType value=true
+    HRESULT GetDebugTypes([out] SAFEARRAY(BSTR) *pbstrDebugTypes);
+
+	// Get the localized debug type name from the debug type
+	HRESULT GetDebugTypeName([in] BSTR bstrDebugType, [out] BSTR *pbstrDebugTypeName);
+
+	// Get the current debug type
+    HRESULT GetCurrentDebugType([out] BSTR *pbstrDebugType);
+	
+	// Set the current debug type
+    HRESULT SetCurrentDebugType([in] BSTR bstrDebugType);
+}
+
+//----------------------------------------------------------------------
+// IVsStrongNameKeys2  - provides a common strong name keys utility functions
+//----------------------------------------------------------------------
+[
+    uuid("ea4f4fec-d6ba-40d3-b536-823518822c9d"),
+    version(1.0),
+    pointer_default(unique),
+    custom(uuid_VsPreserveSigAttribute, "preservesig")
+]
+interface IVsStrongNameKeys2 : IUnknown
+{
+    // Create a new key using a specified Signature Algorithm to be used for signing, exptort to a file and create new key container
+    // The function only supports specifying those cryptographic algorithms for which CRYPT_OBJID_BLOB is zero (see 
+    // http://msdn.microsoft.com/en-us/library/aa381133(VS.85).aspx).
+    //
+    // If NULL is passed infor pszAlgorithmID, the default SHA-256 algorithm is used.
+    // If 0 is passed in for dwKeyLength, the system default key length is used.
+    HRESULT CreateNewKeyWithNameAndSpecifiedSignatureAlgorithm([in] LPCSTR pszAlgorithmID, [in] DWORD dwKeyLength, [in] LPCOLESTR szFile, [in] LPCOLESTR szPassword, [in] LPCOLESTR szSubjectName);
+    
+    // Create a new key to be used for signing, export to a file and create new key container
+    // This function provides addtional UIs to allow the user to pick from a list of signature algorithm to use.
+    // We currently only support SHA-1 and SHA-256 in the combo box.
+    HRESULT CreateNewKey2([in] LPCOLESTR szFileLocation, [out] BSTR *pbstrFileName);
+}

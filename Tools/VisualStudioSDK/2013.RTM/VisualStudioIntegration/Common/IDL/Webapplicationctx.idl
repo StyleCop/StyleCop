@@ -1,0 +1,125 @@
+//--------------------------------------------------------------------------
+// Microsoft Visual Studio
+//
+// Copyright (c) 2003 Microsoft Corporation Inc.
+// All rights reserved
+//
+//
+// webapplicationctx.idl : Contains interfaces used the editor to support intellisense
+//                          for miscellaneous files.
+//---------------------------------------------------------------------------
+
+#ifndef INTEROPLIB // the shell IA provides all necessary imports that are configured for managed interop and contains its own library block
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "oleidl.idl";
+import "vsshell.idl";
+
+[
+    uuid(2B447B4F-8C16-4aa3-B668-5A06CE33C06D),
+    version(1.0),
+    helpstring("Microsoft Visual Studio Web Application Context")
+]
+library WebApplicationCtx
+{
+
+#endif
+
+    //----------------------------------------------------------------------------
+    // IWebApplicationCtxSvc
+    //----------------------------------------------------------------------------
+    [
+        uuid(CCCECEE2-D225-4294-858E-2B8C3F7D84EA),
+        helpstring("IWebApplicationCtxSvc Interface"),
+        pointer_default(unique)
+    ]
+    interface IWebApplicationCtxSvc : IUnknown
+    {
+        // Called to set up the intellisense infrastructure for the file pszFilePath. The returned 
+        // IServiceProvider can be used to access specific interfaces for that file.
+        HRESULT GetItemContext(
+                        [in] IVsHierarchy* pHier, 
+                        [in] VSITEMID itemid,
+                        [out]IServiceProvider** ppServiceProvider);
+	HRESULT GetItemContextFromPath(
+                        [in] LPCWSTR pszFilePath,
+                        [in] BOOL bCreate,
+                        [out]IVsHierarchy** ppHier,
+                        [out]VSITEMID* pitemid);
+    };
+
+    cpp_quote("#define SID_SWebApplicationCtxSvc IID_IWebApplicationCtxSvc")
+
+    //----------------------------------------------------------------------------
+    // IWebFileCtxService
+    //----------------------------------------------------------------------------
+    [
+        uuid(05B4B4B7-6A9D-4a70-BDB1-04CBB26C9248),
+        helpstring("IWebFileCtxService interface"),
+        pointer_default(unique)
+    ]
+    interface IWebFileCtxService : IUnknown
+    {
+        HRESULT AddFileToIntellisense(
+                        [in] LPCWSTR pszFilePath,        // Path of item to add (could be relative to . or ~/)
+                        [out] VSITEMID* pItemID);        // ItemID of the item added.
+
+        HRESULT EnsureFileOpened(
+                        [in]  VSITEMID  itemid,          // Itemid of the file to open
+                        [out] IVsWindowFrame** ppFrame); // Window frame of open item
+
+        HRESULT RemoveFileFromIntellisense(
+                        [in] LPCWSTR pszFilePath);       // Path of item to add (could be relative to . or ~/)
+
+        HRESULT GetWebRootPath(
+                        [out] BSTR* pbstrWebRootPath);   // Returns the path to where the web is rooted.
+
+        HRESULT GetIntellisenseProjectName(
+                        [out] BSTR* pbstrProjectName);   // Returns unique project name for this intellisense project.
+
+        HRESULT AddDependentAssemblyFile(
+                        [in] LPCWSTR pszFilePath);       // Path of item to add (could be relative to . or ~/)
+
+        HRESULT RemoveDependentAssemblyFile(
+                        [in] LPCWSTR pszFilePath);       // Path of item to add (could be relative to . or ~/)
+
+        HRESULT ConvertToAppRelPath(
+                        [in] LPCWSTR pszFilePath,        // Path to convert, possibly relative
+                        [out] BSTR* pbstrAppRelPath);    // Returns app relative path
+
+        HRESULT CBMCallbackActive();                     // returns S_FALSE if not in a CBM Callback else S_OK;
+        
+        HRESULT WaitForIntellisenseReady();              // Wait until intellisense project is ready, ie VB in bound state
+
+        HRESULT IsDocumentInProject(
+                        [in] LPCWSTR pszFilePath,        // Path of item to add (could be relative to . or ~/)
+                        [out] VSITEMID* pItemID);        // ItemID of the item in the project.
+    };
+
+    cpp_quote("#define SID_SWebFileCtxService IID_IWebFileCtxService")
+
+
+    //----------------------------------------------------------------------------
+    // IWebClassLibProjectEvents - this is QI'd off the hierarchy.
+    //----------------------------------------------------------------------------
+    [
+        uuid(465BE4D1-B10C-4a7e-AFCF-3C55AD3EDAE3),
+        helpstring("IWebClassLibProjectEvents Interface"),
+        pointer_default(unique)
+    ]
+    interface IWebClassLibProjectEvents : IUnknown
+    {
+        HRESULT OnReferenceAdded([in] LPCWSTR pszReferencePath);
+        HRESULT OnFileAdded([in] LPCWSTR pszFilePath, [in] VARIANT_BOOL foldersMustBeInProject);
+        HRESULT StartWebAdminTool();
+    };
+
+
+#ifndef INTEROPLIB
+
+};
+
+#endif
+
+

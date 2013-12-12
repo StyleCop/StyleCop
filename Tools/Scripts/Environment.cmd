@@ -45,7 +45,7 @@ REM Set up ReSharper dlls if installed
 
 SET ReSharperFound=0
 
-SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v7.1\Bin"
+SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v8.0\Bin"
 
 if "%IsWoW64%" == "1"  (
 	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.0\Bin"
@@ -81,7 +81,7 @@ set ROOTBIN=%PROJECTROOT%\bin
 REM --------------------------------------------------------------------------------------
 REM Set up the Test environment variables
 
-set MSTESTPATH=%STTOOLS%\MSTest\10.0
+set MSTESTPATH=%STTOOLS%\MSTest\12.0
 set TESTBIN=%PROJECTROOT%\test\TestBin\
 
 if NOT exist %PROJECTROOT%\Test ( mkdir %PROJECTROOT%\Test )

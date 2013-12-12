@@ -1,0 +1,163 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module vsqryed.idl - Query Edit and Query Save service |
+
+This service is called immediately before a document is edited for the
+first time, and immediately before a document is saved.
+
+This allows the source-control package to ensure that the file is checked-
+out at the correct time.  Editors are required to call QueryEdit before
+dirtying a file, and QuerySave before saving it.
+
+This is now a deprecated version of the interface.
+See IVsQueryEditQuerySave2.idl and similarly named files for more recent versions
+of this interface.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#pragma once")
+
+///////////////////////////////////////////////////////////////////////////////
+// Imports
+//
+#include "VseeGuids.h"
+import "oaidl.idl";
+import "IVsQueryEditQuerySave90.idl";
+
+/////////////////////////////////////////////////////////////////////////////
+
+[ uuid(uuid_IVsQueryEditQuerySave) ]
+interface IVsQueryEditQuerySave : IUnknown
+{
+// The shell calls these. If we are batching QuerySave's, then each
+// individual (ie: they aren't batched) messagebox will have a cancel
+// button, and if cancel is pushed, we'll quietly apply it to future
+// QuerySave calls until we are no longer batching.
+	HRESULT BeginQuerySaveBatch(); // The shell calls this.
+	HRESULT EndQuerySaveBatch(); // The shell calls this.
+
+////////////////////QueryEditFiles/////////////////////////////////////////////////////////
+//
+// We call this internally in response to an rdt event informing us that a document just became dirty.
+// This happens at idle time, at the same time that a "dirty star" appears. This is a fallback
+// for the sake of editors that don't know when their documents become dirty.
+// Editors that are better citizens should call this method upon the first edit in a nondirty document.
+// "Editors" includes anything that changes what gets saved in a project file.
+// Anything that edits what will be saved in the .sln file can call IVsSolution::QueryEditSolution,
+// which will call this.
+//
+// The return value in pfEditCanceled indicates if it is ok for editing to continue.
+//
+// 1) If a file is not readonly and not under source control, QER_EditOK is trivially returned.
+//
+// 2) If a file is readonly, not under source control, and rgfQueryEdit does not include QEF_AllowInMemoryEdits,
+// QER_EditCancelled is quietly returned and the edit should not be committed to the in memory doc data.
+// Perhaps there should be a beep or other ui here, but that can change can be made in this shared code path.
+//
+// 2) If a file is readonly, not under source control, and rgfQueryEdit does include QEF_AllowInMemoryEdits,
+// QER_EditOK is quietly returned. Perhaps the user should be warned (messagebox or beep) before continuing,
+// but if so, that change will be made in this shared code path rather than its clients.
+// It is important that this case eventually lead to a QuerySaveFiles call, as should all file saves.
+//
+// 3) If a file is readonly and under source control, the user is given the choice of checking out the
+// file or not. If they do checkout the file, QER_EditOK is returned, else QER_EditCancelled is returned.
+// This case is a little more complicated than this, taking into account "reloadability" and if the
+// user probably has the latest version of the file already, and, to some extent QEF_AllowInMemoryEdits.
+// In most cases though, in memory edits of checked in files are not allowed. This policy, as well as others
+// described here can be changed in the future, but it will be in this shared code.
+//
+//////////////// Editors, reloadability, and checkout
+// If a file is checked out (#3), it might also change on disk. These facts are hinted at in the
+// *prgfMoreInfo return value.
+//
+// Editors will fall into a few classes.
+// Some watch files changes; some do not. Some know when their documents become dirty; some do not.
+//
+// The best editors will watch file changes, call QueryEdit, and notice these return values.
+// If the return values indicate the file changed, the editor will quietly reload its data and ignore the
+// next file change (it may be able to suspend/resume the watch instead.) [The policy quiet reload
+// upon checkout is not entirely in shared code.]
+//
+// Some editors will not well know precisely when they become dirty (eg: triedit?), and won't call
+// QueryEditFiles directly. QueryEditFiles will be called on their behalf
+// when they notice they are dirty at idle time (the shell must know this to draw the "dirty start" and
+// an rdt event is broadcast). When this happens, the caller of QueryEditFiles will have a
+// IVsPersistDocData. If *prgfMoreInfo indicates a reload is prudent, the QEF caller will call
+// IVsPersistDocData::ReloadDocData, telling it to ignore the next file change as well. If it isn't
+// watching file changes, it will ignore that detail. If it can't reload its data, it will return
+// E_NOTIMPL and the QEF caller will put up a msgbox advising the user to manually close and reopen
+// the document. If the user ignores this advise, they will be in a not great state.
+//
+//
+// **Project Files** / **Property Browser**
+//
+// We do not have any automagic prop browser support in '98.
+//
+// It is up to each project file "editor" (this includes "add item", "project settings")
+// to call QueryEdit when a change is about to be made to information that is persisted
+// in a project file, and calling QuerySave beforing saving the project file.
+	HRESULT QueryEditFiles(
+		[in]				  VSQueryEditFlags					rgfQueryEdit,
+		[in]				  int								cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR					rgpszMkDocuments[], // Can be nonfiles.
+		[in, size_is(cFiles)] const VSQEQSFlags					rgrgf[], // NULL implies they're all 0.
+		[in, size_is(cFiles)] const VSQEQS_FILE_ATTRIBUTE_DATA	rgFileInfo[], // can be NULL, ignored if rgrgf is NULL.
+		[out]                 VSQueryEditResult*				pfEditCanceled,
+		[out]                 VSQueryEditResultFlags*			prgfMoreInfo);
+
+// The shell will call this
+// For project and .sln files. (Upon open/new solution/project. State is implicitly cleared by close solution).
+// It is up to editors to call it OR for their IVsPersistDocData (if they have it) to specify it by returning
+// FALSE from IVsPersistDocData::IsReloadableDocData. If no other information is available, a document
+// that appears in QueryEdit, QuerySave, or RDTEvents::AttribChanged(dirty) is presumed reloadable.
+//
+	HRESULT DeclareUnreloadableFile(
+		[in]          LPCOLESTR	                        pszMkDocument,
+		[in]          VSQEQSFlags	                    rgf, // default = 0
+		[in]          const VSQEQS_FILE_ATTRIBUTE_DATA* pFileInfo // can be NULL, ignored if rgf is 0.
+		);
+
+// The shell calls this on behalf of project and .sln files.
+// Documents in the running document table are handled by us sinking rdt events,
+// so no one needs to make this call for them, and therefore, only the shell should need to call this.
+	// Call this after saving an unreloadable file, so we can sync/refresh
+	// the file date/size so future QuerySave calls work correctly.
+	// Useless for nonfile documents, probably, but call it anyway?
+	HRESULT OnAfterSaveUnreloadableFile(
+		[in] LPCOLESTR	                       pszMkDocument,
+		[in] VSQEQSFlags	                   rgf, // default = 0
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA* pFileInfo // can be NULL, ignored if rgf is 0.	
+		);
+
+// Call this before saving anything to disk. [Its use for something such as a stored procedure needs to
+// reviewed.] It will handle readonly files and checked in files in a
+// uniform, shared way and tells you if you should
+// 1) QSR_SaveOK: go ahead and save (the file should not be readonly at this point).
+// 2) QSR_ForceSaveAs: QuerySaveFile has not put up saveas dialog, but is either quietly telling you to
+// do so, or the the user has actually been prompted and selected "save as". If you are editing
+// a conventional file, you are encouraged to use GetSaveFileName at this point.
+// 3) QSR_NoSave_UserCanceled: The user was notified the file is readonly and has elected to
+// either just not save or cancel the containing operation. The choice depends on BeginQuerySaveBatch/EndQuerySaveBatch.
+// If the caller is trying to save multiple files, it need not know the the batching state and the
+// difference between "no" and "cancel"; it should continue to call QuerySaveFile for each individual file,
+// and if the user selected cancel, QSR_NoSave_UserCanceled will be quietly returned until the
+// batching state reaches zero.
+	HRESULT QuerySaveFile(
+		[in] LPCOLESTR	                            pszMkDocument,
+		[in] VSQEQSFlags	                        rgf, // default = 0
+		[in] const VSQEQS_FILE_ATTRIBUTE_DATA*      pFileInfo, // can be NULL, ignored if rgf is 0.	
+		[out, retval] VSQuerySaveResult*            pdwQSResult);
+
+	// This is for the scc manager's "operation deferral" to get access to
+	// data in qeqs.
+	 HRESULT IsReloadable(
+		[in] LPCOLESTR		pszMkDocument,
+		[out, retval] BOOL* pbResult);
+};
+
+#endif

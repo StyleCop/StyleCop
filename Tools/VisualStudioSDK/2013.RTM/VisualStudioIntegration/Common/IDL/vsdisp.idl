@@ -1,0 +1,44 @@
+import "oleidl.idl";
+import "oaidl.idl";
+
+//////////////////////////////////////////////////////////////////////////
+// IVsDispatch - A lightweight IDispatch-like mechanism.
+//
+// An interface derived from IVsDispatch is called a "VsDisp interface".
+//
+// For the programming contract, each VsDisp interface defines a set of 
+// VSxDISPID_* ids in an enum (x indicates derived class) and for each 
+// Id, the set of arguments.
+//
+// When a VSxDISPID is not implemented, Do returns DISP_E_MEMBERNOTFOUND.
+//
+// During the evolution of the component, it often beomes necessary to turn
+// some ids into an interface. To make the transition easy, it is
+// recommended to implement IVsDispatch as simply a parameter packaging
+// mechanism, and implement the actual functionality in a member function.
+//
+// See IVsDispLanguage in textmgr.idl for an example of defining a VsDisp 
+// interface and the conventions for defining and documenting the set of 
+// ids and their contract. 
+//
+// See the FigLgSvc Environment SDK sample for a model implementation
+// of IVsDispLanguage.
+//
+
+typedef LONG VSDISPID;
+
+[
+    uuid(09CCD272-5FA0-11d2-B1F8-0080C747D9A0),
+    oleautomation
+]
+interface IVsDispatch : IUnknown
+{
+    HRESULT Do (
+        [in]                        VSDISPID    vsdispid,  // thing to do
+        [in]                        long        celIn,     // number of in params
+        [in, size_is(celIn)]        VARIANT   * rgvaIn,    // in params
+        [in]                        long        celOut,    // number of out params
+        [in,out, size_is(celOut)]   VARIANT   * rgvaOut    // out params
+        );
+};
+

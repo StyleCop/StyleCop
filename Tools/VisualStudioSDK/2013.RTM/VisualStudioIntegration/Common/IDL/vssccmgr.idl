@@ -1,0 +1,296 @@
+/*-----------------------------------------------------------------------------
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+@doc
+@module VSSCCMGR.IDL - Interface for the source control manager |
+
+The shell and projects need to be able to call into SCC either to retrieve
+information, or make SCC aware of their existence.
+
+This interface is now deprecated.  See IVsSccManager2.idl for
+the current version of this interface.
+
+@owner Source Control Integration Team
+-----------------------------------------------------------------------------*/
+
+#if !defined(CTC_INVOKED) && !defined(RGS_INVOKED)
+
+cpp_quote("#if     _MSC_VER > 1000")
+cpp_quote("#pragma once")
+cpp_quote("#endif")
+
+
+import "objidl.idl";
+import "IVsSccManager2.idl";
+import "vsshell.idl";
+import "vsscceng.idl";
+import "vssccprj.idl";
+
+#include "VseeGuids.h"
+
+
+enum tagVSSCCOPS
+{
+	VsSccNop = 0,
+	VsSccSyncOp,
+	VsSccOutOp,
+	VsSccInOp,
+	VsSccUnOutOp,
+	VsSccAddOp,
+	VsSccRemoveOp,
+	VsSccDiffOp,
+	VsSccHistoryOp,
+	VsSccRenameOp,
+	VsSccPropsOp,
+	VsSccOptionsOp,
+	VsSccShareOp,
+	VsSccAdminOp,
+	VsSccStatusOp,
+	VsSccAddOptionsOp,
+// These last three are private/historical/still used internally.
+	VsSccInitOp,
+	VsSccTermOp,
+	VsSccPopOp,
+// New MSSCCI 1.3 flags
+	VsSccEnumChangedOp,
+	VsSccPopDirOp,
+	VsSccQueryChangesOp,
+	VsSccRemoveDirOp,
+        VsSccShelveOp
+};
+typedef DWORD VSSCCOPS;
+
+enum tagVSSCCISVALIDOPFLAGS
+{
+// IsValidOp returns true if the op is valid for all the files.
+// returns false if it is invalid for any of them.
+	VSSCC_VALIDALL = 0,
+	VSSCC_INVALIDANY = 0,
+
+// IsValidOp returns true if it is valid for any of them.
+// returns false if it is invalid for all of them.
+	VSSCC_VALIDANY = 1,
+	VSSCC_INVALIDALL = 1,
+};
+typedef DWORD VSSCCISVALIDOPFLAGS;
+
+// Similar to VSSCCISVALIDOPFLAGS.
+// Used in CheckoutMightChange.
+enum tagVSSCC_MULTIFILEBOOLLOGIC
+{
+// If the function has a single BOOL return and an array of BOOLs return,
+// you can short circuit filling in the array, "either way".
+	VSSCC_RETURNALL        = 1, //
+	VSSCC_STOPONFIRSTTRUE  = 2,
+	VSSCC_STOPONFIRSTFALSE = 4
+};
+typedef DWORD VSSCC_MULTIFILEBOOLLOGIC;
+
+enum tagVSSCC_CHECKOUTFORSAVERESULT
+{
+	VSSCC_CHECKOUTFORSAVE_OK                = 1, // "checkout"
+	VSSCC_CHECKOUTFORSAVE_DONTSAVE_CANCEL   = 2,
+	VSSCC_CHECKOUTFORSAVE_DONTSAVE_CONTINUE = 3,
+	VSSCC_CHECKOUTFORSAVE_SAVEAS            = 4
+};
+// These are values, not bit flags. This typedef is wrong, but compatible.
+typedef DWORD VSSCC_CHECKOUTFORSAVERESULT;
+
+
+/*-----------------------------------------------------------------------------
+Name: IVsSccManager
+
+@class IVsSccManager |
+
+This interface has been deprecated. Use IVsSccManager2 instead.
+
+@base public | IUnknown
+-----------------------------------------------------------------------------*/
+[ uuid(uuid_IVsSccManager) ]
+interface IVsSccManager : IUnknown
+{
+	HRESULT RegisterSccProject(
+		[in]  IVsSccProject*	pProject,
+		[in]  LPCOLESTR			pszSccProjectName, // opaque, from SetSccLocation
+		[in]  LPCOLESTR			pszSccAuxPath, // opaque, from SetSccLocation
+		[in]  LPCOLESTR			pszSccLocalPath, // ?
+		[in]  LPCOLESTR			pszProvider, // can be null or empty
+		[in]  IVsSccEngine*		piSccEngine, // can be null
+		[out] DWORD*			pdwCookie);
+
+	HRESULT UnregisterSccProject(
+		[in] DWORD dwCookie);
+
+	HRESULT IsValidOp(
+		[in]				  DWORD				  dwCookie,
+		[in]				  int				  cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR	  rgpszFullpaths[],
+		[in]				  VSSCCOPS			  sccop,
+		[in]				  VSSCCISVALIDOPFLAGS dwFlags,
+		[out]				  BOOL*				  pfValid);
+	// dwFlags controls short circuiting behavior.
+	// Like: Do you want to know if the file is valid
+	// for any of the files or all of the files?
+	//
+	// Return values:
+	// S_FALSE: not valid for any/all (depending on flags).
+	// S_OK: valid for any all (dependong on flags).
+	//
+	// For HRESULT deficient langauges (VB, Java), use
+	// *pfValid instead of the HRESULT. For VC, pfValid
+	// can be NULL.
+
+
+	HRESULT FileStatus(
+		[in]				  DWORD				dwCookie,
+		[in]				  int				cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR	rgpszFullpaths[],
+		[out]				  VSSCCSTATUS*			pStatus,
+		[out]				  CADWORD*			prgStatus // rgStatus holds VSSCCSTATUS
+		);
+	// prgStatus is the individual bit encoded status of the files.
+	// pStatus is a unified status of all the files, including
+	// some "variable" bits if they aren't all the same.
+	//
+	// Either pStatus or prgStatus or both can be NULL.
+	// For one file, save CoTaskMemAlloc/Free and pass NULL
+	// for prgStatus and use pStatus instead.
+	//
+	// Returns S_OK if any of the files are under scc.
+	// Returns S_FALSE if none of them are.
+	//
+	// To see if a file is under source control, check for the
+	// SCC_STATUS_CONTROLLED bit.
+	//
+	// To see if a file is checked out by this user to this place,
+	// check the SCC_STATUS_CHECKEDOUT bit.
+
+// returns information about the project, not the "project file"
+	HRESULT ProjectStatus(
+		/* no cookie */
+		[in]	IVsProject*	pProject,
+		[out]	BOOL*		pbStatus);
+
+	// This can be useful to file change watchers to find the
+	// cause of a file change.
+	HRESULT PollFileChangeCause(
+		[in] DWORD dwCookie,
+		[in] LPCOLESTR pszFilename,
+		[out] BOOL* pbBusy);
+
+	HRESULT CheckoutForEdit(
+		[in]					DWORD	dwCookie,
+		[in]					int		cFiles,
+		[in, size_is(cFiles)]	const	LPCOLESTR rgpszMkDocuments[],
+		[in]					BOOL	bReloadOK,
+		[out]					DWORD*	pdw);
+
+	// If bReloadOK == FALSE and the file would probably change
+	// in getting checked, return E_FAIL. In the future, this
+	// will also be indicated withing *pdwReserved and maybe be
+	// changed to S_OK or S_FALSE.
+
+	// If CheckoutForEdit returns S_OK,
+	// the lower 16 bits of *pdw contain the same value as a call to
+	// FileStatus()'s lone VSSCCSTATUS on these files right after
+	// the main part of CheckoutForEdit executes.
+	// The upper 16 bits of *pdw remain reserved.
+
+	HRESULT IsInstalled(
+		/* no cookie */
+		[in, defaultvalue(NULL)] LPCOLESTR pszProviderName, // "SourceSafe", "slm"
+		[out, retval]			BOOL*		pbInstalled);
+
+// This method wraps and "old scc api dll" in a "new" IVsSccEngine
+// interface. It it likely to be needed by VID/DB.
+	HRESULT GetVsSccEngine(
+	// multiple provider support probably will not be implemented,
+	// set pszProviderName to NULL
+		[in] LPCOLESTR pszProviderName, // "SourceSafe", "slm"
+	// This is a fullpath to a .dll. You can, and typically will, use
+	// NULL to use the same default provider as everyone else in the
+	// shell is probably using (assuming no multiple provider support),
+	// but this will work with any valid scc dll.
+		[in] LPCOLESTR pszFullPathToSccDll, // "C:\sourcesafe\win32\ssscc.dll"
+		[out] IVsSccEngine**	ppEngine);
+
+	// This method is used by the shell's open/new project/solution
+	// dialog for the "enlist" scenario.
+	HRESULT BrowseForProject([out]BSTR* pbstrDirectory, [out]BOOL* pfOK);
+	// *pfOK == TRUE => user made a selection and it is in pbstrDirectory.
+	// open dialog should go to bstrDirectory.
+	//
+	// *pfOK == FALSE => user canceled, ignore pbstrDirectory.
+	// open dialog should stay where it is.
+
+	// This method is used by the shell's open/new project/solution
+	// dialog for the "enlist" scenario.
+	HRESULT CancelAfterBrowseForProject();
+	// If BrowseForProject is called, but the user subsequently cancels
+	// the add or does a new instead, call this.
+
+	// only single file supported currently.
+	HRESULT CheckoutMightChange(
+		[in]				  DWORD				dwCookie,
+		[in]                  VSSCC_MULTIFILEBOOLLOGIC  multiLogic,
+		[in]				  int				cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR	rgpszFullpaths[],
+		[out]                 BOOL*             pbSingleResult,
+		[out]				  CADWORD*			prgbMultiResult // holds BOOLs
+		);
+
+	// ?This is not used?
+	// ?This is used by SVsTrackProjectDocuments service?
+	// Track puts up msgbox, sccmgr puts up checklist.
+	// Track examines reloadable stuff furst, sccmgr can act
+	// stupid.
+	HRESULT Checkout( 
+		[in] DWORD dwCookie,
+		[in] DWORD dwReservedFlags,
+		[in] int cFiles,
+		[in, size_is(cFiles)] const LPCOLESTR rgpszMkDocuments[],
+		[out] DWORD* pdwReserved);
+
+	// This is used by IVsQueryEditQuerySave
+	HRESULT CheckoutForSave(
+		[in]					DWORD	dwCookie,
+		[in]                    DWORD   dwReservedFlags,
+		[in]					int		cFiles, // must currently be 1
+		[in, size_is(cFiles)]	const	LPCOLESTR rgpszMkDocuments[],
+		[out]					VSSCC_CHECKOUTFORSAVERESULT* pdw);
+
+	/*
+	An engine which supports permanent removal of itself from Source Control
+	should call this after-the-fact to cause scc to clean up. 
+	*/
+	HRESULT OnAfterDisconnectProject(
+		[in] IVsSccProject*	pProject,	// The project which has already been removed from scc
+		[in] DWORD dwCookie				// The cookie from registersccproject
+	);
+
+	HRESULT IsTargetOfPendingRename(
+		[in] LPCOLESTR	targetFile,
+		[out]BOOL*	pbResult);
+};
+
+/*-----------------------------------------------------------------------------
+UI Context: IEnableOpenFromScc
+
+Defines when Open From Source Control is enabled
+-----------------------------------------------------------------------------*/
+[ uuid(795635A1-4522-11d1-8DCE-00AA00A3F593) ]
+interface IEnableOpenFromScc : IUnknown {};
+
+/*-----------------------------------------------------------------------------
+UI Context Define: UICONTEXT_EnableOpenFromScc
+
+This is used by the shell to enable/disable/show/hide the "source control"
+button in open project/solution. It is set with a tiny bit of code in
+the solution package, in order to avoid loading the scc manager when
+there is clearly no possibility of enough stuff being installed for this
+feature ("enlist") to work.
+-----------------------------------------------------------------------------*/
+cpp_quote("#define UICONTEXT_EnableOpenFromScc IID_IEnableOpenFromScc")
+
+
+#endif

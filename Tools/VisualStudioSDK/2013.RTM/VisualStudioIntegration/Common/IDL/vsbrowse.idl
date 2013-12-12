@@ -1,0 +1,333 @@
+// VsWBSvc.idl : Visual Studio WebBrowsing and Related Services
+//
+// Nikhil Kothari : 3/2/98 - Created
+//
+#ifndef INTEROPLIB
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "servprov.idl";
+import "vsshell.idl";
+
+#endif
+
+interface IVsWebURLMRU;
+interface IVsWebBrowserUser;
+interface IVsWebBrowser;
+interface IVsWebBrowsingService;
+interface IVsWebPreviewClient;
+interface IVsWebPreview;
+interface IVsWebFavorites;
+interface IVsFavoritesProvider;
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebURLMRU and SID_SVsWebURLMRU
+
+[
+    uuid(e8b06f3d-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWebURLMRU : IUnknown
+{
+    HRESULT AddURL([in] BSTR bstrURL);
+    HRESULT GetURLArray([out, retval] VARIANT* pvarURLs);
+};
+
+cpp_quote("#define SID_SVsWebURLMRU IID_IVsWebURLMRU")
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebFavorites 
+
+[
+    uuid(e8b06f4c-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWebFavorites : IUnknown
+{
+    HRESULT AddFavorite(
+                    [in]  LPCOLESTR lpszURL,         // URL
+                    [in]  LPCOLESTR lpszName,        // Default Display name
+                    [in]  LPCOLESTR pszIconFileName, // can be NULL
+                    [in]  int       iIconIndex,       
+                    [out] BSTR *    pbstrFileName);  //Fav File name, can be NULL
+};
+
+cpp_quote("#define SID_SVsWebFavorites IID_IVsWebFavorites")
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsFavoritesProvider 
+
+[
+    uuid(e8b06f4d-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsFavoritesProvider : IUnknown
+{
+    HRESULT Navigate([in]  LPCOLESTR lpszURL,  // URL
+                     [in]  DWORD dwFlags,  // Reserved for future use
+                     [out] IVsWindowFrame** ppFrame);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebBrowserUser [Status - Incomplete]
+
+enum __VSWBCUSTOMURL
+{
+    VSWBCU_Home = 0,
+    VSWBCU_Search = 1,
+    VSWBCU_Credits = 2
+};
+typedef DWORD VSWBCUSTOMURL;
+
+[
+    uuid(e8b06f4b-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWebBrowserUser : IUnknown
+{
+    HRESULT Disconnect();
+    HRESULT GetCustomMenuInfo(
+                    [in] IUnknown*  pUnkCmdReserved,
+                    [in] IDispatch* pDispReserved,
+                    [in] DWORD      dwType,
+                    [in] DWORD      dwPosition,
+                    [out] GUID*     pguidCmdGroup,
+                    [out] long*     pdwMenuID);
+    HRESULT GetCmdUIGuid(
+                    [out] GUID* pguidCmdUI);
+    HRESULT GetExternalObject(
+                    [out] IDispatch** ppDispObject);
+    HRESULT TranslateUrl(
+                    [in] DWORD      dwReserved,
+                    [in] LPCOLESTR  lpszURLIn,
+                    [out] LPOLESTR* lppszURLOut);
+    HRESULT FilterDataObject(
+                    [in] IDataObject*   pDataObjIn,
+                    [out] IDataObject** ppDataObjOut);
+    HRESULT GetDropTarget(
+                    [in] IDropTarget*   pDropTgtIn,
+                    [out] IDropTarget** ppDropTgtOut);
+    HRESULT TranslateAccelarator(
+                    [in] LPMSG lpMsg);
+    HRESULT GetCustomURL(
+                    [in] VSWBCUSTOMURL nPage,
+                    [out] BSTR*        pbstrURL);
+    HRESULT GetOptionKeyPath(
+                    [in] DWORD  dwReserved,
+                    [out] BSTR* pbstrKey);
+    HRESULT Resize([in] int cx, [in] int cy);		    
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebBrowsingService and SID_SVsWebBrowsingService [Status - Partly Impl]
+
+enum __VSCREATEWEBBROWSER
+{
+    VSCWB_AutoShow              = 0x00000001,
+    VSCWB_AddToMRU              = 0x00000002,
+    VSCWB_ReuseExisting         = 0x00000010,
+    VSCWB_ForceNew              = 0x00000020, // force create
+    VSCWB_FrameMdiChild         = 0x00000000, // default
+    VSCWB_FrameFloat            = 0x00000040,
+    VSCWB_FrameDock             = 0x00000080,
+    VSCWB_StartHome             = 0x00000100,
+    VSCWB_StartSearch           = 0x00000200,
+    VSCWB_StartCustom           = 0x00000400,
+    VSCWB_NoHistory             = 0x00010000,
+    VSCWB_NoReadCache           = 0x00020000,
+    VSCWB_NoWriteToCache        = 0x00040000,
+    VSCWB_AllowAutosearch       = 0x00080000,
+    VSCWB_OptionNoDocProps      = 0x00000000, // default
+    VSCWB_OptionShowDocProps    = 0x01000000,
+    VSCWB_OptionCustomDocProps  = 0x02000000,
+    VSCWB_OptionDisableFind     = 0x04000000,
+    VSCWB_OptionDisableDockable = 0x08000000,
+    VSCWB_OptionDisableStatusBar= 0x10000000,
+
+    VSCWB_StartURLMask          = 0x00000F00,
+    VSCWB_NavOptionMask         = 0x000F0000,
+    VSCWB_OptionsMask           = 0xFF000000
+};
+typedef DWORD VSCREATEWEBBROWSER;
+
+enum __VSWBNAVIGATEFLAGS
+{
+    VSNWB_ForceNew              = 0x00000001,
+    VSNWB_AddToMRU              = 0x00000002,
+    VSNWB_VsURLOnly             = 0x00000004,
+    VSNWB_WebURLOnly            = 0x00000008,
+};
+
+typedef DWORD VSWBNAVIGATEFLAGS;
+
+
+[
+    uuid(e8b06f51-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWebBrowsingService : IUnknown
+{
+    HRESULT CreateWebBrowser(
+                    [in] VSCREATEWEBBROWSER dwCreateFlags,
+                    [in] REFGUID rguidOwner,
+                    [in] LPCOLESTR lpszBaseCaption,
+                    [in] LPCOLESTR lpszStartURL,
+                    [in] IVsWebBrowserUser* pUser,
+                    [out] IVsWebBrowser** ppBrowser,
+                    [out] IVsWindowFrame** ppFrame);
+    HRESULT GetFirstWebBrowser(
+                    [in] REFGUID rguidPersistenceSlot,
+                    [out] IVsWindowFrame** ppFrame,
+                    [out] IVsWebBrowser** ppBrowser);
+    HRESULT GetWebBrowserEnum(
+                    [in] REFGUID rguidPersistenceSlot,
+                    [out] IEnumWindowFrames** ppEnum);
+    HRESULT CreateExternalWebBrowser(
+                    [in] VSCREATEWEBBROWSER dwCreateFlags,
+                    [in] VSPREVIEWRESOLUTION dwResolution,
+                    [in] LPCOLESTR lpszURL);
+
+    HRESULT CreateWebBrowserEx(
+                    [in] VSCREATEWEBBROWSER dwCreateFlags,
+                    [in] REFGUID rguidPersistenceSlot, // GUID_NULL for default
+                    [in] DWORD dwId,                   // 0 for next available
+                    [in] LPCOLESTR lpszBaseCaption,    // NULL for default
+                    [in] LPCOLESTR lpszStartURL,       // NULL for vs home page
+                    [in] IVsWebBrowserUser* pUser,     // should be NULL for default rguidPersistenceSlot 
+                    [out] IVsWebBrowser** ppBrowser,   // can be NULL
+                    [out] IVsWindowFrame** ppFrame);   // can be NULL
+    HRESULT Navigate([in] LPCOLESTR lpszURL,                // navigates to Web and VS internal protocols URLS
+                     [in] VSWBNAVIGATEFLAGS dwNaviageFlags,
+                     [out] IVsWindowFrame** ppFrame);
+};
+
+cpp_quote("#define SID_SVsWebBrowsingService IID_IVsWebBrowsingService")
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebBrowser [Status - Still Designing]
+
+enum __VSWBREFRESHTYPE
+{
+    VSWBR_Normal = 0,
+    VSWBR_IfExpired = 1,
+    VSWBR_Completely = 3
+};
+typedef DWORD VSWBREFRESHTYPE;
+
+enum __VSWBDOCINFOINDEX
+{
+    VSWBDI_DocDispatch = 0,
+    VSWBDI_DocName = 1,
+    VSWBDI_DocURL = 2,
+    VSWBDI_DocType = 3,
+    VSWBDI_DocStatusText = 4,
+    VSWBDI_DocBusyStatus = 5,
+    VSWBDI_DocReadyState = 6,
+    VSWBDI_DocSize = 7,
+    VSWBDI_DocLastCtxMenuPos = 8
+};
+typedef DWORD VSWBDOCINFOINDEX;
+
+[
+    uuid(e8b06f50-6d01-11d2-aa7d-00c04f990343),
+    version(1.0),
+    pointer_default(unique)
+]
+interface IVsWebBrowser : IUnknown
+{
+    HRESULT Navigate(
+                    [in] DWORD dwFlags,
+                    [in] LPCOLESTR lpszURL);
+    HRESULT NavigateEx(
+                    [in] DWORD dwFlags,
+                    [in] LPCOLESTR lpszURL,
+                    [in] VARIANT*  pvarTargetFrame,
+                    [in] VARIANT*  pvarPostData,
+                    [in] VARIANT*  pvarHeaders);
+    HRESULT Stop();
+    HRESULT Refresh(
+                    [in] VSWBREFRESHTYPE dwRefreshType);
+    HRESULT GetDocumentInfo(
+                    [in] VSWBDOCINFOINDEX dwInfoIndex,
+                    [out] VARIANT* pvarInfo);
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// SID_SInternetSecurityManager
+
+// The main interface for this service is IInternetSecurityManager
+// defined in urlmon.h. There is no custom interface.
+
+enum __VSURLZONE
+{
+    URLZONE_VSAPP = URLZONE_USER_MIN
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebPreviewAction
+
+[
+    uuid(9EC9BA56-B328-11d2-9A98-00C04F79EFC3),
+    version(1.0),
+    helpstring("IVsWebPreviewAction Interface")
+]
+interface IVsWebPreviewAction : IUnknown
+{
+    HRESULT OnPreviewLoadStart();
+    HRESULT OnPreviewClose();
+    HRESULT OnPreviewLoaded(
+                    [in] IDispatch* pDispDocument);
+};
+
+
+///////////////////////////////////////////////////////////////////////////////
+// IVsWebPreview
+
+enum __VSWBPREVIEWOPTIONS
+{
+  VSWBP_FrameMdiChild      = VSCWB_FrameMdiChild, //0x00000000  default
+  VSWBP_FrameFloat         = VSCWB_FrameFloat,    //0x00000040
+  VSWBP_FrameDock          = VSCWB_FrameDock,     //0x00000080
+};
+
+typedef DWORD VSWBPREVIEWOPTIONS;
+
+
+[
+	uuid(9EC9BA55-B328-11d2-9A98-00C04F79EFC3),
+	version(1.0),
+	helpstring("IVsWebPreview Interface")
+]
+interface IVsWebPreview : IUnknown
+{
+    HRESULT PreviewURL(
+                    [in] IVsWebPreviewAction* pAction,
+                    [in] LPCOLESTR            lpszURL);
+
+    HRESULT PreviewURLEx(
+                    [in] IVsWebPreviewAction* pAction, // can be NULL
+                    [in] LPCOLESTR            lpszURL,
+                    [in] VSWBPREVIEWOPTIONS   opt,
+                    [in] int                  cx,   // can be 0 - default
+                    [in] int                  cy    // can be 0 - default
+                    );
+
+    HRESULT ActivatePreview();
+    HRESULT Resize([in]int cx, [in]int cy);
+};
+
+cpp_quote("#define SID_SVsWebPreview IID_IVsWebPreview")
