@@ -18,5 +18,5 @@
     <?define SupportedReSharper611Version = "6.1.1000.82" ?>      <!-- 6.1.1000.82  -->
     <?define SupportedReSharper700Version = "7.0.1098.2760" ?>    <!-- 7.0.1098.2760  -->
     <?define SupportedReSharper710Version = "7.1.3000.2254" ?>    <!-- 7.1.3000.2254  -->
-    <?define SupportedReSharper800Version = "8.0.2000.2660" ?>    <!-- 8.0.2000.2660  -->
+    <?define SupportedReSharper810Version = "8.1.23.546" ?>       <!-- 8.1.23.546  -->
 </Include>

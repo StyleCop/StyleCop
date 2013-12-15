@@ -45,17 +45,17 @@ REM Set up ReSharper dlls if installed
 
 SET ReSharperFound=0
 
-SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v8.0\Bin"
+SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v8.1\Bin"
 
 if "%IsWoW64%" == "1"  (
-	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.0\Bin"
+	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.1\Bin"
 )
 
 IF EXIST "%RESHARPERINSTALLDIR%\JetBrains.Annotations.dll" ( SET ReSharperFound=1 )
 
 IF "%ReSharperFound%"=="0" GOTO ResharperDone
 
-echo JetBrains ReSharper 8.0 was found...
+echo JetBrains ReSharper 8.1 was found...
 
 :ResharperDone
 REM --------------------------------------------------------------------------------------
