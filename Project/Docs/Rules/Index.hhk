@@ -319,6 +319,10 @@
 	<param name="Local" value="SA1215.html">
 	</OBJECT>
 <LI> <OBJECT type="text/sitemap">
+	<param name="Name" value="SA1216: NoValueFirstComparison">
+	<param name="Local" value="SA1216.html">
+	</OBJECT>
+<LI> <OBJECT type="text/sitemap">
 	<param name="Name" value="SA1300: ElementMustBeginWithUpperCaseLetter">
 	<param name="Local" value="SA1300.html">
 	</OBJECT>

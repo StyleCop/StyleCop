@@ -93,6 +93,7 @@
     <None Include="TestData\ClassMembers\ClassMembersCodeWalker{T}.cs" />
     <None Include="TestData\ClassMembers\ClassMembersMaintainabilityRules.cs" />
     <Compile Include="TestData\Documentation\DocumentationGenericTypeParameters.cs" />
+    <None Include="TestData\ElementOrder\ElementOrderNoValueFirstComparison.cs" />
     <Compile Include="TestData\FileHeaders\Global.asax.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />
