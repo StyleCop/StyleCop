@@ -33,7 +33,9 @@
             this.cancel = new System.Windows.Forms.Button();
             this.apply = new System.Windows.Forms.Button();
             this.help = new System.Windows.Forms.Button();
+            this.layoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.properties = new StyleCop.PropertyControl();
+            this.layoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ok
@@ -65,9 +67,20 @@
             this.help.UseVisualStyleBackColor = true;
             this.help.Click += new System.EventHandler(this.HelpClick);
             // 
+            // layoutPanel
+            // 
+            resources.ApplyResources(this.layoutPanel, "layoutPanel");
+            this.layoutPanel.Controls.Add(this.help, 4, 1);
+            this.layoutPanel.Controls.Add(this.properties, 0, 0);
+            this.layoutPanel.Controls.Add(this.apply, 3, 1);
+            this.layoutPanel.Controls.Add(this.ok, 1, 1);
+            this.layoutPanel.Controls.Add(this.cancel, 2, 1);
+            this.layoutPanel.Name = "layoutPanel";
+            // 
             // properties
             // 
             resources.ApplyResources(this.properties, "properties");
+            this.layoutPanel.SetColumnSpan(this.properties, 5);
             this.properties.HotTrack = true;
             this.properties.Name = "properties";
             this.properties.SelectedIndex = 0;
@@ -76,14 +89,11 @@
             // 
             this.AcceptButton = this.ok;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancel;
-            this.Controls.Add(this.properties);
-            this.Controls.Add(this.help);
-            this.Controls.Add(this.apply);
-            this.Controls.Add(this.cancel);
-            this.Controls.Add(this.ok);
+            this.Controls.Add(this.layoutPanel);
             this.Name = "PropertyDialog";
+            this.layoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -95,5 +105,6 @@
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button help;
         private PropertyControl properties;
+        private System.Windows.Forms.TableLayoutPanel layoutPanel;
     }
 }

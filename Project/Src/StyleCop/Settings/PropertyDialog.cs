@@ -205,9 +205,9 @@ namespace StyleCop
 
             if (this.helpCallback == null)
             {
-                PropertyDialog.MoveButton(this.ok, this.cancel);
-                PropertyDialog.MoveButton(this.cancel, this.apply);
-                PropertyDialog.MoveButton(this.apply, this.help);
+                MoveButton(this.ok, this.cancel);
+                MoveButton(this.cancel, this.apply);
+                MoveButton(this.apply, this.help);
                 this.help.Visible = false;
             }
 
@@ -276,13 +276,13 @@ namespace StyleCop
         /// <param name="dest">
         /// The button to move the first button on top of.
         /// </param>
-        private static void MoveButton(Button source, Button dest)
+        private void MoveButton(Button source, Button dest)
         {
             Param.AssertNotNull(source, "source");
             Param.AssertNotNull(dest, "dest");
 
-            source.Top = dest.Top;
-            source.Left = dest.Left;
+            this.layoutPanel.SetRow(source, this.layoutPanel.GetRow(dest));
+            this.layoutPanel.SetColumn(source, this.layoutPanel.GetColumn(dest));
         }
 
         /// <summary>
