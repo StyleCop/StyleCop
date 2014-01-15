@@ -1097,26 +1097,26 @@ namespace StyleCop
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // label1
-            // 
+
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
+
             // description
-            // 
+
             resources.ApplyResources(this.description, "description");
             this.tableLayoutPanel1.SetColumnSpan(this.description, 4);
             this.description.Name = "description";
             this.description.ReadOnly = true;
-            // 
+
             // label2
-            // 
+
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            // 
+
             // analyzeTree
-            // 
+
             resources.ApplyResources(this.analyzeTree, "analyzeTree");
             this.analyzeTree.CheckBoxes = true;
             this.analyzeTree.HideSelection = false;
@@ -1126,9 +1126,9 @@ namespace StyleCop
             this.analyzeTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.AnalyzeTreeAfterCheck);
             this.analyzeTree.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.AnalyzeTreeBeforeCollapse);
             this.analyzeTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AnalyzeTreeAfterSelect);
-            // 
+
             // nodeImages
-            // 
+
             this.nodeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("nodeImages.ImageStream")));
             this.nodeImages.TransparentColor = System.Drawing.Color.Magenta;
             this.nodeImages.Images.SetKeyName(0, ParserNode);
@@ -1137,14 +1137,14 @@ namespace StyleCop
             this.nodeImages.Images.SetKeyName(3, RuleNode);
 
 
-            // 
+
             // label3
-            // 
+
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
+
             // detailsTree
-            // 
+
             resources.ApplyResources(this.detailsTree, "detailsTree");
             this.detailsTree.CheckBoxes = true;
             this.detailsTree.HideSelection = false;
@@ -1153,29 +1153,29 @@ namespace StyleCop
             this.detailsTree.ShowRootLines = false;
             this.detailsTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.DetailsTreeAfterCheck);
             this.detailsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.DetailsTreeAfterSelect);
-            // 
+
             // findRule
-            // 
+
             resources.ApplyResources(this.findRule, "findRule");
             this.findRule.Name = "findRule";
             this.findRule.UseVisualStyleBackColor = true;
             this.findRule.Click += new System.EventHandler(this.FindRuleClick);
-            // 
+
             // findRuleId
-            // 
+
             resources.ApplyResources(this.findRuleId, "findRuleId");
             this.findRuleId.Name = "findRuleId";
             this.findRuleId.GotFocus += new System.EventHandler(this.FindRuleIdGotFocus);
             this.findRuleId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindRuleIdKeyDown);
             this.findRuleId.LostFocus += new System.EventHandler(this.FindRuleIdLostFocus);
-            // 
+
             // label4
-            // 
+
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            // 
+
             // tableLayoutPanel1
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -1184,9 +1184,9 @@ namespace StyleCop
             this.tableLayoutPanel1.Controls.Add(this.findRule, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
+
             // tableLayoutPanel2
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 4);
             this.tableLayoutPanel2.Controls.Add(this.detailsTree, 1, 1);
@@ -1194,9 +1194,9 @@ namespace StyleCop
             this.tableLayoutPanel2.Controls.Add(this.label3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
+
             // AnalyzersOptions
-            // 
+
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AnalyzersOptions";
             resources.ApplyResources(this, "$this");

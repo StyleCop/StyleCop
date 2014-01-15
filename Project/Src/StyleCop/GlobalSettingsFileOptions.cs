@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GlobalSettingsFileOptions.cs" company="http://stylecop.codeplex.com">
-//   MS-PL
+// <copyright file="GlobalSettingsFileOptions.cs" company="">
+//   
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 
@@ -15,10 +15,12 @@
 //   Options dialog to choose which settings files to use.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop
 {
     using System;
     using System.ComponentModel;
+    using System.Drawing;
     using System.Globalization;
     using System.IO;
     using System.Security;
@@ -91,6 +93,10 @@ namespace StyleCop
         /// Determines whether not to merge the settings.
         /// </summary>
         private RadioButton noMerge;
+
+        /// <summary>
+        /// The table layout panel 1.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel1;
 
         /// <summary>
@@ -222,7 +228,7 @@ namespace StyleCop
 
                         // Create the relative path to the global file folder.
                         Uri relative = uri.MakeRelativeUri(new Uri(this.linkedFilePath.Text));
-                        relativePath = GlobalSettingsFileOptions.ConvertBackslashes(relative.OriginalString);
+                        relativePath = ConvertBackslashes(relative.OriginalString);
                     }
 
                     this.tabControl.LocalSettings.GlobalSettings.SetProperty(
@@ -587,58 +593,52 @@ namespace StyleCop
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GlobalSettingsFileOptions));
-            this.browse = new System.Windows.Forms.Button();
-            this.linkedFilePath = new System.Windows.Forms.TextBox();
-            this.locationLabel = new System.Windows.Forms.Label();
-            this.editLinkedSettingsFile = new System.Windows.Forms.Button();
-            this.mergeWithParents = new System.Windows.Forms.RadioButton();
-            this.noMerge = new System.Windows.Forms.RadioButton();
-            this.mergeWithLinkedFile = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.editParentSettingsFile = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(GlobalSettingsFileOptions));
+            this.browse = new Button();
+            this.linkedFilePath = new TextBox();
+            this.locationLabel = new Label();
+            this.editLinkedSettingsFile = new Button();
+            this.mergeWithParents = new RadioButton();
+            this.noMerge = new RadioButton();
+            this.mergeWithLinkedFile = new RadioButton();
+            this.label1 = new Label();
+            this.editParentSettingsFile = new Button();
+            this.tableLayoutPanel1 = new TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // browse
-            // 
             resources.ApplyResources(this.browse, "browse");
             this.browse.Name = "browse";
             this.browse.UseVisualStyleBackColor = true;
             this.browse.Click += this.BrowseClick;
 
-            // 
+
             // linkedFilePath
-            // 
             resources.ApplyResources(this.linkedFilePath, "linkedFilePath");
             this.linkedFilePath.Name = "linkedFilePath";
             this.linkedFilePath.TextChanged += this.LinkedFilePathTextChanged;
-            // 
+
             // locationLabel
-            // 
             resources.ApplyResources(this.locationLabel, "locationLabel");
             this.locationLabel.Name = "locationLabel";
-            // 
+
             // editLinkedSettingsFile
-            // 
             resources.ApplyResources(this.editLinkedSettingsFile, "editLinkedSettingsFile");
             this.editLinkedSettingsFile.Name = "editLinkedSettingsFile";
             this.editLinkedSettingsFile.UseVisualStyleBackColor = true;
             this.editLinkedSettingsFile.Click += this.EditLinkedSettingsFileClicked;
 
-            // 
+
             // mergeWithParents
-            // 
             resources.ApplyResources(this.mergeWithParents, "mergeWithParents");
             this.tableLayoutPanel1.SetColumnSpan(this.mergeWithParents, 3);
             this.mergeWithParents.Name = "mergeWithParents";
             this.mergeWithParents.TabStop = true;
             this.mergeWithParents.UseVisualStyleBackColor = true;
             this.mergeWithParents.CheckedChanged += this.MergeWithParentsCheckedChanged;
-            // 
+
             // noMerge
-            // 
             resources.ApplyResources(this.noMerge, "noMerge");
             this.tableLayoutPanel1.SetColumnSpan(this.noMerge, 4);
             this.noMerge.Name = "noMerge";
@@ -646,9 +646,8 @@ namespace StyleCop
             this.noMerge.UseVisualStyleBackColor = true;
             this.noMerge.CheckedChanged += this.NoMergeCheckedChanged;
 
-            // 
+
             // mergeWithLinkedFile
-            // 
             resources.ApplyResources(this.mergeWithLinkedFile, "mergeWithLinkedFile");
             this.tableLayoutPanel1.SetColumnSpan(this.mergeWithLinkedFile, 4);
             this.mergeWithLinkedFile.Name = "mergeWithLinkedFile";
@@ -656,23 +655,20 @@ namespace StyleCop
             this.mergeWithLinkedFile.UseVisualStyleBackColor = true;
             this.mergeWithLinkedFile.CheckedChanged += this.MergeWithLinkedFileCheckedChanged;
 
-            // 
+
             // label1
-            // 
             resources.ApplyResources(this.label1, "label1");
             this.tableLayoutPanel1.SetColumnSpan(this.label1, 4);
             this.label1.Name = "label1";
-            // 
+
             // editParentSettingsFile
-            // 
             resources.ApplyResources(this.editParentSettingsFile, "editParentSettingsFile");
             this.editParentSettingsFile.Name = "editParentSettingsFile";
             this.editParentSettingsFile.UseVisualStyleBackColor = true;
             this.editParentSettingsFile.Click += this.EditParentSettingsFileClicked;
 
-            // 
+
             // tableLayoutPanel1
-            // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.editLinkedSettingsFile, 3, 4);
@@ -684,11 +680,10 @@ namespace StyleCop
             this.tableLayoutPanel1.Controls.Add(this.locationLabel, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.mergeWithParents, 0, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
+
             // GlobalSettingsFileOptions
-            // 
             this.Controls.Add(this.tableLayoutPanel1);
-            this.MinimumSize = new System.Drawing.Size(246, 80);
+            this.MinimumSize = new Size(246, 80);
             this.Name = "GlobalSettingsFileOptions";
             resources.ApplyResources(this, "$this");
             this.tableLayoutPanel1.ResumeLayout(false);

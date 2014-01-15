@@ -91,9 +91,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // autoDetectCheckBox
-            // 
+
             this.autoDetectCheckBox.AutoSize = true;
             this.autoDetectCheckBox.Location = new System.Drawing.Point(0, 23);
             this.autoDetectCheckBox.Name = "autoDetectCheckBox";
@@ -102,32 +102,32 @@ namespace StyleCop.ReSharper600.Options
             this.autoDetectCheckBox.Text = "Automatically detect location";
             this.autoDetectCheckBox.UseVisualStyleBackColor = true;
             this.autoDetectCheckBox.CheckedChanged += new System.EventHandler(this.AutoDetectCheckBox_CheckedChanged);
-            // 
+
             // StyleCopLocationTextBox
-            // 
+
             this.StyleCopLocationTextBox.Location = new System.Drawing.Point(0, 69);
             this.StyleCopLocationTextBox.Name = "StyleCopLocationTextBox";
             this.StyleCopLocationTextBox.Size = new System.Drawing.Size(275, 22);
             this.StyleCopLocationTextBox.TabIndex = 2;
-            // 
+
             // label1
-            // 
+
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(0, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(149, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "StyleCop Assembly Location";
-            // 
+
             // StyleCopLocationDialog
-            // 
+
             this.StyleCopLocationDialog.DefaultExt = "dll";
             this.StyleCopLocationDialog.FileName = "StyleCop.dll";
             this.StyleCopLocationDialog.Filter = "StyleCop Assembly|StyleCop.dll";
             this.StyleCopLocationDialog.Title = "StyleCop Location";
-            // 
+
             // BrowseButton
-            // 
+
             this.BrowseButton.Location = new System.Drawing.Point(200, 102);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(75, 23);
@@ -135,36 +135,36 @@ namespace StyleCop.ReSharper600.Options
             this.BrowseButton.Text = "Browse";
             this.BrowseButton.UseVisualStyleBackColor = true;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
-            // 
+
             // performanceTrackBar
-            // 
+
             this.performanceTrackBar.Location = new System.Drawing.Point(74, 17);
             this.performanceTrackBar.Maximum = 9;
             this.performanceTrackBar.Name = "performanceTrackBar";
             this.performanceTrackBar.Size = new System.Drawing.Size(147, 45);
             this.performanceTrackBar.TabIndex = 0;
             this.performanceTrackBar.Value = 9;
-            // 
+
             // label2
-            // 
+
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(10, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 39);
             this.label2.TabIndex = 5;
             this.label2.Text = "Less\r\nResources\r\n(Delay)";
-            // 
+
             // label3
-            // 
+
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(227, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 39);
             this.label3.TabIndex = 6;
             this.label3.Text = "More\r\nResources\r\n(Real Time)";
-            // 
+
             // performanceGroupBox
-            // 
+
             this.performanceGroupBox.Controls.Add(this.label2);
             this.performanceGroupBox.Controls.Add(this.label3);
             this.performanceGroupBox.Controls.Add(this.performanceTrackBar);
@@ -175,9 +175,9 @@ namespace StyleCop.ReSharper600.Options
             this.performanceGroupBox.TabStop = false;
             this.performanceGroupBox.Text = "Performance";
             this.performanceGroupBox.Visible = false;
-            // 
+
             // assemblyLocationGroupBox
-            // 
+
             this.assemblyLocationGroupBox.Location = new System.Drawing.Point(478, 342);
             this.assemblyLocationGroupBox.Name = "assemblyLocationGroupBox";
             this.assemblyLocationGroupBox.Size = new System.Drawing.Size(301, 124);
@@ -185,9 +185,9 @@ namespace StyleCop.ReSharper600.Options
             this.assemblyLocationGroupBox.TabStop = false;
             this.assemblyLocationGroupBox.Text = "StyleCop assembly location";
             this.assemblyLocationGroupBox.Visible = false;
-            // 
+
             // insertTextCheckBox
-            // 
+
             this.insertTextCheckBox.AutoSize = true;
             this.insertTextCheckBox.Checked = true;
             this.insertTextCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -197,9 +197,9 @@ namespace StyleCop.ReSharper600.Options
             this.insertTextCheckBox.TabIndex = 8;
             this.insertTextCheckBox.Text = "Insert text into documentation and file headers";
             this.insertTextCheckBox.UseVisualStyleBackColor = true;
-            // 
+
             // autoUpdateCheckBox
-            // 
+
             this.autoUpdateCheckBox.AutoSize = true;
             this.autoUpdateCheckBox.Checked = true;
             this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -210,18 +210,18 @@ namespace StyleCop.ReSharper600.Options
             this.autoUpdateCheckBox.Text = "Automatically check for updates";
             this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
             this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBox_CheckedChanged);
-            // 
+
             // daysLabel
-            // 
+
             this.daysLabel.AutoSize = true;
             this.daysLabel.Location = new System.Drawing.Point(184, 71);
             this.daysLabel.Name = "daysLabel";
             this.daysLabel.Size = new System.Drawing.Size(36, 13);
             this.daysLabel.TabIndex = 13;
             this.daysLabel.Text = "day(s)";
-            // 
+
             // everyTimeRadioButton
-            // 
+
             this.everyTimeRadioButton.AutoSize = true;
             this.everyTimeRadioButton.Checked = true;
             this.everyTimeRadioButton.Location = new System.Drawing.Point(0, 46);
@@ -232,9 +232,9 @@ namespace StyleCop.ReSharper600.Options
             this.everyTimeRadioButton.Text = "Every time Visual Studio starts";
             this.everyTimeRadioButton.UseVisualStyleBackColor = true;
             this.everyTimeRadioButton.CheckedChanged += new System.EventHandler(this.EveryTimeRadioButton_CheckedChanged);
-            // 
+
             // frequencyCheckRadioButton
-            // 
+
             this.frequencyCheckRadioButton.AutoSize = true;
             this.frequencyCheckRadioButton.Location = new System.Drawing.Point(0, 69);
             this.frequencyCheckRadioButton.Name = "frequencyCheckRadioButton";
@@ -242,9 +242,9 @@ namespace StyleCop.ReSharper600.Options
             this.frequencyCheckRadioButton.TabIndex = 6;
             this.frequencyCheckRadioButton.Text = "Check for updates every";
             this.frequencyCheckRadioButton.UseVisualStyleBackColor = true;
-            // 
+
             // daysMaskedTextBox
-            // 
+
             this.daysMaskedTextBox.AllowPromptAsInput = false;
             this.daysMaskedTextBox.CausesValidation = false;
             this.daysMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -261,18 +261,18 @@ namespace StyleCop.ReSharper600.Options
             this.daysMaskedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBox_KeyDown);
-            // 
+
             // numberOfDashesLabel
-            // 
+
             this.numberOfDashesLabel.AutoSize = true;
             this.numberOfDashesLabel.Location = new System.Drawing.Point(0, 3);
             this.numberOfDashesLabel.Name = "numberOfDashesLabel";
             this.numberOfDashesLabel.Size = new System.Drawing.Size(194, 13);
             this.numberOfDashesLabel.TabIndex = 17;
             this.numberOfDashesLabel.Text = "Number of dashes in file header text";
-            // 
+
             // dashesCountMaskedTextBox
-            // 
+
             this.dashesCountMaskedTextBox.AllowPromptAsInput = false;
             this.dashesCountMaskedTextBox.CausesValidation = false;
             this.dashesCountMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -289,9 +289,9 @@ namespace StyleCop.ReSharper600.Options
             this.dashesCountMaskedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.dashesCountMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.dashesCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DashesCountMaskedTextBox_KeyDown);
-            // 
+
             // useSingleLineForDeclarationCommentsCheckBox
-            // 
+
             this.useSingleLineForDeclarationCommentsCheckBox.AutoSize = true;
             this.useSingleLineForDeclarationCommentsCheckBox.Location = new System.Drawing.Point(411, 212);
             this.useSingleLineForDeclarationCommentsCheckBox.Name = "useSingleLineForDeclarationCommentsCheckBox";
@@ -300,13 +300,13 @@ namespace StyleCop.ReSharper600.Options
             this.useSingleLineForDeclarationCommentsCheckBox.Text = "Use single lines for declaration headers";
             this.useSingleLineForDeclarationCommentsCheckBox.UseVisualStyleBackColor = true;
             this.useSingleLineForDeclarationCommentsCheckBox.Visible = false;
-            // 
+
             // toolTip
-            // 
+
             this.toolTip.IsBalloon = true;
-            // 
+
             // useExcludeFromStyleCopCheckBox
-            // 
+
             this.useExcludeFromStyleCopCheckBox.AutoSize = true;
             this.useExcludeFromStyleCopCheckBox.Checked = true;
             this.useExcludeFromStyleCopCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -316,34 +316,34 @@ namespace StyleCop.ReSharper600.Options
             this.useExcludeFromStyleCopCheckBox.TabIndex = 20;
             this.useExcludeFromStyleCopCheckBox.Text = "Use ExcludeFromStyleCop setting in csproj files";
             this.useExcludeFromStyleCopCheckBox.UseVisualStyleBackColor = true;
-            // 
+
             // justificationLlabel
-            // 
+
             this.justificationLlabel.AutoSize = true;
             this.justificationLlabel.Location = new System.Drawing.Point(0, 46);
             this.justificationLlabel.Name = "justificationLlabel";
             this.justificationLlabel.Size = new System.Drawing.Size(230, 13);
             this.justificationLlabel.TabIndex = 22;
             this.justificationLlabel.Text = "Justification for SuppressMessage attribute";
-            // 
+
             // justificationTextBox
-            // 
+
             this.justificationTextBox.Location = new System.Drawing.Point(4, 63);
             this.justificationTextBox.Name = "justificationTextBox";
             this.justificationTextBox.Size = new System.Drawing.Size(275, 22);
             this.justificationTextBox.TabIndex = 21;
-            // 
+
             // codeStyleWarningLabel
-            // 
+
             this.codeStyleWarningLabel.Location = new System.Drawing.Point(0, 23);
             this.codeStyleWarningLabel.Name = "codeStyleWarningLabel";
             this.codeStyleWarningLabel.Size = new System.Drawing.Size(283, 51);
             this.codeStyleWarningLabel.TabIndex = 23;
             this.codeStyleWarningLabel.Text = "Your ReSharper C# code style options are not fully compatible with StyleCop. If y" +
     "ou reformat code then you are likely to see StyleCop violations.";
-            // 
+
             // resetFormatOptionsButton
-            // 
+
             this.resetFormatOptionsButton.AutoSize = true;
             this.resetFormatOptionsButton.Location = new System.Drawing.Point(133, 72);
             this.resetFormatOptionsButton.Name = "resetFormatOptionsButton";
@@ -352,9 +352,9 @@ namespace StyleCop.ReSharper600.Options
             this.resetFormatOptionsButton.Text = "Reset C# Code Style Options";
             this.resetFormatOptionsButton.UseVisualStyleBackColor = true;
             this.resetFormatOptionsButton.Click += new System.EventHandler(this.ResetFormatOptionsButton_Click);
-            // 
+
             // flowLayoutPanel1
-            // 
+
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.warningPanel);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
@@ -366,9 +366,9 @@ namespace StyleCop.ReSharper600.Options
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(387, 540);
             this.flowLayoutPanel1.TabIndex = 26;
-            // 
+
             // warningPanel
-            // 
+
             this.warningPanel.AutoSize = true;
             this.warningPanel.Controls.Add(this.resetFormatOptionsButton);
             this.warningPanel.Controls.Add(this.codeStyleWarningLabel);
@@ -377,9 +377,9 @@ namespace StyleCop.ReSharper600.Options
             this.warningPanel.Name = "warningPanel";
             this.warningPanel.Size = new System.Drawing.Size(300, 98);
             this.warningPanel.TabIndex = 31;
-            // 
+
             // label4
-            // 
+
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(0, 0);
@@ -387,9 +387,9 @@ namespace StyleCop.ReSharper600.Options
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 30;
             this.label4.Text = "Warning";
-            // 
+
             // panel3
-            // 
+
             this.panel3.AutoSize = true;
             this.panel3.Controls.Add(this.daysLabel);
             this.panel3.Controls.Add(this.daysMaskedTextBox);
@@ -401,9 +401,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(223, 92);
             this.panel3.TabIndex = 32;
-            // 
+
             // label5
-            // 
+
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(0, 0);
@@ -411,9 +411,9 @@ namespace StyleCop.ReSharper600.Options
             this.label5.Size = new System.Drawing.Size(78, 13);
             this.label5.TabIndex = 26;
             this.label5.Text = "Auto updates";
-            // 
+
             // panel4
-            // 
+
             this.panel4.AutoSize = true;
             this.panel4.Controls.Add(this.label6);
             this.panel4.Controls.Add(this.panel2);
@@ -422,9 +422,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(272, 74);
             this.panel4.TabIndex = 33;
-            // 
+
             // label6
-            // 
+
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(0, 0);
@@ -432,9 +432,9 @@ namespace StyleCop.ReSharper600.Options
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 27;
             this.label6.Text = "Headers";
-            // 
+
             // panel2
-            // 
+
             this.panel2.AutoSize = true;
             this.panel2.Controls.Add(this.numberOfDashesLabel);
             this.panel2.Controls.Add(this.dashesCountMaskedTextBox);
@@ -442,9 +442,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(233, 25);
             this.panel2.TabIndex = 29;
-            // 
+
             // panel5
-            // 
+
             this.panel5.AutoSize = true;
             this.panel5.Controls.Add(this.label7);
             this.panel5.Controls.Add(this.justificationTextBox);
@@ -454,9 +454,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 88);
             this.panel5.TabIndex = 34;
-            // 
+
             // label7
-            // 
+
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(0, 0);
@@ -464,9 +464,9 @@ namespace StyleCop.ReSharper600.Options
             this.label7.Size = new System.Drawing.Size(41, 13);
             this.label7.TabIndex = 30;
             this.label7.Text = "Others";
-            // 
+
             // panel1
-            // 
+
             this.panel1.AutoSize = true;
             this.panel1.Controls.Add(this.BrowseButton);
             this.panel1.Controls.Add(this.label8);
@@ -477,9 +477,9 @@ namespace StyleCop.ReSharper600.Options
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(278, 128);
             this.panel1.TabIndex = 35;
-            // 
+
             // label8
-            // 
+
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(0, 0);
@@ -487,9 +487,9 @@ namespace StyleCop.ReSharper600.Options
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 0;
             this.label8.Text = "StyleCop location";
-            // 
+
             // StyleCopOptionsPage
-            // 
+
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;

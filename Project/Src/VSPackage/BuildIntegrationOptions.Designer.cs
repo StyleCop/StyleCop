@@ -62,21 +62,21 @@ namespace StyleCop.VisualStudio
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.description = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
+
             // checkBox
-            // 
+
             resources.ApplyResources(this.checkBox, "checkBox");
             this.checkBox.Name = "checkBox";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
-            // 
+
             // description
-            // 
+
             resources.ApplyResources(this.description, "description");
             this.description.Name = "description";
-            // 
+
             // BuildIntegrationOptions
-            // 
+
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.checkBox);

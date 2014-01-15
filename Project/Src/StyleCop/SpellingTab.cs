@@ -908,39 +908,39 @@ namespace StyleCop
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // removeRecognizedWordButton
-            // 
+
             resources.ApplyResources(this.removeRecognizedWordButton, "removeRecognizedWordButton");
             this.removeRecognizedWordButton.Name = "removeRecognizedWordButton";
             this.removeRecognizedWordButton.Click += new System.EventHandler(this.RemoveRecognizedWordButtonClick);
-            // 
+
             // addRecognizedWordButton
-            // 
+
             resources.ApplyResources(this.addRecognizedWordButton, "addRecognizedWordButton");
             this.addRecognizedWordButton.Name = "addRecognizedWordButton";
             this.addRecognizedWordButton.Click += new System.EventHandler(this.AddRecognizedWordButtonClick);
-            // 
+
             // label2
-            // 
+
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            // 
+
             // addRecognizedWordTextBox
-            // 
+
             resources.ApplyResources(this.addRecognizedWordTextBox, "addRecognizedWordTextBox");
             this.addRecognizedWordTextBox.Name = "addRecognizedWordTextBox";
             this.addRecognizedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
             this.addRecognizedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddRecognizedWordKeyDown);
             this.addRecognizedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
-            // 
+
             // label1
-            // 
+
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
+
             // recognizedWordsListView
-            // 
+
             resources.ApplyResources(this.recognizedWordsListView, "recognizedWordsListView");
             this.recognizedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.recognizedWordsListView.HideSelection = false;
@@ -952,57 +952,57 @@ namespace StyleCop
             this.recognizedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
             this.recognizedWordsListView.SizeChanged += new System.EventHandler(this.RecognizedWordsListViewSizeChanged);
             this.recognizedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RecognizedWordListKeyDown);
-            // 
+
             // recognizedWordsColumnHeader
-            // 
+
             resources.ApplyResources(this.recognizedWordsColumnHeader, "recognizedWordsColumnHeader");
-            // 
+
             // label3
-            // 
+
             resources.ApplyResources(this.label3, "label3");
             this.tableLayoutPanel1.SetColumnSpan(this.label3, 3);
             this.label3.Name = "label3";
-            // 
+
             // label4
-            // 
+
             resources.ApplyResources(this.label4, "label4");
             this.tableLayoutPanel1.SetColumnSpan(this.label4, 3);
             this.label4.Name = "label4";
-            // 
+
             // addDeprecatedWordButton
-            // 
+
             resources.ApplyResources(this.addDeprecatedWordButton, "addDeprecatedWordButton");
             this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
             this.addDeprecatedWordButton.Click += new System.EventHandler(this.AddDeprecatedWordButtonClick);
-            // 
+
             // addDeprecatedWordTextBox
-            // 
+
             resources.ApplyResources(this.addDeprecatedWordTextBox, "addDeprecatedWordTextBox");
             this.addDeprecatedWordTextBox.Name = "addDeprecatedWordTextBox";
             this.addDeprecatedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
             this.addDeprecatedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
             this.addDeprecatedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
-            // 
+
             // label5
-            // 
+
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
+
             // addAlternateWordTextBox
-            // 
+
             resources.ApplyResources(this.addAlternateWordTextBox, "addAlternateWordTextBox");
             this.addAlternateWordTextBox.Name = "addAlternateWordTextBox";
             this.addAlternateWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
             this.addAlternateWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
             this.addAlternateWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
-            // 
+
             // label6
-            // 
+
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
-            // 
+
             // deprecatedWordsListView
-            // 
+
             resources.ApplyResources(this.deprecatedWordsListView, "deprecatedWordsListView");
             this.deprecatedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.deprecatedWordsListView.HideSelection = false;
@@ -1014,30 +1014,30 @@ namespace StyleCop
             this.deprecatedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
             this.deprecatedWordsListView.SizeChanged += new System.EventHandler(this.DeprecatedWordsListViewSizeChanged);
             this.deprecatedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeprecatedWordListKeyDown);
-            // 
+
             // deprecatedWordsColumnHeader
-            // 
+
             resources.ApplyResources(this.deprecatedWordsColumnHeader, "deprecatedWordsColumnHeader");
-            // 
+
             // removeDeprecatedWordButton
-            // 
+
             resources.ApplyResources(this.removeDeprecatedWordButton, "removeDeprecatedWordButton");
             this.removeDeprecatedWordButton.Name = "removeDeprecatedWordButton";
             this.removeDeprecatedWordButton.Click += new System.EventHandler(this.RemoveDeprecatedWordButtonClick);
-            // 
+
             // label7
-            // 
+
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
-            // 
+
             // addFolderTextBox
-            // 
+
             resources.ApplyResources(this.addFolderTextBox, "addFolderTextBox");
             this.addFolderTextBox.Name = "addFolderTextBox";
             this.addFolderTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDictionaryFolderKeyDown);
-            // 
+
             // foldersListView
-            // 
+
             resources.ApplyResources(this.foldersListView, "foldersListView");
             this.foldersListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.foldersListView.HideSelection = false;
@@ -1049,53 +1049,53 @@ namespace StyleCop
             this.foldersListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
             this.foldersListView.SizeChanged += new System.EventHandler(this.DictionaryFoldersListViewSizeChanged);
             this.foldersListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DictionaryFoldersKeyDown);
-            // 
+
             // dictionaryFoldersColumnHeader
-            // 
+
             resources.ApplyResources(this.dictionaryFoldersColumnHeader, "dictionaryFoldersColumnHeader");
-            // 
+
             // removeFolderButton
-            // 
+
             resources.ApplyResources(this.removeFolderButton, "removeFolderButton");
             this.removeFolderButton.Name = "removeFolderButton";
             this.removeFolderButton.Click += new System.EventHandler(this.RemoveFolderButtonClick);
-            // 
+
             // addFolderButton
-            // 
+
             resources.ApplyResources(this.addFolderButton, "addFolderButton");
             this.addFolderButton.Name = "addFolderButton";
             this.addFolderButton.Click += new System.EventHandler(this.AddFolderButtonClick);
-            // 
+
             // label9
-            // 
+
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            // 
+
             // label10
-            // 
+
             resources.ApplyResources(this.label10, "label10");
             this.tableLayoutPanel1.SetColumnSpan(this.label10, 3);
             this.label10.Name = "label10";
-            // 
+
             // groupBox2
-            // 
+
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
-            // 
+
             // label8
-            // 
+
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
-            // 
+
             // groupBox3
-            // 
+
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
-            // 
+
             // tableLayoutPanel1
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.removeFolderButton, 2, 12);
@@ -1124,60 +1124,60 @@ namespace StyleCop
             this.tableLayoutPanel1.Controls.Add(this.deprecatedWordsListView, 1, 8);
             this.tableLayoutPanel1.Controls.Add(this.removeDeprecatedWordButton, 2, 8);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
+
             // tableLayoutPanel5
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel5, 3);
             this.tableLayoutPanel5.Controls.Add(this.label13, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.groupBox2, 1, 0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            // 
+
             // label13
-            // 
+
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
-            // 
+
             // tableLayoutPanel2
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 3);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
+
             // groupBox1
-            // 
+
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.tableLayoutPanel3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            // 
+
             // tableLayoutPanel3
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
+
             // label11
-            // 
+
             resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
-            // 
+
             // tableLayoutPanel4
-            // 
+
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel4, 3);
             this.tableLayoutPanel4.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            // 
+
             // label12
-            // 
+
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            // 
+
             // SpellingTab
-            // 
+
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SpellingTab";
             resources.ApplyResources(this, "$this");

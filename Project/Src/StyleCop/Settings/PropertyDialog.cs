@@ -205,9 +205,9 @@ namespace StyleCop
 
             if (this.helpCallback == null)
             {
-                MoveButton(this.ok, this.cancel);
-                MoveButton(this.cancel, this.apply);
-                MoveButton(this.apply, this.help);
+                this.MoveButton(this.ok, this.cancel);
+                this.MoveButton(this.cancel, this.apply);
+                this.MoveButton(this.apply, this.help);
                 this.help.Visible = false;
             }
 
