@@ -15,6 +15,7 @@
 //   Options dialog to manage words for spelling.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop
 {
     using System;
@@ -30,24 +31,48 @@ namespace StyleCop
     {
         #region Constants
 
+        /// <summary>
+        /// The deprecated words property name.
+        /// </summary>
         private const string DeprecatedWordsPropertyName = "DeprecatedWords";
 
+        /// <summary>
+        /// The dictionary folders property name.
+        /// </summary>
         private const string DictionaryFoldersPropertyName = "DictionaryFolders";
 
+        /// <summary>
+        /// The recognized words property name.
+        /// </summary>
         private const string RecognizedWordsPropertyName = "RecognizedWords";
 
         #endregion
 
         #region Fields
 
+        /// <summary>
+        /// The add alternate word text box.
+        /// </summary>
         private TextBox addAlternateWordTextBox;
 
+        /// <summary>
+        /// The add deprecated word button.
+        /// </summary>
         private Button addDeprecatedWordButton;
 
+        /// <summary>
+        /// The add deprecated word text box.
+        /// </summary>
         private TextBox addDeprecatedWordTextBox;
 
+        /// <summary>
+        /// The add folder button.
+        /// </summary>
         private Button addFolderButton;
 
+        /// <summary>
+        /// The add folder text box.
+        /// </summary>
         private TextBox addFolderTextBox;
 
         /// <summary>
@@ -60,10 +85,19 @@ namespace StyleCop
         /// </summary>
         private TextBox addRecognizedWordTextBox;
 
+        /// <summary>
+        /// The deprecated words column header.
+        /// </summary>
         private ColumnHeader deprecatedWordsColumnHeader;
 
+        /// <summary>
+        /// The deprecated words list view.
+        /// </summary>
         private ListView deprecatedWordsListView;
 
+        /// <summary>
+        /// The dictionary folders column header.
+        /// </summary>
         private ColumnHeader dictionaryFoldersColumnHeader;
 
         /// <summary>
@@ -71,6 +105,9 @@ namespace StyleCop
         /// </summary>
         private bool dirty;
 
+        /// <summary>
+        /// The folders list view.
+        /// </summary>
         private ListView foldersListView;
 
         /// <summary>
@@ -78,8 +115,14 @@ namespace StyleCop
         /// </summary>
         private IButtonControl formAcceptButton;
 
+        /// <summary>
+        /// The group box 2.
+        /// </summary>
         private GroupBox groupBox2;
 
+        /// <summary>
+        /// The group box 3.
+        /// </summary>
         private GroupBox groupBox3;
 
         /// <summary>
@@ -87,6 +130,9 @@ namespace StyleCop
         /// </summary>
         private Label label1;
 
+        /// <summary>
+        /// The label 10.
+        /// </summary>
         private Label label10;
 
         /// <summary>
@@ -99,16 +145,34 @@ namespace StyleCop
         /// </summary>
         private Label label3;
 
+        /// <summary>
+        /// The label 4.
+        /// </summary>
         private Label label4;
 
+        /// <summary>
+        /// The label 5.
+        /// </summary>
         private Label label5;
 
+        /// <summary>
+        /// The label 6.
+        /// </summary>
         private Label label6;
 
+        /// <summary>
+        /// The label 7.
+        /// </summary>
         private Label label7;
 
+        /// <summary>
+        /// The label 8.
+        /// </summary>
         private Label label8;
 
+        /// <summary>
+        /// The label 9.
+        /// </summary>
         private Label label9;
 
         /// <summary>
@@ -121,22 +185,64 @@ namespace StyleCop
         /// </summary>
         private ListView recognizedWordsListView;
 
+        /// <summary>
+        /// The remove deprecated word button.
+        /// </summary>
         private Button removeDeprecatedWordButton;
 
+        /// <summary>
+        /// The remove folder button.
+        /// </summary>
         private Button removeFolderButton;
 
         /// <summary>
         /// The Remove button.
         /// </summary>
         private Button removeRecognizedWordButton;
+
+        /// <summary>
+        /// The table layout panel 1.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel1;
+
+        /// <summary>
+        /// The label 12.
+        /// </summary>
         private Label label12;
+
+        /// <summary>
+        /// The table layout panel 2.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel2;
+
+        /// <summary>
+        /// The group box 1.
+        /// </summary>
         private GroupBox groupBox1;
+
+        /// <summary>
+        /// The table layout panel 3.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel3;
+
+        /// <summary>
+        /// The label 11.
+        /// </summary>
         private Label label11;
+
+        /// <summary>
+        /// The table layout panel 4.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel4;
+
+        /// <summary>
+        /// The table layout panel 5.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel5;
+
+        /// <summary>
+        /// The label 13.
+        /// </summary>
         private Label label13;
 
         /// <summary>
@@ -157,6 +263,9 @@ namespace StyleCop
             this.InitializeColumns();
         }
 
+        /// <summary>
+        /// The initialize columns.
+        /// </summary>
         private void InitializeColumns()
         {
             this.recognizedWordsListView.Columns.AddRange(new[] { this.recognizedWordsColumnHeader });
@@ -537,6 +646,15 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// The add dictionary folder key down.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void AddDictionaryFolderKeyDown(object sender, KeyEventArgs e)
         {
             Param.AssertNotNull(sender, "sender");
@@ -552,6 +670,15 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// The add folder button click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void AddFolderButtonClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
@@ -799,6 +926,15 @@ namespace StyleCop
             this.deprecatedWordsColumnHeader.Width = this.deprecatedWordsListView.Width - 64;
         }
 
+        /// <summary>
+        /// The dictionary folders key down.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void DictionaryFoldersKeyDown(object sender, KeyEventArgs e)
         {
             Param.AssertNotNull(sender, "sender");
@@ -814,6 +950,15 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// The dictionary folders list view size changed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void DictionaryFoldersListViewSizeChanged(object sender, EventArgs e)
         {
             this.dictionaryFoldersColumnHeader.Width = this.foldersListView.Width - 64;
@@ -864,44 +1009,44 @@ namespace StyleCop
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpellingTab));
-            this.removeRecognizedWordButton = new System.Windows.Forms.Button();
-            this.addRecognizedWordButton = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.addRecognizedWordTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.recognizedWordsListView = new System.Windows.Forms.ListView();
-            this.recognizedWordsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.addDeprecatedWordButton = new System.Windows.Forms.Button();
-            this.addDeprecatedWordTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.addAlternateWordTextBox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.deprecatedWordsListView = new System.Windows.Forms.ListView();
-            this.deprecatedWordsColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.removeDeprecatedWordButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.addFolderTextBox = new System.Windows.Forms.TextBox();
-            this.foldersListView = new System.Windows.Forms.ListView();
-            this.dictionaryFoldersColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.removeFolderButton = new System.Windows.Forms.Button();
-            this.addFolderButton = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.label12 = new System.Windows.Forms.Label();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(SpellingTab));
+            this.removeRecognizedWordButton = new Button();
+            this.addRecognizedWordButton = new Button();
+            this.label2 = new Label();
+            this.addRecognizedWordTextBox = new TextBox();
+            this.label1 = new Label();
+            this.recognizedWordsListView = new ListView();
+            this.recognizedWordsColumnHeader = (ColumnHeader)(new ColumnHeader());
+            this.label3 = new Label();
+            this.label4 = new Label();
+            this.addDeprecatedWordButton = new Button();
+            this.addDeprecatedWordTextBox = new TextBox();
+            this.label5 = new Label();
+            this.addAlternateWordTextBox = new TextBox();
+            this.label6 = new Label();
+            this.deprecatedWordsListView = new ListView();
+            this.deprecatedWordsColumnHeader = (ColumnHeader)(new ColumnHeader());
+            this.removeDeprecatedWordButton = new Button();
+            this.label7 = new Label();
+            this.addFolderTextBox = new TextBox();
+            this.foldersListView = new ListView();
+            this.dictionaryFoldersColumnHeader = (ColumnHeader)(new ColumnHeader());
+            this.removeFolderButton = new Button();
+            this.addFolderButton = new Button();
+            this.label9 = new Label();
+            this.label10 = new Label();
+            this.groupBox2 = new GroupBox();
+            this.label8 = new Label();
+            this.groupBox3 = new GroupBox();
+            this.tableLayoutPanel1 = new TableLayoutPanel();
+            this.tableLayoutPanel5 = new TableLayoutPanel();
+            this.label13 = new Label();
+            this.tableLayoutPanel2 = new TableLayoutPanel();
+            this.groupBox1 = new GroupBox();
+            this.tableLayoutPanel3 = new TableLayoutPanel();
+            this.label11 = new Label();
+            this.tableLayoutPanel4 = new TableLayoutPanel();
+            this.label12 = new Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -910,192 +1055,163 @@ namespace StyleCop
             this.SuspendLayout();
 
             // removeRecognizedWordButton
-
             resources.ApplyResources(this.removeRecognizedWordButton, "removeRecognizedWordButton");
             this.removeRecognizedWordButton.Name = "removeRecognizedWordButton";
-            this.removeRecognizedWordButton.Click += new System.EventHandler(this.RemoveRecognizedWordButtonClick);
+            this.removeRecognizedWordButton.Click += new EventHandler(this.RemoveRecognizedWordButtonClick);
 
             // addRecognizedWordButton
-
             resources.ApplyResources(this.addRecognizedWordButton, "addRecognizedWordButton");
             this.addRecognizedWordButton.Name = "addRecognizedWordButton";
-            this.addRecognizedWordButton.Click += new System.EventHandler(this.AddRecognizedWordButtonClick);
+            this.addRecognizedWordButton.Click += new EventHandler(this.AddRecognizedWordButtonClick);
 
             // label2
-
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
 
             // addRecognizedWordTextBox
-
             resources.ApplyResources(this.addRecognizedWordTextBox, "addRecognizedWordTextBox");
             this.addRecognizedWordTextBox.Name = "addRecognizedWordTextBox";
-            this.addRecognizedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
-            this.addRecognizedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddRecognizedWordKeyDown);
-            this.addRecognizedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
+            this.addRecognizedWordTextBox.GotFocus += new EventHandler(this.AddWordGotFocus);
+            this.addRecognizedWordTextBox.KeyDown += new KeyEventHandler(this.AddRecognizedWordKeyDown);
+            this.addRecognizedWordTextBox.LostFocus += new EventHandler(this.AddWordLostFocus);
 
             // label1
-
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
 
             // recognizedWordsListView
-
             resources.ApplyResources(this.recognizedWordsListView, "recognizedWordsListView");
-            this.recognizedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.recognizedWordsListView.HeaderStyle = ColumnHeaderStyle.None;
             this.recognizedWordsListView.HideSelection = false;
             this.recognizedWordsListView.MultiSelect = false;
             this.recognizedWordsListView.Name = "recognizedWordsListView";
-            this.recognizedWordsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.recognizedWordsListView.Sorting = SortOrder.Ascending;
             this.recognizedWordsListView.UseCompatibleStateImageBehavior = false;
-            this.recognizedWordsListView.View = System.Windows.Forms.View.Details;
-            this.recognizedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
-            this.recognizedWordsListView.SizeChanged += new System.EventHandler(this.RecognizedWordsListViewSizeChanged);
-            this.recognizedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RecognizedWordListKeyDown);
+            this.recognizedWordsListView.View = View.Details;
+            this.recognizedWordsListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.recognizedWordsListView.SizeChanged += new EventHandler(this.RecognizedWordsListViewSizeChanged);
+            this.recognizedWordsListView.KeyDown += new KeyEventHandler(this.RecognizedWordListKeyDown);
 
             // recognizedWordsColumnHeader
-
             resources.ApplyResources(this.recognizedWordsColumnHeader, "recognizedWordsColumnHeader");
 
             // label3
-
             resources.ApplyResources(this.label3, "label3");
             this.tableLayoutPanel1.SetColumnSpan(this.label3, 3);
             this.label3.Name = "label3";
 
             // label4
-
             resources.ApplyResources(this.label4, "label4");
             this.tableLayoutPanel1.SetColumnSpan(this.label4, 3);
             this.label4.Name = "label4";
 
             // addDeprecatedWordButton
-
             resources.ApplyResources(this.addDeprecatedWordButton, "addDeprecatedWordButton");
             this.addDeprecatedWordButton.Name = "addDeprecatedWordButton";
-            this.addDeprecatedWordButton.Click += new System.EventHandler(this.AddDeprecatedWordButtonClick);
+            this.addDeprecatedWordButton.Click += new EventHandler(this.AddDeprecatedWordButtonClick);
 
             // addDeprecatedWordTextBox
-
             resources.ApplyResources(this.addDeprecatedWordTextBox, "addDeprecatedWordTextBox");
             this.addDeprecatedWordTextBox.Name = "addDeprecatedWordTextBox";
-            this.addDeprecatedWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
-            this.addDeprecatedWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
-            this.addDeprecatedWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
+            this.addDeprecatedWordTextBox.GotFocus += new EventHandler(this.AddWordGotFocus);
+            this.addDeprecatedWordTextBox.KeyDown += new KeyEventHandler(this.AddDeprecatedWordKeyDown);
+            this.addDeprecatedWordTextBox.LostFocus += new EventHandler(this.AddWordLostFocus);
 
             // label5
-
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
 
             // addAlternateWordTextBox
-
             resources.ApplyResources(this.addAlternateWordTextBox, "addAlternateWordTextBox");
             this.addAlternateWordTextBox.Name = "addAlternateWordTextBox";
-            this.addAlternateWordTextBox.GotFocus += new System.EventHandler(this.AddWordGotFocus);
-            this.addAlternateWordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDeprecatedWordKeyDown);
-            this.addAlternateWordTextBox.LostFocus += new System.EventHandler(this.AddWordLostFocus);
+            this.addAlternateWordTextBox.GotFocus += new EventHandler(this.AddWordGotFocus);
+            this.addAlternateWordTextBox.KeyDown += new KeyEventHandler(this.AddDeprecatedWordKeyDown);
+            this.addAlternateWordTextBox.LostFocus += new EventHandler(this.AddWordLostFocus);
 
             // label6
-
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
 
             // deprecatedWordsListView
-
             resources.ApplyResources(this.deprecatedWordsListView, "deprecatedWordsListView");
-            this.deprecatedWordsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.deprecatedWordsListView.HeaderStyle = ColumnHeaderStyle.None;
             this.deprecatedWordsListView.HideSelection = false;
             this.deprecatedWordsListView.MultiSelect = false;
             this.deprecatedWordsListView.Name = "deprecatedWordsListView";
-            this.deprecatedWordsListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.deprecatedWordsListView.Sorting = SortOrder.Ascending;
             this.deprecatedWordsListView.UseCompatibleStateImageBehavior = false;
-            this.deprecatedWordsListView.View = System.Windows.Forms.View.Details;
-            this.deprecatedWordsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
-            this.deprecatedWordsListView.SizeChanged += new System.EventHandler(this.DeprecatedWordsListViewSizeChanged);
-            this.deprecatedWordsListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DeprecatedWordListKeyDown);
+            this.deprecatedWordsListView.View = View.Details;
+            this.deprecatedWordsListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.deprecatedWordsListView.SizeChanged += new EventHandler(this.DeprecatedWordsListViewSizeChanged);
+            this.deprecatedWordsListView.KeyDown += new KeyEventHandler(this.DeprecatedWordListKeyDown);
 
             // deprecatedWordsColumnHeader
-
             resources.ApplyResources(this.deprecatedWordsColumnHeader, "deprecatedWordsColumnHeader");
 
             // removeDeprecatedWordButton
-
             resources.ApplyResources(this.removeDeprecatedWordButton, "removeDeprecatedWordButton");
             this.removeDeprecatedWordButton.Name = "removeDeprecatedWordButton";
-            this.removeDeprecatedWordButton.Click += new System.EventHandler(this.RemoveDeprecatedWordButtonClick);
+            this.removeDeprecatedWordButton.Click += new EventHandler(this.RemoveDeprecatedWordButtonClick);
 
             // label7
-
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
 
             // addFolderTextBox
-
             resources.ApplyResources(this.addFolderTextBox, "addFolderTextBox");
             this.addFolderTextBox.Name = "addFolderTextBox";
-            this.addFolderTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddDictionaryFolderKeyDown);
+            this.addFolderTextBox.KeyDown += new KeyEventHandler(this.AddDictionaryFolderKeyDown);
 
             // foldersListView
-
             resources.ApplyResources(this.foldersListView, "foldersListView");
-            this.foldersListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.foldersListView.HeaderStyle = ColumnHeaderStyle.None;
             this.foldersListView.HideSelection = false;
             this.foldersListView.MultiSelect = false;
             this.foldersListView.Name = "foldersListView";
-            this.foldersListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.foldersListView.Sorting = SortOrder.Ascending;
             this.foldersListView.UseCompatibleStateImageBehavior = false;
-            this.foldersListView.View = System.Windows.Forms.View.Details;
-            this.foldersListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
-            this.foldersListView.SizeChanged += new System.EventHandler(this.DictionaryFoldersListViewSizeChanged);
-            this.foldersListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DictionaryFoldersKeyDown);
+            this.foldersListView.View = View.Details;
+            this.foldersListView.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(this.WordListItemSelectionChanged);
+            this.foldersListView.SizeChanged += new EventHandler(this.DictionaryFoldersListViewSizeChanged);
+            this.foldersListView.KeyDown += new KeyEventHandler(this.DictionaryFoldersKeyDown);
 
             // dictionaryFoldersColumnHeader
-
             resources.ApplyResources(this.dictionaryFoldersColumnHeader, "dictionaryFoldersColumnHeader");
 
             // removeFolderButton
-
             resources.ApplyResources(this.removeFolderButton, "removeFolderButton");
             this.removeFolderButton.Name = "removeFolderButton";
-            this.removeFolderButton.Click += new System.EventHandler(this.RemoveFolderButtonClick);
+            this.removeFolderButton.Click += new EventHandler(this.RemoveFolderButtonClick);
 
             // addFolderButton
-
             resources.ApplyResources(this.addFolderButton, "addFolderButton");
             this.addFolderButton.Name = "addFolderButton";
-            this.addFolderButton.Click += new System.EventHandler(this.AddFolderButtonClick);
+            this.addFolderButton.Click += new EventHandler(this.AddFolderButtonClick);
 
             // label9
-
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
 
             // label10
-
             resources.ApplyResources(this.label10, "label10");
             this.tableLayoutPanel1.SetColumnSpan(this.label10, 3);
             this.label10.Name = "label10";
 
             // groupBox2
-
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
 
             // label8
-
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
 
             // groupBox3
-
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
 
             // tableLayoutPanel1
-
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel5, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.removeFolderButton, 2, 12);
@@ -1126,7 +1242,6 @@ namespace StyleCop
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 
             // tableLayoutPanel5
-
             resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel5, 3);
             this.tableLayoutPanel5.Controls.Add(this.label13, 0, 0);
@@ -1134,12 +1249,10 @@ namespace StyleCop
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
 
             // label13
-
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
 
             // tableLayoutPanel2
-
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 3);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 1, 0);
@@ -1147,24 +1260,20 @@ namespace StyleCop
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 
             // groupBox1
-
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.tableLayoutPanel3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
 
             // tableLayoutPanel3
-
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 
             // label11
-
             resources.ApplyResources(this.label11, "label11");
             this.label11.Name = "label11";
 
             // tableLayoutPanel4
-
             resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel4, 3);
             this.tableLayoutPanel4.Controls.Add(this.label12, 0, 0);
@@ -1172,12 +1281,10 @@ namespace StyleCop
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
 
             // label12
-
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
 
             // SpellingTab
-
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SpellingTab";
             resources.ApplyResources(this, "$this");
@@ -1266,6 +1373,15 @@ namespace StyleCop
             }
         }
 
+        /// <summary>
+        /// The remove folder button click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void RemoveFolderButtonClick(object sender, EventArgs e)
         {
             Param.Ignore(sender, e);
@@ -1339,7 +1455,7 @@ namespace StyleCop
             Param.AssertNotNull(item, "item");
 
             // Dispose the item's current font if necessary.
-            if (!object.Equals(item.Font, listView.Font) && item.Font != null)
+            if (!Equals(item.Font, listView.Font) && item.Font != null)
             {
                 item.Font.Dispose();
             }

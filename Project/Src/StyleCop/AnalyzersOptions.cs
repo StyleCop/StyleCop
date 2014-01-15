@@ -15,6 +15,7 @@
 //   Options dialog to choose which analyzers to run for the solution.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop
 {
     using System;
@@ -130,7 +131,15 @@ namespace StyleCop
         /// Indicates whether the tree is currently being refreshed.
         /// </summary>
         private bool refreshing;
+
+        /// <summary>
+        /// The table layout panel 1.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel1;
+
+        /// <summary>
+        /// The table layout panel 2.
+        /// </summary>
         private TableLayoutPanel tableLayoutPanel2;
 
         /// <summary>
@@ -1080,57 +1089,52 @@ namespace StyleCop
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalyzersOptions));
-            this.label1 = new System.Windows.Forms.Label();
-            this.description = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.analyzeTree = new System.Windows.Forms.TreeView();
-            this.nodeImages = new System.Windows.Forms.ImageList(this.components);
-            this.label3 = new System.Windows.Forms.Label();
-            this.detailsTree = new System.Windows.Forms.TreeView();
-            this.findRule = new System.Windows.Forms.Button();
-            this.findRuleId = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(AnalyzersOptions));
+            this.label1 = new Label();
+            this.description = new TextBox();
+            this.label2 = new Label();
+            this.analyzeTree = new TreeView();
+            this.nodeImages = new ImageList(this.components);
+            this.label3 = new Label();
+            this.detailsTree = new TreeView();
+            this.findRule = new Button();
+            this.findRuleId = new TextBox();
+            this.label4 = new Label();
+            this.tableLayoutPanel1 = new TableLayoutPanel();
+            this.tableLayoutPanel2 = new TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
 
             // label1
-
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
 
             // description
-
             resources.ApplyResources(this.description, "description");
             this.tableLayoutPanel1.SetColumnSpan(this.description, 4);
             this.description.Name = "description";
             this.description.ReadOnly = true;
 
             // label2
-
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
 
             // analyzeTree
-
             resources.ApplyResources(this.analyzeTree, "analyzeTree");
             this.analyzeTree.CheckBoxes = true;
             this.analyzeTree.HideSelection = false;
             this.analyzeTree.ImageList = this.nodeImages;
             this.analyzeTree.Name = "analyzeTree";
             this.analyzeTree.ShowRootLines = false;
-            this.analyzeTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.AnalyzeTreeAfterCheck);
-            this.analyzeTree.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.AnalyzeTreeBeforeCollapse);
-            this.analyzeTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.AnalyzeTreeAfterSelect);
+            this.analyzeTree.AfterCheck += new TreeViewEventHandler(this.AnalyzeTreeAfterCheck);
+            this.analyzeTree.BeforeCollapse += new TreeViewCancelEventHandler(this.AnalyzeTreeBeforeCollapse);
+            this.analyzeTree.AfterSelect += new TreeViewEventHandler(this.AnalyzeTreeAfterSelect);
 
             // nodeImages
-
-            this.nodeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("nodeImages.ImageStream")));
-            this.nodeImages.TransparentColor = System.Drawing.Color.Magenta;
+            this.nodeImages.ImageStream = (ImageListStreamer)(resources.GetObject("nodeImages.ImageStream"));
+            this.nodeImages.TransparentColor = Color.Magenta;
             this.nodeImages.Images.SetKeyName(0, ParserNode);
             this.nodeImages.Images.SetKeyName(1, AnalyzerNode);
             this.nodeImages.Images.SetKeyName(2, RuleGroupNode);
@@ -1139,43 +1143,37 @@ namespace StyleCop
 
 
             // label3
-
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
 
             // detailsTree
-
             resources.ApplyResources(this.detailsTree, "detailsTree");
             this.detailsTree.CheckBoxes = true;
             this.detailsTree.HideSelection = false;
             this.detailsTree.Name = "detailsTree";
             this.detailsTree.ShowLines = false;
             this.detailsTree.ShowRootLines = false;
-            this.detailsTree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.DetailsTreeAfterCheck);
-            this.detailsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.DetailsTreeAfterSelect);
+            this.detailsTree.AfterCheck += new TreeViewEventHandler(this.DetailsTreeAfterCheck);
+            this.detailsTree.AfterSelect += new TreeViewEventHandler(this.DetailsTreeAfterSelect);
 
             // findRule
-
             resources.ApplyResources(this.findRule, "findRule");
             this.findRule.Name = "findRule";
             this.findRule.UseVisualStyleBackColor = true;
-            this.findRule.Click += new System.EventHandler(this.FindRuleClick);
+            this.findRule.Click += new EventHandler(this.FindRuleClick);
 
             // findRuleId
-
             resources.ApplyResources(this.findRuleId, "findRuleId");
             this.findRuleId.Name = "findRuleId";
-            this.findRuleId.GotFocus += new System.EventHandler(this.FindRuleIdGotFocus);
-            this.findRuleId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FindRuleIdKeyDown);
-            this.findRuleId.LostFocus += new System.EventHandler(this.FindRuleIdLostFocus);
+            this.findRuleId.GotFocus += new EventHandler(this.FindRuleIdGotFocus);
+            this.findRuleId.KeyDown += new KeyEventHandler(this.FindRuleIdKeyDown);
+            this.findRuleId.LostFocus += new EventHandler(this.FindRuleIdLostFocus);
 
             // label4
-
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
 
             // tableLayoutPanel1
-
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -1186,7 +1184,6 @@ namespace StyleCop
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 
             // tableLayoutPanel2
-
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 4);
             this.tableLayoutPanel2.Controls.Add(this.detailsTree, 1, 1);
@@ -1196,7 +1193,6 @@ namespace StyleCop
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
 
             // AnalyzersOptions
-
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "AnalyzersOptions";
             resources.ApplyResources(this, "$this");

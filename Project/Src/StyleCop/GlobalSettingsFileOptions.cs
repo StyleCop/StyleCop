@@ -613,7 +613,6 @@ namespace StyleCop
             this.browse.UseVisualStyleBackColor = true;
             this.browse.Click += this.BrowseClick;
 
-
             // linkedFilePath
             resources.ApplyResources(this.linkedFilePath, "linkedFilePath");
             this.linkedFilePath.Name = "linkedFilePath";
@@ -628,7 +627,6 @@ namespace StyleCop
             this.editLinkedSettingsFile.Name = "editLinkedSettingsFile";
             this.editLinkedSettingsFile.UseVisualStyleBackColor = true;
             this.editLinkedSettingsFile.Click += this.EditLinkedSettingsFileClicked;
-
 
             // mergeWithParents
             resources.ApplyResources(this.mergeWithParents, "mergeWithParents");
@@ -646,7 +644,6 @@ namespace StyleCop
             this.noMerge.UseVisualStyleBackColor = true;
             this.noMerge.CheckedChanged += this.NoMergeCheckedChanged;
 
-
             // mergeWithLinkedFile
             resources.ApplyResources(this.mergeWithLinkedFile, "mergeWithLinkedFile");
             this.tableLayoutPanel1.SetColumnSpan(this.mergeWithLinkedFile, 4);
@@ -654,7 +651,6 @@ namespace StyleCop
             this.mergeWithLinkedFile.TabStop = true;
             this.mergeWithLinkedFile.UseVisualStyleBackColor = true;
             this.mergeWithLinkedFile.CheckedChanged += this.MergeWithLinkedFileCheckedChanged;
-
 
             // label1
             resources.ApplyResources(this.label1, "label1");
@@ -666,7 +662,6 @@ namespace StyleCop
             this.editParentSettingsFile.Name = "editParentSettingsFile";
             this.editParentSettingsFile.UseVisualStyleBackColor = true;
             this.editParentSettingsFile.Click += this.EditParentSettingsFileClicked;
-
 
             // tableLayoutPanel1
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
@@ -690,7 +685,6 @@ namespace StyleCop
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         /// <summary>
