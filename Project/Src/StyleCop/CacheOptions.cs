@@ -84,8 +84,6 @@ namespace StyleCop
 
         private PropertyDescriptor<int> maxViolationCountPropertyDescriptor;
 
-        private Panel panel3;
-
         /// <summary>
         /// The tab control hosting this page.
         /// </summary>
@@ -103,6 +101,9 @@ namespace StyleCop
         private PropertyDescriptor<bool> violationsAsErrorsPropertyDescriptor;
 
         private BooleanProperty violationsAsErrorsParentProperty;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Panel neededToMakeLastRowFill;
 
         /// <summary>
         /// Property writeCachePropertyDescriptor.
@@ -595,7 +596,6 @@ namespace StyleCop
             this.enableCache = new System.Windows.Forms.CheckBox();
             this.daysLabel = new System.Windows.Forms.Label();
             this.daysMaskedTextBox = new System.Windows.Forms.MaskedTextBox();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.checkForUpdatesLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.autoUpdateCheckBox = new System.Windows.Forms.CheckBox();
@@ -605,28 +605,38 @@ namespace StyleCop
             this.label2 = new System.Windows.Forms.Label();
             this.cultureComboBox = new System.Windows.Forms.ComboBox();
             this.violationsAsErrorsCheckBox = new System.Windows.Forms.CheckBox();
-            this.panel3.SuspendLayout();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.neededToMakeLastRowFill = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-
+            // 
             // label1
+            // 
             resources.ApplyResources(this.label1, "label1");
+            this.tableLayoutPanel1.SetColumnSpan(this.label1, 3);
             this.label1.Name = "label1";
-
+            // 
             // enableCache
+            // 
             resources.ApplyResources(this.enableCache, "enableCache");
+            this.tableLayoutPanel1.SetColumnSpan(this.enableCache, 3);
             this.enableCache.Name = "enableCache";
             this.enableCache.UseVisualStyleBackColor = true;
             this.enableCache.CheckedChanged += new System.EventHandler(this.EnableCacheCheckedChanged);
-
+            // 
             // daysLabel
+            // 
             resources.ApplyResources(this.daysLabel, "daysLabel");
             this.daysLabel.Name = "daysLabel";
-
+            // 
             // daysMaskedTextBox
+            // 
             this.daysMaskedTextBox.AllowPromptAsInput = false;
+            resources.ApplyResources(this.daysMaskedTextBox, "daysMaskedTextBox");
             this.daysMaskedTextBox.CausesValidation = false;
             this.daysMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
-            resources.ApplyResources(this.daysMaskedTextBox, "daysMaskedTextBox");
             this.daysMaskedTextBox.Name = "daysMaskedTextBox";
             this.daysMaskedTextBox.RejectInputOnFirstFailure = true;
             this.daysMaskedTextBox.ResetOnPrompt = false;
@@ -634,37 +644,35 @@ namespace StyleCop
             this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.daysMaskedTextBox.TextChanged += new System.EventHandler(this.DaysMaskedTextBoxTextChanged);
             this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBoxKeyDown);
-
-            // panel3
-            resources.ApplyResources(this.panel3, "panel3");
-            this.panel3.Controls.Add(this.checkForUpdatesLabel);
-            this.panel3.Controls.Add(this.daysLabel);
-            this.panel3.Controls.Add(this.daysMaskedTextBox);
-            this.panel3.Controls.Add(this.label5);
-            this.panel3.Controls.Add(this.autoUpdateCheckBox);
-            this.panel3.Name = "panel3";
- 
+            // 
             // checkForUpdatesLabel
+            // 
             resources.ApplyResources(this.checkForUpdatesLabel, "checkForUpdatesLabel");
             this.checkForUpdatesLabel.Name = "checkForUpdatesLabel";
-
+            // 
             // label5
+            // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-
+            // 
             // autoUpdateCheckBox
+            // 
             resources.ApplyResources(this.autoUpdateCheckBox, "autoUpdateCheckBox");
             this.autoUpdateCheckBox.Checked = true;
             this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tableLayoutPanel1.SetColumnSpan(this.autoUpdateCheckBox, 3);
             this.autoUpdateCheckBox.Name = "autoUpdateCheckBox";
             this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
             this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBoxCheckedChanged);
-
+            // 
             // label3
+            // 
             resources.ApplyResources(this.label3, "label3");
+            this.tableLayoutPanel1.SetColumnSpan(this.label3, 2);
             this.label3.Name = "label3";
- 
+            // 
             // maxViolationCountMaskedTextBox
+            // 
             this.maxViolationCountMaskedTextBox.AllowPromptAsInput = false;
             this.maxViolationCountMaskedTextBox.CausesValidation = false;
             this.maxViolationCountMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -676,40 +684,72 @@ namespace StyleCop
             this.maxViolationCountMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.maxViolationCountMaskedTextBox.TextChanged += new System.EventHandler(this.MaxViolationCountTextBoxTextChanged);
             this.maxViolationCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaxViolationCountMaskedTextBoxKeyDown);
-
+            // 
             // label2
+            // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-
+            // 
             // cultureComboBox
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.cultureComboBox, 2);
             this.cultureComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cultureComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.cultureComboBox, "cultureComboBox");
             this.cultureComboBox.Name = "cultureComboBox";
             this.cultureComboBox.SelectedIndexChanged += new System.EventHandler(this.CultureComboBoxSelectedIndexChanged);
-
+            // 
             // violationsAsErrorsCheckBox
+            // 
             resources.ApplyResources(this.violationsAsErrorsCheckBox, "violationsAsErrorsCheckBox");
+            this.tableLayoutPanel1.SetColumnSpan(this.violationsAsErrorsCheckBox, 3);
             this.violationsAsErrorsCheckBox.Name = "violationsAsErrorsCheckBox";
             this.violationsAsErrorsCheckBox.UseVisualStyleBackColor = true;
             this.violationsAsErrorsCheckBox.CheckedChanged += new System.EventHandler(this.ViolationsAsErrorsCheckBoxCheckedChanged);
-
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.maxViolationCountMaskedTextBox, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.autoUpdateCheckBox, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.enableCache, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.cultureComboBox, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.violationsAsErrorsCheckBox, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.neededToMakeLastRowFill, 0, 8);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 3);
+            this.tableLayoutPanel2.Controls.Add(this.daysLabel, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.checkForUpdatesLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.daysMaskedTextBox, 1, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // neededToMakeLastRowFill
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.neededToMakeLastRowFill, 3);
+            resources.ApplyResources(this.neededToMakeLastRowFill, "neededToMakeLastRowFill");
+            this.neededToMakeLastRowFill.Name = "neededToMakeLastRowFill";
+            // 
             // CacheOptions
-            this.Controls.Add(this.violationsAsErrorsCheckBox);
-            this.Controls.Add(this.cultureComboBox);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.enableCache);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.maxViolationCountMaskedTextBox);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.label1);
+            // 
+            this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(246, 80);
             this.Name = "CacheOptions";
             resources.ApplyResources(this, "$this");
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         private void MaxViolationCountMaskedTextBoxKeyDown(object sender, KeyEventArgs e)

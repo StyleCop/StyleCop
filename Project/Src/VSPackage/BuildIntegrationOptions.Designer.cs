@@ -78,9 +78,9 @@ namespace StyleCop.VisualStudio
             // BuildIntegrationOptions
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.description);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.checkBox);
+            this.Controls.Add(this.description);
             this.Name = "BuildIntegrationOptions";
             this.ResumeLayout(false);
 
