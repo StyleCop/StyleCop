@@ -1133,14 +1133,12 @@ namespace StyleCop
             this.analyzeTree.AfterSelect += new TreeViewEventHandler(this.AnalyzeTreeAfterSelect);
 
             // nodeImages
-            this.nodeImages.ImageStream = (ImageListStreamer)(resources.GetObject("nodeImages.ImageStream"));
+            this.nodeImages.ImageStream = (ImageListStreamer)resources.GetObject("nodeImages.ImageStream");
             this.nodeImages.TransparentColor = Color.Magenta;
             this.nodeImages.Images.SetKeyName(0, ParserNode);
             this.nodeImages.Images.SetKeyName(1, AnalyzerNode);
             this.nodeImages.Images.SetKeyName(2, RuleGroupNode);
             this.nodeImages.Images.SetKeyName(3, RuleNode);
-
-
 
             // label3
             resources.ApplyResources(this.label3, "label3");
@@ -1201,7 +1199,6 @@ namespace StyleCop
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         /// <summary>

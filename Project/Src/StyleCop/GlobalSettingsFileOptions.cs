@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GlobalSettingsFileOptions.cs" company="">
-//   
+// <copyright file="GlobalSettingsFileOptions.cs" company="http://stylecop.codeplex.com">
+//   MS-PL
 // </copyright>
 // <license>
 //   This source code is subject to terms and conditions of the Microsoft 

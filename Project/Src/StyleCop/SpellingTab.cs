@@ -263,16 +263,6 @@ namespace StyleCop
             this.InitializeColumns();
         }
 
-        /// <summary>
-        /// The initialize columns.
-        /// </summary>
-        private void InitializeColumns()
-        {
-            this.recognizedWordsListView.Columns.AddRange(new[] { this.recognizedWordsColumnHeader });
-            this.deprecatedWordsListView.Columns.AddRange(new[] { this.deprecatedWordsColumnHeader });
-            this.foldersListView.Columns.AddRange(new[] { this.dictionaryFoldersColumnHeader }); 
-        }
-
         #endregion
 
         #region Public Properties
@@ -571,6 +561,16 @@ namespace StyleCop
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// The initialize columns.
+        /// </summary>
+        private void InitializeColumns()
+        {
+            this.recognizedWordsListView.Columns.AddRange(new[] { this.recognizedWordsColumnHeader });
+            this.deprecatedWordsListView.Columns.AddRange(new[] { this.deprecatedWordsColumnHeader });
+            this.foldersListView.Columns.AddRange(new[] { this.dictionaryFoldersColumnHeader });
+        }
 
         /// <summary>
         /// Event that is fired when the add deprecated word button is clicked.
@@ -1298,7 +1298,6 @@ namespace StyleCop
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         /// <summary>
@@ -1455,7 +1454,7 @@ namespace StyleCop
             Param.AssertNotNull(item, "item");
 
             // Dispose the item's current font if necessary.
-            if (!Equals(item.Font, listView.Font) && item.Font != null)
+            if (!object.Equals(item.Font, listView.Font) && item.Font != null)
             {
                 item.Font.Dispose();
             }

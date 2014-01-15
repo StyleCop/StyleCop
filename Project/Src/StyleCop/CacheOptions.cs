@@ -539,7 +539,7 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// The enum satellite languages.
+        /// Gets the satellite languages.
         /// </summary>
         /// <param name="baseName">
         /// The base name.
@@ -593,6 +593,7 @@ namespace StyleCop
         /// The <see cref="IEnumerable{T}"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
+        /// The <paramref name="baseName"/> argument was null.
         /// </exception>
         private static IEnumerable<CultureInfo> GetSatelliteLanguages(string baseName)
         {
@@ -860,7 +861,6 @@ namespace StyleCop
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         /// <summary>
