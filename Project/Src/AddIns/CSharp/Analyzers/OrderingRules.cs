@@ -653,11 +653,11 @@ namespace StyleCop.CSharp
             {
                 CsTokenType tokenType = ((LiteralExpression)expression).Token.CsTokenType;
 
-                return tokenType == CsTokenType.Number ||
-                    tokenType == CsTokenType.String ||
-                    tokenType == CsTokenType.Null ||
-                    tokenType == CsTokenType.True ||
-                    tokenType == CsTokenType.False;
+                return tokenType == CsTokenType.Number
+                    || tokenType == CsTokenType.String
+                    || tokenType == CsTokenType.Null
+                    || tokenType == CsTokenType.True
+                    || tokenType == CsTokenType.False;
             }
 
             if (expression is ParenthesizedExpression)
