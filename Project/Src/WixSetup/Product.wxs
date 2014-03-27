@@ -26,11 +26,11 @@
 
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
-               Description='Files for integration with JetBrains ReSharper 5.1.3, 6.0, 6.1, 6.1.1, 7.0.1, 7.1 or 8.1.'
+               Description='Files for integration with JetBrains ReSharper 5.1.3, 6.0, 6.1, 6.1.1, 7.0.1, 7.1 or 8.2.'
                Level='500' AllowAdvertise="no" Display="expand" InstallDefault="local" TypicalDefault="install" Absent="allow">
         <ComponentGroupRef Id="ReSharper_Common" />
-        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR RESHARPER70_VERSION <> "" OR RESHARPER71_VERSION <> ""OR RESHARPER81_VERSION <> ""]]></Condition>
-        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = "" AND RESHARPER70_VERSION = "" AND RESHARPER71_VERSION = "" AND RESHARPER81_VERSION = ""]]></Condition>
+        <Condition Level="1"><![CDATA[RESHARPER51_VERSION <> "" OR RESHARPER60_VERSION <> "" OR RESHARPER61_VERSION <> "" OR RESHARPER70_VERSION <> "" OR RESHARPER71_VERSION <> ""OR RESHARPER82_VERSION <> ""]]></Condition>
+        <Condition Level="0"><![CDATA[RESHARPER51_VERSION = "" AND RESHARPER60_VERSION = "" AND RESHARPER61_VERSION = "" AND RESHARPER70_VERSION = "" AND RESHARPER71_VERSION = "" AND RESHARPER82_VERSION = ""]]></Condition>
       </Feature>
 
       <Feature Id='Feature_VisualStudioTemplates'
@@ -105,7 +105,7 @@
             OR
             (RESHARPER71_VERSION <> "" AND RESHARPER71_VERSION <> "$(var.SupportedReSharper710Version)")
             OR
-            (RESHARPER81_VERSION <> "" AND RESHARPER81_VERSION <> "$(var.SupportedReSharper810Version)")
+            (RESHARPER82_VERSION <> "" AND RESHARPER82_VERSION <> "$(var.SupportedReSharper820Version)")
           )
           ]]>
       </Publish>
@@ -124,7 +124,7 @@
             AND
             (RESHARPER71_VERSION = "" OR RESHARPER71_VERSION = "$(var.SupportedReSharper710Version)")
             AND
-            (RESHARPER81_VERSION = "" OR RESHARPER81_VERSION = "$(var.SupportedReSharper810Version)")
+            (RESHARPER82_VERSION = "" OR RESHARPER82_VERSION = "$(var.SupportedReSharper820Version)")
           )
           ]]>
       </Publish>
