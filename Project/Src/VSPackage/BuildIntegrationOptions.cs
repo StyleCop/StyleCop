@@ -14,8 +14,12 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.VisualStudio
 {
+    using System;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
+
+    using Microsoft.Build.BuildEngine;
     using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
@@ -47,7 +51,7 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// The VS project.
         /// </summary>
-        private IVsBuildPropertyStorage project;
+        private Project project;
 
         #endregion Private Fields
 
@@ -56,8 +60,8 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Initializes a new instance of the BuildIntegrationOptions class.
         /// </summary>
-        /// <param name="project">The VS project.</param>
-        public BuildIntegrationOptions(IVsBuildPropertyStorage project)
+        /// <param name="project">The MSBuild project.</param>
+        public BuildIntegrationOptions(Project project)
         {
             Param.RequireNotNull(project, "project");
 
@@ -66,6 +70,15 @@ namespace StyleCop.VisualStudio
         }
 
         #endregion Public Constructors
+
+        /// <summary>
+        /// Treat Style Cop error as warnings or errors.
+        /// </summary>
+        private enum TreatError
+        {
+            AsWarning,
+            AsError
+        }
 
         #region Public Properties
 
@@ -113,13 +126,18 @@ namespace StyleCop.VisualStudio
         {
             get
             {
-                string propertyValue = null;
-                if (0 == this.project.GetPropertyValue(PropertyName, null, 0, out propertyValue))
-                {
-                    return !string.IsNullOrEmpty(propertyValue);
-                }
+                return this.project.Imports.Cast<Import>().Any(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
+            }
+        }
 
-                return false;
+        /// <summary>
+        /// Gets current treat error setting in project.
+        /// </summary>
+        private TreatError TreatErrorInProject
+        {
+            get
+            {
+                return this.project.GetEvaluatedProperty("StyleCopTreatErrorsAsWarnings") == "false" ? TreatError.AsError : TreatError.AsWarning;
             }
         }
 
@@ -167,14 +185,25 @@ namespace StyleCop.VisualStudio
         /// <returns>Returns true if the data is saved, false if not.</returns>
         public bool Apply()
         {
-            ////if (this.checkBox.Checked && !this.IsBuildIntegrationEnabledInProject)
-            ////{
-            ////    this.EnableBuildIntegrationInProject();
-            ////}
-            ////else if (!this.checkBox.Checked && this.IsBuildIntegrationEnabledInProject)
-            ////{
-            ////    this.DisableBuildIntegrationInProject();
-            ////}
+            if (this.checkBox.Checked && !this.IsBuildIntegrationEnabledInProject)
+            {
+                this.EnableBuildIntegrationInProject();
+            }
+            else if (!this.checkBox.Checked && this.IsBuildIntegrationEnabledInProject)
+            {
+                this.DisableBuildIntegrationInProject();
+            }
+
+            if (this.radioButtonAsWarning.Checked && this.TreatErrorInProject != TreatError.AsWarning)
+            {
+                this.TreatErrorAsWarningInProject();
+            }
+            else if (this.radioButtonAsError.Checked && this.TreatErrorInProject != TreatError.AsError)
+            {
+                this.TreatErrorAsErrorInProject();
+            }
+
+            this.project.Save(this.project.FullFileName);
 
             this.dirty = false;
             this.tabControl.DirtyChanged();
@@ -212,21 +241,65 @@ namespace StyleCop.VisualStudio
         private void InitializeSettings()
         {
             this.checkBox.Checked = this.IsBuildIntegrationEnabledInProject;
+            this.radioButtonAsError.Checked = this.TreatErrorInProject == TreatError.AsError;
+            this.radioButtonAsWarning.Checked = this.TreatErrorInProject == TreatError.AsWarning;
+            this.SetTreatGroupEnabledState();
+            this.SetBoldState();
         }
 
-        /////// <summary>
-        /////// Enables StyleCop build integration for the project.
-        /////// </summary>
-        ////private void EnableBuildIntegrationInProject()
-        ////{
-        ////}
+        /// <summary>
+        /// Enables StyleCop build integration for the project.
+        /// </summary>
+        private void EnableBuildIntegrationInProject()
+        {
+            this.SetBuildIntegrationInProject(true);
+        }
 
-        /////// <summary>
-        /////// Disables StyleCop build integration for the project.
-        /////// </summary>
-        ////private void DisableBuildIntegrationInProject()
-        ////{
-        ////}
+        /// <summary>
+        /// Disables StyleCop build integration for the project.
+        /// </summary>
+        private void DisableBuildIntegrationInProject()
+        {
+            this.SetBuildIntegrationInProject(false);
+        }
+
+        /// <summary>
+        /// Sets build integration setting in project.
+        /// </summary>
+        /// <param name="enable">Enable build integration.</param>
+        private void SetBuildIntegrationInProject(bool enable)
+        {
+            Param.AssertNotNull(enable, "enable");
+
+            var import = this.project
+                .Imports
+                .Cast<Import>()
+                .FirstOrDefault(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
+            if (enable && import == null)
+            {
+                this.project.AddNewImport(@"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", string.Empty);
+            }
+            else if (!enable && import != null)
+            {
+                this.project.Imports.RemoveImport(import);
+            }
+        }
+
+        /// <summary>
+        /// Sets treat error setting as warnings.
+        /// </summary>
+        private void TreatErrorAsWarningInProject()
+        {
+            this.project.SetProperty("StyleCopTreatErrorsAsWarnings", "true", string.Empty);
+        }
+
+        /// <summary>
+        /// Sets treat error setting as errors.
+        /// </summary>
+        private void TreatErrorAsErrorInProject()
+        {
+            this.project.SetProperty("StyleCopTreatErrorsAsWarnings", "false", string.Empty);
+        }
 
         /// <summary>
         /// Called when the checkbox is checked or unchecked.
@@ -239,6 +312,24 @@ namespace StyleCop.VisualStudio
 
             this.dirty = true;
             this.tabControl.DirtyChanged();
+
+            this.SetTreatGroupEnabledState();
+            this.SetBoldState();
+        }
+
+        /// <summary>
+        /// Called when the radio button is checked or unchecked.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void RadioButtonCheckedChanged(object sender, System.EventArgs e)
+        {
+            Param.Ignore(sender, e);
+
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+
+            this.SetBoldState();
         }
 
         /// <summary>
@@ -246,7 +337,7 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="item">The item to set.</param>
         /// <param name="bold">The bold state.</param>
-        private void SetBoldState(TextBox item, bool bold)
+        private void SetBoldState(Control item, bool bold)
         {
             Param.AssertNotNull(item, "item");
             Param.Ignore(bold);
@@ -258,14 +349,25 @@ namespace StyleCop.VisualStudio
             }
 
             // Create and set the new font.
-            if (bold)
-            {
-                item.Font = new Font(this.Font, FontStyle.Bold);
-            }
-            else
-            {
-                item.Font = new Font(this.Font, FontStyle.Regular);
-            }
+            item.Font = bold ? new Font(this.Font, FontStyle.Bold) : new Font(this.Font, FontStyle.Regular);
+        }
+
+        /// <summary>
+        /// Sets the bold state of the control items.
+        /// </summary>
+        private void SetBoldState()
+        {
+            this.SetBoldState(this.checkBox, this.checkBox.Checked != this.IsBuildIntegrationEnabledInProject);
+            this.SetBoldState(this.radioButtonAsWarning, this.radioButtonAsWarning.Checked && this.TreatErrorInProject != TreatError.AsWarning);
+            this.SetBoldState(this.radioButtonAsError, this.radioButtonAsError.Checked && this.TreatErrorInProject != TreatError.AsError);
+        }
+
+        /// <summary>
+        /// Sets the enable state of the treat group items.
+        /// </summary>
+        private void SetTreatGroupEnabledState()
+        {
+            this.descriptionTreat.Enabled = this.radioButtonAsError.Enabled = this.radioButtonAsWarning.Enabled = this.checkBox.Checked;
         }
 
         #endregion Private Methods

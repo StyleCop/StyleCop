@@ -752,6 +752,61 @@ namespace StyleCop.VisualStudio
             return new StyleCop.Configuration(null);
         }
 
+        /// <summary>
+        /// Gets the FullName property from the given project, protecting against exceptions.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>Returns the value of the FullName property.</returns>
+        internal static string GetProjectFullName(Project project)
+        {
+            Param.AssertNotNull(project, "project");
+
+            try
+            {
+                string fullName = project.FullName;
+
+                // If the path starts with "http:" then it is not a valid file system path. This eliminates the
+                // need for an exception to be thrown for web service projects, which always begin with something like http://, ftp://, etc.
+                if (fullName != null && !fullName.StartsWith("http:", StringComparison.OrdinalIgnoreCase))
+                {
+                    // The Path.GetFullPath function will tell us whether or not the path is well formed
+                    // and looks like a file system path.
+                    return Path.GetFullPath(fullName);
+                }
+            }
+            catch (ArgumentException)
+            {
+                // The path is not a valid file system path. This can happen for example with Web Service projects, 
+                // where the project.FullName property contains a path like http://localhost/etc rather than a path on the file system.
+            }
+            catch (NotSupportedException)
+            {
+                // The path contains invalid characters.
+            }
+            catch (PathTooLongException)
+            {
+                // The path is too long.
+            }
+            catch (SecurityException)
+            {
+                // The user does not have permission to access the full path.
+            }
+            catch (NotImplementedException)
+            {
+                // Some project types will throw a NotImplementedException under certain contitions when this property is accessed.
+            }
+            catch (InvalidCastException)
+            {
+                // Some project types will throw an InvalidCastException under certain contitions when this property is accessed.
+            }
+            catch (COMException)
+            {
+                // Some project types will throw a COMException under certain contitions when this property is accessed.
+            }
+
+            return null;
+        }
+
         #endregion Internal Static Methods
 
         #region Private Static Methods
@@ -1692,61 +1747,6 @@ namespace StyleCop.VisualStudio
             try
             {
                 return project.FileName;
-            }
-            catch (NotImplementedException)
-            {
-                // Some project types will throw a NotImplementedException under certain contitions when this property is accessed.
-            }
-            catch (InvalidCastException)
-            {
-                // Some project types will throw an InvalidCastException under certain contitions when this property is accessed.
-            }
-            catch (COMException)
-            {
-                // Some project types will throw a COMException under certain contitions when this property is accessed.
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the FullName property from the given project, protecting against exceptions.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>Returns the value of the FullName property.</returns>
-        private static string GetProjectFullName(Project project)
-        {
-            Param.AssertNotNull(project, "project");
-
-            try
-            {
-                string fullName = project.FullName;
-
-                // If the path starts with "http:" then it is not a valid file system path. This eliminates the
-                // need for an exception to be thrown for web service projects, which always begin with something like http://, ftp://, etc.
-                if (fullName != null && !fullName.StartsWith("http:", StringComparison.OrdinalIgnoreCase))
-                {
-                    // The Path.GetFullPath function will tell us whether or not the path is well formed
-                    // and looks like a file system path.
-                    return Path.GetFullPath(fullName);
-                }
-            }
-            catch (ArgumentException)
-            {
-                // The path is not a valid file system path. This can happen for example with Web Service projects, 
-                // where the project.FullName property contains a path like http://localhost/etc rather than a path on the file system.
-            }
-            catch (NotSupportedException)
-            {
-                // The path contains invalid characters.
-            }
-            catch (PathTooLongException)
-            {
-                // The path is too long.
-            }
-            catch (SecurityException)
-            {
-                // The user does not have permission to access the full path.
             }
             catch (NotImplementedException)
             {
