@@ -20,7 +20,6 @@ namespace StyleCop.VisualStudio
     using System.Windows.Forms;
 
     using Microsoft.Build.BuildEngine;
-    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// Allows setting the company and copyright requirements.
@@ -53,6 +52,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private Project project;
 
+        /// <summary>
+        /// The build integration setting.
+        /// </summary>
+        private ProjectUtilities.BuildIntegration setting;
+
         #endregion Private Fields
 
         #region Public Constructors
@@ -66,19 +70,12 @@ namespace StyleCop.VisualStudio
             Param.RequireNotNull(project, "project");
 
             this.project = project;
+            this.setting = ProjectUtilities.GetBuildIntegrationInProject(this.project);
+            
             this.InitializeComponent();
         }
 
         #endregion Public Constructors
-
-        /// <summary>
-        /// Treat Style Cop error as warnings or errors.
-        /// </summary>
-        private enum TreatError
-        {
-            AsWarning,
-            AsError
-        }
 
         #region Public Properties
 
@@ -119,28 +116,30 @@ namespace StyleCop.VisualStudio
 
         #region Private Properties
 
-        /// <summary>
-        /// Gets a value indicating whether StyleCop build integration is enabled for the project.
-        /// </summary>
-        private bool IsBuildIntegrationEnabledInProject
+        private bool BuildIntagrationEnabled
         {
             get
             {
-                return this.project.Imports.Cast<Import>().Any(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
+                return this.setting != ProjectUtilities.BuildIntegration.None;
             }
         }
 
-        /// <summary>
-        /// Gets current treat error setting in project.
-        /// </summary>
-        private TreatError TreatErrorInProject
+        private bool TreatErrorAsError
         {
             get
             {
-                return this.project.GetEvaluatedProperty("StyleCopTreatErrorsAsWarnings") == "false" ? TreatError.AsError : TreatError.AsWarning;
+                return this.setting == ProjectUtilities.BuildIntegration.TreatErrorAsError;
             }
         }
 
+        private bool TreatErrorAsWarning
+        {
+            get
+            {
+                return this.setting == ProjectUtilities.BuildIntegration.TreatErrorAsWarning;
+            }
+        }
+          
         #endregion Private Properties
 
         #region Public Methods
@@ -185,26 +184,17 @@ namespace StyleCop.VisualStudio
         /// <returns>Returns true if the data is saved, false if not.</returns>
         public bool Apply()
         {
-            if (this.checkBox.Checked && !this.IsBuildIntegrationEnabledInProject)
+            ProjectUtilities.BuildIntegration setting = ProjectUtilities.BuildIntegration.None;
+            if (this.checkBox.Checked)
             {
-                this.EnableBuildIntegrationInProject();
-            }
-            else if (!this.checkBox.Checked && this.IsBuildIntegrationEnabledInProject)
-            {
-                this.DisableBuildIntegrationInProject();
-            }
-
-            if (this.radioButtonAsWarning.Checked && this.TreatErrorInProject != TreatError.AsWarning)
-            {
-                this.TreatErrorAsWarningInProject();
-            }
-            else if (this.radioButtonAsError.Checked && this.TreatErrorInProject != TreatError.AsError)
-            {
-                this.TreatErrorAsErrorInProject();
+                setting = this.radioButtonAsWarning.Checked
+                    ? ProjectUtilities.BuildIntegration.TreatErrorAsWarning
+                    : ProjectUtilities.BuildIntegration.TreatErrorAsError;
             }
 
-            this.project.Save(this.project.FullFileName);
+            ProjectUtilities.SetBuildIntegrationInProject(this.project, setting);
 
+            this.setting = setting;
             this.dirty = false;
             this.tabControl.DirtyChanged();
 
@@ -240,65 +230,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private void InitializeSettings()
         {
-            this.checkBox.Checked = this.IsBuildIntegrationEnabledInProject;
-            this.radioButtonAsError.Checked = this.TreatErrorInProject == TreatError.AsError;
-            this.radioButtonAsWarning.Checked = this.TreatErrorInProject == TreatError.AsWarning;
+            this.checkBox.Checked = this.BuildIntagrationEnabled;
+            this.radioButtonAsWarning.Checked = this.TreatErrorAsWarning;
+            this.radioButtonAsError.Checked = this.TreatErrorAsError;
             this.SetTreatGroupEnabledState();
             this.SetBoldState();
-        }
-
-        /// <summary>
-        /// Enables StyleCop build integration for the project.
-        /// </summary>
-        private void EnableBuildIntegrationInProject()
-        {
-            this.SetBuildIntegrationInProject(true);
-        }
-
-        /// <summary>
-        /// Disables StyleCop build integration for the project.
-        /// </summary>
-        private void DisableBuildIntegrationInProject()
-        {
-            this.SetBuildIntegrationInProject(false);
-        }
-
-        /// <summary>
-        /// Sets build integration setting in project.
-        /// </summary>
-        /// <param name="enable">Enable build integration.</param>
-        private void SetBuildIntegrationInProject(bool enable)
-        {
-            Param.AssertNotNull(enable, "enable");
-
-            var import = this.project
-                .Imports
-                .Cast<Import>()
-                .FirstOrDefault(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
-            if (enable && import == null)
-            {
-                this.project.AddNewImport(@"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", string.Empty);
-            }
-            else if (!enable && import != null)
-            {
-                this.project.Imports.RemoveImport(import);
-            }
-        }
-
-        /// <summary>
-        /// Sets treat error setting as warnings.
-        /// </summary>
-        private void TreatErrorAsWarningInProject()
-        {
-            this.project.SetProperty("StyleCopTreatErrorsAsWarnings", "true", string.Empty);
-        }
-
-        /// <summary>
-        /// Sets treat error setting as errors.
-        /// </summary>
-        private void TreatErrorAsErrorInProject()
-        {
-            this.project.SetProperty("StyleCopTreatErrorsAsWarnings", "false", string.Empty);
         }
 
         /// <summary>
@@ -357,9 +293,9 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private void SetBoldState()
         {
-            this.SetBoldState(this.checkBox, this.checkBox.Checked != this.IsBuildIntegrationEnabledInProject);
-            this.SetBoldState(this.radioButtonAsWarning, this.radioButtonAsWarning.Checked && this.TreatErrorInProject != TreatError.AsWarning);
-            this.SetBoldState(this.radioButtonAsError, this.radioButtonAsError.Checked && this.TreatErrorInProject != TreatError.AsError);
+            this.SetBoldState(this.checkBox, this.checkBox.Checked != this.BuildIntagrationEnabled);
+            this.SetBoldState(this.radioButtonAsWarning, this.radioButtonAsWarning.Checked != this.TreatErrorAsWarning);
+            this.SetBoldState(this.radioButtonAsError, this.radioButtonAsError.Checked != this.TreatErrorAsError);
         }
 
         /// <summary>

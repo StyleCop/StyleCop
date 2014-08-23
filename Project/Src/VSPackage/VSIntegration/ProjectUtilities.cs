@@ -12,6 +12,10 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
+
+using System.Linq;
+using Microsoft.Build.BuildEngine;
+
 namespace StyleCop.VisualStudio
 {
     using System;
@@ -95,6 +99,20 @@ namespace StyleCop.VisualStudio
         private delegate object ProjectItemInvoker(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext);
 
         #endregion Private Delegates
+        
+        #region Enums
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal enum BuildIntegration
+        {
+            None,
+            TreatErrorAsWarning,
+            TreatErrorAsError
+        }
+
+        #endregion
 
         #region Internal Static Methods
         
@@ -805,6 +823,41 @@ namespace StyleCop.VisualStudio
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Sets build integration setting in project.
+        /// </summary>
+        /// <param name="project">The MSBuild project.</param>
+        /// <param name="buildIntegration">The build integration setting.</param>
+        internal static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(buildIntegration, "buildIntegration");
+
+            SetBuildIntegrationInProject(project, buildIntegration != BuildIntegration.None);
+            SetTreatLevel(project, buildIntegration);
+
+            project.Save(project.FullFileName);
+        }
+
+        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project)
+        {
+            Param.AssertNotNull(project, "project");
+
+            ProjectUtilities.BuildIntegration setting = BuildIntegration.None;
+            if (project.Imports.Cast<Import>().Any(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase)))
+            {
+                setting = BuildIntegration.TreatErrorAsWarning;
+                string property = project.GetEvaluatedProperty("StyleCopTreatErrorsAsWarnings");
+                bool treatAsWarnings;
+                if (bool.TryParse(property, out treatAsWarnings) && !treatAsWarnings)
+                {
+                    setting = BuildIntegration.TreatErrorAsError;
+                }
+            }
+
+            return setting;
         }
 
         #endregion Internal Static Methods
@@ -1832,6 +1885,46 @@ namespace StyleCop.VisualStudio
         private static void SolutionEventsProjectAdded(Project project)
         {
             ClearCaches();
+        }
+
+        private static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, bool enable)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(enable, "enable");
+
+            var import = project
+                .Imports
+                .Cast<Import>()
+                .FirstOrDefault(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
+            if (enable && import == null)
+            {
+                project.AddNewImport(@"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", string.Empty);
+            }
+            else if (!enable && import != null)
+            {
+                project.Imports.RemoveImport(import);
+            }
+        }
+
+        private static void SetTreatLevel(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(buildIntegration, "enable");
+
+            switch (buildIntegration)
+            {
+                case BuildIntegration.None:
+                    project.GlobalProperties.RemoveProperty("StyleCopTreatErrorsAsWarnings");
+                    break;
+                case BuildIntegration.TreatErrorAsWarning:
+                    project.SetProperty("StyleCopTreatErrorsAsWarnings", "true", string.Empty);
+                    break;
+                case BuildIntegration.TreatErrorAsError:
+                    project.SetProperty("StyleCopTreatErrorsAsWarnings", "false", string.Empty);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("buildIntegration");
+            }
         }
 
         #endregion Private Static Methods
