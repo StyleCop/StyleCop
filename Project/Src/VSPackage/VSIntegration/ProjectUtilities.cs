@@ -103,7 +103,7 @@ namespace StyleCop.VisualStudio
         #region Enums
 
         /// <summary>
-        /// 
+        /// The build integration setting.
         /// </summary>
         internal enum BuildIntegration
         {
