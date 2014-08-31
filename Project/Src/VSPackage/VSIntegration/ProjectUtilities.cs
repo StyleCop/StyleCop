@@ -40,6 +40,16 @@ namespace StyleCop.VisualStudio
     /// </summary>
     internal static class ProjectUtilities
     {
+        #region Constants
+
+        private const string StyleCopTreatErrorsAsWarnings = "StyleCopTreatErrorsAsWarnings";
+
+        private const string StyleCopTargetsName = "StyleCop.targets";
+
+        private const string StyleCopTargetsFullName = @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets";
+
+        #endregion
+
         #region Private Static Fields
 
         /// <summary>
@@ -846,10 +856,10 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(project, "project");
 
             ProjectUtilities.BuildIntegration setting = BuildIntegration.None;
-            if (project.Imports.Cast<Import>().Any(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase)))
+            if (project.Imports.Cast<Import>().Any(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
             {
                 setting = BuildIntegration.TreatErrorAsWarning;
-                string property = project.GetEvaluatedProperty("StyleCopTreatErrorsAsWarnings");
+                string property = project.GetEvaluatedProperty(StyleCopTreatErrorsAsWarnings);
                 bool treatAsWarnings;
                 if (bool.TryParse(property, out treatAsWarnings) && !treatAsWarnings)
                 {
@@ -1895,10 +1905,10 @@ namespace StyleCop.VisualStudio
             var import = project
                 .Imports
                 .Cast<Import>()
-                .FirstOrDefault(p => string.Equals(p.ProjectPath, @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
             if (enable && import == null)
             {
-                project.AddNewImport(@"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets", string.Empty);
+                project.AddNewImport(StyleCopTargetsFullName, string.Empty);
             }
             else if (!enable && import != null)
             {
@@ -1914,13 +1924,12 @@ namespace StyleCop.VisualStudio
             switch (buildIntegration)
             {
                 case BuildIntegration.None:
-                    project.GlobalProperties.RemoveProperty("StyleCopTreatErrorsAsWarnings");
                     break;
                 case BuildIntegration.TreatErrorAsWarning:
-                    project.SetProperty("StyleCopTreatErrorsAsWarnings", "true", string.Empty);
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString(), string.Empty);
                     break;
                 case BuildIntegration.TreatErrorAsError:
-                    project.SetProperty("StyleCopTreatErrorsAsWarnings", "false", string.Empty);
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString(), string.Empty);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("buildIntegration");

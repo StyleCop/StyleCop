@@ -184,17 +184,17 @@ namespace StyleCop.VisualStudio
         /// <returns>Returns true if the data is saved, false if not.</returns>
         public bool Apply()
         {
-            ProjectUtilities.BuildIntegration setting = ProjectUtilities.BuildIntegration.None;
+            ProjectUtilities.BuildIntegration newSetting = ProjectUtilities.BuildIntegration.None;
             if (this.checkBox.Checked)
             {
-                setting = this.radioButtonAsWarning.Checked
+                newSetting = this.radioButtonAsWarning.Checked
                     ? ProjectUtilities.BuildIntegration.TreatErrorAsWarning
                     : ProjectUtilities.BuildIntegration.TreatErrorAsError;
             }
 
-            ProjectUtilities.SetBuildIntegrationInProject(this.project, setting);
+            ProjectUtilities.SetBuildIntegrationInProject(this.project, newSetting);
 
-            this.setting = setting;
+            this.setting = newSetting;
             this.dirty = false;
             this.tabControl.DirtyChanged();
 
@@ -231,10 +231,9 @@ namespace StyleCop.VisualStudio
         private void InitializeSettings()
         {
             this.checkBox.Checked = this.BuildIntagrationEnabled;
-            this.radioButtonAsWarning.Checked = this.TreatErrorAsWarning;
+            this.radioButtonAsWarning.Checked = this.TreatErrorAsWarning || !this.BuildIntagrationEnabled;
             this.radioButtonAsError.Checked = this.TreatErrorAsError;
             this.SetTreatGroupEnabledState();
-            this.SetBoldState();
         }
 
         /// <summary>
@@ -250,7 +249,6 @@ namespace StyleCop.VisualStudio
             this.tabControl.DirtyChanged();
 
             this.SetTreatGroupEnabledState();
-            this.SetBoldState();
         }
 
         /// <summary>
@@ -264,38 +262,6 @@ namespace StyleCop.VisualStudio
 
             this.dirty = true;
             this.tabControl.DirtyChanged();
-
-            this.SetBoldState();
-        }
-
-        /// <summary>
-        /// Sets the bold state of the item.
-        /// </summary>
-        /// <param name="item">The item to set.</param>
-        /// <param name="bold">The bold state.</param>
-        private void SetBoldState(Control item, bool bold)
-        {
-            Param.AssertNotNull(item, "item");
-            Param.Ignore(bold);
-
-            // Dispose the item's current font if necessary.
-            if (item.Font != this.Font && item.Font != null)
-            {
-                item.Font.Dispose();
-            }
-
-            // Create and set the new font.
-            item.Font = bold ? new Font(this.Font, FontStyle.Bold) : new Font(this.Font, FontStyle.Regular);
-        }
-
-        /// <summary>
-        /// Sets the bold state of the control items.
-        /// </summary>
-        private void SetBoldState()
-        {
-            this.SetBoldState(this.checkBox, this.checkBox.Checked != this.BuildIntagrationEnabled);
-            this.SetBoldState(this.radioButtonAsWarning, this.radioButtonAsWarning.Checked != this.TreatErrorAsWarning);
-            this.SetBoldState(this.radioButtonAsError, this.radioButtonAsError.Checked != this.TreatErrorAsError);
         }
 
         /// <summary>
