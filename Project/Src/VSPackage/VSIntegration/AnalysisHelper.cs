@@ -17,6 +17,7 @@ namespace StyleCop.VisualStudio
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Threading;
@@ -243,7 +244,9 @@ namespace StyleCop.VisualStudio
                     }
                 }
 
+                this.core.AddSettingsPages += this.StyleCopCoreAddSettingsPages;
                 this.core.ShowSettings(settingsFilePath);
+                this.core.AddSettingsPages -= this.StyleCopCoreAddSettingsPages;
             }
         }
 
@@ -579,6 +582,25 @@ namespace StyleCop.VisualStudio
                     this.violations.Add(violationInfo);
                 }
             }
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "OK here.")]
+        private void StyleCopCoreAddSettingsPages(object sender, AddSettingsPagesEventArgs e)
+        {
+            Param.Ignore(sender);
+            Param.AssertNotNull(e, "e");
+
+            Project project = ProjectUtilities.GetActiveProject();
+            string fullName = ProjectUtilities.GetProjectFullName(project);
+            if (string.IsNullOrEmpty(fullName))
+            {
+                return;
+            }
+
+            project.Save();
+            Microsoft.Build.BuildEngine.Project proj = new Microsoft.Build.BuildEngine.Project();
+            proj.Load(project.FullName);
+            e.Add(new BuildIntegrationOptions(proj));
         }
 
         #endregion Private Methods

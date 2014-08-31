@@ -12,6 +12,10 @@
 //   notice, or any other, from this software.
 // </license>
 //-----------------------------------------------------------------------
+
+using System.Linq;
+using Microsoft.Build.BuildEngine;
+
 namespace StyleCop.VisualStudio
 {
     using System;
@@ -36,6 +40,16 @@ namespace StyleCop.VisualStudio
     /// </summary>
     internal static class ProjectUtilities
     {
+        #region Constants
+
+        private const string StyleCopTreatErrorsAsWarnings = "StyleCopTreatErrorsAsWarnings";
+
+        private const string StyleCopTargetsName = "StyleCop.targets";
+
+        private const string StyleCopTargetsFullName = @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets";
+
+        #endregion
+
         #region Private Static Fields
 
         /// <summary>
@@ -95,6 +109,20 @@ namespace StyleCop.VisualStudio
         private delegate object ProjectItemInvoker(ProjectItem projectItem, string path, AnalysisType analysisType, ref object projectContext, ref object fileContext);
 
         #endregion Private Delegates
+        
+        #region Enums
+
+        /// <summary>
+        /// The build integration setting.
+        /// </summary>
+        internal enum BuildIntegration
+        {
+            None,
+            TreatErrorAsWarning,
+            TreatErrorAsError
+        }
+
+        #endregion
 
         #region Internal Static Methods
         
@@ -750,6 +778,96 @@ namespace StyleCop.VisualStudio
 
             // There is no active configuration. Just return an empty configuration object.
             return new StyleCop.Configuration(null);
+        }
+
+        /// <summary>
+        /// Gets the FullName property from the given project, protecting against exceptions.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>Returns the value of the FullName property.</returns>
+        internal static string GetProjectFullName(Project project)
+        {
+            Param.AssertNotNull(project, "project");
+
+            try
+            {
+                string fullName = project.FullName;
+
+                // If the path starts with "http:" then it is not a valid file system path. This eliminates the
+                // need for an exception to be thrown for web service projects, which always begin with something like http://, ftp://, etc.
+                if (fullName != null && !fullName.StartsWith("http:", StringComparison.OrdinalIgnoreCase))
+                {
+                    // The Path.GetFullPath function will tell us whether or not the path is well formed
+                    // and looks like a file system path.
+                    return Path.GetFullPath(fullName);
+                }
+            }
+            catch (ArgumentException)
+            {
+                // The path is not a valid file system path. This can happen for example with Web Service projects, 
+                // where the project.FullName property contains a path like http://localhost/etc rather than a path on the file system.
+            }
+            catch (NotSupportedException)
+            {
+                // The path contains invalid characters.
+            }
+            catch (PathTooLongException)
+            {
+                // The path is too long.
+            }
+            catch (SecurityException)
+            {
+                // The user does not have permission to access the full path.
+            }
+            catch (NotImplementedException)
+            {
+                // Some project types will throw a NotImplementedException under certain contitions when this property is accessed.
+            }
+            catch (InvalidCastException)
+            {
+                // Some project types will throw an InvalidCastException under certain contitions when this property is accessed.
+            }
+            catch (COMException)
+            {
+                // Some project types will throw a COMException under certain contitions when this property is accessed.
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Sets build integration setting in project.
+        /// </summary>
+        /// <param name="project">The MSBuild project.</param>
+        /// <param name="buildIntegration">The build integration setting.</param>
+        internal static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(buildIntegration, "buildIntegration");
+
+            SetBuildIntegrationInProject(project, buildIntegration != BuildIntegration.None);
+            SetTreatLevel(project, buildIntegration);
+
+            project.Save(project.FullFileName);
+        }
+
+        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project)
+        {
+            Param.AssertNotNull(project, "project");
+
+            ProjectUtilities.BuildIntegration setting = BuildIntegration.None;
+            if (project.Imports.Cast<Import>().Any(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
+            {
+                setting = BuildIntegration.TreatErrorAsWarning;
+                string property = project.GetEvaluatedProperty(StyleCopTreatErrorsAsWarnings);
+                bool treatAsWarnings;
+                if (bool.TryParse(property, out treatAsWarnings) && !treatAsWarnings)
+                {
+                    setting = BuildIntegration.TreatErrorAsError;
+                }
+            }
+
+            return setting;
         }
 
         #endregion Internal Static Methods
@@ -1710,61 +1828,6 @@ namespace StyleCop.VisualStudio
         }
 
         /// <summary>
-        /// Gets the FullName property from the given project, protecting against exceptions.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>Returns the value of the FullName property.</returns>
-        private static string GetProjectFullName(Project project)
-        {
-            Param.AssertNotNull(project, "project");
-
-            try
-            {
-                string fullName = project.FullName;
-
-                // If the path starts with "http:" then it is not a valid file system path. This eliminates the
-                // need for an exception to be thrown for web service projects, which always begin with something like http://, ftp://, etc.
-                if (fullName != null && !fullName.StartsWith("http:", StringComparison.OrdinalIgnoreCase))
-                {
-                    // The Path.GetFullPath function will tell us whether or not the path is well formed
-                    // and looks like a file system path.
-                    return Path.GetFullPath(fullName);
-                }
-            }
-            catch (ArgumentException)
-            {
-                // The path is not a valid file system path. This can happen for example with Web Service projects, 
-                // where the project.FullName property contains a path like http://localhost/etc rather than a path on the file system.
-            }
-            catch (NotSupportedException)
-            {
-                // The path contains invalid characters.
-            }
-            catch (PathTooLongException)
-            {
-                // The path is too long.
-            }
-            catch (SecurityException)
-            {
-                // The user does not have permission to access the full path.
-            }
-            catch (NotImplementedException)
-            {
-                // Some project types will throw a NotImplementedException under certain contitions when this property is accessed.
-            }
-            catch (InvalidCastException)
-            {
-                // Some project types will throw an InvalidCastException under certain contitions when this property is accessed.
-            }
-            catch (COMException)
-            {
-                // Some project types will throw a COMException under certain contitions when this property is accessed.
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Clear the static caches. Used in reaction to events which invalidate the old caches.
         /// </summary>
         private static void ClearCaches()
@@ -1832,6 +1895,45 @@ namespace StyleCop.VisualStudio
         private static void SolutionEventsProjectAdded(Project project)
         {
             ClearCaches();
+        }
+
+        private static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, bool enable)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(enable, "enable");
+
+            var import = project
+                .Imports
+                .Cast<Import>()
+                .FirstOrDefault(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
+            if (enable && import == null)
+            {
+                project.AddNewImport(StyleCopTargetsFullName, string.Empty);
+            }
+            else if (!enable && import != null)
+            {
+                project.Imports.RemoveImport(import);
+            }
+        }
+
+        private static void SetTreatLevel(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        {
+            Param.AssertNotNull(project, "project");
+            Param.AssertNotNull(buildIntegration, "enable");
+
+            switch (buildIntegration)
+            {
+                case BuildIntegration.None:
+                    break;
+                case BuildIntegration.TreatErrorAsWarning:
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString(), string.Empty);
+                    break;
+                case BuildIntegration.TreatErrorAsError:
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString(), string.Empty);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("buildIntegration");
+            }
         }
 
         #endregion Private Static Methods
