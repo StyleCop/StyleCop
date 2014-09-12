@@ -9,7 +9,7 @@
 namespace StyleCop.Spelling
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Text;
 
@@ -33,6 +33,11 @@ namespace StyleCop.Spelling
 
         private readonly WordParserOptions wordParserOptions;
 
+        /// <summary>
+        /// The recognized words
+        /// </summary>
+        private readonly ICollection<string> recognizedWords;
+
         private int index;
 
         private string peekedWord;
@@ -52,12 +57,24 @@ namespace StyleCop.Spelling
         /// <param name="options">
         /// The options.
         /// </param>
-        public WordParser(string text, WordParserOptions options)
-            : this(text, options, '\0')
+        /// <param name="recognizedWords">
+        /// The recognized words.
+        /// </param>
+        public WordParser(string text, WordParserOptions options, ICollection<string> recognizedWords)
+            : this(text, options, recognizedWords, '\0')
         {
         }
 
-        internal WordParser(string text, WordParserOptions options, char prefixChar)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WordParser"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="options">The options.</param>
+        /// <param name="recognizedWords">The recognized words.</param>
+        /// <param name="prefixChar">The prefix char.</param>
+        /// <exception cref="System.ArgumentNullException">text is null</exception>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException">options is invalid</exception>
+        internal WordParser(string text, WordParserOptions options, ICollection<string> recognizedWords, char prefixChar)
         {
             if (text == null)
             {
@@ -72,6 +89,7 @@ namespace StyleCop.Spelling
             this.text = text;
             this.wordParserOptions = options;
             this.buffer = new StringBuilder(text.Length);
+            this.recognizedWords = recognizedWords;
             this.prefixChar = prefixChar;
         }
 
@@ -98,23 +116,6 @@ namespace StyleCop.Spelling
         #endregion
 
         #region Public Methods and Operators
-
-        /// <summary>
-        /// The parse.
-        /// </summary>
-        /// <param name="text">
-        /// The text.
-        /// </param>
-        /// <param name="options">
-        /// The options.
-        /// </param>
-        /// <returns>
-        /// The System.Collections.ObjectModel.Collection.
-        /// </returns>
-        public static Collection<string> Parse(string text, WordParserOptions options)
-        {
-            return Parse(text, options, '\0');
-        }
 
         /// <summary>
         /// The next word.
@@ -148,47 +149,6 @@ namespace StyleCop.Spelling
         #endregion
 
         #region Methods
-
-        internal static bool ContainsWord(string text, WordParserOptions options, params string[] words)
-        {
-            return ContainsWord(text, options, '\0', words);
-        }
-
-        internal static bool ContainsWord(string text, WordParserOptions options, char prefix, params string[] words)
-        {
-            string str;
-            if (words == null)
-            {
-                throw new ArgumentNullException("words");
-            }
-
-            WordParser parser = new WordParser(text, options, prefix);
-            while ((str = parser.NextWord()) != null)
-            {
-                foreach (string str2 in words)
-                {
-                    if (string.Equals(str, str2, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        internal static Collection<string> Parse(string text, WordParserOptions options, char prefix)
-        {
-            string str;
-            WordParser parser = new WordParser(text, options, prefix);
-            Collection<string> collection = new Collection<string>();
-            while ((str = parser.NextWord()) != null)
-            {
-                collection.Add(str);
-            }
-
-            return collection;
-        }
 
         private static bool IsDigit(char c)
         {
@@ -420,20 +380,58 @@ namespace StyleCop.Spelling
             this.ParseInteger();
         }
 
+        /// <summary>
+        /// Parses the next word which starts with an upper case.
+        /// </summary>
         private void ParseUppercase()
         {
             this.Read();
-            char c = this.Peek();
-            if (IsUpper(c))
+
+            // check the next whole word to see if it is in the list of recognized words
+            string peekWord = this.PeekWholeWord();
+
+            if (this.recognizedWords.Contains(peekWord))
             {
-                this.ParseAllCaps();
+                this.ParseWholeWord();
             }
-            else if (IsLower(c))
+            else
             {
-                this.ParseLowercase();
+                // parse the next word
+                char c = this.Peek();
+                if (IsUpper(c))
+                {
+                    this.ParseAllCaps();
+                }
+                else if (IsLower(c))
+                {
+                    this.ParseLowercase();
+                }
             }
         }
 
+        /// <summary>
+        /// Peeks the next whole word.
+        /// </summary>
+        /// <returns>The next whole word</returns>
+        private string PeekWholeWord()
+        {
+            StringBuilder peekedWholeWord = new StringBuilder(this.buffer.ToString());
+            int i = 1;
+
+            do
+            {
+                char ch = this.Peek(i);
+                peekedWholeWord.Append(ch);
+                i++;
+            }
+            while (IsLetterOrDigit(this.Peek(i)));
+
+            return peekedWholeWord.ToString();
+        }
+
+        /// <summary>
+        /// Parses the next whole word.
+        /// </summary>
         private void ParseWholeWord()
         {
             do
@@ -452,11 +450,20 @@ namespace StyleCop.Spelling
             while (IsLetterWithoutCase(this.Peek()));
         }
 
+        /// <summary>
+        /// Peeks the next character.
+        /// </summary>
+        /// <returns>The next character</returns>
         private char Peek()
         {
             return this.Peek(1);
         }
 
+        /// <summary>
+        /// Peeks the next character at the specified position to look ahead.
+        /// </summary>
+        /// <param name="lookAhead">The position of the character to look ahead.</param>
+        /// <returns>The next character at the specified position</returns>
         private char Peek(int lookAhead)
         {
             for (int i = this.index; i < this.text.Length; i++)
@@ -471,6 +478,9 @@ namespace StyleCop.Spelling
             return '\0';
         }
 
+        /// <summary>
+        /// Reads the next character.
+        /// </summary>
         private void Read()
         {
             char ch = this.Peek();
@@ -478,6 +488,9 @@ namespace StyleCop.Spelling
             this.Skip();
         }
 
+        /// <summary>
+        /// Skips the next ignored characters.
+        /// </summary>
         private void Skip()
         {
             while (this.index < this.text.Length)

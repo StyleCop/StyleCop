@@ -804,7 +804,7 @@ namespace StyleCop.Test
                 run = this.PrepareFixedFiles(testInfo);
             }
 
-            // Set up the source analyis settings file to use for the test.
+            // Set up the source analysis settings file to use for the test.
             if (run && this.PrepareStyleCopSettingsFile(testInfo))
             {
                 // Set up the StyleCop console which will run the test.
