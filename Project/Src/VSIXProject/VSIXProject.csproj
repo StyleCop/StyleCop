@@ -100,10 +100,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <!-- We currently dev inside VS10 so if the debugging start program is the same as our environment load the vs10 sdk -->
-    <DebugVisualStudioVersion>11.0</DebugVisualStudioVersion>
+    <DebugVisualStudioVersion>12.0</DebugVisualStudioVersion>
     <DebugVisualStudioVersion Condition="'$(DevEnvDir)devenv.exe' == '$(StartProgram)'">10.0</DebugVisualStudioVersion>
     <ImportSDKPath Condition="'$(DebugVisualStudioVersion)' == '10.0'">$(VSSDKBUILD)\</ImportSDKPath>
     <ImportSDKPath Condition="'$(DebugVisualStudioVersion)' == '11.0'">$(VS11SDKBUILD)\</ImportSDKPath>
+    <ImportSDKPath Condition="'$(DebugVisualStudioVersion)' == '12.0'">$(VS12SDKBUILD)\</ImportSDKPath>
   </PropertyGroup>
   <Import Project="$(ImportSDKPath)Microsoft.VsSDK.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

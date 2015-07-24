@@ -21,7 +21,7 @@ SET /A IsWow64=%errorlevel%
 REM --------------------------------------------------------------------------------------
 REM Enable VS Path Variables
 
-SET "VSINSTALLDIR=%ProgramFiles%\Microsoft Visual Studio 10.0"
+SET "VSINSTALLDIR=%ProgramFiles%\Microsoft Visual Studio 12.0"
 if exist "%STTOOLS%\developers\%USERNAME%\vsinstalldir.cmd" (
     call "%STTOOLS%\developers\%USERNAME%\vsinstalldir.cmd"
 )
@@ -29,7 +29,7 @@ if exist "%STTOOLS%\developers\%USERNAME%\vsinstalldir.cmd" (
 SET BitSize=x86
 if "%IsWoW64%" == "1" (
 	SET PROCESSOR_ARCHITECTURE=x86
-	SET "VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio 10.0"
+	SET "VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio 12.0"
 ) 
 
 if exist "%VSINSTALLDIR%\VC\vcvarsall.bat" (
@@ -73,6 +73,8 @@ set VsSDKToolsPath=%VSSDKROOT%\VisualStudioIntegration\Tools\Bin
 set VS11SDKROOT=%STTOOLS%\VisualStudioSDK\2012.RC
 set VS11SDKBUILD=%VS11SDKROOT%\VisualStudioIntegration\Tools\Build
 
+set VS12SDKROOT=%STTOOLS%\VisualStudioSDK\2013.RTM
+set VS12SDKBUILD=%VS12SDKROOT%\VisualStudioIntegration\Tools\Build
 REM --------------------------------------------------------------------------------------
 REM Set up the global bin drop location
 
