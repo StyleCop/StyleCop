@@ -129,6 +129,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(ProjectDir)..\..\Test\TestBin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

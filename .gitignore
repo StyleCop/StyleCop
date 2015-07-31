@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Project/UpgradeLog.htm
+obj
+bin
+TestBin
+TestResults
+**/Visual Studio 2013/Visualizers/autoexpce.cs
+**/Visualizers/attribcache90.bin
+**/Visual Studio 2013/Visualizers/autoexp.cs
