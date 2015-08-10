@@ -23,10 +23,11 @@ namespace StyleCop.ReSharper710.BulbItems.Ordering
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
+    using ReSharperBase.CodeCleanup.Styles;
+
     using StyleCop.ReSharper710.BulbItems.Framework;
     using StyleCop.ReSharper710.CodeCleanup.Options;
     using StyleCop.ReSharper710.CodeCleanup.Rules;
-    using StyleCop.ReSharper710.CodeCleanup.Styles;
     using StyleCop.ReSharper710.Core;
 
     #endregion

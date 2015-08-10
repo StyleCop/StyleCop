@@ -248,9 +248,6 @@
     <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
     <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
-    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />

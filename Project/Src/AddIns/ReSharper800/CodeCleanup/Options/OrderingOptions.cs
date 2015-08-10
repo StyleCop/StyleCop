@@ -23,7 +23,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
-    using StyleCop.ReSharper800.CodeCleanup.Styles;
+    using ReSharperBase.CodeCleanup.Styles;
 
     #endregion
 

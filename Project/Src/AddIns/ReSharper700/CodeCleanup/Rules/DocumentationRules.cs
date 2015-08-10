@@ -36,10 +36,11 @@ namespace StyleCop.ReSharper700.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
 
+    using ReSharperBase.CodeCleanup.Styles;
+
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper700.CodeCleanup.Options;
-    using StyleCop.ReSharper700.CodeCleanup.Styles;
     using StyleCop.ReSharper700.Core;
     using StyleCop.ReSharper700.Options;
 

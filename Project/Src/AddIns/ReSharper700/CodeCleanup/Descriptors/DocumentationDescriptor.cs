@@ -28,8 +28,9 @@ namespace StyleCop.ReSharper700.CodeCleanup.Descriptors
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
 
+    using ReSharperBase.CodeCleanup.Styles;
+
     using StyleCop.ReSharper700.CodeCleanup.Options;
-    using StyleCop.ReSharper700.CodeCleanup.Styles;
 
     #endregion
 

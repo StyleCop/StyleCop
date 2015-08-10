@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
+    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
+    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
     <Compile Include="Core\ProjectSettingsFactory.cs" />
     <Compile Include="Core\SourceCodeFactory.cs" />
     <Compile Include="Core\StringBasedSourceCode.cs" />

@@ -256,12 +256,9 @@
     <Compile Include="CodeCleanup\Rules\MaintainabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
-    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
     <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
-    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Descriptors\OrderingDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
-    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
     <Compile Include="Extensions\IElementExtensions.cs" />
     <Compile Include="Extensions\IMethodDeclarationExtensions.cs" />
     <Compile Include="Extensions\IPropertyDeclarationExtensions.cs" />

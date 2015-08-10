@@ -27,9 +27,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
 
+    using ReSharperBase.CodeCleanup.Styles;
+
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper611.CodeCleanup.Options;
-    using StyleCop.ReSharper611.CodeCleanup.Styles;
 
     #endregion
 
