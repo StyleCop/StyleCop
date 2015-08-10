@@ -39,7 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeCleanup\Options\DocumentationOptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\LayoutOptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\MaintainabilityOptionsBase.cs" />
     <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\OrderingOptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\ReadabilityOptionsBase.cs" />
+    <Compile Include="CodeCleanup\Options\SpacingOptionsBase.cs" />
     <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />

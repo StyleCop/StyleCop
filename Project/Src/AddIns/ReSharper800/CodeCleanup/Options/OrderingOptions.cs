@@ -19,10 +19,6 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
 {
     #region Using Directives
 
-    using System.ComponentModel;
-    using System.Reflection;
-    using System.Text;
-
     using ReSharperBase.CodeCleanup.Options;
     using ReSharperBase.CodeCleanup.Styles;
 
@@ -33,7 +29,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
     /// <summary>
     /// Defines options for Ordering.
     /// </summary>
-    public class OrderingOptions : OptionsBase
+    public class OrderingOptions : OrderingOptionsBase
     {
         #region Constructors and Destructors
 
@@ -45,124 +41,6 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
             this.InitPropertiesDefaults(Utils.GetStyleCopSettings());
             this.AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical;
             this.ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify;
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets or sets the enumeration to define the behavior of sorting Using Declarations.
-        /// </summary>
-        [DisplayName("Organize 'using' statements alphabetically")]
-        public AlphabeticalUsingsStyle AlphabeticalUsingDirectives { get; set; }
-
-        /// <summary>
-        /// Gets or sets the enumeration to define the behavior of Usings declarations.
-        /// </summary>
-        [DisplayName("Expand 'using' directives")]
-        public ExpandUsingsStyle ExpandUsingDirectives { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to order get and set on properties and indexers.
-        /// </summary>
-        [DisplayName("1212: Property Accessors Must Follow Order")]
-        public bool SA1212PropertyAccessorsMustFollowOrder { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to order event accessors.
-        /// </summary>
-        [DisplayName("1213: Event Accessors Must Follow Order")]
-        public bool SA1213EventAccessorsMustFollowOrder { get; set; }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the name of the analyzer.
-        /// </summary>
-        protected override string AnalyzerName
-        {
-            get
-            {
-                return "StyleCop.CSharp.OrderingRules";
-            }
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// Returns a concatenated summary of the current options settings.
-        /// </summary>
-        /// <returns>
-        /// A String of the options.
-        /// </returns>
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            PropertyInfo[] properties = this.GetType().GetProperties();
-
-            for (int i = 0; i < properties.Length; i++)
-            {
-                PropertyInfo property = properties[i];
-                if (i > 0)
-                {
-                    sb.Append(", ");
-                }
-
-                sb.Append(this.GetPropertyDecription(property));
-            }
-
-            return sb.ToString();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Builds a string representation of the property value.
-        /// </summary>
-        /// <param name="propertyInfo">
-        /// The propertyInfo to build the description for.
-        /// </param>
-        /// <returns>
-        /// The string representation.
-        /// </returns>
-        private string GetPropertyDecription(PropertyInfo propertyInfo)
-        {
-            string propertyValue = propertyInfo.GetValue(this, null).ToString();
-
-            string propName = string.Empty;
-            string propValue = string.Empty;
-            DisplayNameAttribute[] displayNameAttributes = (DisplayNameAttribute[])propertyInfo.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-            if (displayNameAttributes.Length == 1)
-            {
-                propName = displayNameAttributes[0].DisplayName;
-            }
-
-            if (propertyInfo.PropertyType == typeof(bool))
-            {
-                propValue = propertyValue == "True" ? "Yes" : "No";
-            }
-            else
-            {
-                FieldInfo field = propertyInfo.PropertyType.GetField(propertyValue);
-
-                if (field != null)
-                {
-                    DescriptionAttribute[] descriptionAttributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                    if (descriptionAttributes.Length == 1)
-                    {
-                        propValue = descriptionAttributes[0].Description;
-                    }
-                }
-            }
-
-            return string.Format("{0} = {1}", propName, propValue);
         }
 
         #endregion
