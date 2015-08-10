@@ -23,6 +23,10 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
+    using ReSharperBase.CodeCleanup.Options;
+
+    using StyleCop.ReSharper800.Core;
+
     #endregion
 
     /// <summary>
@@ -37,7 +41,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
         /// </summary>
         public ReadabilityOptions()
         {
-            this.InitPropertiesDefaults();
+            this.InitPropertiesDefaults(Utils.GetStyleCopSettings());
         }
 
         #endregion

@@ -23,7 +23,10 @@ namespace StyleCop.ReSharper710.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
+    using ReSharperBase.CodeCleanup.Options;
     using ReSharperBase.CodeCleanup.Styles;
+
+    using StyleCop.ReSharper710.Core;
 
     #endregion
 
@@ -39,7 +42,7 @@ namespace StyleCop.ReSharper710.CodeCleanup.Options
         /// </summary>
         public OrderingOptions()
         {
-            this.InitPropertiesDefaults();
+            base.InitPropertiesDefaults(Utils.GetStyleCopSettings());
             this.AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical;
             this.ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify;
         }

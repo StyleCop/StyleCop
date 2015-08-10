@@ -23,6 +23,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
+    using ReSharperBase.CodeCleanup.Options;
+
+    using StyleCop.ReSharper611.Core;
+
     #endregion
 
     /// <summary>
@@ -37,7 +41,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Options
         /// </summary>
         public MaintainabilityOptions()
         {
-            this.InitPropertiesDefaults();
+            this.InitPropertiesDefaults(Utils.GetStyleCopSettings());
         }
 
         #endregion

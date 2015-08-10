@@ -225,7 +225,6 @@
     <Compile Include="CodeCleanup\Descriptors\ReadabilityDescriptor.cs" />
     <Compile Include="CodeCleanup\Descriptors\SpacingDescriptor.cs" />
     <Compile Include="CodeCleanup\Options\MaintainabilityOptions.cs" />
-    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
     <Compile Include="CodeCleanup\Options\ReadabilityOptions.cs" />
     <Compile Include="CodeCleanup\Options\SpacingOptions.cs" />
     <Compile Include="CodeCleanup\Options\LayoutOptions.cs" />

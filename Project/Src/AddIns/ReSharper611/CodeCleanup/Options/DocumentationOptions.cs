@@ -23,7 +23,10 @@ namespace StyleCop.ReSharper611.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
+    using ReSharperBase.CodeCleanup.Options;
     using ReSharperBase.CodeCleanup.Styles;
+
+    using StyleCop.ReSharper611.Core;
 
     #endregion
 
@@ -39,7 +42,7 @@ namespace StyleCop.ReSharper611.CodeCleanup.Options
         /// </summary>
         public DocumentationOptions()
         {
-            this.InitPropertiesDefaults();
+            this.InitPropertiesDefaults(Utils.GetStyleCopSettings());
             this.SA1633SA1641UpdateFileHeader = this.IsFileHeaderSettingDisabled ? UpdateFileHeaderStyle.Ignore : UpdateFileHeaderStyle.ReplaceCopyrightElement;
         }
 

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
     <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
     <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />

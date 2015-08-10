@@ -255,7 +255,6 @@
     <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
     <Compile Include="CodeCleanup\Options\LayoutOptions.cs" />
     <Compile Include="CodeCleanup\Options\MaintainabilityOptions.cs" />
-    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
     <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
     <Compile Include="CodeCleanup\Options\ReadabilityOptions.cs" />
     <Compile Include="CodeCleanup\Options\SpacingOptions.cs" />
