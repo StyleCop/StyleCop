@@ -19,6 +19,8 @@ namespace StyleCop.ReSharper611.Core
 {
     #region Using Directives
 
+    using ReSharperBase.Core;
+
     using StyleCop.Diagnostics;
     using SourceCodeFactory = ReSharperBase.Core.SourceCodeFactory;
 

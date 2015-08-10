@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ProjectSettingsFactory.cs" />
     <Compile Include="Core\SourceCodeFactory.cs" />
     <Compile Include="Core\StringBasedSourceCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

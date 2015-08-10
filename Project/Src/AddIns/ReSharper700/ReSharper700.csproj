@@ -268,7 +268,6 @@
     <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
-    <Compile Include="Core\ProjectSettingsFactory.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />
     <Compile Include="Core\StyleCopReferenceHelper.cs" />
     <Compile Include="Core\StyleCopRules.cs" />
