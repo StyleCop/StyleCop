@@ -20,6 +20,7 @@ namespace StyleCop.ReSharper700.Core
     #region Using Directives
 
     using StyleCop.Diagnostics;
+    using SourceCodeFactory = ReSharperBase.Core.SourceCodeFactory;
 
     #endregion
 

@@ -235,8 +235,6 @@
     <Compile Include="Options\HighlightingRegistering.cs" />
     <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
     <Compile Include="Core\ProjectSettingsFactory.cs" />
-    <Compile Include="Core\SourceCodeFactory.cs" />
-    <Compile Include="Core\StringBasedSourceCode.cs" />
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />
@@ -433,6 +431,10 @@
     <Folder Include="CodeIssues\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ReSharperBase\ReSharperBase.csproj">
+      <Project>{16c1d117-776a-4ca8-a02a-7f5e1da4359a}</Project>
+      <Name>ReSharperBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
