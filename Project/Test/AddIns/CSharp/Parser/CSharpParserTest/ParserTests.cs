@@ -36,7 +36,7 @@ namespace CSharpParserTest
         /// <summary>
         /// The project root.
         /// </summary>
-        private static string ProjectRoot = Environment.ExpandEnvironmentVariables("%projectroot%");
+        private static readonly string ProjectRoot = "..\\..\\";
 
         /// <summary>
         /// The test bin.
