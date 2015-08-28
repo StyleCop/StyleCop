@@ -251,7 +251,6 @@
     <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
     <Compile Include="CodeCleanup\Options\LayoutOptions.cs" />
     <Compile Include="CodeCleanup\Options\MaintainabilityOptions.cs" />
-    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
     <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
     <Compile Include="CodeCleanup\Options\ReadabilityOptions.cs" />
     <Compile Include="CodeCleanup\Options\SpacingOptions.cs" />
@@ -263,14 +262,8 @@
     <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
     <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
-    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
-    <Compile Include="Core\ProjectSettingsFactory.cs" />
-    <Compile Include="Core\SourceCodeFactory.cs" />
-    <Compile Include="Core\StringBasedSourceCode.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />
     <Compile Include="Core\StyleCopReferenceHelper.cs" />
     <Compile Include="Core\StyleCopRules.cs" />
@@ -418,6 +411,10 @@
     <Compile Include="Violations\StyleCopHighlightingWarning.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ReSharperBase\ReSharperBase.csproj">
+      <Project>{16c1d117-776a-4ca8-a02a-7f5e1da4359a}</Project>
+      <Name>ReSharperBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>

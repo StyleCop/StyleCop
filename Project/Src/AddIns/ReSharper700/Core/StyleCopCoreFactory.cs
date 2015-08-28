@@ -19,6 +19,8 @@ namespace StyleCop.ReSharper700.Core
 {
     #region Using Directives
 
+    using ReSharperBase.Core;
+
     using StyleCop.Diagnostics;
 
     #endregion
