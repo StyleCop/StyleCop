@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FBEC870-B153-4917-A53A-9FB8B369FCA4}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,8 +45,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper611", "Src\AddIns\ReSharper611\ReSharper611.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper600", "Src\AddIns\ReSharper600\ReSharper600.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper513", "Src\AddIns\ReSharper513\ReSharper513.csproj", "{0999800F-94F0-4D64-A87B-3643DED29710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper610", "Src\AddIns\ReSharper610\ReSharper610.csproj", "{1160267D-CE00-4122-881D-64F9DCAE2C37}"
 EndProject
@@ -126,10 +124,6 @@ Global
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
