@@ -218,6 +218,7 @@ ECHO **** Run tests END ********************************************************
 REM Build NuGet package
 CALL %STTOOLS%\Scripts\CreateNuGetPackage.cmd %PROJECTROOT%\BuildDrop\%BuildTarget% %AssemblyVersion%
 COPY "%PROJECTROOT%\BuildDrop\%BuildTarget%\StyleCop.%AssemblyVersion%.nupkg" "%PROJECTROOT%\InstallDrop\%BuildTarget%\StyleCop.%AssemblyVersion%.nupkg"
+COPY "%PROJECTROOT%\BuildDrop\%BuildTarget%\StyleCop.ReSharper*.nupkg" "%PROJECTROOT%\InstallDrop\%BuildTarget%\"
 
 :RELEASENOTES
 CALL "hg.exe" log >%PROJECTROOT%\BuildDrop\%BuildTarget%\ChangeHistory.txt

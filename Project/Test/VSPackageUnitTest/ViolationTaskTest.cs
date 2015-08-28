@@ -114,6 +114,8 @@ namespace VSPackageUnitTest
         /// </summary>
         [TestMethod]
         [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
+        [Ignore]
+        [Description("Test ignored until a better way to verify vs task window integration is known.")]
         public void OnNavigateEmptyDocumentTest()
         {
             bool eventFired = false;
@@ -135,6 +137,8 @@ namespace VSPackageUnitTest
         /// </summary>
         [TestMethod]
         [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
+        [Ignore]
+        [Description("Test ignored until a better way to verify vs task window integration")]
         public void OnNavigateNoDocumentTest()
         {
             var mockDte = new Mock<DTE>();
@@ -246,6 +250,8 @@ namespace VSPackageUnitTest
         /// A test for ViolationTask Constructor
         /// </summary>
         [TestMethod]
+        [Ignore]
+        [Description("Test ignored until a better way to verify vs task window integration is known.")]
         public void ViolationTaskConstructorTest()
         {
             Assert.IsNotNull(this.taskUnderTest.violation, "Constructor didn't set internal field 'violation'");
@@ -282,11 +288,11 @@ namespace VSPackageUnitTest
         }
 
         private void SetupProjectUtilities(
-            SequenceMock<IEnumerator> mockDocumentEnumerator, 
-            Mock<DTE> mockDte, 
-            Mock<Documents> mockDocuments, 
-            SequenceMock<Document> mockDocument, 
-            Mock<Document> mockActiveDocument, 
+            SequenceMock<IEnumerator> mockDocumentEnumerator,
+            Mock<DTE> mockDte,
+            Mock<Documents> mockDocuments,
+            SequenceMock<Document> mockDocument,
+            Mock<Document> mockActiveDocument,
             string fileName)
         {
             var mockSolution = new Mock<Solution>();

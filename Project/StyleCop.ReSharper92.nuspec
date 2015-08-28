@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop.ReSharper92</id>
+    <version>1.0</version>
+    <authors>Andy Reeves</authors>
+    <description>StyleCop plugin for R# 9.2. StyleCop must be installed for the plugin to work.</description>
+    <language>en-US</language>
+    <iconUrl>http://tinyurl.com/qfwqep7</iconUrl>
+    <projectUrl>http://stylecop.codeplex.com</projectUrl>
+    <licenseUrl>http://stylecop.codeplex.com/license</licenseUrl>
+    <tags>StyleCop ReSharper</tags>
+    <dependencies>
+      <dependency id="Wave" version="[3.0]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="StyleCop.ReSharper920.dll" target="DotFiles"/>
+  </files>
+</package>
