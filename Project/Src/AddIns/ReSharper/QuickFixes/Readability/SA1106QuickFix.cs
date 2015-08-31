@@ -113,8 +113,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                  {
                                      new CodeMustNotContainEmptyStatements
                                          {
-                                             FileName = this.Highlighting.FileName, 
-                                             LineNumber = this.Highlighting.LineNumber, 
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description = "Swap ';;' for ';' : " + this.Highlighting.ToolTip
                                          }

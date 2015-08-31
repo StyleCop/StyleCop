@@ -113,8 +113,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                  {
                                      new PrefixLocalCallsWithThis
                                          {
-                                             FileName = this.Highlighting.FileName, 
-                                             LineNumber = this.Highlighting.LineNumber, 
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description = "Prefix local call with \"this.\": " + this.Highlighting.ToolTip
                                          }

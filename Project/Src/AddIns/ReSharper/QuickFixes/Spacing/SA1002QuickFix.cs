@@ -114,8 +114,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
                                      new FormatLineBulbItem
                                          {
                                              Description = "Fix Spacing : " + this.Highlighting.ToolTip, 
-                                             DocumentRange = this.Highlighting.CalculateRange(), 
-                                             LineNumber = this.Highlighting.LineNumber
+                                             DocumentRange = this.Highlighting.CalculateRange()
                                          }
                                  };
         }

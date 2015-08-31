@@ -114,7 +114,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                      new FormatLineBulbItem
                                          {
                                              DocumentRange = this.Highlighting.CalculateRange(), 
-                                             LineNumber = this.Highlighting.LineNumber, 
                                              Description = "Format line : " + this.Highlighting.ToolTip
                                          }
                                  };

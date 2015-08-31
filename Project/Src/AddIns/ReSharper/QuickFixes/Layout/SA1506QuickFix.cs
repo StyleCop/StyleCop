@@ -117,9 +117,7 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
                                                  "Format line : "
                                                  + this.Highlighting.ToolTip, 
                                              DocumentRange =
-                                                 this.Highlighting.CalculateRange(), 
-                                             LineNumber =
-                                                 this.Highlighting.LineNumber
+                                                 this.Highlighting.CalculateRange()
                                          }
                                  };
         }

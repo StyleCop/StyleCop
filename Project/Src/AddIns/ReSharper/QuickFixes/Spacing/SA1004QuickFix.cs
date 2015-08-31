@@ -114,8 +114,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
                                      new FormatDocumentationHeader
                                          {
                                              DocumentRange = this.Highlighting.CalculateRange(), 
-                                             Description = "Fix Documentation : " + this.Highlighting.ToolTip, 
-                                             LineNumber = this.Highlighting.LineNumber
+                                             Description = "Fix Documentation : " + this.Highlighting.ToolTip
                                          }
                                  };
         }

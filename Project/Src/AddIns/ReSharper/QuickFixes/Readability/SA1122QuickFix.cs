@@ -113,8 +113,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                  {
                                      new UseStringEmptyForEmptyStrings
                                          {
-                                             FileName = this.Highlighting.FileName, 
-                                             LineNumber = this.Highlighting.LineNumber, 
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description = "Convert to string.Empty : " + this.Highlighting.ToolTip
                                          }

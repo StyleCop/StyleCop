@@ -116,8 +116,7 @@ namespace StyleCop.ReSharper.QuickFixes.Layout
                                              Description =
                                                  "Remove blank line: "
                                                  + this.Highlighting.ToolTip, 
-                                             DocumentRange = this.Highlighting.CalculateRange(), 
-                                             LineNumber = this.Highlighting.LineNumber
+                                             DocumentRange = this.Highlighting.CalculateRange()
                                          }
                                  };
         }

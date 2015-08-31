@@ -113,8 +113,6 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
                                  {
                                      new SA1633FileMustHaveHeaderBulbItem
                                          {
-                                             FileName = this.Highlighting.FileName, 
-                                             LineNumber = this.Highlighting.LineNumber, 
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description = "Insert/replace header : " + this.Highlighting.ToolTip
                                          }

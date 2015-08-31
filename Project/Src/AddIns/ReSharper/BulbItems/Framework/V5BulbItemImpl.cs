@@ -55,22 +55,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         public DocumentRange DocumentRange { get; set; }
 
         /// <summary>
-        /// Gets or sets the current file name.
-        /// </summary>
-        /// <value>
-        /// The file name.
-        /// </value>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the line number to be used by the BulbItem.
-        /// </summary>
-        /// <value>
-        /// The line number.
-        /// </value>
-        public int LineNumber { get; set; }
-
-        /// <summary>
         /// Gets or sets the prefix spacing.
         /// </summary>
         /// <value>

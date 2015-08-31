@@ -114,8 +114,7 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                      new SA1121UseBuiltInTypeAliasBulbItem
                                          {
                                              Description = "Convert to built in type: " + this.Highlighting.ToolTip, 
-                                             DocumentRange = this.Highlighting.CalculateRange(), 
-                                             LineNumber = this.Highlighting.LineNumber, 
+                                             DocumentRange = this.Highlighting.CalculateRange()
                                          }
                                  };
         }

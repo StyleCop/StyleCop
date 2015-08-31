@@ -114,8 +114,7 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                      new SA1120CommentsMustContainTextBulbItem
                                          {
                                              Description = "Delete empty comment: " + this.Highlighting.ToolTip, 
-                                             DocumentRange = this.Highlighting.CalculateRange(), 
-                                             LineNumber = this.Highlighting.LineNumber, 
+                                             DocumentRange = this.Highlighting.CalculateRange()
                                          }
                                  };
         }

@@ -114,8 +114,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
                                      new SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem
                                          {
                                              DocumentRange = this.Highlighting.CalculateRange(), 
-                                             Description = "Fix Spacing : " + this.Highlighting.ToolTip, 
-                                             LineNumber = this.Highlighting.LineNumber
+                                             Description = "Fix Spacing : " + this.Highlighting.ToolTip
                                          }
                                  };
         }
