@@ -115,8 +115,7 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
                                          {
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description =
-                                                 "Fix Spacing : " + this.Highlighting.ToolTip, 
-                                             Target = "#"
+                                                 "Fix Spacing : " + this.Highlighting.ToolTip
                                          }
                                  };
         }

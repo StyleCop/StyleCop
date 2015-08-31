@@ -55,14 +55,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         public DocumentRange DocumentRange { get; set; }
 
         /// <summary>
-        /// Gets or sets a string to format spacing.
-        /// </summary>
-        /// <value>
-        /// The target.
-        /// </value>
-        public string Target { get; set; }
-
-        /// <summary>
         /// Gets the text to display in the Quick Fix bulb item.
         /// </summary>
         public override string Text
