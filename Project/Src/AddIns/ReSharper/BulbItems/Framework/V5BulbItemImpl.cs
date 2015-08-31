@@ -55,14 +55,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         public DocumentRange DocumentRange { get; set; }
 
         /// <summary>
-        /// Gets or sets the prefix spacing.
-        /// </summary>
-        /// <value>
-        /// The prefix.
-        /// </value>
-        public string Prefix { get; set; }
-
-        /// <summary>
         /// Gets or sets the suffix spacing.
         /// </summary>
         /// <value>

@@ -116,7 +116,6 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
                                              DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description =
                                                  "Fix Spacing : " + this.Highlighting.ToolTip, 
-                                             Prefix = string.Empty, 
                                              Suffix = string.Empty, 
                                              Target = "#"
                                          }
