@@ -45,39 +45,16 @@ namespace JetBrains.ReSharper.Psi.CSharp.Tree
             {
                 IUsingAliasDirective aliasDirective = directive as IUsingAliasDirective;
 
-                INamespace aliasedNamespace = aliasDirective.DeclaredElement.GetAliasedNamespace();
+                DeclaredElementInstance<IDeclaredElement> declaredElementInstance = aliasDirective.DeclaredElement.GetAliasedSymbol();
+
+                INamespace aliasedNamespace = declaredElementInstance == null ? null : declaredElementInstance.Element as INamespace;
 
                 string returnValue = aliasedNamespace == null ? aliasDirective.ImportedSymbolName.QualifiedName : aliasedNamespace.QualifiedName;
 
                 return returnValue;
             }
 
-            IUsingNamespaceDirective namespaceDirective = directive as IUsingNamespaceDirective;
-
-            return namespaceDirective.ImportedNamespace == null ? namespaceDirective.ImportedSymbolName.QualifiedName : namespaceDirective.ImportedNamespace.QualifiedName;
-        }
-
-        /// <summary>
-        /// Gets a fully formed using statement expanding any abbreviated statement beginning with using and ending with a semicolon.
-        /// </summary>
-        /// <param name="directive">
-        /// The directive to use.
-        /// </param>
-        /// <returns>
-        /// The qualified using statement.
-        /// </returns>
-        internal static string GetFullyQualifiedStatement(this IUsingDirective directive)
-        {
-            if (directive is IUsingAliasDirective)
-            {
-                IUsingAliasDirective aliasDirective = directive as IUsingAliasDirective;
-
-                return string.Format("using {0} = {1};", aliasDirective.AliasName, directive.GetFullyQualifiedNamespace());
-            }
-
-            IUsingNamespaceDirective namespaceDirective = directive as IUsingNamespaceDirective;
-
-            return namespaceDirective != null ? string.Format("using {0};", directive.GetFullyQualifiedNamespace()) : directive.GetText();
+            return directive.ImportedSymbolName.QualifiedName;
         }
 
         /// <summary>

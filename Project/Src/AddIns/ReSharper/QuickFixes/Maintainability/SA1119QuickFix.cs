@@ -22,7 +22,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Maintainability
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
     using StyleCop.ReSharper800.BulbItems.Maintainability;
     using StyleCop.ReSharper800.QuickFixes.Framework;

@@ -33,6 +33,7 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper800.CodeCleanup.Rules;
     using StyleCop.ReSharper800.Options;
@@ -97,7 +98,7 @@ namespace StyleCop.ReSharper800.Core
         /// <summary>
         /// Gets the DocCommentBlockNode for the declaration.
         /// </summary>
-        public IDocCommentBlockNode DocCommentBlockNode { get; private set; }
+        public IDocCommentBlock DocCommentBlockNode { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the summary element is empty.
@@ -213,19 +214,19 @@ namespace StyleCop.ReSharper800.Core
 
                 if (!(declarationTreeNode is IMultipleDeclarationMember))
                 {
-                    emptyDocHeader = CreateDocumentationForElement((IDocCommentBlockOwnerNode)declaration, docConfig);
+                    emptyDocHeader = CreateDocumentationForElement((IDocCommentBlockOwner)declaration, docConfig);
                     emptyDocHeader = emptyDocHeader.Substring(0, emptyDocHeader.Length - Environment.NewLine.Length);
                 }
 
                 string header = LayoutDocumentationHeader(emptyDocHeader, declaration);
 
-                IDocCommentBlockNode newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
+                IDocCommentBlock newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
-                IDocCommentBlockOwnerNode docCommentBlockOwnerNode = Utils.GetDocCommentBlockOwnerNodeForDeclaration(declaration);
+                IDocCommentBlockOwner docCommentBlockOwnerNode = Utils.GetDocCommentBlockOwnerNodeForDeclaration(declaration);
 
                 if (docCommentBlockOwnerNode != null)
                 {
-                    docCommentBlockOwnerNode.SetDocCommentBlockNode(newDocCommentNode);
+                    docCommentBlockOwnerNode.SetDocCommentBlock(newDocCommentNode);
                 }
 
                 return new DeclarationHeader(declaration);
@@ -282,7 +283,7 @@ namespace StyleCop.ReSharper800.Core
                 using (this.DocCommentBlockNode.CreateWriteLock())
                 {
                     string header = LayoutDocumentationHeader(this.XmlNode, this.Declaration);
-                    IDocCommentBlockNode newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
+                    IDocCommentBlock newDocCommentNode = Utils.CreateDocCommentBlockNode(file, header);
 
                     if (newDocCommentNode == null)
                     {
@@ -365,7 +366,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// A string of the declarations summary text.
         /// </returns>
-        private static string CreateDocumentationForElement(IDocCommentBlockOwnerNode owner, DocumentationRulesConfiguration docConfig)
+        private static string CreateDocumentationForElement(IDocCommentBlockOwner owner, DocumentationRulesConfiguration docConfig)
         {
             ITreeNode element = owner;
             IDeclaredElement declaredElement = (element is IDeclaration) ? ((IDeclaration)element).DeclaredElement : null;

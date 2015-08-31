@@ -22,11 +22,11 @@ namespace StyleCop.ReSharper800.Extensions
 
     using System;
 
-    using JetBrains.Application;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     #endregion
 

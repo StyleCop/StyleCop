@@ -20,16 +20,14 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
 {
     #region Using Directives
 
-    using System;
     using System.Collections.Generic;
 
     using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Daemon;
-    using JetBrains.ReSharper.Daemon.Src.Bulbs.Resources;
-    using JetBrains.ReSharper.Intentions.Extensibility;
-    using JetBrains.ReSharper.Intentions.Extensibility.Menu;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.ReSharper.Feature.Services.Intentions;
+    using JetBrains.ReSharper.Feature.Services.Resources;
     using JetBrains.ReSharper.Psi;
     using JetBrains.UI.Application;
     using JetBrains.UI.Icons;
@@ -114,7 +112,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
         /// <returns>
         /// The available actions. 
         /// </returns>
-        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile, string inspectionTitle)
+        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
         {
             StyleCopHighlightingBase violation = highlighting as StyleCopHighlightingBase;
 

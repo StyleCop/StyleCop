@@ -22,7 +22,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Layout
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
     using StyleCop.ReSharper800.BulbItems.Layout;
     using StyleCop.ReSharper800.QuickFixes.Framework;
@@ -117,7 +117,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Layout
                                                  "Format line : "
                                                  + this.Highlighting.ToolTip, 
                                              DocumentRange =
-                                                 this.Highlighting.DocumentRange, 
+                                                 this.Highlighting.CalculateRange(), 
                                              LineNumber =
                                                  this.Highlighting.LineNumber
                                          }

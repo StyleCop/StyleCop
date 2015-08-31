@@ -29,7 +29,6 @@ namespace StyleCop.ReSharper800.Options
     using System.Reflection;
     using System.Windows.Forms;
 
-    using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
@@ -38,6 +37,7 @@ namespace StyleCop.ReSharper800.Options
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
     using JetBrains.ReSharper.Psi.CSharp.Naming2;
     using JetBrains.ReSharper.Psi.Naming.Settings;
+    using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.Threading;
     using JetBrains.UI.CrossFramework;
     using JetBrains.UI.Options;
@@ -228,7 +228,8 @@ namespace StyleCop.ReSharper800.Options
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_ATTRIBUTE_ON_SAME_LINE, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.PLACE_WHILE_ON_NEW_LINE, true);
-            settingsStore.SetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE, ThisQualifierStyle.ALWAYS_USE);
+            // TODO: Set the appropriate Code Style setting
+            //settingsStore.SetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE, ThisQualifierStyle.This);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SIMPLE_EMBEDDED_STATEMENT_STYLE, SimpleEmbeddedStatementStyle.ON_SINGLE_LINE);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_AMPERSAND_OP, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.SPACE_AFTER_ASTERIK_OP, false);
@@ -853,11 +854,6 @@ namespace StyleCop.ReSharper800.Options
             }
 
             if (!settingsStore.GetValue((CSharpFormatSettingsKey key) => key.PLACE_WHILE_ON_NEW_LINE))
-            {
-                return false;
-            }
-
-            if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.REDUNDANT_THIS_QUALIFIER_STYLE) != ThisQualifierStyle.ALWAYS_USE)
             {
                 return false;
             }

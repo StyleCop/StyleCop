@@ -24,10 +24,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
     using JetBrains.DocumentModel;
     using JetBrains.Interop.WinApi;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Daemon.Impl;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility.Menu;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.TextControl;
     using JetBrains.UI.CrossFramework;
     using JetBrains.UI.Icons;
@@ -158,9 +157,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
                     ChangeInspectionSeverityDialog dialog = new ChangeInspectionSeverityDialog(lifetime, this.commonIconsComponent);
                     IContextBoundSettingsStore contextBoundSettingsStore =
                         this.settingsStore.BindToContextTransient(ContextRange.Smart(textControl.Document.ToDataContext()));
-                    HighlightingSettingsManager.ConfigurableSeverityItem item = this.highlightingSettingsManager.GetSeverityItem(this.HighlightID);
+                    ConfigurableSeverityItem item = this.highlightingSettingsManager.GetSeverityItem(this.HighlightID);
 
-                    dialog.Severity = this.highlightingSettingsManager.GetConfigurableSeverity(this.HighlightID, contextBoundSettingsStore);
+                    dialog.Severity = this.highlightingSettingsManager.GetConfigurableSeverity(this.HighlightID, solution);
                     dialog.SeverityOptionsTitle = string.Format(item.FullTitle + ":");
                     dialog.CanBeError = !item.SolutionAnalysisRequired;
 

@@ -1312,7 +1312,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
             {
                 if (currentNode is IDocCommentNode)
                 {
-                    if (!(currentNode.Parent is IDocCommentBlockNode))
+                    if (!(currentNode.Parent is IDocCommentBlock))
                     {
                         this.SwapDocCommentNodeToCommentNode(currentNode);
                     }

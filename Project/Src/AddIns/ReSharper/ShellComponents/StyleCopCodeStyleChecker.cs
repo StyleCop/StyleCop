@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.ShellComponents
     using System.Windows.Forms;
 
     using JetBrains.Application;
-    using JetBrains.Application.Components;
     using JetBrains.Application.Settings;
     using JetBrains.Application.Settings.Store.Implementation;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper800.Core;
     using StyleCop.ReSharper800.Options;
@@ -36,7 +36,7 @@ namespace StyleCop.ReSharper800.ShellComponents
     /// <summary>
     /// The StyleCop CodeStyle Checker.
     /// </summary>
-    [ShellComponent(ProgramConfigurations.ALL)]
+    [ShellComponent]
     public class StyleCopCodeStyleChecker : IDisposable
     {
         #region Constructors and Destructors

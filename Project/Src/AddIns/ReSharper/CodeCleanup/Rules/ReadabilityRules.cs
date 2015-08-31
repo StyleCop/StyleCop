@@ -35,6 +35,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Modules;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper800.CodeCleanup.Options;
@@ -241,7 +242,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                 {
                     ITokenNode tokenNode = currentNode as ITokenNode;
 
-                    if (tokenNode.GetTokenType() == CSharpTokenType.STRING_LITERAL)
+                    if (tokenNode.GetTokenType().IsStringLiteral)
                     {
                         IAttribute attribute = tokenNode.GetContainingNode<IAttribute>(true);
                         ISwitchLabelStatement switchLabelStatement = tokenNode.GetContainingNode<ISwitchLabelStatement>(true);
@@ -257,7 +258,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                                 const string NewText = "string.Empty";
                                 ITokenNode newLiteral =
                                     (ITokenNode)
-                                    CSharpTokenType.STRING_LITERAL.Create(new JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
+                                    CSharpTokenType.STRING_LITERAL_REGULAR.Create(new JetBrains.Text.StringBuffer(NewText), new TreeOffset(0), new TreeOffset(NewText.Length));
 
                                 using (WriteLockCookie.Create(true))
                                 {
@@ -543,7 +544,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
 
                 using (WriteLockCookie.Create(true))
                 {
-                    multipleDeclaration.SetTypeUsage(CSharpElementFactory.GetInstance(localVariableDeclaration.GetPsiModule()).CreateTypeUsageNode(newType));
+                    multipleDeclaration.SetTypeUsage(CSharpElementFactory.GetInstance(localVariableDeclaration.GetPsiModule()).CreateTypeUsageNode(newType, multipleDeclaration));
                 }
             }
             else
@@ -631,7 +632,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
                 {
                     if (!types[i].IsUnknown)
                     {
-                        ITypeUsage newTypeUsageNode = CSharpElementFactory.GetInstance(project).CreateTypeUsageNode(types[i]);
+                        ITypeUsage newTypeUsageNode = CSharpElementFactory.GetInstance(project).CreateTypeUsageNode(types[i], node);
 
                         using (WriteLockCookie.Create(true))
                         {

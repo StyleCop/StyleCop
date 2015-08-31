@@ -15,6 +15,7 @@
 //   Maintainability rules.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop.ReSharper800.CodeCleanup.Rules
 {
     #region Using Directives
@@ -25,6 +26,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper800.CodeCleanup.Options;

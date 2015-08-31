@@ -35,6 +35,7 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper800.Options;
 

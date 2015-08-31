@@ -48,8 +48,8 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.Modules;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Psi.Util;
+    using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.TextControl;
-    using JetBrains.VsIntegration.ProjectModel;
    
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
@@ -274,7 +274,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// An IDocCommentBlockNode that has been created.
         /// </returns>
-        public static IDocCommentBlockNode CreateDocCommentBlockNode(ITreeNode element, string text)
+        public static IDocCommentBlock CreateDocCommentBlockNode(ITreeNode element, string text)
         {
             // Fix up the xml terminators to remove the extra space.
             text = text.Replace(" />", "/>");
@@ -292,10 +292,10 @@ namespace StyleCop.ReSharper800.Core
             }
 
             builder.Append("void fec();");
-            IDocCommentBlockOwnerNode declaration =
-                (IDocCommentBlockOwnerNode)CSharpElementFactory.GetInstance(element.GetPsiModule()).CreateTypeMemberDeclaration(builder.ToString());
+            IDocCommentBlockOwner declaration =
+                (IDocCommentBlockOwner)CSharpElementFactory.GetInstance(element.GetPsiModule()).CreateTypeMemberDeclaration(builder.ToString());
 
-            return declaration.GetDocCommentBlockNode();
+            return declaration.DocCommentBlock;
         }
 
         /// <summary>
@@ -630,7 +630,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// Null if the declaration has no docs.
         /// </returns>
-        public static IDocCommentBlockNode GetDocCommentBlockNodeForDeclaration(IDeclaration declaration)
+        public static IDocCommentBlock GetDocCommentBlockNodeForDeclaration(IDeclaration declaration)
         {
             IDeclaration treeNode = declaration;
             return (treeNode is IMultipleDeclarationMember)
@@ -647,10 +647,10 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>
         /// Null if the declaration has no docs.
         /// </returns>
-        public static IDocCommentBlockOwnerNode GetDocCommentBlockOwnerNodeForDeclaration(IDeclaration declaration)
+        public static IDocCommentBlockOwner GetDocCommentBlockOwnerNodeForDeclaration(IDeclaration declaration)
         {
             ITreeNode treeNode = declaration;
-            return treeNode is IMultipleDeclarationMember ? (IDocCommentBlockOwnerNode)treeNode.Parent : declaration as IDocCommentBlockOwnerNode;
+            return treeNode is IMultipleDeclarationMember ? (IDocCommentBlockOwner)treeNode.Parent : declaration as IDocCommentBlockOwner;
         }
 
         /// <summary>
@@ -1096,7 +1096,7 @@ namespace StyleCop.ReSharper800.Core
         /// <returns>Returns null if no active solution.</returns>
         public static ISolution GetSolution()
         {
-            return Shell.Instance.GetComponent<VSSolutionManager>().CurrentSolution;
+            return Shell.Instance.GetComponent<SolutionManagerBase>().CurrentSolution;
         }
 
         /// <summary>

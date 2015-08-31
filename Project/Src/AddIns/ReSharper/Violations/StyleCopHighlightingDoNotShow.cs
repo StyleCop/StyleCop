@@ -20,7 +20,7 @@ namespace StyleCop.ReSharper800.Violations
     #region Using Directives
 
     using JetBrains.DocumentModel;
-    using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
 
     #endregion
 

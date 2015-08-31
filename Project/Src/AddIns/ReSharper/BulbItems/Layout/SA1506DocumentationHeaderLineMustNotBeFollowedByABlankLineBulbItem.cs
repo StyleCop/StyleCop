@@ -54,7 +54,7 @@ namespace StyleCop.ReSharper800.BulbItems.Layout
 
             IDocCommentNode docCommentNode = currentNode as IDocCommentNode;
 
-            IDocCommentBlockNode containingElement = docCommentNode.GetContainingNode<IDocCommentBlockNode>(true);
+            IDocCommentBlock containingElement = docCommentNode.GetContainingNode<IDocCommentBlock>(true);
 
             ITreeNode rightNode = containingElement.FindFormattingRangeToRight();
 

@@ -29,6 +29,7 @@ namespace StyleCop.ReSharper800.BulbItems.Framework
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.TextControl;
 
     #endregion

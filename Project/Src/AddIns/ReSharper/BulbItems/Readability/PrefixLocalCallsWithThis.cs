@@ -15,6 +15,9 @@
 //   QuickFix action which prefixing the local call with "this.".
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
+
 namespace StyleCop.ReSharper800.BulbItems.Readability
 {
     #region Using Directives
@@ -49,10 +52,9 @@ namespace StyleCop.ReSharper800.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
-
-            IRangeMarker marker = this.DocumentRange.CreateRangeMarker();
-            file.ArrangeThisQualifier(marker);
+            // TODO: This relies on the settings being correct
+            // It should probably have a custom adviser that 
+            CodeStyleUtil.ApplyStyle<ThisQualifierStyleSuggestion>(Utils.GetElementAtCaret(solution, textControl));
         }
 
         #endregion

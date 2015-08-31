@@ -22,7 +22,7 @@ namespace StyleCop.ReSharper800.Violations
     using System.Drawing;
 
     using JetBrains.DocumentModel;
-    using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
 
     #endregion
 
@@ -31,6 +31,8 @@ namespace StyleCop.ReSharper800.Violations
     /// </summary>
     public abstract class StyleCopHighlightingBase : IHighlighting
     {
+        private readonly DocumentRange documentRange;
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace StyleCop.ReSharper800.Violations
         {
             this.CheckId = violationEventArgs.Violation.Rule.CheckId;
             this.ToolTip = violationEventArgs.Message + " [StyleCop Rule: " + this.CheckId + "]";
-            this.DocumentRange = documentRange;
+            this.documentRange = documentRange;
             this.FileName = fileName;
             this.LineNumber = lineNumber;
             this.Rule = violationEventArgs.Violation.Rule;
@@ -137,7 +139,10 @@ namespace StyleCop.ReSharper800.Violations
         /// <summary>
         /// Gets or sets the text range where the Violation happened.
         /// </summary>
-        public DocumentRange DocumentRange { get; set; }
+        public DocumentRange CalculateRange()
+        {
+            return documentRange;
+        }
 
         /// <summary>
         /// Gets the tooltip to be displayed on the error stripe within the IDE.

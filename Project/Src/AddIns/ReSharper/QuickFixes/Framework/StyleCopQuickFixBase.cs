@@ -21,9 +21,10 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
     #region Using Directives
 
     using System.Collections.Generic;
-   
-    using JetBrains.ReSharper.Intentions.Extensibility;
-    using JetBrains.ReSharper.Intentions.Extensibility.Menu;
+
+    using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.Intentions;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
     using StyleCop.ReSharper800.Violations;
 

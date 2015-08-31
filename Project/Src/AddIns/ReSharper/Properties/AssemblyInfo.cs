@@ -21,9 +21,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
-using JetBrains.Application.PluginSupport;
-using JetBrains.ReSharper.Daemon;
+using JetBrains.ReSharper.Feature.Services.Daemon;
 
 #endregion
 
@@ -41,6 +39,3 @@ using JetBrains.ReSharper.Daemon;
 [assembly: CLSCompliant(false)]
 [assembly: Guid("1064F4C2-0AB3-43EA-AE01-0408B2D4DDFE")]
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
-[assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
-[assembly: PluginVendor(StyleCop.Constants.Vendor)]
-[assembly: PluginDescription(StyleCop.Constants.Description)]

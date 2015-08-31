@@ -26,8 +26,7 @@ namespace StyleCop.ReSharper800.Options
     using System.Text.RegularExpressions;
 
     using JetBrains.Application;
-    using JetBrains.Application.Components;
-    using JetBrains.ReSharper.Daemon;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper800.Core;
@@ -37,7 +36,7 @@ namespace StyleCop.ReSharper800.Options
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
-    [ShellComponent(ProgramConfigurations.ALL)]
+    [ShellComponent]
     public class HighlightingRegistering : IDisposable
     {
         #region Constants
@@ -145,15 +144,14 @@ namespace StyleCop.ReSharper800.Options
 
             if (allConfigurableSeverityItems != null)
             {
-                Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem> configurableSeverityItems =
-                    allConfigurableSeverityItems.GetValue(highlightManager) as Dictionary<string, HighlightingSettingsManager.ConfigurableSeverityItem>;
+                Dictionary<string, ConfigurableSeverityItem> configurableSeverityItems =
+                    allConfigurableSeverityItems.GetValue(highlightManager) as Dictionary<string, ConfigurableSeverityItem>;
 
                 if (configurableSeverityItems != null)
                 {
                     if (!configurableSeverityItems.ContainsKey(highlightId))
                     {
-                        HighlightingSettingsManager.ConfigurableSeverityItem item = new HighlightingSettingsManager.ConfigurableSeverityItem(
-                            highlightId, null, groupName, ruleName, description, defaultSeverity, false, false);
+                        ConfigurableSeverityItem item = new ConfigurableSeverityItem(highlightId, null, groupName, ruleName, description, defaultSeverity, false, false, null);
                         configurableSeverityItems.Add(highlightId, item);
                     }
                 }
@@ -193,7 +191,7 @@ namespace StyleCop.ReSharper800.Options
         /// </returns>
         private static bool SettingExists(HighlightingSettingsManager highlightManager, string highlightID)
         {
-            HighlightingSettingsManager.ConfigurableSeverityItem item = highlightManager.GetSeverityItem(highlightID);
+            ConfigurableSeverityItem item = highlightManager.GetSeverityItem(highlightID);
             return item != null;
         }
 

@@ -19,12 +19,12 @@ namespace StyleCop.ReSharper800.Violations
 {
     #region Using Directives
 
-    using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
-    using JetBrains.ReSharper.Daemon;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.VsIntegration.ProjectModel;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper800.Options;
 
@@ -60,11 +60,9 @@ namespace StyleCop.ReSharper800.Violations
             string ruleID = violation.Violation.Rule.CheckId;
             string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            VSSolutionManager solutionManager = Shell.Instance.GetComponent<VSSolutionManager>();
+            SolutionManagerBase solutionManager = Shell.Instance.GetComponent<SolutionManagerBase>();
 
-            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, solutionManager.CurrentSolution);
-
-            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, settingsStore);
+            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, solutionManager.CurrentSolution);
 
             switch (severity)
             {

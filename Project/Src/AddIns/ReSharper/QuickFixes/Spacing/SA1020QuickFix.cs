@@ -24,7 +24,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Spacing
 
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
     using StyleCop.ReSharper800.BulbItems.Readability;
     using StyleCop.ReSharper800.QuickFixes.Framework;
@@ -114,14 +114,14 @@ namespace StyleCop.ReSharper800.QuickFixes.Spacing
             JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
                 (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
 
-            string target = this.Highlighting.DocumentRange.Document.GetLineText(line.Minus1());
+            string target = this.Highlighting.CalculateRange().Document.GetLineText(line.Minus1());
             target = target.Contains("++") ? "++" : "--";
 
             this.BulbItems = new List<IBulbAction>
                                  {
                                      new FormatLineBulbItem
                                          {
-                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             DocumentRange = this.Highlighting.CalculateRange(), 
                                              Description = "Fix Spacing : " + this.Highlighting.ToolTip, 
                                              LineNumber = this.Highlighting.LineNumber, 
                                              Target = target

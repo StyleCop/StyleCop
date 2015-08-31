@@ -22,7 +22,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Readability
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
-    using JetBrains.ReSharper.Intentions.Extensibility;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
     using StyleCop.ReSharper800.BulbItems.Readability;
     using StyleCop.ReSharper800.QuickFixes.Framework;
@@ -114,7 +114,7 @@ namespace StyleCop.ReSharper800.QuickFixes.Readability
                                      new SA1121UseBuiltInTypeAliasBulbItem
                                          {
                                              Description = "Convert to built in type: " + this.Highlighting.ToolTip, 
-                                             DocumentRange = this.Highlighting.DocumentRange, 
+                                             DocumentRange = this.Highlighting.CalculateRange(), 
                                              LineNumber = this.Highlighting.LineNumber, 
                                          }
                                  };

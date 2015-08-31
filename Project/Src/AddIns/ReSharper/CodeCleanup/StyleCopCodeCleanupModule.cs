@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper800.CodeCleanup
     using JetBrains.Application;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Daemon.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Psi;
@@ -44,7 +45,7 @@ namespace StyleCop.ReSharper800.CodeCleanup
     ///   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
     ///   We ensure that most of the ReSharper modules are run before we are.
     /// </summary>
-    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(ArrangeThisQualifier), typeof(ReplaceByVar), typeof(ReformatCode) })]
+    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(HighlightingCleanupModule), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         #region Static Fields
