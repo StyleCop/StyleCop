@@ -55,14 +55,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         public DocumentRange DocumentRange { get; set; }
 
         /// <summary>
-        /// Gets or sets the suffix spacing.
-        /// </summary>
-        /// <value>
-        /// The suffix.
-        /// </value>
-        public string Suffix { get; set; }
-
-        /// <summary>
         /// Gets or sets a string to format spacing.
         /// </summary>
         /// <value>
