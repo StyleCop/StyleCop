@@ -13,17 +13,10 @@
 // </license>
 //-----------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.Options
+namespace StyleCop.ReSharper.Options
 {
-    using System;
     using System.ComponentModel;
-    using System.Drawing;
     using System.Windows.Forms;
-
-    using JetBrains.Application.Settings;
-    using JetBrains.ReSharper.Psi;
-
-    using StyleCop.ReSharper800.Core;
 
     partial class StyleCopOptionsPage
     {

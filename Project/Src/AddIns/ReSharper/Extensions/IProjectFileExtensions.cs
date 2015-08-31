@@ -15,11 +15,13 @@
 //   Extension methods for IProjectFile types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ProjectModel
+namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
     using System.Xml;
+
+    using JetBrains.ProjectModel;
 
     using StyleCop.Diagnostics;
 

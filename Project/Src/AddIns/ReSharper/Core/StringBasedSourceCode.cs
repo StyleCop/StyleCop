@@ -15,7 +15,7 @@
 //   The string based source code.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 

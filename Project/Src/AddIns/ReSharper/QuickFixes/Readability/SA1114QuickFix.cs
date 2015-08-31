@@ -15,7 +15,7 @@
 //   QuickFix - SA1114.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.QuickFixes.Readability
+namespace StyleCop.ReSharper.QuickFixes.Readability
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Readability
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
-    using StyleCop.ReSharper800.BulbItems.Readability;
-    using StyleCop.ReSharper800.QuickFixes.Framework;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.BulbItems.Readability;
+    using StyleCop.ReSharper.QuickFixes.Framework;
+    using StyleCop.ReSharper.Violations;
 
     #endregion
 

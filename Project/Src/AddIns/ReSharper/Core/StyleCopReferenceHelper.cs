@@ -19,7 +19,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper800.Core
     using System.IO;
     using System.Reflection;
 
-    using StyleCop.ReSharper800.Options;
+    using StyleCop.ReSharper.Options;
 
     #endregion
 

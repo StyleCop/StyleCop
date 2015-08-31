@@ -15,7 +15,7 @@
 //   Class to represent a StyleCop rule.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Options
+namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
 

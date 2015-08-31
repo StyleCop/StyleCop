@@ -15,7 +15,7 @@
 //   QuickFix - SA1000: KeywordsMustBeSpacedCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.QuickFixes.Spacing
+namespace StyleCop.ReSharper.QuickFixes.Spacing
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Spacing
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
-    using StyleCop.ReSharper800.BulbItems.Readability;
-    using StyleCop.ReSharper800.QuickFixes.Framework;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.BulbItems.Readability;
+    using StyleCop.ReSharper.QuickFixes.Framework;
+    using StyleCop.ReSharper.Violations;
 
     #endregion
 

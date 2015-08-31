@@ -15,12 +15,14 @@
 //   Extension methods for Token types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ReSharper.Psi.Parsing
+namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
     using System;
     using System.Linq;
+
+    using JetBrains.ReSharper.Psi.Parsing;
 
     #endregion
 

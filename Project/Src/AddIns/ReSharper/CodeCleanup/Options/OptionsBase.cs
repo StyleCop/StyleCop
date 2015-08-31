@@ -15,14 +15,14 @@
 //   Defines the base options class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.CodeCleanup.Options
+namespace StyleCop.ReSharper.CodeCleanup.Options
 {
     #region Using Directives
 
     using System.Linq;
     using System.Reflection;
 
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

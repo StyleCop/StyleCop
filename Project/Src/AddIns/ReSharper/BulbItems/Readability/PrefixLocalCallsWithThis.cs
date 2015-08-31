@@ -16,21 +16,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
-
-namespace StyleCop.ReSharper800.BulbItems.Readability
+namespace StyleCop.ReSharper.BulbItems.Readability
 {
     #region Using Directives
 
-    using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle;
-    using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   The source code factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 

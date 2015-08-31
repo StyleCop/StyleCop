@@ -15,7 +15,7 @@
 //   The project settings factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 

@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.QuickFixes.Framework
+namespace StyleCop.ReSharper.QuickFixes.Framework
 {
     #region Using Directives
 
@@ -32,8 +32,8 @@ namespace StyleCop.ReSharper800.QuickFixes.Framework
     using JetBrains.UI.Application;
     using JetBrains.UI.Icons;
 
-    using StyleCop.ReSharper800.Options;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper.Violations;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   The s a 1120 comments must contain text bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Readability
+namespace StyleCop.ReSharper.BulbItems.Readability
 {
     #region Using Directives
 
@@ -23,9 +23,9 @@ namespace StyleCop.ReSharper800.BulbItems.Readability
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.CodeCleanup.Rules;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   The s a 1511 while do footer must not be preceded by blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Layout
+namespace StyleCop.ReSharper.BulbItems.Layout
 {
     #region Using Directives
 
@@ -23,8 +23,8 @@ namespace StyleCop.ReSharper800.BulbItems.Layout
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   Highlights the StyleCop Violation within the IDE.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Violations
+namespace StyleCop.ReSharper.Violations
 {
     #region Using Directives
 
@@ -141,7 +141,7 @@ namespace StyleCop.ReSharper800.Violations
         /// </summary>
         public DocumentRange CalculateRange()
         {
-            return documentRange;
+            return this.documentRange;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@
 //   StyleCopRules definition.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     /// <summary>
     /// StyleCopRules definition.

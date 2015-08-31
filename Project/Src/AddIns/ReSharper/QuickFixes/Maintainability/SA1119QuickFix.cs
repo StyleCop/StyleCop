@@ -15,7 +15,7 @@
 //   QuickFix for StyleCop Rule SA1119.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.QuickFixes.Maintainability
+namespace StyleCop.ReSharper.QuickFixes.Maintainability
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Maintainability
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
-    using StyleCop.ReSharper800.BulbItems.Maintainability;
-    using StyleCop.ReSharper800.QuickFixes.Framework;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.BulbItems.Maintainability;
+    using StyleCop.ReSharper.QuickFixes.Framework;
+    using StyleCop.ReSharper.Violations;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   Defines options for DocumentationOptions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.CodeCleanup.Options
+namespace StyleCop.ReSharper.CodeCleanup.Options
 {
     #region Using Directives
 
@@ -23,7 +23,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Options
     using System.Reflection;
     using System.Text;
 
-    using StyleCop.ReSharper800.CodeCleanup.Styles;
+    using StyleCop.ReSharper.CodeCleanup.Styles;
 
     #endregion
 

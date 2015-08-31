@@ -15,14 +15,14 @@
 //   The s a 1400 access modifier must be declared bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Maintainability
+namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
+    using StyleCop.ReSharper.BulbItems.Framework;
 
     #endregion
 

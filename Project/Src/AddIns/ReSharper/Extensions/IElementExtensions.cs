@@ -15,13 +15,13 @@
 //   Extension methods for Token types.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ReSharper.Psi.Tree
+namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
     using System;
 
-    using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
 
     #endregion
 

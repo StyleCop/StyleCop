@@ -15,7 +15,7 @@
 //   A class that exposes the current Documentation configuration for the file provided.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.CodeCleanup.Rules
+namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
     #region Using Directives
 
@@ -25,7 +25,7 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
 
     using JetBrains.ReSharper.Psi;
 
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

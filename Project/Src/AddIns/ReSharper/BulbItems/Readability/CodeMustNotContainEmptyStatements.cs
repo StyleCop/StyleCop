@@ -15,14 +15,14 @@
 //   QuickFix action which replaces ";;" with ";".
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Readability
+namespace StyleCop.ReSharper.BulbItems.Readability
 {
     #region Using Directives
 
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
+    using StyleCop.ReSharper.BulbItems.Framework;
 
     #endregion
 

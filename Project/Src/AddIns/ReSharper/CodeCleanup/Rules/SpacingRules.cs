@@ -16,13 +16,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.CodeCleanup.Rules
+namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
     #region Using Directives
 
     using System.Collections.Generic;
 
-    using JetBrains.Application;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -33,7 +32,8 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper800.CodeCleanup.Options;
+    using StyleCop.ReSharper.CodeCleanup.Options;
+    using StyleCop.ReSharper.Extensions;
 
     #endregion
 

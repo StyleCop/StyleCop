@@ -15,7 +15,7 @@
 //   Fixes SA1208, SA1209, SA1210, and SA1211.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.CodeCleanup.Rules
+namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
     #region Using Directives
 
@@ -28,8 +28,9 @@ namespace StyleCop.ReSharper800.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper800.CodeCleanup.Options;
-    using StyleCop.ReSharper800.CodeCleanup.Styles;
+    using StyleCop.ReSharper.CodeCleanup.Options;
+    using StyleCop.ReSharper.CodeCleanup.Styles;
+    using StyleCop.ReSharper.Extensions;
 
     #endregion
 

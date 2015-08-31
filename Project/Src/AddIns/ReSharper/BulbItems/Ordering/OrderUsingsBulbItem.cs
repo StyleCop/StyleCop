@@ -15,7 +15,7 @@
 //   BulbItem - OrderUsingsBulbItem : Qualifies all usings, the orders them, groups them and removes duplicates.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Ordering
+namespace StyleCop.ReSharper.BulbItems.Ordering
 {
     #region Using Directives
 
@@ -23,11 +23,11 @@ namespace StyleCop.ReSharper800.BulbItems.Ordering
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.CodeCleanup.Options;
-    using StyleCop.ReSharper800.CodeCleanup.Rules;
-    using StyleCop.ReSharper800.CodeCleanup.Styles;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.CodeCleanup.Options;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.CodeCleanup.Styles;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

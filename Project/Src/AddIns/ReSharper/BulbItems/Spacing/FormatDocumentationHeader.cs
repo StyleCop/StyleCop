@@ -15,7 +15,7 @@
 //   BulbItem - FormatDocumentationHeader : Fixes documentation headers.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Spacing
+namespace StyleCop.ReSharper.BulbItems.Spacing
 {
     #region Using Directives
 
@@ -24,7 +24,7 @@ namespace StyleCop.ReSharper800.BulbItems.Spacing
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
+    using StyleCop.ReSharper.BulbItems.Framework;
 
     #endregion
 

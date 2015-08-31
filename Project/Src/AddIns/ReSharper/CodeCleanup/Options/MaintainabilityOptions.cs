@@ -15,7 +15,7 @@
 //   Defines options for MaintainabilityOptions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.CodeCleanup.Options
+namespace StyleCop.ReSharper.CodeCleanup.Options
 {
     #region Using Directives
 

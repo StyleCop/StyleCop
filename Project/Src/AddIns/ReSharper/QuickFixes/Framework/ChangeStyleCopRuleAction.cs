@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.QuickFixes.Framework
+namespace StyleCop.ReSharper.QuickFixes.Framework
 {
     #region Using Directives
 

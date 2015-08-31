@@ -15,7 +15,7 @@
 //   QuickFix for SA1650 : ElementDocumentationMustBeSpelledCorrectly.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.QuickFixes.Documentation
+namespace StyleCop.ReSharper.QuickFixes.Documentation
 {
     #region Using Directives
 
@@ -26,9 +26,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Documentation
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
-    using StyleCop.ReSharper800.BulbItems.Documentation;
-    using StyleCop.ReSharper800.QuickFixes.Framework;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.BulbItems.Documentation;
+    using StyleCop.ReSharper.QuickFixes.Framework;
+    using StyleCop.ReSharper.Violations;
     using StyleCop.Spelling;
 
     #endregion

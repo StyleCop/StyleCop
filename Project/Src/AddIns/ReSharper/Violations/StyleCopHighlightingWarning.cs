@@ -15,7 +15,7 @@
 //   Highlighting class for a StyleCop Violation set to severity level Warning.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Violations
+namespace StyleCop.ReSharper.Violations
 {
     #region Using Directives
 

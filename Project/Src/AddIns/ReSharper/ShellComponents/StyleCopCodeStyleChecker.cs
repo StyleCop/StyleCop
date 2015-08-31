@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.ShellComponents
+namespace StyleCop.ReSharper.ShellComponents
 {
     #region Using Directives
 
@@ -28,8 +28,8 @@ namespace StyleCop.ReSharper800.ShellComponents
     using JetBrains.Application.Settings.Store.Implementation;
     using JetBrains.ReSharper.Resources.Shell;
 
-    using StyleCop.ReSharper800.Core;
-    using StyleCop.ReSharper800.Options;
+    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.Options;
 
     #endregion
 

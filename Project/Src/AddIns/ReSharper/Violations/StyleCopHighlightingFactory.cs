@@ -15,18 +15,16 @@
 //   Factory class for getting HighLights for StyleCop violations.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Violations
+namespace StyleCop.ReSharper.Violations
 {
     #region Using Directives
 
-    using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Resources.Shell;
 
-    using StyleCop.ReSharper800.Options;
+    using StyleCop.ReSharper.Options;
 
     #endregion
 

@@ -15,7 +15,7 @@
 //   BulbItem - SA1636FileHeaderCopyrightTextMustMatchBulbItem.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Documentation
+namespace StyleCop.ReSharper.BulbItems.Documentation
 {
     #region Using Directives
 
@@ -23,9 +23,9 @@ namespace StyleCop.ReSharper800.BulbItems.Documentation
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.CodeCleanup.Rules;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

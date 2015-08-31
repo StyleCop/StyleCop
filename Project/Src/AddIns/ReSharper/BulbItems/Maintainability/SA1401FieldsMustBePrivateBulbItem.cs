@@ -15,7 +15,7 @@
 //   The s a 1401 fields must be private bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Maintainability
+namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
     #region Using Directives
 
@@ -26,8 +26,8 @@ namespace StyleCop.ReSharper800.BulbItems.Maintainability
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

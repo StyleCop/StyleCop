@@ -15,11 +15,14 @@
 //   I method declaration extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ReSharper.Psi.CSharp.Tree.Extensions
+namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
+    using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Impl;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
 
     #endregion
 

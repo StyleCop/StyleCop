@@ -15,7 +15,7 @@
 //   BulbItem - MoveUsings : Moves Using statements inside the closest namespace.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Ordering
+namespace StyleCop.ReSharper.BulbItems.Ordering
 {
     #region Using Directives
 
@@ -24,8 +24,8 @@ namespace StyleCop.ReSharper800.BulbItems.Ordering
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

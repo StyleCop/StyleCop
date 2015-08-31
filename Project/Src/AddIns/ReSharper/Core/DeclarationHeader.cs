@@ -15,7 +15,7 @@
 //   Provides a wrapper for a declaration elements documentation comments.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.Core
+namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
@@ -26,7 +26,6 @@ namespace StyleCop.ReSharper800.Core
     using System.Text;
     using System.Xml;
 
-    using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -35,8 +34,9 @@ namespace StyleCop.ReSharper800.Core
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Resources.Shell;
 
-    using StyleCop.ReSharper800.CodeCleanup.Rules;
-    using StyleCop.ReSharper800.Options;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.Extensions;
+    using StyleCop.ReSharper.Options;
 
     #endregion
 

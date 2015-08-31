@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
+namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 {
     #region Using Directives
 
@@ -27,8 +27,8 @@ namespace StyleCop.ReSharper800.CodeCleanup.Descriptors
 
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
 
-    using StyleCop.ReSharper800.CodeCleanup.Options;
-    using StyleCop.ReSharper800.CodeCleanup.Styles;
+    using StyleCop.ReSharper.CodeCleanup.Options;
+    using StyleCop.ReSharper.CodeCleanup.Styles;
 
     #endregion
 

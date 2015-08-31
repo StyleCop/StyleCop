@@ -15,7 +15,7 @@
 //   QuickFix for StyleCop Rule 1209.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.QuickFixes.Ordering
+namespace StyleCop.ReSharper.QuickFixes.Ordering
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.QuickFixes.Ordering
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
-    using StyleCop.ReSharper800.BulbItems.Ordering;
-    using StyleCop.ReSharper800.QuickFixes.Framework;
-    using StyleCop.ReSharper800.Violations;
+    using StyleCop.ReSharper.BulbItems.Ordering;
+    using StyleCop.ReSharper.QuickFixes.Framework;
+    using StyleCop.ReSharper.Violations;
 
     #endregion
 

@@ -16,7 +16,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.ReSharper800.BulbItems.Framework
+namespace StyleCop.ReSharper.BulbItems.Framework
 {
     #region Using Directives
 

@@ -15,11 +15,14 @@
 //   Extension methods for the  class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ReSharper.Psi.CSharp.Tree
+namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
     using System;
+
+    using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
 
     #endregion
 

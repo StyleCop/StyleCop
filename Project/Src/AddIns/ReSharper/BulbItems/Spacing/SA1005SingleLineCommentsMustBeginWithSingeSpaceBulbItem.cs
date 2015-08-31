@@ -15,7 +15,7 @@
 //   The s a 1005 single line comments must begin with singe space.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Spacing
+namespace StyleCop.ReSharper.BulbItems.Spacing
 {
     #region Using Directives
 
@@ -24,9 +24,9 @@ namespace StyleCop.ReSharper800.BulbItems.Spacing
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.CodeCleanup.Rules;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

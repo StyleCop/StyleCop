@@ -15,7 +15,7 @@
 //   The s a 1506 documentation header line must not be followed by a blank line bulb item.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper800.BulbItems.Layout
+namespace StyleCop.ReSharper.BulbItems.Layout
 {
     #region Using Directives
 
@@ -25,8 +25,8 @@ namespace StyleCop.ReSharper800.BulbItems.Layout
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
-    using StyleCop.ReSharper800.BulbItems.Framework;
-    using StyleCop.ReSharper800.Core;
+    using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     #endregion
 

@@ -15,8 +15,11 @@
 //   I property declaration extensions.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace JetBrains.ReSharper.Psi.CSharp.Tree
+namespace StyleCop.ReSharper.Extensions
 {
+    using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
+
     /// <summary>
     /// I property declaration extensions.
     /// </summary>
