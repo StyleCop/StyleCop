@@ -101,9 +101,7 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                 {
                     solution.GetComponent<DocumentManagerOperations>().SaveAllDocuments();
 
-                    using (
-                        JetBrains.Util.ITransactionCookie documentTransaction =
-                            solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JetBrains.Util.DefaultAction.Commit, "action name"))
+                    using (solution.GetComponent<DocumentTransactionManager>().CreateTransactionCookie(JetBrains.Util.DefaultAction.Commit, "action name"))
                     {
                         var services = solution.GetPsiServices();
                         services.Transactions.Execute(

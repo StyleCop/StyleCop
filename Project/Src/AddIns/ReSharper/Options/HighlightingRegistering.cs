@@ -42,16 +42,6 @@ namespace StyleCop.ReSharper.Options
         #region Constants
 
         /// <summary>
-        /// The ID to be used for the default severity configuration element.
-        /// </summary>
-        private const string DefaultSeverityId = "StyleCop.DefaultSeverity";
-
-        private const string Description =
-            "Sets the default severity for StyleCop violations. This will be used for any Violation where you have not explicitly set a severity. <strong>Changes to this setting will not take effect until the next time you start Visual Studio.</strong>";
-
-        private const string GroupName = "StyleCop - Defaults (Requires VS Restart)";
-
-        /// <summary>
         /// The template to be used for the group title.
         /// </summary>
         private const string GroupTitleTemplate = "StyleCop - {0}";
@@ -60,8 +50,6 @@ namespace StyleCop.ReSharper.Options
         /// The template to be used for the highlight ID's.
         /// </summary>
         private const string HighlightIdTemplate = "StyleCop.{0}";
-
-        private const string RuleName = "Default Violation Severity";
 
         #endregion
 

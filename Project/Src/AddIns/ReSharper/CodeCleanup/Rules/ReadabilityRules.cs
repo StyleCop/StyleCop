@@ -23,7 +23,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using System;
     using System.Collections.Generic;
 
-    using JetBrains.Application;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
     using JetBrains.ReSharper.Psi.CSharp;
@@ -64,27 +63,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                                                   new[] { "SByte", "System.SByte", "sbyte" }, new[] { "Char", "System.Char", "char" }, 
                                                                   new[] { "Decimal", "System.Decimal", "decimal" }
                                                               };
-
-        #endregion
-
-        #region Fields
-
-        private readonly IShellLocks shellLocks;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadabilityRules"/> class.
-        /// </summary>
-        /// <param name="shellLocks">
-        /// The shell locks.
-        /// </param>
-        public ReadabilityRules(IShellLocks shellLocks)
-        {
-            this.shellLocks = shellLocks;
-        }
 
         #endregion
 
@@ -639,25 +617,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                         }
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Swap object creation to built in type.
-        /// </summary>
-        /// <param name="objectCreationExpressionNode">
-        /// The object creation expression node.
-        /// </param>
-        private static void SwapObjectCreationToBuiltInType(IObjectCreationExpression objectCreationExpressionNode)
-        {
-            IPsiModule project = objectCreationExpressionNode.GetPsiModule();
-
-            using (WriteLockCookie.Create(true))
-            {
-                IObjectCreationExpression tmpExpression =
-                    (IObjectCreationExpression)
-                    CSharpElementFactory.GetInstance(project).CreateExpression("new $0?()", new object[] { objectCreationExpressionNode.Type() });
-                objectCreationExpressionNode.SetCreatedTypeUsage(tmpExpression.CreatedTypeUsage);
             }
         }
 

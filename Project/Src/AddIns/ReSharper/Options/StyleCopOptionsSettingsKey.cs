@@ -186,7 +186,7 @@ namespace StyleCop.ReSharper.Options
                 if (string.IsNullOrEmpty(this.styleCopDetectedPath))
                 {
                     MessageBox.Show(
-                        string.Format("Failed to find the StyleCop Assembly. Please check your StyleCop installation."), 
+                        "Failed to find the StyleCop Assembly. Please check your StyleCop installation.", 
                         "Error Finding StyleCop Assembly", 
                         MessageBoxButtons.OK, 
                         MessageBoxIcon.Error);

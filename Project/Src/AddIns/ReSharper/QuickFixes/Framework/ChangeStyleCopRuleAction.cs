@@ -94,29 +94,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         public string HighlightID { get; set; }
 
         /// <summary>
-        ///   Gets the entries in the context menu.
-        /// </summary>
-        /// <value> The entries in the context menu. </value>
-        public IBulbItem[] Items
-        {
-            get
-            {
-                return new IBulbItem[] { this };
-            }
-        }
-
-        /// <summary>
-        ///   Gets the priority.
-        /// </summary>
-        public int Priority
-        {
-            get
-            {
-                return 500;
-            }
-        }
-
-        /// <summary>
         ///   Gets or sets text to be used as the cookie name.
         /// </summary>
         /// <value> The text of the context menu entry. </value>
@@ -179,20 +156,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             {
                 definition.Terminate();
             }
-        }
-
-        /// <summary>
-        /// Determines whether the specified cache is available.
-        /// </summary>
-        /// <param name="cache">
-        /// The cache. 
-        /// </param>
-        /// <returns>
-        /// <c>True.</c> if the specified cache is available; otherwise, <c>False.</c> . 
-        /// </returns>
-        public bool IsAvailable(JetBrains.Util.IUserDataHolder cache)
-        {
-            return true;
         }
 
         #endregion

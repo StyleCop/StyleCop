@@ -19,8 +19,6 @@ namespace StyleCop.ReSharper.Violations
 {
     #region Using Directives
 
-    using System.Drawing;
-
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
 
@@ -44,33 +42,13 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="fileName">
-        /// The file Name.
-        /// </param>
-        /// <param name="lineNumber">
-        /// Line number of where the violation happened.
-        /// </param>
-        protected StyleCopHighlightingBase(ViolationEventArgs violationEventArgs, DocumentRange documentRange, string fileName, int lineNumber)
+        protected StyleCopHighlightingBase(ViolationEventArgs violationEventArgs, DocumentRange documentRange)
         {
             this.CheckId = violationEventArgs.Violation.Rule.CheckId;
             this.ToolTip = violationEventArgs.Message + " [StyleCop Rule: " + this.CheckId + "]";
             this.documentRange = documentRange;
-            this.FileName = fileName;
-            this.LineNumber = lineNumber;
             this.Rule = violationEventArgs.Violation.Rule;
             this.Violation = violationEventArgs.Violation;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopHighlightingBase"/> class.
-        /// </summary>
-        /// <param name="violationEventArgs">
-        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the Violation data.
-        /// </param>
-        protected StyleCopHighlightingBase(ViolationEventArgs violationEventArgs)
-        {
-            this.CheckId = violationEventArgs.Violation.Rule.CheckId;
-            this.ToolTip = violationEventArgs.Message + " [StyleCop Rule: " + this.CheckId + "]";
         }
 
         /// <summary>
@@ -89,52 +67,9 @@ namespace StyleCop.ReSharper.Violations
         #region Public Properties
 
         /// <summary>
-        /// Gets the attribute id.
-        /// </summary>
-        /// <value>
-        /// The attribute id.
-        /// </value>
-        public virtual string AttributeId
-        {
-            get
-            {
-                switch (this.Severity)
-                {
-                    case Severity.ERROR:
-                        return HighlightingAttributeIds.ERROR_ATTRIBUTE;
-                    case Severity.WARNING:
-                        return HighlightingAttributeIds.WARNING_ATTRIBUTE;
-                    case Severity.SUGGESTION:
-                        return HighlightingAttributeIds.SUGGESTION_ATTRIBUTE;
-                    case Severity.HINT:
-                        return HighlightingAttributeIds.HINT_ATTRIBUTE;
-                    case Severity.INFO:
-                    case Severity.DO_NOT_SHOW:
-                        return null;
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Gets the check id for the Violation.
         /// </summary>
         public string CheckId { get; private set; }
-
-        /// <summary>
-        /// Gets the color on stripe.
-        /// </summary>
-        /// <value>
-        /// The color on stripe.
-        /// </value>
-        public virtual Color ColorOnStripe
-        {
-            get
-            {
-                return Color.Empty;
-            }
-        }
 
         /// <summary>
         /// Gets the tooltip to be displayed on the error stripe within the IDE.
@@ -146,16 +81,6 @@ namespace StyleCop.ReSharper.Violations
                 return this.ToolTip;
             }
         }
-
-        /// <summary>
-        /// Gets or sets FileName.
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the line number where the Violation happened.
-        /// </summary>
-        public int LineNumber { get; set; }
 
         /// <summary>
         /// Gets the Offset.
@@ -174,22 +99,9 @@ namespace StyleCop.ReSharper.Violations
         public Rule Rule { get; private set; }
 
         /// <summary>
-        /// Gets the severity of this highlighting.
-        /// </summary>
-        /// <value>
-        /// </value>
-        public virtual Severity Severity
-        {
-            get
-            {
-                return Severity.ERROR;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the tooltip to display on the highlight.
         /// </summary>
-        public string ToolTip { get; set; }
+        public string ToolTip { get; private set; }
 
         /// <summary>
         /// Gets the internal Violation.

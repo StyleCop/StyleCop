@@ -33,8 +33,6 @@ namespace StyleCop.ReSharper.Core
 
         private readonly string fileType;
 
-        private readonly string folder;
-
         private readonly string name;
 
         private readonly string path;
@@ -76,15 +74,6 @@ namespace StyleCop.ReSharper.Core
             else
             {
                 this.name = path.Substring(index + 1, path.Length - index - 1);
-                this.folder = path.Substring(0, index);
-
-                if (this.folder != null)
-                {
-                    // Trim the path and convert it to lowercase characters
-                    // so that we can do string matches and find other files and
-                    // projects under the same path.
-                    this.folder = CleanPath(this.folder);
-                }
             }
 
             // Strip out the file extension.
@@ -171,38 +160,6 @@ namespace StyleCop.ReSharper.Core
         public override TextReader Read()
         {
             return new StringReader(this.source);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Cleans up the given path so that it can always be matched against other paths.
-        /// </summary>
-        /// <param name="path">
-        /// The path to clean.
-        /// </param>
-        /// <returns>
-        /// Returns the cleaned path.
-        /// </returns>
-        internal static string CleanPath(string path)
-        {
-            Param.Ignore(path);
-
-            string cleanedPath = path;
-            if (cleanedPath != null)
-            {
-                // Remove backslashes from the end of the path.
-                while (cleanedPath.Length > 0 && cleanedPath[cleanedPath.Length - 1] == '\\')
-                {
-                    cleanedPath = cleanedPath.Substring(0, cleanedPath.Length - 1);
-                }
-
-                cleanedPath = cleanedPath.ToUpperInvariant();
-            }
-
-            return cleanedPath;
         }
 
         #endregion

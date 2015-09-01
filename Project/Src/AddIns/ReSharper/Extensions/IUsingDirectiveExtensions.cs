@@ -19,8 +19,6 @@ namespace StyleCop.ReSharper.Extensions
 {
     #region Using Directives
 
-    using System;
-
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
 
@@ -58,20 +56,6 @@ namespace StyleCop.ReSharper.Extensions
             }
 
             return directive.ImportedSymbolName.QualifiedName;
-        }
-
-        /// <summary>
-        /// Gets the root namespace of the Using directive after expanding any abbreviations.
-        /// </summary>
-        /// <param name="directive">
-        /// The directive to use.
-        /// </param>
-        /// <returns>
-        /// The root namespace.
-        /// </returns>
-        internal static string GetRootNamespace(this IUsingDirective directive)
-        {
-            return directive.GetFullyQualifiedNamespace().SubstringBefore('.').SubstringBefore(';');
         }
 
         #endregion

@@ -22,7 +22,6 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
 
     using System.Collections.Generic;
 
-    using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Feature.Services.QuickFixes;
 
@@ -111,12 +110,6 @@ namespace StyleCop.ReSharper.QuickFixes.Spacing
         /// </summary>
         protected override void InitialiseBulbItems()
         {
-            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> line =
-                (JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine>)this.Highlighting.LineNumber;
-
-            string target = this.Highlighting.CalculateRange().Document.GetLineText(line.Minus1());
-            target = target.Contains("++") ? "++" : "--";
-
             this.BulbItems = new List<IBulbAction>
                                  {
                                      new FormatLineBulbItem

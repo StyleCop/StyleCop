@@ -20,7 +20,7 @@ namespace StyleCop.ReSharper.Core
     /// <summary>
     /// StyleCopRules definition.
     /// </summary>
-    internal class StyleCopRules
+    internal static class StyleCopRules
     {
         #region Constants
 

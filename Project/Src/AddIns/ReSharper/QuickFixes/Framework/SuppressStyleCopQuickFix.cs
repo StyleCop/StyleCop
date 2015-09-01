@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <summary>
         ///   Instance of the StyleCop violation the QuickFix can deal with.
         /// </summary>
-        protected readonly StyleCopHighlightingBase Highlighting;
+        private readonly StyleCopHighlightingBase highlighting;
 
         /// <summary>
         ///   List of available actions to be displayed in the IDE.
@@ -120,46 +120,8 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// </param>
         protected SuppressStyleCopQuickFix(StyleCopHighlightingBase highlight, bool initialise)
         {
-            this.Highlighting = highlight;
+            this.highlighting = highlight;
             this.InitialiseBulbItems();
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        ///   Gets a list of BulbItems to display in the IDE.
-        /// </summary>
-        public IBulbAction[] Items
-        {
-            get
-            {
-                return this.BulbItems.ToArray();
-            }
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///   Gets or sets a list of BulbItems to be Displayed.
-        /// </summary>
-        /// <remarks>
-        ///   An internal representation of the BulbItems used for initialization and filtering.
-        /// </remarks>
-        protected List<IBulbAction> BulbItems
-        {
-            get
-            {
-                return this.bulbItems;
-            }
-
-            set
-            {
-                this.bulbItems = value;
-            }
         }
 
         #endregion
@@ -172,7 +134,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <returns>The QuickFix actions.</returns>
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-           return this.Items.ToQuickFixAction(IntentionsAnchors.ConfigureActionsAnchor);
+           return this.bulbItems.ToQuickFixAction(IntentionsAnchors.ConfigureActionsAnchor);
         }
 
         /// <summary>
@@ -197,14 +159,14 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <summary>
         ///   Initializes the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
-        protected void InitialiseBulbItems()
+        private void InitialiseBulbItems()
         {
-            this.BulbItems = new List<IBulbAction>
+            this.bulbItems = new List<IBulbAction>
                                  {
                                      new SuppressMessageBulbItem
                                          {
-                                             Description = "Suppress : " + this.Highlighting.ToolTip, 
-                                             Rule = this.Highlighting.Rule
+                                             Description = "Suppress : " + this.highlighting.ToolTip, 
+                                             Rule = this.highlighting.Rule
                                          }
                                  };
         }

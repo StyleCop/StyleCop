@@ -60,7 +60,7 @@ namespace StyleCop.ReSharper.Core
     /// <summary>
     /// Utilities for many of our QuickFixes.
     /// </summary>
-    internal class Utils
+    internal static class Utils
     {
         #region Public Static Fields
 
@@ -76,14 +76,6 @@ namespace StyleCop.ReSharper.Core
         #endregion
 
         #region Constants
-
-        private const string HeaderSummaryForDestructorXml = "Finalizes an instance of the <see cref=\"{0}\" /> class.";
-
-        private const string HeaderSummaryForInstanceConstructorXml = "Initializes a new instance of the <see cref=\"{0}\" /> {1}.";
-
-        private const string HeaderSummaryForPrivateInstanceConstructorXml = "Prevents a default instance of the <see cref=\"{0}\" /> {1} from being created.";
-
-        private const string HeaderSummaryForStaticConstructorXml = "Initializes static members of the <see cref=\"{0}\" /> {1}.";
 
         private const string PrefixText = "TODO ";
 
@@ -110,32 +102,6 @@ namespace StyleCop.ReSharper.Core
         #endregion
 
         #region Public Methods and Operators
-
-        /// <summary>
-        /// Calculates the number of line feeds occurring between the 2 nodes provided.
-        /// </summary>
-        /// <param name="node1">
-        /// The first node to use.
-        /// </param>
-        /// <param name="node2">
-        /// The second node to use.
-        /// </param>
-        /// <returns>
-        /// The number of line feeds.
-        /// </returns>
-        public static int CalcLineFeedsBetween(ITreeNode node1, ITreeNode node2)
-        {
-            int lineFeedsBetween = 0;
-            for (ITreeNode node = node1.NextSibling; node != node2; node = node.NextSibling)
-            {
-                if (node.IsNewLine())
-                {
-                    lineFeedsBetween++;
-                }
-            }
-
-            return lineFeedsBetween;
-        }
 
         /// <summary>
         /// Separates the pascal text with space.
@@ -969,29 +935,6 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
-        /// Gets the count of lines for the IProjectFile provided.
-        /// </summary>
-        /// <param name="projectFile">
-        /// The project file to use.
-        /// </param>
-        /// <returns>
-        /// An integer of the line count for the file.
-        /// </returns>
-        public static JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> GetLineCount(IProjectFile projectFile)
-        {
-            ISolution solution = projectFile.GetSolution();
-            IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
-            JetBrains.Util.dataStructures.TypedIntrinsics.Int32<DocLine> lineCount;
-
-            using (ReadLockCookie.Create())
-            {
-                lineCount = document.GetLineCount();
-            }
-
-            return lineCount;
-        }
-
-        /// <summary>
         /// Get the line number that the provided element is on. 0 based.
         /// </summary>
         /// <param name="element">
@@ -1520,40 +1463,6 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
-        /// Inserts a newline after the Node provided.
-        /// </summary>
-        /// <param name="currentNode">
-        /// The node to insert after.
-        /// </param>
-        /// <returns>
-        /// An ITreeNode that has been inserted.
-        /// </returns>
-        public static ITreeNode InsertNewLineAfter2(ITreeNode currentNode)
-        {
-            string newText = Environment.NewLine;
-            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
-            LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
-            return leafElement;
-        }
-
-        /// <summary>
-        /// Inserts a newline in front of the Node provided.
-        /// </summary>
-        /// <param name="currentNode">
-        /// The node to insert in front of.
-        /// </param>
-        /// <returns>
-        /// The inserted ITreeNode.
-        /// </returns>
-        public static ITreeNode InsertNewLineBefore2(ITreeNode currentNode)
-        {
-            string newText = Environment.NewLine;
-            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
-            LowLevelModificationUtil.AddChildBefore(currentNode, new[] { leafElement });
-            return leafElement;
-        }
-
-        /// <summary>
         /// Inserts the number of whitespaces after the node.
         /// </summary>
         /// <param name="currentNode">
@@ -1574,32 +1483,6 @@ namespace StyleCop.ReSharper.Core
             using (WriteLockCookie.Create(true))
             {
                 LowLevelModificationUtil.AddChildAfter(currentNode, new[] { leafElement });
-            }
-
-            return leafElement;
-        }
-
-        /// <summary>
-        /// Inserts the number of whitespaces before the node.
-        /// </summary>
-        /// <param name="currentNode">
-        /// The node to insert in front of.
-        /// </param>
-        /// <param name="count">
-        /// The number of spaces to insert.
-        /// </param>
-        /// <returns>
-        /// An ITreeNode that was inserted.
-        /// </returns>
-        public static ITreeNode InsertWhitespaceBefore(ITreeNode currentNode, int count)
-        {
-            string newText = " ".PadLeft(count);
-            LeafElementBase leafElement = TreeElementFactory.CreateLeafElement(
-                CSharpTokenType.WHITE_SPACE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
-
-            using (WriteLockCookie.Create(true))
-            {
-                LowLevelModificationUtil.AddChildBefore(currentNode, new[] { leafElement });
             }
 
             return leafElement;
@@ -1996,25 +1879,6 @@ namespace StyleCop.ReSharper.Core
             list.AddRange(dependentFiles.Where(dependentFile => !dependentFile.Equals(projectFile)));
 
             return list;
-        }
-
-        /// <summary>
-        /// Returns the next TreeNode that is of type ITokenNode or null if not found.
-        /// </summary>
-        /// <param name="node">
-        /// The node to start at.
-        /// </param>
-        /// <returns>
-        /// A TokenNode.
-        /// </returns>
-        private static ITokenNode GetNextTokenNode(ITreeNode node)
-        {
-            while (!(node is ITokenNode) && node != null)
-            {
-                node = node.NextSibling;
-            }
-
-            return (ITokenNode)node;
         }
 
         /// <summary>

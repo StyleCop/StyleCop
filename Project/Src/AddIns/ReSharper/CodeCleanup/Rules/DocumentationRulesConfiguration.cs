@@ -42,8 +42,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
         #region Fields
 
-        private readonly IPsiSourceFile file;
-
         private readonly Settings settings;
 
         #endregion
@@ -59,8 +57,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         public DocumentationRulesConfiguration(IPsiSourceFile file)
         {
             this.settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(file.ToProjectFile());
-
-            this.file = file;
 
             // Default for this property is false
             BooleanProperty property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");

@@ -23,7 +23,6 @@ namespace StyleCop.ReSharper.CodeCleanup
 
     using System.Collections.Generic;
 
-    using JetBrains.Application;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon.CSharp.CodeCleanup;
@@ -79,30 +78,6 @@ namespace StyleCop.ReSharper.CodeCleanup
         ///   Spacing descriptor.
         /// </summary>
         private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
-
-        #endregion
-
-        #region Fields
-
-        /// <summary>
-        ///   Locks object passed to our constructor.
-        /// </summary>
-        private readonly IShellLocks shellLocks;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopCodeCleanupModule class.
-        /// </summary>
-        /// <param name="shellLocks">
-        /// The IShellLocks object.
-        /// </param>
-        public StyleCopCodeCleanupModule(IShellLocks shellLocks)
-        {
-            this.shellLocks = shellLocks;
-        }
 
         #endregion
 
@@ -270,7 +245,7 @@ namespace StyleCop.ReSharper.CodeCleanup
 
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
-            new ReadabilityRules(this.shellLocks).Execute(readabilityOptions, file);
+            new ReadabilityRules().Execute(readabilityOptions, file);
             new MaintainabilityRules().Execute(maintainabilityOptions, file);
             new DocumentationRules().Execute(documentationOptions, file);
             new LayoutRules().Execute(layoutOptions, file);

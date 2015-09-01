@@ -130,17 +130,6 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
-        /// <summary>
-        /// Gets the file being processed.
-        /// </summary>
-        public ICSharpFile File
-        {
-            get
-            {
-                return this.file;
-            }
-        }
-
         #endregion
 
         #region Public Methods and Operators
@@ -188,7 +177,7 @@ namespace StyleCop.ReSharper.Core
 
                 runOnce = true;
 
-                StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.File);
+                StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.file);
 
                 List<HighlightingInfo> violations =
                     (from info in StyleCopRunnerInternal.ViolationHighlights

@@ -44,16 +44,10 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// <see cref="DocumentRange"/>where the Violation happened.
         /// </param>
-        /// <param name="fileName">
-        /// <see cref="CsElement"/>of the violation.
-        /// </param>
-        /// <param name="lineNumber">
-        /// Line number where the violation happened.
-        /// </param>
         /// <returns>
         /// An <see cref="IHighlighting"/> for the specified Violation.
         /// </returns>
-        public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange, string fileName, int lineNumber)
+        public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange)
         {
             string ruleID = violation.Violation.Rule.CheckId;
             string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
@@ -65,17 +59,17 @@ namespace StyleCop.ReSharper.Violations
             switch (severity)
             {
                 case Severity.ERROR:
-                    return new StyleCopHighlightingError(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingError(violation, documentRange);
                 case Severity.HINT:
-                    return new StyleCopHighlightingHint(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingHint(violation, documentRange);
                 case Severity.INFO:
-                    return new StyleCopHighlightingError(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingError(violation, documentRange);
                 case Severity.SUGGESTION:
-                    return new StyleCopHighlightingSuggestion(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingSuggestion(violation, documentRange);
                 case Severity.WARNING:
-                    return new StyleCopHighlightingWarning(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingWarning(violation, documentRange);
                 default:
-                    return new StyleCopHighlightingDoNotShow(violation, documentRange, fileName, lineNumber);
+                    return new StyleCopHighlightingDoNotShow(violation, documentRange);
             }
         }
 

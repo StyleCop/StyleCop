@@ -58,7 +58,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <see cref="StyleCopHighlightingError"/> that has been detected. 
         /// </param>
         protected StyleCopQuickFixBase(StyleCopHighlightingError highlight)
-            : this(highlight, true)
+            : this((StyleCopHighlightingBase)highlight)
         {
         }
 
@@ -69,7 +69,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
         /// </param>
         protected StyleCopQuickFixBase(StyleCopHighlightingHint highlight)
-            : this(highlight, true)
+            : this((StyleCopHighlightingBase)highlight)
         {
         }
 
@@ -80,7 +80,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
         /// </param>
         protected StyleCopQuickFixBase(StyleCopHighlightingInfo highlight)
-            : this(highlight, true)
+            : this((StyleCopHighlightingBase)highlight)
         {
         }
 
@@ -91,7 +91,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
         /// </param>
         protected StyleCopQuickFixBase(StyleCopHighlightingSuggestion highlight)
-            : this(highlight, true)
+            : this((StyleCopHighlightingBase)highlight)
         {
         }
 
@@ -102,7 +102,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
         /// </param>
         protected StyleCopQuickFixBase(StyleCopHighlightingWarning highlight)
-            : this(highlight, true)
+            : this((StyleCopHighlightingBase)highlight)
         {
         }
 
@@ -112,29 +112,11 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="highlight">
         /// <see cref="StyleCopHighlightingBase"/> that has been detected. 
         /// </param>
-        /// <param name="initialise">
-        /// This value is not used, its only purpose is to differentiate the method signature. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingBase highlight, bool initialise)
+        private StyleCopQuickFixBase(StyleCopHighlightingBase highlight)
         {
             this.Highlighting = highlight;
 
             this.InitialiseIfRequired();
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        ///   Gets a list of BulbActions to display in the IDE.
-        /// </summary>
-        public IBulbAction[] Items
-        {
-            get
-            {
-                return this.BulbItems.ToArray();
-            }
         }
 
         #endregion
@@ -170,7 +152,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <returns>The QuickFix actions.</returns>
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-            return this.Items.ToQuickFixAction();
+            return this.BulbItems.ToQuickFixAction();
         }
 
         /// <summary>

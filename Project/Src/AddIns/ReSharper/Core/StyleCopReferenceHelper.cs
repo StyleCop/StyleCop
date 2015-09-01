@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper.Core
     /// This means that the plugin does not need local copies 
     /// of the StyleCop assemblies.
     /// </summary>
-    public class StyleCopReferenceHelper
+    public static class StyleCopReferenceHelper
     {
         #region Static Fields
 
@@ -45,11 +45,6 @@ namespace StyleCop.ReSharper.Core
         /// SyncRoot object to lock access to the assembly.
         /// </summary>
         private static readonly object AssemblySyncRoot = new object();
-
-        /// <summary>
-        /// SyncRoot object to lock access to the reference.
-        /// </summary>
-        private static readonly object ReferenceSyncRoot = new object();
 
         /// <summary>
         /// Flag to indicate if the system has already attempted to load the StyleCop assembly.

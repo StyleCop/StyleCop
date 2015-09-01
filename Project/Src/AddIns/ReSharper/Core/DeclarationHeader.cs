@@ -120,25 +120,6 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
-        /// Gets a value indicating whether the value element is empty.
-        /// </summary>
-        /// <returns>
-        /// True if its empty (or missing).
-        /// </returns>
-        public bool HasEmptyValue
-        {
-            get
-            {
-                if (this.IsMissing || !this.HasValue)
-                {
-                    return true;
-                }
-
-                return string.IsNullOrEmpty(Utils.GetTextFromDeclarationHeader(this.ValueXmlNode).Trim());
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the header has a Returns element.
         /// </summary>
         public bool HasReturns { get; private set; }
@@ -471,7 +452,6 @@ namespace StyleCop.ReSharper.Core
                 string presentableName = exception.GetPresentableName(CSharpLanguage.Instance);
 
                 string a = Utils.StripClassName(presentableName);
-                string b = exception.ToString();
                 text.AppendLine("<exception cref=\"" + Utils.SwapGenericTypeToDocumentation(a) + "\"></exception>");
             }
 

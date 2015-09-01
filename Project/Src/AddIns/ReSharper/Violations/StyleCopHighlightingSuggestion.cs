@@ -50,43 +50,9 @@ namespace StyleCop.ReSharper.Violations
         /// <param name="documentRange">
         /// Range where the Violation happened.
         /// </param>
-        /// <param name="fileName">
-        /// The file Name.
-        /// </param>
-        /// <param name="lineNumber">
-        /// Line number of the violation.
-        /// </param>
-        public StyleCopHighlightingSuggestion(ViolationEventArgs violationEventArgs, DocumentRange documentRange, string fileName, int lineNumber)
-            : base(violationEventArgs, documentRange, fileName, lineNumber)
+        public StyleCopHighlightingSuggestion(ViolationEventArgs violationEventArgs, DocumentRange documentRange)
+            : base(violationEventArgs, documentRange)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopHighlightingSuggestion"/> class.
-        /// </summary>
-        /// <param name="tooltip">
-        /// The tooltip.
-        /// </param>
-        public StyleCopHighlightingSuggestion(string tooltip)
-            : base(tooltip)
-        {
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the severity of this highlighting.
-        /// </summary>
-        /// <value>
-        /// </value>
-        public override Severity Severity
-        {
-            get
-            {
-                return ViolationSeverity;
-            }
         }
 
         #endregion
