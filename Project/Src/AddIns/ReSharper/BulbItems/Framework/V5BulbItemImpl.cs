@@ -29,7 +29,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
     using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.TextControl;
 
     #endregion
@@ -112,23 +111,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                             () => services.Locks.ExecuteWithWriteLock(() => { ExecuteTransactionInner(solution, textControl); }));
                     }
                 };
-        }
-
-        /// <summary>
-        /// Ensure that a WriteLockCookie has been created in the scope of the transaction.
-        /// </summary>
-        /// <param name="solution">
-        /// Current Solution.
-        /// </param>
-        /// <param name="textControl">
-        /// Current Text Control.
-        /// </param>
-        protected void ExecuteWriteLockableTransaction(ISolution solution, ITextControl textControl)
-        {
-            using (WriteLockCookie.Create(true))
-            {
-                this.ExecuteTransactionInner(solution, textControl);
-            }
         }
 
         #endregion

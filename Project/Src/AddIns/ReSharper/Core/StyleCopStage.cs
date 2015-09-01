@@ -43,49 +43,6 @@ namespace StyleCop.ReSharper.Core
     [DaemonStage]
     public class StyleCopStage : CSharpDaemonStageBase
     {
-        #region Public Properties
-
-        /// <summary>
-        /// Gets a value indicating whether this stage should be run for documents that aren't shown.
-        /// </summary>
-        /// <remarks>
-        /// This stage shouldn't be run on documents which are not shown now.
-        /// </remarks>
-        public bool RunForInvisibleDocuments
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Gets the stage we want to run our process before.
-        /// </summary>
-        public Type[] StagesAfter
-        {
-            get
-            {
-                return JetBrains.Util.EmptyArray<Type>.Instance;
-            }
-        }
-
-        /// <summary>
-        /// Gets the stage we want to run our process after.
-        /// </summary>
-        /// <remarks>
-        /// We want to put our markers after language-dependent code analysis.
-        /// </remarks>
-        public Type[] StagesBefore
-        {
-            get
-            {
-                return new[] { typeof(LanguageSpecificDaemonStage) };
-            }
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
