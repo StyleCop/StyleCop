@@ -137,14 +137,6 @@ namespace StyleCop.ReSharper.Violations
         }
 
         /// <summary>
-        /// Gets or sets the text range where the Violation happened.
-        /// </summary>
-        public DocumentRange CalculateRange()
-        {
-            return this.documentRange;
-        }
-
-        /// <summary>
         /// Gets the tooltip to be displayed on the error stripe within the IDE.
         /// </summary>
         public string ErrorStripeToolTip
@@ -207,6 +199,17 @@ namespace StyleCop.ReSharper.Violations
         #endregion
 
         #region Public Methods and Operators
+
+        /// <summary>
+        /// Gets or sets the text range where the Violation happened.
+        /// </summary>
+        /// <returns>
+        /// The document range of the highlight.
+        /// </returns>
+        public DocumentRange CalculateRange()
+        {
+            return this.documentRange;
+        }
 
         /// <summary>
         /// Returns true if valid.

@@ -106,9 +106,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="sourceFile">
         /// The file. 
         /// </param>
-        /// <param name="inspectionTitle">
-        /// The title to use.
-        /// </param>
         /// <returns>
         /// The available actions. 
         /// </returns>
