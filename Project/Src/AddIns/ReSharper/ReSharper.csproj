@@ -34,7 +34,7 @@
     <WarningLevel>0</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper800.xml</DocumentationFile>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>$(RootBin)\Release\</OutputPath>
@@ -52,6 +52,7 @@
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <WarningLevel>0</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="antlr.runtime, Version=2.7.7.1, Culture=neutral, PublicKeyToken=0f493c87b190d7e9, processorArchitecture=MSIL">
