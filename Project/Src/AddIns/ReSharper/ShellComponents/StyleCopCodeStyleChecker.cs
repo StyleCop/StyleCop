@@ -37,7 +37,7 @@ namespace StyleCop.ReSharper.ShellComponents
     /// The StyleCop CodeStyle Checker.
     /// </summary>
     [ShellComponent]
-    public class StyleCopCodeStyleChecker : IDisposable
+    public class StyleCopCodeStyleChecker
     {
         #region Constructors and Destructors
 
@@ -56,13 +56,6 @@ namespace StyleCop.ReSharper.ShellComponents
         #endregion
 
         #region Public Methods and Operators
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-        }
 
         /// <summary>
         /// The initializer for this ShellComponent.
