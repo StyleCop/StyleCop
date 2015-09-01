@@ -56,7 +56,7 @@ namespace StyleCop.ReSharper.Options
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets the description.
         /// </summary>
         /// <value>
         /// The description.
@@ -64,7 +64,7 @@ namespace StyleCop.ReSharper.Options
         public string Description { get; private set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets the name.
         /// </summary>
         /// <value>
         /// The name of the rule.
@@ -72,7 +72,7 @@ namespace StyleCop.ReSharper.Options
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets or sets the rule ID.
+        /// Gets the rule ID.
         /// </summary>
         /// <value>
         /// The rule ID.

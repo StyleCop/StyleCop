@@ -99,7 +99,7 @@ namespace StyleCop.ReSharper.Violations
         public Rule Rule { get; private set; }
 
         /// <summary>
-        /// Gets or sets the tooltip to display on the highlight.
+        /// Gets the tooltip to display on the highlight.
         /// </summary>
         public string ToolTip { get; private set; }
 

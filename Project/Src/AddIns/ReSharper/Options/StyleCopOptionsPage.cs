@@ -96,12 +96,6 @@ namespace StyleCop.ReSharper.Options
         /// <param name="settingsSmartContext">
         /// Our settings context. 
         /// </param>
-        /// <param name="threading">
-        /// Our threading model. 
-        /// </param>
-        /// <param name="lifetime">
-        /// The lifetime of the settings. 
-        /// </param>
         public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext)
         {
             this.smartContext = settingsSmartContext;
@@ -1785,34 +1779,6 @@ namespace StyleCop.ReSharper.Options
             return true;
         }
 
-        private void Display()
-        {
-            this.autoDetectCheckBox.Checked = string.IsNullOrEmpty(this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath));
-
-            if (this.autoDetectCheckBox.Checked)
-            {
-                this.ShowDetectedAssemblyLocation();
-            }
-            else
-            {
-                this.ShowSpecifiedAssemblyLocation();
-            }
-
-            this.performanceTrackBar.Value = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance);
-            this.insertTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation);
-            this.dashesCountMaskedTextBox.Text =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
-            this.useExcludeFromStyleCopCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting);
-            this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
-            this.useSingleLineForDeclarationCommentsCheckBox.Checked =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
-            this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
-            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
-            this.analyzeReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles);
-            this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
-        }
-
         /// <summary>
         /// Invoked when OK button in the options dialog is pressed If the page returns <c>False.</c> , the the options dialog won't be closed, and focus will be put into this page.
         /// </summary>
@@ -1943,9 +1909,6 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Gets a CleanupOptionsDescriptor matching the descriptor name passed in.
         /// </summary>
-        /// <param name="codeCleanup">
-        /// The CodeCleanup object to use. 
-        /// </param>
         /// <param name="descriptorName">
         /// The name to match. 
         /// </param>
@@ -2031,6 +1994,34 @@ namespace StyleCop.ReSharper.Options
             object descriptorOptionsContainer = profile.GetSetting(cleanupOptionDescriptor);
             propertyInfo.SetValue(descriptorOptionsContainer, value, null);
             profile.SetSetting(cleanupOptionDescriptor, descriptorOptionsContainer);
+        }
+
+        private void Display()
+        {
+            this.autoDetectCheckBox.Checked = string.IsNullOrEmpty(this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath));
+
+            if (this.autoDetectCheckBox.Checked)
+            {
+                this.ShowDetectedAssemblyLocation();
+            }
+            else
+            {
+                this.ShowSpecifiedAssemblyLocation();
+            }
+
+            this.performanceTrackBar.Value = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance);
+            this.insertTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation);
+            this.dashesCountMaskedTextBox.Text =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
+            this.useExcludeFromStyleCopCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting);
+            this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
+            this.useSingleLineForDeclarationCommentsCheckBox.Checked =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
+            this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
+            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked =
+                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
+            this.analyzeReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles);
+            this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
         }
 
         /// <summary>

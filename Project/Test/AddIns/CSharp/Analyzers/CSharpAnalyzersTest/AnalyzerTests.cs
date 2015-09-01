@@ -274,7 +274,7 @@ namespace CSharpAnalyzersTest
         /// The test name.
         /// </param>
         /// <param name="testfilesToCopy">
-        /// The testfiles to copy.
+        /// The test files to copy.
         /// </param>
         private void RunTest(string testName, params string[] testfilesToCopy)
         {
