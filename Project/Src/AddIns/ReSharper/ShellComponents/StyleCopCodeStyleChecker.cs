@@ -29,7 +29,6 @@ namespace StyleCop.ReSharper.ShellComponents
     using JetBrains.DataFlow;
     using JetBrains.ReSharper.Resources.Shell;
 
-    using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
 
     #endregion
@@ -50,7 +49,6 @@ namespace StyleCop.ReSharper.ShellComponents
         /// </param>
         public StyleCopCodeStyleChecker(Lifetime lifetime)
         {
-            StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init(lifetime);
         }
 

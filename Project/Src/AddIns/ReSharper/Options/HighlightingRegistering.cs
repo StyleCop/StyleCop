@@ -61,10 +61,6 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         public HighlightingRegistering(StyleCopBootstrapper bootstrapper)
         {
-            // Force StyleCop.dll to be loaded.
-            // Do not inline the Init method below.
-            // If you do then *sometimes* the StyleCop dll won't be loaded before you need it.
-            StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init(bootstrapper.Core);
         }
 

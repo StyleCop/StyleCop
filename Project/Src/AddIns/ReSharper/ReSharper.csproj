@@ -269,7 +269,6 @@
     <Compile Include="Core\SourceCodeFactory.cs" />
     <Compile Include="Core\StringBasedSourceCode.cs" />
     <Compile Include="Core\StyleCopCoreFactory.cs" />
-    <Compile Include="Core\StyleCopReferenceHelper.cs" />
     <Compile Include="Core\StyleCopRules.cs" />
     <Compile Include="Core\StyleCopRunnerInt.cs" />
     <Compile Include="Core\StyleCopSettings.cs" />

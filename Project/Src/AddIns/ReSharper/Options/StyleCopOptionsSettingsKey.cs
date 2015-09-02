@@ -20,15 +20,9 @@ namespace StyleCop.ReSharper.Options
 {
     #region Using Directives
 
-    using System.IO;
     using System.Reflection;
-    using System.Windows.Forms;
 
     using JetBrains.Application.Settings;
-
-    using Microsoft.Win32;
-
-    using StyleCop.ReSharper.Core;
 
     #endregion
 
@@ -38,35 +32,6 @@ namespace StyleCop.ReSharper.Options
     [SettingsKey(typeof(Missing), "StyleCop Options")]
     public class StyleCopOptionsSettingsKey
     {
-        #region Fields
-
-        /// <summary>
-        /// Set to true to always check for updates when Visual Studio starts.
-        /// </summary>
-        private bool alwaysCheckForUpdatesWhenVisualStudioStarts;
-
-        /// <summary>
-        /// Set to true when we've attempted to get the StyleCop path.
-        /// </summary>
-        private bool attemptedToGetStyleCopPath;
-
-        /// <summary>
-        /// Tracks whether we should check for updates.
-        /// </summary>
-        private bool automaticallyCheckForUpdates;
-
-        /// <summary>
-        /// The number of days between update checks.
-        /// </summary>
-        private int daysBetweenUpdateChecks;
-
-        /// <summary>
-        /// The value of the detected path for StyleCop.
-        /// </summary>
-        private string styleCopDetectedPath;
-
-        #endregion
-
         #region Public Properties
 
         /// <summary>
@@ -140,93 +105,6 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// Detects the style cop path.
-        /// </summary>
-        /// <returns>
-        /// The path to the detected StyleCop assembly.
-        /// </returns>
-        public static string DetectStyleCopPath()
-        {
-            string assemblyPath = GetStyleCopPath();
-            return StyleCopReferenceHelper.LocationValid(assemblyPath) ? assemblyPath : null;
-        }
-
-        /// <summary>
-        /// Gets the assembly location.
-        /// </summary>
-        /// <returns>
-        /// The path to the StyleCop assembly.
-        /// </returns>
-        public string GetAssemblyPath()
-        {
-            if (!this.attemptedToGetStyleCopPath)
-            {
-                this.attemptedToGetStyleCopPath = true;
-
-                if (!string.IsNullOrEmpty(this.SpecifiedAssemblyPath))
-                {
-                    if (StyleCopReferenceHelper.LocationValid(this.SpecifiedAssemblyPath))
-                    {
-                        this.styleCopDetectedPath = this.SpecifiedAssemblyPath;
-                        return this.styleCopDetectedPath;
-                    }
-
-                    // Location not valid. Blank it and automatically get location
-                    this.SpecifiedAssemblyPath = null;
-                }
-
-                this.styleCopDetectedPath = DetectStyleCopPath();
-
-                if (string.IsNullOrEmpty(this.styleCopDetectedPath))
-                {
-                    MessageBox.Show(
-                        "Failed to find the StyleCop Assembly. Please check your StyleCop installation.", 
-                        "Error Finding StyleCop Assembly", 
-                        MessageBoxButtons.OK, 
-                        MessageBoxIcon.Error);
-                }
-            }
-
-            return this.styleCopDetectedPath;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the StyleCop assembly path.
-        /// </summary>
-        /// <returns>
-        /// The path to the StyleCop assembly or null if not found.
-        /// </returns>
-        private static string GetStyleCopPath()
-        {
-            string directory = RetrieveFromRegistry() ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            return directory == null ? directory : Path.Combine(directory, Constants.StyleCopAssemblyName);
-        }
-
-        /// <summary>
-        /// Gets the StyleCop install location from the registry. This registry key is created by StyleCop during install.
-        /// </summary>
-        /// <returns>
-        /// Returns the registry key value or null if not found.
-        /// </returns>
-        private static string RetrieveFromRegistry()
-        {
-            const string SubKey = @"SOFTWARE\CodePlex\StyleCop";
-            const string Key = "InstallDir";
-
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(SubKey);
-            return registryKey == null ? null : registryKey.GetValue(Key) as string;
-        }
 
         #endregion
     }

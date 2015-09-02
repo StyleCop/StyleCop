@@ -1831,17 +1831,6 @@ namespace StyleCop.ReSharper.Options
         /// </returns>
         public bool ValidatePage()
         {
-            if (!this.autoDetectCheckBox.Checked)
-            {
-                if (!StyleCopReferenceHelper.LocationValid(this.StyleCopLocationTextBox.Text))
-                {
-                    string message = string.Format("Unable to find StyleCop assembly ({0}) at specified location.", Constants.StyleCopAssemblyName);
-
-                    MessageBox.Show(message, "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-
             if (!this.dashesCountMaskedTextBox.MaskCompleted || this.dashesCountMaskedTextBox.Text == string.Empty)
             {
                 this.toolTip.ToolTipTitle = "Invalid number";
@@ -2002,7 +1991,6 @@ namespace StyleCop.ReSharper.Options
 
             if (this.autoDetectCheckBox.Checked)
             {
-                this.ShowDetectedAssemblyLocation();
             }
             else
             {
@@ -2037,7 +2025,6 @@ namespace StyleCop.ReSharper.Options
         {
             if (this.autoDetectCheckBox.Checked)
             {
-                this.ShowDetectedAssemblyLocation();
             }
             else
             {
@@ -2070,26 +2057,6 @@ namespace StyleCop.ReSharper.Options
             MessageBox.Show(
                 @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
             this.resetFormatOptionsButton.Enabled = false;
-        }
-
-        /// <summary>
-        /// Shows the detected assembly location.
-        /// </summary>
-        private void ShowDetectedAssemblyLocation()
-        {
-            string location = StyleCopOptionsSettingsKey.DetectStyleCopPath();
-
-            if (string.IsNullOrEmpty(location))
-            {
-                this.StyleCopLocationTextBox.Text = "Failed to detect location.";
-            }
-            else
-            {
-                this.StyleCopLocationTextBox.Text = location;
-            }
-
-            this.BrowseButton.Enabled = false;
-            this.StyleCopLocationTextBox.Enabled = false;
         }
 
         /// <summary>

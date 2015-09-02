@@ -156,7 +156,7 @@ namespace StyleCop.ReSharper.Core
             {
                 FileHeader fileHeader = new FileHeader(file);
 
-                if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
+                if (!fileHeader.UnStyled)
                 {
                     this.file = projectFile;
                     this.document = document;
