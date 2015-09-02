@@ -412,6 +412,7 @@
     <Compile Include="Violations\StyleCopHighlightingInfo.cs" />
     <Compile Include="Violations\StyleCopHighlightingSuggestion.cs" />
     <Compile Include="Violations\StyleCopHighlightingWarning.cs" />
+    <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Options\StyleCopOptionsPage.resx">
