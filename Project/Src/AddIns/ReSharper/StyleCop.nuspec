@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop.StyleCop</id>
+    <title>StyleCop</title>
+    <version>1.0.6</version>
+    <authors>Andy Reeves, Matt Ellis</authors>
+    <owners>JetBrains, Matt Ellis</owners>
+    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules.</description>
+    <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
+    <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/Styleop/StyleCop/logo.png</iconUrl>
+    <dependencies>
+      <dependency id="Wave" version="[3.0]" />
+    </dependencies>
+    <tags>StyleCop analysis</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\StyleCop.ReSharper.dll" target="DotFiles" />
+    <file src="bin\Release\StyleCop.dll" target="DotFiles" />
+    <file src="bin\Release\StyleCop.CSharp.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
+    <file src="bin\Release\StyleCop.CSharp.Rules.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
+    <file src="StyleCop.dotSettings" target="DotFiles\Extensions\StyleCop.StyleCop\settings\StyleCop.dotSettings" />
+  </files>
+</package>

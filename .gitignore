@@ -5,3 +5,4 @@ bin/
 *.suo
 Project/packages/
 TestBin/
+*.nupkg
