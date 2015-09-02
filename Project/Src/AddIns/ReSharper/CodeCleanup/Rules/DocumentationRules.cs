@@ -34,6 +34,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
@@ -41,6 +42,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper.ShellComponents;
 
     #endregion
 
@@ -425,7 +427,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </returns>
         public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
         {
-            return new DocumentationRulesConfiguration(file.GetSourceFile());
+            // TODO: We shouldn't have to resort to service locator!
+            var bootstrapper = Shell.Instance.GetComponent<StyleCopBootstrapper>();
+            return new DocumentationRulesConfiguration(bootstrapper.Settings, file.GetSourceFile());
         }
 
         /// <summary>

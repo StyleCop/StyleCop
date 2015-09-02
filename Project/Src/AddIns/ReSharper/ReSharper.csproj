@@ -403,6 +403,7 @@
     <Compile Include="QuickFixes\Spacing\SA1024QuickFix.cs" />
     <Compile Include="QuickFixes\Spacing\SA1025QuickFix.cs" />
     <Compile Include="QuickFixes\Spacing\SA1026QuickFix.cs" />
+    <Compile Include="ShellComponents\StyleCopBootstrapper.cs" />
     <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
     <Compile Include="Violations\StyleCopHighlightingBase.cs" />
     <Compile Include="Violations\StyleCopHighlightingDoNotShow.cs" />

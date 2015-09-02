@@ -32,6 +32,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.DocumentManagers;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
+    using JetBrains.ProjectModel.Impl;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.Caches;
     using JetBrains.ReSharper.Psi.CodeStyle;
@@ -54,6 +55,7 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper.ShellComponents;
 
     #endregion
 
@@ -1039,7 +1041,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>Returns null if no active solution.</returns>
         public static ISolution GetSolution()
         {
-            return Shell.Instance.GetComponent<SolutionManagerBase>().CurrentSolution;
+            return Shell.Instance.GetComponent<SolutionManagerImpl>().CurrentSolution;
         }
 
         /// <summary>
@@ -1065,7 +1067,10 @@ namespace StyleCop.ReSharper.Core
             }
 
             IProjectFile projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
-            Settings settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(projectFile);
+
+            // TODO: Service locator bad!
+            StyleCopSettings styleCopSettings = Shell.Instance.GetComponent<StyleCopBootstrapper>().Settings;
+            Settings settings = styleCopSettings.GetSettings(projectFile);
 
             return settings;
         }

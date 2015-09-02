@@ -19,6 +19,12 @@ namespace StyleCop.ReSharper.Core
 {
     #region Using Directives
 
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+
+    using JetBrains.Util;
+
     using StyleCop.Diagnostics;
 
     #endregion
@@ -45,7 +51,10 @@ namespace StyleCop.ReSharper.Core
 
             ObjectBasedEnvironment environment = new ObjectBasedEnvironment(sourceCodeFactory.Create, projectSettingsFactory.Create);
 
-            StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, null, true);
+            // TODO: Is there a nicer way of finding out the ReSharper install location?
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), @"Extensions\StyleCop.StyleCop\StyleCopAddIns");
+            string[] paths = { path };
+            StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, paths, false);
 
             projectSettingsFactory.StyleCopCore = styleCop.Core;
 

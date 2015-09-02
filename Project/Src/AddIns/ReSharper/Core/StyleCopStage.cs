@@ -33,6 +33,7 @@ namespace StyleCop.ReSharper.Core
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
+    using StyleCop.ReSharper.ShellComponents;
 
     #endregion
 
@@ -43,6 +44,19 @@ namespace StyleCop.ReSharper.Core
     [DaemonStage]
     public class StyleCopStage : CSharpDaemonStageBase
     {
+        private readonly StyleCopRunnerInt runner;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StyleCopStage"/> class.
+        /// </summary>
+        /// <param name="bootstrapper">
+        /// A reference to the main API entry points
+        /// </param>
+        public StyleCopStage(StyleCopBootstrapper bootstrapper)
+        {
+            this.runner = bootstrapper.Runner;
+        }
+
         #region Public Methods and Operators
 
         /// <summary>
@@ -135,7 +149,7 @@ namespace StyleCop.ReSharper.Core
                     }
                 }
 
-                return StyleCopTrace.Out(new StyleCopStageProcess(process, settingsStore, file));
+                return StyleCopTrace.Out(new StyleCopStageProcess(this.runner, process, settingsStore, file));
             }
             catch (JetBrains.Application.Progress.ProcessCancelledException)
             {

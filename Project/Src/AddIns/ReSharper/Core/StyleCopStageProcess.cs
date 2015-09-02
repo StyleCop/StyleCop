@@ -56,11 +56,6 @@ namespace StyleCop.ReSharper.Core
         #region Static Fields
 
         /// <summary>
-        /// Allows us to run the StyleCop analyzers.
-        /// </summary>
-        private static readonly StyleCopRunnerInt StyleCopRunnerInternal = new StyleCopRunnerInt();
-
-        /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
         /// </summary>
         private static Stopwatch performanceStopWatch;
@@ -73,6 +68,8 @@ namespace StyleCop.ReSharper.Core
         #endregion
 
         #region Fields
+
+        private readonly StyleCopRunnerInt runner;
 
         /// <summary>
         /// The process we were started with.
@@ -93,6 +90,9 @@ namespace StyleCop.ReSharper.Core
         /// <summary>
         /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
+        /// <param name="runner">
+        /// A reference to the StyleCop runner.
+        /// </param>
         /// <param name="daemonProcess">
         /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
@@ -102,11 +102,11 @@ namespace StyleCop.ReSharper.Core
         /// <param name="file">
         /// The file to analyze.
         /// </param>
-        /// ///
-        public StyleCopStageProcess(IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore, ICSharpFile file)
+        public StyleCopStageProcess(StyleCopRunnerInt runner, IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore, ICSharpFile file)
         {
             StyleCopTrace.In(daemonProcess, settingsStore, file);
 
+            this.runner = runner;
             this.daemonProcess = daemonProcess;
             this.settingsStore = settingsStore;
             this.file = file;
@@ -177,10 +177,10 @@ namespace StyleCop.ReSharper.Core
 
                 runOnce = true;
 
-                StyleCopRunnerInternal.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.file);
+                this.runner.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.file);
 
                 List<HighlightingInfo> violations =
-                    (from info in StyleCopRunnerInternal.ViolationHighlights
+                    (from info in this.runner.ViolationHighlights
                      let range = info.Range
                      let highlighting = info.Highlighting
                      select new HighlightingInfo(range, highlighting)).ToList();

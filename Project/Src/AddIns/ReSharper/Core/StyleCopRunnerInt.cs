@@ -42,9 +42,19 @@ namespace StyleCop.ReSharper.Core
     /// representing its current state during the editing process. This prevents the highlights from
     /// getting out of synch with the file in the IDE.
     /// </remarks>
-    internal class StyleCopRunnerInt : IDisposable
+    public class StyleCopRunnerInt : IDisposable
     {
         #region Fields
+
+        /// <summary>
+        /// The core API
+        /// </summary>
+        private readonly StyleCopCore styleCopCore;
+
+        /// <summary>
+        /// The settings
+        /// </summary>
+        private readonly StyleCopSettings styleCopSettings;
 
         private IDocument document;
 
@@ -53,38 +63,33 @@ namespace StyleCop.ReSharper.Core
         /// </summary>
         private IProjectFile file;
 
-        private StyleCopCore styleCopCore;
-
-        private StyleCopSettings styleCopSettings;
-
         /// <summary>
         /// List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
         /// violations can be highlighted within the IDE.
         /// </summary>
         private List<HighlightingInfo> violationHighlights = new List<HighlightingInfo>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StyleCopRunnerInt"/> class.
+        /// </summary>
+        /// <param name="core">
+        /// A reference to the core API
+        /// </param>
+        /// <param name="settings">
+        /// A reference to the settings API
+        /// </param>
+        public StyleCopRunnerInt(StyleCopCore core, StyleCopSettings settings)
+        {
+            this.styleCopCore = core;
+            this.styleCopSettings = settings;
+
+            core.DisplayUI = true;
+            core.ViolationEncountered += this.OnViolationEncountered;
+        }
+
         #endregion
 
         #region Public Properties
-
-        /// <summary>
-        /// Gets a  StyleCopCore instance.
-        /// </summary>
-        public StyleCopCore StyleCopCore
-        {
-            get
-            {
-                if (this.styleCopCore == null)
-                {
-                    this.styleCopCore = StyleCopCoreFactory.Create();
-                    this.styleCopSettings = new StyleCopSettings(this.styleCopCore);
-                    this.styleCopCore.DisplayUI = true;
-                    this.styleCopCore.ViolationEncountered += this.OnViolationEncountered;
-                }
-
-                return this.styleCopCore;
-            }
-        }
 
         /// <summary>
         /// Gets List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
@@ -117,7 +122,6 @@ namespace StyleCop.ReSharper.Core
                 this.styleCopCore.ViolationEncountered -= this.OnViolationEncountered;
             }
 
-            this.styleCopCore = null;
             this.violationHighlights.Clear();
             this.violationHighlights = null;
         }
@@ -146,20 +150,17 @@ namespace StyleCop.ReSharper.Core
                 return;
             }
 
-            if (this.StyleCopCore != null)
+            this.violationHighlights.Clear();
+
+            if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
             {
-                this.violationHighlights.Clear();
+                FileHeader fileHeader = new FileHeader(file);
 
-                if (!this.styleCopSettings.SkipAnalysisForDocument(projectFile))
+                if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
                 {
-                    FileHeader fileHeader = new FileHeader(file);
-
-                    if (!fileHeader.UnStyled && StyleCopReferenceHelper.EnsureStyleCopIsLoaded())
-                    {
-                        this.file = projectFile;
-                        this.document = document;
-                        this.RunStyleCop(document);
-                    }
+                    this.file = projectFile;
+                    this.document = document;
+                    this.RunStyleCop(document);
                 }
             }
 
@@ -235,15 +236,9 @@ namespace StyleCop.ReSharper.Core
                     documentRange = Utils.TrimWhitespaceFromDocumentRange(documentRange);
                 }
 
-                string fileName = this.file.Location.Name;
+                ISolution solution = this.file.GetSolution();
 
-                if (e.Violation.Element != null && e.Violation.Element.Document != null && e.Violation.Element.Document.SourceCode != null
-                    && e.Violation.Element.Document.SourceCode.Name != null)
-                {
-                    fileName = e.Violation.Element.Document.SourceCode.Name;
-                }
-
-                IHighlighting violation = StyleCopHighlightingFactory.GetHighlight(e, documentRange);
+                IHighlighting violation = StyleCopHighlightingFactory.GetHighlight(solution, e, documentRange);
 
                 this.CreateViolation(documentRange, violation);
             }
@@ -261,13 +256,13 @@ namespace StyleCop.ReSharper.Core
 
             try
             {
-                CodeProject[] projects = Utils.GetProjects(this.StyleCopCore, this.file, document);
+                CodeProject[] projects = Utils.GetProjects(this.styleCopCore, this.file, document);
 
                 string settingsFile = this.styleCopSettings.FindSettingsFilePath(this.file);
 
                 this.styleCopSettings.LoadSettingsFiles(projects, settingsFile);
 
-                this.StyleCopCore.FullAnalyze(projects);
+                this.styleCopCore.FullAnalyze(projects);
             }
             catch (Exception exception)
             {

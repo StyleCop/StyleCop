@@ -51,12 +51,15 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentationRulesConfiguration"/> class. 
         /// </summary>
+        /// <param name="settings">
+        /// A reference to the StyleCop settings API.
+        /// </param>
         /// <param name="file">
         /// The file to get the configuration for.
         /// </param>
-        public DocumentationRulesConfiguration(IPsiSourceFile file)
+        public DocumentationRulesConfiguration(StyleCopSettings settings, IPsiSourceFile file)
         {
-            this.settings = new StyleCopSettings(StyleCopCoreFactory.Create()).GetSettings(file.ToProjectFile());
+            this.settings = settings.GetSettings(file.ToProjectFile());
 
             // Default for this property is false
             BooleanProperty property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");

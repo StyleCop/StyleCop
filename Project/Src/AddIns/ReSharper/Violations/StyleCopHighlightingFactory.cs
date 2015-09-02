@@ -22,6 +22,7 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper.Options;
@@ -38,6 +39,9 @@ namespace StyleCop.ReSharper.Violations
         /// <summary>
         /// Gets the highlight for the specified StyleCop Violation.
         /// </summary>
+        /// <param name="solution">
+        /// The current solution.
+        /// </param>
         /// <param name="violation">
         /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the event data.
         /// </param>
@@ -47,14 +51,12 @@ namespace StyleCop.ReSharper.Violations
         /// <returns>
         /// An <see cref="IHighlighting"/> for the specified Violation.
         /// </returns>
-        public static IHighlighting GetHighlight(ViolationEventArgs violation, DocumentRange documentRange)
+        public static IHighlighting GetHighlight(ISolution solution, ViolationEventArgs violation, DocumentRange documentRange)
         {
             string ruleID = violation.Violation.Rule.CheckId;
             string highlightID = HighlightingRegistering.GetHighlightID(ruleID);
 
-            SolutionManagerBase solutionManager = Shell.Instance.GetComponent<SolutionManagerBase>();
-
-            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, solutionManager.CurrentSolution);
+            Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, solution);
 
             switch (severity)
             {

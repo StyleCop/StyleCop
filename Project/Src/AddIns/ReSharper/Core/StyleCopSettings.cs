@@ -106,6 +106,9 @@ namespace StyleCop.ReSharper.Core
             IProject projectFile = projectItem.GetProject();
 
             string result = this.FindSettingsFilePath(projectFile);
+
+            // TODO: This is adding a watcher for settings.stylecop in the folder of the source file
+            // This is creating a watcher for *ALL* source files that are monitored!
             this.AddWatcherForSettingsFile(projectItem.Location.FullPath);
             StringCache[cacheKey] = result;
 
@@ -320,6 +323,7 @@ namespace StyleCop.ReSharper.Core
                 return;
             }
 
+            // TODO: Leaking FileSystemWatchers
             FileSystemWatcher watch = new FileSystemWatcher();
             string directoryName = Path.GetDirectoryName(path);
             watch.Path = directoryName;

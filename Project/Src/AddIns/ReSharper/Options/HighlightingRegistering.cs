@@ -30,6 +30,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.ShellComponents;
 
     #endregion
 
@@ -58,13 +59,13 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
-        public HighlightingRegistering()
+        public HighlightingRegistering(StyleCopBootstrapper bootstrapper)
         {
             // Force StyleCop.dll to be loaded.
             // Do not inline the Init method below.
             // If you do then *sometimes* the StyleCop dll won't be loaded before you need it.
             StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
-            this.Init();
+            this.Init(bootstrapper.Core);
         }
 
         #endregion
@@ -203,11 +204,9 @@ namespace StyleCop.ReSharper.Options
         /// Registers the rules. Do not put the contents of this method in the constructor.
         /// If you do *sometimes* the StyleCop object won't be loaded be the time you construct it.
         /// </summary>
-        private void Init()
+        /// <param name="core"></param>
+        private void Init(StyleCopCore core)
         {
-            StyleCopCore core = new StyleCopCore();
-            core.Initialize(new List<string>(), true);
-
             Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);
 
             HighlightingSettingsManager highlightManager = HighlightingSettingsManager.Instance;
