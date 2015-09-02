@@ -281,6 +281,7 @@
     <Compile Include="Extensions\IPropertyDeclarationExtensions.cs" />
     <Compile Include="Extensions\ITreeNodeExtensions.cs" />
     <Compile Include="Extensions\IUsingDirectiveExtensions.cs" />
+    <Compile Include="Options\CodeStyleOptions.cs" />
     <Compile Include="Options\HighlightingRegistering.cs" />
     <Compile Include="Options\StyleCopOptionsPage.cs">
       <SubType>UserControl</SubType>
