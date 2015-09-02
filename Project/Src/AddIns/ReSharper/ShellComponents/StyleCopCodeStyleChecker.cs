@@ -26,6 +26,7 @@ namespace StyleCop.ReSharper.ShellComponents
     using JetBrains.Application;
     using JetBrains.Application.Settings;
     using JetBrains.Application.Settings.Store.Implementation;
+    using JetBrains.DataFlow;
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper.Core;
@@ -47,7 +48,7 @@ namespace StyleCop.ReSharper.ShellComponents
         /// <param name="lifetime">
         /// The lifetime for this instance.
         /// </param>
-        public StyleCopCodeStyleChecker(JetBrains.DataFlow.Lifetime lifetime)
+        public StyleCopCodeStyleChecker(Lifetime lifetime)
         {
             StyleCopReferenceHelper.EnsureStyleCopIsLoaded();
             this.Init(lifetime);
@@ -55,7 +56,33 @@ namespace StyleCop.ReSharper.ShellComponents
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Methods and Operators
+
+        /// <summary>
+        /// Loads the InstallDate registry key value.
+        /// </summary>
+        /// <param name="registryUtils">
+        /// A <see cref="RegistryUtils"/> instance to access the registry.
+        /// </param>
+        /// <param name="defaultDateAsString">
+        /// The date to set the install date to if its value is not found in the registry.
+        /// </param>
+        /// <returns>
+        /// The DateTime of the InstallDate LOCALUSER registry key.
+        /// </returns>
+        private static DateTime GetInstallDateFromLocalUserRegistry(RegistryUtils registryUtils, string defaultDateAsString)
+        {
+            string installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
+
+            if (installDateRegistryKey != null)
+            {
+                return Convert.ToDateTime(installDateRegistryKey);
+            }
+
+            registryUtils.CUSetValue("InstallDate", defaultDateAsString);
+
+            return Convert.ToDateTime(defaultDateAsString);
+        }
 
         /// <summary>
         /// The initializer for this ShellComponent.
@@ -63,7 +90,7 @@ namespace StyleCop.ReSharper.ShellComponents
         /// <param name="lifetime">
         /// The lifetime for this object.
         /// </param>
-        public void Init(JetBrains.DataFlow.Lifetime lifetime)
+        private void Init(Lifetime lifetime)
         {
             RegistryUtils registryUtils = new RegistryUtils();
 
@@ -122,36 +149,6 @@ namespace StyleCop.ReSharper.ShellComponents
             }
 
             registryUtils.CUSetValue("LastInitializationDate", todayAsString);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Loads the InstallDate registry key value.
-        /// </summary>
-        /// <param name="registryUtils">
-        /// A <see cref="RegistryUtils"/> instance to access the registry.
-        /// </param>
-        /// <param name="defaultDateAsString">
-        /// The date to set the install date to if its value is not found in the registry.
-        /// </param>
-        /// <returns>
-        /// The DateTime of the InstallDate LOCALUSER registry key.
-        /// </returns>
-        private static DateTime GetInstallDateFromLocalUserRegistry(RegistryUtils registryUtils, string defaultDateAsString)
-        {
-            string installDateRegistryKey = registryUtils.CUGetValue("InstallDate") as string;
-
-            if (installDateRegistryKey != null)
-            {
-                return Convert.ToDateTime(installDateRegistryKey);
-            }
-
-            registryUtils.CUSetValue("InstallDate", defaultDateAsString);
-
-            return Convert.ToDateTime(defaultDateAsString);
         }
 
         #endregion
