@@ -324,6 +324,7 @@ namespace StyleCop.ReSharper.Core
             }
 
             // TODO: Leaking FileSystemWatchers
+            // TODO: Switch to IFileSystemTracker and tie in to Lifetime
             FileSystemWatcher watch = new FileSystemWatcher();
             string directoryName = Path.GetDirectoryName(path);
             watch.Path = directoryName;
