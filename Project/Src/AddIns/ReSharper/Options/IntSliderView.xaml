@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="StyleCop.ReSharper.Options.IntSliderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:options="clr-namespace:StyleCop.ReSharper.Options"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance options:IntSliderViewModel}">
+    <DockPanel IsEnabled="{Binding IsEnabledProperty.Value}">
+      <TextBlock Text="{Binding Text, Mode=OneTime}" DockPanel.Dock="Top" />
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="10 0 0 0" DockPanel.Dock="Bottom">
+        <TextBlock Text="{Binding MinValueText, Mode=OneTime}" HorizontalAlignment="Center" />
+        <Slider Minimum="{Binding MinValue, Mode=OneTime}"
+                Maximum="{Binding MaxValue, Mode=OneTime}"
+                Value="{Binding IntProperty.Value}"
+                MinWidth="200"
+                Margin="5 0 5 0"/>
+        <TextBlock Text="{Binding MaxValueText, Mode=OneTime}" HorizontalAlignment="Center" />
+      </StackPanel>
+    </DockPanel>
+</UserControl>

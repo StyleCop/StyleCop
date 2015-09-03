@@ -283,12 +283,11 @@
     <Compile Include="Extensions\IUsingDirectiveExtensions.cs" />
     <Compile Include="Options\CodeStyleOptions.cs" />
     <Compile Include="Options\HighlightingRegistering.cs" />
-    <Compile Include="Options\StyleCopOptionsPage.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Options\IntSliderView.xaml.cs">
+      <DependentUpon>IntSliderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Options\StyleCopOptionsPage.Designer.cs">
-      <DependentUpon>StyleCopOptionsPage.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Options\IntSliderViewModel.cs" />
+    <Compile Include="Options\StyleCopOptionsPage.cs" />
     <Compile Include="Options\StyleCopOptionsSettingsKey.cs" />
     <Compile Include="Options\StyleCopRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -428,6 +427,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="StyleCop.dotSettings">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\StyleCop\StyleCop.csproj">
@@ -438,6 +440,12 @@
       <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Options\IntSliderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />

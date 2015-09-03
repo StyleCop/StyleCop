@@ -1471,11 +1471,11 @@ namespace StyleCop
         private void LoadAddins(string path, byte[] publicKey)
         {
             Param.AssertNotNull(path, "path");
-            Param.AssertNotNull(publicKey, "publicKey");
 
             // TODO: This doesn't play nicely with debugging + delay signed
             // (While release mode + delay signed is just fine)
             // Param.AssertValidCollection(publicKey, "publicKey");
+            Param.AssertNotNull(publicKey, "publicKey");
 
             try
             {

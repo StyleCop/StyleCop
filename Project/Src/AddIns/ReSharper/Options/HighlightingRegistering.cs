@@ -59,6 +59,9 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
+        /// <param name="bootstrapper">
+        /// The entry point to the StyleCop API
+        /// </param>
         public HighlightingRegistering(StyleCopBootstrapper bootstrapper)
         {
             this.Init(bootstrapper.Core);
@@ -200,7 +203,9 @@ namespace StyleCop.ReSharper.Options
         /// Registers the rules. Do not put the contents of this method in the constructor.
         /// If you do *sometimes* the StyleCop object won't be loaded be the time you construct it.
         /// </summary>
-        /// <param name="core"></param>
+        /// <param name="core">
+        /// The core API
+        /// </param>
         private void Init(StyleCopCore core)
         {
             Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);

@@ -1,9 +1,26 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CodeStyleOptions.cs" company="http://stylecop.codeplex.com">
+//   MS-PL
+// </copyright>
+// <license>
+//   This source code is subject to terms and conditions of the Microsoft 
+//   Public License. A copy of the license can be found in the License.html 
+//   file at the root of this distribution. If you cannot locate the  
+//   Microsoft Public License, please send an email to dlr@microsoft.com. 
+//   By using this source code in any fashion, you are agreeing to be bound 
+//   by the terms of the Microsoft Public License. You must not remove this 
+//   notice, or any other, from this software.
+// </license>
+// <summary>
+//   Verify and reset the options.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace StyleCop.ReSharper.Options
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.IO;
     using System.Linq;
     using System.Reflection;
 
@@ -17,9 +34,10 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.ReSharper.Psi.Naming.Settings;
     using JetBrains.ReSharper.Resources.Shell;
 
-    using StyleCop.ReSharper.Core;
-
-    public class CodeStyleOptions
+    /// <summary>
+    /// Options for code style
+    /// </summary>
+    public static class CodeStyleOptions
     {
         /// <summary>
         /// The order of modifiers for StyleCop.
@@ -32,7 +50,10 @@ namespace StyleCop.ReSharper.Options
         /// <param name="settingsStore">
         /// The settings store to use. 
         /// </param>
-        public static void CodeStyleOptionsReset(IContextBoundSettingsStore settingsStore)
+        /// <param name="solution">
+        /// The current solution, if open. May be null.
+        /// </param>
+        public static void CodeStyleOptionsReset(IContextBoundSettingsStore settingsStore, ISolution solution)
         {
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN, false);
             settingsStore.SetValue((CSharpFormatSettingsKey key) => key.ALIGN_LINQ_QUERY, true);
@@ -260,19 +281,19 @@ namespace StyleCop.ReSharper.Options
             settingsStore.SetValue(CSharpUsingSettingsAccessor.PreferQualifiedReference, false);
             settingsStore.SetValue(CSharpUsingSettingsAccessor.SortUsings, true);
 
-            string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    reorderingPatterns = reader.ReadToEnd();
-                }
-            }
+            // TODO: Override file layout
+            // string reorderingPatterns;
+            // using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
+            // {
+            //    using (StreamReader reader = new StreamReader(stream))
+            //    {
+            //        reorderingPatterns = reader.ReadToEnd();
+            //    }
+            // }
 
-            settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
+            // settingsStore.SetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern, reorderingPatterns);
 
-            ISolution solution = Utils.GetSolution();
-
+            // TODO: Check the solution requirement
             if (solution != null)
             {
                 CodeCleanupProfile styleCopProfile = null;
@@ -378,10 +399,13 @@ namespace StyleCop.ReSharper.Options
         /// <param name="settingsStore">
         /// The settings store to use. 
         /// </param>
+        /// <param name="solution">
+        /// The currently open solution, if any. May be null.
+        /// </param>
         /// <returns>
         /// True if options are all valid, otherwise false. 
         /// </returns>
-        public static bool CodeStyleOptionsValid(IContextBoundSettingsStore settingsStore)
+        public static bool CodeStyleOptionsValid(IContextBoundSettingsStore settingsStore, ISolution solution)
         {
             if (settingsStore.GetValue((CSharpFormatSettingsKey key) => key.ALIGN_FIRST_ARG_BY_PAREN))
             {
@@ -1353,22 +1377,22 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            string reorderingPatterns;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    reorderingPatterns = reader.ReadToEnd();
-                }
-            }
+            // TODO: Verify file layout
+            // string reorderingPatterns;
+            // using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StyleCop.ReSharper800.Resources.ReorderingPatterns.xml"))
+            // {
+            //    using (StreamReader reader = new StreamReader(stream))
+            //    {
+            //        reorderingPatterns = reader.ReadToEnd();
+            //    }
+            // }
 
-            if (!settingsStore.GetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern).Equals(reorderingPatterns, StringComparison.InvariantCulture))
-            {
-                return false;
-            }
+            // if (!settingsStore.GetValue((CSharpMemberOrderPatternSettings key) => key.CustomPattern).Equals(reorderingPatterns, StringComparison.InvariantCulture))
+            // {
+            //    return false;
+            // }
 
-            ISolution solution = Utils.GetSolution();
-
+            // TODO: Not sure if this is true
             // We can only check the StyleCop profile settings if a solution is loaded.
             if (solution != null)
             {

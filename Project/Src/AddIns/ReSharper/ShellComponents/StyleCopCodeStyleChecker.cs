@@ -129,7 +129,7 @@ namespace StyleCop.ReSharper.ShellComponents
 
                 if (checkReSharperCodeStyleOptionsAtStartUp)
                 {
-                    if (!CodeStyleOptions.CodeStyleOptionsValid(settings))
+                    if (!CodeStyleOptions.CodeStyleOptionsValid(settings, Core.Utils.GetSolution()))
                     {
                         DialogResult result =
                             MessageBox.Show(
@@ -140,7 +140,7 @@ namespace StyleCop.ReSharper.ShellComponents
                                 MessageBoxDefaultButton.Button2);
                         if (result == DialogResult.Yes)
                         {
-                            CodeStyleOptions.CodeStyleOptionsReset(settings);
+                            CodeStyleOptions.CodeStyleOptionsReset(settings, Core.Utils.GetSolution());
                         }
                     }
                 }

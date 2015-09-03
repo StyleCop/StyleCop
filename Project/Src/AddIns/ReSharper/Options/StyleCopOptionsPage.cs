@@ -21,51 +21,36 @@ namespace StyleCop.ReSharper.Options
     #region Using Directives
 
     using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Windows.Forms;
+    using System.Linq.Expressions;
 
-    using JetBrains.Application.Settings;
-    using JetBrains.UI.CrossFramework;
+    using JetBrains.DataFlow;
+    using JetBrains.ProjectModel;
+    using JetBrains.UI.Extensions.Commands;
     using JetBrains.UI.Options;
+    using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
+    using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
+    using JetBrains.Util;
 
     #endregion
 
     /// <summary>
     /// Options page to allow the plugins options to be set from within the ReSharper Options window.
     /// </summary>
-    [OptionsPage(StyleCopOptionsPage.PID, "StyleCop", (Type)null, ParentId = "Tools")]
-    public partial class StyleCopOptionsPage : UserControl, IOptionsPage
+    [OptionsPage(PageId, "StyleCop", null, ParentId = "Tools")]
+    public class StyleCopOptionsPage : CustomSimpleOptionsPage
     {
         #region Constants
 
         /// <summary>
         /// The unique name of this options page.
         /// </summary>
-        private const string PID = "StyleCopOptionsPage";
+        private const string PageId = "StyleCopOptionsPage";
 
         #endregion
 
-        #region Static Fields
+        #region Private Fields
 
-        /// <summary>
-        /// The detected StyleCop path.
-        /// </summary>
-        private static string styleCopDetectedPath;
-
-        #endregion
-
-        #region Fields
-
-        /// <summary>
-        /// Reference to the IOptionsDialog that opened our page.
-        /// </summary>
-        private readonly IOptionsDialog dialog;
-
-        /// <summary>
-        /// The settings context to use.
-        /// </summary>
-        private readonly OptionsSettingsSmartContext smartContext;
+        private readonly Lifetime lifetime;
 
         #endregion
 
@@ -74,235 +59,115 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the StyleCopOptionsPage class.
         /// </summary>
+        /// <param name="lifetime">
+        /// The lifetime of the options page.
+        /// </param>
         /// <param name="settingsSmartContext">
         /// Our settings context. 
         /// </param>
-        public StyleCopOptionsPage(OptionsSettingsSmartContext settingsSmartContext)
-        {
-            this.smartContext = settingsSmartContext;
-            this.InitializeComponent();
-            this.dashesCountMaskedTextBox.ValidatingType = typeof(int);
-            this.warningPanel.Visible = !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext);
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets the Control to be shown as page.
-        /// </summary>
-        /// <value>
-        /// </value>
-        public EitherControl Control
-        {
-            get
-            {
-                return this;
-            }
-        }
-
-        /// <summary>
-        /// Gets the ID of this option page. <see cref="T:JetBrains.UI.Options.IOptionsDialog"/> or <see cref="T:JetBrains.UI.Options.OptionsPageDescriptor"/> could be used to retrieve the <see cref="T:JetBrains.UI.Options.OptionsManager"/> out of it.
-        /// </summary>
-        /// <value>
-        /// </value>
-        public string Id
-        {
-            get
-            {
-                return StyleCopOptionsPage.PID;
-            }
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// Invoked when OK button in the options dialog is pressed If the page returns <c>False.</c> , the the options dialog won't be closed, and focus will be put into this page.
-        /// </summary>
-        /// <returns>
-        /// Returns a boolean to represent if the page should be closed. 
-        /// </returns>
-        public bool OnOk()
-        {
-            if (this.ValidatePage())
-            {
-                string newLocation = string.Empty;
-                string oldLocation = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath);
-
-                if (!this.autoDetectCheckBox.Checked)
-                {
-                    newLocation = this.StyleCopLocationTextBox.Text.Trim();
-                }
-
-                if (newLocation != oldLocation)
-                {
-                    MessageBox.Show(
-                        "These changes may require you to restart Visual Studio before they take effect.", "StyleCop", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath, newLocation);
-                }
-
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance, this.performanceTrackBar.Value);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation, this.insertTextCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader, int.Parse(this.dashesCountMaskedTextBox.Text));
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting, this.useExcludeFromStyleCopCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, string>(
-                    key => key.SuppressStyleCopAttributeJustificationText, this.justificationTextBox.Text.Trim());
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(
-                    key => key.UseSingleLineDeclarationComments, this.useSingleLineForDeclarationCommentsCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled, this.enableAnalysisCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(
-                    key => key.CheckReSharperCodeStyleOptionsAtStartUp, this.checkCodeStyleOptionsAtStartUpCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles, this.analyzeReadOnlyFilesCheckBox.Checked);
-                this.smartContext.SetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText, this.insertToDoTextCheckBox.Checked);
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Check if the settings on the page are consistent, and page could be closed.
-        /// </summary>
-        /// <returns>
-        /// <c>True.</c> if page data is consistent. 
-        /// </returns>
-        public bool ValidatePage()
-        {
-            if (!this.dashesCountMaskedTextBox.MaskCompleted || this.dashesCountMaskedTextBox.Text == string.Empty)
-            {
-                this.toolTip.ToolTipTitle = "Invalid number";
-                this.toolTip.Show("Enter a valid number.", this.dashesCountMaskedTextBox, this.dashesCountMaskedTextBox.Width - 16, -50, 5000);
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.UserControl.Load"/> event.
-        /// </summary>
-        /// <param name="e">
-        /// An <see cref="T:System.EventArgs"/> that contains the event data. 
+        /// <param name="solution">
+        /// The current solution. Will be null if no solution is currently open.
         /// </param>
-        protected override void OnLoad(EventArgs e)
+        public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext, ISolution solution = null)
+            : base(lifetime, settingsSmartContext)
         {
-            this.toolTip.SetToolTip(this.dashesCountMaskedTextBox, string.Empty);
-            base.OnLoad(e);
-            this.Display();
+            this.lifetime = lifetime;
+
+            this.AddHeader("Options");
+
+            // TODO: It would be nice to get rid of this option. It doesn't do what you think it does
+            // It controls whether a one-time init handler checks options at startup, BUT only if the
+            // install date is newer than the last init date. We don't even support the installed version...
+            // I think we should do the check when showing the options. But what about at startup? Modal
+            // dialogs are a little rude...
+            // By providing the correct options in a settings file, we automatically get correct defaults, but
+            // they can still be overridden in the global settings, and also per-solution
+            // this.AddBoolOption(
+            //    (StyleCopOptionsSettingsKey options) => options.CheckReSharperCodeStyleOptionsAtStartUp,
+            //    "Check ReSharper code style options at startup");
+
+            // Note that we have to check to see if the lifetime is terminated before accessing the
+            // settings context because WPF will continue to call our CanExecute until a garbage collection
+            // breaks the weak reference that WPF holds on command
+            this.AddButton(
+                "Reset code style options",
+                new DelegateCommand(
+                    () => CodeStyleOptions.CodeStyleOptionsReset(settingsSmartContext, solution),
+                    () => !lifetime.IsTerminated && !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext, solution)));
+
+            this.AddHeader("Headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.InsertTextIntoDocumentation,
+                "Insert text into documentation and file headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.UseSingleLineDeclarationComments,
+                "Use single lines for declaration headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.InsertToDoText,
+                "Insert TODO into headers");
+            this.AddIntOption(
+                (StyleCopOptionsSettingsKey options) => options.DashesCountInFileHeader,
+                "Number of dashes in file header text:");
+
+            this.AddHeader("Analysis Performance");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
+                "Run StyleCop as you type");
+            BoolOptionViewModel nonUserFiles =
+                this.AddBoolOption(
+                    (StyleCopOptionsSettingsKey options) => options.AnalyzeReadOnlyFiles,
+                    "Analyze non-user files (not recommended)");
+            IntSliderViewModel performance =
+                this.AddIntSliderOption(
+                    (StyleCopOptionsSettingsKey options) => options.ParsingPerformance,
+                    "Responsiveness:",
+                    1,
+                    9,
+                    "Less resources\r\n(slower)",
+                    "More resources\n(faster)");
+            this.AddBinding(
+                nonUserFiles,
+                BindingStyle.IsEnabledProperty,
+                (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
+                JetFunc<object>.Identity);
+            this.AddBinding(
+                performance,
+                BindingStyle.IsEnabledProperty,
+                (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
+                JetFunc<object>.Identity);
+
+            this.AddHeader("Misc");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.UseExcludeFromStyleCopSetting,
+                "Use ExcludeFromStyleCop setting in csproj files");
+            this.AddStringOption(
+                (StyleCopOptionsSettingsKey options) => options.SuppressStyleCopAttributeJustificationText,
+                "Justification for SuppressMessage attribute:");
+
+            this.FinishPage();
         }
 
-        private void Display()
+        private IntSliderViewModel AddIntSliderOption<T>(
+            Expression<Func<T, int>> lambdaExpression,
+            string text,
+            int minValue,
+            int maxValue,
+            string minValueText,
+            string maxValueText,
+            string toolTipText = null)
         {
-            this.autoDetectCheckBox.Checked = string.IsNullOrEmpty(this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath));
-
-            if (this.autoDetectCheckBox.Checked)
-            {
-            }
-            else
-            {
-                this.ShowSpecifiedAssemblyLocation();
-            }
-
-            this.performanceTrackBar.Value = this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.ParsingPerformance);
-            this.insertTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertTextIntoDocumentation);
-            this.dashesCountMaskedTextBox.Text =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, int>(key => key.DashesCountInFileHeader).ToString(CultureInfo.InvariantCulture);
-            this.useExcludeFromStyleCopCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseExcludeFromStyleCopSetting);
-            this.justificationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SuppressStyleCopAttributeJustificationText);
-            this.useSingleLineForDeclarationCommentsCheckBox.Checked =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.UseSingleLineDeclarationComments);
-            this.enableAnalysisCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
-            this.checkCodeStyleOptionsAtStartUpCheckBox.Checked =
-                this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.CheckReSharperCodeStyleOptionsAtStartUp);
-            this.analyzeReadOnlyFilesCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalyzeReadOnlyFiles);
-            this.insertToDoTextCheckBox.Checked = this.smartContext.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.InsertToDoText);
-        }
-
-        /// <summary>
-        /// Handles the CheckedChanged event of the AutoDetectCheckBox control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data. 
-        /// </param>
-        private void AutoDetectCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (this.autoDetectCheckBox.Checked)
-            {
-            }
-            else
-            {
-                this.ShowSpecifiedAssemblyLocation();
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the BrowseButton control.
-        /// </summary>
-        /// <param name="sender">
-        /// The source of the event. 
-        /// </param>
-        /// <param name="e">
-        /// The <see cref="System.EventArgs"/> instance containing the event data. 
-        /// </param>
-        private void BrowseButton_Click(object sender, EventArgs e)
-        {
-            this.ShowFileDialog();
-        }
-
-        private void DashesCountMaskedTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.toolTip.Hide(this.dashesCountMaskedTextBox);
-        }
-
-        private void ResetFormatOptionsButton_Click(object sender, EventArgs e)
-        {
-            CodeStyleOptions.CodeStyleOptionsReset(this.smartContext);
-            MessageBox.Show(
-                @"C# code style options have been set in order to fix StyleCop violations. Ensure your R# Settings are saved.", @"StyleCop", MessageBoxButtons.OK);
-            this.resetFormatOptionsButton.Enabled = false;
-        }
-
-        /// <summary>
-        /// Shows the file dialog.
-        /// </summary>
-        private void ShowFileDialog()
-        {
-            if (!string.IsNullOrEmpty(this.StyleCopLocationTextBox.Text))
-            {
-                string dir = Path.GetDirectoryName(this.StyleCopLocationTextBox.Text);
-
-                if (!string.IsNullOrEmpty(dir))
-                {
-                    this.StyleCopLocationDialog.InitialDirectory = dir;
-                }
-            }
-
-            if (this.StyleCopLocationDialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            this.StyleCopLocationTextBox.Text = this.StyleCopLocationDialog.FileName;
-        }
-
-        /// <summary>
-        /// Shows the specified assembly location.
-        /// </summary>
-        private void ShowSpecifiedAssemblyLocation()
-        {
-            this.StyleCopLocationTextBox.Text = this.smartContext.GetValue<StyleCopOptionsSettingsKey, string>(key => key.SpecifiedAssemblyPath);
-            this.BrowseButton.Enabled = true;
-            this.StyleCopLocationTextBox.Enabled = true;
+            var option = new IntSliderViewModel(
+                this.lifetime,
+                this.OptionsSettingsSmartContext,
+                this.OptionsSettingsSmartContext.Schema.GetScalarEntry(lambdaExpression),
+                text,
+                minValue,
+                maxValue,
+                minValueText,
+                maxValueText,
+                toolTipText);
+            this.OptionEntities.Add(option);
+            return option;
         }
 
         #endregion
