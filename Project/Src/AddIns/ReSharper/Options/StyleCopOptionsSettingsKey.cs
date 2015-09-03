@@ -18,13 +18,9 @@
 
 namespace StyleCop.ReSharper.Options
 {
-    #region Using Directives
-
     using System.Reflection;
 
     using JetBrains.Application.Settings;
-
-    #endregion
 
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
@@ -32,8 +28,6 @@ namespace StyleCop.ReSharper.Options
     [SettingsKey(typeof(Missing), "StyleCop Options")]
     public class StyleCopOptionsSettingsKey
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets a value indicating whether the analysis executes as you type.
         /// </summary>
@@ -105,7 +99,5 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
-
-        #endregion
     }
 }

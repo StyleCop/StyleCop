@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.Application.Settings;
@@ -35,16 +33,12 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     ///   DisableHighlightingActionProvider for StyleCop rules.
     /// </summary>
     [CustomHighlightingActionProvider(typeof(CSharpProjectFileType))]
     public class ChangeStyleCopRule : ICustomHighlightingActionProvider
     {
-        #region Fields
-
         /// <summary>
         /// The common icons component.
         /// </summary>
@@ -59,10 +53,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// The settings store.
         /// </summary>
         private readonly ISettingsStore settingsStore;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ChangeStyleCopRule class.
@@ -89,10 +79,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             this.settingsStore = settingsStore;
             this.commonIconsComponent = commonIconsComponent;
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the actions for changing the highlight options for StyleCop rules.
@@ -130,7 +116,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             yield return
                 new IntentionAction(changeStyleCopRuleAction, changeStyleCopRuleAction.Text, BulbThemedIcons.ContextAction.Id, IntentionsAnchors.ContextActionsAnchor);
         }
-
-        #endregion
     }
 }

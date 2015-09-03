@@ -17,22 +17,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Extensions
 {
-    #region Using Directives
-
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.ReSharper.Psi.CSharp.Impl;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-
-    #endregion
 
     /// <summary>
     /// I method declaration extensions.
     /// </summary>
     public static class IMethodDeclarationExtensions
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Get return type.
         /// </summary>
@@ -74,7 +68,5 @@ namespace StyleCop.ReSharper.Extensions
         {
             return declaration != null && ModifiersUtil.GetNew(declaration as IModifiersListOwner);
         }
-
-        #endregion
     }
 }

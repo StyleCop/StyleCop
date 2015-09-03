@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.ShellComponents
 {
-    #region Using Directives
-
     using System;
     using System.Windows.Forms;
 
@@ -31,16 +29,12 @@ namespace StyleCop.ReSharper.ShellComponents
 
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// The StyleCop CodeStyle Checker.
     /// </summary>
     [ShellComponent]
     public class StyleCopCodeStyleChecker
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the StyleCopCodeStyleChecker class.
         /// </summary>
@@ -51,10 +45,6 @@ namespace StyleCop.ReSharper.ShellComponents
         {
             this.Init(lifetime);
         }
-
-        #endregion
-
-        #region Methods and Operators
 
         /// <summary>
         /// Loads the InstallDate registry key value.
@@ -148,7 +138,5 @@ namespace StyleCop.ReSharper.ShellComponents
 
             registryUtils.CUSetValue("LastInitializationDate", todayAsString);
         }
-
-        #endregion
     }
 }

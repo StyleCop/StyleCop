@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Psi;
@@ -35,15 +33,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Extensions;
 
-    #endregion
-
     /// <summary>
     /// Spacing rules.
     /// </summary>
     internal class SpacingRules
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The code must not contain multiple whitespace in a row.
         /// </summary>
@@ -376,7 +370,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 }
             }
         }
-
-        #endregion
     }
 }

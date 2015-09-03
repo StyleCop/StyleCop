@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -38,22 +36,14 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// Provides a wrapper for a declaration elements documentation comments.
     /// </summary>
     public class DeclarationHeader
     {
-        #region Static Fields
-
         private static readonly ArrayList ElementsThatStartOnNewLine;
 
         private static readonly ArrayList ElementsThatStartOnNewLineAndHaveNewLineOnInnerXml;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes static members of the <see cref="DeclarationHeader"/> class.
@@ -85,10 +75,6 @@ namespace StyleCop.ReSharper.Core
         {
             this.Init(declaration);
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets the declaration we have the header for.
@@ -163,10 +149,6 @@ namespace StyleCop.ReSharper.Core
         /// Gets the XmlNode of the entire declaration header. Null if it is missing.
         /// </summary>
         public XmlNode XmlNode { get; private set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Creates a new DeclarationHeader for the declaration and assigns it to the declaration.
@@ -277,10 +259,6 @@ namespace StyleCop.ReSharper.Core
                 }
             }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Finds Exceptions in a TreeNode and all its children.
@@ -763,7 +741,5 @@ namespace StyleCop.ReSharper.Core
                 }
             }
         }
-
-        #endregion
     }
 }

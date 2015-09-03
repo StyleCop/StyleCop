@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -30,15 +28,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// QuickFix action which formats multiple statements on a single line.
     /// </summary>
     public class FormatLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Formats the current line using the settings as defined in ReSharper &gt; Option &gt; Languages &gt; Common &gt; Code Style Sharing.
         /// </summary>
@@ -61,7 +55,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 new SpacingRules().EqualsMustBeSpacedCorrectly(containingElement);
             }
         }
-
-        #endregion
     }
 }

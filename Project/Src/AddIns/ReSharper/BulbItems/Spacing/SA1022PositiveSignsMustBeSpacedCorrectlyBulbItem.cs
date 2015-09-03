@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -29,15 +27,11 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1022 positive signs must be spaced correctly bulb item.
     /// </summary>
     public class SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -58,7 +52,5 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
                 new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock, CSharpTokenType.PLUS);
             }
         }
-
-        #endregion
     }
 }

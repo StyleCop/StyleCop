@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
-    #region Using Directives
-
     using System.Text.RegularExpressions;
 
     using JetBrains.ProjectModel;
@@ -26,15 +24,11 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
 
     using StyleCop.ReSharper.BulbItems.Framework;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - FormatDocumentationHeader : Fixes documentation headers.
     /// </summary>
     internal class FormatDocumentationHeader : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -51,7 +45,5 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             documentation = regEx.Replace(documentation, "/// ");
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }
-
-        #endregion
     }
 }

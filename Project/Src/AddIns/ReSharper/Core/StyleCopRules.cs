@@ -22,8 +22,6 @@ namespace StyleCop.ReSharper.Core
     /// </summary>
     internal static class StyleCopRules
     {
-        #region Constants
-
         /// <summary>
         /// Short rule name.
         /// </summary>
@@ -78,7 +76,5 @@ namespace StyleCop.ReSharper.Core
         /// Short rule name.
         /// </summary>
         public const string SA1643 = "SA1643:DestructorSummaryDocumentationMustBeginWithStandardText";
-
-        #endregion
     }
 }

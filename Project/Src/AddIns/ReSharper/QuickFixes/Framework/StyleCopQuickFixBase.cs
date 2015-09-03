@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
 
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     ///   Basic Textual Quick Fix Example for rule SA1400QuickFix.
     /// </summary>
     public abstract class StyleCopQuickFixBase : IQuickFix
     {
-        #region Fields
-
         /// <summary>
         ///   Instance of the StyleCop violation the QuickFix can deal with.
         /// </summary>
@@ -46,10 +40,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         ///   List of available actions to be displayed in the IDE.
         /// </summary>
         private List<IBulbAction> bulbItems = new List<IBulbAction>();
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingError"/> .
@@ -119,10 +109,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             this.InitialiseIfRequired();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         ///   Gets or sets a list of BulbItems to be Displayed.
         /// </summary>
@@ -141,10 +127,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 this.bulbItems = value;
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Arranges the BulbItems in the correct section.
@@ -180,10 +162,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             return this.GetType().Name.StartsWith(this.Highlighting.CheckId);
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         ///   Abstract initialization method that must be called by all derived types.
         /// </summary>
@@ -199,7 +177,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 this.InitialiseBulbItems();
             }
         }
-
-        #endregion
     }
 }

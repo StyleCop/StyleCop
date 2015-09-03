@@ -17,21 +17,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
-    #region Using Directives
-
     using System.ComponentModel;
     using System.Reflection;
     using System.Text;
-
-    #endregion
 
     /// <summary>
     /// Defines options for MaintainabilityOptions.
     /// </summary>
     public class MaintainabilityOptions : OptionsBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MaintainabilityOptions"/> class. 
         /// </summary>
@@ -40,19 +34,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
             this.InitPropertiesDefaults();
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets a value indicating whether SA1119StatementMustNotUseUnnecessaryParenthesis.
         /// </summary>
         [DisplayName("1119: Statement Must Not Use Unnecessary Parenthesis")]
         public bool SA1119StatementMustNotUseUnnecessaryParenthesis { get; set; }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Gets the name of the analyzer.
@@ -64,10 +50,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
                 return "StyleCop.CSharp.MaintainabilityRules";
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Returns a concatenated summary of the current options settings.
@@ -93,10 +75,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return sb.ToString();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Builds a string representation of the property value.
@@ -139,7 +117,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return string.Format("{0} = {1}", propName, propValue);
         }
-
-        #endregion
     }
 }

@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -27,26 +25,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// A class that exposes the current Documentation configuration for the file provided.
     /// </summary>
     public class DocumentationRulesConfiguration
     {
-        #region Constants
-
         private const string AnalyzerName = "StyleCop.CSharp.DocumentationRules";
 
-        #endregion
-
-        #region Fields
-
         private readonly Settings settings;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentationRulesConfiguration"/> class. 
@@ -82,10 +68,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             this.Copyright = stringProperty != null ? StyleCop.Utils.ReplaceTokenVariables(stringProperty.Value, fileInfo) : string.Empty;
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         /// Gets the company name setting for this file.
         /// </summary>
@@ -110,10 +92,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// Gets a value indicating whether fields are required to be documented.
         /// </summary>
         public bool RequireFields { get; private set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Gets whether the stylecop rule specified is enabled.
@@ -167,10 +145,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             return (TProperty)propertyValue;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Gets the PropertyValue for the PropertyName passed in.
         /// </summary>
@@ -187,7 +161,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                              .FirstOrDefault()
                        : null;
         }
-
-        #endregion
     }
 }

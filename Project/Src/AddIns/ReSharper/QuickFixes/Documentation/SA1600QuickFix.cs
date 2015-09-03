@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.QuickFixes.Documentation
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -28,8 +26,6 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     ///   QuickFix - SA1600: ElementMustHaveHeader.
     /// </summary>
@@ -37,8 +33,6 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
     [QuickFix]
     public class SA1600QuickFix : StyleCopQuickFixBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the SA1600QuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
         /// </summary>
@@ -94,10 +88,6 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         {
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         ///   Initializes the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
@@ -105,7 +95,5 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         {
             this.BulbItems = new List<IBulbAction> { new SA1600ElementsMustBeDocumentedBulbItem { Description = "Insert header : " + this.Highlighting.ToolTip } };
         }
-
-        #endregion
     }
 }

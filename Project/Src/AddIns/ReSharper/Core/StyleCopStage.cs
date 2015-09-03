@@ -19,8 +19,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Linq;
 
@@ -34,8 +32,6 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.ShellComponents;
-
-    #endregion
 
     /// <summary>
     /// Daemon stage for StyleCop. This class is automatically loaded by ReSharper daemon 
@@ -57,8 +53,6 @@ namespace StyleCop.ReSharper.Core
             this.runner = bootstrapper.Runner;
         }
 
-        #region Public Methods and Operators
-
         /// <summary>
         /// We want to add markers to the right-side stripe as well as contribute to document errors.
         /// </summary>
@@ -75,10 +69,6 @@ namespace StyleCop.ReSharper.Core
         {
             return ErrorStripeRequest.STRIPE_AND_ERRORS;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
@@ -177,7 +167,5 @@ namespace StyleCop.ReSharper.Core
 
             return !hasErrorElements;
         }
-
-        #endregion
     }
 }

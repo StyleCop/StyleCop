@@ -18,13 +18,9 @@
 
 namespace StyleCop.ReSharper.ShellComponents
 {
-    #region Using Directives
-
     using JetBrains.Application;
 
     using StyleCop.ReSharper.Core;
-
-    #endregion
 
     /// <summary>
     /// Holds a single instance of the core StyleCop API entry points
@@ -32,8 +28,6 @@ namespace StyleCop.ReSharper.ShellComponents
     [ShellComponent]
     public class StyleCopBootstrapper
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopBootstrapper"/> class.
         /// </summary>
@@ -50,10 +44,6 @@ namespace StyleCop.ReSharper.ShellComponents
             this.Runner = new StyleCopRunnerInt(this.Core, this.Settings);
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets a reference to the core StyleCop API
         /// </summary>
@@ -68,7 +58,5 @@ namespace StyleCop.ReSharper.ShellComponents
         /// Gets a reference to the StyleCop settings API
         /// </summary>
         public StyleCopSettings Settings { get; private set; }
-
-        #endregion
     }
 }

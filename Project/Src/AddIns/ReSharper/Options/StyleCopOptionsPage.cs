@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Options
 {
-    #region Using Directives
-
     using System;
     using System.Linq.Expressions;
 
@@ -31,30 +29,18 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
     using JetBrains.Util;
 
-    #endregion
-
     /// <summary>
     /// Options page to allow the plugins options to be set from within the ReSharper Options window.
     /// </summary>
     [OptionsPage(PageId, "StyleCop", null, ParentId = "Tools")]
     public class StyleCopOptionsPage : CustomSimpleOptionsPage
     {
-        #region Constants
-
         /// <summary>
         /// The unique name of this options page.
         /// </summary>
         private const string PageId = "StyleCopOptionsPage";
 
-        #endregion
-
-        #region Private Fields
-
         private readonly Lifetime lifetime;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopOptionsPage class.
@@ -169,7 +155,5 @@ namespace StyleCop.ReSharper.Options
             this.OptionEntities.Add(option);
             return option;
         }
-
-        #endregion
     }
 }

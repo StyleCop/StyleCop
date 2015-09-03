@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.QuickFixes.Documentation
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -31,16 +29,12 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
     using StyleCop.ReSharper.Violations;
     using StyleCop.Spelling;
 
-    #endregion
-
     /// <summary>
     /// QuickFix for SA1650 : ElementDocumentationMustBeSpelledCorrectly.
     /// </summary>
     [QuickFix]
     public class SA1650QuickFix : StyleCopQuickFixBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the SA1650QuickFix class that can 
         /// handle <see cref="StyleCopHighlightingError"/>.
@@ -101,10 +95,6 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         {
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
@@ -145,7 +135,5 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
                 }
             }
         }
-
-        #endregion
     }
 }

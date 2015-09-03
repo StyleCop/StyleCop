@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Impl;
@@ -29,15 +27,11 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1401 fields must be private bulb item.
     /// </summary>
     internal class SA1401FieldsMustBePrivateBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -56,7 +50,5 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
 
             ModifiersUtil.SetAccessRights(containingElement, AccessRights.PRIVATE);
         }
-
-        #endregion
     }
 }

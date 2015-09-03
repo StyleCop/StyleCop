@@ -17,21 +17,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Options
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.Xml;
-
-    #endregion
 
     /// <summary>
     /// Class to represent a StyleCop rule.
     /// </summary>
     public class StyleCopRule
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopRule"/> class.
         /// </summary>
@@ -50,10 +44,6 @@ namespace StyleCop.ReSharper.Options
             this.RuleID = ruleID;
             this.Description = description;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets the description.
@@ -79,10 +69,6 @@ namespace StyleCop.ReSharper.Options
         /// </value>
         public string RuleID { get; private set; }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Gets the rules.
         /// </summary>
@@ -99,10 +85,6 @@ namespace StyleCop.ReSharper.Options
 
             return rulesDictionary;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Gets the rule.
@@ -349,7 +331,5 @@ namespace StyleCop.ReSharper.Options
 
             return new string(characterArray, 0, length);
         }
-
-        #endregion
     }
 }

@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SA1634FileHeaderMustShowCopyrightBulbItem.
     /// </summary>
     internal class SA1634FileHeaderMustShowCopyrightBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -51,7 +45,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             new DocumentationRules().InsertCopyrightText(file);
         }
-
-        #endregion
     }
 }

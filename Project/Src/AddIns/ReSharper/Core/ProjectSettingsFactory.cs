@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -27,29 +25,17 @@ namespace StyleCop.ReSharper.Core
 
     using StyleCop.Diagnostics;
 
-    #endregion
-
     /// <summary>
     /// The project settings factory.
     /// </summary>
     public class ProjectSettingsFactory
     {
-        #region Static Fields
-
         private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets StyleCopCore.
         /// </summary>
         public StyleCopCore StyleCopCore { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The create.
@@ -133,10 +119,6 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Called when the file changes.
         /// </summary>
@@ -195,7 +177,5 @@ namespace StyleCop.ReSharper.Core
             watch.EnableRaisingEvents = true;
             StyleCopTrace.Out();
         }
-
-        #endregion
     }
 }

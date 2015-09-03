@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -26,15 +24,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1507 code must not contain multiple blank lines in a row bulb item.
     /// </summary>
     public class SA1507CodeMustNotContainMultipleBlankLinesInARowBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -52,7 +46,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             Utils.RemoveNewLineBefore(currentNode);
         }
-
-        #endregion
     }
 }

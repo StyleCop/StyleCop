@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Options
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -32,16 +30,12 @@ namespace StyleCop.ReSharper.Options
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.ShellComponents;
 
-    #endregion
-
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
     [ShellComponent]
     public class HighlightingRegistering : IDisposable
     {
-        #region Constants
-
         /// <summary>
         /// The template to be used for the group title.
         /// </summary>
@@ -51,10 +45,6 @@ namespace StyleCop.ReSharper.Options
         /// The template to be used for the highlight ID's.
         /// </summary>
         private const string HighlightIdTemplate = "StyleCop.{0}";
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
@@ -66,10 +56,6 @@ namespace StyleCop.ReSharper.Options
         {
             this.Init(bootstrapper.Core);
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Gets the highlight ID for this rule.
@@ -99,10 +85,6 @@ namespace StyleCop.ReSharper.Options
         public void Dispose()
         {
         }
-
-        #endregion
-
-        #region Methods
 
         private static void RegisterConfigurableGroup(HighlightingSettingsManager highlightManager, string groupId, string groupName)
         {
@@ -252,7 +234,5 @@ namespace StyleCop.ReSharper.Options
                 }
             }
         }
-
-        #endregion
     }
 }

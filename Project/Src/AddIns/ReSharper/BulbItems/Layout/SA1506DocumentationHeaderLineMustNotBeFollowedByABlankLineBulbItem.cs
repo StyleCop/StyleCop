@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1506 documentation header line must not be followed by a blank line bulb item.
     /// </summary>
     public class SA1506DocumentationHeaderLineMustNotBeFollowedByABlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -60,7 +54,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             Utils.RemoveNewLineBefore(rightNode);
         }
-
-        #endregion
     }
 }

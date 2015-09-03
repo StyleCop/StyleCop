@@ -17,23 +17,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
-    #region Using Directives
-
     using System.ComponentModel;
     using System.Reflection;
     using System.Text;
 
     using StyleCop.ReSharper.CodeCleanup.Styles;
 
-    #endregion
-
     /// <summary>
     /// Defines options for DocumentationOptions.
     /// </summary>
     public class DocumentationOptions : OptionsBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the DocumentationOptions class.
         /// </summary>
@@ -42,10 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
             this.InitPropertiesDefaults();
             this.SA1633SA1641UpdateFileHeader = this.IsFileHeaderSettingDisabled ? UpdateFileHeaderStyle.Ignore : UpdateFileHeaderStyle.ReplaceCopyrightElement;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether the elements must be documented.
@@ -137,10 +127,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         [DisplayName("1644: Documentation Headers Must Not Contain Blank Lines")]
         public bool SA1644DocumentationHeadersMustNotContainBlankLines { get; set; }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets the name of the analyzer.
         /// </summary>
@@ -164,10 +150,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
                        && !this.IsPropertyEnabled("FileHeaderFileNameDocumentationMustMatchFileName") && !this.IsPropertyEnabled("FileHeaderMustHaveValidCompanyText");
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Returns a concatenated summary of the current options settings.
@@ -193,10 +175,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return sb.ToString();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Builds a string representation of the property value.
@@ -240,7 +218,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return string.Format("{0} = {1}", propName, propValue);
         }
-
-        #endregion
     }
 }

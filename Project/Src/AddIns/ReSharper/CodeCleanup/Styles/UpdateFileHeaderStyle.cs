@@ -17,11 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Styles
 {
-    #region Using Directives
-
     using System.ComponentModel;
-
-    #endregion
 
     /// <summary>
     /// Enumeration to define the behavior for updating the file header.

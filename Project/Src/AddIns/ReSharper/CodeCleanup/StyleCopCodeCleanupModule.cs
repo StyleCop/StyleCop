@@ -19,8 +19,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.DocumentModel;
@@ -38,8 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Rules;
 
-    #endregion
-
     /// <summary>
     ///   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
     ///   We ensure that most of the ReSharper modules are run before we are.
@@ -47,8 +43,6 @@ namespace StyleCop.ReSharper.CodeCleanup
     [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(HighlightingCleanupModule), typeof(ReplaceByVar), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
-        #region Static Fields
-
         /// <summary>
         ///   Documentation descriptor.
         /// </summary>
@@ -78,10 +72,6 @@ namespace StyleCop.ReSharper.CodeCleanup
         ///   Spacing descriptor.
         /// </summary>
         private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets the collection of option descriptors.
@@ -127,10 +117,6 @@ namespace StyleCop.ReSharper.CodeCleanup
                 return CSharpLanguage.Instance;
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Check if this module can handle given project file.
@@ -221,10 +207,6 @@ namespace StyleCop.ReSharper.CodeCleanup
             profile.SetSetting(MaintainabilityDescriptor, maintainabilityOptions);
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Processes all the cleanup.
         /// </summary>
@@ -252,7 +234,5 @@ namespace StyleCop.ReSharper.CodeCleanup
             new SpacingRules().Execute(spacingOptions, file);
             new OrderingRules().Execute(orderingOptions, file);
         }
-
-        #endregion
     }
 }

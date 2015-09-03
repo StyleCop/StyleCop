@@ -16,14 +16,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-#region Using Directives
-
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using JetBrains.ReSharper.Feature.Services.Daemon;
-
-#endregion
 
 [assembly: AssemblyTitle("StyleCop R# 8.0.0 Plugin")]
 [assembly: AssemblyDescription("R# plugin for StyleCop")]

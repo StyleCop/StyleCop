@@ -18,8 +18,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -28,16 +26,12 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SA1604ElementDocumentationMustHaveSummaryBulbItem
     /// Also fixes SA1605PartialElementDocumentationMustHaveSummary.
     /// </summary>
     internal class SA1604ElementDocumentationMustHaveSummaryBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
@@ -46,7 +40,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             // Fixes SA1604, 1605
             new DocumentationRules().InsertMissingSummaryElement(declaration);
         }
-
-        #endregion
     }
 }

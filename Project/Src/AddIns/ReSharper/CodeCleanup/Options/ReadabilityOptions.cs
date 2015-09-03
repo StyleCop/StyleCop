@@ -17,21 +17,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
-    #region Using Directives
-
     using System.ComponentModel;
     using System.Reflection;
     using System.Text;
-
-    #endregion
 
     /// <summary>
     /// Defines options for ReadabilityOptions.
     /// </summary>
     public class ReadabilityOptions : OptionsBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadabilityOptions"/> class. 
         /// </summary>
@@ -39,10 +33,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         {
             this.InitPropertiesDefaults();
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists.
@@ -122,10 +112,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         [DisplayName("1124: Code Must Not Contain Empty Regions")]
         public bool SA1124CodeMustNotContainEmptyRegions { get; set; }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets the name of the analyzer.
         /// </summary>
@@ -136,10 +122,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
                 return "StyleCop.CSharp.ReadabilityRules";
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Returns a concatenated summary of the current options settings.
@@ -165,10 +147,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return sb.ToString();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Builds a string representation of the property value.
@@ -211,7 +189,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return string.Format("{0} = {1}", propName, propValue);
         }
-
-        #endregion
     }
 }

@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.BulbItems.Framework
 {
-    #region Using Directives
-
     using JetBrains.Application.Settings;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
@@ -30,23 +28,15 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SuppressMessageBulbItem.
     /// </summary>
     internal class SuppressMessageBulbItem : V5BulbItemImpl
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets Rule.
         /// </summary>
         public Rule Rule { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The execute inner.
@@ -88,7 +78,5 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                 attributesOwnerDeclaration.AddAttributeAfter(attribute, null);
             }
         }
-
-        #endregion
     }
 }

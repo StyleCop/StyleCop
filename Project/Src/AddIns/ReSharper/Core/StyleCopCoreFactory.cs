@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.Core
 
     using StyleCop.Diagnostics;
 
-    #endregion
-
     /// <summary>
     /// The style cop core factory.
     /// </summary>
     public static class StyleCopCoreFactory
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The create.
         /// </summary>
@@ -60,7 +54,5 @@ namespace StyleCop.ReSharper.Core
 
             return StyleCopTrace.Out(styleCop.Core);
         }
-
-        #endregion
     }
 }

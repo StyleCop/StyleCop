@@ -9,8 +9,6 @@
 
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -19,15 +17,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem for inserting the standard StyleCop File Header.
     /// </summary>
     public class SA1633FileMustHaveHeaderBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -42,7 +36,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
             new DocumentationRules().InsertFileHeader(file);
         }
-
-        #endregion
     }
 }

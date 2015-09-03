@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.QuickFixes.Readability
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -28,8 +26,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     /// QuickFix - SA1120.
     /// </summary>
@@ -37,8 +33,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
     [QuickFix]
     public class SA1120QuickFix : StyleCopQuickFixBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the SA1120QuickFix class that can 
         /// handle <see cref="StyleCopHighlightingError"/>.
@@ -99,10 +93,6 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
         {
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
@@ -118,7 +108,5 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
                                          }
                                  };
         }
-
-        #endregion
     }
 }

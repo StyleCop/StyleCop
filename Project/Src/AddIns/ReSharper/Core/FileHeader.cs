@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Specialized;
     using System.Globalization;
@@ -39,32 +37,20 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// File header.
     /// </summary>
     internal class FileHeader
     {
-        #region Constants
-
         private const string FileHeaderIndentedLinePrefix = "//   ";
 
         private const string FileHeaderLinePrefix = "// ";
-
-        #endregion
-
-        #region Static Fields
 
         private static readonly string StandardHeader =
             "// --------------------------------------------------------------------------------------------------------------------" + Environment.NewLine
             + "// <copyright file=\"\" company=\"\">" + Environment.NewLine + "// </copyright>" + Environment.NewLine + "// <summary>" + Environment.NewLine
             + "// </summary>" + Environment.NewLine
             + "// --------------------------------------------------------------------------------------------------------------------";
-
-        #endregion
-
-        #region Fields
 
         /// <summary>
         /// Company name.
@@ -90,10 +76,6 @@ namespace StyleCop.ReSharper.Core
         /// The summary.
         /// </summary>
         private string summary;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileHeader"/> class.
@@ -128,10 +110,6 @@ namespace StyleCop.ReSharper.Core
 
             this.InsertSummary = true;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets CompanyName. The text you pass in will be trimmed of whitespace.
@@ -239,10 +217,6 @@ namespace StyleCop.ReSharper.Core
         /// </summary>
         public bool UnStyled { get; private set; }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Gets the correctly formatted header text string.
         /// </summary>
@@ -340,10 +314,6 @@ namespace StyleCop.ReSharper.Core
         {
             SwapFileHeaderNode(this.File, this.GetText());
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Gets the First Child Of Type XmlElement from the node provided.
@@ -643,7 +613,5 @@ namespace StyleCop.ReSharper.Core
                 this.headerXml.DocumentElement.InsertAfter(xmlTextBottom, this.headerXml.DocumentElement.LastChild);
             }
         }
-
-        #endregion
     }
 }

@@ -17,19 +17,13 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using StyleCop.Diagnostics;
-
-    #endregion
 
     /// <summary>
     /// The source code factory.
     /// </summary>
     public class SourceCodeFactory
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The create.
         /// </summary>
@@ -58,7 +52,5 @@ namespace StyleCop.ReSharper.Core
 
             return StyleCopTrace.Out(sourceCode);
         }
-
-        #endregion
     }
 }

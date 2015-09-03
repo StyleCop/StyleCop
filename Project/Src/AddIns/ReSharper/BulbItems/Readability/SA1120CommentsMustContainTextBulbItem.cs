@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1120 comments must contain text bulb item.
     /// </summary>
     public class SA1120CommentsMustContainTextBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -51,7 +45,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
             ICommentNode commentNode = element.GetContainingNode<ICommentNode>(true);
             ReadabilityRules.RemoveEmptyComments(commentNode);
         }
-
-        #endregion
     }
 }

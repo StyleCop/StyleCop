@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ProjectModel;
@@ -30,15 +28,11 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1119 statement must not use unnecessary parenthesis bulb item.
     /// </summary>
     internal class SA1119StatementMustNotUseUnnecessaryParenthesisBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -58,7 +52,5 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
                 MaintainabilityRules.RemoveParenthesisFromNode(parenthesizedExpressionNode);
             }
         }
-
-        #endregion
     }
 }

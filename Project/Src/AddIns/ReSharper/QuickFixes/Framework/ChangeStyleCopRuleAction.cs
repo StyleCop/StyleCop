@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
-    #region Using Directives
-
     using JetBrains.Application.Settings;
     using JetBrains.DocumentModel;
     using JetBrains.Interop.WinApi;
@@ -31,15 +29,11 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.UI.CrossFramework;
     using JetBrains.UI.Icons;
 
-    #endregion
-
     /// <summary>
     ///   Adds changing the display option for the style cop rule as context menu.
     /// </summary>
     public class ChangeStyleCopRuleAction : IBulbItem
     {
-        #region Fields
-
         /// <summary>
         /// The common icons component.
         /// </summary>
@@ -54,10 +48,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// The settings store.
         /// </summary>
         private readonly ISettingsStore settingsStore;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the ChangeStyleCopRuleAction class.
@@ -83,10 +73,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             this.HighlightID = severityId;
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         ///   Gets or sets the highlight id of the current violation.
         /// </summary>
@@ -98,10 +84,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// </summary>
         /// <value> The text of the context menu entry. </value>
         public string Text { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Arranges the BulbItems in the correct section.
@@ -157,7 +139,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                 definition.Terminate();
             }
         }
-
-        #endregion
     }
 }

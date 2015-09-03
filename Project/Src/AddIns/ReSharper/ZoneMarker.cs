@@ -18,11 +18,7 @@
 
 namespace StyleCop.ReSharper
 {
-    #region Using Directives
-
     using JetBrains.Application.BuildScript.Application.Zones;
-
-    #endregion
 
     /// <summary>
     /// The zone marker for the plugin

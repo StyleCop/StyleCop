@@ -17,12 +17,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Violations
 {
-    #region Using Directives
-
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
-
-    #endregion
 
     /// <summary>
     /// Highlighting class for a StyleCop Violation set to severity level Do Not Show.
@@ -30,16 +26,10 @@ namespace StyleCop.ReSharper.Violations
     [StaticSeverityHighlighting(ViolationSeverity, "a")]
     public class StyleCopHighlightingDoNotShow : StyleCopHighlightingBase
     {
-        #region Constants
-
         /// <summary>
         /// The Violation severity.
         /// </summary>
         private const Severity ViolationSeverity = Severity.DO_NOT_SHOW;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopHighlightingDoNotShow"/> class.
@@ -54,7 +44,5 @@ namespace StyleCop.ReSharper.Violations
             : base(violationEventArgs, documentRange)
         {
         }
-
-        #endregion
     }
 }

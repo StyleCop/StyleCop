@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CodeStyle;
@@ -32,15 +30,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1500 curly brackets for multi line statements must not share line bulb item.
     /// </summary>
     public class SA1500CurlyBracketsForMultiLineStatementsMustNotShareLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -76,7 +70,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
                 }
             }
         }
-
-        #endregion
     }
 }

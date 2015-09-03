@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Impl.CodeStyle;
     using JetBrains.ReSharper.Psi.Tree;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1512 single line comments must not be followed by blank line bulb item.
     /// </summary>
     public class SA1512SingleLineCommentsMustNotBeFollowedByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -55,7 +49,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             Utils.RemoveNewLineBefore(rightNode);
         }
-
-        #endregion
     }
 }

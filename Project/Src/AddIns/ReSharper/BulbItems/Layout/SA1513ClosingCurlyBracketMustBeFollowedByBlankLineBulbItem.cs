@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Extensions;
 
-    #endregion
-
     /// <summary>
     /// The s a 1513 closing curly bracket must be followed by blank line bulb item.
     /// </summary>
     public class SA1513ClosingCurlyBracketMustBeFollowedByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -53,7 +47,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
 
             currentNode.InsertNewLineAfter();
         }
-
-        #endregion
     }
 }

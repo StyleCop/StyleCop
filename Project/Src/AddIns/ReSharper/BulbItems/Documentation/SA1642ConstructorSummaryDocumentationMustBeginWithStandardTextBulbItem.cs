@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// SA1642: ConstructorSummaryDocumentationMustBeginWithStandardTextBulbItem.
     /// </summary>
     public class SA1642ConstructorSummaryDocumentationMustBeginWithStandardTextBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -59,7 +53,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
                 }
             }
         }
-
-        #endregion
     }
 }

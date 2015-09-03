@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -29,15 +27,11 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
     using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - OrderUsingsBulbItem : Qualifies all usings, the orders them, groups them and removes duplicates.
     /// </summary>
     public class OrderUsingsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -60,7 +54,5 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
             // Fixes SA1208, SA1209, SA1210, SA1211
             new OrderingRules().Execute(options, file);
         }
-
-        #endregion
     }
 }

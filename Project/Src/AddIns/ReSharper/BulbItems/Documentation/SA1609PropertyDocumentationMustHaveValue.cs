@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SA1609PropertyDocumentationMustHaveValue : Add a value to header.
     /// </summary>
     internal class SA1609PropertyDocumentationMustHaveValue : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -54,7 +48,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             new DocumentationRules().InsertValueElement(propertyDeclaration);
         }
-
-        #endregion
     }
 }

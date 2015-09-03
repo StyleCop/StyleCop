@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -29,8 +27,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     ///   QuickFix - SuppressStyleCopQuickFix. Priority set to 0 to push it down the list.
     /// </summary>
@@ -38,8 +34,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     [QuickFix]
     public class SuppressStyleCopQuickFix : IQuickFix
     {
-        #region Fields
-
         /// <summary>
         ///   Instance of the StyleCop violation the QuickFix can deal with.
         /// </summary>
@@ -49,10 +43,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         ///   List of available actions to be displayed in the IDE.
         /// </summary>
         private List<IBulbAction> bulbItems = new List<IBulbAction>();
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
@@ -124,10 +114,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             this.InitialiseBulbItems();
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Arranges the BulbItems in the correct section.
         /// </summary>
@@ -152,10 +138,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             return true;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         ///   Initializes the QuickFix with all the available BulbItems that can fix the current StyleCop Violation.
         /// </summary>
@@ -170,7 +152,5 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
                                          }
                                  };
         }
-
-        #endregion
     }
 }

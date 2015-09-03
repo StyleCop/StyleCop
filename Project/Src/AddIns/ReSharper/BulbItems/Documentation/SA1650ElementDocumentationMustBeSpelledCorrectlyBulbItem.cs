@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using System;
     using System.Xml;
 
@@ -29,15 +27,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// SA1650: ElementDocumentationMustBeSpelledCorrectly.
     /// </summary>
     public class SA1650ElementDocumentationMustBeSpelledCorrectlyBulbItem : V5BulbItemImpl
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets the word that we will use to replace the deprecated word.
         /// </summary>
@@ -47,10 +41,6 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         /// Gets or sets the deprecated word.
         /// </summary>
         public string DeprecatedWord { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -71,10 +61,6 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             declarationHeader.Update();
         }
-
-        #endregion
-
-        #region Methods
 
         private void ProcessXmlNode(XmlNode node, string word, string alternativeWord)
         {
@@ -116,7 +102,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             return text;
         }
-
-        #endregion
     }
 }

@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 {
-    #region Using Directives
-
     using System;
     using System.ComponentModel;
     using System.Globalization;
@@ -29,8 +27,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 
     using StyleCop.ReSharper.CodeCleanup.Options;
 
-    #endregion
-
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
@@ -39,8 +35,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class LayoutDescriptor : CodeCleanupOptionDescriptor<LayoutOptions>
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LayoutDescriptor"/> class. 
         /// </summary>
@@ -48,10 +42,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             : base("StyleCop.Layout")
         {
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -151,7 +141,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                 "SA1515SingleLineCommentMustBeProceededByBlankLine", 
                 options.SA1515SingleLineCommentMustBeProceededByBlankLine.ToString(CultureInfo.InvariantCulture));
         }
-
-        #endregion
     }
 }

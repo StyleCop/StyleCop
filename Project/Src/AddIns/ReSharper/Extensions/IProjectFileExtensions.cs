@@ -17,23 +17,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Extensions
 {
-    #region Using Directives
-
     using System.Xml;
 
     using JetBrains.ProjectModel;
 
     using StyleCop.Diagnostics;
 
-    #endregion
-
     /// <summary>
     /// Extension methods for IProjectFile types.
     /// </summary>
     public static class IProjectFileExtensions
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Returns true if the project file has been excluded from stylecop in the csproj file.
         /// </summary>
@@ -98,7 +92,5 @@ namespace StyleCop.ReSharper.Extensions
             StyleCopTrace.Out();
             return false;
         }
-
-        #endregion
     }
 }

@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// QuickFix action which replaces base. with this.
     /// </summary>
     public class SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExistsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -56,7 +50,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 ReadabilityRules.SwapBaseToThisUnlessLocalImplementation(invocationExpression);
             }
         }
-
-        #endregion
     }
 }

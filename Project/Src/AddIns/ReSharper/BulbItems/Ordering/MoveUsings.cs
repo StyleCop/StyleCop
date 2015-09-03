@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - MoveUsings : Moves Using statements inside the closest namespace.
     /// </summary>
     internal class MoveUsings : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -78,7 +72,5 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
             OrderUsingsBulbItem orderUsingsBulbItem = new OrderUsingsBulbItem();
             orderUsingsBulbItem.ExecuteTransactionInner(solution, textControl);
         }
-
-        #endregion
     }
 }

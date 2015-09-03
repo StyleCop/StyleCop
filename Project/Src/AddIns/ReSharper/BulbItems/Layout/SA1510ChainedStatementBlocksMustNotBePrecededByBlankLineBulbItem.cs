@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Layout
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -26,15 +24,11 @@ namespace StyleCop.ReSharper.BulbItems.Layout
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1510 chained statement blocks must not be preceded by blank line bulb item.
     /// </summary>
     public class SA1510ChainedStatementBlocksMustNotBePrecededByBlankLineBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -49,7 +43,5 @@ namespace StyleCop.ReSharper.BulbItems.Layout
             ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
             Utils.RemoveNewLineBefore(element);
         }
-
-        #endregion
     }
 }

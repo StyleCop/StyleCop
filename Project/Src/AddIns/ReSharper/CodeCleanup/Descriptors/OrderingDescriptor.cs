@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 {
-    #region Using Directives
-
     using System;
     using System.ComponentModel;
     using System.Globalization;
@@ -30,8 +28,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Styles;
 
-    #endregion
-
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
@@ -40,8 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class OrderingDescriptor : CodeCleanupOptionDescriptor<OrderingOptions>
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderingDescriptor"/> class.
         /// </summary>
@@ -49,10 +43,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             : base("StyleCop.Ordering")
         {
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -121,7 +111,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             JetBrains.Util.XmlUtil.CreateLeafElementWithValue(
                 element, "SA1213EventAccessorsMustFollowOrder", options.SA1213EventAccessorsMustFollowOrder.ToString(CultureInfo.InvariantCulture));
         }
-
-        #endregion
     }
 }

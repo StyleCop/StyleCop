@@ -17,22 +17,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
-
-    #endregion
 
     /// <summary>
     /// QuickFix action which replaces ";;" with ";".
     /// </summary>
     public class CodeMustNotContainEmptyStatements : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -48,7 +42,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 
             textControl.Document.ReplaceText(this.DocumentRange.TextRange, documentation);
         }
-
-        #endregion
     }
 }

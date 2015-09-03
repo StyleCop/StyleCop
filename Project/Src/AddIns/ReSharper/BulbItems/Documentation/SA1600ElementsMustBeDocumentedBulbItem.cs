@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts an empty element doc header.
     /// </summary>
     internal class SA1600ElementsMustBeDocumentedBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <inheritdoc />
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
@@ -50,7 +44,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
                 new DocumentationRules().CheckDeclarationDocumentation(file, declaration, null);
             }
         }
-
-        #endregion
     }
 }

@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// BulbItem - SA1639FileHeaderMustHaveSummaryBulbItem.
     /// </summary>
     internal class SA1639FileHeaderMustHaveSummaryBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -52,7 +46,5 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             // Fixes SA1639
             new DocumentationRules().InsertFileHeaderSummary(file);
         }
-
-        #endregion
     }
 }

@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.QuickFixes.Maintainability
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ReSharper.Feature.Services.Bulbs;
@@ -28,8 +26,6 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
     using StyleCop.ReSharper.QuickFixes.Framework;
     using StyleCop.ReSharper.Violations;
 
-    #endregion
-
     /// <summary>
     /// QuickFix for StyleCop Rule SA1400.
     /// </summary>
@@ -37,8 +33,6 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
     [QuickFix]
     public class SA1400QuickFix : StyleCopQuickFixBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the SA1400QuickFix class that can 
         /// handle <see cref="StyleCopHighlightingError"/>.
@@ -99,10 +93,6 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
         {
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Initializes the QuickFix with all the available BulbItems that can fix the current
         /// StyleCop Violation.
@@ -137,7 +127,5 @@ namespace StyleCop.ReSharper.QuickFixes.Maintainability
                                          }, 
                                  };
         }
-
-        #endregion
     }
 }

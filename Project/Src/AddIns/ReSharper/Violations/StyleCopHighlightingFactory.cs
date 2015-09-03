@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Violations
 {
-    #region Using Directives
-
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.Violations
 
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// Factory class for getting HighLights for StyleCop violations.
     /// </summary>
     public static class StyleCopHighlightingFactory
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Gets the highlight for the specified StyleCop Violation.
         /// </summary>
@@ -74,7 +68,5 @@ namespace StyleCop.ReSharper.Violations
                     return new StyleCopHighlightingDoNotShow(violation, documentRange);
             }
         }
-
-        #endregion
     }
 }

@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -44,15 +42,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.ShellComponents;
 
-    #endregion
-
     /// <summary>
     /// Declaration comments fixes SA1600, SA1602, SA1611, SA1615, SA1617, SA1642.
     /// </summary>
     public class DocumentationRules
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Checks declaration comment blocks.
         /// </summary>
@@ -849,10 +843,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             }
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Creates an <see cref="XmlNode"/> based on the name sent.
         /// </summary>
@@ -1418,7 +1408,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             fileHeader.Update();
         }
-
-        #endregion
     }
 }

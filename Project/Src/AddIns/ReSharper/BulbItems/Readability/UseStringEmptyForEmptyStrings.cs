@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// QuickFix action which replaces "" with string.Empty.
     /// </summary>
     public class UseStringEmptyForEmptyStrings : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -50,7 +44,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
             ReadabilityRules.ReplaceEmptyStringsWithStringDotEmpty(file.FirstChild);
         }
-
-        #endregion
     }
 }

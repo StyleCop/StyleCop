@@ -17,20 +17,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.IO;
-
-    #endregion
 
     /// <summary>
     /// The string based source code.
     /// </summary>
     internal class StringBasedSourceCode : SourceCode
     {
-        #region Fields
-
         private readonly string fileType;
 
         private readonly string name;
@@ -38,10 +32,6 @@ namespace StyleCop.ReSharper.Core
         private readonly string path;
 
         private readonly string source;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StringBasedSourceCode"/> class.
@@ -87,10 +77,6 @@ namespace StyleCop.ReSharper.Core
                 this.fileType = this.name.Substring(index + 1, this.name.Length - index - 1).ToUpperInvariant();
             }
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets a value indicating whether the source code exists.
@@ -147,10 +133,6 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// The read.
         /// </summary>
@@ -161,7 +143,5 @@ namespace StyleCop.ReSharper.Core
         {
             return new StringReader(this.source);
         }
-
-        #endregion
     }
 }

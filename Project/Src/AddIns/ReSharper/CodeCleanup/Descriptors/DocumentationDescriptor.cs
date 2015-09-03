@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Descriptors
 {
-    #region Using Directives
-
     using System;
     using System.ComponentModel;
     using System.Globalization;
@@ -30,8 +28,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Styles;
 
-    #endregion
-
     /// <summary>
     /// Code Clean Up Description.
     /// </summary>
@@ -40,8 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class DocumentationDescriptor : CodeCleanupOptionDescriptor<DocumentationOptions>
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentationDescriptor"/> class. 
         /// </summary>
@@ -49,10 +43,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
             : base("StyleCop.Documentation")
         {
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Loads the specified profile.
@@ -174,7 +164,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Descriptors
                 "SA1644DocumentationHeadersMustNotContainBlankLines", 
                 options.SA1644DocumentationHeadersMustNotContainBlankLines.ToString(CultureInfo.InvariantCulture));
         }
-
-        #endregion
     }
 }

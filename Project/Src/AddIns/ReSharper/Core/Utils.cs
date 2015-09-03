@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -57,15 +55,11 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.ShellComponents;
 
-    #endregion
-
     /// <summary>
     /// Utilities for many of our QuickFixes.
     /// </summary>
     internal static class Utils
     {
-        #region Public Static Fields
-
         /// <summary>
         /// This is an array of characters including all whitespace characters plus forward slash.
         /// </summary>
@@ -75,23 +69,11 @@ namespace StyleCop.ReSharper.Core
                                                           ' ', '​', '\u2028', '\u2029', '　', '﻿'
                                                       };
 
-        #endregion
-
-        #region Constants
-
         private const string PrefixText = "TODO ";
-
-        #endregion
-
-        #region Static Fields
 
         private static readonly NodeTypeSet OurNewLineTokens;
 
         private static string valueText;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes static members of the <see cref="Utils"/> class. 
@@ -100,10 +82,6 @@ namespace StyleCop.ReSharper.Core
         {
             OurNewLineTokens = new NodeTypeSet(new NodeType[] { CSharpTokenType.NEW_LINE });
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Separates the pascal text with space.
@@ -1795,10 +1773,6 @@ namespace StyleCop.ReSharper.Core
             return settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertToDoText) ? PrefixText + text : text;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Count the number of whitespace characters at the left of the string.
         /// </summary>
@@ -2027,7 +2001,5 @@ namespace StyleCop.ReSharper.Core
 
             return false;
         }
-
-        #endregion
     }
 }

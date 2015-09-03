@@ -17,20 +17,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Extensions
 {
-    #region Using Directives
-
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
-
-    #endregion
 
     /// <summary>
     /// Extension methods for the <see cref="IUsingDirective"/> class.
     /// </summary>
     public static class IUsingDirectiveExtensions
     {
-        #region Methods
-
         /// <summary>
         /// Gets the full namespace for the Using directive with any aliases expanded.
         /// </summary>
@@ -57,7 +51,5 @@ namespace StyleCop.ReSharper.Extensions
 
             return directive.ImportedSymbolName.QualifiedName;
         }
-
-        #endregion
     }
 }

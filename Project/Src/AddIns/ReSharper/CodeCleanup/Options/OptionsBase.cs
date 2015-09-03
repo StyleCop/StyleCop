@@ -17,27 +17,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
-    #region Using Directives
-
     using System.Linq;
     using System.Reflection;
 
     using StyleCop.ReSharper.Core;
-
-    #endregion
 
     /// <summary>
     /// Defines the base options class.
     /// </summary>
     public abstract class OptionsBase
     {
-        #region Fields
-
         private AddInPropertyCollection analyzerSettingsProperties;
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Gets the name of the analyzer as defined in StyleCop settings. 
@@ -46,10 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         /// The name of the analyzer.
         /// </value>
         protected abstract string AnalyzerName { get; }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Initializes the properties defaults from StyleCop settings.
@@ -112,7 +98,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return true;
         }
-
-        #endregion
     }
 }

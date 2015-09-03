@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Extensions
 {
-    #region Using Directives
-
     using System;
 
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.Extensions
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.ReSharper.Resources.Shell;
 
-    #endregion
-
     /// <summary>
     /// Extension Methods for ITreeNode types.
     /// </summary>
     public static class ITreeNodeExtensions
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Inserts a newline after the Node provided.
         /// </summary>
@@ -78,10 +72,6 @@ namespace StyleCop.ReSharper.Extensions
             return leafElement;
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Returns a LeafElementBase which contains a NewLine character.
         /// </summary>
@@ -93,7 +83,5 @@ namespace StyleCop.ReSharper.Extensions
             string newText = Environment.NewLine;
             return TreeElementFactory.CreateLeafElement(CSharpTokenType.NEW_LINE, new JetBrains.Text.StringBuffer(newText), 0, newText.Length);
         }
-
-        #endregion
     }
 }

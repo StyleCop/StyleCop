@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -32,20 +30,12 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// The style cop settings.
     /// </summary>
     public class StyleCopSettings
     {
-        #region Constants
-
         private const string CsParserId = "StyleCop.CSharp.CsParser";
-
-        #endregion
-
-        #region Static Fields
 
         private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
 
@@ -53,15 +43,7 @@ namespace StyleCop.ReSharper.Core
 
         private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
 
-        #endregion
-
-        #region Fields
-
         private readonly StyleCopCore styleCopCore;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopSettings"/> class.
@@ -73,10 +55,6 @@ namespace StyleCop.ReSharper.Core
         {
             this.styleCopCore = styleCopCore;
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Searches directories of the project items project file and the parents thereof to see 
@@ -235,10 +213,6 @@ namespace StyleCop.ReSharper.Core
 
             return true;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Called when a file being watched changes.
@@ -459,7 +433,5 @@ namespace StyleCop.ReSharper.Core
 
             return StyleCopTrace.Out(returnValue);
         }
-
-        #endregion
     }
 }

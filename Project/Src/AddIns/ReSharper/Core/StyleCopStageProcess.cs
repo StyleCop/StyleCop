@@ -19,8 +19,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -34,8 +32,6 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
 
-    #endregion
-
     /// <summary>
     /// Stage Process that execute the Microsoft StyleCop against the specified file.
     /// </summary>
@@ -44,16 +40,10 @@ namespace StyleCop.ReSharper.Core
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        #region Constants
-
         /// <summary>
         /// Defines the max performance value - this is used to reverse the settings.
         /// </summary>
         private const int MaxPerformanceValue = 9;
-
-        #endregion
-
-        #region Static Fields
 
         /// <summary>
         /// Used to reduce the number of calls to StyleCop to help with performance.
@@ -64,10 +54,6 @@ namespace StyleCop.ReSharper.Core
         /// Gets set to true after our first run.
         /// </summary>
         private static bool runOnce;
-
-        #endregion
-
-        #region Fields
 
         private readonly StyleCopRunnerInt runner;
 
@@ -82,10 +68,6 @@ namespace StyleCop.ReSharper.Core
         /// THe settings store we were constructed with.
         /// </summary>
         private readonly IContextBoundSettingsStore settingsStore;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
@@ -115,10 +97,6 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         /// Gets the Daemon Process.
         /// </summary>
@@ -129,10 +107,6 @@ namespace StyleCop.ReSharper.Core
                 return this.daemonProcess;
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The execute.
@@ -196,10 +170,6 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Initializes the static timers used to regulate performance of execution of StyleCop analysis.
         /// </summary>
@@ -220,7 +190,5 @@ namespace StyleCop.ReSharper.Core
             performanceStopWatch.Reset();
             performanceStopWatch.Start();
         }
-
-        #endregion
     }
 }

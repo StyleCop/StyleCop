@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.DocumentModel;
@@ -39,15 +37,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Extensions;
 
-    #endregion
-
     /// <summary>
     /// Layout rules.
     /// </summary>
     internal class LayoutRules
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Closing curly bracket must be followed by blank line.
         /// </summary>
@@ -290,10 +284,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Remove line if previous tokens are new lines.
@@ -551,7 +541,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 }
             }
         }
-
-        #endregion
     }
 }

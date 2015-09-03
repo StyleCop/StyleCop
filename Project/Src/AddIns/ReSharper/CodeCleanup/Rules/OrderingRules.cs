@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
 
@@ -32,15 +30,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Extensions;
 
-    #endregion
-
     /// <summary>
     /// Fixes SA1208, SA1209, SA1210, and SA1211.
     /// </summary>
     public class OrderingRules
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Ensures if the declaration has more than 1 accessor that they are in the correct order.
         /// </summary>
@@ -120,10 +114,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             this.OrderPropertyIndexerAndEventDeclarations(options, file);
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Methods
 
         private static void ProcessImports(
             IList<IUsingDirective> newImportsList, 
@@ -230,15 +220,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             }
         }
 
-        #endregion
-
         /// <summary>
         /// A custom sorter for IUsingDirectives.
         /// </summary>
         internal class UsingStatementSorter : IComparer<IUsingDirective>
         {
-            #region Public Methods and Operators
-
             /// <summary>
             /// Compares the IUsingDirectives provided.
             /// </summary>
@@ -301,8 +287,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     usingNamespaceDirectiveBQualifiedNamespace.SubstringBefore(';'), 
                     StringComparison.OrdinalIgnoreCase);
             }
-
-            #endregion
         }
     }
 }

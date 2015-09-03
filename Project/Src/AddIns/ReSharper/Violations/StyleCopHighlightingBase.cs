@@ -17,12 +17,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Violations
 {
-    #region Using Directives
-
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
-
-    #endregion
 
     /// <summary>
     /// Highlights the StyleCop Violation within the IDE.
@@ -30,8 +26,6 @@ namespace StyleCop.ReSharper.Violations
     public abstract class StyleCopHighlightingBase : IHighlighting
     {
         private readonly DocumentRange documentRange;
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopHighlightingBase"/> class.
@@ -61,10 +55,6 @@ namespace StyleCop.ReSharper.Violations
         {
             this.ToolTip = tooltip;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets the check id for the Violation.
@@ -108,10 +98,6 @@ namespace StyleCop.ReSharper.Violations
         /// </summary>
         public Violation Violation { get; private set; }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Gets or sets the text range where the Violation happened.
         /// </summary>
@@ -133,7 +119,5 @@ namespace StyleCop.ReSharper.Violations
         {
             return true;
         }
-
-        #endregion
     }
 }

@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
     using JetBrains.TextControl;
@@ -27,15 +25,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// QuickFix action which prefixing the local call with "this.".
     /// </summary>
     public class PrefixLocalCallsWithThis : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -51,7 +45,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
             // It should probably have a custom adviser that 
             CodeStyleUtil.ApplyStyle<ThisQualifierStyleSuggestion>(Utils.GetElementAtCaret(solution, textControl));
         }
-
-        #endregion
     }
 }

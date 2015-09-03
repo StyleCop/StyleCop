@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.Core
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
 
@@ -30,8 +28,6 @@ namespace StyleCop.ReSharper.Core
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Violations;
-
-    #endregion
 
     /// <summary>
     /// Executes Microsoft StyleCop within the ReSharper Environment.
@@ -44,8 +40,6 @@ namespace StyleCop.ReSharper.Core
     /// </remarks>
     public class StyleCopRunnerInt : IDisposable
     {
-        #region Fields
-
         /// <summary>
         /// The core API
         /// </summary>
@@ -87,10 +81,6 @@ namespace StyleCop.ReSharper.Core
             core.ViolationEncountered += this.OnViolationEncountered;
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         /// Gets List of encountered violations, passed back to <see cref="StyleCopStageProcess"/> so that
         /// violations can be highlighted within the IDE.
@@ -105,10 +95,6 @@ namespace StyleCop.ReSharper.Core
                 return this.violationHighlights;
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The dispose.
@@ -166,10 +152,6 @@ namespace StyleCop.ReSharper.Core
 
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Handles the ViolationEncountered Event, and 
@@ -273,7 +255,5 @@ namespace StyleCop.ReSharper.Core
                 StyleCopTrace.Out();
             }
         }
-
-        #endregion
     }
 }

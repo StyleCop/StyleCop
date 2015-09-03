@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1005 single line comments must begin with singe space.
     /// </summary>
     public class SA1005SingleLineCommentsMustBeginWithSingeSpaceBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -58,7 +52,5 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
                 new SpacingRules().SingleLineCommentsMustBeginWithSingleSpace(element);
             }
         }
-
-        #endregion
     }
 }

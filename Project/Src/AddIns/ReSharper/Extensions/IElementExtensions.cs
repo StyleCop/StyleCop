@@ -17,21 +17,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Extensions
 {
-    #region Using Directives
-
     using System;
 
     using JetBrains.ReSharper.Psi.Tree;
-
-    #endregion
 
     /// <summary>
     /// Extension methods for Token types.
     /// </summary>
     public static class IElementExtensions
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Determines if the <see cref="IElement"/> is a whitespace new line.
         /// </summary>
@@ -67,7 +61,5 @@ namespace StyleCop.ReSharper.Extensions
             IWhitespaceNode whitespaceNode = element as IWhitespaceNode;
             return whitespaceNode != null;
         }
-
-        #endregion
     }
 }

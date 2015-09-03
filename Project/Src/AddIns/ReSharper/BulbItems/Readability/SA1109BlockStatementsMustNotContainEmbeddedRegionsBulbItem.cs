@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
@@ -28,15 +26,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1109 block statements must not contain embedded regions bulb item.
     /// </summary>
     public class SA1109BlockStatementsMustNotContainEmbeddedRegionsBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -55,7 +49,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 ReadabilityRules.MoveRegionInsideNextOpenCurlyBracket(startRegionNode);
             }
         }
-
-        #endregion
     }
 }

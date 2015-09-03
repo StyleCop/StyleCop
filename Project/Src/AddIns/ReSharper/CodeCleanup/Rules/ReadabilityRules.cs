@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using System;
     using System.Collections.Generic;
 
@@ -40,15 +38,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Extensions;
 
-    #endregion
-
     /// <summary>
     /// Readability rules.
     /// </summary>
     internal class ReadabilityRules
     {
-        #region Static Fields
-
         /// <summary>
         /// The built-in type aliases for C#.
         /// </summary>
@@ -63,10 +57,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                                                   new[] { "SByte", "System.SByte", "sbyte" }, new[] { "Char", "System.Char", "char" }, 
                                                                   new[] { "Decimal", "System.Decimal", "decimal" }
                                                               };
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Moves the comment token specified after the next available non whitespace char (normally an open curly bracket).
@@ -451,10 +441,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             StyleCopTrace.Out();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Delete child range.
@@ -907,7 +893,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 }
             }
         }
-
-        #endregion
     }
 }

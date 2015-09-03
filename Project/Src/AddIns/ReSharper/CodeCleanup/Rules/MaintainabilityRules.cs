@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.CodeCleanup.Rules
 {
-    #region Using Directives
-
     using JetBrains.ReSharper.Psi.CSharp.Impl.Tree;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
@@ -30,15 +28,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.CodeCleanup.Options;
 
-    #endregion
-
     /// <summary>
     /// Maintainability rules.
     /// </summary>
     internal class MaintainabilityRules
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Remove parenthesis from node.
         /// </summary>
@@ -135,7 +129,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
             StyleCopTrace.Out();
         }
-
-        #endregion
     }
 }

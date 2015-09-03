@@ -18,8 +18,6 @@
 
 namespace StyleCop.ReSharper.BulbItems.Framework
 {
-    #region Using Directives
-
     using System;
 
     using JetBrains.Application;
@@ -31,15 +29,11 @@ namespace StyleCop.ReSharper.BulbItems.Framework
     using JetBrains.ReSharper.Psi;
     using JetBrains.TextControl;
 
-    #endregion
-
     /// <summary>
     /// BulbItem Implementation for ReSharper build items.
     /// </summary>
     public abstract class V5BulbItemImpl : BulbItemImpl
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets the description of the BulbItem.
         /// </summary>
@@ -64,10 +58,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         /// Actual implementation of Quick Fix should happen within an overridden instance of this method.
         /// </summary>
@@ -78,10 +68,6 @@ namespace StyleCop.ReSharper.BulbItems.Framework
         /// Current Text Control.
         /// </param>
         public abstract void ExecuteTransactionInner(ISolution solution, ITextControl textControl);
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Performs the QuickFix, ensures the file is both writable and creates a transaction.
@@ -110,7 +96,5 @@ namespace StyleCop.ReSharper.BulbItems.Framework
                     }
                 };
         }
-
-        #endregion
     }
 }

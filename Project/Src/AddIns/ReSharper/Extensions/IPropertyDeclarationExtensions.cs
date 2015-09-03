@@ -25,8 +25,6 @@ namespace StyleCop.ReSharper.Extensions
     /// </summary>
     public static class IPropertyDeclarationExtensions
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// Gets an IAccessor for the Getter.
         /// </summary>
@@ -74,7 +72,5 @@ namespace StyleCop.ReSharper.Extensions
 
             return null;
         }
-
-        #endregion
     }
 }

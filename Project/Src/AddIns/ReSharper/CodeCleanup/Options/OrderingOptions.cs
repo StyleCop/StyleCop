@@ -17,23 +17,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.CodeCleanup.Options
 {
-    #region Using Directives
-
     using System.ComponentModel;
     using System.Reflection;
     using System.Text;
 
     using StyleCop.ReSharper.CodeCleanup.Styles;
 
-    #endregion
-
     /// <summary>
     /// Defines options for Ordering.
     /// </summary>
     public class OrderingOptions : OptionsBase
     {
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the OrderingOptions class.
         /// </summary>
@@ -43,10 +37,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
             this.AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical;
             this.ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets the enumeration to define the behavior of sorting Using Declarations.
@@ -72,10 +62,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
         [DisplayName("1213: Event Accessors Must Follow Order")]
         public bool SA1213EventAccessorsMustFollowOrder { get; set; }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets the name of the analyzer.
         /// </summary>
@@ -86,10 +72,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
                 return "StyleCop.CSharp.OrderingRules";
             }
         }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// Returns a concatenated summary of the current options settings.
@@ -115,10 +97,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return sb.ToString();
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Builds a string representation of the property value.
@@ -161,7 +139,5 @@ namespace StyleCop.ReSharper.CodeCleanup.Options
 
             return string.Format("{0} = {1}", propName, propValue);
         }
-
-        #endregion
     }
 }

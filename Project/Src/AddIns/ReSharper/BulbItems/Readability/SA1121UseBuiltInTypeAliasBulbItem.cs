@@ -17,8 +17,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
-    #region Using Directives
-
     using System.Collections.Generic;
 
     using JetBrains.ProjectModel;
@@ -30,15 +28,11 @@ namespace StyleCop.ReSharper.BulbItems.Readability
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
 
-    #endregion
-
     /// <summary>
     /// The s a 1121 use built in type alias bulb item.
     /// </summary>
     public class SA1121UseBuiltInTypeAliasBulbItem : V5BulbItemImpl
     {
-        #region Public Methods and Operators
-
         /// <summary>
         /// The execute transaction inner.
         /// </summary>
@@ -97,7 +91,5 @@ namespace StyleCop.ReSharper.BulbItems.Readability
                 }
             }
         }
-
-        #endregion
     }
 }

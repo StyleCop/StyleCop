@@ -17,30 +17,20 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
-    #region Using Directives
-
     using JetBrains.ProjectModel;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
-
-    #endregion
 
     /// <summary>
     /// The s a 1400 access modifier must be declared bulb item.
     /// </summary>
     internal class SA1400AccessModifierMustBeDeclaredBulbItem : V5BulbItemImpl
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets or sets Modifier.
         /// </summary>
         public string Modifier { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         /// The execute transaction inner.
@@ -55,7 +45,5 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
         {
             textControl.Document.InsertText(this.DocumentRange.TextRange.StartOffset, this.Modifier + " ");
         }
-
-        #endregion
     }
 }
