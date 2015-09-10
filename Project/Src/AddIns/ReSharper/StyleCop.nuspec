@@ -3,7 +3,7 @@
   <metadata>
     <id>StyleCop.StyleCop</id>
     <title>StyleCop</title>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <authors>Andy Reeves, Matt Ellis</authors>
     <owners>JetBrains, Matt Ellis</owners>
     <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules.</description>
@@ -16,10 +16,35 @@
     <tags>StyleCop analysis</tags>
   </metadata>
   <files>
+    <!-- The main plugin -->
     <file src="bin\Release\StyleCop.ReSharper.dll" target="DotFiles" />
     <file src="bin\Release\StyleCop.dll" target="DotFiles" />
+
+    <!-- StyleCop will try and find the appropriate language spell checker from
+         Office 2010's install location. If it can't find them, it tries to load
+         them from the AppDomain base directory (likely the location of devenv.exe)
+         or from the location of StyleCop.dll. StyleCop itself only ships with
+         the EN spell checker, and has limited fallback - it will fallback to the
+         parent Culture, e.g. en-US -> en -> Invariant, but won't fallback to another
+         language, e.g. de-DE doesn't fallback to en -->
+    <file src="..\..\StyleCop\mssp7en.dll" target="DotFiles" />
+    <file src="..\..\StyleCop\mssp7en.lex" target="DotFiles" />
+
+    <!-- Custom dictionaries are read from the location of StyleCop.dll, or in any
+         child folders. To prevent clashes with other similarly named files, we'll
+         put ours in an Extensions folder (this only prevents overwriting clashes,
+         StyleCop will still try and load similarly named files, if they exist.
+         However, it does guard against the file not being xml) -->
+    <file src="..\..\StyleCop\CustomDictionary.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+    <file src="..\..\StyleCop\CustomDictionary.en-GB.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+    <file src="..\..\StyleCop\CustomDictionary.en-US.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+
+    <!-- These files get loaded dynamically, rather than by ReSharper.
+         The code loads all assemblies in a given folder, so let's not load/scan all of DotFiles -->
     <file src="bin\Release\StyleCop.CSharp.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
     <file src="bin\Release\StyleCop.CSharp.Rules.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
+
+    <!-- Settings -->
     <file src="StyleCop.dotSettings" target="DotFiles\Extensions\StyleCop.StyleCop\settings\StyleCop.dotSettings" />
   </files>
 </package>
