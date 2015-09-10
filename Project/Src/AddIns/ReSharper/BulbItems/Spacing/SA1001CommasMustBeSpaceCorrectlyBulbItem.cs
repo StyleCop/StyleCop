@@ -49,14 +49,14 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
 
             if (containingBlock != null)
             {
-                new SpacingRules().CommasMustBeSpacedCorrectly(containingBlock);
+                SpacingRules.CommasMustBeSpacedCorrectly(containingBlock);
             }
 
             IFieldDeclaration fieldDeclarationNode = element.GetContainingNode<IFieldDeclaration>(true);
 
             if (fieldDeclarationNode != null)
             {
-                new SpacingRules().CommasMustBeSpacedCorrectly(fieldDeclarationNode);
+                SpacingRules.CommasMustBeSpacedCorrectly(fieldDeclarationNode);
             }
         }
     }

@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
-            new DocumentationRules().EnsureDocumentationTextEndsWithAPeriod(declaration);
+            DocumentationRules.EnsureDocumentationTextEndsWithAPeriod(declaration);
         }
     }
 }

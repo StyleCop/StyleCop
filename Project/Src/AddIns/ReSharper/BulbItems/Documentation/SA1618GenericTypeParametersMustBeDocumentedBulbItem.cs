@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             IDeclaration declaration = element.GetContainingNode<IDeclaration>(true);
 
-            new DocumentationRules().InsertMissingTypeParamElement(declaration);
+            DocumentationRules.InsertMissingTypeParamElement(declaration);
         }
     }
 }

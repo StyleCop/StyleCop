@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
 
-            new DocumentationRules().SwapDocCommentNodeToCommentNode(element);
+            DocumentationRules.SwapDocCommentNodeToCommentNode(element);
         }
     }
 }

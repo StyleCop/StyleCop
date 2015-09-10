@@ -26,7 +26,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
 
     /// <summary>
     /// Maintainability rules.
@@ -110,19 +109,19 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <summary>
         /// The Execute method.
         /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
         /// <param name="file">
-        /// The file.
+        /// The file to fix
         /// </param>
-        public void Execute(MaintainabilityOptions options, ICSharpFile file)
+        /// <param name="settings">
+        /// The settings to use in the fix.
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
         {
-            StyleCopTrace.In(options, file);
+            StyleCopTrace.In(file, settings);
 
-            bool statementMustNotUseUnnecessaryParenthesis = options.SA1119StatementMustNotUseUnnecessaryParenthesis;
+            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.MaintainabilityRules).FullName);
 
-            if (statementMustNotUseUnnecessaryParenthesis)
+            if (analyzerSettings.IsRuleEnabled("StatementMustNotUseUnnecessaryParenthesis"))
             {
                 RemoveUnnecessaryParenthesisFromStatements(file.FirstChild);
             }

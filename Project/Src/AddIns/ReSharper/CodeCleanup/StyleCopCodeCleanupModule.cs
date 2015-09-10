@@ -32,9 +32,9 @@ namespace StyleCop.ReSharper.CodeCleanup
     using JetBrains.ReSharper.Psi.Files;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Descriptors;
-    using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Rules;
+    using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     ///   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
@@ -44,34 +44,22 @@ namespace StyleCop.ReSharper.CodeCleanup
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         /// <summary>
-        ///   Documentation descriptor.
+        ///   StyleCop descriptor.
         /// </summary>
-        private static readonly DocumentationDescriptor DocumentationDescriptor = new DocumentationDescriptor();
+        private static readonly StyleCopDescriptor Descriptor = new StyleCopDescriptor();
+
+        private readonly StyleCopSettings styleCopSettings;
 
         /// <summary>
-        ///   Layout descriptor.
+        /// Initializes a new instance of the <see cref="StyleCopCodeCleanupModule"/> class.
         /// </summary>
-        private static readonly LayoutDescriptor LayoutDescriptor = new LayoutDescriptor();
-
-        /// <summary>
-        ///   Maintainability descriptor.
-        /// </summary>
-        private static readonly MaintainabilityDescriptor MaintainabilityDescriptor = new MaintainabilityDescriptor();
-
-        /// <summary>
-        ///   Ordering descriptor.
-        /// </summary>
-        private static readonly OrderingDescriptor OrderingDescriptor = new OrderingDescriptor();
-
-        /// <summary>
-        ///   Readability descriptor.
-        /// </summary>
-        private static readonly ReadabilityDescriptor ReadabilityDescriptor = new ReadabilityDescriptor();
-
-        /// <summary>
-        ///   Spacing descriptor.
-        /// </summary>
-        private static readonly SpacingDescriptor SpacingDescriptor = new SpacingDescriptor();
+        /// <param name="bootstrapper">
+        /// The entry point to the StyleCop API.
+        /// </param>
+        public StyleCopCodeCleanupModule(StyleCopBootstrapper bootstrapper)
+        {
+            this.styleCopSettings = bootstrapper.Settings;
+        }
 
         /// <summary>
         /// Gets the collection of option descriptors.
@@ -83,10 +71,7 @@ namespace StyleCop.ReSharper.CodeCleanup
         {
             get
             {
-                return new CodeCleanupOptionDescriptor[]
-                           {
-                              DocumentationDescriptor, LayoutDescriptor, MaintainabilityDescriptor, OrderingDescriptor, ReadabilityDescriptor, SpacingDescriptor 
-                           };
+                return new CodeCleanupOptionDescriptor[] { Descriptor };
             }
         }
 
@@ -151,11 +136,6 @@ namespace StyleCop.ReSharper.CodeCleanup
         public void Process(
             IPsiSourceFile projectFile, IRangeMarker rangeMarker, CodeCleanupProfile profile, JetBrains.Application.Progress.IProgressIndicator progressIndicator)
         {
-            if (projectFile == null)
-            {
-                return;
-            }
-
             if (!this.IsAvailable(projectFile))
             {
                 return;
@@ -170,8 +150,13 @@ namespace StyleCop.ReSharper.CodeCleanup
                 return;
             }
 
+            if (!profile.GetSetting(Descriptor))
+            {
+                return;
+            }
+
             var services = solution.GetPsiServices(); 
-            services.Transactions.Execute("Code cleanup", () => this.InternalProcess(profile, file));
+            services.Transactions.Execute("Code cleanup", () => this.InternalProcess(projectFile.ToProjectFile(), file));
 
             StyleCopTrace.Out();
         }
@@ -187,52 +172,30 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// </param>
         public void SetDefaultSetting(CodeCleanupProfile profile, CodeCleanup.DefaultProfileType profileType)
         {
-            // Default option are set in the constructors.
-            OrderingOptions orderingOptions = new OrderingOptions();
-            profile.SetSetting(OrderingDescriptor, orderingOptions);
-
-            LayoutOptions layoutOptions = new LayoutOptions();
-            profile.SetSetting(LayoutDescriptor, layoutOptions);
-
-            DocumentationOptions documentationOptions = new DocumentationOptions();
-            profile.SetSetting(DocumentationDescriptor, documentationOptions);
-
-            SpacingOptions spacingOptions = new SpacingOptions();
-            profile.SetSetting(SpacingDescriptor, spacingOptions);
-
-            ReadabilityOptions readabilityOptions = new ReadabilityOptions();
-            profile.SetSetting(ReadabilityDescriptor, readabilityOptions);
-
-            MaintainabilityOptions maintainabilityOptions = new MaintainabilityOptions();
-            profile.SetSetting(MaintainabilityDescriptor, maintainabilityOptions);
+            profile.SetSetting(Descriptor, true);
         }
 
         /// <summary>
         /// Processes all the cleanup.
         /// </summary>
-        /// <param name="profile">
-        /// The current profile to use.
+        /// <param name="projectFile">
+        /// The project file to clean.
         /// </param>
         /// <param name="file">
-        /// The file to clean.
+        /// The PSI file to clean.
         /// </param>
-        private void InternalProcess(CodeCleanupProfile profile, ICSharpFile file)
+        private void InternalProcess(IProjectFile projectFile, ICSharpFile file)
         {
-            DocumentationOptions documentationOptions = profile.GetSetting(DocumentationDescriptor);
-            LayoutOptions layoutOptions = profile.GetSetting(LayoutDescriptor);
-            MaintainabilityOptions maintainabilityOptions = profile.GetSetting(MaintainabilityDescriptor);
-            OrderingOptions orderingOptions = profile.GetSetting(OrderingDescriptor);
-            ReadabilityOptions readabilityOptions = profile.GetSetting(ReadabilityDescriptor);
-            SpacingOptions spacingOptions = profile.GetSetting(SpacingDescriptor);
-
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
-            new ReadabilityRules().Execute(readabilityOptions, file);
-            new MaintainabilityRules().Execute(maintainabilityOptions, file);
-            new DocumentationRules().Execute(documentationOptions, file);
-            new LayoutRules().Execute(layoutOptions, file);
-            new SpacingRules().Execute(spacingOptions, file);
-            new OrderingRules().Execute(orderingOptions, file);
+            Settings settings = this.styleCopSettings.GetSettings(projectFile);
+
+            ReadabilityRules.ExecuteAll(file, settings);
+            MaintainabilityRules.ExecuteAll(file, settings);
+            DocumentationRules.ExecuteAll(file, settings);
+            LayoutRules.ExecuteAll(file, settings);
+            SpacingRules.ExecuteAll(file, settings);
+            OrderingRules.ExecuteAll(file, settings);
         }
     }
 }

@@ -130,6 +130,7 @@ namespace StyleCop.ReSharper.Options
                 (StyleCopOptionsSettingsKey options) => options.SuppressStyleCopAttributeJustificationText,
                 "Justification for SuppressMessage attribute:");
 
+            // TODO: Add "update file header style" that used to be in code cleanup
             this.FinishPage();
         }
 

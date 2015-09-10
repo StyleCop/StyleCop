@@ -34,7 +34,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
-            new DocumentationRules().InsertFileHeader(file);
+            DocumentationRules.InsertFileHeader(file);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace StyleCop.ReSharper.BulbItems.Layout
                 ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                 codeFormatter.Format(containingBlock);
 
-                new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock);
+                LayoutRules.CurlyBracketsForMultiLineStatementsMustNotShareLine(containingBlock);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace StyleCop.ReSharper.BulbItems.Layout
                     ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
                     codeFormatter.Format(fieldDeclarationNode);
 
-                    new LayoutRules().CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode);
+                    LayoutRules.CurlyBracketsForMultiLineStatementsMustNotShareLine(fieldDeclarationNode);
                 }
             }
         }

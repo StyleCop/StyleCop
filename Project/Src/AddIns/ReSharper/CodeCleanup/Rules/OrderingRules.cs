@@ -26,8 +26,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Extensions;
 
     /// <summary>
@@ -69,56 +67,62 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         }
 
         /// <summary>
+        /// Run the OrderingRules Fix.
+        /// </summary>
+        /// <param name="file">
+        /// File that the fix will be performed on.
+        /// </param>
+        /// <param name="settings">
+        /// The settings to use.
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
+        {
+            StyleCopTrace.In(file, settings);
+
+            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.OrderingRules).FullName);
+
+            OrderUsings(file, analyzerSettings);
+            OrderPropertyIndexerAndEventDeclarations(file, analyzerSettings);
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
         /// Orders the files usings statements.
         /// </summary>
-        /// <param name="options">
-        /// The options to use.
-        /// </param>
         /// <param name="file">
         /// The file to process.
         /// </param>
-        public static void OrderUsings(OrderingOptions options, ICSharpFile file)
+        /// <param name="analyzerSettings">
+        /// The settings for the analyzer.
+        /// </param>
+        private static void OrderUsings(ICSharpFile file, AnalyzerSettings analyzerSettings)
         {
-            AlphabeticalUsingsStyle organiseUsingsFormatOption = options.AlphabeticalUsingDirectives;
-            ExpandUsingsStyle expandUsingsFormatOption = options.ExpandUsingDirectives;
+            bool organiseUsings = analyzerSettings.IsRuleEnabled("UsingDirectivesMustBeOrderedAlphabeticallyByNamespace");
+
+            // TODO: Does this have a related setting?
+            // It used to be a code cleanup setting, but doesn't seem to have a related StyleCop setting.
+            // If there's no StyleCop setting (and therefore rule) we shouldn't do anything
+            bool expandUsings = true;
 
             // Exit if both options are to ignore
-            if (organiseUsingsFormatOption == AlphabeticalUsingsStyle.Ignore && expandUsingsFormatOption == ExpandUsingsStyle.Ignore)
+            if (!organiseUsings && !expandUsings)
             {
                 return;
             }
 
             foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
             {
-                ProcessImports(namespaceDeclaration.Imports, organiseUsingsFormatOption, expandUsingsFormatOption, namespaceDeclaration);
+                ProcessImports(namespaceDeclaration.Imports, organiseUsings, expandUsings, namespaceDeclaration);
             }
 
-            ProcessImports(file.Imports, organiseUsingsFormatOption, expandUsingsFormatOption, file);
-        }
-
-        /// <summary>
-        /// Run the OrderingRules Fix.
-        /// </summary>
-        /// <param name="options">
-        /// OrderingOptions for the Fix.
-        /// </param>
-        /// <param name="file">
-        /// File that the fix will be performed on.
-        /// </param>
-        public void Execute(OrderingOptions options, ICSharpFile file)
-        {
-            StyleCopTrace.In(options, file);
-
-            OrderUsings(options, file);
-
-            this.OrderPropertyIndexerAndEventDeclarations(options, file);
-            StyleCopTrace.Out();
+            ProcessImports(file.Imports, organiseUsings, expandUsings, file);
         }
 
         private static void ProcessImports(
             IList<IUsingDirective> newImportsList, 
-            AlphabeticalUsingsStyle organiseUsingsFormatOption, 
-            ExpandUsingsStyle expandUsingsFormatOption, 
+            bool organiseUsings, 
+            bool expandUsings, 
             ICSharpTypeAndNamespaceHolderDeclaration declaration)
         {
             if (newImportsList == null || newImportsList.Count == 0)
@@ -129,7 +133,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             List<IUsingDirective> arrayList = new List<IUsingDirective>();
             arrayList.AddRange(newImportsList);
 
-            if (organiseUsingsFormatOption == AlphabeticalUsingsStyle.Alphabetical)
+            if (organiseUsings)
             {
                 arrayList.Sort(new UsingStatementSorter());
             }
@@ -138,7 +142,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 IUsingDirective newUsingDirective;
 
-                if (expandUsingsFormatOption == ExpandUsingsStyle.FullyQualify)
+                if (expandUsings)
                 {
                     if (directive is IUsingAliasDirective)
                     {
@@ -165,11 +169,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             }
         }
 
-        private static void ProcessMemberDeclarations(IDeclaration declaration, OrderingOptions options)
+        private static void ProcessMemberDeclarations(IDeclaration declaration, bool propertyAccessorsMustFollowOrder, bool eventAccessorsMustFollowOrder)
         {
-            bool propertyAccessorsMustFollowOrder = options.SA1212PropertyAccessorsMustFollowOrder;
-            bool eventAccessorsMustFollowOrder = options.SA1213EventAccessorsMustFollowOrder;
-
             if (declaration is IIndexerDeclaration && propertyAccessorsMustFollowOrder)
             {
                 CheckAccessorOrder(declaration as IIndexerDeclaration);
@@ -184,39 +185,42 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             }
         }
 
-        private void OrderPropertyIndexerAndEventDeclarations(OrderingOptions options, ICSharpFile file)
+        private static void OrderPropertyIndexerAndEventDeclarations(ICSharpFile file, AnalyzerSettings analyzerSettings)
         {
+            bool propertyAccessorsMustFollowOrder = analyzerSettings.IsRuleEnabled("PropertyAccessorsMustFollowOrder");
+            bool eventAccessorsMustFollowOrder = analyzerSettings.IsRuleEnabled("EventAccessorsMustFollowOrder");
+
             foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
             {
-                this.ProcessTypeDeclarations(options, namespaceDeclaration.TypeDeclarations);
+                ProcessTypeDeclarations(namespaceDeclaration.TypeDeclarations, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
             }
 
-            this.ProcessTypeDeclarations(options, file.TypeDeclarations);
+            ProcessTypeDeclarations(file.TypeDeclarations, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
         }
 
-        private void ProcessNestedTypeDeclarations(OrderingOptions options, IEnumerable<ITypeDeclaration> typeDeclarations)
+        private static void ProcessNestedTypeDeclarations(IEnumerable<ITypeDeclaration> typeDeclarations, bool propertyAccessorsMustFollowOrder, bool eventAccessorsMustFollowOrder)
         {
             foreach (ITypeDeclaration typeDeclaration in typeDeclarations)
             {
                 foreach (ITypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
-                    ProcessMemberDeclarations(memberDeclaration, options);
+                    ProcessMemberDeclarations(memberDeclaration, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
                 }
 
-                this.ProcessNestedTypeDeclarations(options, typeDeclaration.NestedTypeDeclarations);
+                ProcessNestedTypeDeclarations(typeDeclaration.NestedTypeDeclarations, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
             }
         }
 
-        private void ProcessTypeDeclarations(OrderingOptions options, IEnumerable<ICSharpTypeDeclaration> typeDeclarations)
+        private static void ProcessTypeDeclarations(TreeNodeCollection<ICSharpTypeDeclaration> typeDeclarations, bool propertyAccessorsMustFollowOrder, bool eventAccessorsMustFollowOrder)
         {
             foreach (ICSharpTypeDeclaration typeDeclaration in typeDeclarations)
             {
                 foreach (ICSharpTypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
-                    ProcessMemberDeclarations(memberDeclaration, options);
+                    ProcessMemberDeclarations(memberDeclaration, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
                 }
 
-                this.ProcessNestedTypeDeclarations(options, typeDeclaration.NestedTypeDeclarations);
+                ProcessNestedTypeDeclarations(typeDeclaration.NestedTypeDeclarations, propertyAccessorsMustFollowOrder, eventAccessorsMustFollowOrder);
             }
         }
 

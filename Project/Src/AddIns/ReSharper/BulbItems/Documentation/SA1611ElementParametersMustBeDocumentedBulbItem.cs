@@ -48,7 +48,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             if (declaration != null)
             {
-                new DocumentationRules().InsertMissingParamElement(declaration);
+                DocumentationRules.InsertMissingParamElement(declaration);
             }
         }
     }

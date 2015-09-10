@@ -38,7 +38,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             // Fixes SA1604, 1605
-            new DocumentationRules().InsertMissingSummaryElement(declaration);
+            DocumentationRules.InsertMissingSummaryElement(declaration);
         }
     }
 }

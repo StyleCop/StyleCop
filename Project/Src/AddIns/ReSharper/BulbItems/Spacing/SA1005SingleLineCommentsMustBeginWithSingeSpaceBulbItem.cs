@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
 
             if (containingBlock != null)
             {
-                new SpacingRules().SingleLineCommentsMustBeginWithSingleSpace(element);
+                SpacingRules.SingleLineCommentsMustBeginWithSingleSpace(element);
             }
         }
     }

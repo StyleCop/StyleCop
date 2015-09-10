@@ -44,7 +44,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
             // Fixes SA1639
-            new DocumentationRules().InsertFileHeaderSummary(file);
+            DocumentationRules.InsertFileHeaderSummary(file);
         }
     }
 }

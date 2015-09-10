@@ -54,23 +54,6 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
-        /// We want to add markers to the right-side stripe as well as contribute to document errors.
-        /// </summary>
-        /// <param name="sourceFile">
-        /// File that the Stripe needs to be applied to.
-        /// </param>
-        /// <param name="settingsStore">
-        /// The store to use.
-        /// </param>
-        /// <returns>
-        /// A <see cref="ErrorStripeRequest"/> for the specified file.
-        /// </returns>
-        public ErrorStripeRequest NeedsErrorStripe(IPsiSourceFile sourceFile, IContextBoundSettingsStore settingsStore)
-        {
-            return ErrorStripeRequest.STRIPE_AND_ERRORS;
-        }
-
-        /// <summary>
         /// This method provides a <see cref="IDaemonStageProcess"/> instance which is assigned to highlighting a single document.
         /// </summary>
         /// <param name="process">

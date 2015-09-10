@@ -47,7 +47,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
             IMethodDeclaration memberDeclaration = element.GetContainingNode<IMethodDeclaration>(true);
             if (memberDeclaration != null)
             {
-                new DocumentationRules().InsertReturnsElement(memberDeclaration, Utils.GetXmlPresentableName(memberDeclaration.DeclaredElement.ReturnType));
+                DocumentationRules.InsertReturnsElement(memberDeclaration, Utils.GetXmlPresentableName(memberDeclaration.DeclaredElement.ReturnType));
             }
         }
     }

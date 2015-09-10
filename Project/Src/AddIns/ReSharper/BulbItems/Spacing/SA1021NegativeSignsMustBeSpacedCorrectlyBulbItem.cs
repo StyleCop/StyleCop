@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             IBlock containingBlock = element.GetContainingNode<IBlock>(true);
             if (containingBlock != null)
             {
-                new SpacingRules().NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock, CSharpTokenType.MINUS);
+                SpacingRules.NegativeAndPositiveSignsMustBeSpacedCorrectly(containingBlock, CSharpTokenType.MINUS);
             }
         }
     }

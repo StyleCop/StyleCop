@@ -33,7 +33,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Tree;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Extensions;
 
@@ -158,7 +157,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        public void CurlyBracketsForMultiLineStatementsMustNotShareLine(ITreeNode node)
+        public static void CurlyBracketsForMultiLineStatementsMustNotShareLine(ITreeNode node)
         {
             int offsetColumn = 0;
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
@@ -212,7 +211,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CurlyBracketsForMultiLineStatementsMustNotShareLine(currentNode.FirstChild);
+                    CurlyBracketsForMultiLineStatementsMustNotShareLine(currentNode.FirstChild);
                 }
             }
         }
@@ -220,66 +219,56 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <summary>
         /// The Execute method.
         /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
         /// <param name="file">
-        /// The file.
+        /// The file to fix.
         /// </param>
-        public void Execute(LayoutOptions options, ICSharpFile file)
+        /// <param name="settings">
+        /// The settings to use.
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
         {
-            StyleCopTrace.In(options, file);
+            StyleCopTrace.In(file, settings);
 
-            Param.RequireNotNull(options, "options");
-            Param.RequireNotNull(file, "file");
+            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.LayoutRules).FullName);
 
-            bool curlyBracketsForMultiLineStatementsMustNotShareLine = options.SA1500CurlyBracketsForMultiLineStatementsMustNotShareLine;
-            bool openingCurlyBracketsMustNotBePrecededByBlankLine = options.SA1509OpeningCurlyBracketsMustNotBePrecededByBlankLine;
-            bool chainedStatementBlocksMustNotBePrecededByBlankLine = options.SA1510ChainedStatementBlocksMustNotBePrecededByBlankLine;
-            bool whileDoFooterMustNotBePrecededByBlankLine = options.SA1511WhileDoFooterMustNotBePrecededByBlankLine;
-            bool singleLineCommentsMustNotBeFollowedByBlankLine = options.SA1512SingleLineCommentsMustNotBeFollowedByBlankLine;
-            bool closingCurlyBracketMustBeFollowedByBlankLine = options.SA1513ClosingCurlyBracketMustBeFollowedByBlankLine;
-            bool elementDocumentationHeadersMustBePrecededByBlankLine = options.SA1514ElementDocumentationHeaderMustBePrecededByBlankLine;
-            bool singleLineCommentsMustBeProceededByBlankLine = options.SA1515SingleLineCommentMustBeProceededByBlankLine;
-
-            if (singleLineCommentsMustBeProceededByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("SingleLineCommentMustBeProceededByBlankLine"))
             {
-                this.CommentsMustBePreceededByBlankLine(file.FirstChild);
+                CommentsMustBePreceededByBlankLine(file.FirstChild);
             }
 
-            if (singleLineCommentsMustNotBeFollowedByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("SingleLineCommentsMustNotBeFollowedByBlankLine"))
             {
-                this.CommentsMustNotBeFollowedByBlankLine(file.FirstChild);
+                CommentsMustNotBeFollowedByBlankLine(file.FirstChild);
             }
 
-            if (closingCurlyBracketMustBeFollowedByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("ClosingCurlyBracketMustBeFollowedByBlankLine"))
             {
                 ClosingCurlyBracketMustBeFollowedByBlankLine(file.FirstChild);
             }
 
-            if (whileDoFooterMustNotBePrecededByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("WhileDoFooterMustNotBePrecededByBlankLine"))
             {
-                this.WhileDoFooterMustNotBePrecededByBlankLine(file.FirstChild);
+                WhileDoFooterMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
-            if (chainedStatementBlocksMustNotBePrecededByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("ChainedStatementBlocksMustNotBePrecededByBlankLine"))
             {
-                this.ChainedStatementBlocksMustNotBePrecededByBlankLine(file.FirstChild);
+                ChainedStatementBlocksMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
-            if (openingCurlyBracketsMustNotBePrecededByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("OpeningCurlyBracketsMustNotBePrecededByBlankLine"))
             {
-                this.OpeningCurlyBracketsMustNotBePrecededByBlankLine(file.FirstChild);
+                OpeningCurlyBracketsMustNotBePrecededByBlankLine(file.FirstChild);
             }
 
-            if (elementDocumentationHeadersMustBePrecededByBlankLine)
+            if (analyzerSettings.IsRuleEnabled("ElementDocumentationHeaderMustBePrecededByBlankLine"))
             {
-                this.ElementDocumentationHeadersMustBePrecededByBlankLine(file.FirstChild);
+                ElementDocumentationHeadersMustBePrecededByBlankLine(file.FirstChild);
             }
 
-            if (curlyBracketsForMultiLineStatementsMustNotShareLine)
+            if (analyzerSettings.IsRuleEnabled("CurlyBracketsForMultiLineStatementsMustNotShareLine"))
             {
-                this.CurlyBracketsForMultiLineStatementsMustNotShareLine(file.FirstChild);
+                CurlyBracketsForMultiLineStatementsMustNotShareLine(file.FirstChild);
             }
 
             StyleCopTrace.Out();
@@ -313,7 +302,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void ChainedStatementBlocksMustNotBePrecededByBlankLine(ITreeNode node)
+        private static void ChainedStatementBlocksMustNotBePrecededByBlankLine(ITreeNode node)
         {
             // chained statement blocks are:
             // try catch finally
@@ -335,7 +324,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.ChainedStatementBlocksMustNotBePrecededByBlankLine(currentNode.FirstChild);
+                    ChainedStatementBlocksMustNotBePrecededByBlankLine(currentNode.FirstChild);
                 }
             }
         }
@@ -346,7 +335,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void CommentsMustBePreceededByBlankLine(ITreeNode node)
+        private static void CommentsMustBePreceededByBlankLine(ITreeNode node)
         {
             ITreeNode siblingMinus2;
             ITreeNode siblingMinus1;
@@ -401,7 +390,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CommentsMustBePreceededByBlankLine(currentNode.FirstChild);
+                    CommentsMustBePreceededByBlankLine(currentNode.FirstChild);
                 }
             }
         }
@@ -412,7 +401,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void CommentsMustNotBeFollowedByBlankLine(ITreeNode node)
+        private static void CommentsMustNotBeFollowedByBlankLine(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -444,7 +433,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CommentsMustNotBeFollowedByBlankLine(currentNode.FirstChild);
+                    CommentsMustNotBeFollowedByBlankLine(currentNode.FirstChild);
                 }
             }
         }
@@ -455,7 +444,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void ElementDocumentationHeadersMustBePrecededByBlankLine(ITreeNode node)
+        private static void ElementDocumentationHeadersMustBePrecededByBlankLine(ITreeNode node)
         {
             // go back to first new line to the left
             // thisnew line must be immeidately preceded by a new line and if not insert one
@@ -480,7 +469,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.ElementDocumentationHeadersMustBePrecededByBlankLine(currentNode.FirstChild);
+                    ElementDocumentationHeadersMustBePrecededByBlankLine(currentNode.FirstChild);
                 }
             }
         }
@@ -491,7 +480,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void OpeningCurlyBracketsMustNotBePrecededByBlankLine(ITreeNode node)
+        private static void OpeningCurlyBracketsMustNotBePrecededByBlankLine(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -507,7 +496,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.OpeningCurlyBracketsMustNotBePrecededByBlankLine(currentNode.FirstChild);
+                    OpeningCurlyBracketsMustNotBePrecededByBlankLine(currentNode.FirstChild);
                 }
             }
         }
@@ -518,7 +507,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        private void WhileDoFooterMustNotBePrecededByBlankLine(ITreeNode node)
+        private static void WhileDoFooterMustNotBePrecededByBlankLine(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -537,7 +526,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.WhileDoFooterMustNotBePrecededByBlankLine(currentNode.FirstChild);
+                    WhileDoFooterMustNotBePrecededByBlankLine(currentNode.FirstChild);
                 }
             }
         }

@@ -30,7 +30,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Extensions;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node.
         /// </param>
-        public void CodeMustNotContainMultipleWhitespaceInARow(ITreeNode node)
+        public static void CodeMustNotContainMultipleWhitespaceInARow(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -67,7 +66,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CodeMustNotContainMultipleWhitespaceInARow(currentNode.FirstChild);
+                    CodeMustNotContainMultipleWhitespaceInARow(currentNode.FirstChild);
                 }
             }
         }
@@ -78,7 +77,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to use.
         /// </param>
-        public void CommasMustBeSpacedCorrectly(ITreeNode node)
+        public static void CommasMustBeSpacedCorrectly(ITreeNode node)
         {
             List<TokenNodeType> tokensThatCanBeRightSideOfComma = new List<TokenNodeType>
                                                                       {
@@ -116,7 +115,188 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CommasMustBeSpacedCorrectly(currentNode.FirstChild);
+                    CommasMustBeSpacedCorrectly(currentNode.FirstChild);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Implement the Execute method.
+        /// </summary>
+        /// <param name="file">
+        /// The file to use.
+        /// </param>
+        /// <param name="settings">
+        /// The settings to use.
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
+        {
+            StyleCopTrace.In(file, settings);
+
+            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.SpacingRules).FullName);
+
+            if (analyzerSettings.IsRuleEnabled("CodeMustNotContainMultipleWhitespaceInARow"))
+            {
+                CodeMustNotContainMultipleWhitespaceInARow(file.FirstChild);
+            }
+
+            if (analyzerSettings.IsRuleEnabled("CommasMustBeSpacedCorrectly"))
+            {
+                CommasMustBeSpacedCorrectly(file.FirstChild);
+            }
+
+            if (analyzerSettings.IsRuleEnabled("SingleLineCommentsMustBeginWithSingleSpace"))
+            {
+                SingleLineCommentsMustBeginWithSingleSpace(file.FirstChild);
+            }
+
+            if (analyzerSettings.IsRuleEnabled("PreprocessorKeywordsMustNotBePrecededBySpace"))
+            {
+                PreprocessorKeywordsMustNotBePrecededBySpace(file.FirstChild);
+            }
+
+            if (analyzerSettings.IsRuleEnabled("NegativeSignsMustBeSpacedCorrectly"))
+            {
+                NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.MINUS);
+            }
+
+            if (analyzerSettings.IsRuleEnabled("PositiveSignsMustBeSpacedCorrectly"))
+            {
+                NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.PLUS);
+            }
+
+            StyleCopTrace.Out();
+        }
+
+        /// <summary>
+        /// Negative and positive signs must be spaced correctly.
+        /// </summary>
+        /// <param name="node">
+        /// The node to use.
+        /// </param>
+        /// <param name="tokenToCheck">
+        /// The token to check.
+        /// </param>
+        public static void NegativeAndPositiveSignsMustBeSpacedCorrectly(ITreeNode node, TokenNodeType tokenToCheck)
+        {
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            {
+                if (currentNode is ITokenNode)
+                {
+                    ITokenNode tokenNode = currentNode as ITokenNode;
+
+                    if (tokenNode.GetTokenType() == tokenToCheck)
+                    {
+                        if (tokenNode.Parent is IOperatorExpression && !(tokenNode.Parent is IAdditiveExpression))
+                        {
+                            ITokenNode nextToken = tokenNode.GetNextToken();
+
+                            if (nextToken.IsWhitespace())
+                            {
+                                using (WriteLockCookie.Create(true))
+                                {
+                                    // remove the whitespace or new line
+                                    LowLevelModificationUtil.DeleteChild(nextToken);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (currentNode.FirstChild != null)
+                {
+                    NegativeAndPositiveSignsMustBeSpacedCorrectly(currentNode.FirstChild, tokenToCheck);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Preprocessor keywords must not be preceded by space.
+        /// </summary>
+        /// <param name="node">
+        /// The node to use.
+        /// </param>
+        public static void PreprocessorKeywordsMustNotBePrecededBySpace(ITreeNode node)
+        {
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            {
+                if (currentNode is IPreprocessorDirective)
+                {
+                    IPreprocessorDirective preprocessorDirectiveNode = currentNode as IPreprocessorDirective;
+
+                    TreeOffset directiveTokenNodeOffset = preprocessorDirectiveNode.Directive.GetTreeStartOffset();
+
+                    TreeOffset numberSignTokenNodeOffset = preprocessorDirectiveNode.NumberSign.GetTreeStartOffset();
+
+                    if (directiveTokenNodeOffset - 1 != numberSignTokenNodeOffset)
+                    {
+                        // There is a gap between them
+                        ITokenNode tokenNode = preprocessorDirectiveNode.NumberSign;
+
+                        ITokenNode nextToken = tokenNode.GetNextToken();
+
+                        using (WriteLockCookie.Create(true))
+                        {
+                            // remove the whitespace or new line
+                            LowLevelModificationUtil.DeleteChild(nextToken);
+                        }
+                    }
+                }
+
+                if (currentNode.FirstChild != null)
+                {
+                    PreprocessorKeywordsMustNotBePrecededBySpace(currentNode.FirstChild);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Single line comments must begin with single space.
+        /// </summary>
+        /// <param name="node">
+        /// The node to use.
+        /// </param>
+        public static void SingleLineCommentsMustBeginWithSingleSpace(ITreeNode node)
+        {
+            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
+            {
+                if (currentNode is ICommentNode && !(currentNode is IDocCommentNode))
+                {
+                    ICommentNode commentNode = currentNode as ICommentNode;
+
+                    if (commentNode.GetTokenType() == CSharpTokenType.END_OF_LINE_COMMENT && !(commentNode.Parent is ICSharpFile))
+                    {
+                        string originalCommentText = commentNode.CommentText;
+
+                        // This check is to exclude comments starting with ////
+                        if (!originalCommentText.StartsWith("//"))
+                        {
+                            int originalCommentTextLength = originalCommentText.Length;
+
+                            string trimmedCommentText = originalCommentText.TrimStart(' ');
+                            int trimmedCommentTextLength = trimmedCommentText.Length;
+
+                            if (trimmedCommentTextLength != originalCommentTextLength - 1)
+                            {
+                                using (WriteLockCookie.Create(true))
+                                {
+                                    string newText = string.Format("// {0}", trimmedCommentText);
+                                    ICommentNode newCommentNode =
+                                        (ICommentNode)
+                                        CSharpTokenType.END_OF_LINE_COMMENT.Create(
+                                            new JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
+                                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
+
+                                    currentNode = newCommentNode;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (currentNode.FirstChild != null)
+                {
+                    SingleLineCommentsMustBeginWithSingleSpace(currentNode.FirstChild);
                 }
             }
         }
@@ -178,195 +358,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 if (currentNode.FirstChild != null)
                 {
                     this.EqualsMustBeSpacedCorrectly(currentNode.FirstChild);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Implement the Execute method.
-        /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
-        /// <param name="file">
-        /// The file to use.
-        /// </param>
-        public void Execute(SpacingOptions options, ICSharpFile file)
-        {
-            StyleCopTrace.In(options, file);
-
-            Param.RequireNotNull(options, "options");
-            Param.RequireNotNull(file, "file");
-
-            bool commasMustBeSpacedCorrectly = options.SA1001CommasMustBeSpacedCorrectly;
-            bool singleLineCommentsMustBeginWithSingleSpace = options.SA1005SingleLineCommentsMustBeginWithSingleSpace;
-            bool preprocessorKeywordsMustNotBePrecededBySpace = options.SA1006PreprocessorKeywordsMustNotBePrecededBySpace;
-            bool negativeSignsMustBeSpacedCorrectly = options.SA1021NegativeSignsMustBeSpacedCorrectly;
-            bool positiveSignsMustBeSpacedCorrectly = options.SA1022PositiveSignsMustBeSpacedCorrectly;
-            bool codeMustNotContainMultipleWhitespaceInARow = options.SA1025CodeMustNotContainMultipleWhitespaceInARow;
-
-            if (codeMustNotContainMultipleWhitespaceInARow)
-            {
-                this.CodeMustNotContainMultipleWhitespaceInARow(file.FirstChild);
-            }
-
-            if (commasMustBeSpacedCorrectly)
-            {
-                this.CommasMustBeSpacedCorrectly(file.FirstChild);
-            }
-
-            if (singleLineCommentsMustBeginWithSingleSpace)
-            {
-                this.SingleLineCommentsMustBeginWithSingleSpace(file.FirstChild);
-            }
-
-            if (preprocessorKeywordsMustNotBePrecededBySpace)
-            {
-                this.PreprocessorKeywordsMustNotBePrecededBySpace(file.FirstChild);
-            }
-
-            if (negativeSignsMustBeSpacedCorrectly)
-            {
-                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.MINUS);
-            }
-
-            if (positiveSignsMustBeSpacedCorrectly)
-            {
-                this.NegativeAndPositiveSignsMustBeSpacedCorrectly(file.FirstChild, CSharpTokenType.PLUS);
-            }
-
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Negative and positive signs must be spaced correctly.
-        /// </summary>
-        /// <param name="node">
-        /// The node to use.
-        /// </param>
-        /// <param name="tokenToCheck">
-        /// The token to check.
-        /// </param>
-        public void NegativeAndPositiveSignsMustBeSpacedCorrectly(ITreeNode node, TokenNodeType tokenToCheck)
-        {
-            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
-            {
-                if (currentNode is ITokenNode)
-                {
-                    ITokenNode tokenNode = currentNode as ITokenNode;
-
-                    if (tokenNode.GetTokenType() == tokenToCheck)
-                    {
-                        if (tokenNode.Parent is IOperatorExpression && !(tokenNode.Parent is IAdditiveExpression))
-                        {
-                            ITokenNode nextToken = tokenNode.GetNextToken();
-
-                            if (nextToken.IsWhitespace())
-                            {
-                                using (WriteLockCookie.Create(true))
-                                {
-                                    // remove the whitespace or new line
-                                    LowLevelModificationUtil.DeleteChild(nextToken);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (currentNode.FirstChild != null)
-                {
-                    this.NegativeAndPositiveSignsMustBeSpacedCorrectly(currentNode.FirstChild, tokenToCheck);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Preprocessor keywords must not be preceded by space.
-        /// </summary>
-        /// <param name="node">
-        /// The node to use.
-        /// </param>
-        public void PreprocessorKeywordsMustNotBePrecededBySpace(ITreeNode node)
-        {
-            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
-            {
-                if (currentNode is IPreprocessorDirective)
-                {
-                    IPreprocessorDirective preprocessorDirectiveNode = currentNode as IPreprocessorDirective;
-
-                    TreeOffset directiveTokenNodeOffset = preprocessorDirectiveNode.Directive.GetTreeStartOffset();
-
-                    TreeOffset numberSignTokenNodeOffset = preprocessorDirectiveNode.NumberSign.GetTreeStartOffset();
-
-                    if (directiveTokenNodeOffset - 1 != numberSignTokenNodeOffset)
-                    {
-                        // There is a gap between them
-                        ITokenNode tokenNode = preprocessorDirectiveNode.NumberSign;
-
-                        ITokenNode nextToken = tokenNode.GetNextToken();
-
-                        using (WriteLockCookie.Create(true))
-                        {
-                            // remove the whitespace or new line
-                            LowLevelModificationUtil.DeleteChild(nextToken);
-                        }
-                    }
-                }
-
-                if (currentNode.FirstChild != null)
-                {
-                    this.PreprocessorKeywordsMustNotBePrecededBySpace(currentNode.FirstChild);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Single line comments must begin with single space.
-        /// </summary>
-        /// <param name="node">
-        /// The node to use.
-        /// </param>
-        public void SingleLineCommentsMustBeginWithSingleSpace(ITreeNode node)
-        {
-            for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
-            {
-                if (currentNode is ICommentNode && !(currentNode is IDocCommentNode))
-                {
-                    ICommentNode commentNode = currentNode as ICommentNode;
-
-                    if (commentNode.GetTokenType() == CSharpTokenType.END_OF_LINE_COMMENT && !(commentNode.Parent is ICSharpFile))
-                    {
-                        string originalCommentText = commentNode.CommentText;
-
-                        // This check is to exclude comments starting with ////
-                        if (!originalCommentText.StartsWith("//"))
-                        {
-                            int originalCommentTextLength = originalCommentText.Length;
-
-                            string trimmedCommentText = originalCommentText.TrimStart(' ');
-                            int trimmedCommentTextLength = trimmedCommentText.Length;
-
-                            if (trimmedCommentTextLength != originalCommentTextLength - 1)
-                            {
-                                using (WriteLockCookie.Create(true))
-                                {
-                                    string newText = string.Format("// {0}", trimmedCommentText);
-                                    ICommentNode newCommentNode =
-                                        (ICommentNode)
-                                        CSharpTokenType.END_OF_LINE_COMMENT.Create(
-                                            new JetBrains.Text.StringBuffer(newText), new TreeOffset(0), new TreeOffset(newText.Length));
-                                    LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
-
-                                    currentNode = newCommentNode;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (currentNode.FirstChild != null)
-                {
-                    this.SingleLineCommentsMustBeginWithSingleSpace(currentNode.FirstChild);
                 }
             }
         }

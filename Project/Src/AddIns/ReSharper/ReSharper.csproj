@@ -31,9 +31,10 @@
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <WarningLevel>0</WarningLevel>
+    <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Debug\StyleCop.ReSharper.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -47,7 +48,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <WarningLevel>0</WarningLevel>
+    <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
@@ -239,19 +240,8 @@
     <Compile Include="BulbItems\Spacing\SA1021NegativeSignsMustBeSpacedCorrectlyBulbItem.cs" />
     <Compile Include="BulbItems\Spacing\SA1022PositiveSignsMustBeSpacedCorrectlyBulbItem.cs" />
     <Compile Include="BulbItems\Spacing\SA1025CodeMustNotContainMultipleWhitespaceInARowBulbItem.cs" />
-    <Compile Include="CodeCleanup\Descriptors\DocumentationDescriptor.cs" />
-    <Compile Include="CodeCleanup\Descriptors\LayoutDescriptor.cs" />
-    <Compile Include="CodeCleanup\Descriptors\MaintainabilityDescriptor.cs" />
-    <Compile Include="CodeCleanup\Descriptors\OrderingDescriptor.cs" />
-    <Compile Include="CodeCleanup\Descriptors\ReadabilityDescriptor.cs" />
-    <Compile Include="CodeCleanup\Descriptors\SpacingDescriptor.cs" />
-    <Compile Include="CodeCleanup\Options\DocumentationOptions.cs" />
-    <Compile Include="CodeCleanup\Options\LayoutOptions.cs" />
-    <Compile Include="CodeCleanup\Options\MaintainabilityOptions.cs" />
-    <Compile Include="CodeCleanup\Options\OptionsBase.cs" />
-    <Compile Include="CodeCleanup\Options\OrderingOptions.cs" />
-    <Compile Include="CodeCleanup\Options\ReadabilityOptions.cs" />
-    <Compile Include="CodeCleanup\Options\SpacingOptions.cs" />
+    <Compile Include="CodeCleanup\AnalyzerSettings.cs" />
+    <Compile Include="CodeCleanup\StyleCopDescriptor.cs" />
     <Compile Include="CodeCleanup\Rules\DocumentationRules.cs" />
     <Compile Include="CodeCleanup\Rules\DocumentationRulesConfiguration.cs" />
     <Compile Include="CodeCleanup\Rules\LayoutRules.cs" />
@@ -260,9 +250,7 @@
     <Compile Include="CodeCleanup\Rules\ReadabilityRules.cs" />
     <Compile Include="CodeCleanup\Rules\SpacingRules.cs" />
     <Compile Include="CodeCleanup\StyleCopCodeCleanupModule.cs" />
-    <Compile Include="CodeCleanup\Styles\AlphabeticalUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\ExpandUsingsStyle.cs" />
-    <Compile Include="CodeCleanup\Styles\UpdateFileHeaderStyle.cs" />
+    <Compile Include="CodeCleanup\UpdateFileHeaderStyle.cs" />
     <Compile Include="Core\DeclarationHeader.cs" />
     <Compile Include="Core\FileHeader.cs" />
     <Compile Include="Core\ProjectSettingsFactory.cs" />

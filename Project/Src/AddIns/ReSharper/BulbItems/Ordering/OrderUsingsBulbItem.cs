@@ -18,14 +18,14 @@
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
-    using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// BulbItem - OrderUsingsBulbItem : Qualifies all usings, the orders them, groups them and removes duplicates.
@@ -45,14 +45,12 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            OrderingOptions options = new OrderingOptions
-                                          {
-                                              AlphabeticalUsingDirectives = AlphabeticalUsingsStyle.Alphabetical, 
-                                              ExpandUsingDirectives = ExpandUsingsStyle.FullyQualify
-                                          };
+            StyleCopSettings styleCopSettings = Utils.GetSolution().GetComponent<StyleCopBootstrapper>().Settings;
+
+            var settings = styleCopSettings.GetSettings(file.GetSourceFile().ToProjectFile());
 
             // Fixes SA1208, SA1209, SA1210, SA1211
-            new OrderingRules().Execute(options, file);
+            OrderingRules.ExecuteAll(file, settings);
         }
     }
 }

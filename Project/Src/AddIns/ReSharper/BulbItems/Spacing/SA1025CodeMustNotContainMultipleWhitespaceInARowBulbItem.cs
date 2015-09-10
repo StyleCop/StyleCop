@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
 
             if (containingBlock != null)
             {
-                new SpacingRules().CodeMustNotContainMultipleWhitespaceInARow(element);
+                SpacingRules.CodeMustNotContainMultipleWhitespaceInARow(element);
             }
         }
     }

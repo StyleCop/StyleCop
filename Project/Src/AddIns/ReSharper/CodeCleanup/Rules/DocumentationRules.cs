@@ -36,8 +36,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
-    using StyleCop.ReSharper.CodeCleanup.Styles;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
     using StyleCop.ReSharper.ShellComponents;
@@ -48,6 +46,23 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     public class DocumentationRules
     {
         /// <summary>
+        /// The check declaration documentation.
+        /// </summary>
+        /// <param name="file">
+        /// The file.
+        /// </param>
+        /// <param name="declaration">
+        /// The declaration.
+        /// </param>
+        /// <param name="settings">
+        /// The settings.
+        /// </param>
+        public static void CheckDeclarationDocumentation(ICSharpFile file, IDeclaration declaration, Settings settings)
+        {
+            CheckDeclarationDocumentation(file, declaration, GetAnalyzerSettings(settings));
+        }
+
+        /// <summary>
         /// Checks declaration comment blocks.
         /// </summary>
         /// <param name="file">
@@ -55,55 +70,42 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         /// <param name="declaration">
         /// The <see cref="IDeclaration"/> to check.
-        /// </param>
+        /// </param>s
         /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
+        /// <see cref="AnalyzerSettings"/>Current options that we can reference.
         /// </param>
-        public void CheckDeclarationDocumentation(ICSharpFile file, IDeclaration declaration, DocumentationOptions options)
+        public static void CheckDeclarationDocumentation(ICSharpFile file, IDeclaration declaration, AnalyzerSettings options)
         {
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(declaration, "declaration");
             Param.Ignore(options);
 
-            bool insertMissingElementDocOption = true;
-            bool documentationTextMustBeginWithACapitalLetter = true;
-            bool documentationTextMustEndWithAPeriod = true;
-            bool elementDocumentationMustHaveSummary = true;
-            bool constructorSummaryDocBeginsWithStandardText = true;
-            bool destructorSummaryDocBeginsWithStandardText = true;
-            bool propertyDocumentationMustHaveValueDocumented = true;
-            bool insertMissingParamTagOption = true;
-            bool genericTypeParametersMustBeDocumented = true;
-
-            if (options != null)
-            {
-                insertMissingElementDocOption = options.SA1600ElementsMustBeDocumented;
-                documentationTextMustBeginWithACapitalLetter = options.SA1628DocumentationTextMustBeginWithACapitalLetter;
-                documentationTextMustEndWithAPeriod = options.SA1629DocumentationTextMustEndWithAPeriod;
-                elementDocumentationMustHaveSummary = options.SA1604ElementDocumentationMustHaveSummary;
-                constructorSummaryDocBeginsWithStandardText = options.SA1642ConstructorSummaryDocumentationMustBeginWithStandardText;
-                destructorSummaryDocBeginsWithStandardText = options.SA1643DestructorSummaryDocumentationMustBeginWithStandardText;
-                propertyDocumentationMustHaveValueDocumented = options.SA1609PropertyDocumentationMustHaveValue;
-                insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
-                genericTypeParametersMustBeDocumented = options.SA1618GenericTypeParametersMustBeDocumented;
-            }
+            bool insertMissingElementDocOption = options.IsRuleEnabled("ElementsMustBeDocumented");
+            bool documentationTextMustBeginWithACapitalLetter = options.IsRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
+            bool documentationTextMustEndWithAPeriod = options.IsRuleEnabled("DocumentationTextMustEndWithAPeriod");
+            bool elementDocumentationMustHaveSummary = options.IsRuleEnabled("ElementDocumentationMustHaveSummary");
+            bool constructorSummaryDocBeginsWithStandardText = options.IsRuleEnabled("ConstructorSummaryDocumentationMustBeginWithStandardText");
+            bool destructorSummaryDocBeginsWithStandardText = options.IsRuleEnabled("DestructorSummaryDocumentationMustBeginWithStandardText");
+            bool propertyDocumentationMustHaveValueDocumented = options.IsRuleEnabled("PropertyDocumentationMustHaveValue");
+            bool insertMissingParamTagOption = options.IsRuleEnabled("ElementParametersMustBeDocumented");
+            bool genericTypeParametersMustBeDocumented = options.IsRuleEnabled("GenericTypeParametersMustBeDocumented");
 
             DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
 
             bool formatSummary = false;
             if (insertMissingElementDocOption && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1600) && declarationHeader.IsMissing)
             {
-                formatSummary = this.InsertMissingDeclarationHeader(file, declaration);
+                formatSummary = InsertMissingDeclarationHeader(file, declaration);
             }
 
             if (elementDocumentationMustHaveSummary && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1604) && !declarationHeader.HasSummary)
             {
-                formatSummary = formatSummary | this.InsertMissingSummaryElement(declaration);
+                formatSummary = formatSummary | InsertMissingSummaryElement(declaration);
             }
 
             if (formatSummary)
             {
-                this.FormatSummaryElement(declaration);
+                FormatSummaryElement(declaration);
             }
 
             if (declaration is IConstructorDeclaration)
@@ -114,44 +116,44 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                     if (constructorDeclaration.ParameterDeclarations.Count > 0)
                     {
-                        this.InsertMissingParamElement(constructorDeclaration);
+                        InsertMissingParamElement(constructorDeclaration);
                     }
                 }
 
                 if (constructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1642))
                 {
-                    this.EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
+                    EnsureConstructorSummaryDocBeginsWithStandardText(declaration as IConstructorDeclaration);
                 }
             }
 
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
 
             // However it can be on/off depending on the file so we'd have to cache it per file
             bool ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
 
             if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
             {
-                this.EnsureDocumentationTextIsUppercase(declaration);
+                EnsureDocumentationTextIsUppercase(declaration);
             }
 
             ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustEndWithAPeriod");
 
             if (documentationTextMustEndWithAPeriod && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1629))
             {
-                this.EnsureDocumentationTextEndsWithAPeriod(declaration);
+                EnsureDocumentationTextEndsWithAPeriod(declaration);
             }
 
             if (declaration is IDestructorDeclaration)
             {
                 if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
                 {
-                    this.EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
+                    EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
                 }
             }
 
             if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
             {
-                this.CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
+                CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
             }
 
             if (declaration is IPropertyDeclaration)
@@ -160,13 +162,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
                 {
-                    this.InsertValueElement(declaration as IPropertyDeclaration);
+                    InsertValueElement(declaration as IPropertyDeclaration);
                 }
             }
 
             if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
             {
-                this.InsertMissingTypeParamElement(declaration);
+                InsertMissingTypeParamElement(declaration);
             }
         }
 
@@ -179,7 +181,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="constructorDeclaration">
         /// The destructor <see cref="IDeclaration"/>.
         /// </param>
-        public void EnsureConstructorSummaryDocBeginsWithStandardText(IConstructorDeclaration constructorDeclaration)
+        public static void EnsureConstructorSummaryDocBeginsWithStandardText(IConstructorDeclaration constructorDeclaration)
         {
             if (constructorDeclaration == null)
             {
@@ -254,7 +256,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="destructorDeclaration">
         /// The destructor <see cref="IDeclaration"/>.
         /// </param>
-        public void EnsureDestructorSummaryDocBeginsWithStandardText(IDestructorDeclaration destructorDeclaration)
+        public static void EnsureDestructorSummaryDocBeginsWithStandardText(IDestructorDeclaration destructorDeclaration)
         {
             if (destructorDeclaration == null)
             {
@@ -296,7 +298,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="declaration">
         /// The destructor <see cref="IDeclaration"/>.
         /// </param>
-        public void EnsureDocumentationHasNoBlankLines(IDeclaration declaration)
+        public static void EnsureDocumentationHasNoBlankLines(IDeclaration declaration)
         {
             DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
 
@@ -305,7 +307,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            this.RemoveBlankLines(declarationHeader.XmlNode);
+            RemoveBlankLines(declarationHeader.XmlNode);
             declarationHeader.Update();
         }
 
@@ -315,7 +317,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="declaration">
         /// The destructor <see cref="IDeclaration"/>.
         /// </param>
-        public void EnsureDocumentationTextEndsWithAPeriod(IDeclaration declaration)
+        public static void EnsureDocumentationTextEndsWithAPeriod(IDeclaration declaration)
         {
             IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
@@ -329,7 +331,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            this.EnsureTerminatingPeriod(declarationHeader.XmlNode);
+            EnsureTerminatingPeriod(declarationHeader.XmlNode);
             declarationHeader.Update();
         }
 
@@ -339,7 +341,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="declaration">
         /// The destructor <see cref="IDeclaration"/>.
         /// </param>
-        public void EnsureDocumentationTextIsUppercase(IDeclaration declaration)
+        public static void EnsureDocumentationTextIsUppercase(IDeclaration declaration)
         {
             IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, declaration.GetSolution());
             if (!settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.InsertTextIntoDocumentation))
@@ -354,76 +356,39 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            this.SwapToUpper(declarationHeader.XmlNode);
+            SwapToUpper(declarationHeader.XmlNode);
             declarationHeader.Update();
         }
 
         /// <summary>
         /// Execute comments processing for declarations.
         /// </summary>
-        /// <param name="options">
-        /// The <see cref="OrderingOptions"/> to use.
-        /// </param>
         /// <param name="file">
         /// The <see cref="ICSharpFile"/> to use.
         /// </param>
-        public void Execute(DocumentationOptions options, ICSharpFile file)
+        /// <param name="settings">
+        /// The <see cref="Settings"/> to use.
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
         {
-            StyleCopTrace.In(options, file);
+            StyleCopTrace.In(file, settings);
 
-            Param.RequireNotNull(options, "options");
-            Param.RequireNotNull(file, "file");
+            var analyzerSettings = GetAnalyzerSettings(settings);
 
             foreach (ICSharpNamespaceDeclaration namespaceDeclaration in file.NamespaceDeclarations)
             {
-                this.ProcessCSharpTypeDeclarations(options, file, namespaceDeclaration.TypeDeclarations);
+                ProcessCSharpTypeDeclarations(file, namespaceDeclaration.TypeDeclarations, analyzerSettings);
             }
 
-            this.ProcessCSharpTypeDeclarations(options, file, file.TypeDeclarations);
+            ProcessCSharpTypeDeclarations(file, file.TypeDeclarations, analyzerSettings);
 
-            bool fixSingleLineCommentsOption = options.SA1626SingleLineCommentsMustNotUseDocumentationStyleSlashes;
-
-            if (fixSingleLineCommentsOption)
+            if (analyzerSettings.IsRuleEnabled("SingleLineCommentsMustNotUseDocumentationStyleSlashes"))
             {
-                this.SwapDocCommentsToSingleLineComments(file.FirstChild);
+                SwapDocCommentsToSingleLineComments(file.FirstChild);
             }
 
-            this.UpdateFileHeader(options, file);
+            UpdateFileHeader(file, analyzerSettings);
             StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Formats a summary element.
-        /// </summary>
-        /// <param name="declaration">
-        /// The <see cref="IDeclaration"/> to format the text for.
-        /// </param>
-        public void FormatSummaryElement(IDeclaration declaration)
-        {
-            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
-
-            if (declarationHeader.IsMissing || declarationHeader.IsInherited || declarationHeader.HasEmptySummary || !declarationHeader.HasSummary)
-            {
-                return;
-            }
-
-            declarationHeader.Update();
-        }
-
-        /// <summary>
-        /// Returns a config object exposing the current config settings for this file.
-        /// </summary>
-        /// <param name="file">
-        /// The file to get the config for.
-        /// </param>
-        /// <returns>
-        /// The configuration for the given file.
-        /// </returns>
-        public DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
-        {
-            // TODO: We shouldn't have to resort to service locator!
-            var bootstrapper = Shell.Instance.GetComponent<StyleCopBootstrapper>();
-            return new DocumentationRulesConfiguration(bootstrapper.Settings, file.GetSourceFile());
         }
 
         /// <summary>
@@ -432,9 +397,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// The file to insert the company name into.
         /// </param>
-        public void InsertCompanyName(ICSharpFile file)
+        public static void InsertCompanyName(ICSharpFile file)
         {
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
 
             FileHeader fileHeader = new FileHeader(file) { CompanyName = docConfig.CompanyName };
 
@@ -447,9 +412,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// The file to insert the company name into.
         /// </param>
-        public void InsertCopyrightText(ICSharpFile file)
+        public static void InsertCopyrightText(ICSharpFile file)
         {
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
 
             FileHeader fileHeader = new FileHeader(file) { CopyrightText = docConfig.Copyright };
 
@@ -462,10 +427,10 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// THe file to check the header on.
         /// </param>
-        public void InsertFileHeader(ICSharpFile file)
+        public static void InsertFileHeader(ICSharpFile file)
         {
             FileHeader fileHeader = new FileHeader(file);
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
 
             fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
             fileHeader.CompanyName = docConfig.CompanyName;
@@ -481,7 +446,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// The file to insert into.
         /// </param>
-        public void InsertFileHeaderSummary(ICSharpFile file)
+        public static void InsertFileHeaderSummary(ICSharpFile file)
         {
             FileHeader fileHeader = new FileHeader(file) { Summary = Utils.GetSummaryText(file) };
             fileHeader.Update();
@@ -493,7 +458,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="file">
         /// The file to insert into.
         /// </param>
-        public void InsertFileName(ICSharpFile file)
+        public static void InsertFileName(ICSharpFile file)
         {
             string fileName = file.GetSourceFile().ToProjectFile().Location.Name;
 
@@ -502,49 +467,12 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         }
 
         /// <summary>
-        /// Insert a summary element if missing.
-        /// </summary>
-        /// <param name="file">
-        /// The <see cref="ICSharpFile"/> to use.
-        /// </param>
-        /// <param name="declaration">
-        /// The <see cref="ITypeDeclaration"/> to check and fix.
-        /// </param>
-        /// <returns>
-        /// True if it inserted a missing header.
-        /// </returns>
-        public bool InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
-        {
-            StyleCopTrace.In(file, declaration);
-            Param.RequireNotNull(file, "file");
-            Param.RequireNotNull(declaration, "declaration");
-            Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
-
-            bool returnValue = false;
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
-
-            bool isIFieldDeclaration = declaration is IFieldDeclaration;
-
-            AccessRights accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
-
-            DeclaredElementType elementType = declaration.DeclaredElement.GetElementType();
-            if ((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
-                && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
-            {
-                DeclarationHeader.CreateNewHeader(declaration, docConfig);
-                returnValue = true;
-            }
-
-            return StyleCopTrace.Out(returnValue);
-        }
-
-        /// <summary>
         /// Insert a missing parameter element to the comment.
         /// </summary>
         /// <param name="declaration">
         /// The <see cref="IDeclaration"/> to check and fix.
         /// </param>
-        public void InsertMissingParamElement(IDeclaration declaration)
+        public static void InsertMissingParamElement(IDeclaration declaration)
         {
             Param.RequireNotNull(declaration, "declaration");
 
@@ -604,7 +532,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <returns>
         /// True if the element was inserted.
         /// </returns>
-        public bool InsertMissingSummaryElement(IDeclaration declaration)
+        public static bool InsertMissingSummaryElement(IDeclaration declaration)
         {
             bool returnValue = false;
             DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
@@ -662,7 +590,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="declaration">
         /// The <see cref="ITypeDeclaration"/> to check and fix.
         /// </param>
-        public void InsertMissingTypeParamElement(IDeclaration declaration)
+        public static void InsertMissingTypeParamElement(IDeclaration declaration)
         {
             ITypeParametersOwner declaredElement = declaration.DeclaredElement as ITypeParametersOwner;
 
@@ -716,7 +644,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="returnType">
         /// The text to insert as the return type.
         /// </param>
-        public void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
+        public static void InsertReturnsElement(ITypeMemberDeclaration memberDeclaration, string returnType)
         {
             Param.RequireNotNull(memberDeclaration, "memberDeclaration");
 
@@ -761,7 +689,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="propertyDeclaration">
         /// The <see cref="IPropertyDeclaration"/> to check and fix.
         /// </param>
-        public void InsertValueElement(IPropertyDeclaration propertyDeclaration)
+        public static void InsertValueElement(IPropertyDeclaration propertyDeclaration)
         {
             DeclarationHeader declarationHeader = new DeclarationHeader(propertyDeclaration);
 
@@ -805,7 +733,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="memberDeclaration">
         /// The <see cref="ITypeDeclaration"/> to check and fix.
         /// </param>
-        public void RemoveReturnsElement(ITypeMemberDeclaration memberDeclaration)
+        public static void RemoveReturnsElement(ITypeMemberDeclaration memberDeclaration)
         {
             DeclarationHeader declarationHeader = new DeclarationHeader(memberDeclaration);
 
@@ -824,7 +752,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="currentNode">
         /// The node to process.
         /// </param>
-        public void SwapDocCommentNodeToCommentNode(ITreeNode currentNode)
+        public static void SwapDocCommentNodeToCommentNode(ITreeNode currentNode)
         {
             IDocCommentNode docCommentNode = currentNode as IDocCommentNode;
 
@@ -841,6 +769,81 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     LowLevelModificationUtil.ReplaceChildRange(currentNode, currentNode, new ITreeNode[] { newCommentNode });
                 }
             }
+        }
+
+        private static AnalyzerSettings GetAnalyzerSettings(Settings settings)
+        {
+            return new AnalyzerSettings(settings, typeof(CSharp.DocumentationRules).FullName);
+        }
+
+        /// <summary>
+        /// Formats a summary element.
+        /// </summary>
+        /// <param name="declaration">
+        /// The <see cref="IDeclaration"/> to format the text for.
+        /// </param>
+        private static void FormatSummaryElement(IDeclaration declaration)
+        {
+            DeclarationHeader declarationHeader = new DeclarationHeader(declaration);
+
+            if (declarationHeader.IsMissing || declarationHeader.IsInherited || declarationHeader.HasEmptySummary || !declarationHeader.HasSummary)
+            {
+                return;
+            }
+
+            declarationHeader.Update();
+        }
+
+        /// <summary>
+        /// Returns a config object exposing the current config settings for this file.
+        /// </summary>
+        /// <param name="file">
+        /// The file to get the config for.
+        /// </param>
+        /// <returns>
+        /// The configuration for the given file.
+        /// </returns>
+        private static DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
+        {
+            // TODO: We shouldn't have to resort to service locator!
+            var bootstrapper = Shell.Instance.GetComponent<StyleCopBootstrapper>();
+            return new DocumentationRulesConfiguration(bootstrapper.Settings, file.GetSourceFile());
+        }
+
+        /// <summary>
+        /// Insert a summary element if missing.
+        /// </summary>
+        /// <param name="file">
+        /// The <see cref="ICSharpFile"/> to use.
+        /// </param>
+        /// <param name="declaration">
+        /// The <see cref="ITypeDeclaration"/> to check and fix.
+        /// </param>
+        /// <returns>
+        /// True if it inserted a missing header.
+        /// </returns>
+        private static bool InsertMissingDeclarationHeader(ICSharpFile file, IDeclaration declaration)
+        {
+            StyleCopTrace.In(file, declaration);
+            Param.RequireNotNull(file, "file");
+            Param.RequireNotNull(declaration, "declaration");
+            Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
+
+            bool returnValue = false;
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+
+            bool isIFieldDeclaration = declaration is IFieldDeclaration;
+
+            AccessRights accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
+
+            if ((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
+                && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
+            {
+                DeclarationHeader.CreateNewHeader(declaration, docConfig);
+                returnValue = true;
+            }
+
+            return StyleCopTrace.Out(returnValue);
         }
 
         /// <summary>
@@ -1063,23 +1066,21 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="typeDeclaration">
         /// The <see cref="ITypeDeclaration"/> to check.
         /// </param>
-        /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
+        /// <param name="analyzerSettings">
+        /// The <see cref="AnalyzerSettings"/> for the current analyzer.
         /// </param>
-        private void CheckClassDeclarationForParams(ITypeDeclaration typeDeclaration, DocumentationOptions options)
+        private static void CheckClassDeclarationForParams(ITypeDeclaration typeDeclaration, AnalyzerSettings analyzerSettings)
         {
             Param.RequireNotNull(typeDeclaration, "typeDeclaration");
-            Param.RequireNotNull(options, "options");
+            Param.RequireNotNull(analyzerSettings, "analyzerSettings");
 
-            bool insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
-
-            if (insertMissingParamTagOption)
+            if (analyzerSettings.IsRuleEnabled("ElementParametersMustBeDocumented"))
             {
                 if (typeDeclaration.DeclaredElement != null)
                 {
                     if (typeDeclaration.DeclaredElement.TypeParameters.Count > 0)
                     {
-                        this.InsertMissingTypeParamElement(typeDeclaration);
+                        InsertMissingTypeParamElement(typeDeclaration);
                     }
                 }
             }
@@ -1092,9 +1093,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// The method <see cref="IDeclaration"/> to check.
         /// </param>
         /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
+        /// The options.
         /// </param>
-        private void CheckMethodAndIndexerDeclarationDocumentation(IParametersOwnerDeclaration methodDeclaration, DocumentationOptions options)
+        private static void CheckMethodAndIndexerDeclarationDocumentation(IParametersOwnerDeclaration methodDeclaration, AnalyzerSettings options)
         {
             Param.Ignore(options);
 
@@ -1103,22 +1104,15 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            bool insertMissingParamTagOption = true;
-            bool insertMissingReturnTagOption = true;
-            bool removeReturnTagOnVoidElementsOption = true;
-
-            if (options != null)
-            {
-                insertMissingParamTagOption = options.SA1611ElementParametersMustBeDocumented;
-                insertMissingReturnTagOption = options.SA1615ElementReturnValueMustBeDocumented;
-                removeReturnTagOnVoidElementsOption = options.SA1617VoidReturnValueMustNotBeDocumented;
-            }
+            bool insertMissingParamTagOption = options.IsRuleEnabled("ElementParametersMustBeDocumented");
+            bool insertMissingReturnTagOption = options.IsRuleEnabled("ElementReturnValueMustBeDocumented");
+            bool removeReturnTagOnVoidElementsOption = options.IsRuleEnabled("VoidReturnValueMustNotBeDocumented");
 
             if (insertMissingParamTagOption && !Utils.IsRuleSuppressed(methodDeclaration, StyleCopRules.SA1611))
             {
                 if (methodDeclaration.ParameterDeclarations.Count > 0)
                 {
-                    this.InsertMissingParamElement(methodDeclaration);
+                    InsertMissingParamElement(methodDeclaration);
                 }
             }
 
@@ -1134,7 +1128,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 // Remove the <returns> if the return type is void
                 if (declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName == "System.Void")
                 {
-                    this.RemoveReturnsElement(methodDeclaration as ITypeMemberDeclaration);
+                    RemoveReturnsElement(methodDeclaration as ITypeMemberDeclaration);
                 }
             }
 
@@ -1143,7 +1137,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 // Insert the <returns> if the return type is not void and it was missing
                 if ((declaredTypeFromClrName != null && declaredTypeFromClrName.GetClrName().FullName != "System.Void") || declaredTypeFromClrName == null)
                 {
-                    this.InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, Utils.GetXmlPresentableName(methodDeclaration.DeclaredParametersOwner.ReturnType));
+                    InsertReturnsElement(methodDeclaration as ITypeMemberDeclaration, Utils.GetXmlPresentableName(methodDeclaration.DeclaredParametersOwner.ReturnType));
                 }
             }
         }
@@ -1154,7 +1148,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="xmlNode">
         /// Each <see cref="XmlNode"/> to check for ending period character.
         /// </param>
-        private void EnsureTerminatingPeriod(XmlNode xmlNode)
+        private static void EnsureTerminatingPeriod(XmlNode xmlNode)
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
@@ -1201,73 +1195,72 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     }
                 }
 
-                this.EnsureTerminatingPeriod(childNode);
+                EnsureTerminatingPeriod(childNode);
             }
         }
 
         /// <summary>
         /// Process type comment declarations.
         /// </summary>
-        /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
-        /// </param>
         /// <param name="file">
         /// The <see cref="ICSharpFile"/> to use.
         /// </param>
         /// <param name="typeDeclarations">
         /// The type <see cref="ICSharpTypeDeclaration"/> to check.
         /// </param>
-        private void ProcessCSharpTypeDeclarations(DocumentationOptions options, ICSharpFile file, IEnumerable<ICSharpTypeDeclaration> typeDeclarations)
+        /// <param name="analyzerSettings">
+        /// The <see cref="AnalyzerSettings"/> to use.
+        /// </param>
+        private static void ProcessCSharpTypeDeclarations(ICSharpFile file, IEnumerable<ICSharpTypeDeclaration> typeDeclarations, AnalyzerSettings analyzerSettings)
         {
-            Param.RequireNotNull(options, "options");
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(typeDeclarations, "typeDeclarations");
+            Param.RequireNotNull(analyzerSettings, "analyzerSettings");
 
             foreach (ICSharpTypeDeclaration typeDeclaration in typeDeclarations)
             {
-                this.CheckDeclarationDocumentation(file, typeDeclaration, options);
+                CheckDeclarationDocumentation(file, typeDeclaration, analyzerSettings);
 
-                this.CheckClassDeclarationForParams(typeDeclaration, options);
+                CheckClassDeclarationForParams(typeDeclaration, analyzerSettings);
 
                 foreach (ICSharpTypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
-                    this.CheckDeclarationDocumentation(file, memberDeclaration, options);
+                    CheckDeclarationDocumentation(file, memberDeclaration, analyzerSettings);
                 }
 
-                this.ProcessNestedTypeDeclarations(options, file, typeDeclaration.NestedTypeDeclarations);
+                ProcessNestedTypeDeclarations(file, typeDeclaration.NestedTypeDeclarations, analyzerSettings);
             }
         }
 
         /// <summary>
         /// Process nested declarations.
         /// </summary>
-        /// <param name="options">
-        /// <see cref="OrderingOptions"/>Current options that we can reference.
-        /// </param>
         /// <param name="file">
         /// The <see cref="ICSharpFile"/> to use.
         /// </param>
         /// <param name="typeDeclarations">
         /// The type <see cref="ICSharpTypeDeclaration"/> to check.
         /// </param>
-        private void ProcessNestedTypeDeclarations(DocumentationOptions options, ICSharpFile file, IEnumerable<ITypeDeclaration> typeDeclarations)
+        /// <param name="analyzerSettings">
+        /// The analyzer Settings.
+        /// </param>
+        private static void ProcessNestedTypeDeclarations(ICSharpFile file, IEnumerable<ITypeDeclaration> typeDeclarations, AnalyzerSettings analyzerSettings)
         {
-            Param.RequireNotNull(options, "options");
             Param.RequireNotNull(file, "file");
             Param.RequireNotNull(typeDeclarations, "typeDeclarations");
 
             foreach (ITypeDeclaration typeDeclaration in typeDeclarations)
             {
-                this.CheckDeclarationDocumentation(file, typeDeclaration, options);
+                CheckDeclarationDocumentation(file, typeDeclaration, analyzerSettings);
 
-                this.CheckClassDeclarationForParams(typeDeclaration, options);
+                CheckClassDeclarationForParams(typeDeclaration, analyzerSettings);
 
                 foreach (ITypeMemberDeclaration memberDeclaration in typeDeclaration.MemberDeclarations)
                 {
-                    this.CheckDeclarationDocumentation(file, memberDeclaration, options);
+                    CheckDeclarationDocumentation(file, memberDeclaration, analyzerSettings);
                 }
 
-                this.ProcessNestedTypeDeclarations(options, file, typeDeclaration.NestedTypeDeclarations);
+                ProcessNestedTypeDeclarations(file, typeDeclaration.NestedTypeDeclarations, analyzerSettings);
             }
         }
 
@@ -1277,7 +1270,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="xmlNode">
         /// <see cref="XmlNode"/>to loop through and ensure no blank lines.
         /// </param>
-        private void RemoveBlankLines(XmlNode xmlNode)
+        private static void RemoveBlankLines(XmlNode xmlNode)
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
@@ -1290,7 +1283,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     childNode.InnerText = Utils.RemoveBlankLinesFromMultiLineStringComment(childNode.InnerText, 1, CommentType.DOC_COMMENT);
                 }
 
-                this.RemoveBlankLines(childNode);
+                RemoveBlankLines(childNode);
             }
         }
 
@@ -1300,7 +1293,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void SwapDocCommentsToSingleLineComments(ITreeNode node)
+        private static void SwapDocCommentsToSingleLineComments(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -1308,11 +1301,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 {
                     if (!(currentNode.Parent is IDocCommentBlock))
                     {
-                        this.SwapDocCommentNodeToCommentNode(currentNode);
+                        SwapDocCommentNodeToCommentNode(currentNode);
                     }
                 }
 
-                this.SwapDocCommentsToSingleLineComments(currentNode.FirstChild);
+                SwapDocCommentsToSingleLineComments(currentNode.FirstChild);
             }
         }
 
@@ -1322,7 +1315,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="xmlNode">
         /// <see cref="XmlNode"/>to loop through and ensure first character is upper case.
         /// </param>
-        private void SwapToUpper(XmlNode xmlNode)
+        private static void SwapToUpper(XmlNode xmlNode)
         {
             Param.RequireNotNull(xmlNode, "xmlNode");
 
@@ -1351,7 +1344,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     }
                 }
 
-                this.SwapToUpper(childNode);
+                SwapToUpper(childNode);
             }
         }
 
@@ -1359,28 +1352,33 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// Inserts any missing items from the file header.
         /// Also formats the existing header ensuring that the top and bottom line start with 2 slashes and a space and that a newline follows the header.
         /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
         /// <param name="file">
         /// The file to update.
         /// </param>
-        private void UpdateFileHeader(DocumentationOptions options, ICSharpFile file)
+        /// <param name="analyzerSettings">
+        /// The analyzer Settings.
+        /// </param>
+        private static void UpdateFileHeader(ICSharpFile file, AnalyzerSettings analyzerSettings)
         {
             // The idea here is to load the existing header into our FileHeader object
             // The FileHeader object will ensure that the format of the header is correct even if we're not changing its contents
             // Thus we'll swap it out if its changed at the end.
             string fileName = file.GetSourceFile().ToProjectFile().Location.Name;
-            UpdateFileHeaderStyle updateFileHeaderOption = options.SA1633SA1641UpdateFileHeader;
+
+            // TODO: How do we handle updating the file header?
+            // From the main options page?
+            // Actually, looks like ReplaceCopyrightElement is the best option. It fixes the filename,
+            // the company name and the copyright, and it'll update the summary, if it isn't already set.
+            UpdateFileHeaderStyle updateFileHeaderOption = UpdateFileHeaderStyle.ReplaceCopyrightElement;
 
             if (updateFileHeaderOption == UpdateFileHeaderStyle.Ignore)
             {
                 return;
             }
 
-            DocumentationRulesConfiguration docConfig = this.GetDocumentationRulesConfig(file);
+            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
             string summaryText = Utils.GetSummaryText(file);
-            FileHeader fileHeader = new FileHeader(file) { InsertSummary = options.SA1639FileHeaderMustHaveSummary };
+            FileHeader fileHeader = new FileHeader(file) { InsertSummary = analyzerSettings.IsRuleEnabled("FileHeaderMustHaveSummary") };
 
             switch (updateFileHeaderOption)
             {

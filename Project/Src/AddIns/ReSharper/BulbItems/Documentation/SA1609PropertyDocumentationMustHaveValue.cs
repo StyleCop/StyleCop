@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
 
             IPropertyDeclaration propertyDeclaration = element.GetContainingNode<IPropertyDeclaration>(true);
 
-            new DocumentationRules().InsertValueElement(propertyDeclaration);
+            DocumentationRules.InsertValueElement(propertyDeclaration);
         }
     }
 }

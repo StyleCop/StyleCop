@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
                 IConstructorDeclaration constructorDeclaration = element.GetContainingNode<IConstructorDeclaration>(true);
                 if (constructorDeclaration != null)
                 {
-                    new DocumentationRules().EnsureConstructorSummaryDocBeginsWithStandardText(constructorDeclaration);
+                    DocumentationRules.EnsureConstructorSummaryDocBeginsWithStandardText(constructorDeclaration);
                 }
             }
         }

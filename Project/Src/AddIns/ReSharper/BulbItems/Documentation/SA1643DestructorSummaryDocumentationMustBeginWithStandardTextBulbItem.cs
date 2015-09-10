@@ -49,7 +49,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
                 IDestructorDeclaration destructorDeclaration = element.GetContainingNode<IDestructorDeclaration>(true);
                 if (destructorDeclaration != null)
                 {
-                    new DocumentationRules().EnsureDestructorSummaryDocBeginsWithStandardText(destructorDeclaration);
+                    DocumentationRules.EnsureDestructorSummaryDocBeginsWithStandardText(destructorDeclaration);
                 }
             }
         }

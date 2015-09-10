@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AlphabeticalUsingsStyle.cs" company="http://stylecop.codeplex.com">
+// <copyright file="UpdateFileHeaderStyle.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -12,28 +12,40 @@
 //   notice, or any other, from this software.
 // </license>
 // <summary>
-//   Enumeration to define the behavior of sorting Using Declarations.
+//   Enumeration to define the behavior for updating the file header.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace StyleCop.ReSharper.CodeCleanup.Styles
+namespace StyleCop.ReSharper.CodeCleanup
 {
     using System.ComponentModel;
 
     /// <summary>
-    /// Enumeration to define the behavior of sorting Using Declarations.
+    /// Enumeration to define the behavior for updating the file header.
     /// </summary>
-    public enum AlphabeticalUsingsStyle
+    public enum UpdateFileHeaderStyle
     {
         /// <summary>
         /// Do not change.
         /// </summary>
         [Description("Do not change")]
-        Ignore = 0, 
+        Ignore, 
 
         /// <summary>
-        /// Alphabetical order.
+        /// Only insert if missing.
         /// </summary>
-        [Description("Alphabetical order")]
-        Alphabetical = 1
+        [Description("Insert header if it's missing")]
+        InsertMissing, 
+
+        /// <summary>
+        /// Replaces the copyright element completely.
+        /// </summary>
+        [Description("Replace copyright element completely")]
+        ReplaceCopyrightElement, 
+
+        /// <summary>
+        /// Replace all.
+        /// </summary>
+        [Description("Replace entire header")]
+        ReplaceAll
     }
 }

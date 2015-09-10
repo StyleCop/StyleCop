@@ -36,12 +36,14 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
+            Settings settings = Utils.GetStyleCopSettings();
+
             // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration>)
             IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
 
             if (declaration != null)
             {
-                new DocumentationRules().CheckDeclarationDocumentation(file, declaration, null);
+                DocumentationRules.CheckDeclarationDocumentation(file, declaration, settings);
             }
         }
     }

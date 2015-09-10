@@ -43,7 +43,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            new DocumentationRules().InsertFileName(file);
+            DocumentationRules.InsertFileName(file);
         }
     }
 }

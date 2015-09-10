@@ -34,7 +34,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.CodeCleanup.Options;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Extensions;
 
@@ -375,68 +374,61 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <summary>
         /// Executes the cleanup rules.
         /// </summary>
-        /// <param name="options">
-        /// The options.
-        /// </param>
         /// <param name="file">
-        /// The file to process.
+        ///     The file to process.
         /// </param>
-        public void Execute(ReadabilityOptions options, ICSharpFile file)
+        /// <param name="settings">
+        /// The merged settings for the given file
+        /// </param>
+        public static void ExecuteAll(ICSharpFile file, Settings settings)
         {
-            StyleCopTrace.In(options, file);
-            bool dontPrefixCallsWithBaseUnlessLocalImplementationExists = options.SA1100DoNotPrefixCallsWithBaseUnlessLocalImplementationExists;
-            bool codeMustNotContainEmptyStatements = options.SA1106CodeMustNotContainEmptyStatements;
-            bool blockStatementsMustNotContainEmbeddedComments = options.SA1108BlockStatementsMustNotContainEmbeddedComments;
-            bool blockStatementsMustNotContainEmbeddedRegions = options.SA1109BlockStatementsMustNotContainEmbeddedRegions;
-            bool commentsMustContainText = options.SA1120CommentsMustContainText;
-            bool useBuiltInTypeAlias = options.SA1121UseBuiltInTypeAlias;
-            bool useStringEmptyForEmptyStrings = options.SA1122UseStringEmptyForEmptyStrings;
-            bool dontPlaceRegionsWithinElements = options.SA1123DoNotPlaceRegionsWithinElements;
-            bool codeMustNotContainEmptyRegions = options.SA1124CodeMustNotContainEmptyRegions;
+            StyleCopTrace.In(file);
 
-            if (dontPlaceRegionsWithinElements)
+            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.ReadabilityRules).FullName);
+
+            if (analyzerSettings.IsRuleEnabled("DoNotPlaceRegionsWithinElements"))
             {
-                this.DoNotPlaceRegionsWithinElements(file.FirstChild);
+                DoNotPlaceRegionsWithinElements(file.FirstChild);
             }
 
-            if (blockStatementsMustNotContainEmbeddedComments)
+            if (analyzerSettings.IsRuleEnabled("BlockStatementsMustNotContainEmbeddedComments"))
             {
-                this.BlockStatementsMustNotContainEmbeddedComments(file.FirstChild);
+                BlockStatementsMustNotContainEmbeddedComments(file.FirstChild);
             }
 
-            if (blockStatementsMustNotContainEmbeddedRegions)
+            if (analyzerSettings.IsRuleEnabled("BlockStatementsMustNotContainEmbeddedRegions"))
             {
-                this.BlockStatementsMustNotContainEmbeddedRegions(file.FirstChild);
+                BlockStatementsMustNotContainEmbeddedRegions(file.FirstChild);
             }
 
-            if (codeMustNotContainEmptyStatements)
+            if (analyzerSettings.IsRuleEnabled("CodeMustNotContainEmptyStatements"))
             {
-                this.CodeMustNotContainEmptyStatements(file.FirstChild);
+                CodeMustNotContainEmptyStatements(file.FirstChild);
             }
 
-            if (codeMustNotContainEmptyRegions)
+            if (analyzerSettings.IsRuleEnabled("CodeMustNotContainEmptyRegions"))
             {
-                this.CodeMustNotContainEmptyRegions(file.FirstChild);
+                CodeMustNotContainEmptyRegions(file.FirstChild);
             }
 
-            if (useStringEmptyForEmptyStrings)
+            if (analyzerSettings.IsRuleEnabled("UseStringEmptyForEmptyStrings"))
             {
                 ReplaceEmptyStringsWithStringDotEmpty(file.FirstChild);
             }
 
-            if (useBuiltInTypeAlias)
+            if (analyzerSettings.IsRuleEnabled("UseBuiltInTypeAlias"))
             {
                 SwapToBuiltInTypeAlias(file.FirstChild);
             }
 
-            if (commentsMustContainText)
+            if (analyzerSettings.IsRuleEnabled("CommentsMustContainText"))
             {
                 RemoveEmptyComments(file.FirstChild);
             }
 
-            if (dontPrefixCallsWithBaseUnlessLocalImplementationExists)
+            if (analyzerSettings.IsRuleEnabled("DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"))
             {
-                this.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(file.FirstChild);
+                DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(file.FirstChild);
             }
 
             StyleCopTrace.Out();
@@ -686,7 +678,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void BlockStatementsMustNotContainEmbeddedComments(ITreeNode node)
+        private static void BlockStatementsMustNotContainEmbeddedComments(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -707,7 +699,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.BlockStatementsMustNotContainEmbeddedComments(currentNode.FirstChild);
+                    BlockStatementsMustNotContainEmbeddedComments(currentNode.FirstChild);
                 }
             }
         }
@@ -718,7 +710,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void BlockStatementsMustNotContainEmbeddedRegions(ITreeNode node)
+        private static void BlockStatementsMustNotContainEmbeddedRegions(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -744,12 +736,12 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.BlockStatementsMustNotContainEmbeddedRegions(currentNode.FirstChild);
+                    BlockStatementsMustNotContainEmbeddedRegions(currentNode.FirstChild);
                 }
             }
         }
 
-        private void CodeMustNotContainEmptyRegions(ITreeNode node)
+        private static void CodeMustNotContainEmptyRegions(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -783,7 +775,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CodeMustNotContainEmptyRegions(currentNode.FirstChild);
+                    CodeMustNotContainEmptyRegions(currentNode.FirstChild);
                 }
             }
         }
@@ -794,7 +786,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void CodeMustNotContainEmptyStatements(ITreeNode node)
+        private static void CodeMustNotContainEmptyStatements(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -825,7 +817,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.CodeMustNotContainEmptyStatements(currentNode.FirstChild);
+                    CodeMustNotContainEmptyStatements(currentNode.FirstChild);
                 }
             }
         }
@@ -836,7 +828,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void DoNotPlaceRegionsWithinElements(ITreeNode node)
+        private static void DoNotPlaceRegionsWithinElements(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -866,7 +858,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.DoNotPlaceRegionsWithinElements(currentNode.FirstChild);
+                    DoNotPlaceRegionsWithinElements(currentNode.FirstChild);
                 }
             }
         }
@@ -877,7 +869,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <param name="node">
         /// The node to process.
         /// </param>
-        private void DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(ITreeNode node)
+        private static void DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(ITreeNode node)
         {
             for (ITreeNode currentNode = node; currentNode != null; currentNode = currentNode.NextSibling)
             {
@@ -889,7 +881,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
                 if (currentNode.FirstChild != null)
                 {
-                    this.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(currentNode.FirstChild);
+                    DoNotPrefixCallsWithBaseUnlessLocalImplementationExists(currentNode.FirstChild);
                 }
             }
         }
