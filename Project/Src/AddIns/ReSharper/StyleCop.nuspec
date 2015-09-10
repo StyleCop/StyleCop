@@ -30,6 +30,9 @@
     <file src="..\..\StyleCop\mssp7en.dll" target="DotFiles" />
     <file src="..\..\StyleCop\mssp7en.lex" target="DotFiles" />
 
+    <!-- The default settings file needs to be located next to StyleCop.dll -->
+    <file src="..\..\StyleCop\Settings\DefaultSettings.xml" target="DotFiles\Settings.StyleCop" />
+
     <!-- Custom dictionaries are read from the location of StyleCop.dll, or in any
          child folders. To prevent clashes with other similarly named files, we'll
          put ours in an Extensions folder (this only prevents overwriting clashes,
