@@ -159,6 +159,10 @@ ECHO **** Sync enlistment END *************************************************
 ECHO.
 ECHO **** Build %BuildTarget% BEGIN *************************************************
 
+REM Restore NuGet Packages
+%STTOOLS%\NuGet\nuget.exe restore %PROJECTROOT%
+IF %ERRORLEVEL% neq 0 echo failed. %errorlevel% && exit /b %errorlevel%
+
 REM Make warnings appear as build errors.
 SET StyleCopTreatErrorsAsWarnings=false
 SET CodeAnalysisTreatWarningsAsErrors=true

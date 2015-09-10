@@ -11,3 +11,23 @@ This is an unofficial fork of the StyleCop project hosted at [CodePlex](http://s
 ## Roadmap
 
 The immediate concerns of this GitHub project are to get the ReSharper plugin updated to the latest versions of ReSharper. What happens after that depends on the requests of the community.
+
+## Development Requirements
+
+[Visual Studio 2013](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx)  
+[Visual Studio 2013 SDK](https://www.microsoft.com/download/details.aspx?id=40758)  
+[WiX Toolset 3.5.2325.0](http://wix.codeplex.com/releases/view/60102)  
+[JetBrains ReSharper 9.2](https://www.jetbrains.com/resharper/)  
+
+
+* Right-click on your Windows Desktop and select New->Shortcut
+
+* In the target box that appears, fill in "%windir%\system32\cmd.exe /k {YourDevFolder}\project\environment.cmd" where {YourDevFolder} is the root location of the folder where you placed the StyleCop source code.
+
+* Set this shortcut to open the cmd prompt as administrator
+
+* Click on this new shortcut to launch a StyleCop enlistment window. This should open up without errors.
+
+* From your cmd window run VerifyBuild.cmd. This should complete without errors.
+
+* In order to build/edit StyleCop properly in Visual Studio then Visual Studio must be launched from within this cmdwindow. From your cmd window type StyleCop.sln. This will launch Visual Studio and load the StyleCop solution.
