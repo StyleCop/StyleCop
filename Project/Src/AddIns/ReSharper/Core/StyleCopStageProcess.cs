@@ -21,16 +21,18 @@ namespace StyleCop.ReSharper.Core
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
-    using JetBrains.Application.Settings;
+    using JetBrains.DataFlow;
+    using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Resources.Shell;
+    using JetBrains.Threading;
+    using JetBrains.Util;
 
     using StyleCop.Diagnostics;
-    using StyleCop.ReSharper.Options;
 
     /// <summary>
     /// Stage Process that execute the Microsoft StyleCop against the specified file.
@@ -40,59 +42,53 @@ namespace StyleCop.ReSharper.Core
     /// </remarks>
     public class StyleCopStageProcess : IDaemonStageProcess
     {
-        /// <summary>
-        /// Defines the max performance value - this is used to reverse the settings.
-        /// </summary>
-        private const int MaxPerformanceValue = 9;
+        private static readonly Key<DaemonData> DaemonDataKey = new Key<DaemonData>("StyleCop::DaemonData");
 
-        /// <summary>
-        /// Used to reduce the number of calls to StyleCop to help with performance.
-        /// </summary>
-        private static Stopwatch performanceStopWatch;
+        private static readonly TimeSpan PauseDuration = TimeSpan.FromSeconds(1);
 
-        /// <summary>
-        /// Gets set to true after our first run.
-        /// </summary>
-        private static bool runOnce;
+        private readonly Lifetime lifetime;
 
         private readonly StyleCopRunnerInt runner;
 
-        /// <summary>
-        /// The process we were started with.
-        /// </summary>
+        private readonly IDaemon daemon;
+
         private readonly IDaemonProcess daemonProcess;
+
+        private readonly IThreading threading;
 
         private readonly ICSharpFile file;
 
         /// <summary>
-        /// THe settings store we were constructed with.
-        /// </summary>
-        private readonly IContextBoundSettingsStore settingsStore;
-
-        /// <summary>
         /// Initializes a new instance of the StyleCopStageProcess class, using the specified <see cref="IDaemonProcess"/> .
         /// </summary>
+        /// <param name="lifetime">
+        /// The <see cref="Lifetime"/> of the owning <see cref="IDaemonProcess"/>
+        /// </param>
         /// <param name="runner">
         /// A reference to the StyleCop runner.
+        /// </param>
+        /// <param name="daemon">
+        /// A reference to the <see cref="IDaemon"/> manager.
         /// </param>
         /// <param name="daemonProcess">
         /// <see cref="IDaemonProcess"/> to execute within. 
         /// </param>
-        /// <param name="settingsStore">
-        /// Our settings. 
+        /// <param name="threading">
+        /// A reference to the <see cref="IThreading"/> instance for timed actions.
         /// </param>
         /// <param name="file">
         /// The file to analyze.
         /// </param>
-        public StyleCopStageProcess(StyleCopRunnerInt runner, IDaemonProcess daemonProcess, IContextBoundSettingsStore settingsStore, ICSharpFile file)
+        public StyleCopStageProcess(Lifetime lifetime, StyleCopRunnerInt runner, IDaemon daemon, IDaemonProcess daemonProcess, IThreading threading, ICSharpFile file)
         {
-            StyleCopTrace.In(daemonProcess, settingsStore, file);
+            StyleCopTrace.In(daemonProcess, file);
 
+            this.lifetime = lifetime;
             this.runner = runner;
+            this.daemon = daemon;
             this.daemonProcess = daemonProcess;
-            this.settingsStore = settingsStore;
+            this.threading = threading;
             this.file = file;
-            InitialiseTimers();
 
             StyleCopTrace.Out();
         }
@@ -129,39 +125,39 @@ namespace StyleCop.ReSharper.Core
                     return;
                 }
 
-                // inverse the performance value - to ensure that "more resources" actually evaluates to a lower number
-                // whereas "less resources" actually evaluates to a higher number. If Performance is set to max, then execute as normal.
-                int parsingPerformance = this.settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.ParsingPerformance);
+                DaemonData daemonData;
+                bool shouldProcessNow;
 
-                bool alwaysExecute = parsingPerformance == StyleCopStageProcess.MaxPerformanceValue;
-
-                bool enoughTimeGoneByToExecuteNow = false;
-
-                if (!alwaysExecute)
+                // TODO: Lock proper object. But what?
+                lock (this.file)
                 {
-                    enoughTimeGoneByToExecuteNow = performanceStopWatch.Elapsed > new TimeSpan(0, 0, 0, StyleCopStageProcess.MaxPerformanceValue - parsingPerformance);
+                    daemonData = this.file.UserData.GetOrCreateData(
+                        DaemonDataKey,
+                        () => new DaemonData(this.lifetime, this.threading, this.daemon, this.daemonProcess.Document));
+                    shouldProcessNow = daemonData.OnDaemonCalled();
                 }
 
-                if (!alwaysExecute && !enoughTimeGoneByToExecuteNow && runOnce)
+                if (shouldProcessNow)
                 {
-                    StyleCopTrace.Info("Not enough time gone by to execute.");
-                    StyleCopTrace.Out();
-                    return;
+                    this.runner.Execute(
+                        this.daemonProcess.SourceFile.ToProjectFile(),
+                        this.daemonProcess.Document,
+                        this.file);
+
+                    // TODO: Why is this a copy?
+                    // Uh-oh. Looks like StyleCopRunnerInt shouldn't be shared. Need to check history
+                    List<HighlightingInfo> violations =
+                        (from info in this.runner.ViolationHighlights
+                         select new HighlightingInfo(info.Range, info.Highlighting)).ToList();
+
+                    committer(new DaemonStageResult(violations));
                 }
-
-                runOnce = true;
-
-                this.runner.Execute(this.daemonProcess.SourceFile.ToProjectFile(), this.daemonProcess.Document, this.file);
-
-                List<HighlightingInfo> violations =
-                    (from info in this.runner.ViolationHighlights
-                     let range = info.Range
-                     let highlighting = info.Highlighting
-                     select new HighlightingInfo(range, highlighting)).ToList();
-
-                committer(new DaemonStageResult(violations));
-
-                ResetPerformanceStopWatch();
+                else
+                {
+                    // NOTE: This wouldn't be necessary if the StyleCop analysis were more lightweight,
+                    // e.g. by using ReSharper's ASTs rather than re-parsing the file on each change
+                    daemonData.ScheduleReHighlight();
+                }
             }
             catch (JetBrains.Application.Progress.ProcessCancelledException)
             {
@@ -170,25 +166,48 @@ namespace StyleCop.ReSharper.Core
             StyleCopTrace.Out();
         }
 
-        /// <summary>
-        /// Initializes the static timers used to regulate performance of execution of StyleCop analysis.
-        /// </summary>
-        private static void InitialiseTimers()
+        private class DaemonData
         {
-            if (performanceStopWatch == null)
-            {
-                performanceStopWatch = Stopwatch.StartNew();
-                performanceStopWatch.Start();
-            }
-        }
+            private readonly IThreading threading;
 
-        /// <summary>
-        /// Resets the Performance Stopwatch.
-        /// </summary>
-        private static void ResetPerformanceStopWatch()
-        {
-            performanceStopWatch.Reset();
-            performanceStopWatch.Start();
+            private readonly IDaemon daemon;
+
+            private readonly IDocument document;
+
+            private readonly SequentialLifetimes timedActionsLifetime;
+
+            private DateTime lastCalledTimestamp;
+
+            public DaemonData(Lifetime lifetime, IThreading threading, IDaemon daemon, IDocument document)
+            {
+                this.threading = threading;
+                this.daemon = daemon;
+                this.document = document;
+                this.timedActionsLifetime = new SequentialLifetimes(lifetime);
+                this.lastCalledTimestamp = DateTime.MinValue;
+            }
+
+            public bool OnDaemonCalled()
+            {
+                var hasExpired = DateTime.UtcNow.Ticks - PauseDuration.Ticks > this.lastCalledTimestamp.Ticks;
+                this.lastCalledTimestamp = DateTime.UtcNow;
+                return hasExpired;
+            }
+
+            public void ScheduleReHighlight()
+            {
+                this.timedActionsLifetime.Next(l =>
+                {
+                    // threading.GroupingEvents.CreateEvent().Incoming
+                    this.threading.TimedActions.Queue(
+                        l,
+                        "StyleCop::ReHighlight",
+                        () => ReadLockCookie.Execute(() => this.daemon.ForceReHighlight(this.document)),
+                        PauseDuration,
+                        TimedActionsHost.Recurrence.OneTime,
+                        Rgc.Guarded);
+                });
+            }
         }
     }
 }

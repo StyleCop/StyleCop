@@ -23,11 +23,14 @@ namespace StyleCop.ReSharper.Core
     using System.Linq;
 
     using JetBrains.Application.Settings;
+    using JetBrains.DataFlow;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.CSharp.Daemon;
     using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
+    using JetBrains.Threading;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Options;
@@ -40,16 +43,28 @@ namespace StyleCop.ReSharper.Core
     [DaemonStage]
     public class StyleCopStage : CSharpDaemonStageBase
     {
+        private readonly Lifetime lifetime;
+
+        private readonly IThreading threading;
+
         private readonly StyleCopRunnerInt runner;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopStage"/> class.
         /// </summary>
+        /// <param name="lifetime">
+        /// The <see cref="Lifetime"/> of the daemon stage. This has solution scope.
+        /// </param>
         /// <param name="bootstrapper">
         /// A reference to the main API entry points
         /// </param>
-        public StyleCopStage(StyleCopBootstrapper bootstrapper)
+        /// <param name="threading">
+        /// The threading API for timed actions.
+        /// </param>
+        public StyleCopStage(Lifetime lifetime, StyleCopBootstrapper bootstrapper, IThreading threading)
         {
+            this.lifetime = lifetime;
+            this.threading = threading;
             this.runner = bootstrapper.Runner;
         }
 
@@ -122,7 +137,9 @@ namespace StyleCop.ReSharper.Core
                     }
                 }
 
-                return StyleCopTrace.Out(new StyleCopStageProcess(this.runner, process, settingsStore, file));
+                IDaemon daemon = file.GetSolution().GetComponent<IDaemon>();
+
+                return StyleCopTrace.Out(new StyleCopStageProcess(this.lifetime, this.runner, daemon, process, this.threading, file));
             }
             catch (JetBrains.Application.Progress.ProcessCancelledException)
             {
