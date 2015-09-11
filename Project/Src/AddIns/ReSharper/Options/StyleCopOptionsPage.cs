@@ -18,9 +18,6 @@
 
 namespace StyleCop.ReSharper.Options
 {
-    using System;
-    using System.Linq.Expressions;
-
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
     using JetBrains.UI.Extensions.Commands;
@@ -40,8 +37,6 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private const string PageId = "StyleCopOptionsPage";
 
-        private readonly Lifetime lifetime;
-
         /// <summary>
         /// Initializes a new instance of the StyleCopOptionsPage class.
         /// </summary>
@@ -57,8 +52,6 @@ namespace StyleCop.ReSharper.Options
         public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext, ISolution solution = null)
             : base(lifetime, settingsSmartContext)
         {
-            this.lifetime = lifetime;
-
             this.AddHeader("Options");
 
             // TODO: It would be nice to get rid of this option. It doesn't do what you think it does
@@ -103,21 +96,8 @@ namespace StyleCop.ReSharper.Options
                 this.AddBoolOption(
                     (StyleCopOptionsSettingsKey options) => options.AnalyzeReadOnlyFiles,
                     "Analyze non-user files (not recommended)");
-            IntSliderViewModel performance =
-                this.AddIntSliderOption(
-                    (StyleCopOptionsSettingsKey options) => options.ParsingPerformance,
-                    "Responsiveness:",
-                    1,
-                    9,
-                    "Less resources\r\n(slower)",
-                    "More resources\n(faster)");
             this.AddBinding(
                 nonUserFiles,
-                BindingStyle.IsEnabledProperty,
-                (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
-                JetFunc<object>.Identity);
-            this.AddBinding(
-                performance,
                 BindingStyle.IsEnabledProperty,
                 (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
                 JetFunc<object>.Identity);
@@ -132,29 +112,6 @@ namespace StyleCop.ReSharper.Options
 
             // TODO: Add "update file header style" that used to be in code cleanup
             this.FinishPage();
-        }
-
-        private IntSliderViewModel AddIntSliderOption<T>(
-            Expression<Func<T, int>> lambdaExpression,
-            string text,
-            int minValue,
-            int maxValue,
-            string minValueText,
-            string maxValueText,
-            string toolTipText = null)
-        {
-            var option = new IntSliderViewModel(
-                this.lifetime,
-                this.OptionsSettingsSmartContext,
-                this.OptionsSettingsSmartContext.Schema.GetScalarEntry(lambdaExpression),
-                text,
-                minValue,
-                maxValue,
-                minValueText,
-                maxValueText,
-                toolTipText);
-            this.OptionEntities.Add(option);
-            return option;
         }
     }
 }

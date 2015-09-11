@@ -65,15 +65,6 @@ namespace StyleCop.ReSharper.Options
         public bool InsertToDoText { get; set; }
 
         /// <summary>
-        /// Gets or sets the ParsingPerformance value. 9 means every time R# calls us, 8 means after 1 second, 7 means after 2 seconds, etc.
-        /// </summary>
-        /// <value>
-        /// The performance value.
-        /// </value>
-        [SettingsEntry(7, "Parsing Performance")]
-        public int ParsingPerformance { get; set; }
-
-        /// <summary>
         /// Gets or sets the Specified Assembly Path.
         /// </summary>
         /// <value>
