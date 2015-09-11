@@ -27,7 +27,7 @@ namespace StyleCop.ReSharper.Extensions
     public static class IElementExtensions
     {
         /// <summary>
-        /// Determines if the <see cref="IElement"/> is a whitespace new line.
+        /// Determines if the <see cref="ITreeNode"/> is a whitespace new line.
         /// </summary>
         /// <param name="element">
         /// The <see cref="ITokenNode"/> value to check.
@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.Extensions
         }
 
         /// <summary>
-        /// Determines if the <see cref="IElement"/> is a whitespace.
+        /// Determines if the <see cref="ITreeNode"/> is a whitespace.
         /// </summary>
         /// <param name="element">
         /// The <see cref="ITokenNode"/> value to check.

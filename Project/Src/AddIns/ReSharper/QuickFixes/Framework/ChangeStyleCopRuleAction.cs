@@ -86,17 +86,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         public string Text { get; set; }
 
         /// <summary>
-        /// Arranges the BulbItems in the correct section.
-        /// </summary>
-        /// <param name="menu">
-        /// The BulbMenu to add the items too. 
-        /// </param>
-        ////public void CreateBulbItems(BulbMenu menu)
-        ////{
-        ////    menu.ArrangeContextActions(this.Items);
-        ////}
-
-        /// <summary>
         /// Performs the QuickFix, inserts the configured modifier into the location specified by the violation.
         /// </summary>
         /// <param name="solution">
