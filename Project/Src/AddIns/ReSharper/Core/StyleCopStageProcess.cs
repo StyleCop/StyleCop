@@ -168,23 +168,20 @@ namespace StyleCop.ReSharper.Core
 
         private class DaemonData
         {
-            private readonly IThreading threading;
-
-            private readonly IDaemon daemon;
-
-            private readonly IDocument document;
-
-            private readonly SequentialLifetimes timedActionsLifetime;
+            private readonly GroupingEvent groupingEvent;
 
             private DateTime lastCalledTimestamp;
 
             public DaemonData(Lifetime lifetime, IThreading threading, IDaemon daemon, IDocument document)
             {
-                this.threading = threading;
-                this.daemon = daemon;
-                this.document = document;
-                this.timedActionsLifetime = new SequentialLifetimes(lifetime);
                 this.lastCalledTimestamp = DateTime.MinValue;
+
+                this.groupingEvent = threading.GroupingEvents.CreateEvent(
+                    lifetime,
+                    "StyleCop::ReHighlight",
+                    PauseDuration,
+                    Rgc.Guarded,
+                    () => ReadLockCookie.Execute(() => daemon.ForceReHighlight(document)));
             }
 
             public bool OnDaemonCalled()
@@ -196,17 +193,7 @@ namespace StyleCop.ReSharper.Core
 
             public void ScheduleReHighlight()
             {
-                this.timedActionsLifetime.Next(l =>
-                {
-                    // threading.GroupingEvents.CreateEvent().Incoming
-                    this.threading.TimedActions.Queue(
-                        l,
-                        "StyleCop::ReHighlight",
-                        () => ReadLockCookie.Execute(() => this.daemon.ForceReHighlight(this.document)),
-                        PauseDuration,
-                        TimedActionsHost.Recurrence.OneTime,
-                        Rgc.Guarded);
-                });
+                this.groupingEvent.FireIncoming();
             }
         }
     }
