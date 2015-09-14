@@ -17,7 +17,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Documentation
 {
+    using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
@@ -25,6 +27,7 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
     using StyleCop.ReSharper.BulbItems.Framework;
     using StyleCop.ReSharper.CodeCleanup.Rules;
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// BulbItem - SA1600ElementsMustBeDocumentedBulbItem : Inserts an empty element doc header.
@@ -36,15 +39,21 @@ namespace StyleCop.ReSharper.BulbItems.Documentation
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            Settings settings = Utils.GetStyleCopSettings();
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        StyleCopApi api = solution.GetComponent<StyleCopApiPool>().GetInstance(lifetime);
 
-            // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration>)
-            IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+                        var settings = api.Settings.GetSettings(file.GetSourceFile().ToProjectFile());
 
-            if (declaration != null)
-            {
-                DocumentationRules.CheckDeclarationDocumentation(file, declaration, settings);
-            }
+                        // this covers the issue that constants (and maybe others) return the class if called as GetContainingElement<IDeclaration>)
+                        IDeclaration declaration = Utils.GetTypeClosestToTextControl<IDeclaration>(solution, textControl);
+
+                        if (declaration != null)
+                        {
+                            DocumentationRules.CheckDeclarationDocumentation(file, declaration, settings);
+                        }
+                    });
         }
     }
 }

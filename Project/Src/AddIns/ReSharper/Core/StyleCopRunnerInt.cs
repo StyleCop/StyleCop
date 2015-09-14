@@ -240,9 +240,7 @@ namespace StyleCop.ReSharper.Core
             {
                 CodeProject[] projects = Utils.GetProjects(this.styleCopCore, this.file, document);
 
-                string settingsFile = this.styleCopSettings.FindSettingsFilePath(this.file);
-
-                this.styleCopSettings.LoadSettingsFiles(projects, settingsFile);
+                this.styleCopSettings.LoadSettingsFiles(projects, this.file);
 
                 this.styleCopCore.FullAnalyze(projects);
             }

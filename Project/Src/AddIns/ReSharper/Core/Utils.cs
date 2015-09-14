@@ -53,7 +53,6 @@ namespace StyleCop.ReSharper.Core
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
-    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// Utilities for many of our QuickFixes.
@@ -1020,37 +1019,6 @@ namespace StyleCop.ReSharper.Core
         public static ISolution GetSolution()
         {
             return Shell.Instance.GetComponent<SolutionManagerImpl>().CurrentSolution;
-        }
-
-        /// <summary>
-        /// Gets the StyleCop settings for the current selected project. 
-        /// </summary>
-        /// <returns>
-        /// The settings.
-        /// </returns>
-        public static Settings GetStyleCopSettings()
-        {
-            ISolution solution = GetSolution();
-
-            if ((solution == null) || !Shell.HasInstance)
-            {
-                return null;
-            }
-
-            ITextControl control = Shell.Instance.Components.TextControlManager().FocusedTextControl.Value;
-
-            if (control == null)
-            {
-                return null;
-            }
-
-            IProjectFile projectFile = DocumentManager.GetInstance(solution).GetProjectFile(control.Document);
-
-            // TODO: Service locator bad!
-            StyleCopSettings styleCopSettings = Shell.Instance.GetComponent<StyleCopBootstrapper>().Settings;
-            Settings settings = styleCopSettings.GetSettings(projectFile);
-
-            return settings;
         }
 
         /// <summary>

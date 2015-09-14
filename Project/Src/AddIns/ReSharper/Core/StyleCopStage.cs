@@ -45,9 +45,9 @@ namespace StyleCop.ReSharper.Core
     {
         private readonly Lifetime lifetime;
 
-        private readonly IThreading threading;
+        private readonly StyleCopApiPool apiPool;
 
-        private readonly StyleCopRunnerInt runner;
+        private readonly IThreading threading;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopStage"/> class.
@@ -55,17 +55,17 @@ namespace StyleCop.ReSharper.Core
         /// <param name="lifetime">
         /// The <see cref="Lifetime"/> of the daemon stage. This has solution scope.
         /// </param>
-        /// <param name="bootstrapper">
+        /// <param name="apiPool">
         /// A reference to the main API entry points
         /// </param>
         /// <param name="threading">
         /// The threading API for timed actions.
         /// </param>
-        public StyleCopStage(Lifetime lifetime, StyleCopBootstrapper bootstrapper, IThreading threading)
+        public StyleCopStage(Lifetime lifetime, StyleCopApiPool apiPool, IThreading threading)
         {
             this.lifetime = lifetime;
+            this.apiPool = apiPool;
             this.threading = threading;
-            this.runner = bootstrapper.Runner;
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace StyleCop.ReSharper.Core
 
                 IDaemon daemon = file.GetSolution().GetComponent<IDaemon>();
 
-                return StyleCopTrace.Out(new StyleCopStageProcess(this.lifetime, this.runner, daemon, process, this.threading, file));
+                return StyleCopTrace.Out(new StyleCopStageProcess(this.lifetime, this.apiPool, daemon, process, this.threading, file));
             }
             catch (JetBrains.Application.Progress.ProcessCancelledException)
             {

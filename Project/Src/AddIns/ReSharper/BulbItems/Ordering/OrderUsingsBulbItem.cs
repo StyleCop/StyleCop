@@ -17,6 +17,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.BulbItems.Ordering
 {
+    using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
@@ -45,12 +46,16 @@ namespace StyleCop.ReSharper.BulbItems.Ordering
         {
             ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
 
-            StyleCopSettings styleCopSettings = Utils.GetSolution().GetComponent<StyleCopBootstrapper>().Settings;
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        StyleCopApi api = solution.GetComponent<StyleCopApiPool>().GetInstance(lifetime);
 
-            var settings = styleCopSettings.GetSettings(file.GetSourceFile().ToProjectFile());
+                        Settings settings = api.Settings.GetSettings(file.GetSourceFile().ToProjectFile());
 
-            // Fixes SA1208, SA1209, SA1210, SA1211
-            OrderingRules.ExecuteAll(file, settings);
+                        // Fixes SA1208, SA1209, SA1210, SA1211
+                        OrderingRules.ExecuteAll(file, settings);
+                    });
         }
     }
 }

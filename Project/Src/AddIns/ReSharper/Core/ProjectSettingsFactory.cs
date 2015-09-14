@@ -23,6 +23,10 @@ namespace StyleCop.ReSharper.Core
     using System.Security;
     using System.Xml;
 
+    using JetBrains.Application.FileSystemTracker;
+    using JetBrains.DataFlow;
+    using JetBrains.Util;
+
     using StyleCop.Diagnostics;
 
     /// <summary>
@@ -30,7 +34,30 @@ namespace StyleCop.ReSharper.Core
     /// </summary>
     public class ProjectSettingsFactory
     {
-        private static readonly Dictionary<string, Settings> Cache = new Dictionary<string, Settings>();
+        // This can be confusing. This is a cache of Settings, keyed by settings file path
+        // StyleCopSettings maintains a cache of merged Settings, keyed by project file
+        // Note that we can't share this cache between instances, as Settings maintains
+        // data keyed by object instances that aren't considered equal
+        private readonly Dictionary<string, Settings> cache = new Dictionary<string, Settings>();
+
+        private readonly Lifetime lifetime;
+
+        private readonly IFileSystemTracker fileSystemTracker;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectSettingsFactory"/> class.
+        /// </summary>
+        /// <param name="lifetime">
+        /// The lifetime.
+        /// </param>
+        /// <param name="fileSystemTracker">
+        /// The file system tracker.
+        /// </param>
+        public ProjectSettingsFactory(Lifetime lifetime, IFileSystemTracker fileSystemTracker)
+        {
+            this.lifetime = lifetime;
+            this.fileSystemTracker = fileSystemTracker;
+        }
 
         /// <summary>
         /// Gets or sets StyleCopCore.
@@ -57,7 +84,7 @@ namespace StyleCop.ReSharper.Core
 
             Settings result;
 
-            if (Cache.TryGetValue(cacheKey, out result))
+            if (this.cache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
 
@@ -83,7 +110,7 @@ namespace StyleCop.ReSharper.Core
 
                     StyleCopTrace.Out();
                     this.AddFileWatcher(settingsFilePath);
-                    Cache[cacheKey] = settings;
+                    this.cache[cacheKey] = settings;
 
                     return settings;
                 }
@@ -120,38 +147,6 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
-        /// Called when the file changes.
-        /// </summary>
-        /// <param name="source">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The FileSystemEventArgs for the changing file.
-        /// </param>
-        private static void FileChanged(object source, FileSystemEventArgs e)
-        {
-            StyleCopTrace.In(source, e);
-            Cache.Clear();
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Called when the file renames.
-        /// </summary>
-        /// <param name="source">
-        /// The source of the event.
-        /// </param>
-        /// <param name="e">
-        /// The RenamedEventArgs for the changing file.
-        /// </param>
-        private static void OnRenamed(object source, RenamedEventArgs e)
-        {
-            StyleCopTrace.In(source, e);
-            Cache.Clear();
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
         /// Creates a FileWatcher.
         /// </summary>
         /// <param name="path">
@@ -166,15 +161,11 @@ namespace StyleCop.ReSharper.Core
                 return;
             }
 
-            FileSystemWatcher watch = new FileSystemWatcher();
-            string directoryName = Path.GetDirectoryName(path);
-            watch.Path = directoryName;
-            watch.Filter = Path.GetFileName(path);
-            watch.Changed += FileChanged;
-            watch.Created += FileChanged;
-            watch.Deleted += FileChanged;
-            watch.Renamed += OnRenamed;
-            watch.EnableRaisingEvents = true;
+            this.fileSystemTracker.AdviseFileChanges(
+                this.lifetime,
+                FileSystemPath.Parse(path),
+                delta => this.cache.Clear());
+
             StyleCopTrace.Out();
         }
     }

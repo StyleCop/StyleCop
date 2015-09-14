@@ -24,11 +24,12 @@ namespace StyleCop.ReSharper.Options
     using System.Text.RegularExpressions;
 
     using JetBrains.Application;
+    using JetBrains.Application.FileSystemTracker;
+    using JetBrains.DataFlow;
     using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// Registers StyleCop Highlighters to allow their severity to be set.
@@ -49,12 +50,23 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
-        /// <param name="bootstrapper">
-        /// The entry point to the StyleCop API
+        /// <param name="fileSystemTracker">
+        /// The file System Tracker.
         /// </param>
-        public HighlightingRegistering(StyleCopBootstrapper bootstrapper)
+        public HighlightingRegistering(IFileSystemTracker fileSystemTracker)
         {
-            this.Init(bootstrapper.Core);
+            // TODO: We shouldn't be doing any of this at runtime, especially not on each load
+            // Registering highlightings should happen declaratively
+            // Create this instance directly, rather than use the pool, because the pool needs to
+            // be per-solution, as it caches settings for files in the solution
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        // We don't really need the file system tracker - it's only used when we get
+                        // settings, which we don't do as part of highlighting initialisation
+                        StyleCopCore core = StyleCopCoreFactory.Create(lifetime, fileSystemTracker);
+                        this.Init(core);
+                    });
         }
 
         /// <summary>
@@ -90,6 +102,7 @@ namespace StyleCop.ReSharper.Options
         {
             HighlightingSettingsManager.ConfigurableGroupDescriptor item = new HighlightingSettingsManager.ConfigurableGroupDescriptor(groupId, groupName);
 
+            // TODO: WTF!? Reflection. Oh boy.
             FieldInfo field = highlightManager.GetType().GetField("myConfigurableGroups", BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (field != null)
@@ -110,6 +123,7 @@ namespace StyleCop.ReSharper.Options
         private static void RegisterConfigurableSeverity(
             HighlightingSettingsManager highlightManager, string highlightId, string groupName, string ruleName, string description, Severity defaultSeverity)
         {
+            // TODO: This can be implemented with ICustomConfigurableSeverityItemProvider
             FieldInfo allConfigurableSeverityItems = highlightManager.GetType().GetField("myConfigurableSeverityItem", BindingFlags.Instance | BindingFlags.NonPublic);
 
             if (allConfigurableSeverityItems != null)
@@ -184,6 +198,7 @@ namespace StyleCop.ReSharper.Options
         /// <summary>
         /// Registers the rules. Do not put the contents of this method in the constructor.
         /// If you do *sometimes* the StyleCop object won't be loaded be the time you construct it.
+        /// TODO: I have no idea what this means...
         /// </summary>
         /// <param name="core">
         /// The core API

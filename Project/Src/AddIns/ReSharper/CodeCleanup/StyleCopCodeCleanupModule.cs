@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper.CodeCleanup
 {
     using System.Collections.Generic;
 
+    using JetBrains.DataFlow;
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon.CSharp.CodeCleanup;
@@ -33,7 +34,6 @@ namespace StyleCop.ReSharper.CodeCleanup
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.CodeCleanup.Rules;
-    using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
@@ -47,19 +47,6 @@ namespace StyleCop.ReSharper.CodeCleanup
         ///   StyleCop descriptor.
         /// </summary>
         private static readonly StyleCopDescriptor Descriptor = new StyleCopDescriptor();
-
-        private readonly StyleCopSettings styleCopSettings;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopCodeCleanupModule"/> class.
-        /// </summary>
-        /// <param name="bootstrapper">
-        /// The entry point to the StyleCop API.
-        /// </param>
-        public StyleCopCodeCleanupModule(StyleCopBootstrapper bootstrapper)
-        {
-            this.styleCopSettings = bootstrapper.Settings;
-        }
 
         /// <summary>
         /// Gets the collection of option descriptors.
@@ -188,14 +175,19 @@ namespace StyleCop.ReSharper.CodeCleanup
         {
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
-            Settings settings = this.styleCopSettings.GetSettings(projectFile);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        StyleCopApiPool apiPool = projectFile.GetSolution().GetComponent<StyleCopApiPool>();
+                        Settings settings = apiPool.GetInstance(lifetime).Settings.GetSettings(projectFile);
 
-            ReadabilityRules.ExecuteAll(file, settings);
-            MaintainabilityRules.ExecuteAll(file, settings);
-            DocumentationRules.ExecuteAll(file, settings);
-            LayoutRules.ExecuteAll(file, settings);
-            SpacingRules.ExecuteAll(file, settings);
-            OrderingRules.ExecuteAll(file, settings);
+                        ReadabilityRules.ExecuteAll(file, settings);
+                        MaintainabilityRules.ExecuteAll(file, settings);
+                        DocumentationRules.ExecuteAll(file, settings);
+                        LayoutRules.ExecuteAll(file, settings);
+                        SpacingRules.ExecuteAll(file, settings);
+                        OrderingRules.ExecuteAll(file, settings);
+                    });
         }
     }
 }

@@ -22,9 +22,12 @@ namespace StyleCop.ReSharper.Core
     using System.Collections.Generic;
     using System.IO;
 
+    using JetBrains.Application.FileSystemTracker;
     using JetBrains.Application.Settings;
+    using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
+    using JetBrains.Util;
 
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Extensions;
@@ -37,60 +40,35 @@ namespace StyleCop.ReSharper.Core
     {
         private const string CsParserId = "StyleCop.CSharp.CsParser";
 
-        private static readonly Dictionary<string, bool> BoolCache = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> boolCache = new Dictionary<string, bool>();
 
-        private static readonly Dictionary<string, Settings> SettingsCache = new Dictionary<string, Settings>();
+        private readonly Dictionary<string, Settings> settingsCache = new Dictionary<string, Settings>();
 
-        private static readonly Dictionary<string, string> StringCache = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> settingsFilePathForProjectFile = new Dictionary<string, string>();
+
+        private readonly Lifetime lifetime;
 
         private readonly StyleCopCore styleCopCore;
+
+        private readonly IFileSystemTracker fileSystemTracker;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopSettings"/> class.
         /// </summary>
+        /// <param name="lifetime">
+        /// The lifetime of the settings object.
+        /// </param>
         /// <param name="styleCopCore">
         /// The style cop core.
         /// </param>
-        public StyleCopSettings(StyleCopCore styleCopCore)
-        {
-            this.styleCopCore = styleCopCore;
-        }
-
-        /// <summary>
-        /// Searches directories of the project items project file and the parents thereof to see 
-        /// if a Settings file exists.
-        /// </summary>
-        /// <param name="projectItem">
-        /// File being examined.
+        /// <param name="fileSystemTracker">
+        /// The file system tracker.
         /// </param>
-        /// <returns>
-        /// Path to the settings file.
-        /// </returns>
-        public string FindSettingsFilePath(IProjectItem projectItem)
+        public StyleCopSettings(Lifetime lifetime, StyleCopCore styleCopCore, IFileSystemTracker fileSystemTracker)
         {
-            StyleCopTrace.In(projectItem);
-
-            string cacheKey = string.Format("{0}::{1}", "FindSettingsFilePath", projectItem.Location.FullPath.ToLowerInvariant());
-
-            string settings;
-
-            if (StringCache.TryGetValue(cacheKey, out settings))
-            {
-                StyleCopTrace.Out();
-
-                return settings;
-            }
-
-            IProject projectFile = projectItem.GetProject();
-
-            string result = this.FindSettingsFilePath(projectFile);
-
-            // TODO: This is adding a watcher for settings.stylecop in the folder of the source file
-            // This is creating a watcher for *ALL* source files that are monitored!
-            this.AddWatcherForSettingsFile(projectItem.Location.FullPath);
-            StringCache[cacheKey] = result;
-
-            return StyleCopTrace.Out(result);
+            this.lifetime = lifetime;
+            this.styleCopCore = styleCopCore;
+            this.fileSystemTracker = fileSystemTracker;
         }
 
         /// <summary>
@@ -108,7 +86,9 @@ namespace StyleCop.ReSharper.Core
 
             string settingsFile = this.FindSettingsFilePath(projectFile);
 
-            if (string.IsNullOrEmpty(settingsFile))
+            Settings settings = this.GetMergedSettings(settingsFile);
+
+            if (settings == null)
             {
                 string defaultSettingsPath = this.styleCopCore.Environment.GetDefaultSettingsPath();
                 return string.IsNullOrEmpty(defaultSettingsPath) ? null : this.styleCopCore.Environment.GetSettings(defaultSettingsPath, true);
@@ -123,12 +103,14 @@ namespace StyleCop.ReSharper.Core
         /// <param name="projects">
         /// The projects.
         /// </param>
-        /// <param name="settingsPath">
-        /// The settings path.
+        /// <param name="projectFile">
+        /// The source file that is being inspected
         /// </param>
-        public void LoadSettingsFiles(IEnumerable<CodeProject> projects, string settingsPath)
+        public void LoadSettingsFiles(IEnumerable<CodeProject> projects, IProjectFile projectFile)
         {
-            StyleCopTrace.In(projects, settingsPath);
+            StyleCopTrace.In(projects, projectFile);
+
+            string settingsPath = this.FindSettingsFilePath(projectFile);
 
             Settings mergedSettings = this.GetMergedSettings(settingsPath);
 
@@ -163,7 +145,7 @@ namespace StyleCop.ReSharper.Core
 
             bool result;
 
-            if (BoolCache.TryGetValue(cacheKey, out result))
+            if (this.boolCache.TryGetValue(cacheKey, out result))
             {
                 StyleCopTrace.Out();
                 return result;
@@ -197,7 +179,7 @@ namespace StyleCop.ReSharper.Core
                             || (!projectFile.Name.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)
                                 && !projectFile.Name.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)))
                         {
-                            BoolCache[cacheKey] = false;
+                            this.boolCache[cacheKey] = false;
 
                             StyleCopTrace.Out();
 
@@ -207,49 +189,11 @@ namespace StyleCop.ReSharper.Core
                 }
             }
 
-            BoolCache[cacheKey] = true;
+            this.boolCache[cacheKey] = true;
 
             StyleCopTrace.Out();
 
             return true;
-        }
-
-        /// <summary>
-        /// Called when a file being watched changes.
-        /// </summary>
-        /// <param name="source">
-        /// The object being changed.
-        /// </param>
-        /// <param name="e">
-        /// The FileSystemEventArgs for the file.
-        /// </param>
-        private static void FileChanged(object source, FileSystemEventArgs e)
-        {
-            StyleCopTrace.In(source, e);
-
-            StringCache.Clear();
-            SettingsCache.Clear();
-
-            StyleCopTrace.Out();
-        }
-
-        /// <summary>
-        /// Called when a file being watched gets renamed.
-        /// </summary>
-        /// <param name="source">
-        /// The object being renamed.
-        /// </param>
-        /// <param name="e">
-        /// The RenamedEventArgs for the file.
-        /// </param>
-        private static void FileRenamed(object source, RenamedEventArgs e)
-        {
-            StyleCopTrace.In(source, e);
-
-            StringCache.Clear();
-            SettingsCache.Clear();
-
-            StyleCopTrace.Out();
         }
 
         /// <summary>
@@ -297,17 +241,15 @@ namespace StyleCop.ReSharper.Core
                 return;
             }
 
-            // TODO: Leaking FileSystemWatchers
-            // TODO: Switch to IFileSystemTracker and tie in to Lifetime
-            FileSystemWatcher watch = new FileSystemWatcher();
-            string directoryName = Path.GetDirectoryName(path);
-            watch.Path = directoryName;
-            watch.Filter = "settings.stylecop";
-            watch.Changed += FileChanged;
-            watch.Created += FileChanged;
-            watch.Deleted += FileChanged;
-            watch.Renamed += FileRenamed;
-            watch.EnableRaisingEvents = true;
+            this.fileSystemTracker.AdviseFileChanges(
+                this.lifetime,
+                FileSystemPath.Parse(path),
+                _ =>
+                    {
+                        this.settingsFilePathForProjectFile.Clear();
+                        this.settingsCache.Clear();
+                    });
+
             StyleCopTrace.Out();
         }
 
@@ -336,6 +278,45 @@ namespace StyleCop.ReSharper.Core
         }
 
         /// <summary>
+        /// Searches directories of the project items project file and the parents thereof to see 
+        /// if a Settings file exists.
+        /// </summary>
+        /// <param name="projectItem">
+        /// File being examined.
+        /// </param>
+        /// <returns>
+        /// Path to the settings file.
+        /// </returns>
+        private string FindSettingsFilePath(IProjectItem projectItem)
+        {
+            StyleCopTrace.In(projectItem);
+
+            string cacheKey = projectItem.Location.FullPath.ToLowerInvariant();
+
+            string settings;
+
+            if (this.settingsFilePathForProjectFile.TryGetValue(cacheKey, out settings))
+            {
+                StyleCopTrace.Out();
+
+                return settings;
+            }
+
+            IProject projectFile = projectItem.GetProject();
+
+            string result = this.FindSettingsFilePath(projectFile);
+
+            // TODO: This makes no sense
+            // We cache, per source file location, the location of the settings.stylecop file.
+            // We only look for the settings.stylecop file at the project root folder and above.
+            // But we add a file watcher at the source file location
+            // this.AddWatcherForSettingsFile(projectItem.Location.FullPath);
+            this.settingsFilePathForProjectFile[cacheKey] = result;
+
+            return StyleCopTrace.Out(result);
+        }
+
+        /// <summary>
         /// Searches directories of the project file and the parents thereof to see 
         /// if a Settings file exists.
         /// </summary>
@@ -351,7 +332,7 @@ namespace StyleCop.ReSharper.Core
 
             if (project != null)
             {
-                JetBrains.Util.FileSystemPath directory = project.Location;
+                FileSystemPath directory = project.Location;
 
                 if (directory.ExistsDirectory)
                 {
@@ -386,7 +367,7 @@ namespace StyleCop.ReSharper.Core
 
             Settings mergedSettings = null;
 
-            if (SettingsCache.TryGetValue(cacheKey, out mergedSettings))
+            if (this.settingsCache.TryGetValue(cacheKey, out mergedSettings))
             {
                 StyleCopTrace.Out();
 
@@ -402,8 +383,9 @@ namespace StyleCop.ReSharper.Core
                 mergedSettings = merger.MergedSettings;
             }
 
-            SettingsCache[cacheKey] = mergedSettings;
+            this.settingsCache[cacheKey] = mergedSettings;
 
+            // TODO: This doesn't invalidate the cache if any of the other files change
             this.AddWatcherForSettingsFile(settingsPath);
 
             return StyleCopTrace.Out(mergedSettings);

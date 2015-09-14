@@ -17,11 +17,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
 
-    using JetBrains.Util;
+    using JetBrains.Application.FileSystemTracker;
+    using JetBrains.DataFlow;
 
     using StyleCop.Diagnostics;
 
@@ -33,14 +33,20 @@ namespace StyleCop.ReSharper.Core
         /// <summary>
         /// The create.
         /// </summary>
+        /// <param name="lifetime">
+        /// The lifetime.
+        /// </param>
+        /// <param name="fileSystemTracker">
+        /// The file System Tracker.
+        /// </param>
         /// <returns>
         /// A new StyleCopCore object.
         /// </returns>
-        public static StyleCopCore Create()
+        public static StyleCopCore Create(Lifetime lifetime, IFileSystemTracker fileSystemTracker)
         {
             StyleCopTrace.In();
 
-            ProjectSettingsFactory projectSettingsFactory = new ProjectSettingsFactory();
+            ProjectSettingsFactory projectSettingsFactory = new ProjectSettingsFactory(lifetime, fileSystemTracker);
             SourceCodeFactory sourceCodeFactory = new SourceCodeFactory();
 
             ObjectBasedEnvironment environment = new ObjectBasedEnvironment(sourceCodeFactory.Create, projectSettingsFactory.Create);

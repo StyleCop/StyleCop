@@ -33,6 +33,7 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.Util;
 
     using StyleCop.Diagnostics;
+    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// Stage Process that execute the Microsoft StyleCop against the specified file.
@@ -48,7 +49,7 @@ namespace StyleCop.ReSharper.Core
 
         private readonly Lifetime lifetime;
 
-        private readonly StyleCopRunnerInt runner;
+        private readonly StyleCopApiPool apiPool;
 
         private readonly IDaemon daemon;
 
@@ -64,7 +65,7 @@ namespace StyleCop.ReSharper.Core
         /// <param name="lifetime">
         /// The <see cref="Lifetime"/> of the owning <see cref="IDaemonProcess"/>
         /// </param>
-        /// <param name="runner">
+        /// <param name="apiPool">
         /// A reference to the StyleCop runner.
         /// </param>
         /// <param name="daemon">
@@ -79,12 +80,12 @@ namespace StyleCop.ReSharper.Core
         /// <param name="file">
         /// The file to analyze.
         /// </param>
-        public StyleCopStageProcess(Lifetime lifetime, StyleCopRunnerInt runner, IDaemon daemon, IDaemonProcess daemonProcess, IThreading threading, ICSharpFile file)
+        public StyleCopStageProcess(Lifetime lifetime, StyleCopApiPool apiPool, IDaemon daemon, IDaemonProcess daemonProcess, IThreading threading, ICSharpFile file)
         {
             StyleCopTrace.In(daemonProcess, file);
 
             this.lifetime = lifetime;
-            this.runner = runner;
+            this.apiPool = apiPool;
             this.daemon = daemon;
             this.daemonProcess = daemonProcess;
             this.threading = threading;
@@ -139,18 +140,23 @@ namespace StyleCop.ReSharper.Core
 
                 if (shouldProcessNow)
                 {
-                    this.runner.Execute(
-                        this.daemonProcess.SourceFile.ToProjectFile(),
-                        this.daemonProcess.Document,
-                        this.file);
+                    Lifetimes.Using(
+                        apiLifetime =>
+                            {
+                                var runner = this.apiPool.GetInstance(apiLifetime).Runner;
+                                runner.Execute(
+                                    this.daemonProcess.SourceFile.ToProjectFile(),
+                                    this.daemonProcess.Document,
+                                    this.file);
 
-                    // TODO: Why is this a copy?
-                    // Uh-oh. Looks like StyleCopRunnerInt shouldn't be shared. Need to check history
-                    List<HighlightingInfo> violations =
-                        (from info in this.runner.ViolationHighlights
-                         select new HighlightingInfo(info.Range, info.Highlighting)).ToList();
+                                // TODO: Why is this a copy?
+                                // Uh-oh. Looks like StyleCopRunnerInt shouldn't be shared. Need to check history
+                                List<HighlightingInfo> violations =
+                                    (from info in runner.ViolationHighlights
+                                     select new HighlightingInfo(info.Range, info.Highlighting)).ToList();
 
-                    committer(new DaemonStageResult(violations));
+                                committer(new DaemonStageResult(violations));
+                            });
                 }
                 else
                 {

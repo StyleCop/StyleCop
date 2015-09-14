@@ -26,13 +26,14 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using System.Xml;
 
     using JetBrains.Application.Settings;
+    using JetBrains.DataFlow;
+    using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi;
     using JetBrains.ReSharper.Psi.CSharp.Parsing;
     using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.ExtensionsAPI;
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
-    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.CSharp;
     using StyleCop.Diagnostics;
@@ -126,50 +127,54 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 }
             }
 
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
 
-            // However it can be on/off depending on the file so we'd have to cache it per file
-            bool ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
+                        // However it can be on/off depending on the file so we'd have to cache it per file
+                        bool ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustBeginWithACapitalLetter");
 
-            if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
-            {
-                EnsureDocumentationTextIsUppercase(declaration);
-            }
+                        if (documentationTextMustBeginWithACapitalLetter && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1628))
+                        {
+                            EnsureDocumentationTextIsUppercase(declaration);
+                        }
 
-            ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustEndWithAPeriod");
+                        ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("DocumentationTextMustEndWithAPeriod");
 
-            if (documentationTextMustEndWithAPeriod && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1629))
-            {
-                EnsureDocumentationTextEndsWithAPeriod(declaration);
-            }
+                        if (documentationTextMustEndWithAPeriod && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1629))
+                        {
+                            EnsureDocumentationTextEndsWithAPeriod(declaration);
+                        }
 
-            if (declaration is IDestructorDeclaration)
-            {
-                if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
-                {
-                    EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
-                }
-            }
+                        if (declaration is IDestructorDeclaration)
+                        {
+                            if (destructorSummaryDocBeginsWithStandardText && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1643))
+                            {
+                                EnsureDestructorSummaryDocBeginsWithStandardText(declaration as IDestructorDeclaration);
+                            }
+                        }
 
-            if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
-            {
-                CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
-            }
+                        if (declaration is IMethodDeclaration || declaration is IIndexerDeclaration)
+                        {
+                            CheckMethodAndIndexerDeclarationDocumentation(declaration as IParametersOwnerDeclaration, options);
+                        }
 
-            if (declaration is IPropertyDeclaration)
-            {
-                ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
+                        if (declaration is IPropertyDeclaration)
+                        {
+                            ruleIsEnabled = docConfig.GetStyleCopRuleEnabled("PropertyDocumentationMustHaveValue");
 
-                if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
-                {
-                    InsertValueElement(declaration as IPropertyDeclaration);
-                }
-            }
+                            if (propertyDocumentationMustHaveValueDocumented && ruleIsEnabled && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1609))
+                            {
+                                InsertValueElement(declaration as IPropertyDeclaration);
+                            }
+                        }
 
-            if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
-            {
-                InsertMissingTypeParamElement(declaration);
-            }
+                        if (declaration is ITypeParametersOwner && (genericTypeParametersMustBeDocumented && !Utils.IsRuleSuppressed(declaration, StyleCopRules.SA1618)))
+                        {
+                            InsertMissingTypeParamElement(declaration);
+                        }
+                    });
         }
 
         /// <summary>
@@ -399,11 +404,15 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public static void InsertCompanyName(ICSharpFile file)
         {
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
 
-            FileHeader fileHeader = new FileHeader(file) { CompanyName = docConfig.CompanyName };
+                        FileHeader fileHeader = new FileHeader(file) { CompanyName = docConfig.CompanyName };
 
-            fileHeader.Update();
+                        fileHeader.Update();
+                    });
         }
 
         /// <summary>
@@ -414,11 +423,15 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public static void InsertCopyrightText(ICSharpFile file)
         {
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
 
-            FileHeader fileHeader = new FileHeader(file) { CopyrightText = docConfig.Copyright };
+                        FileHeader fileHeader = new FileHeader(file) { CopyrightText = docConfig.Copyright };
 
-            fileHeader.Update();
+                        fileHeader.Update();
+                    });
         }
 
         /// <summary>
@@ -429,15 +442,19 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         public static void InsertFileHeader(ICSharpFile file)
         {
-            FileHeader fileHeader = new FileHeader(file);
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        FileHeader fileHeader = new FileHeader(file);
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
 
-            fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
-            fileHeader.CompanyName = docConfig.CompanyName;
-            fileHeader.CopyrightText = docConfig.Copyright;
-            fileHeader.Summary = Utils.GetSummaryText(file);
+                        fileHeader.FileName = file.GetSourceFile().ToProjectFile().Location.Name;
+                        fileHeader.CompanyName = docConfig.CompanyName;
+                        fileHeader.CopyrightText = docConfig.Copyright;
+                        fileHeader.Summary = Utils.GetSummaryText(file);
 
-            fileHeader.Update();
+                        fileHeader.Update();
+                    });
         }
 
         /// <summary>
@@ -803,11 +820,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <returns>
         /// The configuration for the given file.
         /// </returns>
-        private static DocumentationRulesConfiguration GetDocumentationRulesConfig(ICSharpFile file)
+        private static DocumentationRulesConfiguration GetDocumentationRulesConfig(Lifetime lifetime, ICSharpFile file)
         {
             // TODO: We shouldn't have to resort to service locator!
-            var bootstrapper = Shell.Instance.GetComponent<StyleCopBootstrapper>();
-            return new DocumentationRulesConfiguration(bootstrapper.Settings, file.GetSourceFile());
+            var api = file.GetSolution().GetComponent<StyleCopApiPool>().GetInstance(lifetime);
+            return new DocumentationRulesConfiguration(api.Settings, file.GetSourceFile());
         }
 
         /// <summary>
@@ -830,18 +847,23 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             Debug.Assert(declaration.DeclaredElement != null, "declaration.DeclaredElement != null");
 
             bool returnValue = false;
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
 
-            bool isIFieldDeclaration = declaration is IFieldDeclaration;
+                        bool isIFieldDeclaration = declaration is IFieldDeclaration;
 
-            AccessRights accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
+                        AccessRights accessRights = ((IModifiersOwnerDeclaration)declaration).GetAccessRights();
 
-            if ((!isIFieldDeclaration || docConfig.RequireFields) && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
-                && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
-            {
-                DeclarationHeader.CreateNewHeader(declaration, docConfig);
-                returnValue = true;
-            }
+                        if ((!isIFieldDeclaration || docConfig.RequireFields)
+                            && (accessRights != AccessRights.PRIVATE || !docConfig.IgnorePrivates)
+                            && (accessRights != AccessRights.INTERNAL || !docConfig.IgnoreInternals))
+                        {
+                            DeclarationHeader.CreateNewHeader(declaration, docConfig);
+                            returnValue = true;
+                        }
+                    });
 
             return StyleCopTrace.Out(returnValue);
         }
@@ -1376,35 +1398,38 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 return;
             }
 
-            DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(file);
-            string summaryText = Utils.GetSummaryText(file);
-            FileHeader fileHeader = new FileHeader(file) { InsertSummary = analyzerSettings.IsRuleEnabled("FileHeaderMustHaveSummary") };
+            Lifetimes.Using(
+                lifetime =>
+                    {
+                        DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
+                        string summaryText = Utils.GetSummaryText(file);
+                        FileHeader fileHeader = new FileHeader(file) { InsertSummary = analyzerSettings.IsRuleEnabled("FileHeaderMustHaveSummary") };
 
-            switch (updateFileHeaderOption)
-            {
-                case UpdateFileHeaderStyle.ReplaceCopyrightElement:
-                    fileHeader.FileName = fileName;
-                    fileHeader.CompanyName = docConfig.CompanyName;
-                    fileHeader.CopyrightText = docConfig.Copyright;
-                    fileHeader.Summary = string.IsNullOrEmpty(fileHeader.Summary) ? summaryText : fileHeader.Summary;
-                    break;
+                        switch (updateFileHeaderOption)
+                        {
+                            case UpdateFileHeaderStyle.ReplaceCopyrightElement:
+                                fileHeader.FileName = fileName;
+                                fileHeader.CompanyName = docConfig.CompanyName;
+                                fileHeader.CopyrightText = docConfig.Copyright;
+                                fileHeader.Summary = string.IsNullOrEmpty(fileHeader.Summary) ? summaryText : fileHeader.Summary;
+                                break;
 
-                case UpdateFileHeaderStyle.ReplaceAll:
-                    fileHeader.FileName = fileName;
-                    fileHeader.CompanyName = docConfig.CompanyName;
-                    fileHeader.CopyrightText = docConfig.Copyright;
-                    fileHeader.Summary = summaryText;
-                    break;
+                            case UpdateFileHeaderStyle.ReplaceAll:
+                                fileHeader.FileName = fileName;
+                                fileHeader.CompanyName = docConfig.CompanyName;
+                                fileHeader.CopyrightText = docConfig.Copyright;
+                                fileHeader.Summary = summaryText;
+                                break;
 
-                case UpdateFileHeaderStyle.InsertMissing:
-                    fileHeader.FileName = string.IsNullOrEmpty(fileHeader.FileName) ? fileName : fileHeader.FileName;
-                    fileHeader.CompanyName = string.IsNullOrEmpty(fileHeader.CompanyName) ? docConfig.CompanyName : fileHeader.CompanyName;
-                    fileHeader.CopyrightText = string.IsNullOrEmpty(fileHeader.CopyrightText) ? docConfig.Copyright : fileHeader.CopyrightText;
-                    fileHeader.Summary = string.IsNullOrEmpty(fileHeader.Summary) ? summaryText : fileHeader.Summary;
-                    break;
-            }
-
-            fileHeader.Update();
+                            case UpdateFileHeaderStyle.InsertMissing:
+                                fileHeader.FileName = string.IsNullOrEmpty(fileHeader.FileName) ? fileName : fileHeader.FileName;
+                                fileHeader.CompanyName = string.IsNullOrEmpty(fileHeader.CompanyName) ? docConfig.CompanyName : fileHeader.CompanyName;
+                                fileHeader.CopyrightText = string.IsNullOrEmpty(fileHeader.CopyrightText) ? docConfig.Copyright : fileHeader.CopyrightText;
+                                fileHeader.Summary = string.IsNullOrEmpty(fileHeader.Summary) ? summaryText : fileHeader.Summary;
+                                break;
+                        }
+                        fileHeader.Update();
+                    });
         }
     }
 }
