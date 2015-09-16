@@ -478,6 +478,9 @@
   <Import Project="..\..\..\packages\JetBrains.Psi.Features.test.Framework.103.0.20150819.145114\build\JetBrains.Psi.Features.test.Framework.Targets" Condition="Exists('..\..\..\packages\JetBrains.Psi.Features.test.Framework.103.0.20150819.145114\build\JetBrains.Psi.Features.test.Framework.Targets')" />
   <Import Project="..\..\..\packages\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.2.0.20150812.0\build\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.Targets" Condition="Exists('..\..\..\packages\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.2.0.20150812.0\build\JetBrains.Build.Platform.Tasks.ThemedIconsPacker.Targets')" />
   <Import Project="..\..\..\packages\JetBrains.ReSharper.SDK.9.2.20150819.163916\build\JetBrains.ReSharper.SDK.Targets" Condition="Exists('..\..\..\packages\JetBrains.ReSharper.SDK.9.2.20150819.163916\build\JetBrains.ReSharper.SDK.Targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(SolutionDir)src\StyleCop\Settings\DefaultSettings.xml $(TargetDir)Settings.StyleCop</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -3,13 +3,14 @@
   <metadata>
     <id>StyleCop.StyleCop</id>
     <title>StyleCop</title>
-    <version>1.0.7</version>
-    <authors>Andy Reeves, Matt Ellis</authors>
+    <version>4.7.0</version>
+    <authors>Matt Ellis, Andy Reeves</authors>
     <owners>JetBrains, Matt Ellis</owners>
-    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules.</description>
+    <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules.</summary>
+    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7</description>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
-    <iconUrl>https://raw.githubusercontent.com/Styleop/StyleCop/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
     <dependencies>
       <dependency id="Wave" version="[3.0]" />
     </dependencies>
@@ -30,8 +31,11 @@
     <file src="..\..\StyleCop\mssp7en.dll" target="DotFiles" />
     <file src="..\..\StyleCop\mssp7en.lex" target="DotFiles" />
 
-    <!-- The default settings file needs to be located next to StyleCop.dll -->
-    <file src="..\..\StyleCop\Settings\DefaultSettings.xml" target="DotFiles\Settings.StyleCop" />
+    <!-- The default settings file needs to be located next to StyleCop.dll.
+         NuGet very helpfully thinks that any target with a different file extension is
+         actually a directory (instead of using a much more sensible trailing slash).
+         So the ReSharper project copies and renames the default settings -->
+    <file src="bin\Release\Settings.StyleCop" target="DotFiles\" />
 
     <!-- Custom dictionaries are read from the location of StyleCop.dll, or in any
          child folders. To prevent clashes with other similarly named files, we'll
