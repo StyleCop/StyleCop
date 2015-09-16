@@ -79,5 +79,4 @@ namespace StyleCop.ReSharper.ShellComponents
             }
         }
     }
-
 }

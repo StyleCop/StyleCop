@@ -1345,6 +1345,7 @@ namespace StyleCop.ReSharper.Options
             {
                 return false;
             }
+
             CodeCleanupProfile styleCopProfile = null;
 
             CodeCleanupSettingsComponent codeCleanupSettings =
