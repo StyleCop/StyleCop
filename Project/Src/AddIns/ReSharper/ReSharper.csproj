@@ -388,7 +388,6 @@
     <Compile Include="QuickFixes\Spacing\SA1026QuickFix.cs" />
     <Compile Include="ShellComponents\StyleCopApiPool.cs" />
     <Compile Include="ShellComponents\StyleCopApi.cs" />
-    <Compile Include="ShellComponents\StyleCopCodeStyleChecker.cs" />
     <Compile Include="Violations\StyleCopHighlightingBase.cs" />
     <Compile Include="Violations\StyleCopHighlightingDoNotShow.cs" />
     <Compile Include="Violations\StyleCopHighlightingError.cs" />
