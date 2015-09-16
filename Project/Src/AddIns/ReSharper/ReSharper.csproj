@@ -386,6 +386,7 @@
     <Compile Include="QuickFixes\Spacing\SA1024QuickFix.cs" />
     <Compile Include="QuickFixes\Spacing\SA1025QuickFix.cs" />
     <Compile Include="QuickFixes\Spacing\SA1026QuickFix.cs" />
+    <Compile Include="Resources\StyleCopIcons\ThemedIcons.StyleCop.Generated.cs" />
     <Compile Include="ShellComponents\StyleCopApiPool.cs" />
     <Compile Include="ShellComponents\StyleCopApi.cs" />
     <Compile Include="Violations\StyleCopHighlightingBase.cs" />
@@ -402,7 +403,7 @@
     <EmbeddedResource Include="Options\StyleCopOptionsPage.resx">
       <DependentUpon>StyleCopOptionsPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\StyleCop.png" />
+    <ThemedIconPng Include="Resources\StyleCopIcons\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ReorderingPatterns.xml" />
@@ -424,6 +425,12 @@
       <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\StyleCopIcons\ThemedIcons.StyleCop.Generated.Xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />

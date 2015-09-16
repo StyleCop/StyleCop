@@ -19,17 +19,18 @@
 namespace StyleCop.ReSharper.Options
 {
     using JetBrains.DataFlow;
-    using JetBrains.ProjectModel;
     using JetBrains.UI.Extensions.Commands;
     using JetBrains.UI.Options;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
     using JetBrains.Util;
 
+    using StyleCop.ReSharper.Resources;
+
     /// <summary>
     /// Options page to allow the plugins options to be set from within the ReSharper Options window.
     /// </summary>
-    [OptionsPage(PageId, "StyleCop", null, ParentId = "Tools")]
+    [OptionsPage(PageId, "StyleCop", typeof(StyleCopThemedIcons.Logo), ParentId = "Tools")]
     public class StyleCopOptionsPage : CustomSimpleOptionsPage
     {
         /// <summary>
@@ -46,10 +47,7 @@ namespace StyleCop.ReSharper.Options
         /// <param name="settingsSmartContext">
         /// Our settings context. 
         /// </param>
-        /// <param name="solution">
-        /// The current solution. Will be null if no solution is currently open.
-        /// </param>
-        public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext, ISolution solution = null)
+        public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext)
             : base(lifetime, settingsSmartContext)
         {
             this.AddHeader("Options");
