@@ -71,8 +71,8 @@ namespace StyleCop.ReSharper.Options
             this.AddButton(
                 "Reset code style options",
                 new DelegateCommand(
-                    () => CodeStyleOptions.CodeStyleOptionsReset(settingsSmartContext, solution),
-                    () => !lifetime.IsTerminated && !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext, solution)));
+                    () => CodeStyleOptions.CodeStyleOptionsReset(settingsSmartContext),
+                    () => !lifetime.IsTerminated && !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext)));
 
             this.AddHeader("Headers");
             this.AddBoolOption(

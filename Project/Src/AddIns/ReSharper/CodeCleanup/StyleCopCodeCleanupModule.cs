@@ -46,7 +46,7 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <summary>
         ///   StyleCop descriptor.
         /// </summary>
-        private static readonly StyleCopDescriptor Descriptor = new StyleCopDescriptor();
+        public static readonly StyleCopDescriptor Descriptor = new StyleCopDescriptor();
 
         /// <summary>
         /// Gets the collection of option descriptors.
