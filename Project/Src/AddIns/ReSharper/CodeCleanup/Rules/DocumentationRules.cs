@@ -814,6 +814,9 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// <summary>
         /// Returns a config object exposing the current config settings for this file.
         /// </summary>
+        /// <param name="lifetime">
+        /// The lifetime of the settings for the configuration.
+        /// </param>
         /// <param name="file">
         /// The file to get the config for.
         /// </param>
@@ -1428,6 +1431,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                                 fileHeader.Summary = string.IsNullOrEmpty(fileHeader.Summary) ? summaryText : fileHeader.Summary;
                                 break;
                         }
+
                         fileHeader.Update();
                     });
         }
