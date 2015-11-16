@@ -96,7 +96,7 @@ namespace StyleCop.ReSharper.Options
         /// Gets or sets a value indicating whether StyleCop plugins are enabled
         /// </summary>
         [SettingsEntry(false, "Enable StyleCop plugins")]
-        public bool EnablePlugins { get; set; }
+        public bool PluginsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating the location to search for StyleCop plugins

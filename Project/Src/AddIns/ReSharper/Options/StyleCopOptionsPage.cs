@@ -60,7 +60,7 @@ namespace StyleCop.ReSharper.Options
         {
             IContextBoundSettingsStoreLive settingsContext = this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
             this.originalEnablePlugins =
-                settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.EnablePlugins);
+                settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsEnabled);
             this.originalPluginsPath =
                 settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsPath);
 
@@ -104,7 +104,7 @@ namespace StyleCop.ReSharper.Options
                 "Number of dashes in file header text:");
 
             this.AddHeader("StyleCop Plugins");
-            this.AddBoolOption((StyleCopOptionsSettingsKey options) => options.EnablePlugins, "Enable StyleCop plugins");
+            this.AddBoolOption((StyleCopOptionsSettingsKey options) => options.PluginsEnabled, "Enable StyleCop plugins");
             this.AddText("Location of StyleCop plugins:");
             Property<FileSystemPath> pluginsPath = this.SetupPluginsPathProperty(lifetime);
             FileChooserViewModel fileChooser = this.AddFolderChooserOption(pluginsPath, "Location of StyleCop plugins", FileSystemPath.Empty);
@@ -112,7 +112,7 @@ namespace StyleCop.ReSharper.Options
             this.AddBinding(
                 fileChooser,
                 BindingStyle.IsEnabledProperty,
-                (StyleCopOptionsSettingsKey options) => options.EnablePlugins,
+                (StyleCopOptionsSettingsKey options) => options.PluginsEnabled,
                 JetFunc<object>.Identity);
 
             this.AddHeader("Misc");
@@ -135,7 +135,7 @@ namespace StyleCop.ReSharper.Options
         {
             var settingsContext = this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
             bool newEnablePlugins = settingsContext.GetValue(
-                (StyleCopOptionsSettingsKey options) => options.EnablePlugins);
+                (StyleCopOptionsSettingsKey options) => options.PluginsEnabled);
             string newPluginsPath = settingsContext.GetValue(
                 (StyleCopOptionsSettingsKey options) => options.PluginsPath);
             if (newEnablePlugins != this.originalEnablePlugins || newPluginsPath != this.originalPluginsPath)

@@ -58,6 +58,7 @@ namespace StyleCop.ReSharper.Core
                 projectSettingsFactory.Create);
 
             IContextBoundSettingsStore settings = settingsStore.BindToContextTransient(ContextRange.ApplicationWide);
+            bool pluginsEnabled = settings.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsEnabled);
             string pluginsPath = settings.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsPath);
 
             // TODO: Is there a nicer way of finding out the ReSharper install location?
@@ -67,7 +68,7 @@ namespace StyleCop.ReSharper.Core
                     .FullPath;
 
             var paths = new List<string> { standardPath };
-            if (!string.IsNullOrEmpty(pluginsPath))
+            if (pluginsEnabled && !string.IsNullOrEmpty(pluginsPath))
             {
                 paths.Add(pluginsPath);
             }
