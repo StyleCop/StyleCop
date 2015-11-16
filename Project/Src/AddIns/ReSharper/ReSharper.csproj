@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
     <SignAssembly>true</SignAssembly>
     <NuGetPackageImportStamp>f793764b</NuGetPackageImportStamp>
@@ -411,6 +411,9 @@
     <EmbeddedResource Include="Resources\SuppressQuickFix.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\StyleCop.snk">
+      <Link>StyleCop.snk</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="StyleCop.dotSettings">
       <SubType>Designer</SubType>

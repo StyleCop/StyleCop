@@ -17,13 +17,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace StyleCop.ReSharper.Core
 {
-    using System.IO;
+    using System.Collections.Generic;
     using System.Reflection;
 
     using JetBrains.Application.FileSystemTracker;
+    using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
+    using JetBrains.Util;
 
     using StyleCop.Diagnostics;
+    using StyleCop.ReSharper.Options;
 
     /// <summary>
     /// The style cop core factory.
@@ -36,24 +39,39 @@ namespace StyleCop.ReSharper.Core
         /// <param name="lifetime">
         /// The lifetime.
         /// </param>
+        /// <param name="settingsStore">The settings store.</param>
         /// <param name="fileSystemTracker">
         /// The file System Tracker.
         /// </param>
         /// <returns>
         /// A new StyleCopCore object.
         /// </returns>
-        public static StyleCopCore Create(Lifetime lifetime, IFileSystemTracker fileSystemTracker)
+        public static StyleCopCore Create(Lifetime lifetime, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
         {
             StyleCopTrace.In();
 
             ProjectSettingsFactory projectSettingsFactory = new ProjectSettingsFactory(lifetime, fileSystemTracker);
             SourceCodeFactory sourceCodeFactory = new SourceCodeFactory();
 
-            ObjectBasedEnvironment environment = new ObjectBasedEnvironment(sourceCodeFactory.Create, projectSettingsFactory.Create);
+            ObjectBasedEnvironment environment = new ObjectBasedEnvironment(
+                sourceCodeFactory.Create,
+                projectSettingsFactory.Create);
+
+            IContextBoundSettingsStore settings = settingsStore.BindToContextTransient(ContextRange.ApplicationWide);
+            string pluginsPath = settings.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsPath);
 
             // TODO: Is there a nicer way of finding out the ReSharper install location?
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), @"Extensions\StyleCop.StyleCop\StyleCopAddIns");
-            string[] paths = { path };
+            string standardPath =
+                FileSystemPath.Parse(Assembly.GetCallingAssembly().Location)
+                    .Directory.Combine(@"Extensions\StyleCop.StyleCop\StyleCopAddins")
+                    .FullPath;
+
+            var paths = new List<string> { standardPath };
+            if (!string.IsNullOrEmpty(pluginsPath))
+            {
+                paths.Add(pluginsPath);
+            }
+
             StyleCopObjectConsole styleCop = new StyleCopObjectConsole(environment, null, paths, false);
 
             projectSettingsFactory.StyleCopCore = styleCop.Core;

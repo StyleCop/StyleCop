@@ -18,7 +18,11 @@
 
 namespace StyleCop.ReSharper.Options
 {
+    using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
+    using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.UI.Extensions.Commands;
     using JetBrains.UI.Options;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
@@ -26,6 +30,7 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.Util;
 
     using StyleCop.ReSharper.Resources;
+    using StyleCop.ReSharper.ShellComponents;
 
     /// <summary>
     /// Options page to allow the plugins options to be set from within the ReSharper Options window.
@@ -37,6 +42,9 @@ namespace StyleCop.ReSharper.Options
         /// The unique name of this options page.
         /// </summary>
         private const string PageId = "StyleCopOptionsPage";
+
+        private readonly bool originalEnablePlugins;
+        private readonly string originalPluginsPath;
 
         /// <summary>
         /// Initializes a new instance of the StyleCopOptionsPage class.
@@ -50,18 +58,13 @@ namespace StyleCop.ReSharper.Options
         public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext)
             : base(lifetime, settingsSmartContext)
         {
-            this.AddHeader("Options");
+            IContextBoundSettingsStoreLive settingsContext = this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
+            this.originalEnablePlugins =
+                settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.EnablePlugins);
+            this.originalPluginsPath =
+                settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsPath);
 
-            // TODO: It would be nice to get rid of this option. It doesn't do what you think it does
-            // It controls whether a one-time init handler checks options at startup, BUT only if the
-            // install date is newer than the last init date. We don't even support the installed version...
-            // I think we should do the check when showing the options. But what about at startup? Modal
-            // dialogs are a little rude...
-            // By providing the correct options in a settings file, we automatically get correct defaults, but
-            // they can still be overridden in the global settings, and also per-solution
-            // this.AddBoolOption(
-            //    (StyleCopOptionsSettingsKey options) => options.CheckReSharperCodeStyleOptionsAtStartUp,
-            //    "Check ReSharper code style options at startup");
+            this.AddHeader("Options");
 
             // Note that we have to check to see if the lifetime is terminated before accessing the
             // settings context because WPF will continue to call our CanExecute until a garbage collection
@@ -71,20 +74,6 @@ namespace StyleCop.ReSharper.Options
                 new DelegateCommand(
                     () => CodeStyleOptions.CodeStyleOptionsReset(settingsSmartContext),
                     () => !lifetime.IsTerminated && !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext)));
-
-            this.AddHeader("Headers");
-            this.AddBoolOption(
-                (StyleCopOptionsSettingsKey options) => options.InsertTextIntoDocumentation,
-                "Insert text into documentation and file headers");
-            this.AddBoolOption(
-                (StyleCopOptionsSettingsKey options) => options.UseSingleLineDeclarationComments,
-                "Use single lines for declaration headers");
-            this.AddBoolOption(
-                (StyleCopOptionsSettingsKey options) => options.InsertToDoText,
-                "Insert TODO into headers");
-            this.AddIntOption(
-                (StyleCopOptionsSettingsKey options) => options.DashesCountInFileHeader,
-                "Number of dashes in file header text:");
 
             this.AddHeader("Analysis Performance");
             this.AddBoolOption(
@@ -100,6 +89,32 @@ namespace StyleCop.ReSharper.Options
                 (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
                 JetFunc<object>.Identity);
 
+            this.AddHeader("Headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.InsertTextIntoDocumentation,
+                "Insert text into documentation and file headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.UseSingleLineDeclarationComments,
+                "Use single lines for declaration headers");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.InsertToDoText,
+                "Insert TODO into headers");
+            this.AddIntOption(
+                (StyleCopOptionsSettingsKey options) => options.DashesCountInFileHeader,
+                "Number of dashes in file header text:");
+
+            this.AddHeader("StyleCop Plugins");
+            this.AddBoolOption((StyleCopOptionsSettingsKey options) => options.EnablePlugins, "Enable StyleCop plugins");
+            this.AddText("Location of StyleCop plugins:");
+            Property<FileSystemPath> pluginsPath = this.SetupPluginsPathProperty(lifetime);
+            FileChooserViewModel fileChooser = this.AddFolderChooserOption(pluginsPath, "Location of StyleCop plugins", FileSystemPath.Empty);
+            fileChooser.IsEnabledProperty.SetValue(true);
+            this.AddBinding(
+                fileChooser,
+                BindingStyle.IsEnabledProperty,
+                (StyleCopOptionsSettingsKey options) => options.EnablePlugins,
+                JetFunc<object>.Identity);
+
             this.AddHeader("Misc");
             this.AddBoolOption(
                 (StyleCopOptionsSettingsKey options) => options.UseExcludeFromStyleCopSetting,
@@ -110,6 +125,51 @@ namespace StyleCop.ReSharper.Options
 
             // TODO: Add "update file header style" that used to be in code cleanup
             this.FinishPage();
+        }
+
+        /// <summary>
+        /// Called when the OK button is pressed
+        /// </summary>
+        /// <returns>True to continue, false to prevent the dialog closing</returns>
+        public override bool OnOk()
+        {
+            var settingsContext = this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
+            bool newEnablePlugins = settingsContext.GetValue(
+                (StyleCopOptionsSettingsKey options) => options.EnablePlugins);
+            string newPluginsPath = settingsContext.GetValue(
+                (StyleCopOptionsSettingsKey options) => options.PluginsPath);
+            if (newEnablePlugins != this.originalEnablePlugins || newPluginsPath != this.originalPluginsPath)
+            {
+                var solutionsManager = Shell.Instance.TryGetComponent<SolutionsManager>();
+                if (solutionsManager != null && solutionsManager.Solution != null)
+                {
+                    solutionsManager.Solution.GetComponent<StyleCopApiPool>().Reset();
+                    solutionsManager.Solution.GetComponent<IDaemon>().Invalidate();
+                }
+            }
+
+            return base.OnOk();
+        }
+
+        private Property<FileSystemPath> SetupPluginsPathProperty(Lifetime lifetime)
+        {
+            var pluginsPath = new Property<FileSystemPath>(lifetime, "StyleCopOptionsPage::PluginsPath");
+            var currentPath = FileSystemPath.Parse(this.originalPluginsPath);
+            pluginsPath.SetValue(currentPath);
+            pluginsPath.Change.Advise(
+                lifetime,
+                args =>
+                    {
+                        if (!args.HasNew || args.New == null)
+                        {
+                            return;
+                        }
+
+                        this.OptionsSettingsSmartContext.StoreOptionsTransactionContext.SetValue(
+                            (StyleCopOptionsSettingsKey options) => options.PluginsPath,
+                            args.New.FullPath);
+                    });
+            return pluginsPath;
         }
     }
 }

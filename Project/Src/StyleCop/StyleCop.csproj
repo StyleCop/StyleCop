@@ -8,7 +8,7 @@
     <RootNamespace>StyleCop</RootNamespace>
     <AssemblyName>StyleCop</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
     <OutputType>Library</OutputType>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -283,6 +283,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+    <None Include="..\StyleCop.snk">
+      <Link>StyleCop.snk</Link>
+    </None>
     <None Include="mssp7en.lex">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

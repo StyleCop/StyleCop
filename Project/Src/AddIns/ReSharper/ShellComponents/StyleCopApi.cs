@@ -78,5 +78,16 @@ namespace StyleCop.ReSharper.ShellComponents
                 return this.runner ?? (this.runner = new StyleCopRunnerInt(this.core, this.Settings));
             }
         }
+
+        /// <summary>
+        /// Gets the core API.
+        /// </summary>
+        public StyleCopCore Core
+        {
+            get
+            {
+                return this.core;
+            }
+        }
     }
 }

@@ -18,19 +18,32 @@
 
 namespace StyleCop.ReSharper.ShellComponents
 {
+    using System;
+
     using JetBrains.Application.FileSystemTracker;
+    using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
     using JetBrains.Util.Collections;
 
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.Options;
 
     /// <summary>
-    /// The style cop API pool.
+    /// The style cop API pool. Needs to be a solution component, because the API caches settings
+    /// per solution
     /// </summary>
     [SolutionComponent]
     public class StyleCopApiPool
     {
+        private readonly Lifetime componentLifetime;
+
+        private readonly ISettingsStore settingsStore;
+
+        private readonly IFileSystemTracker fileSystemTracker;
+
+        private readonly Action reset;
+
         // StyleCopCore and StyleCopEnvironment depend on each other. StyleCopSettings depends
         // on StyleCopCore, StyleCopEnvironment and Settings. Settings depends on StyleCopCore.
         // They're also not thread safe - you can only run one analysis at a time (which might
@@ -42,7 +55,7 @@ namespace StyleCop.ReSharper.ShellComponents
         // clean the pool up, it'll go out of scope when the solution closes.
         // That said, I've not seen the pool get over 1 object, but I'm not convinced on the
         // threading requirements for daemon processes
-        private readonly ObjectPool<StyleCopApi> pool;
+        private ObjectPool<StyleCopApi> pool;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StyleCopApiPool"/> class.
@@ -50,12 +63,27 @@ namespace StyleCop.ReSharper.ShellComponents
         /// <param name="lifetime">
         /// The lifetime.
         /// </param>
+        /// <param name="settingsStore">The settings store</param>
         /// <param name="fileSystemTracker">
         /// The file system tracker.
         /// </param>
-        public StyleCopApiPool(Lifetime lifetime, IFileSystemTracker fileSystemTracker)
+        /// <param name="highlightingRegistering">The highlighting registrar</param>
+        public StyleCopApiPool(Lifetime lifetime, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker, HighlightingRegistering highlightingRegistering)
         {
-            this.pool = new ObjectPool<StyleCopApi>(() => new StyleCopApi(lifetime, StyleCopCoreFactory.Create(lifetime, fileSystemTracker), fileSystemTracker));
+            this.componentLifetime = lifetime;
+            this.settingsStore = settingsStore;
+            this.fileSystemTracker = fileSystemTracker;
+
+            this.reset = () =>
+                {
+                    var initialObject = this.CreateApiObject();
+                    this.pool = new ObjectPool<StyleCopApi>(this.CreateApiObject, new[] { initialObject });
+
+                    // We need to re-register the highlightings, because we might have loaded a plugin from a location
+                    // specified in per-solution settings
+                    highlightingRegistering.Reregister(initialObject.Core);
+                };
+            this.reset();
         }
 
         /// <summary>
@@ -70,6 +98,23 @@ namespace StyleCop.ReSharper.ShellComponents
         public StyleCopApi GetInstance(Lifetime lifetime)
         {
             return this.pool.GetObject(lifetime);
+        }
+
+        /// <summary>
+        /// Reset the object pool. Used when the plugins path changes
+        /// </summary>
+        public void Reset()
+        {
+            // I wish ObjectPool had a reset method...
+            this.reset();
+        }
+
+        private StyleCopApi CreateApiObject()
+        {
+            return new StyleCopApi(
+                this.componentLifetime,
+                StyleCopCoreFactory.Create(this.componentLifetime, this.settingsStore, this.fileSystemTracker),
+                this.fileSystemTracker);
         }
     }
 }

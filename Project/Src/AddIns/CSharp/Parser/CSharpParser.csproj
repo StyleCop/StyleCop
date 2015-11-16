@@ -9,7 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyName>StyleCop.CSharp</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
     <OutputType>Library</OutputType>
     <RootNamespace>StyleCop.CSharp</RootNamespace>
@@ -329,6 +329,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\StyleCop.snk">
+      <Link>StyleCop.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
   <Import Project="..\..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />

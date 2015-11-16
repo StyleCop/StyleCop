@@ -21,6 +21,7 @@ namespace StyleCop.ReSharper.Options
     using System.Reflection;
 
     using JetBrains.Application.Settings;
+    using JetBrains.Util;
 
     /// <summary>
     /// Class to hold all of the Configurable options for this addin.
@@ -90,5 +91,17 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         [SettingsEntry(false, "Use Single Line Declaration Comments")]
         public bool UseSingleLineDeclarationComments { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether StyleCop plugins are enabled
+        /// </summary>
+        [SettingsEntry(false, "Enable StyleCop plugins")]
+        public bool EnablePlugins { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating the location to search for StyleCop plugins
+        /// </summary>
+        [SettingsEntry("", "StyleCop plugin search location")]
+        public string PluginsPath { get; set; }
     }
 }
