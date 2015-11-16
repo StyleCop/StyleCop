@@ -23,7 +23,7 @@ namespace StyleCop.ReSharper.Violations
     /// <summary>
     /// Highlighting class for a StyleCop Violation set to severity level Suggestion.
     /// </summary>
-    [StaticSeverityHighlighting(ViolationSeverity, "a")]
+    [StaticSeverityHighlighting(ViolationSeverity, "StyleCop")]
     public class StyleCopHighlightingSuggestion : StyleCopHighlightingBase
     {
         /// <summary>
