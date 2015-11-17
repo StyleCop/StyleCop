@@ -1385,6 +1385,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         /// </param>
         private static void UpdateFileHeader(ICSharpFile file, AnalyzerSettings analyzerSettings)
         {
+            if (!analyzerSettings.IsRuleEnabled("FileMustHaveHeader"))
+            {
+                return;
+            }
+
             // The idea here is to load the existing header into our FileHeader object
             // The FileHeader object will ensure that the format of the header is correct even if we're not changing its contents
             // Thus we'll swap it out if its changed at the end.
@@ -1405,6 +1410,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 lifetime =>
                     {
                         DocumentationRulesConfiguration docConfig = GetDocumentationRulesConfig(lifetime, file);
+
                         string summaryText = Utils.GetSummaryText(file);
                         FileHeader fileHeader = new FileHeader(file) { InsertSummary = analyzerSettings.IsRuleEnabled("FileHeaderMustHaveSummary") };
 

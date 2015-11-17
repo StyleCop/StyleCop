@@ -999,7 +999,7 @@ namespace StyleCop.ReSharper.Core
 
             foreach (IProjectFile projectfile in projectFiles)
             {
-                string path = projectfile.Location.FullPath;
+                string path = projectfile.Location.Directory.FullPath;
 
                 CodeProject codeProject = new CodeProject(projectfile.GetHashCode(), path, configuration);
 
