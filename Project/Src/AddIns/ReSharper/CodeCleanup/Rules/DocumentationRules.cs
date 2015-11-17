@@ -242,7 +242,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 }
             }
 
-            if (!xmlComment.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
+            string summaryPlainText = Utils.GetTextFromDeclarationHeader(declarationHeader.SummaryXmlNode);
+            if (!summaryPlainText.StartsWith(textWeShouldStartWith, StringComparison.Ordinal))
             {
                 string newSummaryText = Utils.CreateSummaryForConstructorDeclaration(constructorDeclaration);
 
