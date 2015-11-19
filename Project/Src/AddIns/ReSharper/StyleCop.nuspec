@@ -2,12 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>StyleCop.StyleCop</id>
-    <title>StyleCop</title>
-    <version>4.7.0</version>
+    <title>StyleCop by JetBrains</title>
+    <version>4.7.1</version>
     <authors>Matt Ellis, Andy Reeves</authors>
     <owners>JetBrains, Matt Ellis</owners>
-    <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules.</summary>
-    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7</description>
+    <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules. Maintained by JetBrains</summary>
+    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7, and maintained by JetBrains.</description>
+    <releaseNotes>
+&#8226; Automatically disable analysis if StyleCop.Analyzers is referenced in VS2015 (#20)
+&#8226; Supports loading custom StyleCop addins. Specify location in settings (#18)
+&#8226; Fix duplication of constructor summary XML doc element in Code Cleanup (#17)
+&#8226; StyleCop issues now grouped under "StyleCop" in Inspection Results (#16)
+&#8226; Separate Code Cleanup option to create XML doc stubs (#15)
+&#8226; Not honouring settings when adjusting file header in Code Cleanup (#14)
+    </releaseNotes>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
     <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
