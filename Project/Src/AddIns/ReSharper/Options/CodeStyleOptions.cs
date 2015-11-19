@@ -340,7 +340,7 @@ namespace StyleCop.ReSharper.Options
 
                 SetCodeCleanupProfileSetting(styleCopProfile, "CSReorderTypeMembers", null, true);
 
-                styleCopProfile.SetSetting(StyleCopCodeCleanupModule.Descriptor, true);
+                styleCopProfile.SetSetting(StyleCopCodeCleanupModule.Descriptor, new StyleCopCodeCleanupOptions());
 
                 codeCleanupSettings.SetProfiles(profiles, settingsStore);
                 codeCleanupSettings.SetSilentCleanupProfileName(settingsStore, styleCopProfile.Name);
@@ -1410,7 +1410,8 @@ namespace StyleCop.ReSharper.Options
                 return false;
             }
 
-            if (!styleCopProfile.GetSetting(StyleCopCodeCleanupModule.Descriptor))
+            StyleCopCodeCleanupOptions options = styleCopProfile.GetSetting(StyleCopCodeCleanupModule.Descriptor);
+            if (!options.FixViolations || options.CreateXmlDocStubs)
             {
                 return false;
             }

@@ -137,13 +137,15 @@ namespace StyleCop.ReSharper.CodeCleanup
                 return;
             }
 
-            if (!profile.GetSetting(Descriptor))
+            StyleCopCodeCleanupOptions options = profile.GetSetting(Descriptor);
+
+            if (!options.FixViolations)
             {
                 return;
             }
 
             var services = solution.GetPsiServices(); 
-            services.Transactions.Execute("Code cleanup", () => this.InternalProcess(projectFile.ToProjectFile(), file));
+            services.Transactions.Execute("Code cleanup", () => this.InternalProcess(projectFile.ToProjectFile(), file, options.CreateXmlDocStubs));
 
             StyleCopTrace.Out();
         }
@@ -159,7 +161,7 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// </param>
         public void SetDefaultSetting(CodeCleanupProfile profile, CodeCleanup.DefaultProfileType profileType)
         {
-            profile.SetSetting(Descriptor, true);
+            profile.SetSetting(Descriptor, new StyleCopCodeCleanupOptions());
         }
 
         /// <summary>
@@ -171,7 +173,10 @@ namespace StyleCop.ReSharper.CodeCleanup
         /// <param name="file">
         /// The PSI file to clean.
         /// </param>
-        private void InternalProcess(IProjectFile projectFile, ICSharpFile file)
+        /// <param name="fixXmlDocViolations">
+        /// Flag to indicate if XML doc stubs should be created
+        /// </param>
+        private void InternalProcess(IProjectFile projectFile, ICSharpFile file, bool fixXmlDocViolations)
         {
             // Process the file for all the different Code Cleanups we have here
             // we do them in a very specific order. Do not change it.
@@ -183,7 +188,12 @@ namespace StyleCop.ReSharper.CodeCleanup
 
                         ReadabilityRules.ExecuteAll(file, settings);
                         MaintainabilityRules.ExecuteAll(file, settings);
-                        DocumentationRules.ExecuteAll(file, settings);
+
+                        if (fixXmlDocViolations)
+                        {
+                            DocumentationRules.ExecuteAll(file, settings);
+                        }
+
                         LayoutRules.ExecuteAll(file, settings);
                         SpacingRules.ExecuteAll(file, settings);
                         OrderingRules.ExecuteAll(file, settings);
