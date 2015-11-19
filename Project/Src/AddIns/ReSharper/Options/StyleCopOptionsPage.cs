@@ -18,6 +18,10 @@
 
 namespace StyleCop.ReSharper.Options
 {
+    using System;
+
+    using JetBrains.Application.Components;
+    using JetBrains.Application.Environment;
     using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
@@ -28,6 +32,8 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
     using JetBrains.Util;
+    using JetBrains.Util.Lazy;
+    using JetBrains.VsIntegration.Shell;
 
     using StyleCop.ReSharper.Resources;
     using StyleCop.ReSharper.ShellComponents;
@@ -55,10 +61,17 @@ namespace StyleCop.ReSharper.Options
         /// <param name="settingsSmartContext">
         /// Our settings context. 
         /// </param>
-        public StyleCopOptionsPage(Lifetime lifetime, OptionsSettingsSmartContext settingsSmartContext)
+        /// <param name="container">
+        /// The component container
+        /// </param>
+        public StyleCopOptionsPage(
+            Lifetime lifetime,
+            OptionsSettingsSmartContext settingsSmartContext,
+            IComponentContainer container)
             : base(lifetime, settingsSmartContext)
         {
-            IContextBoundSettingsStoreLive settingsContext = this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
+            IContextBoundSettingsStoreLive settingsContext =
+                this.OptionsSettingsSmartContext.StoreOptionsTransactionContext;
             this.originalEnablePlugins =
                 settingsContext.GetValue((StyleCopOptionsSettingsKey options) => options.PluginsEnabled);
             this.originalPluginsPath =
@@ -76,6 +89,12 @@ namespace StyleCop.ReSharper.Options
                     () => !lifetime.IsTerminated && !CodeStyleOptions.CodeStyleOptionsValid(settingsSmartContext)));
 
             this.AddHeader("Analysis Performance");
+            if (DoesHostSupportRoslynAnalzyers(container))
+            {
+                this.AddText(
+                    "Note: Analysis is automatically disabled if the project references the StyleCop.Analyzers NuGet package, which provides StyleCop analysis for Visual Studio 2015 and C# 6.");
+            }
+
             this.AddBoolOption(
                 (StyleCopOptionsSettingsKey options) => options.AnalysisEnabled,
                 "Run StyleCop as you type");
@@ -104,10 +123,15 @@ namespace StyleCop.ReSharper.Options
                 "Number of dashes in file header text:");
 
             this.AddHeader("StyleCop Plugins");
-            this.AddBoolOption((StyleCopOptionsSettingsKey options) => options.PluginsEnabled, "Enable StyleCop plugins");
+            this.AddBoolOption(
+                (StyleCopOptionsSettingsKey options) => options.PluginsEnabled,
+                "Enable StyleCop plugins");
             this.AddText("Location of StyleCop plugins:");
             Property<FileSystemPath> pluginsPath = this.SetupPluginsPathProperty(lifetime);
-            FileChooserViewModel fileChooser = this.AddFolderChooserOption(pluginsPath, "Location of StyleCop plugins", FileSystemPath.Empty);
+            FileChooserViewModel fileChooser = this.AddFolderChooserOption(
+                pluginsPath,
+                "Location of StyleCop plugins",
+                FileSystemPath.Empty);
             fileChooser.IsEnabledProperty.SetValue(true);
             this.AddBinding(
                 fileChooser,
@@ -149,6 +173,20 @@ namespace StyleCop.ReSharper.Options
             }
 
             return base.OnOk();
+        }
+
+        private static bool DoesHostSupportRoslynAnalzyers(IComponentContainer container)
+        {
+            bool hostSupportsRoslynAnalzyers = false;
+
+            // There's probably a nicer way of optionally testing for this, but this works for now
+            var vsEnvironmentInformation = container.TryGetComponent<IVsEnvironmentInformation>();
+            if (vsEnvironmentInformation != null)
+            {
+                hostSupportsRoslynAnalzyers = vsEnvironmentInformation.VsVersion2 >= new Version(14, 0);
+            }
+
+            return hostSupportsRoslynAnalzyers;
         }
 
         private Property<FileSystemPath> SetupPluginsPathProperty(Lifetime lifetime)

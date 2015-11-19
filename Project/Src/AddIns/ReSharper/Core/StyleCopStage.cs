@@ -47,6 +47,8 @@ namespace StyleCop.ReSharper.Core
 
         private readonly StyleCopApiPool apiPool;
 
+        private readonly IReferencedAnalyzersCache referencedAnalyzersCache;
+
         private readonly IThreading threading;
 
         /// <summary>
@@ -58,13 +60,15 @@ namespace StyleCop.ReSharper.Core
         /// <param name="apiPool">
         /// A reference to the main API entry points
         /// </param>
+        /// <param name="referencedAnalyzersCache">Cache of referenced analyzers</param>
         /// <param name="threading">
         /// The threading API for timed actions.
         /// </param>
-        public StyleCopStage(Lifetime lifetime, StyleCopApiPool apiPool, IThreading threading)
+        public StyleCopStage(Lifetime lifetime, StyleCopApiPool apiPool, IReferencedAnalyzersCache referencedAnalyzersCache, IThreading threading)
         {
             this.lifetime = lifetime;
             this.apiPool = apiPool;
+            this.referencedAnalyzersCache = referencedAnalyzersCache;
             this.threading = threading;
         }
 
@@ -106,7 +110,7 @@ namespace StyleCop.ReSharper.Core
                     return null;
                 }
 
-                if (!settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled))
+                if (!this.IsAnalysisEnabled(settingsStore, file))
                 {
                     StyleCopTrace.Info("Analysis disabled.");
                     StyleCopTrace.Out();
@@ -147,6 +151,12 @@ namespace StyleCop.ReSharper.Core
             }
         }
 
+        private bool IsAnalysisEnabled(IContextBoundSettingsStore settingsStore, ICSharpFile file)
+        {
+            var enabled = settingsStore.GetValue<StyleCopOptionsSettingsKey, bool>(key => key.AnalysisEnabled);
+            return enabled && !this.referencedAnalyzersCache.IsAnalyzerReferenced(file.GetProject(), "stylecop.analyzers");
+        }
+
         /// <summary>
         /// Checks the given file is valid to check.
         /// </summary>
@@ -163,7 +173,7 @@ namespace StyleCop.ReSharper.Core
                 return false;
             }
 
-            bool hasErrorElements = new RecursiveElementCollector<IErrorElement>(null).ProcessElement(sourceFile).GetResults().Any();
+            bool hasErrorElements = Enumerable.Any(new RecursiveElementCollector<IErrorElement>(null).ProcessElement(sourceFile).GetResults());
 
             return !hasErrorElements;
         }

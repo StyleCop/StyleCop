@@ -1004,7 +1004,7 @@ namespace StyleCop.ReSharper.Core
                 CodeProject codeProject = new CodeProject(projectfile.GetHashCode(), path, configuration);
 
                 string documentTextToPass = i == 0 ? document.GetText() : null;
-                core.Environment.AddSourceCode(codeProject, path, documentTextToPass);
+                core.Environment.AddSourceCode(codeProject, projectFile.Location.FullPath, documentTextToPass);
 
                 codeProjects[i++] = codeProject;
             }

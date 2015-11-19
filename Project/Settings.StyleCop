@@ -52,6 +52,7 @@
           <Value>mx</Value>
           <Value>x</Value>
           <Value>y</Value>
+          <Value>vs</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
