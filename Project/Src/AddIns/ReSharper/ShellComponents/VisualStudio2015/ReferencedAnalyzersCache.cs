@@ -69,8 +69,8 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
             ISolution solution,
             IThreading threading,
             ProjectModelSynchronizer projectModelSynchronizer,
-            JetBrains.Util.Lazy.Lazy<Optional<IVsPackageInstallerServices>> packageInstallerServices,
-            JetBrains.Util.Lazy.Lazy<Optional<IVsPackageInstallerEvents>> packageInstallerEvents)
+            Lazy<Optional<IVsPackageInstallerServices>> packageInstallerServices,
+            Lazy<Optional<IVsPackageInstallerEvents>> packageInstallerEvents)
         {
             this.solution = solution;
             this.threading = threading;

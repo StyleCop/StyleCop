@@ -20,15 +20,19 @@ namespace StyleCop.ReSharper.Options
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     using JetBrains.Application;
+    using JetBrains.Application.Catalogs;
+    using JetBrains.Application.Environment;
     using JetBrains.Application.FileSystemTracker;
     using JetBrains.Application.Parts;
     using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
     using JetBrains.Metadata.Utils;
     using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.Util.dataStructures.Sources;
 
     using StyleCop.ReSharper.Core;
 
@@ -48,7 +52,7 @@ namespace StyleCop.ReSharper.Options
         /// </summary>
         private const string HighlightIdTemplate = "StyleCop.{0}";
 
-        private readonly PartsCatalogueSet partsCatalogueSet;
+        private readonly IPartCatalogSet partsCatalogueSet;
 
         private readonly SequentialLifetimes registrationLifetimes;
 
@@ -61,9 +65,9 @@ namespace StyleCop.ReSharper.Options
         /// <param name="fileSystemTracker">
         /// The file System Tracker.
         /// </param>
-        public HighlightingRegistering(Lifetime lifetime, PartsCatalogueSet partsCatalogueSet, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
+        public HighlightingRegistering(Lifetime lifetime, JetEnvironment jetEnvironment, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
         {
-            this.partsCatalogueSet = partsCatalogueSet;
+            this.partsCatalogueSet = jetEnvironment.FullPartCatalogSet;
             this.registrationLifetimes = new SequentialLifetimes(lifetime);
 
             // TODO: We shouldn't be doing any of this at runtime, especially not on each load
@@ -132,7 +136,8 @@ namespace StyleCop.ReSharper.Options
                         // Adding the catalogue to the global parts catalogue causes ReSharper to automatically evaluate
                         // it, and automatically remove it when the lifetime is terminated.
                         IPartsCatalogue catalogue = this.CreateFakeCatalogue(analyzerRulesDictionary);
-                        this.partsCatalogueSet.Add(lifetime, catalogue);
+                        PartCatalog catalog = catalogue.WrapLegacy();
+                        this.partsCatalogueSet.Catalogs.Add(lifetime, catalog, null);
                     });
         }
 
@@ -150,7 +155,7 @@ namespace StyleCop.ReSharper.Options
                 string groupName = string.Format(GroupTitleTemplate, analyzerName);
 
                 var groupAttribute = new RegisterConfigurableHighlightingsGroupAttribute(groupName, groupName);
-                assemblyAttributes.Add(PartHelpers.CreatePartAttribute(groupAttribute, factory));
+                assemblyAttributes.Add(CreatePartAttribute(groupAttribute, factory));
 
                 foreach (StyleCopRule rule in analyzerRule.Value)
                 {
@@ -166,7 +171,7 @@ namespace StyleCop.ReSharper.Options
                             rule.Description,
                             Severity.WARNING,
                             false);
-                    assemblyAttributes.Add(PartHelpers.CreatePartAttribute(itemAttribute, factory));
+                    assemblyAttributes.Add(CreatePartAttribute(itemAttribute, factory));
 
                     ConfigurableSeverityHighlightingAttribute configurableSeverityHighlightingAttribute = new ConfigurableSeverityHighlightingAttribute(highlightID, "CSHARP");
                     configurableSeverityAttributes.Add(PartHelpers.CreatePartAttribute(configurableSeverityHighlightingAttribute, factory));
@@ -176,7 +181,7 @@ namespace StyleCop.ReSharper.Options
             assembly.AssignAttributes(assemblyAttributes);
 
             PartCatalogueType fakeConfigurableSeverityHighlight;
-            factory.GetOrCreateType("Fake", PartCatalogueType.TypeKind.Regular, assembly, out fakeConfigurableSeverityHighlight);
+            factory.GetOrCreateType("Fake", PartCatalogTypeKind.Regular, assembly, out fakeConfigurableSeverityHighlight);
             fakeConfigurableSeverityHighlight.AssignRecursiveTypes(new PartCatalogueType.RecursiveData
                                           {
                                               Attributes = configurableSeverityAttributes
@@ -190,6 +195,48 @@ namespace StyleCop.ReSharper.Options
             IList<PartCatalogueType> parts = new List<PartCatalogueType>();
             parts.Add(fakeConfigurableSeverityHighlight);
             return new PartsCatalogue(parts, assemblies);
+        }
+
+        private static PartCatalogueAttribute CreatePartAttribute(Attribute attribute, IPartCatalogueFactory factory)
+        {
+            // OK, this is getting out of hand. It seemed like a good idea to replace
+            // reflection with a fake catalogue, but ReSharper 10 has changed things.
+            // Implementing your own catalogue is non-trivial, and the wrapper for
+            // legacy catalogues has issues with attribute properties (including ctor
+            // args). It expects a string instance to be represented with a StringSource,
+            // and tries to unbox an enum directly into a ulong, which fails. We can work
+            // around these by replacing the actual value in the properties with one that
+            // will work. But it also tries to unbox a bool into a ulong, which also fails,
+            // and we can't work around that (it asserts that the value in the property is
+            // also a bool). So, we totally fudge it. It just so happens that the values
+            // we want to use are false, and HighlightSettingsManagerImpl will handle
+            // missing values nicely, defaulting to false. So, rip em out.
+            // Perhaps reflection was the better idea... (well, strictly speaking not having
+            // "dynamically" loaded highlightings is a better idea!)
+            var originalPartAttribute = PartHelpers.CreatePartAttribute(attribute, factory);
+            var newProperties = from p in originalPartAttribute.GetProperties()
+                                where !(p.Value is bool && (bool)p.Value == false)
+                                select new PartCatalogueAttributeProperty(p.Name, WrapValue(p.Value), p.Disposition);
+
+            return new PartCatalogueAttribute(originalPartAttribute.Type, newProperties, originalPartAttribute.ConstructorFormalParameterTypes);
+        }
+
+        private static object WrapValue(object value)
+        {
+            var s = value as string;
+            if (s != null)
+            {
+                StringSource ss = s;
+                return ss;
+            }
+
+            if (value != null && value.GetType().IsEnum)
+            {
+                int i = (int)value;
+                return (ulong)i;
+            }
+
+            return value;
         }
     }
 }

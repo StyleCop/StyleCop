@@ -25,6 +25,7 @@ namespace StyleCop.ReSharper.CodeCleanup
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon.CSharp.CodeCleanup;
+    using JetBrains.ReSharper.Daemon.CSharp.CodeCleanup.CodeStyles;
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.ReSharper.Feature.Services.CSharp.CodeCleanup;
     using JetBrains.ReSharper.Psi;
@@ -40,7 +41,7 @@ namespace StyleCop.ReSharper.CodeCleanup
     ///   Custom StyleCop CodeCleanUp module to fix StyleCop violations.
     ///   We ensure that most of the ReSharper modules are run before we are.
     /// </summary>
-    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(HighlightingCleanupModule), typeof(ReplaceByVar), typeof(ReformatCode) })]
+    [CodeCleanupModule(ModulesBefore = new[] { typeof(UpdateFileHeader), typeof(CSharpHighlightingCleanupModule), typeof(ReplaceByVarCodeCleanupModule), typeof(ReformatCode) })]
     public class StyleCopCodeCleanupModule : ICodeCleanupModule
     {
         /// <summary>

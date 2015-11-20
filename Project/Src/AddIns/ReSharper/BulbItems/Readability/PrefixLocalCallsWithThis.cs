@@ -19,7 +19,8 @@
 namespace StyleCop.ReSharper.BulbItems.Readability
 {
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
+    using JetBrains.ReSharper.Psi.CodeStyle;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Inspection;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
@@ -43,7 +44,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
         {
             // TODO: This relies on the settings being correct
             // It should probably have a custom adviser that 
-            CodeStyleUtil.ApplyStyle<ThisQualifierStyleSuggestion>(Utils.GetElementAtCaret(solution, textControl));
+            CodeStyleUtil.ApplyStyle<ThisQualifierCodeStyleSuggestion>(Utils.GetElementAtCaret(solution, textControl));
         }
     }
 }

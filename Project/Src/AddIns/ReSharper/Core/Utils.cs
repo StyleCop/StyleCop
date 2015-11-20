@@ -1379,7 +1379,7 @@ namespace StyleCop.ReSharper.Core
         public static ITypeElement GetTypeElement(IDeclaration declaration, string typeName)
         {
             var symbols = declaration.GetPsiServices().Symbols;     
-            return symbols.GetSymbolScope(LibrarySymbolScope.FULL, true, declaration.GetResolveContext()).GetTypeElementByCLRName(typeName); 
+            return symbols.GetSymbolScope(LibrarySymbolScope.FULL, true).GetTypeElementByCLRName(typeName); 
         }
 
         /// <summary>

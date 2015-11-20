@@ -21,7 +21,6 @@ namespace StyleCop.ReSharper.Options
     using System;
 
     using JetBrains.Application.Components;
-    using JetBrains.Application.Environment;
     using JetBrains.Application.Settings;
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
@@ -32,7 +31,6 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
     using JetBrains.Util;
-    using JetBrains.Util.Lazy;
     using JetBrains.VsIntegration.Shell;
 
     using StyleCop.ReSharper.Resources;
