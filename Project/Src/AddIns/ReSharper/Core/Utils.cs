@@ -721,7 +721,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// The first non-whitespace token.
         /// </returns>
-        public static ITokenNode GetFirstNewLineTokenToRight(ITokenNode tokenNode)
+        public static ITokenNode GetFirstNewLineTokenToRight(ITreeNode tokenNode)
         {
             ITokenNode currentToken = tokenNode.GetNextToken();
             while (!currentToken.IsNewLine() && currentToken != null)
@@ -807,7 +807,7 @@ namespace StyleCop.ReSharper.Core
         /// <returns>
         /// The first non-whitespace token.
         /// </returns>
-        public static ITokenNode GetFirstNonWhitespaceTokenToRight(ITokenNode tokenNode)
+        public static ITokenNode GetFirstNonWhitespaceTokenToRight(ITreeNode tokenNode)
         {
             ITokenNode currentToken = tokenNode.GetNextToken();
             while (currentToken != null && currentToken.IsWhitespace())

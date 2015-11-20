@@ -98,13 +98,13 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             using (WriteLockCookie.Create(true))
             {
-                ITokenNode newLocationTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(startRegionNode.Message);
+                ITokenNode newLocationTokenNode = Utils.GetFirstNonWhitespaceTokenToRight(startRegionNode);
 
                 // if its a start region there is probably a corresponding end region
                 // find it, and move it inside the block
                 // find the position to delete from
                 ITokenNode startOfTokensToDelete = Utils.GetFirstNewLineTokenToLeft(startRegionNode.NumberSign);
-                ITokenNode endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(startRegionNode.Message);
+                ITokenNode endOfTokensToDelete = Utils.GetFirstNewLineTokenToRight(startRegionNode);
                 ITokenNode startOfTokensToFormat = startOfTokensToDelete.GetPrevToken();
 
                 IEndRegion endRegionNode = startRegionNode.EndRegion;
@@ -116,7 +116,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                 newStartRegion.InsertNewLineAfter();
 
                 LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                IStartRegion endOfTokensToFormat = newStartRegion;
+                ITreeNode endOfTokensToFormat = newStartRegion;
 
                 if (endRegionNode != null)
                 {
@@ -130,7 +130,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
                     newEndRegionNode.InsertNewLineAfter();
 
                     LowLevelModificationUtil.DeleteChildRange(startOfTokensToDelete, endOfTokensToDelete);
-                    endOfTokensToFormat = (IStartRegion)newLineToken;
+                    endOfTokensToFormat = newLineToken;
                 }
 
                 ICSharpCodeFormatter codeFormatter = (ICSharpCodeFormatter)CSharpLanguage.Instance.LanguageService().CodeFormatter;
