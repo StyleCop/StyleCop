@@ -3,12 +3,15 @@
   <metadata>
     <id>StyleCop.StyleCop</id>
     <title>StyleCop by JetBrains</title>
-    <version>4.7.1</version>
+    <version>4.8.0</version>
     <authors>Matt Ellis, Andy Reeves</authors>
     <owners>JetBrains, Matt Ellis</owners>
     <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules. Maintained by JetBrains</summary>
     <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7, and maintained by JetBrains.</description>
     <releaseNotes>
+&#8226; Support for ReSharper 10 (#22)
+
+From previous releases:
 &#8226; Automatically disable analysis if StyleCop.Analyzers is referenced in VS2015 (#20)
 &#8226; Supports loading custom StyleCop addins. Specify location in settings (#18)
 &#8226; Fix duplication of constructor summary XML doc element in Code Cleanup (#17)
@@ -20,7 +23,7 @@
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
     <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
     <dependencies>
-      <dependency id="Wave" version="[3.0]" />
+      <dependency id="Wave" version="[4.0]" />
     </dependencies>
     <tags>StyleCop analysis</tags>
   </metadata>
