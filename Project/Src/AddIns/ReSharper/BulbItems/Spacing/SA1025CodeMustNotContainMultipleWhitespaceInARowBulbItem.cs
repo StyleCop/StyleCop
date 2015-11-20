@@ -18,7 +18,6 @@
 namespace StyleCop.ReSharper.BulbItems.Spacing
 {
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp.Tree;
     using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
@@ -45,11 +44,9 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             Utils.FormatLineForTextControl(solution, textControl);
 
             ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
-            IBlock containingBlock = element.GetContainingNode<IBlock>(true);
-
-            if (containingBlock != null)
+            if (element.Parent != null)
             {
-                SpacingRules.CodeMustNotContainMultipleWhitespaceInARow(element);
+                SpacingRules.CodeMustNotContainMultipleWhitespaceInARow(element.Parent);
             }
         }
     }

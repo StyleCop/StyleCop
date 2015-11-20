@@ -45,7 +45,7 @@ namespace StyleCop.ReSharper.BulbItems.Spacing
             Utils.FormatLineForTextControl(solution, textControl);
 
             ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
-            IBlock containingBlock = element.GetContainingNode<IBlock>(true);
+            IPreprocessorDirective containingBlock = element.GetContainingNode<IPreprocessorDirective>(true);
             if (containingBlock != null)
             {
                 SpacingRules.PreprocessorKeywordsMustNotBePrecededBySpace(containingBlock);
