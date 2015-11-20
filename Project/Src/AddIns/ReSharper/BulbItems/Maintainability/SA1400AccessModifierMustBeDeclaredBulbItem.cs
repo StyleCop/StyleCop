@@ -18,9 +18,13 @@
 namespace StyleCop.ReSharper.BulbItems.Maintainability
 {
     using JetBrains.ProjectModel;
+    using JetBrains.ReSharper.Psi.CSharp;
+    using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.Tree;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;
+    using StyleCop.ReSharper.Core;
 
     /// <summary>
     /// The s a 1400 access modifier must be declared bulb item.
@@ -43,7 +47,33 @@ namespace StyleCop.ReSharper.BulbItems.Maintainability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            textControl.Document.InsertText(this.DocumentRange.TextRange.StartOffset, this.Modifier + " ");
+            // See also ModifiersUtil.SetAccessRights
+            ITreeNode element = Utils.GetElementAtCaret(solution, textControl);
+            var modifiersListOwner = element.GetContainingNode<IModifiersListOwner>();
+            if (modifiersListOwner != null)
+            {
+                if (modifiersListOwner.ModifiersList == null)
+                {
+                    modifiersListOwner.SetModifiersList(GetModifierList(modifiersListOwner));
+                }
+                else
+                {
+                    modifiersListOwner.ModifiersList.AddModifier(GetModifier(modifiersListOwner));
+                }
+            }
+        }
+
+        private IModifiersList GetModifierList(ITreeNode declaration)
+        {
+            return
+                ((IMethodDeclaration)
+                 CSharpElementFactory.GetInstance(declaration)
+                     .CreateTypeMemberDeclaration(this.Modifier + " void Foo(){}")).ModifiersList;
+        }
+
+        private ITokenNode GetModifier(ITreeNode declaration)
+        {
+            return GetModifierList(declaration).Modifiers[0];
         }
     }
 }
