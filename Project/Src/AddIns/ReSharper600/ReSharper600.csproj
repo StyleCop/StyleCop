@@ -58,7 +58,7 @@
     <OutputPath>$(RootBin)\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper600.xml</DocumentationFile>
+    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper600.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
