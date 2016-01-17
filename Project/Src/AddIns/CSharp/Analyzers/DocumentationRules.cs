@@ -1558,7 +1558,7 @@ namespace StyleCop.CSharp
 
             foreach (EnumItem item in element.Items)
             {
-                if (null == item.Header || item.Header.Text.Length == 0)
+                if (item.Header == null || item.Header.Text.Length == 0)
                 {
                     if ((!settings.IgnorePrivates || element.Declaration.AccessModifierType != AccessModifierType.Private)
                         && (!settings.IgnoreInternals || element.Declaration.AccessModifierType != AccessModifierType.Internal))
@@ -2015,7 +2015,7 @@ namespace StyleCop.CSharp
             Param.Ignore(partialElement);
 
             // See whether this element has a header at all.
-            if (null == element.Header || element.Header.Text.Length == 0)
+            if (element.Header == null || element.Header.Text.Length == 0)
             {
                 // Empty or missing header is a violation if:
                 // 1. The element is a field and the RequireFields flag is set
@@ -2190,7 +2190,7 @@ namespace StyleCop.CSharp
                 XmlNode returnNode = formattedDocs.SelectSingleNode("root/returns");
                 if (returnType.Text != "void")
                 {
-                    if (null == returnNode)
+                    if (returnNode == null)
                     {
                         this.AddViolation(element, Rules.ElementReturnValueMustBeDocumented);
                     }
@@ -2206,7 +2206,7 @@ namespace StyleCop.CSharp
                 }
                 else
                 {
-                    if (null != returnNode)
+                    if (returnNode != null)
                     {
                         this.AddViolation(element, Rules.VoidReturnValueMustNotBeDocumented);
                     }

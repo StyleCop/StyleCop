@@ -1010,7 +1010,8 @@ namespace StyleCop.CSharp
                             && firstTokenOnLine && token.CsTokenType != CsTokenType.CloseCurlyBracket && token.CsTokenType != CsTokenType.Finally
                             && token.CsTokenType != CsTokenType.Catch && token.CsTokenType != CsTokenType.WhileDo && token.CsTokenType != CsTokenType.Else
                             && token.CsTokenType != CsTokenType.PreprocessorDirective && token.CsTokenType != CsTokenType.Select && token.CsTokenType != CsTokenType.From
-                            && token.CsTokenType != CsTokenType.Let && token.CsTokenType != CsTokenType.OperatorSymbol && token.CsTokenType != CsTokenType.By)
+                            && token.CsTokenType != CsTokenType.Let && token.CsTokenType != CsTokenType.OperatorSymbol && token.CsTokenType != CsTokenType.By
+                            && token.CsTokenType != CsTokenType.Into && token.CsTokenType != CsTokenType.Equals)
                         {
                             this.AddViolation(closingCurlyBracket.FindParentElement(), closingCurlyBracket.LineNumber, Rules.ClosingCurlyBracketMustBeFollowedByBlankLine);
                         }
