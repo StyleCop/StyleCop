@@ -114,7 +114,7 @@ namespace StyleCop.VisualStudio
             get
             {
                 string propertyValue = null;
-                if (0 == this.project.GetPropertyValue(PropertyName, null, 0, out propertyValue))
+                if (this.project.GetPropertyValue(PropertyName, null, 0, out propertyValue) == 0)
                 {
                     return !string.IsNullOrEmpty(propertyValue);
                 }

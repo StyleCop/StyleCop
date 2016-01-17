@@ -468,6 +468,9 @@ namespace StyleCop.CSharp
 
             // Checks the order of the children of this element.
             this.CheckChildElementOrdering(element, checkGeneratedCode);
+
+            // Check value first comparisons, like "if (1 == a)".
+            this.CheckNoValueFirstComparison(element, checkGeneratedCode);
         }
 
         /// <summary>
@@ -607,6 +610,74 @@ namespace StyleCop.CSharp
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks that comparisons are not in reverse (value first) order.
+        /// </summary>
+        /// <param name="element">
+        /// The element to check.
+        /// </param>
+        /// <param name="checkGeneratedCode">
+        /// Indicates whether to check the order of elements
+        /// within generated blocks of code.
+        /// </param>
+        private void CheckNoValueFirstComparison(CsElement element, bool checkGeneratedCode)
+        {
+            Param.AssertNotNull(element, "element");
+
+            if (!element.Generated || checkGeneratedCode)
+            {
+                element.WalkElement(null, null, this.ExpressionCallback);
+            }
+        }
+
+        private bool ExpressionCallback(Expression expression, Expression parentExpression, Statement parentStatement, CsElement parentElement, object context)
+        {
+            if (expression is RelationalExpression)
+            {
+                var exp = (RelationalExpression)expression;
+
+                if (this.IsValueExpression(exp.LeftHandSide) && !this.IsValueExpression(exp.RightHandSide))
+                {
+                    this.AddViolation(parentElement, exp.Location, Rules.NoValueFirstComparison, exp.Text);
+                }
+            }
+
+            return true;
+        }
+        
+        private bool IsValueExpression(Expression expression)
+        {
+            if (expression is LiteralExpression)
+            {
+                CsTokenType tokenType = ((LiteralExpression)expression).Token.CsTokenType;
+
+                return tokenType == CsTokenType.Number
+                    || tokenType == CsTokenType.String
+                    || tokenType == CsTokenType.Null
+                    || tokenType == CsTokenType.True
+                    || tokenType == CsTokenType.False;
+            }
+
+            if (expression is ParenthesizedExpression)
+            {
+                return this.IsValueExpression(((ParenthesizedExpression)expression).InnerExpression);
+            }
+
+            if (expression is RelationalExpression)
+            {
+                RelationalExpression re = (RelationalExpression)expression;
+                return this.IsValueExpression(re.LeftHandSide) && this.IsValueExpression(re.RightHandSide);
+            }
+
+            if (expression is ArithmeticExpression)
+            {
+                ArithmeticExpression ae = (ArithmeticExpression)expression;
+                return this.IsValueExpression(ae.LeftHandSide) && this.IsValueExpression(ae.RightHandSide);
+            }
+
+            return false;
         }
 
         /// <summary>

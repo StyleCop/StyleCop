@@ -1,1 +1,0 @@
-@CALL %PROJECTROOT%\tools\scripts\UnInstallProduct.cmd $*

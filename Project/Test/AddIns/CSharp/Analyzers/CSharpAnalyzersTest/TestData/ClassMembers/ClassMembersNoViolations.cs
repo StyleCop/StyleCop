@@ -461,26 +461,26 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             this.cultureComboBox = new System.Windows.Forms.ComboBox();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
-            // 
+
             // label1
-            // 
+
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            // 
+
             // enableCache
-            // 
+
             resources.ApplyResources(this.enableCache, "enableCache");
             this.enableCache.Name = "enableCache";
             this.enableCache.UseVisualStyleBackColor = true;
             this.enableCache.CheckedChanged += new System.EventHandler(this.EnableCacheCheckedChanged);
-            // 
+
             // daysLabel
-            // 
+
             resources.ApplyResources(this.daysLabel, "daysLabel");
             this.daysLabel.Name = "daysLabel";
-            // 
+
             // daysMaskedTextBox
-            // 
+
             this.daysMaskedTextBox.AllowPromptAsInput = false;
             this.daysMaskedTextBox.CausesValidation = false;
             this.daysMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -492,9 +492,9 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             this.daysMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.daysMaskedTextBox.TextChanged += new System.EventHandler(this.DaysMaskedTextBoxTextChanged);
             this.daysMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DaysMaskedTextBoxKeyDown);
-            // 
+
             // panel3
-            // 
+
             resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Controls.Add(this.checkForUpdatesLabel);
             this.panel3.Controls.Add(this.daysLabel);
@@ -502,33 +502,33 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.autoUpdateCheckBox);
             this.panel3.Name = "panel3";
-            // 
+
             // checkForUpdatesLabel
-            // 
+
             resources.ApplyResources(this.checkForUpdatesLabel, "checkForUpdatesLabel");
             this.checkForUpdatesLabel.Name = "checkForUpdatesLabel";
-            // 
+
             // label5
-            // 
+
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
-            // 
+
             // autoUpdateCheckBox
-            // 
+
             resources.ApplyResources(this.autoUpdateCheckBox, "autoUpdateCheckBox");
             this.autoUpdateCheckBox.Checked = true;
             this.autoUpdateCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoUpdateCheckBox.Name = "autoUpdateCheckBox";
             this.autoUpdateCheckBox.UseVisualStyleBackColor = true;
             this.autoUpdateCheckBox.CheckedChanged += new System.EventHandler(this.AutoUpdateCheckBoxCheckedChanged);
-            // 
+
             // label3
-            // 
+
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
+
             // maxViolationCountMaskedTextBox
-            // 
+
             this.maxViolationCountMaskedTextBox.AllowPromptAsInput = false;
             this.maxViolationCountMaskedTextBox.CausesValidation = false;
             this.maxViolationCountMaskedTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
@@ -540,22 +540,22 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             this.maxViolationCountMaskedTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.maxViolationCountMaskedTextBox.TextChanged += new System.EventHandler(this.MaxViolationCountTextBoxTextChanged);
             this.maxViolationCountMaskedTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MaxViolationCountMaskedTextBoxKeyDown);
-            // 
+
             // label2
-            // 
+
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            // 
+
             // cultureComboBox
-            // 
+
             this.cultureComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cultureComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.cultureComboBox, "cultureComboBox");
             this.cultureComboBox.Name = "cultureComboBox";
             this.cultureComboBox.SelectedIndexChanged += new System.EventHandler(this.CultureComboBoxSelectedIndexChanged);
-            // 
+
             // CacheOptions
-            // 
+
             this.Controls.Add(this.cultureComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.enableCache);
