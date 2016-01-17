@@ -13,6 +13,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -50,6 +51,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -94,6 +96,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -136,6 +139,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -170,6 +174,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -186,6 +191,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -221,6 +227,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -237,6 +244,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -270,6 +278,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -286,6 +295,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -328,6 +338,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -373,6 +384,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -416,6 +428,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -439,6 +452,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -464,6 +478,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -488,6 +503,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -513,6 +529,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -537,6 +554,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -560,6 +578,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -584,6 +603,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -599,6 +619,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -615,6 +636,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -640,6 +662,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -655,6 +678,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -671,6 +695,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -696,6 +721,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -709,6 +735,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -725,6 +752,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -748,6 +776,7 @@
             <Value>\.g\.cs$</Value>
             <Value>\.generated\.cs$</Value>
             <Value>\.g\.i\.cs$</Value>
+            <Value>TemporaryGeneratedFile_.*\.cs$</Value>
           </CollectionProperty>
         </ParserSettings>
       </Parser>
@@ -772,6 +801,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -797,6 +827,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -822,6 +853,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -847,6 +879,7 @@
               <Value>\.g\.cs$</Value>
               <Value>\.generated\.cs$</Value>
               <Value>\.g\.i\.cs$</Value>
+              <Value>TemporaryGeneratedFile_.*\.cs$</Value>
             </CollectionProperty>
           </ParserSettings>
         </Parser>
@@ -870,6 +903,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -904,6 +938,7 @@
       <Violation Section="Root.AccessModifiersMissing.generated.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -920,6 +955,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -955,6 +991,7 @@
       <Violation Section="Root.AccessModifiersMissing.generated.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -971,6 +1008,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1004,6 +1042,7 @@
       <Violation Section="Root.AccessModifiersMissing.generated.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -1020,6 +1059,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1057,6 +1097,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -1073,6 +1114,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1111,6 +1153,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -1127,6 +1170,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1163,6 +1207,7 @@
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.I.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -1179,6 +1224,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1224,6 +1270,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1260,6 +1307,7 @@
       <Violation Section="Root.AccessModifiersMissing.generated.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 
@@ -1276,6 +1324,7 @@
     <TestCodeFile>AccessModifiersMissing2.G.cS</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.G.I.Cs</TestCodeFile>
     <TestCodeFile>AccessModifiersMissing2.GeNeRaTeD.Cs</TestCodeFile>
+    <TestCodeFile>TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
@@ -1310,6 +1359,7 @@
       <Violation Section="Root.AccessModifiersMissing.generated.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.G.cS.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
       <Violation Section="Root.AccessModifiersMissing2.GeNeRaTeD.Cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs.ClassMissingAccessModifier" LineNumber="7" Rule="AccessModifierMustBeDeclared" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

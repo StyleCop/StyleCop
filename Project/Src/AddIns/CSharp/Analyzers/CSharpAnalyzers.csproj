@@ -134,6 +134,7 @@
     <EmbeddedResource Include="CodeStrings.en-GB.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="CodeStrings.es-MX.resx" />
     <EmbeddedResource Include="CodeStrings.fr-FR.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

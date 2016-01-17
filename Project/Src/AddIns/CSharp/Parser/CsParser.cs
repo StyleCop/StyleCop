@@ -59,7 +59,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// The default collection of generated file filters.
         /// </summary>
-        private static readonly string[] DefaultGeneratedFileFilters = new[] { @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$" };
+        private static readonly string[] DefaultGeneratedFileFilters = new[] { @"\.g\.cs$", @"\.generated\.cs$", @"\.g\.i\.cs$", @"TemporaryGeneratedFile_.*\.cs$" };
 
         #endregion
 

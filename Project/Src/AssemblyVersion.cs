@@ -24,4 +24,4 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("4.7.1000.0")] // Fixed at 4.7.1000.0 until version 5.
 
-[assembly: AssemblyFileVersion("4.7.48.0")]
+[assembly: AssemblyFileVersion("4.7.49.0")]

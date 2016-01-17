@@ -45,10 +45,10 @@
        <Condition Action="hide"><![CDATA[RESHARPER71_VERSION = ""]]></Condition>
        <Condition Action="show"><![CDATA[RESHARPER71_VERSION <> ""]]></Condition>
      </Control>
-     <Control Id="Supported810VersionInfo" Type="Text" X="135" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-       <Text><![CDATA[8.1 : $(var.SupportedReSharper810Version)]]></Text>
-       <Condition Action="hide"><![CDATA[RESHARPER81_VERSION = ""]]></Condition>
-       <Condition Action="show"><![CDATA[RESHARPER81_VERSION <> ""]]></Condition>
+     <Control Id="Supported820VersionInfo" Type="Text" X="135" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+       <Text><![CDATA[8.2 : $(var.SupportedReSharper820Version)]]></Text>
+       <Condition Action="hide"><![CDATA[RESHARPER82_VERSION = ""]]></Condition>
+       <Condition Action="show"><![CDATA[RESHARPER82_VERSION <> ""]]></Condition>
      </Control>
       <Control Id="RunningVersionInfo51" Type="Text" X="260" Y="100" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
         <Text><![CDATA[5.1 : [RESHARPER51_VERSION]]]></Text>
@@ -75,10 +75,10 @@
         <Condition Action="hide"><![CDATA[RESHARPER71_VERSION = ""]]></Condition>
         <Condition Action="show"><![CDATA[RESHARPER71_VERSION <> ""]]></Condition>
       </Control>
-      <Control Id="RunningVersionInfo81" Type="Text" X="260" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-         <Text><![CDATA[8.1 : [RESHARPER81_VERSION]]]></Text>
-         <Condition Action="hide"><![CDATA[RESHARPER81_VERSION = ""]]></Condition>
-         <Condition Action="show"><![CDATA[RESHARPER81_VERSION <> ""]]></Condition>
+      <Control Id="RunningVersionInfo82" Type="Text" X="260" Y="150" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
+         <Text><![CDATA[8.1 : [RESHARPER82_VERSION]]]></Text>
+         <Condition Action="hide"><![CDATA[RESHARPER82_VERSION = ""]]></Condition>
+         <Condition Action="show"><![CDATA[RESHARPER82_VERSION <> ""]]></Condition>
       </Control>
       <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 
