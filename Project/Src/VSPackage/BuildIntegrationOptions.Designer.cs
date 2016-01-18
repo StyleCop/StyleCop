@@ -65,16 +65,16 @@ namespace StyleCop.VisualStudio
             this.radioButtonAsError = new System.Windows.Forms.RadioButton();
             this.descriptionTreat = new System.Windows.Forms.Label();
             this.SuspendLayout();
-
+            // 
             // checkBox
-
+            // 
             resources.ApplyResources(this.checkBox, "checkBox");
             this.checkBox.Name = "checkBox";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
-
+            // 
             // description
-
+            // 
             resources.ApplyResources(this.description, "description");
             this.description.Name = "description";
             // 
@@ -102,15 +102,14 @@ namespace StyleCop.VisualStudio
             // BuildIntegrationOptions
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.descriptionTreat);
-            this.Controls.Add(this.radioButtonAsError);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.radioButtonAsWarning);
-            this.Controls.Add(this.description);
+            this.Controls.Add(this.radioButtonAsError);
+            this.Controls.Add(this.descriptionTreat);
             this.Controls.Add(this.checkBox);
+            this.Controls.Add(this.description);
             this.Name = "BuildIntegrationOptions";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
