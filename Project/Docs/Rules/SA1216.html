@@ -1,0 +1,35 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <head>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+        <meta content="history" name="save">
+        <title>SA1216: NoValueFirstComparison</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/helpstudio.css"><link rel="stylesheet" type="text/css" href="styles/Presentation.css">
+        <script src="script/helpstudio.js" type="text/javascript"></script>
+        <script src="script/StandardText.js" type="text/jscript"></script>
+    </head>
+    <body id="hsbody">
+        <input type="hidden" id="userDataCache" class="userDataStyle" name="userDataCache" />
+        <div id="allHistory" class="saveHistory" onsave="saveScrollPosition()" onload="loadScrollPosition()"></div>
+        <script type="text/jscript">WritePageTop(document.title);</script>
+        <div id="pagebody">
+            <div id="mainbody">
+                <table>
+                    <col />
+                    <tr><td><p>TypeName</p></td><td>NoValueFirstComparison</td></tr>
+                    <tr><td><p>CheckId</p></td><td>SA1216</td></tr>
+                    <tr><td><p>Category</p></td><td>Ordering Rules</td></tr>
+                </table>           
+                <h2>Cause</h2>
+                <P>Operands in relational expression go in reverse order, i.e. value first.</P>
+                <H2>Rule Description</H2>
+                <P>A violation of this rule occurs when comparison expression uses C++ assignment proof style: "if (1 == a)". Quite a few people call this style "Yoda conditions" because it's like saying "if blue is the sky" or "if tall is the man". Such reverse order has no benefits in C# and affects code readability.</P>
+                <H2>How to Fix Violations</H2>
+                <P>To fix an instance of this violation, reverse the order of operands in expression so the value goes to the right hand side.</P>
+                <h2>How to Suppress Violations</h2>
+                <pre>[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1216:NoValueFirstComparison", Justification = "Reviewed.")]</pre>
+            </div>
+            <script type="text/jscript">WritePageFooter();</script>     
+        </div>
+    </body>
+</html>

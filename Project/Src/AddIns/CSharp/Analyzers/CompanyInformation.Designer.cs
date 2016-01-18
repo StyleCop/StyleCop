@@ -80,39 +80,39 @@ namespace StyleCop.CSharp
             this.companyName = new System.Windows.Forms.TextBox();
             this.copyright = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
+
             // checkBox
-            // 
+
             resources.ApplyResources(this.checkBox, "checkBox");
             this.checkBox.Name = "checkBox";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
-            // 
+
             // companyNameLabel
-            // 
+
             resources.ApplyResources(this.companyNameLabel, "companyNameLabel");
             this.companyNameLabel.Name = "companyNameLabel";
-            // 
+
             // copyrightLabel
-            // 
+
             resources.ApplyResources(this.copyrightLabel, "copyrightLabel");
             this.copyrightLabel.Name = "copyrightLabel";
-            // 
+
             // companyName
-            // 
+
             resources.ApplyResources(this.companyName, "companyName");
             this.companyName.Name = "companyName";
             this.companyName.TextChanged += new System.EventHandler(this.CompanyNameTextChanged);
-            // 
+
             // copyright
-            // 
+
             this.copyright.AcceptsReturn = true;
             resources.ApplyResources(this.copyright, "copyright");
             this.copyright.Name = "copyright";
             this.copyright.TextChanged += new System.EventHandler(this.CopyrightTextChanged);
-            // 
+
             // CompanyInformation
-            // 
+
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.copyright);

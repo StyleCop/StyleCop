@@ -65,16 +65,16 @@ namespace StyleCop.VisualStudio
             this.radioButtonAsError = new System.Windows.Forms.RadioButton();
             this.descriptionTreat = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
+
             // checkBox
-            // 
+
             resources.ApplyResources(this.checkBox, "checkBox");
             this.checkBox.Name = "checkBox";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.CheckBoxCheckedChanged);
-            // 
+
             // description
-            // 
+
             resources.ApplyResources(this.description, "description");
             this.description.Name = "description";
             // 

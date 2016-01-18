@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="checkBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 35</value>
+    <value>4, 39</value>
   </data>
   <data name="checkBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>434, 20</value>
+    <value>387, 20</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="checkBox.TabIndex" type="System.Int32, mscorlib">

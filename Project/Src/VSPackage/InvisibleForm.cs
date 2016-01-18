@@ -77,5 +77,17 @@ namespace StyleCop.VisualStudio
         }
 
         #endregion Properties
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+
+            // InvisibleForm
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "InvisibleForm";
+            this.ResumeLayout(false);
+        }
     }
 }

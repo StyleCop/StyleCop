@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\GeneratedCode\TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs" />
     <None Include="TestData\FileLists\TestFile1.cs" />
     <None Include="TestData\FileLists\TestFile2.cs" />
     <None Include="TestData\Assorted\EscapedNames.cs" />
