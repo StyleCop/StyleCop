@@ -117,12 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 8</value>
+    <value>3, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>540, 17</value>
+    <value>382, 29</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
@@ -131,6 +135,9 @@
   <data name="label1.Text" xml:space="preserve">
     <value>&amp;Choose which rules to run on this project.</value>
   </data>
+  <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -138,259 +145,81 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>1</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="description.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
-  <data name="description.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 345</value>
-  </data>
-  <data name="description.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="description.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="description.Size" type="System.Drawing.Size, System.Drawing">
-    <value>540, 53</value>
-  </data>
-  <data name="description.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;description.Name" xml:space="preserve">
-    <value>description</value>
-  </data>
-  <data name="&gt;&gt;description.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;description.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;description.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="splitContainer1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 38</value>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, -1</value>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>391, 0</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 13</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>27, 29</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Enabled rules</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Find</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="label4.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel1</value>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="analyzeTree.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="findRuleId.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="analyzeTree.ImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="findRuleId.Location" type="System.Drawing.Point, System.Drawing">
+    <value>424, 4</value>
   </data>
-  <metadata name="nodeImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="nodeImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADM
-        CgAAAk1TRnQBSQFMAgEBBAEAASgBAAEoAQABEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
-        AwABIAMAAQEBAAEgBgABIP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wAHAAGUAaoB9wH/
-        AVABYwG1Af8BQAFXAa0B/wFAAV8BvQH/AZwBqgHWAf/oAAFIAW8B7wH/AR8BTwHnAf8BBgE6AfcB/wEG
-        AToB9wH/AQYBOgHvAf8BBgEmAb0B/wFhAXcBxgH/DAABtwGiAZMB/wFeAUQBMAH/AV4BRAEwAf8BXgFE
-        ATAB/wFeAUQBMAH/AV4BRAEwAf8BXgFEATAB/wFeAUQBMAH/AV4BRAEwAf8BXgFEATAB/wFeAUQBMAH/
-        AV4BRAEwAf8BXgFEATAB/wFeAUQBMAH/RAABcAGEAY8B/wQAAVsBaAFyAf8EAAE9AUcBTwH/BAABHgEl
-        ASsB/wQAAQkBDgETAf8EAAEJAQ4BEwH/BAABCQEOARMB/wQAAQkBDgETAf8cAAFYAV8BnAH/AScBTwHW
-        Bf8BeQGaAv8BFgFTAv8BYQGGAfcF/wEAASoBvQH/AZQBogHOAf8IAAG3AaIBkzH/AV4BRAEwAf8XAAH/
-        AwAB/w8AAf8DAAH/GAABwgHqAfUB/wGiAd4B8QH/AYkB0QHsAf8BeAHKAegB/wFxAcYB5gH/AW0BwgHi
-        Af8BaQG7AdsB/wFpAbUB0wH/AWgBrgHKAf8BZAGsAcgB/wFiAaoBxwH/AWYBpgHBAf8BaAGjAbsB/yAA
-        AUgBYwHWAf8BNwFnAv8BeQGWBv8BeQGWAfcF/wFQAXcB9wH/AQABNgH3Af8BLwFLAa0B/wgAAbcBogGT
-        Mf8BXgFEATAB/xMAAf8fAAH/EAABdQGKAZUB/wHIAfAB+QH/AboB7gH9Af8BrwHqAfwB/wGlAeQB/AH/
-        AZ4B4AH6Af8BlgHaAfgB/wGNAdUB9QH/AYMBzgHzAf8BdwHIAfAB/wFwAcQB7wH/AWkBvAHqAf8BYgG3
-        AeUB/wFmAaYBwQH/ARsBIgEoAf8TAAH/AwAB/wQAAVABawHWAf8BQAFrAv8BUAGCAv8BlAGuBv8BhAGe
-        Av8BFgFPAv8BAAE6Av8BBgEuAa0B/wgAAbcBogGTMf8BXgFEATAB/xMAAf8fAAH/FAABzAHxAfkB/wHB
-        AfEB/AH/AbgB7QH9Af8BrQHpAfwB/wGlAeQB/AH/AZ0B3wH6Af8BlgHaAfgB/wGLAdMB9QH/AYMBzgHz
-        Af8BdwHIAfAB/wFvAcMB7wH/AWcBugHoAf8BYgGqAccB/xMAAf8MAAFIAWsB5wH/AVABewL/AYwBpgb/
-        AYQBngb/AWEBigH3Af8BBgFDAv8BNwFXAbUB/wgAAbsBpgGXMf8BXgFEATAB/xMAAf8fAAH/EAABgAGR
-        AZwB/wHPAfMB+gH/AcgB8wH8Af8BvgHwAfwB/wG2Ae0B/QH/Aa0B6QH8Af8BowHkAfsB/wGdAd8B+gH/
-        AZQB2QH4Af8BiwHTAfUB/wGBAc0B8wH/AXUBxwHwAf8BawHAAewB/wFeAa4BzgH/ATYBPgFGAf8PAAH/
-        DAABnAGqAe8B/wFIAWsB5wX/AZwBtgL/AUABawL/AYwBpgb/AQYBOgHWAf8BjAGeAd4B/wgAAcEBqwGc
-        Ev8C/h3/AV4BRAEwAf8TAAH/HwAB/xQAAdUB9QH7Af8ByAH1AfoB/wHEAfMB/AH/AbwB7wH8Af8BsgHr
-        Af0B/wGsAekB/AH/AaMB5AH7Af8BmwHeAfoB/wGSAdkB9wH/AYoB0wH1Af8BgQHNAfMB/wFxAcQB7QH/
-        AVwBswHVAf8TAAH/EAABeQGSAecB/wFIAWsB5wH/AWEBigL/ATcBZwL/AS8BXwL/AR8BSwHWAf8BUAFv
-        Ad4B/wwAAccBsgGjMf8BXgFEATAB/wgAA8MB/wMAAf8nAAH/A8MB/wgAAYYBmQGjAf8B1QH1AfsB/wHP
-        AfMB+gH/AcwB9AH8Af8BxAHyAfwB/wG6Ae8B/AH/AbIB6wH9Af8BqgHoAf0B/wGjAeQB+wH/AZsB3gH6
-        Af8BkgHZAfcB/wGJAdEB9QH/AXcBxwHvAf8BXAG2AdsB/wFSAV4BZgH/DwAB/xQAAYwBngHvAf8BeQGO
-        Ad4B/wFxAYYBzgH/AXEBggHGAf8BYQFnAZwB/xAAAc8BuQGpMf8BXgFEATAB/xMAAf8fAAH/FAAB1QH1
-        AfsB/wHPAfMB+gH/Ac8B8wH6Af8ByAH1AfoB/wHCAfMB/AH/AboB7wH8Af8BsgHrAf0B/wGqAegB/QH/
-        AaEB4gH8Af8BmQHeAfoB/wGQAdgB9wH/AYkB0QH1Af8BZAG9AeAB/wgAA8MB/wMAAf8nAAH/A8MB/xAA
-        AdgBwgGyGv8C/hX/AV4BRAEwAf8TAAH/HwAB/xAAAYsBoAGoAf8B1QH1AfsB/wHVAfUB+wH/AdUB9QH7
-        Af8B1QH1AfsB/wHOAfcB+gH/AcgB8wH8Af8BwQHxAfwB/wG6Ae4B/QH/AbMB6gH9Af8BrAHmAfwB/wGl
-        AeIB+gH/AZ0B3AH4Af8BlgHWAfYB/wFeAWsBdQH/DwAB/x8AAf8YAAHYAcIBsjH/AV4BRAEwAf8TAAH/
-        HwAB/xQAAY0BoQGqAf8BzwHzAfoB/wGNAaEBqgH/Ac8B8wH6Af8BiwGfAagB/wQAAYkBmwGmAf8EAAGG
-        AZkBowH/BAABhAGWAaAB/wQAAYMBlQGgAf8TAAH/HwAB/xgAAVsBugFhAf8BWAG1AV4B/wFUAa8BWwH/
-        AVABpgFXAf8BTAGeAVIB/wFHAZUBTgH/AUIBjAFJAf8BPQGDAUQB/wE4AXQBQAH/ATMBagE7Af8BLgFh
-        ATUB/wEqAVgBMQH/ASUBTwEsAf8BIQFIASkB/xcAAf8DAAH/DwAB/wMAAf8UAAGPAaQBrAH/Ac0B7QHz
-        Af8BzwHzAfoB/wHPAfMB+gH/AccB8wH5Af8BuAHrAfcB/wGNAaEBqgH/LwAB/x8AAf8YAAFbAboBYQH/
-        AS4BywFiAf8BKwHHAV0B/wEpAcEBWAH/ASYBugFRAf8BIgGzAUkB/wEeAaoBQAH/ARkBogE4Af8BFQGZ
-        AS8B/wERAZABJwH/AQ4BiAEfAf8BCgGCARgB/wEHAXcBEgH/ASEBSAEpAf9IAAGPAaQBrAH/BAABjwGk
-        AawB/wQAAY8BpAGsAf83AAH/AwAB/w8AAf8DAAH/HAABWwG6AWEB/wFYAbUBXgH/AVQBrwFbAf8BUAGm
-        AVcB/wFMAZ4BUgH/AUcBlQFOAf8BQgGMAUkB/wE9AYMBRAH/ATgBdAFAAf8BMwFqATsB/wEuAWEBNQH/
-        ASoBWAExAf8BJQFPASwB/wEhAUgBKQH//wDBAAFCAU0BPgcAAT4DAAEoAwABQAMAASADAAEBAQABAQYA
-        AQEWAAP/gQAH/wGDB/8BAQHAAQAC/wKqAf4BAAHAAQAB+QHPAcABAQH+AQABwAEAAvcBgAEAAfIBAAHA
-        AQAC9wHAAQEB7gEAAcABAAL3AYABAAHuAQABwAEAAvcBwAEBAe8BAQHAAQABzwH5AYABAAHvAYMBwAEA
-        AvcBwAEBAZ8B8wHAAQAC9wGAAQAC7wHAAQAC9wHBAVUC7wHAAQAB+QHPAYAB/wLvAcABAAL/AdUB/wHz
-        AZ8BwAEADv8L
-</value>
+  <data name="findRuleId.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 3</value>
   </data>
-  <data name="analyzeTree.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
+  <data name="findRuleId.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 20</value>
   </data>
-  <data name="analyzeTree.SelectedImageIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="findRuleId.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
-  <data name="analyzeTree.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 281</value>
+  <data name="findRuleId.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="analyzeTree.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;findRuleId.Name" xml:space="preserve">
+    <value>findRuleId</value>
   </data>
-  <data name="&gt;&gt;analyzeTree.Name" xml:space="preserve">
-    <value>analyzeTree</value>
+  <data name="&gt;&gt;findRuleId.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;analyzeTree.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;findRuleId.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;analyzeTree.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;analyzeTree.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
-    <value>splitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.Parent" xml:space="preserve">
-    <value>splitContainer1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, -1</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Detailed settings</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="detailsTree.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="detailsTree.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 15</value>
-  </data>
-  <data name="detailsTree.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 281</value>
-  </data>
-  <data name="detailsTree.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;detailsTree.Name" xml:space="preserve">
-    <value>detailsTree</value>
-  </data>
-  <data name="&gt;&gt;detailsTree.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;detailsTree.Parent" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;detailsTree.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
-    <value>splitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.Parent" xml:space="preserve">
-    <value>splitContainer1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>537, 301</value>
-  </data>
-  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>267</value>
-  </data>
-  <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
-    <value>splitContainer1</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;findRuleId.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="findRule.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -400,7 +229,7 @@
     <value>NoControl</value>
   </data>
   <data name="findRule.Location" type="System.Drawing.Point, System.Drawing">
-    <value>517, 5</value>
+    <value>522, 3</value>
   </data>
   <data name="findRule.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 23</value>
@@ -418,69 +247,267 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;findRule.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;findRule.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="detailsTree.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="detailsTree.Location" type="System.Drawing.Point, System.Drawing">
+    <value>278, 16</value>
+  </data>
+  <data name="detailsTree.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 276</value>
+  </data>
+  <data name="detailsTree.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;detailsTree.Name" xml:space="preserve">
+    <value>detailsTree</value>
+  </data>
+  <data name="&gt;&gt;detailsTree.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;detailsTree.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;detailsTree.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="findRuleId.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="analyzeTree.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="findRuleId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>449, 7</value>
+  <data name="analyzeTree.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="findRuleId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 20</value>
+  <metadata name="nodeImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="nodeImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj0yLjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADM
+        CgAAAk1TRnQBSQFMAgEBBAEAATABAAEwAQABEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        AwABIAMAAQEBAAEgBgABIP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wAHAAGUAaoB9wH/
+        AU8BYgG1Af8BPwFWAa0B/wE/AV4BvQH/AZwBqgHWAf/oAAFHAW4B7wH/AR4BTgHnAf8BBQE5AfcB/wEF
+        ATkB9wH/AQUBOQHvAf8BBQElAb0B/wFgAXYBxgH/DAABtwGiAZMB/wFdAUMBLwH/AV0BQwEvAf8BXQFD
+        AS8B/wFdAUMBLwH/AV0BQwEvAf8BXQFDAS8B/wFdAUMBLwH/AV0BQwEvAf8BXQFDAS8B/wFdAUMBLwH/
+        AV0BQwEvAf8BXQFDAS8B/wFdAUMBLwH/RAABbwGEAY8B/wQAAVoBZwFxAf8EAAE8AUYBTgH/BAABHQEk
+        ASoB/wQAAQgBDQESAf8EAAEIAQ0BEgH/BAABCAENARIB/wQAAQgBDQESAf8cAAFXAV4BnAH/ASYBTgHW
+        Bf8BeAGaAv8BFQFSAv8BYAGGAfcF/wEAASkBvQH/AZQBogHOAf8IAAG3AaIBkzH/AV0BQwEvAf8XAAH/
+        AwAB/w8AAf8DAAH/GAABwgHqAfUB/wGiAd4B8QH/AYkB0QHsAf8BdwHKAegB/wFwAcYB5gH/AWwBwgHi
+        Af8BaAG7AdsB/wFoAbUB0wH/AWcBrgHKAf8BYwGsAcgB/wFhAaoBxwH/AWUBpgHBAf8BZwGjAbsB/yAA
+        AUcBYgHWAf8BNgFmAv8BeAGWBv8BeAGWAfcF/wFPAXYB9wH/AQABNQH3Af8BLgFKAa0B/wgAAbcBogGT
+        Mf8BXQFDAS8B/xMAAf8fAAH/EAABdAGKAZUB/wHIAfAB+QH/AboB7gH9Af8BrwHqAfwB/wGlAeQB/AH/
+        AZ4B4AH6Af8BlgHaAfgB/wGNAdUB9QH/AYMBzgHzAf8BdgHIAfAB/wFvAcQB7wH/AWgBvAHqAf8BYQG3
+        AeUB/wFlAaYBwQH/ARoBIQEnAf8TAAH/AwAB/wQAAU8BagHWAf8BPwFqAv8BTwGCAv8BlAGuBv8BhAGe
+        Av8BFQFOAv8BAAE5Av8BBQEtAa0B/wgAAbcBogGTMf8BXQFDAS8B/xMAAf8fAAH/FAABzAHxAfkB/wHB
+        AfEB/AH/AbgB7QH9Af8BrQHpAfwB/wGlAeQB/AH/AZ0B3wH6Af8BlgHaAfgB/wGLAdMB9QH/AYMBzgHz
+        Af8BdgHIAfAB/wFuAcMB7wH/AWYBugHoAf8BYQGqAccB/xMAAf8MAAFHAWoB5wH/AU8BegL/AYwBpgb/
+        AYQBngb/AWABigH3Af8BBQFCAv8BNgFWAbUB/wgAAbsBpgGXMf8BXQFDAS8B/xMAAf8fAAH/EAABgAGR
+        AZwB/wHPAfMB+gH/AcgB8wH8Af8BvgHwAfwB/wG2Ae0B/QH/Aa0B6QH8Af8BowHkAfsB/wGdAd8B+gH/
+        AZQB2QH4Af8BiwHTAfUB/wGBAc0B8wH/AXQBxwHwAf8BagHAAewB/wFdAa4BzgH/ATUBPQFFAf8PAAH/
+        DAABnAGqAe8B/wFHAWoB5wX/AZwBtgL/AT8BagL/AYwBpgb/AQUBOQHWAf8BjAGeAd4B/wgAAcEBqwGc
+        Ev8C/h3/AV0BQwEvAf8TAAH/HwAB/xQAAdUB9QH7Af8ByAH1AfoB/wHEAfMB/AH/AbwB7wH8Af8BsgHr
+        Af0B/wGsAekB/AH/AaMB5AH7Af8BmwHeAfoB/wGSAdkB9wH/AYoB0wH1Af8BgQHNAfMB/wFwAcQB7QH/
+        AVsBswHVAf8TAAH/EAABeAGSAecB/wFHAWoB5wH/AWABigL/ATYBZgL/AS4BXgL/AR4BSgHWAf8BTwFu
+        Ad4B/wwAAccBsgGjMf8BXQFDAS8B/wgAA8MB/wMAAf8nAAH/A8MB/wgAAYYBmQGjAf8B1QH1AfsB/wHP
+        AfMB+gH/AcwB9AH8Af8BxAHyAfwB/wG6Ae8B/AH/AbIB6wH9Af8BqgHoAf0B/wGjAeQB+wH/AZsB3gH6
+        Af8BkgHZAfcB/wGJAdEB9QH/AXYBxwHvAf8BWwG2AdsB/wFRAV0BZQH/DwAB/xQAAYwBngHvAf8BeAGO
+        Ad4B/wFwAYYBzgH/AXABggHGAf8BYAFmAZwB/xAAAc8BuQGpMf8BXQFDAS8B/xMAAf8fAAH/FAAB1QH1
+        AfsB/wHPAfMB+gH/Ac8B8wH6Af8ByAH1AfoB/wHCAfMB/AH/AboB7wH8Af8BsgHrAf0B/wGqAegB/QH/
+        AaEB4gH8Af8BmQHeAfoB/wGQAdgB9wH/AYkB0QH1Af8BYwG9AeAB/wgAA8MB/wMAAf8nAAH/A8MB/xAA
+        AdgBwgGyGv8C/hX/AV0BQwEvAf8TAAH/HwAB/xAAAYsBoAGoAf8B1QH1AfsB/wHVAfUB+wH/AdUB9QH7
+        Af8B1QH1AfsB/wHOAfcB+gH/AcgB8wH8Af8BwQHxAfwB/wG6Ae4B/QH/AbMB6gH9Af8BrAHmAfwB/wGl
+        AeIB+gH/AZ0B3AH4Af8BlgHWAfYB/wFdAWoBdAH/DwAB/x8AAf8YAAHYAcIBsjH/AV0BQwEvAf8TAAH/
+        HwAB/xQAAY0BoQGqAf8BzwHzAfoB/wGNAaEBqgH/Ac8B8wH6Af8BiwGfAagB/wQAAYkBmwGmAf8EAAGG
+        AZkBowH/BAABhAGWAaAB/wQAAYMBlQGgAf8TAAH/HwAB/xgAAVoBugFgAf8BVwG1AV0B/wFTAa8BWgH/
+        AU8BpgFWAf8BSwGeAVEB/wFGAZUBTQH/AUEBjAFIAf8BPAGDAUMB/wE3AXMBPwH/ATIBaQE6Af8BLQFg
+        ATQB/wEpAVcBMAH/ASQBTgErAf8BIAFHASgB/xcAAf8DAAH/DwAB/wMAAf8UAAGPAaQBrAH/Ac0B7QHz
+        Af8BzwHzAfoB/wHPAfMB+gH/AccB8wH5Af8BuAHrAfcB/wGNAaEBqgH/LwAB/x8AAf8YAAFaAboBYAH/
+        AS0BywFhAf8BKgHHAVwB/wEoAcEBVwH/ASUBugFQAf8BIQGzAUgB/wEdAaoBPwH/ARgBogE3Af8BFAGZ
+        AS4B/wEQAZABJgH/AQ0BiAEeAf8BCQGCARcB/wEGAXYBEQH/ASABRwEoAf9IAAGPAaQBrAH/BAABjwGk
+        AawB/wQAAY8BpAGsAf83AAH/AwAB/w8AAf8DAAH/HAABWgG6AWAB/wFXAbUBXQH/AVMBrwFaAf8BTwGm
+        AVYB/wFLAZ4BUQH/AUYBlQFNAf8BQQGMAUgB/wE8AYMBQwH/ATcBcwE/Af8BMgFpAToB/wEtAWABNAH/
+        ASkBVwEwAf8BJAFOASsB/wEgAUcBKAH//wDBAAFCAU0BPgcAAT4DAAEoAwABQAMAASADAAEBAQABAQYA
+        AQEWAAP/gQAH/wGDB/8BAQHAAQAC/wKqAf4BAAHAAQAB+QHPAcABAQH+AQABwAEAAvcBgAEAAfIBAAHA
+        AQAC9wHAAQEB7gEAAcABAAL3AYABAAHuAQABwAEAAvcBwAEBAe8BAQHAAQABzwH5AYABAAHvAYMBwAEA
+        AvcBwAEBAZ8B8wHAAQAC9wGAAQAC7wHAAQAC9wHBAVUC7wHAAQAB+QHPAYAB/wLvAcABAAL/AdUB/wHz
+        AZ8BwAEADv8L
+</value>
   </data>
-  <data name="findRuleId.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+  <data name="analyzeTree.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 16</value>
   </data>
-  <data name="findRuleId.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="analyzeTree.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;findRuleId.Name" xml:space="preserve">
-    <value>findRuleId</value>
+  <data name="analyzeTree.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 276</value>
   </data>
-  <data name="&gt;&gt;findRuleId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="analyzeTree.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="&gt;&gt;findRuleId.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;analyzeTree.Name" xml:space="preserve">
+    <value>analyzeTree</value>
   </data>
-  <data name="&gt;&gt;findRuleId.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;analyzeTree.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;analyzeTree.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;analyzeTree.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>278, 0</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>420, 9</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 13</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 13</value>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Detailed settings</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Find</value>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Enabled rules</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 32</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>550, 295</value>
+  </data>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="detailsTree" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="analyzeTree" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>556, 406</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label4" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="description" Row="2" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="findRuleId" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="findRule" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,80,AutoSize,0,Percent,20,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Percent,80,Percent,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="description.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 333</value>
+  </data>
+  <data name="description.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="description.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="description.Size" type="System.Drawing.Size, System.Drawing">
+    <value>550, 70</value>
+  </data>
+  <data name="description.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;description.Name" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="&gt;&gt;description.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;description.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;description.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

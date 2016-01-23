@@ -1145,7 +1145,7 @@ namespace StyleCop.Test
             Param.AssertNotNull(node2, "node2");
 
             // Ensure that the names of the nodes are the same.
-            if (0 != string.Compare(node1.Name, node2.Name, StringComparison.Ordinal))
+            if (string.Compare(node1.Name, node2.Name, StringComparison.Ordinal) != 0)
             {
                 return false;
             }
@@ -1162,12 +1162,12 @@ namespace StyleCop.Test
                 XmlAttribute node1Attribute = node1.Attributes[i];
                 XmlAttribute node2Attribute = node2.Attributes[i];
 
-                if (0 != string.Compare(node1Attribute.Name, node2Attribute.Name, StringComparison.Ordinal))
+                if (string.Compare(node1Attribute.Name, node2Attribute.Name, StringComparison.Ordinal) != 0)
                 {
                     return false;
                 }
 
-                if (0 != string.Compare(node1Attribute.Value, node2Attribute.Value, StringComparison.Ordinal))
+                if (string.Compare(node1Attribute.Value, node2Attribute.Value, StringComparison.Ordinal) != 0)
                 {
                     return false;
                 }
@@ -1182,7 +1182,7 @@ namespace StyleCop.Test
             if (node1.ChildNodes.Count == 0)
             {
                 // Compare the inner text of the two nodes.
-                if (0 != string.Compare(node1.InnerText, node2.InnerText, StringComparison.Ordinal))
+                if (string.Compare(node1.InnerText, node2.InnerText, StringComparison.Ordinal) != 0)
                 {
                     return false;
                 }
