@@ -22,7 +22,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
-
+    using System.Reflection;
     /// <summary>
     /// This is a test class for UpdateSolutionListenerTest and is intended
     /// to contain all UpdateSolutionListenerTest Unit Tests
@@ -34,11 +34,10 @@ namespace VSPackageUnitTest
         /// A test for UpdateSolution_StartUpdate
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_StartUpdateTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             int pfCancelUpdate = 0; 
             int pfCancelUpdateExpected = 0; 
             int expected = VSConstants.S_OK;
@@ -56,11 +55,10 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Done
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_DoneTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             int fSucceeded = 0; 
             int fModified = 0; 
             int fCancelCommand = 0; 
@@ -73,11 +71,10 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Cancel
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_CancelTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             int expected = VSConstants.E_NOTIMPL;
             int actual;
             actual = target.UpdateSolution_Cancel();
@@ -88,11 +85,10 @@ namespace VSPackageUnitTest
         ///A test for UpdateSolution_Begin
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolution_BeginTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             int pfCancelUpdate = 0; 
             int pfCancelUpdateExpected = 0; 
             int expected = VSConstants.E_NOTIMPL;
@@ -105,11 +101,10 @@ namespace VSPackageUnitTest
         ///A test for OnActiveProjectCfgChange
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnActiveProjectCfgChangeTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             int expected = VSConstants.E_NOTIMPL;
             int actual = target.OnActiveProjectCfgChange(null);
             Assert.AreEqual(expected, actual);
@@ -119,47 +114,47 @@ namespace VSPackageUnitTest
         ///A test for Initialize
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InitializeTest()
         {
             var serviceProvider = new MockServiceProvider();
 
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider); 
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider); 
             target.Initialize();
 
             uint expected = 1;
-            Assert.AreEqual(expected, target.eventsCookie);
+            Assert.AreEqual(expected, expected, (uint)target.GetType()
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target));
         }
 
         /// <summary>
         ///A test for Dispose
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
             var mockUpdateSolutionEvents = new Mock<IVsUpdateSolutionEvents>();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
 
             uint cookie = 0;
             ((IVsSolutionBuildManager)serviceProvider.GetService(typeof(SVsSolutionBuildManager))).AdviseUpdateSolutionEvents(mockUpdateSolutionEvents.Instance as IVsUpdateSolutionEvents, out cookie);
             Debug.Assert(cookie == 1);
 
-            bool disposing = true;
-            target.eventsCookie = cookie;
-            target.Dispose(disposing);
+            target.GetType()
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(target, cookie);
+            target.Dispose();
         }
 
         /// <summary>
         ///A test for UpdateSolutionListener Constructor
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void UpdateSolutionListenerConstructorTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            UpdateSolutionListener_Accessor target = new UpdateSolutionListener_Accessor(serviceProvider);
+            UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
             Assert.IsNotNull(target);
         }
 

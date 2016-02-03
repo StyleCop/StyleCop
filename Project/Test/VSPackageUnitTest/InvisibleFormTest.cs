@@ -24,7 +24,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-
+    using System.Reflection;
     /// <summary>
     /// This is a test class for InvisibleFormTest and is intended
     ///   to contain all InvisibleFormTest Unit Tests
@@ -38,21 +38,22 @@ namespace VSPackageUnitTest
         /// A test for Instance
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InstanceTest()
         {
-            InvisibleForm_Accessor actual;
+            InvisibleForm actual;
 
-            actual = InvisibleForm_Accessor.Instance;
+            actual = InvisibleForm.Instance;
             Assert.IsNotNull(actual, "InvisibleForm.Instance returned null");
 
             // Reset and try again
-            InvisibleForm_Accessor.instanceForm = null;
-            actual = InvisibleForm_Accessor.Instance;
+            typeof(InvisibleForm)
+                .GetField("instanceForm", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, null);
+            actual = InvisibleForm.Instance;
             Assert.IsNotNull(actual, "InvisibleForm.Instance returned null");
-            Assert.AreSame(actual.Target, InvisibleForm_Accessor.Instance.Target, "Second call to the property should return the same opbject instance.");
+            Assert.AreSame(actual, InvisibleForm.Instance, "Second call to the property should return the same opbject instance.");
 
-            Form f = actual.Target as Form;
+            Form f = actual as Form;
             Assert.IsFalse(f.Visible, "InvisibleForm should not be visible");
         }
 
@@ -62,7 +63,9 @@ namespace VSPackageUnitTest
         [TestCleanup]
         public void MyTestCleanup()
         {
-            InvisibleForm_Accessor.instanceForm = null;
+            typeof(InvisibleForm)
+                .GetField("instanceForm", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, null);
         }
 
         /// <summary>
@@ -71,7 +74,9 @@ namespace VSPackageUnitTest
         [TestInitialize]
         public void MyTestInitialize()
         {
-            InvisibleForm_Accessor.instanceForm = null;
+            typeof(InvisibleForm)
+                .GetField("instanceForm", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, null);
         }
 
         #endregion

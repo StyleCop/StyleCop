@@ -13,9 +13,6 @@
 // </license>
 //-----------------------------------------------------------------------
 
-using System.Linq;
-using Microsoft.Build.BuildEngine;
-
 namespace StyleCop.VisualStudio
 {
     using System;
@@ -24,11 +21,13 @@ namespace StyleCop.VisualStudio
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Security;
     using EnvDTE;
 
+    using Microsoft.Build.BuildEngine;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 

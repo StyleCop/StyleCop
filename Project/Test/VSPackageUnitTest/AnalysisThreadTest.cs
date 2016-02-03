@@ -26,7 +26,7 @@ namespace VSPackageUnitTest
 
     using StyleCop;
     using StyleCop.VisualStudio;
-
+    using System.Reflection;
     /// <summary>
     /// This is a test class for AnalysisThreadTest and is intended
     ///  to contain all AnalysisThreadTest Unit Tests
@@ -77,9 +77,15 @@ namespace VSPackageUnitTest
             bool isFull = true;
             var target = CreateAnalysisThread(isFull);
             Assert.IsNotNull(target, "Constructor is broken");
-            Assert.IsNotNull(target.projects, "Constructor did not set the projects.");
-            Assert.IsTrue(target.full, "Constructor did not set the full flag.");
-            Assert.IsNotNull(target.core, "Constructor did not set the core.");
+            Assert.IsNotNull(typeof(AnalysisThread)
+                .GetField("projects", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(target),
+                "Constructor did not set the projects.");
+            Assert.IsTrue((bool)typeof(AnalysisThread)
+                .GetField("full", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(target),
+                "Constructor did not set the full flag.");
+            Assert.IsNotNull(typeof(AnalysisThread)
+                .GetField("core", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(target),
+                "Constructor did not set the core.");
         }
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace VSPackageUnitTest
             var target = CreateAnalysisThread(false);
 
             bool eventFired = false;
-            target.add_Complete((sender, args) => { eventFired = true; });
+            target.Complete += (sender, args) => { eventFired = true; };
 
             target.AnalyzeProc();
             Assert.IsTrue(eventFired, "Analysation didnt fire the Complete event");
@@ -113,7 +119,7 @@ namespace VSPackageUnitTest
 
         #region Methods
 
-        private static AnalysisThread_Accessor CreateAnalysisThread(bool isFull)
+        private static AnalysisThread CreateAnalysisThread(bool isFull)
         {
             var core = new StyleCopCore();
             var projects = new List<CodeProject>();
@@ -121,7 +127,7 @@ namespace VSPackageUnitTest
             var codeProject = new CodeProject(0, "test", new Configuration(new string[0]));
             projects.Add(codeProject);
 
-            var target = new AnalysisThread_Accessor(isFull, projects, core);
+            var target = new AnalysisThread(isFull, projects, core);
             return target;
         }
 

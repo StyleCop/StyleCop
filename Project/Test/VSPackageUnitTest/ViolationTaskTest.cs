@@ -32,16 +32,12 @@ namespace VSPackageUnitTest
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
-
-    /// <summary>
-    /// This is a test class for ViolationTaskTest and is intended
-    ///  to contain all ViolationTaskTest Unit Tests
-    /// </summary>
+    using System.Reflection;
+    using StyleCop;    /// <summary>
+                       /// This is a test class for ViolationTaskTest and is intended
+                       ///  to contain all ViolationTaskTest Unit Tests
+                       /// </summary>
     [TestClass]
-    [DeploymentItem("StyleCop.VSPackage.dll")]
-    [DeploymentItem("StyleCop.VSPackage_Accessor.dll")]
-    [DeploymentItem("StyleCop_Accessor.dll")]
-    [DeploymentItem("Microsoft.VisualStudio.Shell_Accessor.dll")]
     public class ViolationTaskTest
     {
         #region Constants and Fields
@@ -50,11 +46,11 @@ namespace VSPackageUnitTest
 
         private StyleCopVSPackage package;
 
-        private ViolationTask_Accessor taskUnderTest;
+        private ViolationTask taskUnderTest;
 
-        private ErrorTask_Accessor taskUnderTestShell;
+        private ErrorTask taskUnderTestShell;
 
-        private ViolationInfo_Accessor violation;
+        private ViolationInfo violation;
 
         #endregion
 
@@ -104,28 +100,31 @@ namespace VSPackageUnitTest
             this.mockServiceProvider = new Mock<IServiceProvider>();
             this.violation = CreateDummyViolationInfo();
 
-            StyleCopVSPackage_Accessor.AttachShadow(this.package).Core.DisplayUI = false;
-            this.taskUnderTest = new ViolationTask_Accessor(this.package, this.violation, null);
-            this.taskUnderTestShell = ErrorTask_Accessor.AttachShadow(this.taskUnderTest.Target);
+            this.package.Core.DisplayUI = false;
+            this.taskUnderTest = new ViolationTask(this.package, this.violation, null);
+            this.taskUnderTestShell = taskUnderTest;
         }
 
         /// <summary>
         /// A test for OnNavigate
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateEmptyDocumentTest()
         {
             bool eventFired = false;
             var mockDte = new Mock<DTE>();
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(SVsSolutionBuildManager)), new MockSolutionBuildManager());
-            AnalysisHelper_Accessor analysisHelper = this.SetCoreNoUI();
-            analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
+            AnalysisHelper analysisHelper = this.SetCoreNoUI();
+            var styleCopCore = (StyleCopCore)typeof(AnalysisHelper)
+                .GetField("core", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(analysisHelper);
+            styleCopCore.OutputGenerated += (sender, args) => { eventFired = true; };
 
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedly
             this.taskUnderTestShell.Document = string.Empty;
-            this.taskUnderTest.OnNavigate(EventArgs.Empty);
+            typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             Assert.IsTrue(eventFired, "Core did not fire output event");
         }
@@ -134,26 +133,30 @@ namespace VSPackageUnitTest
         /// A test for OnNavigate
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateNoDocumentTest()
         {
             var mockDte = new Mock<DTE>();
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(SVsSolutionBuildManager)), new MockSolutionBuildManager());
-            AnalysisHelper_Accessor analysisHelper = this.SetCoreNoUI();
+            AnalysisHelper analysisHelper = this.SetCoreNoUI();
             bool eventFired = false;
-            analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
+            var styleCopCore = (StyleCopCore)typeof(AnalysisHelper)
+                .GetField("core", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(analysisHelper);
+            styleCopCore.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            // ProjectUtilities_Accessor.Initialize(this.mockServiceProvider.Instance);
+            // ProjectUtilities.Initialize(this.mockServiceProvider.Instance);
 
             // Does nothing - included for code coverage and to catch it if it starts doing something unexpectedtly
             this.taskUnderTestShell.Document = null;
-            this.taskUnderTest.OnNavigate(EventArgs.Empty);
+            typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             Assert.IsTrue(eventFired, "Core did not fire output event");
 
             // Reset Factory.ServiceProvider.
-            ProjectUtilities_Accessor.serviceProvider = null;
+            typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, null);
         }
 
         /// <summary>
@@ -183,10 +186,12 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
+            typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, this.mockServiceProvider.Instance);
 
             // Execute
-            this.taskUnderTest.OnNavigate(EventArgs.Empty);
+            typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             // Verify the required methods are called to show the violation
             mockTextSelection.Verify();
@@ -198,7 +203,6 @@ namespace VSPackageUnitTest
         /// A test for OnNavigate
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void OnNavigateToDocNotInProjectTest()
         {
             var mockDocumentEnumerator = new SequenceMock<IEnumerator>();
@@ -217,9 +221,12 @@ namespace VSPackageUnitTest
 
             mockSecondDocument.AddExpectationExpr(doc => doc.FullName, "DummyFile.txt");
 
-            AnalysisHelper_Accessor analysisHelper = this.SetCoreNoUI();
+            AnalysisHelper analysisHelper = this.SetCoreNoUI();
             bool eventFired = false;
-            analysisHelper.core.OutputGenerated += (sender, args) => { eventFired = true; };
+            var styleCopCore = (StyleCopCore)typeof(AnalysisHelper)
+                .GetField("core", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(analysisHelper);
+            styleCopCore.OutputGenerated += (sender, args) => { eventFired = true; };
 
             mockActiveDocument.ImplementExpr(doc => doc.Selection, mockTextSelection.Instance);
 
@@ -229,10 +236,12 @@ namespace VSPackageUnitTest
             mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
+            typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, this.mockServiceProvider.Instance);
 
             // Execute
-            this.taskUnderTest.OnNavigate(EventArgs.Empty);
+            typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             // Verify the required methods are called to show the violation
             mockTextSelection.Verify();
@@ -248,7 +257,10 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void ViolationTaskConstructorTest()
         {
-            Assert.IsNotNull(this.taskUnderTest.violation, "Constructor didn't set internal field 'violation'");
+            Assert.IsNotNull(typeof(ViolationTask)
+                .GetField("violation", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(this.taskUnderTest),
+                "Constructor didn't set internal field 'violation'");
             Assert.AreEqual(
                 this.violation.File,
                 this.taskUnderTestShell.Document,
@@ -268,17 +280,18 @@ namespace VSPackageUnitTest
 
         #region Methods
 
-        private static ViolationInfo_Accessor CreateDummyViolationInfo()
+        private static ViolationInfo CreateDummyViolationInfo()
         {
-            ViolationInfo_Accessor violation = new ViolationInfo_Accessor() { File = @"c:\MyFile.cs", LineNumber = 666, Description = "My Description" };
+            ViolationInfo violation = new ViolationInfo() { File = @"c:\MyFile.cs", LineNumber = 666, Description = "My Description" };
 
             return violation;
         }
 
-        private AnalysisHelper_Accessor SetCoreNoUI()
+        private AnalysisHelper SetCoreNoUI()
         {
-            StyleCopVSPackage_Accessor packageAccessor = StyleCopVSPackage_Accessor.AttachShadow(this.package);
-            return packageAccessor.Helper;
+            return (AnalysisHelper)typeof(StyleCopVSPackage)
+                .GetProperty("Helper", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(this.package);
         }
 
         private void SetupProjectUtilities(
