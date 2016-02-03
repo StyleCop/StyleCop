@@ -4,14 +4,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Fragment>
 
-    <Property Id="RESHARPER9_VERSION" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER9_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v9.2" Name="ProductVersion" Type="raw" />
-    </Property>
-
-    <Property Id="RESHARPER9_INSTALLDIR" Admin="yes" Secure="yes">
-      <RegistrySearch Id="REG_RESHARPER9_INSTALLDIR" Type="directory" Root="HKLM" Key="SOFTWARE\JetBrains\ReSharper\v9.2" Name="InstallDir" />
-    </Property>
-
     <Property Id="RESHARPER82_VERSION" Admin="yes" Secure="yes">
       <RegistrySearch Id="REG_RESHARPER82_VERSION" Root="HKLM" Key="Software\JetBrains\ReSharper\v8.2" Name="ProductVersion" Type="raw" />
     </Property>
