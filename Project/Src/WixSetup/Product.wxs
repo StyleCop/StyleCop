@@ -17,12 +17,12 @@
 
     <Feature Id='Feature_StyleCopPackage'
              Title='Visual Studio integration'
-             Description="Files for setting up StyleCop integration with Visual Studio 2008, Visual Studio 2010, Visual Studio 2012, and Visual Studio 2013."
+             Description="Files for setting up StyleCop integration with Visual Studio 2008, Visual Studio 2010, Visual Studio 2012, Visual Studio 2013, and Visual Studio 2015."
              Level="1" Display='expand' ConfigurableDirectory='INSTALLDIR' AllowAdvertise='no' InstallDefault='local' Absent='allow'>
       <ComponentGroupRef Id="VisualStudio_Common" />
-      <!-- Require VS 2008, 2010, 2012, or 2013 to be installed -->
-      <Condition Level="1"><![CDATA[VS90DEVENV <> "" OR VS2010DEVENV <> "" OR VS2012DEVENV <> "" OR VS2013DEVENV <> ""]]></Condition>
-      <Condition Level="0"><![CDATA[VS90DEVENV = "" AND VS2010DEVENV = "" AND VS2012DEVENV = "" AND VS2013DEVENV = ""]]></Condition>
+      <!-- Require VS 2008, 2010, 2012, 2013, or 2015 to be installed -->
+      <Condition Level="1"><![CDATA[VS90DEVENV <> "" OR VS2010DEVENV <> "" OR VS2012DEVENV <> "" OR VS2013DEVENV <> "" OR VS2015DEVENV <> ""]]></Condition>
+      <Condition Level="0"><![CDATA[VS90DEVENV = "" AND VS2010DEVENV = "" AND VS2012DEVENV = "" AND VS2013DEVENV = "" AND VS2015DEVENV = ""]]></Condition>
 
       <Feature Id='Feature_ReSharper'
                Title='R# integration'
@@ -71,6 +71,7 @@
       <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="StyleCopVS11Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2012DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="StyleCopVS12Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2013DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
+      <Custom Action="StyleCopVS14Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2015DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
       <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFiles'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
       <Custom Action='CA_RestoreVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
