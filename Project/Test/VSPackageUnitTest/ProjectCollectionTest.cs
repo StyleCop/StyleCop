@@ -33,8 +33,6 @@ namespace VSPackageUnitTest
     ///   to contain all ProjectCollectionTest Unit Tests
     /// </summary>
     [TestClass]
-    [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
-    [DeploymentItem("StyleCop.VSPackage.dll")]
     public class ProjectCollectionTest
     {
         #region Properties

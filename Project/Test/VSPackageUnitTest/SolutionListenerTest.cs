@@ -30,7 +30,7 @@ namespace VSPackageUnitTest
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
-
+    using System.Reflection;
     /// <summary>
     /// This is a test class for SolutionListenerTest and is intended
     ///   to contain all SolutionListenerTest Unit Tests
@@ -54,7 +54,6 @@ namespace VSPackageUnitTest
         /// A test for Dispose
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
@@ -64,31 +63,37 @@ namespace VSPackageUnitTest
             ((IVsSolution)serviceProvider.GetService(typeof(SVsSolution))).AdviseSolutionEvents(mockSolutionEvents.Instance as IVsSolutionEvents, out cookie);
             Debug.Assert(cookie == 1);
 
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
-            target.eventsCookie = cookie;
+            SolutionListener target = new SolutionListener(serviceProvider);
+            typeof(SolutionListener).GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(target, cookie);
             target.Dispose();
 
             uint expected = 0;
-            Assert.AreEqual(expected, target.eventsCookie, "Dispose does not remove the event sink");
+            Assert.AreEqual(expected,
+                typeof(SolutionListener).GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target), "Dispose does not remove the event sink");
         }
 
         /// <summary>
         /// A test for EventsCookie
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void EventsCookieTest()
         {
             var serviceProvider = new MockServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             uint expected = 0;
 
-            uint actual = target.eventsCookie;
+            uint actual = (uint)typeof(SolutionListener)
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target);
             Assert.AreEqual(expected, actual, "initial value should be zero");
 
             target.Initialize();
 
-            actual = target.eventsCookie;
+            actual = (uint)typeof(SolutionListener)
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target);
             Assert.IsTrue(expected < actual, "Value after initialize should not be zero.");
         }
 
@@ -96,29 +101,32 @@ namespace VSPackageUnitTest
         /// A test for Initialize
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void InitializeTest()
         {
             var serviceProvider = new MockServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             uint expected = 0;
-            Assert.AreEqual(expected, target.eventsCookie);
+            Assert.AreEqual(expected, (uint)typeof(SolutionListener)
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target));
 
             expected = 1;
-            target.eventsCookie = expected;
+            typeof(SolutionListener).GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(target, expected);
             target.Initialize();
-            Assert.AreEqual(expected, target.eventsCookie);
+            Assert.AreEqual(expected, (uint)typeof(SolutionListener)
+                .GetField("eventsCookie", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target));
         }
 
         /// <summary>
         /// A test for OnAfterAsynchOpenProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterAsynchOpenProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int fAdded = 0; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
@@ -131,11 +139,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterChangeProjectParent
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterChangeProjectParentTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -147,11 +154,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterCloseSolution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterCloseSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             object pUnkReserved = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -163,11 +169,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterClosingChildren
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterClosingChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -179,11 +184,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterLoadProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterLoadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy pStubHierarchy = null; // TODO: Initialize to an appropriate value
             IVsHierarchy pRealHierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
@@ -196,11 +200,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterMergeSolution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterMergeSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             object pUnkReserved = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -212,11 +215,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpenProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpenProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int fAdded = 0; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
@@ -229,11 +231,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpenSolution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpenSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
 
             bool eventFired = false;
             target.AfterSolutionOpened += (sender, args) => { eventFired = true; };
@@ -247,11 +248,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterOpeningChildren
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterOpeningChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -263,11 +263,10 @@ namespace VSPackageUnitTest
         /// A test for OnAfterRenameProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnAfterRenameProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -279,11 +278,10 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeCloseProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeCloseProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int fRemoved = 0; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
@@ -296,12 +294,11 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeCloseSolution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeCloseSolutionTest()
         {
             var serviceProvider = new MockServiceProvider();
 
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
 
             bool eventFired = false;
             target.BeforeClosingSolution += (sender, args) => { eventFired = true; };
@@ -315,11 +312,10 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeClosingChildren
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeClosingChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -331,11 +327,10 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeOpeningChildren
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeOpeningChildrenTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
             int actual;
@@ -347,11 +342,10 @@ namespace VSPackageUnitTest
         /// A test for OnBeforeUnloadProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnBeforeUnloadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy pRealHierarchy = null; // TODO: Initialize to an appropriate value
             IVsHierarchy pStubHierarchy = null; // TODO: Initialize to an appropriate value
             int expected = VSConstants.E_NOTIMPL;
@@ -364,11 +358,10 @@ namespace VSPackageUnitTest
         /// A test for OnQueryChangeProjectParent
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryChangeProjectParentTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             IVsHierarchy pNewParentHier = null; // TODO: Initialize to an appropriate value
             int pfCancel = 0; // TODO: Initialize to an appropriate value
@@ -384,11 +377,10 @@ namespace VSPackageUnitTest
         /// A test for OnQueryCloseProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryCloseProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy hierarchy = null; // TODO: Initialize to an appropriate value
             int fRemoving = 0; // TODO: Initialize to an appropriate value
             int pfCancel = 0; // TODO: Initialize to an appropriate value
@@ -404,11 +396,10 @@ namespace VSPackageUnitTest
         /// A test for OnQueryCloseSolution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryCloseSolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             object pUnkReserved = null; // TODO: Initialize to an appropriate value
             int pfCancel = 0; // TODO: Initialize to an appropriate value
             int pfCancelExpected = 0; // TODO: Initialize to an appropriate value
@@ -423,11 +414,10 @@ namespace VSPackageUnitTest
         /// A test for OnQueryUnloadProject
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void OnQueryUnloadProjectTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             IVsHierarchy pRealHierarchy = null; // TODO: Initialize to an appropriate value
             int pfCancel = 0; // TODO: Initialize to an appropriate value
             int pfCancelExpected = 0; // TODO: Initialize to an appropriate value
@@ -442,11 +432,10 @@ namespace VSPackageUnitTest
         /// A test for SolutionListener Constructor
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void SolutionListenerConstructorTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
+            SolutionListener target = new SolutionListener(serviceProvider);
             Assert.IsNotNull(target);
         }
 
@@ -454,12 +443,13 @@ namespace VSPackageUnitTest
         /// A test for Solution
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void SolutionTest()
         {
             IServiceProvider serviceProvider = this.PrepareServiceProvider();
-            SolutionListener_Accessor target = new SolutionListener_Accessor(serviceProvider);
-            IVsSolution actual = target.solution;
+            SolutionListener target = new SolutionListener(serviceProvider);
+            IVsSolution actual = (IVsSolution)typeof(SolutionListener)
+                .GetField("solution", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target);
             Assert.IsNotNull(actual, "Cnstructor did not get the solution class.");
         }
 

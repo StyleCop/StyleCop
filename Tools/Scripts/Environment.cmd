@@ -45,19 +45,32 @@ REM Set up ReSharper dlls if installed
 
 SET ReSharperFound=0
 
-SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v8.2\Bin"
-
-if "%IsWoW64%" == "1"  (
-	SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.2\Bin"
+if "%IsWoW64%" == "1" (
+	ECHO "%WoW64%"
+	IF EXIST "%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.2\Bin\JetBrains.Annotations.dll" (
+		echo JetBrains ReSharper 8.2 was found...
+		SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\ReSharper\v8.2\Bin"
+	) ELSE (
+		IF EXIST "%PROGRAMFILES(x86)%\JetBrains\Installations\ReSharperPlatformVs14\JetBrains.Annotations.dll" (
+			echo JetBrains ReSharper 10+ was found...
+			SET "RESHARPERINSTALLDIR=%PROGRAMFILES(x86)%\JetBrains\Installations\ReSharperPlatformVs14"
+		)
+	)
+) else (
+	ECHO "!WoW64"
+	IF EXIST "%ProgramFiles%\JetBrains\ReSharper\v8.2\Bin\JetBrains.Annotations.dll" (
+		echo JetBrains ReSharper 8.2 was found...
+		SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\ReSharper\v8.2\Bin"
+	) ELSE (
+		IF EXIST "%ProgramFiles%\JetBrains\Installations\ReSharperPlatformVs14\JetBrains.Annotations.dll" (
+			echo JetBrains ReSharper 10+ was found...
+			SET "RESHARPERINSTALLDIR=%ProgramFiles%\JetBrains\Installations\ReSharperPlatformVs14"
+		)
+	)
 )
 
 IF EXIST "%RESHARPERINSTALLDIR%\JetBrains.Annotations.dll" ( SET ReSharperFound=1 )
 
-IF "%ReSharperFound%"=="0" GOTO ResharperDone
-
-echo JetBrains ReSharper 8.2 was found...
-
-:ResharperDone
 REM --------------------------------------------------------------------------------------
 REM Set up the VSSDK environment variables
 

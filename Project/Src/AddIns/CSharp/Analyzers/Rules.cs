@@ -855,6 +855,11 @@ namespace StyleCop.CSharp
         InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements, 
 
         /// <summary>
+        /// Validates that C++ style assignment proof comparison where value goes first is not used.
+        /// </summary>       
+        NoValueFirstComparison,
+
+        /// <summary>
         /// Verifies that calls to members are prefixed with the correct notation.
         /// </summary>
         PrefixCallsCorrectly, 

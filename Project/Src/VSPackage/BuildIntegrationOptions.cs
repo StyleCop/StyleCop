@@ -14,9 +14,12 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.VisualStudio
 {
+    using System;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
-    using Microsoft.VisualStudio.Shell.Interop;
+
+    using Microsoft.Build.BuildEngine;
 
     /// <summary>
     /// Allows setting the company and copyright requirements.
@@ -47,7 +50,12 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// The VS project.
         /// </summary>
-        private IVsBuildPropertyStorage project;
+        private Project project;
+
+        /// <summary>
+        /// The build integration setting.
+        /// </summary>
+        private ProjectUtilities.BuildIntegration setting;
 
         #endregion Private Fields
 
@@ -56,12 +64,14 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Initializes a new instance of the BuildIntegrationOptions class.
         /// </summary>
-        /// <param name="project">The VS project.</param>
-        public BuildIntegrationOptions(IVsBuildPropertyStorage project)
+        /// <param name="project">The MSBuild project.</param>
+        public BuildIntegrationOptions(Project project)
         {
             Param.RequireNotNull(project, "project");
 
             this.project = project;
+            this.setting = ProjectUtilities.GetBuildIntegrationInProject(this.project);
+            
             this.InitializeComponent();
         }
 
@@ -106,23 +116,30 @@ namespace StyleCop.VisualStudio
 
         #region Private Properties
 
-        /// <summary>
-        /// Gets a value indicating whether StyleCop build integration is enabled for the project.
-        /// </summary>
-        private bool IsBuildIntegrationEnabledInProject
+        private bool BuildIntagrationEnabled
         {
             get
             {
-                string propertyValue = null;
-                if (0 == this.project.GetPropertyValue(PropertyName, null, 0, out propertyValue))
-                {
-                    return !string.IsNullOrEmpty(propertyValue);
-                }
-
-                return false;
+                return this.setting != ProjectUtilities.BuildIntegration.None;
             }
         }
 
+        private bool TreatErrorAsError
+        {
+            get
+            {
+                return this.setting == ProjectUtilities.BuildIntegration.TreatErrorAsError;
+            }
+        }
+
+        private bool TreatErrorAsWarning
+        {
+            get
+            {
+                return this.setting == ProjectUtilities.BuildIntegration.TreatErrorAsWarning;
+            }
+        }
+          
         #endregion Private Properties
 
         #region Public Methods
@@ -167,15 +184,17 @@ namespace StyleCop.VisualStudio
         /// <returns>Returns true if the data is saved, false if not.</returns>
         public bool Apply()
         {
-            ////if (this.checkBox.Checked && !this.IsBuildIntegrationEnabledInProject)
-            ////{
-            ////    this.EnableBuildIntegrationInProject();
-            ////}
-            ////else if (!this.checkBox.Checked && this.IsBuildIntegrationEnabledInProject)
-            ////{
-            ////    this.DisableBuildIntegrationInProject();
-            ////}
+            ProjectUtilities.BuildIntegration newSetting = ProjectUtilities.BuildIntegration.None;
+            if (this.checkBox.Checked)
+            {
+                newSetting = this.radioButtonAsWarning.Checked
+                    ? ProjectUtilities.BuildIntegration.TreatErrorAsWarning
+                    : ProjectUtilities.BuildIntegration.TreatErrorAsError;
+            }
 
+            ProjectUtilities.SetBuildIntegrationInProject(this.project, newSetting);
+
+            this.setting = newSetting;
             this.dirty = false;
             this.tabControl.DirtyChanged();
 
@@ -211,22 +230,11 @@ namespace StyleCop.VisualStudio
         /// </summary>
         private void InitializeSettings()
         {
-            this.checkBox.Checked = this.IsBuildIntegrationEnabledInProject;
+            this.checkBox.Checked = this.BuildIntagrationEnabled;
+            this.radioButtonAsWarning.Checked = this.TreatErrorAsWarning || !this.BuildIntagrationEnabled;
+            this.radioButtonAsError.Checked = this.TreatErrorAsError;
+            this.SetTreatGroupEnabledState();
         }
-
-        /////// <summary>
-        /////// Enables StyleCop build integration for the project.
-        /////// </summary>
-        ////private void EnableBuildIntegrationInProject()
-        ////{
-        ////}
-
-        /////// <summary>
-        /////// Disables StyleCop build integration for the project.
-        /////// </summary>
-        ////private void DisableBuildIntegrationInProject()
-        ////{
-        ////}
 
         /// <summary>
         /// Called when the checkbox is checked or unchecked.
@@ -239,33 +247,29 @@ namespace StyleCop.VisualStudio
 
             this.dirty = true;
             this.tabControl.DirtyChanged();
+
+            this.SetTreatGroupEnabledState();
         }
 
         /// <summary>
-        /// Sets the bold state of the item.
+        /// Called when the radio button is checked or unchecked.
         /// </summary>
-        /// <param name="item">The item to set.</param>
-        /// <param name="bold">The bold state.</param>
-        private void SetBoldState(TextBox item, bool bold)
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event arguments.</param>
+        private void RadioButtonCheckedChanged(object sender, System.EventArgs e)
         {
-            Param.AssertNotNull(item, "item");
-            Param.Ignore(bold);
+            Param.Ignore(sender, e);
 
-            // Dispose the item's current font if necessary.
-            if (item.Font != this.Font && item.Font != null)
-            {
-                item.Font.Dispose();
-            }
+            this.dirty = true;
+            this.tabControl.DirtyChanged();
+        }
 
-            // Create and set the new font.
-            if (bold)
-            {
-                item.Font = new Font(this.Font, FontStyle.Bold);
-            }
-            else
-            {
-                item.Font = new Font(this.Font, FontStyle.Regular);
-            }
+        /// <summary>
+        /// Sets the enable state of the treat group items.
+        /// </summary>
+        private void SetTreatGroupEnabledState()
+        {
+            this.descriptionTreat.Enabled = this.radioButtonAsError.Enabled = this.radioButtonAsWarning.Enabled = this.checkBox.Checked;
         }
 
         #endregion Private Methods

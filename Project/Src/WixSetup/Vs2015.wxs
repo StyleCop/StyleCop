@@ -5,7 +5,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id='TARGETDIR'>
-      <Component Id="VisualStudio2015Component" Guid="1DE13BD6-99D5-4B04-84A8-28ED51FF4E0E">
+      <Component Id="VisualStudio2015Component" Guid="{D06AD5E3-4FA3-4E74-8927-754C8CDB30E5}">
 
         <!-- Installed products -->
         <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM'

@@ -22,6 +22,7 @@
     <TestCodeFile>CurlyBracketsMethods.cs</TestCodeFile>
     <TestCodeFile>CurlyBracketsNamespaces.cs</TestCodeFile>
     <TestCodeFile>CurlyBracketsProperties.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsQueries.cs</TestCodeFile>
     <TestCodeFile>CurlyBracketsStructs.cs</TestCodeFile>
     <TestCodeFile>CurlyBracketsSwitches.cs</TestCodeFile>
     <TestCodeFile>CurlyBracketsTryCatchFinallys.cs</TestCodeFile>

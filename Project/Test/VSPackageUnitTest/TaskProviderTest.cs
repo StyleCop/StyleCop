@@ -22,7 +22,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-
+    using System.Reflection;
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -30,8 +30,6 @@ namespace VSPackageUnitTest
     ///  to contain all TaskProviderTest Unit Tests
     /// </summary>
     [TestClass]
-    [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
-    [DeploymentItem("StyleCop.VSPackage.dll")]
     public class TaskProviderTest : BasicUnitTest
     {
         #region Constants and Fields
@@ -49,9 +47,11 @@ namespace VSPackageUnitTest
         public void ConstructorTest()
         {
             // Execute metod under test first time
-            TaskProvider_Accessor target = new TaskProvider_Accessor(this.serviceProvider);
+            TaskProvider target = new TaskProvider(this.serviceProvider);
             Assert.IsNotNull(target, "Unable to instantiate TaskProvider.");
-            Assert.IsNotNull(target.serviceProvider, "TaskProvider.provider returned null");
+            Assert.IsNotNull(typeof(TaskProvider)
+                .GetField("serviceProvider", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(target), "TaskProvider.provider returned null");
         }
 
         /// <summary>

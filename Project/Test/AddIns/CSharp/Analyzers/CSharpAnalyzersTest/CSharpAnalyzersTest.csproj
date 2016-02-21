@@ -92,7 +92,10 @@
     <None Include="TestData\ClassMembers\ClassMembersNoViolations.cs" />
     <None Include="TestData\ClassMembers\ClassMembersCodeWalker{T}.cs" />
     <None Include="TestData\ClassMembers\ClassMembersMaintainabilityRules.cs" />
+    <Compile Include="TestData\CurlyBrackets\CurlyBracketsQueries.cs" />
     <Compile Include="TestData\Documentation\DocumentationGenericTypeParameters.cs" />
+    <None Include="TestData\Documentation\DocumentationSpelling.cs" />
+    <None Include="TestData\ElementOrder\ElementOrderNoValueFirstComparison.cs" />
     <Compile Include="TestData\FileHeaders\Global.asax.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumAndParam.cs" />
     <Compile Include="TestData\FileHeaders\FileHeadersValidWithEnumFirst.cs" />
@@ -377,7 +380,7 @@
       <Name>StyleCop</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Harnesses\TestHarness\StyleCopTest.csproj">
-      <Project>{73E4EB43-7B77-4084-81F9-35BA8241B686}</Project>
+      <Project>{73e4eb43-7b77-4084-81f9-35ba8241b686}</Project>
       <Name>StyleCopTest</Name>
     </ProjectReference>
   </ItemGroup>

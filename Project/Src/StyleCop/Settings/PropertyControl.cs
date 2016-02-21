@@ -95,6 +95,8 @@ namespace StyleCop
         public PropertyControl()
         {
             this.InitializeComponent();
+
+            this.Controls.AddRange(new Control[] { });
         }
 
         #endregion
@@ -467,7 +469,6 @@ namespace StyleCop
             this.SuspendLayout();
 
             // PropertyControl
-            this.Controls.AddRange(new Control[] { });
             this.Name = "PropertyControl";
             this.Size = new System.Drawing.Size(248, 216);
             this.ResumeLayout(false);

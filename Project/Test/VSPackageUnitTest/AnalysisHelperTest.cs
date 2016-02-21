@@ -41,13 +41,12 @@ namespace VSPackageUnitTest
         /// A test for AnalysisHelper Constructor
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisHelperConstructorTest()
         {
             IServiceProvider serviceProvider = new MockServiceProvider();
             StyleCopCore core = new StyleCopCore();
-            FileAnalysisHelper_Accessor specificTarget = new FileAnalysisHelper_Accessor(serviceProvider, core);
-            AnalysisHelper_Accessor target = FileAnalysisHelper_Accessor.AttachShadow(specificTarget.Target);
+            FileAnalysisHelper specificTarget = new FileAnalysisHelper(serviceProvider, core);
+            AnalysisHelper target = specificTarget;
             Assert.IsNotNull(target, "Unable to instantiate the AnalysisHelper class");
             Assert.IsNotNull(target.Core, "AnalysisHelper.Core was null");
         }
@@ -59,12 +58,11 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyCodeFile.cs");
             bool expected = true;
-            bool actual = AnalysisHelper_Accessor.FileItemAnalysisSupported(hierarchy);
+            bool actual = AnalysisHelper.FileItemAnalysisSupported(hierarchy);
             Assert.AreEqual(expected, actual);
         }
 
@@ -72,12 +70,11 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemFalseCppTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyCodeFile.cpp");
             bool expected = false;
-            bool actual = AnalysisHelper_Accessor.FileItemAnalysisSupported(hierarchy);
+            bool actual = AnalysisHelper.FileItemAnalysisSupported(hierarchy);
             Assert.AreEqual(expected, actual);
         }
 
@@ -85,12 +82,11 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedSingleItemTrueCppTest()
         {
             IVsHierarchy hierarchy = CreateHierarchyItem("MyProjectFile.csproj");
             bool expected = true;
-            bool actual = AnalysisHelper_Accessor.FileItemAnalysisSupported(hierarchy);
+            bool actual = AnalysisHelper.FileItemAnalysisSupported(hierarchy);
             Assert.AreEqual(expected, actual);
         }
 
@@ -98,12 +94,11 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemTrueTest()
         {
             IVsMultiItemSelect multiSelection = null; // TODO: Initialize to an appropriate value
             bool expected = true;
-            bool actual = AnalysisHelper_Accessor.AnalysisSupported(multiSelection);
+            bool actual = AnalysisHelper.AnalysisSupported(multiSelection);
             Assert.AreEqual(expected, actual);
         }
 
@@ -111,13 +106,12 @@ namespace VSPackageUnitTest
         ///A test for AnalysisSupported
         ///</summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void AnalysisSupportedMultiSelectionItemFalseTest()
         {
             IVsMultiItemSelect multiSelection = null; // TODO: Initialize to an appropriate value
             bool expected = false;
             bool actual;
-            actual = AnalysisHelper_Accessor.AnalysisSupported(multiSelection);
+            actual = AnalysisHelper.AnalysisSupported(multiSelection);
             Assert.AreEqual(expected, actual);
         }
 

@@ -61,6 +61,9 @@ namespace StyleCop.VisualStudio
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuildIntegrationOptions));
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.description = new System.Windows.Forms.Label();
+            this.radioButtonAsWarning = new System.Windows.Forms.RadioButton();
+            this.radioButtonAsError = new System.Windows.Forms.RadioButton();
+            this.descriptionTreat = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // checkBox
@@ -75,17 +78,45 @@ namespace StyleCop.VisualStudio
             resources.ApplyResources(this.description, "description");
             this.description.Name = "description";
             // 
+            // radioButtonAsWarning
+            // 
+            resources.ApplyResources(this.radioButtonAsWarning, "radioButtonAsWarning");
+            this.radioButtonAsWarning.Name = "radioButtonAsWarning";
+            this.radioButtonAsWarning.TabStop = true;
+            this.radioButtonAsWarning.UseVisualStyleBackColor = true;
+            this.radioButtonAsWarning.CheckedChanged += new System.EventHandler(this.RadioButtonCheckedChanged);
+            // 
+            // radioButtonAsError
+            // 
+            resources.ApplyResources(this.radioButtonAsError, "radioButtonAsError");
+            this.radioButtonAsError.Name = "radioButtonAsError";
+            this.radioButtonAsError.TabStop = true;
+            this.radioButtonAsError.UseVisualStyleBackColor = true;
+            this.radioButtonAsError.CheckedChanged += new System.EventHandler(this.RadioButtonCheckedChanged);
+            // 
+            // descriptionTreat
+            // 
+            resources.ApplyResources(this.descriptionTreat, "descriptionTreat");
+            this.descriptionTreat.Name = "descriptionTreat";
+            // 
             // BuildIntegrationOptions
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.description);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.radioButtonAsWarning);
+            this.Controls.Add(this.radioButtonAsError);
+            this.Controls.Add(this.descriptionTreat);
             this.Controls.Add(this.checkBox);
+            this.Controls.Add(this.description);
             this.Name = "BuildIntegrationOptions";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.RadioButton radioButtonAsWarning;
+        private System.Windows.Forms.RadioButton radioButtonAsError;
+        private System.Windows.Forms.Label descriptionTreat;
     }
 }

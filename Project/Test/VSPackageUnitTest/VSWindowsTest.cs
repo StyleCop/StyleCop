@@ -19,13 +19,14 @@
 
 namespace VSPackageUnitTest
 {
+    using System;
+    using System.Reflection;
     using EnvDTE;
 
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-
     using VSPackageUnitTest.Mocks;
 
     /// <summary>
@@ -49,20 +50,21 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void DTEPropertyTest()
         {
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
-            Assert.IsNotNull(actual.DTE, "DTE property was null");
+            VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
+            Assert.IsNotNull(typeof(VSWindows).GetProperty("DTE", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(actual), "DTE property was null");
         }
 
         /// <summary>
         /// A test for GetInstance
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
         public void GetInstanceTest()
         {
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
+            VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
             Assert.IsNotNull(actual, "VSWindows.GetInstance() returned null.");
-            Assert.AreEqual(this.serviceProvider, actual.serviceProvider, "Service provider was not set correctly");
+            Assert.AreEqual(this.serviceProvider, (IServiceProvider)typeof(VSWindows).GetField("serviceProvider", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(actual), "Service provider was not set correctly");
         }
 
         /// <summary>
@@ -72,7 +74,8 @@ namespace VSPackageUnitTest
         public void MyTestCleanup()
         {
             this.serviceProvider = null;
-            VSWindows_Accessor.instance = null;
+            typeof(VSWindows).GetField("instance", BindingFlags.Static | BindingFlags.NonPublic)
+                .SetValue(null, null);
         }
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace VSPackageUnitTest
             mockOutputWindowPanes.ImplementExpr(owp => owp.Add("StyleCop"), (EnvDTE.OutputWindowPane)mockOutputWindowPane.Instance);
 
             // Call
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
+            VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
 
             // Verify
             Assert.IsNotNull(actual.OutputPane, "OutputPane property was null");
@@ -116,7 +119,7 @@ namespace VSPackageUnitTest
             Mock<Window> mockWindow = this.SetupMockWindow();
 
             // Call
-            VSWindows_Accessor actual = VSWindows_Accessor.GetInstance(this.serviceProvider);
+            VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
 
             // Verify
             Assert.IsNotNull(actual.OutputWindow, "OutputWindow property was null");

@@ -27,7 +27,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-
+    using System.Reflection;
     /// <summary>
     /// This is a test class for PackageCommandSetTest and is intended
     ///  to contain all PackageCommandSetTest Unit Tests
@@ -47,8 +47,6 @@ namespace VSPackageUnitTest
         /// A test for PackageCommandSet Constructor
         /// </summary>
         [TestMethod]
-        [DeploymentItem("StyleCop.VSPackage.dll")]
-        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void PackageCommandSetConstructorTest()
         {
             var mockActiveDocument = new Mock<Document>();
@@ -58,10 +56,14 @@ namespace VSPackageUnitTest
 
             this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
 
-            PackageCommandSet_Accessor target = new PackageCommandSet_Accessor(this.mockServiceProvider.Instance);
-            CommandSet_Accessor innerTarget = new PackageCommandSet_Accessor(this.mockServiceProvider.Instance);
-            Assert.IsNotNull(target.CommandList, "CommandList was not created.");
-            Assert.IsNotNull(innerTarget.ServiceProvider, "Service provider not stored by the constructor");
+            PackageCommandSet target = new PackageCommandSet(this.mockServiceProvider.Instance);
+            CommandSet innerTarget = new PackageCommandSet(this.mockServiceProvider.Instance);
+            Assert.IsNotNull(typeof(PackageCommandSet).GetProperty("CommandList", BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(innerTarget),
+                "CommandList was not created.");
+            Assert.IsNotNull(typeof(PackageCommandSet).GetProperty("ServiceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(innerTarget),
+                "Service provider not stored by the constructor");
         }
 
         /// <summary>
@@ -70,7 +72,8 @@ namespace VSPackageUnitTest
         [TestCleanup]
         public void TestCleanup()
         {
-            ProjectUtilities_Accessor.serviceProvider = null;
+            typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Static)
+                .SetValue(null, null);
         }
 
         /// <summary>
@@ -80,7 +83,8 @@ namespace VSPackageUnitTest
         public void TestInitialize()
         {
             this.mockServiceProvider = new Mock<IServiceProvider>();
-            ProjectUtilities_Accessor.serviceProvider = this.mockServiceProvider.Instance;
+            typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Static)
+                .SetValue(null, this.mockServiceProvider.Instance);
         }
 
         #endregion

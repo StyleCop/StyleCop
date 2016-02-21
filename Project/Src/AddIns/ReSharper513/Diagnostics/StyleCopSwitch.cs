@@ -156,14 +156,14 @@ namespace StyleCop.ReSharper513.Diagnostics
         protected override void OnSwitchSettingChanged()
         {
             int value = this.SwitchSetting;
-            this.TraceInOut = 0 != (value & (int)TraceTypes.InOut);
-            this.TraceError = 0 != (value & (int)TraceTypes.Error);
-            this.TraceWarning = 0 != (value & (int)TraceTypes.Warning);
-            this.TraceInfo = 0 != (value & (int)TraceTypes.Info);
-            this.TraceVerbose = 0 != (value & (int)TraceTypes.Verbose);
-            this.TraceSensitiveData = 0 != (value & (int)TraceTypes.SensitiveData);
-            this.TraceThreadId = 0 != (value & (int)TraceTypes.IncludeThreadId);
-            this.TraceThreadName = 0 != (value & (int)TraceTypes.IncludeThreadName);
+            this.TraceInOut = (value & (int)TraceTypes.InOut) != 0;
+            this.TraceError = (value & (int)TraceTypes.Error) != 0;
+            this.TraceWarning = (value & (int)TraceTypes.Warning) != 0;
+            this.TraceInfo = (value & (int)TraceTypes.Info) != 0;
+            this.TraceVerbose = (value & (int)TraceTypes.Verbose) != 0;
+            this.TraceSensitiveData = (value & (int)TraceTypes.SensitiveData) != 0;
+            this.TraceThreadId = (value & (int)TraceTypes.IncludeThreadId) != 0;
+            this.TraceThreadName = (value & (int)TraceTypes.IncludeThreadName) != 0;
         }
 
         #endregion

@@ -328,11 +328,11 @@ namespace StyleCop.CSharp
 
             if (namingService.SupportsSpelling)
             {
-                WordParser parser = new WordParser(text, WordParserOptions.SplitCompoundWords);
+                ICollection<string> recognizedWords = element.Document.SourceCode.Project.RecognizedWords;
+
+                WordParser parser = new WordParser(text, WordParserOptions.SplitCompoundWords, recognizedWords);
                 if (parser.PeekWord() != null)
                 {
-                    ICollection<string> recognizedWords = element.Document.SourceCode.Project.RecognizedWords;
-
                     string word = parser.NextWord();
                     do
                     {

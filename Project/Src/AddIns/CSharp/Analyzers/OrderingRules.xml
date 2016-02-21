@@ -64,6 +64,10 @@
         <Context>All non-static readonly {0} {1} must be placed before all non-static non-readonly {2} {3}.</Context>
         <Description>Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.</Description>
       </Rule>
+      <Rule Name="NoValueFirstComparison" CheckId="SA1216">
+        <Context>Do not use comparison where value goes first, reverse order of operands in '{0}'.</Context>
+        <Description>Validates that value first comparison is not used.</Description>
+      </Rule>
     </RuleGroup>
     <RuleGroup Name="Using Directives">
       <Rule Name="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives" CheckId="SA1208">
