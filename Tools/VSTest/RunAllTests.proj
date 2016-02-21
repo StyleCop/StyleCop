@@ -1,0 +1,13 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="RunTests">
+
+<ItemGroup>
+    <TestAssemblies Include="$(TestDropLocation)\\**\*test*.dll"/>
+</ItemGroup>
+
+<Target Name="RunTests">
+    <Exec WorkingDirectory="$(TestDropLocation)" Condition=" '@(TestAssemblies)' != ''"
+          Command="vstest.console.exe @(TestAssemblies ->'&quot;$(TestDropLocation)\%(RecursiveDir)%(Filename)%(Extension)&quot;', ' ')"
+          />
+</Target>
+
+</Project>

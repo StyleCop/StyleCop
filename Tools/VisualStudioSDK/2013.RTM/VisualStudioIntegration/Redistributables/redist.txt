@@ -1,8 +1,0 @@
-The following files may be redistributed with integrated applications.
-
-VSSDKTestHost.exe
-vs110_piaredist.exe
-vs_isoshell.exe
-vs_isoshellLP.exe
-vs_intshelladditional.exe
-vs_intshelladditionalLP.exe

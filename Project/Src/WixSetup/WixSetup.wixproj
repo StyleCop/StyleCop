@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
-      <HintPath>..\..\..\Tools\wix\wix.3.5.1526.0\WixNetFxExtension.dll</HintPath>
+      <HintPath>$(WixToolsDirectory)\WixNetFxExtension.dll</HintPath>
       <Name>WixNetFxExtension</Name>
     </WixExtension>
     <WixExtension Include="WixUIExtension">
