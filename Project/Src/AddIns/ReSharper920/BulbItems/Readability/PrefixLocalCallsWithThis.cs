@@ -19,9 +19,8 @@ namespace StyleCop.ReSharper920.BulbItems.Readability
 {
     #region Using Directives
 
-    using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
-    using JetBrains.ReSharper.Psi.CSharp.Tree;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggest;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper920.BulbItems.Framework;
@@ -47,12 +46,8 @@ namespace StyleCop.ReSharper920.BulbItems.Readability
         /// </param>
         public override void ExecuteTransactionInner(ISolution solution, ITextControl textControl)
         {
-            ICSharpFile file = Utils.GetCSharpFile(solution, textControl);
-
-            IRangeMarker marker = this.DocumentRange.CreateRangeMarker();
-
-            // This did not work before, and now API is not supported anymore.
-            ////file.ArrangeThisQualifier(marker);
+            // TODO: This relies on the settings being correct 
+            CodeStyleUtil.ApplyStyle<ThisQualifierStyleSuggestion>(Utils.GetElementAtCaret(solution, textControl));
         }
 
         #endregion
