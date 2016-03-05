@@ -116,6 +116,12 @@ namespace StyleCop.ReSharper.Options
             this.AddBoolOption(
                 (StyleCopOptionsSettingsKey options) => options.InsertToDoText,
                 "Insert TODO into headers");
+            this.AddStringOption(
+                (StyleCopOptionsSettingsKey options) => options.DefaultCompanyName,
+                "Default company name:");
+            this.AddStringOption(
+                (StyleCopOptionsSettingsKey options) => options.DefaultCopyrightValue,
+                "Default copyright:");
             this.AddIntOption(
                 (StyleCopOptionsSettingsKey options) => options.DashesCountInFileHeader,
                 "Number of dashes in file header text:");
@@ -195,16 +201,16 @@ namespace StyleCop.ReSharper.Options
             pluginsPath.Change.Advise(
                 lifetime,
                 args =>
+                {
+                    if (!args.HasNew || args.New == null)
                     {
-                        if (!args.HasNew || args.New == null)
-                        {
-                            return;
-                        }
+                        return;
+                    }
 
-                        this.OptionsSettingsSmartContext.StoreOptionsTransactionContext.SetValue(
-                            (StyleCopOptionsSettingsKey options) => options.PluginsPath,
-                            args.New.FullPath);
-                    });
+                    this.OptionsSettingsSmartContext.StoreOptionsTransactionContext.SetValue(
+                        (StyleCopOptionsSettingsKey options) => options.PluginsPath,
+                        args.New.FullPath);
+                });
             return pluginsPath;
         }
     }

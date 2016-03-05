@@ -21,9 +21,11 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using System.IO;
     using System.Linq;
 
+    using JetBrains.Application.Settings;
     using JetBrains.ReSharper.Psi;
 
     using StyleCop.ReSharper.Core;
+    using StyleCop.ReSharper.Options;
 
     /// <summary>
     /// A class that exposes the current Documentation configuration for the file provided.
@@ -46,6 +48,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         public DocumentationRulesConfiguration(StyleCopSettings settings, IPsiSourceFile file)
         {
             this.settings = settings.GetSettings(file.ToProjectFile());
+            IContextBoundSettingsStore settingsStore = PsiSourceFileExtensions.GetSettingsStore(null, file.GetSolution());
 
             // Default for this property is false
             BooleanProperty property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnorePrivates");
@@ -59,13 +62,22 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             property = this.GetStyleCopRuleProperty<BooleanProperty>("IgnoreInternals");
             this.IgnoreInternals = property == null ? false : property.Value;
 
+            // Default for this property is the Default Company Name value from StyleCop options
             StringProperty stringProperty = this.GetStyleCopRuleProperty<StringProperty>("CompanyName");
-            this.CompanyName = stringProperty != null ? stringProperty.Value : string.Empty;
+            this.CompanyName = stringProperty != null
+                                   ? stringProperty.Value
+                                   : settingsStore.GetValue(
+                                       (StyleCopOptionsSettingsKey key) => key.DefaultCompanyName);
 
+            // Default for this property is the Default Copyright value from StyleCop options
             stringProperty = this.GetStyleCopRuleProperty<StringProperty>("Copyright");
-
             FileInfo fileInfo = new FileInfo(file.ToProjectFile().Location.FullPath);
-            this.Copyright = stringProperty != null ? StyleCop.Utils.ReplaceTokenVariables(stringProperty.Value, fileInfo) : string.Empty;
+            this.Copyright =
+                StyleCop.Utils.ReplaceTokenVariables(
+                    stringProperty != null
+                        ? stringProperty.Value
+                        : settingsStore.GetValue((StyleCopOptionsSettingsKey key) => key.DefaultCopyrightValue),
+                    fileInfo);
         }
 
         /// <summary>

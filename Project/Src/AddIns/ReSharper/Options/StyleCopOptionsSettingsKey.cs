@@ -54,6 +54,18 @@ namespace StyleCop.ReSharper.Options
         public int DashesCountInFileHeader { get; set; }
 
         /// <summary>
+        /// Gets or sets the default company name to include into documentation headers
+        /// </summary>
+        [SettingsEntry("", "Default Company Name In File Header")]
+        public string DefaultCompanyName { get; set; }
+
+        /// /// <summary>
+        /// Gets or sets the default copyright value to include into documentation headers
+        /// </summary>
+        [SettingsEntry("", "Default Copyright Value In File Header")]
+        public string DefaultCopyrightValue { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether descriptive text should be inserted into missing documentation headers.
         /// </summary>
         [SettingsEntry(true, "Insert Text Into Documentation")]
