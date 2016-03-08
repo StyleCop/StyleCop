@@ -122,7 +122,7 @@ namespace StyleCop
         /// A tag object which can be optionally filled in by the host.
         /// </summary>
         private object hostTag;
-        
+
         #endregion Private Fields
 
         #region Public Constructors
@@ -165,7 +165,7 @@ namespace StyleCop
             }
 
             this.environment.Core = this;
-            
+
             // Load the core xml initialization document.
             try
             {
@@ -216,8 +216,8 @@ namespace StyleCop
         public event EventHandler<AddSettingsPagesEventArgs> AddSettingsPages;
 
         #endregion Public Events
-        
-         #region Public Static Properties
+
+        #region Public Static Properties
 
         /// <summary>
         /// Gets the current operating system PlatformID.
@@ -466,13 +466,13 @@ namespace StyleCop
         /// <param name="resourceId">The resource ID of the analyzer xml.</param>
         /// <returns>Returns the loaded Xml or null if none was loaded.</returns>
         [SuppressMessage(
-            "Microsoft.Usage", 
-            "CA2202:Do not dispose objects multiple times", 
+            "Microsoft.Usage",
+            "CA2202:Do not dispose objects multiple times",
             Justification = "This is safe.")]
         [SuppressMessage(
-            "Microsoft.Design", 
-            "CA1059:MembersShouldNotExposeCertainConcreteTypes", 
-            MessageId = "System.Xml.XmlNode", 
+            "Microsoft.Design",
+            "CA1059:MembersShouldNotExposeCertainConcreteTypes",
+            MessageId = "System.Xml.XmlNode",
             Justification = "Compliance would break well-defined API.")]
         public static XmlDocument LoadAddInResourceXml(Type addInType, string resourceId)
         {
@@ -512,7 +512,7 @@ namespace StyleCop
         #endregion Public Static Methods
 
         #region Public Methods
-        
+
         /// <summary>
         /// Initializes the StyleCop core instance. This must be called before
         /// the object can be used.
@@ -775,7 +775,7 @@ namespace StyleCop
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Cleans up the given path so that it can always be matched against other paths.
         /// </summary>
@@ -985,7 +985,7 @@ namespace StyleCop
                 {
                     pages.Add(pageFromEvent);
                 }
-                
+
                 // Display the project settings dialog.
                 return this.ShowProjectSettings(settingsPath, pages.AsReadOnly(), id);
             }
@@ -1044,7 +1044,7 @@ namespace StyleCop
 
             return false;
         }
-        
+
         /// <summary>
         /// Displays a settings dialog for a project.
         /// </summary>
@@ -1428,7 +1428,7 @@ namespace StyleCop
         private void OnProjectSettingsChanged(EventArgs e)
         {
             Param.AssertNotNull(e, "e");
-            
+
             // Make sure we cache the delegate locally to avoid other threads unsubscribing before we call them.
             // See http://piers7.blogspot.com/2010/03/3-races-with-net-events.html for info.
             EventHandler handlers = this.ProjectSettingsChanged;
@@ -1464,8 +1464,8 @@ namespace StyleCop
         /// <param name="path">The path to the addin modules.</param>
         /// <param name="publicKey">The public key of the core assembly.</param>
         [SuppressMessage(
-            "Microsoft.Reliability", 
-            "CA2001:AvoidCallingProblematicMethods", 
+            "Microsoft.Reliability",
+            "CA2001:AvoidCallingProblematicMethods",
             MessageId = "System.Reflection.Assembly.LoadFrom",
             Justification = "No alternative is provided.")]
         private void LoadAddins(string path, byte[] publicKey)
@@ -1487,6 +1487,7 @@ namespace StyleCop
                         if (fileName == null ||
                             fileName.Equals("stylecop.dll", StringComparison.OrdinalIgnoreCase) ||
                             fileName.StartsWith("stylecop.resharper", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.Equals("mssp7en.dll", StringComparison.OrdinalIgnoreCase) ||
                             fileName.Equals("stylecop.vspackage.dll"))
                         {
                             continue;
@@ -1710,7 +1711,7 @@ namespace StyleCop
                 // Create a data object which will passed to each worker.
                 StyleCopThread.Data data = new StyleCopThread.Data(
                     this, projects, resultsCache, ignoreCache, settingsPath);
-                
+
                 // Initialize each of the projects before analysis.
                 foreach (CodeProject project in projects)
                 {
@@ -1806,29 +1807,29 @@ namespace StyleCop
             //// StyleCopThread[] threadClasses = new StyleCopThread[count];
             StyleCopThread thread = new StyleCopThread(data);
             thread.DoWork(null);
-            
+
             //// countdown = new Countdown(count);
 
             //// Allocate and start all the threads.
             //// for (int i = 0; i < count; ++i)
             //// {
-                //// Allocate the worker classes for this thread.
-                //// threadClasses[i] = new StyleCopThread(data);
+            //// Allocate the worker classes for this thread.
+            //// threadClasses[i] = new StyleCopThread(data);
 
-                //// Register for the completion event on the thread data class. We do not use the standard BackgroundWorker
-                //// completion event because for some reason it does not get fired when running inside of Visual Studio using
-                //// the MSBuild task, and so everything ends up blocked. This may have to do with the way Visual Studio uses 
-                //// threads when running a build. Therefore, we do not rely on the BackgroundWorker's completion event, and
-                //// instead use our own event.
-               //// threadClasses[i].ThreadCompleted += this.StyleCopThreadCompleted;
+            //// Register for the completion event on the thread data class. We do not use the standard BackgroundWorker
+            //// completion event because for some reason it does not get fired when running inside of Visual Studio using
+            //// the MSBuild task, and so everything ends up blocked. This may have to do with the way Visual Studio uses 
+            //// threads when running a build. Therefore, we do not rely on the BackgroundWorker's completion event, and
+            //// instead use our own event.
+            //// threadClasses[i].ThreadCompleted += this.StyleCopThreadCompleted;
 
-                //// new Thread(threadClasses[i].DoWork).Start();
+            //// new Thread(threadClasses[i].DoWork).Start();
             ////}
 
             // Blocks until Signal has been called 'n' times
             //// countdown.Wait();
             complete = thread.Complete;
-            
+
             //// Dispose the workers and determine whether all analysis is complete.
             ////for (int i = 0; i < count; ++i)
             ////{

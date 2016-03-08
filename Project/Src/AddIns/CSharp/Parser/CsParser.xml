@@ -34,6 +34,10 @@
     <VsProjectType ProjectKind="{E24C65DC-7377-472b-9ABA-BC803B73C61A}">
       <ProjectPathPropertyName>FullPath</ProjectPathPropertyName>
     </VsProjectType>
+    <!--An ASP.Net 5 C# Web Site project-->
+    <VsProjectType ProjectKind="{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}">
+      <ProjectPathPropertyName>FullPath</ProjectPathPropertyName>
+    </VsProjectType>
   </VsProjectTypes>
   <Description>
     StyleCop rules for C# code.

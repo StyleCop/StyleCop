@@ -872,6 +872,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An elements documentation must be spelled correctly.
         /// </summary>
-        ElementDocumentationMustBeSpelledCorrectly
+        ElementDocumentationMustBeSpelledCorrectly,
+
+        /// <summary>
+        /// Null conditional operator must not be split by new row or space.
+        /// </summary>
+        DoNotSplitNullConditionalOperators,
     }
 }

@@ -77,7 +77,7 @@ namespace StyleCop.CSharp
         /// </summary>
         private static readonly string[] MethodModifiers = new[]
                                                                {
-                                                                   "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern", "partial", "implicit", 
+                                                                   "new", "unsafe", "static", "virtual", "sealed", "override", "abstract", "extern", "partial", "implicit",
                                                                    "explicit", "async"
                                                                };
 
@@ -250,8 +250,11 @@ namespace StyleCop.CSharp
 
                 case ElementType.Constructor:
                 case ElementType.Destructor:
-                case ElementType.Field:
                     return parent != null && (parent.ElementType == ElementType.Class || parent.ElementType == ElementType.Struct);
+
+                // Field can have a parent of type property (C#6 property initializer).
+                case ElementType.Field:
+                    return parent != null && (parent.ElementType == ElementType.Class || parent.ElementType == ElementType.Struct || parent.ElementType == ElementType.Property);
 
                 case ElementType.Event:
                 case ElementType.Indexer:
@@ -650,6 +653,11 @@ namespace StyleCop.CSharp
                         loop = false;
                         break;
 
+                    case SymbolType.Equals:
+                        elementType = ElementType.Field;
+                        loop = false;
+                        break;
+
                     case SymbolType.Delegate:
                         elementType = ElementType.Delegate;
                         loop = false;
@@ -729,6 +737,13 @@ namespace StyleCop.CSharp
                             assemblyOrModuleAttribute = true;
                         }
 
+                        break;
+
+                    // Used to check expression bodied
+                    case SymbolType.Lambda:
+                        // If we are here then this is not a method bodied expression because we don't have parenthesis checked previously.
+                        elementType = ElementType.Property;
+                        loop = false;
                         break;
 
                     case SymbolType.WhiteSpace:
@@ -1157,11 +1172,11 @@ namespace StyleCop.CSharp
         /// Returns the list of attributes, if any.
         /// </param>
         private void MoveToElementDeclaration(
-            CsElement element, 
-            Reference<ICodePart> parentElementReference, 
-            Reference<ICodePart> childElementReference, 
-            bool unsafeCode, 
-            out XmlHeader xmlHeader, 
+            CsElement element,
+            Reference<ICodePart> parentElementReference,
+            Reference<ICodePart> childElementReference,
+            bool unsafeCode,
+            out XmlHeader xmlHeader,
             out ICollection<Attribute> attributes)
         {
             Param.AssertNotNull(parentElementReference, "parentElementReference");
@@ -1422,13 +1437,13 @@ namespace StyleCop.CSharp
                     this.tokens.Add(nameToken);
 
                     Parameter parameter = new Parameter(
-                        null, 
-                        nameToken.Text, 
-                        elementReference, 
-                        modifiers, 
-                        null, 
-                        nameToken.Location, 
-                        new CsTokenList(this.tokens, previousToken.Next, this.tokens.Last), 
+                        null,
+                        nameToken.Text,
+                        elementReference,
+                        modifiers,
+                        null,
+                        nameToken.Location,
+                        new CsTokenList(this.tokens, previousToken.Next, this.tokens.Last),
                         nameToken.Generated);
 
                     parameterReference.Target = parameter;
@@ -1444,13 +1459,13 @@ namespace StyleCop.CSharp
                     this.tokens.Add(nameToken);
 
                     Parameter parameter = new Parameter(
-                        firstToken, 
-                        nameToken.Text, 
-                        elementReference, 
-                        modifiers, 
-                        null, 
-                        CodeLocation.Join(firstToken.Location, nameToken.Location), 
-                        new CsTokenList(this.tokens, previousToken.Next, this.tokens.Last), 
+                        firstToken,
+                        nameToken.Text,
+                        elementReference,
+                        modifiers,
+                        null,
+                        CodeLocation.Join(firstToken.Location, nameToken.Location),
+                        new CsTokenList(this.tokens, previousToken.Next, this.tokens.Last),
                         firstToken.Generated || nameToken.Generated);
 
                     parameterReference.Target = parameter;
@@ -1536,13 +1551,13 @@ namespace StyleCop.CSharp
         /// Returns the element.
         /// </returns>
         private ClassBase ParseClass(
-            ElementType elementType, 
-            CsElement parent, 
-            Reference<ICodePart> elementReference, 
-            Dictionary<string, List<CsElement>> partialElements, 
-            bool unsafeCode, 
-            bool generated, 
-            XmlHeader xmlHeader, 
+            ElementType elementType,
+            CsElement parent,
+            Reference<ICodePart> elementReference,
+            Dictionary<string, List<CsElement>> partialElements,
+            bool unsafeCode,
+            bool generated,
+            XmlHeader xmlHeader,
             ICollection<Attribute> attributes)
         {
             Param.Ignore(elementType);
@@ -1953,13 +1968,13 @@ namespace StyleCop.CSharp
         /// Returns the element.
         /// </returns>
         private CsElement ParseElement(
-            ElementType elementType, 
-            CsElement parent, 
-            Reference<ICodePart> elementReference, 
-            Dictionary<string, List<CsElement>> partialElements, 
-            bool unsafeCode, 
-            bool generated, 
-            XmlHeader xmlHeader, 
+            ElementType elementType,
+            CsElement parent,
+            Reference<ICodePart> elementReference,
+            Dictionary<string, List<CsElement>> partialElements,
+            bool unsafeCode,
+            bool generated,
+            XmlHeader xmlHeader,
             ICollection<Attribute> attributes)
         {
             Param.Ignore(elementType);
@@ -2133,6 +2148,7 @@ namespace StyleCop.CSharp
                 // If the next symbol is a closing curly bracket, or we've reached the end of the symbols list, 
                 // we're done with this element.
                 Symbol symbol = this.symbols.Peek(1);
+
                 if (symbol == null)
                 {
                     // We've reached the end of the document.
@@ -2141,7 +2157,7 @@ namespace StyleCop.CSharp
                 }
                 else if (symbol.SymbolType == SymbolType.CloseCurlyBracket)
                 {
-                    // We've reached the end of the element. Save the closing bracket and exit.
+                    // We've reached the end of the element. Save the closing bracket end exit.
                     Bracket bracket = this.GetBracketToken(CsTokenType.CloseCurlyBracket, SymbolType.CloseCurlyBracket, elementReference);
                     closingBracketNode = this.tokens.InsertLast(bracket);
                     childElementReference.Target = element;
@@ -2160,7 +2176,7 @@ namespace StyleCop.CSharp
 
                 // Parse the element.
                 CsElement childElement = this.ParseElement(
-                    childElementType.Value, element, childElementReference, partialElements, unsafeCode, generated, xmlHeader, attributes);
+                   childElementType.Value, element, childElementReference, partialElements, unsafeCode, generated, xmlHeader, attributes);
 
                 // Add the element to its parent.
                 element.AddElement(childElement);
@@ -2932,18 +2948,17 @@ namespace StyleCop.CSharp
             Declaration declaration = new Declaration(declarationTokens, methodName, ElementType.Method, accessModifier, modifiers);
 
             Method method = new Method(this.document, parent, xmlHeader, attributes, declaration, returnType, parameters, typeConstraints, unsafeCode, generated);
-
             elementReference.Target = method;
 
             // If the element is extern, abstract, or containing within an interface, it will not have a body.
-            if (modifiers.ContainsKey(CsTokenType.Abstract) || modifiers.ContainsKey(CsTokenType.Extern) || parent.ElementType == ElementType.Interface)
+             if (modifiers.ContainsKey(CsTokenType.Abstract) || modifiers.ContainsKey(CsTokenType.Extern) || parent.ElementType == ElementType.Interface)
             {
                 // Get the closing semicolon.
                 this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, elementReference));
             }
             else
             {
-                // Get the method body.
+                // Get the method body or bodied expression C# 6.
                 this.ParseStatementContainer(method, true, unsafeCode);
             }
 
@@ -2978,12 +2993,12 @@ namespace StyleCop.CSharp
         /// Returns the element.
         /// </returns>
         private Namespace ParseNamespace(
-            CsElement parent, 
-            Reference<ICodePart> elementReference, 
-            Dictionary<string, List<CsElement>> partialElements, 
-            bool unsafeCode, 
-            bool generated, 
-            XmlHeader xmlHeader, 
+            CsElement parent,
+            Reference<ICodePart> elementReference,
+            Dictionary<string, List<CsElement>> partialElements,
+            bool unsafeCode,
+            bool generated,
+            XmlHeader xmlHeader,
             ICollection<Attribute> attributes)
         {
             Param.AssertNotNull(parent, "parent");
@@ -3179,13 +3194,13 @@ namespace StyleCop.CSharp
                 tokenList.Trim();
 
                 Parameter parameter = new Parameter(
-                    parameterType, 
-                    parameterName.Text, 
-                    elementReference, 
-                    modifiers, 
-                    defaultArgument, 
-                    parameterType == null ? parameterName.Location : CodeLocation.Join(parameterType.Location, parameterName.Location), 
-                    tokenList, 
+                    parameterType,
+                    parameterName.Text,
+                    elementReference,
+                    modifiers,
+                    defaultArgument,
+                    parameterType == null ? parameterName.Location : CodeLocation.Join(parameterType.Location, parameterName.Location),
+                    tokenList,
                     parameterType == null ? parameterName.Generated : parameterType.Generated || parameterName.Generated);
 
                 parameterReference.Target = parameter;
@@ -3220,24 +3235,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Parses and returns a property.
         /// </summary>
-        /// <param name="parent">
-        /// The parent of the element.
-        /// </param>
-        /// <param name="elementReference">
-        /// A reference to the element being created.
-        /// </param>
-        /// <param name="unsafeCode">
-        /// Indicates whether the code is marked as unsafe.
-        /// </param>
-        /// <param name="generated">
-        /// Indicates whether the code is marked as generated code.
-        /// </param>
-        /// <param name="xmlHeader">
-        /// The element's documentation header.
-        /// </param>
-        /// <param name="attributes">
-        /// The attributes on the element.
-        /// </param>
+        /// <param name="parent">The parent of the element.</param>
+        /// <param name="elementReference">A reference to the element being created.</param>
+        /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
+        /// <param name="generated">Indicates whether the code is marked as generated code.</param>
+        /// <param name="xmlHeader">The element's documentation header.</param>
+        /// <param name="attributes">The attributes on the element.</param>
         /// <returns>
         /// Returns the element.
         /// </returns>
@@ -3265,29 +3268,111 @@ namespace StyleCop.CSharp
 
             // Get declared modifiers.
             Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, PropertyModifiers);
-
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
-            // Get the return type.
-            TypeToken returnType = this.GetTypeToken(elementReference, unsafeCode, true);
-            this.tokens.Add(returnType);
+            // Get the field type.
+            TypeToken propertyType = this.GetTypeToken(elementReference, unsafeCode, true);
+            Node<CsToken> propertyTypeNode = this.tokens.InsertLast(propertyType);
 
             // Get the name of the property.
             CsToken name = this.GetElementNameToken(elementReference, unsafeCode);
-            this.tokens.Add(name);
+            Node<CsToken> propertyNameNode = this.tokens.InsertLast(name);
 
             // Create the declaration.
             Node<CsToken> firstTokenNode = previousTokenNode == null ? this.tokens.First : previousTokenNode.Next;
             CsTokenList declarationTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
             Declaration declaration = new Declaration(declarationTokens, name.Text, ElementType.Property, accessModifier, modifiers);
 
-            Property property = new Property(this.document, parent, xmlHeader, attributes, declaration, returnType, unsafeCode, generated);
+            Property property = new Property(this.document, parent, xmlHeader, attributes, declaration, propertyType, unsafeCode, generated);
             elementReference.Target = property;
+            
+            if (this.IsBodiedExpression())
+            {
+                this.ParseStatementContainer(property, true, unsafeCode);
+            }
+            else
+            {
+                // Parse the body of the property.
+                this.ParseElementContainer(property, elementReference, null, unsafeCode);
 
-            // Parse the body of the property.
-            this.ParseElementContainer(property, elementReference, null, unsafeCode);
+                // Check if current property has initializer (C#6).
+                Symbol nextSymbol = this.GetNextSymbol(SkipSymbols.WhiteSpace, elementReference, true);
+                if (nextSymbol != null && nextSymbol.SymbolType == SymbolType.Equals)
+                {
+                    // Get all of the variable declarators.
+                    IList<VariableDeclaratorExpression> declarators = this.ParsePropertyDeclarators(elementReference, unsafeCode, propertyType, propertyNameNode);
+
+                    if (declarators.Count == 0)
+                    {
+                        throw this.CreateSyntaxException();
+                    }
+
+                    VariableDeclarationExpression declarationExpression =
+                        new VariableDeclarationExpression(
+                            new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), new LiteralExpression(this.tokens, propertyTypeNode), declarators);
+
+                    // Get the trailing semicolon.
+                    this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, elementReference));
+
+                    // Create the variable declaration statement and add it to the field.
+                    property.VariableDeclarationStatement = new VariableDeclarationStatement(
+                        new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), false, declarationExpression);
+                }
+            }
 
             return property;
+        }
+
+        /// <summary>
+        /// Parses and returns the declarators for a property (C#6).
+        /// </summary>
+        /// <param name="propertyReference">A reference to the field.</param>
+        /// <param name="unsafeCode">Indicates whether the code is marked as unsafe.</param>
+        /// <param name="propertyType">The field type.</param>
+        /// <param name="identifierTokenNode">The identifier token node (Should be the property name).</param>
+        /// <returns>
+        /// Returns the declarators.
+        /// </returns>
+        private IList<VariableDeclaratorExpression> ParsePropertyDeclarators(Reference<ICodePart> propertyReference, bool unsafeCode, TypeToken propertyType, Node<CsToken> identifierTokenNode)
+        {
+            Param.AssertNotNull(propertyReference, "propertyReference");
+            Param.Ignore(unsafeCode);
+            Param.AssertNotNull(propertyType, "propertyType");
+            Param.AssertNotNull(identifierTokenNode, "propertyType");
+
+            List<VariableDeclaratorExpression> declarators = new List<VariableDeclaratorExpression>();
+            Symbol symbol = this.GetNextSymbol(propertyReference);
+
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+            Expression initialization = null;
+
+            while (symbol.SymbolType != SymbolType.Semicolon)
+            {
+                symbol = this.GetNextSymbol(expressionReference);
+                if (symbol.SymbolType == SymbolType.Equals)
+                {
+                    this.tokens.Add(this.GetOperatorToken(OperatorType.Equals, expressionReference));
+
+                    initialization = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                    if (initialization == null)
+                    {
+                        throw this.CreateSyntaxException();
+                    }
+                }
+
+                VariableDeclaratorExpression variableDeclarationExpression =
+                    new VariableDeclaratorExpression(
+                        new CsTokenList(this.tokens, identifierTokenNode, this.tokens.Last), new LiteralExpression(this.tokens, identifierTokenNode), initialization);
+
+                expressionReference.Target = variableDeclarationExpression;
+                declarators.Add(variableDeclarationExpression);
+
+                // Get next symbol without change index.
+                symbol = this.symbols.Peek(1);
+            }
+
+            // Return the declarators as a read-only collection.
+            return declarators.ToArray();
         }
 
         /// <summary>
@@ -3414,10 +3499,24 @@ namespace StyleCop.CSharp
             // Add the using token.
             Node<CsToken> firstToken = this.tokens.InsertLast(this.GetToken(CsTokenType.Using, SymbolType.Using, elementReference));
 
+            int index = this.GetNextCodeSymbolIndex(2);
+            if (index == -1)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            // Check static word introduce in C# 6
+            Symbol staticSymbol = this.symbols.Peek(index);
+            if (staticSymbol != null && staticSymbol.SymbolType == SymbolType.Static)
+            {
+                CsToken staticToken = this.GetToken(CsTokenType.Static, SymbolType.Static, elementReference);
+                this.tokens.Add(staticToken);
+            }
+
             // The next symbol will either be the namespace, or an alias. To determine this, look past this to see if there is an equals sign.
             Symbol peekAhead = this.GetNextSymbol(SymbolType.Other, elementReference);
 
-            int index = this.GetNextCodeSymbolIndex(2);
+            index = this.GetNextCodeSymbolIndex(2);
             if (index == -1)
             {
                 throw this.CreateSyntaxException();

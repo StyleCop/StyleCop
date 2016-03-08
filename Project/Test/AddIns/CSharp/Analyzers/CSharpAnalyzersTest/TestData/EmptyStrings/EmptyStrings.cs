@@ -10,6 +10,8 @@ namespace EmptyStrings
         string string3 = " ";
         string string4 = @" ";
         string string5 = String.Empty;
+        string string6 = $"";
+        string string7 = $" ";
 
         public void Method1(string item)
         {
@@ -18,6 +20,8 @@ namespace EmptyStrings
             string3 = " ";
             string4 = @" ";
             string5 = String.Empty;
+            string6 = $"";
+            string7 = $" ";
         }
 
         public void Method2()
@@ -28,6 +32,8 @@ namespace EmptyStrings
             Method1(@"
 ");
             Method1(String.Empty);
+            Method1($"");
+            Method1($" ");
         }
 
         public void Method3()

@@ -1,0 +1,409 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="System" Type="UsingDirective" />
+    <Element Name="System.Collections.Generic" Type="UsingDirective" />
+    <Element Name="Strings" Type="Namespace">
+      <Element Name="StringsTest" Type="Class">
+        <Element Name="test" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="test" Type="LiteralExpression" />
+                <Expression Text="&quot;test&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string1" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string1" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="string" Type="LiteralExpression" />
+                    <Expression Text="Format" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="&quot;string format&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string2" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string2" Type="LiteralExpression" />
+                <Expression Text="$&quot;string interpolation {test}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method1" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="string1" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="string" Type="LiteralExpression" />
+                  <Expression Text="Format" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;string format {0}&quot;" Type="LiteralExpression" />
+                <Expression Text="string1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="string2" Type="LiteralExpression" />
+              <Expression Text="$&quot;string interpolation {string2}&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="string2" Type="LiteralExpression" />
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method2" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="string" Type="LiteralExpression" />
+                  <Expression Text="Format" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;string format {0}&quot;" Type="LiteralExpression" />
+                <Expression Text="string1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="$&quot;string interpolation {string2}&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Issue14" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="argumentName" Type="LiteralExpression" />
+                <Expression Text="&quot;Test&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="argIndex" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Type="NewArrayExpression">
+                  <Expression Type="ArrayAccessExpression">
+                    <Expression Text="string" Type="LiteralExpression" />
+                    <Expression Text="10" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="&quot;Test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="&quot;Test1&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="$&quot;{argumentName}[{argIndex}] = \&quot;{arguments[argIndex]}\&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="test" Type="LiteralExpression" />
+                <Expression Text="$&quot;{argumentName}[{argIndex}] = \&quot;{arguments[argIndex]}\&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;test&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;test&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;&quot;&quot;&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;&quot;&quot;&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;test&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="@&quot;This is a test of double quote &quot;&quot;test&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="strippedStatement" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="Regex" Type="LiteralExpression" />
+                    <Expression Text="Replace" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="&quot;input string&quot;" Type="LiteralExpression" />
+                  <Expression Text="@&quot;(?&lt;S&gt;(^|\W+)?)Mev\.(?&lt;E&gt;($|\W+)?)&quot;" Type="LiteralExpression" />
+                  <Expression Text="@&quot;${S}${E}&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="InterpolationWithLiteral" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="argumentName" Type="LiteralExpression" />
+                <Expression Text="&quot;Test&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="argIndex" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Type="NewArrayExpression">
+                  <Expression Type="ArrayAccessExpression">
+                    <Expression Text="string" Type="LiteralExpression" />
+                    <Expression Text="10" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="&quot;Test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="arguments" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="&quot;Test1&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="$@&quot;{argumentName}[{argIndex}] = &quot;&quot;{arguments[argIndex]}&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="test" Type="LiteralExpression" />
+                <Expression Text="$@&quot;{argumentName}[{argIndex}] = &quot;&quot;{arguments[argIndex]}&quot;&quot;&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;test&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;test&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;&quot;&quot;&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;&quot;&quot;&quot;&quot;&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;test&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Console" Type="LiteralExpression" />
+                <Expression Text="WriteLine" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="$@&quot;This is a test of double quote &quot;&quot;test&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; &quot;&quot; test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="StringsConstTest" Type="Class">
+        <Element Name="test" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="test" Type="LiteralExpression" />
+                <Expression Text="&quot;test&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="x" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="string" Type="LiteralExpression" />
+                    <Expression Text="Format" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="&quot;string format {0}&quot;" Type="LiteralExpression" />
+                  <Expression Text="test" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="y" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="$&quot;string interpolation {test}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="message" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="message" Type="LiteralExpression" />
+                <Expression Text="$&quot;ConnectionString missing: {ConfigurationManager.AppSettings[&quot;ConnectionStringName&quot;]}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="CSSAsString" Type="Class">
+        <Element Name="GetStyle" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	font-size: 8pt;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;	font-family: arial, helvetica, sans-serif;&#xA;	background-color: #cccccc;&#xA;}&#xA;form&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="GetStyleWithDoubleQuotes" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	font-size: 8pt;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;	font-family: arial, helvetica, sans-serif;&#xA;	background-color: #cccccc; &quot;&quot;this is another test&quot;&quot; &#xA;}&#xA;form&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

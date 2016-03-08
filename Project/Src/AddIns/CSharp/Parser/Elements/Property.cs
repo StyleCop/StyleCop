@@ -45,6 +45,11 @@ namespace StyleCop.CSharp
         /// </summary>
         private Accessor set;
 
+        /// <summary>
+        /// The variable declaration statement within this property (C#6).
+        /// </summary>
+        private VariableDeclarationStatement declaration;
+
         #endregion
 
         #region Constructors and Destructors
@@ -140,6 +145,26 @@ namespace StyleCop.CSharp
             get
             {
                 return this.set;
+            }
+        }
+
+        /// <summary>
+        /// Gets the variable declaration statement within this property (C#6).
+        /// </summary>
+        public VariableDeclarationStatement VariableDeclarationStatement
+        {
+            get
+            {
+                return this.declaration;
+            }
+
+            internal set
+            {
+                this.declaration = value;
+                if (this.declaration != null)
+                {
+                    this.AddStatement(this.declaration);
+                }
             }
         }
 

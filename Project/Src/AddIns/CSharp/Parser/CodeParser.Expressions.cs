@@ -40,87 +40,87 @@ namespace StyleCop.CSharp
             /// <summary>
             /// A global expression.
             /// </summary>
-            Global = 0, 
+            Global = 0,
 
             /// <summary>
             /// A primary expression.
             /// </summary>
-            Primary = 1, 
+            Primary = 1,
 
             /// <summary>
             /// A unary expression.
             /// </summary>
-            Unary = 2, 
+            Unary = 2,
 
             /// <summary>
             /// A multiplication, division, or modulation expression.
             /// </summary>
-            Multiplicative = 3, 
+            Multiplicative = 3,
 
             /// <summary>
             /// An addition or subtraction expression.
             /// </summary>
-            Additive = 4, 
+            Additive = 4,
 
             /// <summary>
             /// A shift expression.
             /// </summary>
-            Shift = 5, 
+            Shift = 5,
 
             /// <summary>
             /// A relational or type nesting expression.
             /// </summary>
-            Relational = 6, 
+            Relational = 6,
 
             /// <summary>
             /// An equality or non-equality expression.
             /// </summary>
-            Equality = 7, 
+            Equality = 7,
 
             /// <summary>
             /// A logical AND expression.
             /// </summary>
-            LogicalAnd = 8, 
+            LogicalAnd = 8,
 
             /// <summary>
             /// A logical XOR expression.
             /// </summary>
-            LogicalXor = 9, 
+            LogicalXor = 9,
 
             /// <summary>
             /// A logical OR expression.
             /// </summary>
-            LogicalOr = 10, 
+            LogicalOr = 10,
 
             /// <summary>
             /// A conditional AND expression.
             /// </summary>
-            ConditionalAnd = 11, 
+            ConditionalAnd = 11,
 
             /// <summary>
             /// A condition OR expression.
             /// </summary>
-            ConditionalOr = 12, 
+            ConditionalOr = 12,
 
             /// <summary>
             /// A null coalescing expression.
             /// </summary>
-            NullCoalescing = 13, 
+            NullCoalescing = 13,
 
             /// <summary>
             /// An assignment expression.
             /// </summary>
-            Assignment = 14, 
+            Assignment = 14,
 
             /// <summary>
             /// A conditional expression.
             /// </summary>
-            Conditional = 15, 
+            Conditional = 15,
 
             /// <summary>
             /// A query expression.
             /// </summary>
-            Query = 16, 
+            Query = 16,
 
             /// <summary>
             /// No precedence.
@@ -207,6 +207,7 @@ namespace StyleCop.CSharp
 
                 case OperatorType.ConditionalColon:
                 case OperatorType.ConditionalQuestionMark:
+                case OperatorType.NullConditional:
                     precedence = ExpressionPrecedence.Conditional;
                     break;
 
@@ -688,12 +689,12 @@ namespace StyleCop.CSharp
 
                     // Create and add the argument.
                     Argument argument = new Argument(
-                        argumentName, 
-                        modifiers, 
-                        argumentExpression, 
-                        CodeLocation.Join(firstSymbol.Location, argumentExpression.Location), 
-                        parentReference, 
-                        argumentTokenList, 
+                        argumentName,
+                        modifiers,
+                        argumentExpression,
+                        CodeLocation.Join(firstSymbol.Location, argumentExpression.Location),
+                        parentReference,
+                        argumentTokenList,
                         this.symbols.Generated);
 
                     argumentReference.Target = argument;
@@ -1134,6 +1135,69 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Reads a null condition expression from the code.
+        /// </summary>
+        /// <param name="leftHandSide">The left hand side.</param>
+        /// <param name="previousPrecedence">The previous precedence.</param>
+        /// <param name="parentReference">The parent code unit.</param>
+        /// <param name="unsafeCode">Indicates whether the code being parsed resides in an unsafe code block.</param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private Expression GetNullConditionExpression(
+            Expression leftHandSide, ExpressionPrecedence previousPrecedence, Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(leftHandSide, "leftHandSide");
+            Param.Ignore(previousPrecedence);
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            NullConditionExpression expression = null;
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+            // Read the details of the expression.
+            OperatorSymbol operatorToken = this.PeekOperatorToken(parentReference, expressionReference);
+            Debug.Assert(operatorToken.SymbolType == OperatorType.NullConditional, "Expected a null-conditional symbol");
+
+            // Check the precedence of the operators to make sure we can gather this statement now.
+            ExpressionPrecedence precedence = GetOperatorPrecedence(operatorToken.SymbolType);
+            if (CheckPrecedence(previousPrecedence, precedence))
+            {
+                // Add the operator token to the document and advance the symbol manager up to it.
+                this.symbols.Advance();
+                this.tokens.Add(operatorToken);
+
+                Expression rightHandSide = null;
+                Symbol nextSymbol = this.symbols.Peek(1);
+
+                // Check if next symbol is an open square bracket.
+                if (nextSymbol.SymbolType == SymbolType.OpenSquareBracket)
+                {
+                    rightHandSide = this.GetArrayAccessExpression(leftHandSide, previousPrecedence, unsafeCode);
+                }
+                else
+                {
+                    rightHandSide = this.GetOperatorRightHandExpression(precedence, expressionReference, unsafeCode);
+                }
+
+                // We must find an expression else there is a syntax exception.
+                if (rightHandSide == null)
+                {
+                    this.CreateSyntaxException();
+                }
+
+                // Create the partial token list for the expression.
+                CsTokenList partialTokens = new CsTokenList(this.tokens, leftHandSide.Tokens.First, this.tokens.Last);
+
+                // Create and return the expression.
+                expression = new NullConditionExpression(partialTokens, leftHandSide, rightHandSide);
+                expressionReference.Target = expression;
+            }
+
+            return expression;
+        }
+
+        /// <summary>
         /// Reads a cast expression.
         /// </summary>
         /// <param name="unsafeCode">
@@ -1233,7 +1297,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a collection initializer expression.
+        /// Gets a dictionary initializer expression.
         /// </summary>
         /// <param name="unsafeCode">
         /// Indicates whether the code being parsed resides in an unsafe code block.
@@ -1242,6 +1306,93 @@ namespace StyleCop.CSharp
         /// Returns the expression.
         /// </returns>
         private CollectionInitializerExpression GetCollectionInitializerExpression(bool unsafeCode)
+        {
+            Param.Ignore(unsafeCode);
+
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+            List<Expression> initializerExpessions = new List<Expression>();
+
+            // Add and move past the opening curly bracket.
+            Bracket openingBracket = this.GetBracketToken(CsTokenType.OpenCurlyBracket, SymbolType.OpenCurlyBracket, expressionReference);
+            Node<CsToken> openingBracketNode = this.tokens.InsertLast(openingBracket);
+
+            // Check dictionary initializer C# 6
+            Symbol symbol = this.symbols.Peek(3);
+            while (true)
+            {
+                Reference<ICodePart> initializerExpressionReference = new Reference<ICodePart>();
+
+                // Get the next expression.
+                Expression initializerExpression = null;
+
+                if (this.IsDictionaryInitialization())
+                {
+                    initializerExpression = this.GetDictionaryItemInitialization(expressionReference, unsafeCode);
+                }
+                else
+                {
+                    // If the next symbol is the closing curly bracket, then we are done.
+                    symbol = this.GetNextSymbol(expressionReference);
+                    if (symbol.SymbolType == SymbolType.CloseCurlyBracket)
+                    {
+                        break;
+                    }
+
+                    if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
+                    {
+                        initializerExpression = this.GetCollectionInitializerExpression(unsafeCode);
+                    }
+                    else
+                    {
+                        initializerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                    }
+                }
+
+                initializerExpressionReference.Target = initializerExpression;
+                initializerExpessions.Add(initializerExpression);
+
+                // Check whether we're done.
+                symbol = this.symbols.Peek(1);
+                if (symbol.SymbolType != SymbolType.OpenSquareBracket)
+                {
+                    symbol = this.GetNextSymbol(expressionReference);
+
+                    // If next symbol is a comma then we must continue.
+                    if (symbol.SymbolType == SymbolType.Comma)
+                    {
+                        CsToken token = this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference);
+                        this.tokens.Add(token);
+                    }
+                }
+            }
+
+            // Add and move past the closing curly bracket.
+            Bracket closingBracket = this.GetBracketToken(CsTokenType.CloseCurlyBracket, SymbolType.CloseCurlyBracket, expressionReference);
+            Node<CsToken> closingBracketNode = this.tokens.InsertLast(closingBracket);
+
+            openingBracket.MatchingBracketNode = closingBracketNode;
+            closingBracket.MatchingBracketNode = openingBracketNode;
+
+            // Create the token list for the overall expression.
+            CsTokenList expressionTokens = new CsTokenList(this.tokens, openingBracketNode, closingBracketNode);
+
+            // Create and return the expression.
+            CollectionInitializerExpression expression = new CollectionInitializerExpression(expressionTokens, initializerExpessions);
+            expressionReference.Target = expression;
+
+            return expression;
+        }
+
+        /// <summary>
+        /// Gets a dictionary initializer expression.
+        /// </summary>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private DictionaryInitializerExpression GetDictionaryInitializerExpression(bool unsafeCode)
         {
             Param.Ignore(unsafeCode);
 
@@ -1265,13 +1416,13 @@ namespace StyleCop.CSharp
 
                 // Get the next expression.
                 Expression initializerExpression = null;
-                if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
+                if (symbol.SymbolType == SymbolType.OpenSquareBracket)
                 {
-                    initializerExpression = this.GetCollectionInitializerExpression(unsafeCode);
+                    initializerExpression = this.GetDictionaryInitializerExpression(unsafeCode);
                 }
                 else
                 {
-                    initializerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                    initializerExpression = this.GetDictionaryItemInitialization(expressionReference, unsafeCode);
                 }
 
                 initializerExpressionReference.Target = initializerExpression;
@@ -1279,20 +1430,14 @@ namespace StyleCop.CSharp
 
                 // Check whether we're done.
                 symbol = this.GetNextSymbol(expressionReference);
+
                 if (symbol.SymbolType == SymbolType.Comma)
                 {
-                    this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
-
-                    // If the next symbol after this is the closing curly bracket, then we are done.
-                    symbol = this.GetNextSymbol(expressionReference);
-                    if (symbol.SymbolType == SymbolType.CloseCurlyBracket)
-                    {
-                        break;
-                    }
+                    this.tokens.Add(this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, expressionReference));
                 }
                 else
                 {
-                    break;
+                    throw this.CreateSyntaxException();
                 }
             }
 
@@ -1307,10 +1452,87 @@ namespace StyleCop.CSharp
             CsTokenList expressionTokens = new CsTokenList(this.tokens, openingBracketNode, closingBracketNode);
 
             // Create and return the expression.
-            CollectionInitializerExpression expression = new CollectionInitializerExpression(expressionTokens, initializerExpessions);
+            DictionaryInitializerExpression expression = new DictionaryInitializerExpression(expressionTokens, initializerExpessions);
             expressionReference.Target = expression;
 
             return expression;
+        }
+
+        /// <summary>
+        /// Gets the dictionary item initialization.
+        /// </summary>
+        /// <param name="parentReference">The parent reference.</param>
+        /// <param name="unsafeCode">If set to <c>true</c> [unsafe code].</param>
+        /// <returns>The dictionary item initialization expression.</returns>
+        private DictionaryItemInitializationExpression GetDictionaryItemInitialization(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            // Create an empty lambda expression.
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+            Node<CsToken> previousTokenNode = this.tokens.Last;
+
+            // Check whether the next symbol is an opening parenthesis.
+            Symbol symbol = this.GetNextSymbol(parentReference);
+
+            if (symbol.SymbolType == SymbolType.Other)
+            {
+                CsToken token = this.GetToken(CsTokenType.Other, SymbolType.Other, parentReference);
+                this.tokens.Add(token);
+
+                symbol = this.GetNextSymbol(parentReference);
+            }
+
+            if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+            {
+                Bracket openBracket = this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, expressionReference);
+                this.tokens.Add(openBracket);
+            }
+            else
+            {
+                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+            }
+
+            Expression identifier = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+
+            Bracket closeBracket = this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, expressionReference);
+            this.tokens.Add(closeBracket);
+
+            symbol = this.GetNextSymbol(expressionReference);
+
+            if (symbol.SymbolType == SymbolType.Equals)
+            {
+                // Get the equal operator.
+                this.tokens.Add(this.GetOperatorToken(OperatorType.Equals, expressionReference));
+
+                // Get the body of the expression. This can either be an expression or a statement.
+                // If it starts with an opening curly bracket, it's a statement, otherwise it's an expression.
+                symbol = this.GetNextSymbol(expressionReference);
+
+                Expression declaration = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                Symbol nextSymbol = this.GetNextSymbol(parentReference);
+
+                // Checks if next symbol is a comma then add token else check if it's a closing bracket else this is a syntax error.
+                if (nextSymbol.SymbolType == SymbolType.Comma)
+                {
+                    CsToken commaToken = this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference);
+                }
+                else if (nextSymbol.SymbolType != SymbolType.CloseCurlyBracket)
+                {
+                    this.CreateSyntaxException();
+                }
+            }
+
+            Node<CsToken> lastTokenNode = this.tokens.Last;
+
+            // Create the token list for the overall expression.
+            CsTokenList expressionTokens = new CsTokenList(this.tokens, previousTokenNode, lastTokenNode);
+            DictionaryItemInitializationExpression itemInitialisationExpression = new DictionaryItemInitializationExpression(expressionTokens);
+
+            // Return the expression.
+            expressionReference.Target = itemInitialisationExpression;
+            return itemInitialisationExpression;
         }
 
         /// <summary>
@@ -1511,15 +1733,15 @@ namespace StyleCop.CSharp
         /// Returns the expression.
         /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "May be simplified later.")]
-        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
-            MessageId = "StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,StyleCop.CSharp.SymbolType)", 
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters",
+            MessageId = "StyleCop.CSharp.SymbolManager.Combine(System.Int32,System.Int32,System.String,StyleCop.CSharp.SymbolType)",
             Justification = "The literal represents a non-localizable C# operator symbol")]
         private Expression GetExpressionExtension(
-            Expression leftSide, 
-            ExpressionPrecedence previousPrecedence, 
-            Reference<ICodePart> parentReference, 
-            bool unsafeCode, 
-            bool typeExpression, 
+            Expression leftSide,
+            ExpressionPrecedence previousPrecedence,
+            Reference<ICodePart> parentReference,
+            bool unsafeCode,
+            bool typeExpression,
             bool allowVariableDeclaration)
         {
             Param.AssertNotNull(leftSide, "leftSide");
@@ -1685,6 +1907,10 @@ namespace StyleCop.CSharp
                                             expression = this.GetNullCoalescingExpression(leftSide, previousPrecedence, parentReference, unsafeCode);
                                             break;
 
+                                        case OperatorType.NullConditional:
+                                            expression = this.GetNullConditionExpression(leftSide, previousPrecedence, parentReference, unsafeCode);
+                                            break;
+
                                         default:
                                             break;
                                     }
@@ -1814,13 +2040,13 @@ namespace StyleCop.CSharp
                 // Add the single parameter.
                 lambdaExpression.AddParameter(
                     new Parameter(
-                        null, 
-                        token.Text, 
-                        expressionReference, 
-                        ParameterModifiers.None, 
-                        null, 
-                        token.Location, 
-                        new CsTokenList(this.tokens, this.tokens.Last, this.tokens.Last), 
+                        null,
+                        token.Text,
+                        expressionReference,
+                        ParameterModifiers.None,
+                        null,
+                        token.Location,
+                        new CsTokenList(this.tokens, this.tokens.Last, this.tokens.Last),
                         token.Generated));
             }
 
@@ -1867,6 +2093,81 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Reads a bodied expression.
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private BodiedExpression GetBodiedExpression(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            // Create an empty bodied expression.
+            BodiedExpression bodiedExpression = new BodiedExpression();
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+            Node<CsToken> previousTokenNode = this.tokens.Last;
+
+            // Check whether the next symbol is an opening parenthesis.
+            Symbol symbol = this.GetNextSymbol(parentReference);
+            ICollection<Parameter> parameters = null;
+
+            // The statement must begin with an lambda operator
+            if (symbol.SymbolType != SymbolType.Lambda)
+            {
+                throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+            }
+
+            // Get the lambda operator.
+            this.tokens.Add(this.GetOperatorToken(OperatorType.Lambda, expressionReference));
+
+            // Get the body of the expression. This can either be an expression or a statement.
+            // If it starts with an opening curly bracket, it's a statement, otherwise it's an expression.
+            symbol = this.GetNextSymbol(expressionReference);
+
+            if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
+            {
+                bodiedExpression.AnonymousFunctionBody = this.GetNextStatement(expressionReference, unsafeCode);
+            }
+            else
+            {
+                bodiedExpression.AnonymousFunctionBody = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+            }
+
+            // Create the overall token list for the expression.
+            Node<CsToken> firstNode = previousTokenNode == null ? this.tokens.First : previousTokenNode.Next;
+            bodiedExpression.Tokens = new CsTokenList(this.tokens, firstNode, this.tokens.Last);
+
+            // Get the item's argument list if necessary.
+            if (parameters != null && parameters.Count > 0)
+            {
+                bodiedExpression.AddParameters(parameters);
+            }
+
+            // Add a variable for each of the parameters.
+            if (bodiedExpression.Parameters != null && bodiedExpression.Parameters.Count > 0)
+            {
+                // Add a variable for each of the parameters.
+                foreach (Parameter parameter in bodiedExpression.Parameters)
+                {
+                    bodiedExpression.Variables.Add(
+                        new Variable(parameter.Type, parameter.Name, VariableModifiers.None, parameter.Location, expressionReference, parameter.Generated));
+                }
+            }
+
+            // Return the expression.
+            expressionReference.Target = bodiedExpression;
+            return bodiedExpression;
+        }
+
+        /// <summary>
         /// Reads an expression starting with an unknown word.
         /// </summary>
         /// <param name="parentReference">
@@ -1900,8 +2201,8 @@ namespace StyleCop.CSharp
 
             if (literalToken == null)
             {
-                // This is not a generic. Just convert the symbol to a token.
-                literalToken = this.GetToken(CsTokenType.Other, SymbolType.Other, expressionReference);
+                    // This is not a generic. Just convert the symbol to a token.
+                    literalToken = this.GetToken(CsTokenType.Other, SymbolType.Other, expressionReference);
             }
 
             // Add the token to the document.
@@ -2178,7 +2479,7 @@ namespace StyleCop.CSharp
             symbol = this.GetNextSymbol(expressionReference);
 
             // If this is a new array expression, get and return it.
-            if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+            if (symbol.SymbolType == SymbolType.OpenSquareBracket || (symbol.Text == "?" && this.symbols.Peek(2).SymbolType == SymbolType.OpenSquareBracket))
             {
                 return this.GetNewArrayTypeExpression(unsafeCode, firstTokenNode, type, expressionReference);
             }
@@ -2244,6 +2545,14 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(firstTokenNode, "firstTokenNode");
             Param.Ignore(type);
             Param.AssertNotNull(expressionReference, "expressionReference");
+
+            Symbol questionMark = this.GetNextSymbol(SkipSymbols.WhiteSpace, expressionReference, true);
+
+            if (questionMark != null && questionMark.SymbolType == SymbolType.NullConditional)
+            {
+                CsToken tok = this.GetToken(CsTokenType.NullableTypeSymbol, SymbolType.NullConditional, expressionReference);
+                this.tokens.Add(tok);
+            }
 
             // Get the next symbol.
             Symbol symbol = this.GetNextSymbol(SymbolType.OpenSquareBracket, expressionReference);
@@ -2465,6 +2774,10 @@ namespace StyleCop.CSharp
                         expression = this.GetUncheckedExpression(parentReference, unsafeCode);
                         break;
 
+                    case SymbolType.NameOf:
+                        expression = this.GetNameofExpression(parentReference, unsafeCode);
+                        break;
+
                     case SymbolType.New:
                         expression = this.GetNewAllocationExpression(parentReference, unsafeCode);
                         break;
@@ -2529,6 +2842,17 @@ namespace StyleCop.CSharp
                             expression = this.GetOpenParenthesisExpression(previousPrecedence, unsafeCode);
                         }
 
+                        break;
+                    case SymbolType.Lambda:
+                        if (this.IsBodiedExpression())
+                        {
+                            expression = this.GetBodiedExpression(parentReference, unsafeCode);
+                        }
+
+                        break;
+
+                    case SymbolType.OpenSquareBracket:
+                        expression = this.GetOpenParenthesisExpression(previousPrecedence, unsafeCode);
                         break;
 
                     case SymbolType.Number:
@@ -3974,6 +4298,56 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Reads a nameof expression from the code.
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private NameofExpression GetNameofExpression(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+            // Get the nameof keyword.
+            Node<CsToken> firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.Nameof, SymbolType.NameOf, parentReference, expressionReference));
+
+            // The next symbol will be the opening parenthesis.
+            Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, expressionReference);
+            Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
+
+            // Get the inner expression representing the name.
+            Expression innerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode) as Expression;
+            if (innerExpression == null)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            // Get the closing parenthesis.
+            Bracket closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
+            Node<CsToken> closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+
+            openParenthesis.MatchingBracketNode = closeParenthesisNode;
+            closeParenthesis.MatchingBracketNode = openParenthesisNode;
+
+            // Create the token list for the method invocation expression.
+            CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+
+            // Create and return the expression.
+            NameofExpression expression = new NameofExpression(partialTokens, innerExpression);
+            expressionReference.Target = expression;
+
+            return expression;
+        }
+
+        /// <summary>
         /// Reads a unary decrement expression.
         /// </summary>
         /// <param name="unsafeCode">
@@ -4312,7 +4686,7 @@ namespace StyleCop.CSharp
             Param.Ignore(unsafeCode);
 
             Debug.Assert(
-                type.ExpressionType == ExpressionType.Literal || type.ExpressionType == ExpressionType.MemberAccess, 
+                type.ExpressionType == ExpressionType.Literal || type.ExpressionType == ExpressionType.MemberAccess,
                 "The left side of a variable declaration must either be a literal or a member access.");
 
             VariableDeclarationExpression expression = null;
@@ -4647,6 +5021,11 @@ namespace StyleCop.CSharp
                                             SymbolType symbolType = nextSymbol.SymbolType;
                                             if (symbolType == SymbolType.Other)
                                             {
+                                                // Check if user don't use a query word as variable name.
+                                                index = this.GetNextCodeSymbolIndex(index + 1);
+                                                Symbol lastSymbol = this.symbols.Peek(index);
+                                                SymbolType lastSymbolType = lastSymbol.SymbolType;
+
                                                 // This could be an expression like:
                                                 // from type in x where (type.IsClass) select type;
                                                 // bug 6711
@@ -4658,7 +5037,7 @@ namespace StyleCop.CSharp
                                                      && previousPrecedence != ExpressionPrecedence.ConditionalOr && previousPrecedence != ExpressionPrecedence.Equality)
                                                     || (nextSymbol.Text != "where" && nextSymbol.Text != "select" && nextSymbol.Text != "group"
                                                         && nextSymbol.Text != "into" && nextSymbol.Text != "orderby" && nextSymbol.Text != "join"
-                                                        && nextSymbol.Text != "let" && nextSymbol.Text != "equals" && nextSymbol.Text != "by" && nextSymbol.Text != "on"))
+                                                        && nextSymbol.Text != "let" && nextSymbol.Text != "equals" && nextSymbol.Text != "by" && nextSymbol.Text != "on") || lastSymbolType == SymbolType.CloseParenthesis || lastSymbolType == SymbolType.Dot)
                                                 {
                                                     cast = true;
                                                 }
@@ -4707,6 +5086,51 @@ namespace StyleCop.CSharp
             }
 
             return cast;
+        }
+
+        /// <summary>
+        /// Determines whether [is dictionary initialization].
+        /// </summary>
+        /// <returns>True if it is a dictionary initialization else false.</returns>
+        private bool IsDictionaryInitialization()
+        {
+            int index = 1;
+
+            if (this.symbols.Peek(index).SymbolType != SymbolType.OpenSquareBracket)
+            {
+                index = 3;
+            }
+
+            Symbol symbol = this.symbols.Peek(index);
+
+            if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+            {
+                while (true)
+                {
+                    index++;
+                    symbol = this.symbols.Peek(index);
+
+                    if (symbol.SymbolType == SymbolType.CloseSquareBracket)
+                    {
+                        index++;
+                        symbol = this.symbols.Peek(index);
+                        break;
+                    }
+                }
+
+                while (symbol.SymbolType == SymbolType.WhiteSpace)
+                {
+                    index++;
+                    symbol = this.symbols.Peek(index);
+                }
+            }
+
+            if (symbol.SymbolType == SymbolType.Equals)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -4852,6 +5276,39 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Determines whether the next expression is a bodied expression.
+        /// </summary>
+        /// <returns>Returns true if the next expression is a bodied expression.</returns>
+        private bool IsBodiedExpression()
+        {
+            int index = 1;
+            Symbol symbol = this.symbols.Peek(index);
+
+            // Advance to the next non-whitespace symbol.
+            for (;; ++index)
+            {
+                symbol = this.symbols.Peek(index);
+                if (symbol == null)
+                {
+                    break;
+                }
+
+                if (symbol.SymbolType == SymbolType.Lambda)
+                {
+                    return true;
+                }
+
+                if (symbol.SymbolType != SymbolType.EndOfLine && symbol.SymbolType != SymbolType.WhiteSpace && symbol.SymbolType != SymbolType.MultiLineComment
+                    && symbol.SymbolType != SymbolType.SingleLineComment)
+                {
+                    break;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Determines whether the next expression is a query expression.
         /// </summary>
         /// <param name="unsafeCode">
@@ -4956,7 +5413,7 @@ namespace StyleCop.CSharp
                     || symbol.SymbolType == SymbolType.RightShift || symbol.SymbolType == SymbolType.Mod || symbol.SymbolType == SymbolType.Tilde
                     || symbol.SymbolType == SymbolType.Case || symbol.SymbolType == SymbolType.QuestionMark || symbol.SymbolType == SymbolType.Colon
                     || symbol.SymbolType == SymbolType.NullCoalescingSymbol || symbol.SymbolType == SymbolType.Comma || symbol.SymbolType == SymbolType.Semicolon
-                    || symbol.SymbolType == SymbolType.Return || symbol.SymbolType == SymbolType.Throw || symbol.SymbolType == SymbolType.Else
+                    || symbol.SymbolType == SymbolType.Return || symbol.SymbolType == SymbolType.Throw || symbol.SymbolType == SymbolType.Else || symbol.SymbolType == SymbolType.NullConditional
                     || symbol.SymbolType == SymbolType.Lambda || (symbol.SymbolType == SymbolType.Other && symbol.Text == "await") || symbol.Text == "select")
                 {
                     unary = true;

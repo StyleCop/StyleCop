@@ -13,7 +13,7 @@
   <Extern href="vsshlids.h"/>
   <!-- #include "vsshlids.h"      // This header contains the command ids for the menus -->
   <!--                            // provided by the shell. -->
-  <Extern href="msobtnid.h"/>
+  <!--<Extern href="msobtnid.h"/>-->
   <!-- #include "msobtnid.h"      // Definition of some CTC specific constants. In this sample -->
   <!--                            // we use it for the IDs inside the guidOfficeIcon group. -->
   <Extern href="virtkeys.h"/>

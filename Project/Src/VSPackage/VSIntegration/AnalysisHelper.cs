@@ -16,11 +16,11 @@ namespace StyleCop.VisualStudio
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
-    using System.Threading;
     using System.Windows.Forms;
     using System.Xml;
     using EnvDTE;
@@ -36,7 +36,7 @@ namespace StyleCop.VisualStudio
     {
         #region Private Fields
 
-         /// <summary>
+        /// <summary>
         /// System service provider.
         /// </summary>
         private readonly IServiceProvider serviceProvider;
@@ -50,12 +50,12 @@ namespace StyleCop.VisualStudio
         /// The StyleCop core object.
         /// </summary>
         private StyleCopCore core;
-       
+
         /// <summary>
         /// The current violation count.
         /// </summary>
         private int violationCount;
-        
+
         /// <summary>
         /// Stores the list of violations encountered.
         /// </summary>
@@ -144,7 +144,7 @@ namespace StyleCop.VisualStudio
             this.core.OutputGenerated += this.CoreOutputGenerated;
 
             this.RegisterEnvironmentEvents();
-            
+
             // Extract language specific information from the parsers configurations.
             this.RetrieveParserConfiguration();
         }
@@ -425,7 +425,7 @@ namespace StyleCop.VisualStudio
                 }
             }
         }
-        
+
         /// <summary>
         /// Called when output should be added to the Output pane.
         /// </summary>
@@ -463,7 +463,7 @@ namespace StyleCop.VisualStudio
             Param.Ignore(e);
 
             StyleCopTrace.In(sender, e);
-            
+
             if (InvisibleForm.Instance.InvokeRequired)
             {
                 EventHandler complete = this.AnalyzeCompleteMain;
@@ -488,7 +488,7 @@ namespace StyleCop.VisualStudio
             Param.Ignore(e);
 
             StyleCopTrace.In(sender, e);
-            
+
             var pane = VSWindows.GetInstance(this.serviceProvider).OutputPane;
             if (pane != null)
             {
@@ -553,7 +553,7 @@ namespace StyleCop.VisualStudio
                     var violationInfo = new ViolationInfo();
 
                     violationInfo.Severity = e.SourceCode.Project.ViolationsAsErrors ? TaskErrorCategory.Error : TaskErrorCategory.Warning;
-                        
+
                     var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
                     trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
 

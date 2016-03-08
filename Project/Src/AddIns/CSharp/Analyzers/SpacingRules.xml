@@ -116,5 +116,9 @@
       <Context>Tabs are not allowed. Use spaces instead.</Context>
       <Description>Verifies that the code does not contain tabs.</Description>
     </Rule>
+    <Rule Name="DoNotSplitNullConditionalOperators" CheckId="SA1029">
+      <Context>Do not split null conditional operator ('?.') or ('?').</Context>
+      <Description>Verifies that the code does not contain new rows or spaces.</Description>
+    </Rule>    
   </Rules>
 </SourceAnalyzer>

@@ -31,6 +31,7 @@
   <Test Name="ClassMembersPrefixLocalCallsWithThis">
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
     <TestCodeFile>ClassMembersPrefixLocalCallsWithThis2.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersPrefixLocalCallsWithThisForBodied.cs</TestCodeFile>
     <TestCodeFile>ValidPrefix.cs</TestCodeFile>
     <TestCodeFile>ClassMembersNoViolations.cs</TestCodeFile>
     <TestCodeFile>ClassMembersCodeWalker{T}.cs</TestCodeFile>
@@ -106,6 +107,21 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="229" StartLine="229" StartColumn="13" EndLine="229" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="239" StartLine="239" StartColumn="13" EndLine="239" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="240" StartLine="240" StartColumn="13" EndLine="240" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="41" EndLine="33" EndColumn="42" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="46" EndLine="33" EndColumn="47" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="53" EndLine="33" EndColumn="54" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="58" EndLine="33" EndColumn="59" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="44" EndLine="38" EndColumn="45" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="49" EndLine="38" EndColumn="50" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="56" EndLine="38" EndColumn="57" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="61" EndLine="38" EndColumn="62" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="30" EndLine="47" EndColumn="31" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="35" EndLine="47" EndColumn="36" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="42" EndLine="47" EndColumn="43" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="47" EndLine="47" EndColumn="48" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />     
     </ExpectedViolations>
   </Test>
 
@@ -239,5 +255,32 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="41" Rule="PrefixLocalCallsWithThis" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="47" Rule="PrefixLocalCallsWithThis" />
     </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the null propagation ?. doesn't result in incorrect violations. -->
+  <Test Name="NullPropogationsDoesNotResultInReadabilityViolations">
+    <TestCodeFile>NullPropogation.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PrefixCallsCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
   </Test>
 </StyleCopTestDescription>

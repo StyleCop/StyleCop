@@ -15,11 +15,7 @@
 namespace StyleCop.VisualStudio
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Globalization;
-
-    using EnvDTE;
 
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -70,7 +66,7 @@ namespace StyleCop.VisualStudio
             StyleCopTrace.In(violations);
 
             this.SuspendRefresh();
-            
+
             var hierarchyItems = new Dictionary<string, IVsHierarchy>();
 
             for (int index = 0; index < violations.Count; index++)
@@ -79,7 +75,7 @@ namespace StyleCop.VisualStudio
                 IVsHierarchy hierarchyItem = hierarchyItems.ContainsKey(violation.File) ? hierarchyItems[violation.File] : null;
 
                 var task = new ViolationTask(this.serviceProvider, violation, hierarchyItem);
-                
+
                 hierarchyItem = task.HierarchyItem;
 
                 if (!hierarchyItems.ContainsKey(violation.File))

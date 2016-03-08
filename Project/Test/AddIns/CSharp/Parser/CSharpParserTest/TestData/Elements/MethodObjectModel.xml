@@ -259,5 +259,37 @@
         </Statement>
       </Element>
     </Element>
+
+    <Element Name="ExpressionBodied" Type="Class">
+      <Element Name="Test" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="ArithmeticExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+              <Expression Text="&quot;b&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Move" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="NewExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Point" Type="LiteralExpression" />
+                <Expression Type="ArithmeticExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                  <Expression Text="variableX" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="ArithmeticExpression">
+                  <Expression Text="y" Type="LiteralExpression" />
+                  <Expression Text="variableY" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

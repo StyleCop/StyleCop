@@ -138,7 +138,7 @@ namespace StyleCop.CSharp
             if (previousToken.CsTokenType == CsTokenType.OperatorSymbol)
             {
                 OperatorSymbol symbol = (OperatorSymbol)previousToken;
-                if (symbol.SymbolType == OperatorType.MemberAccess || symbol.SymbolType == OperatorType.Pointer || symbol.SymbolType == OperatorType.QualifiedAlias)
+                if (symbol.SymbolType == OperatorType.MemberAccess || symbol.SymbolType == OperatorType.Pointer || symbol.SymbolType == OperatorType.QualifiedAlias || symbol.SymbolType == OperatorType.NullConditional)
                 {
                     return true;
                 }
@@ -269,15 +269,16 @@ namespace StyleCop.CSharp
             if (parentClass.BaseClass != string.Empty)
             {
                 if (Utils.IsExpressionInsideContainer(
-                    expression, 
-                    typeof(TypeofExpression), 
-                    typeof(IsExpression), 
-                    typeof(CastExpression), 
-                    typeof(AsExpression), 
-                    typeof(NewExpression), 
-                    typeof(NewArrayExpression), 
-                    typeof(MemberAccessExpression), 
-                    typeof(DefaultValueExpression), 
+                    expression,
+                    typeof(NullConditionExpression),
+                    typeof(TypeofExpression),
+                    typeof(IsExpression),
+                    typeof(CastExpression),
+                    typeof(AsExpression),
+                    typeof(NewExpression),
+                    typeof(NewArrayExpression),
+                    typeof(MemberAccessExpression),
+                    typeof(DefaultValueExpression),
                     typeof(VariableDeclarationExpression)))
                 {
                     return false;
@@ -379,7 +380,7 @@ namespace StyleCop.CSharp
                 if (!child.Generated)
                 {
                     if (child.ElementType == ElementType.Method || child.ElementType == ElementType.Constructor || child.ElementType == ElementType.Destructor
-                        || child.ElementType == ElementType.Accessor)
+                        || child.ElementType == ElementType.Accessor || !child.HasBody)
                     {
                         // If the parent class is null, then this element is sitting outside of a class.
                         // This is illegal in C# so the code will not compile, but we still attempt to
@@ -563,11 +564,11 @@ namespace StyleCop.CSharp
         /// The collection of members of the parent class. 
         /// </param>
         private void CheckClassMemberRulesForLiteralToken(
-            Node<CsToken> tokenNode, 
-            Expression expression, 
-            Expression parentExpression, 
-            CsElement parentElement, 
-            ClassBase parentClass, 
+            Node<CsToken> tokenNode,
+            Expression expression,
+            Expression parentExpression,
+            CsElement parentElement,
+            ClassBase parentClass,
             Dictionary<string, List<CsElement>> members)
         {
             Param.AssertNotNull(tokenNode, "token");

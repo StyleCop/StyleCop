@@ -113,12 +113,17 @@
     <Compile Include="CsTokenList.cs" />
     <Compile Include="Elements\AssemblyOrModuleAttribute.cs" />
     <Compile Include="Expressions\AwaitExpression.cs" />
+    <Compile Include="Expressions\DictionaryInitializerExpression.cs" />
     <Compile Include="Expressions\CollectionInitializerExpression.cs" />
     <Compile Include="Expressions\EventDeclaratorExpression.cs" />
     <Compile Include="Expressions\ExpressionWithParameters.cs" />
+    <Compile Include="Expressions\BodiedExpression.cs" />
     <Compile Include="Expressions\LambdaExpression.cs" />
+    <Compile Include="Expressions\NullConditionExpression.cs" />
     <Compile Include="Expressions\ObjectInitializerExpression.cs" />
     <Compile Include="Expressions\QueryExpression.cs" />
+    <Compile Include="Expressions\NameofExpression.cs" />
+    <Compile Include="Expressions\DictionaryItemInitializationExpression.cs" />
     <Compile Include="ICodePart.cs" />
     <Compile Include="ICodePartExtensions.cs" />
     <Compile Include="ICodeUnit.cs" />
@@ -152,6 +157,7 @@
     <Compile Include="QueryClauseType.cs" />
     <Compile Include="Reference{T}.cs" />
     <Compile Include="Rules.cs" />
+    <Compile Include="Statements\WhenStatement.cs" />
     <Compile Include="Statements\AwaitStatement.cs" />
     <Compile Include="Statements\ConstructorInitializerStatement.cs" />
     <Compile Include="StatementType.cs" />

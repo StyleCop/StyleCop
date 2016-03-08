@@ -1,0 +1,417 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="NullConditionExpressions" Type="Class">
+        <Element Name="TestObjectNotNull" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;string&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="list" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="List&lt;string&gt;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="variable" Type="LiteralExpression" />
+                <Expression Type="NullConditionExpression">
+                  <Expression Text="list" Type="LiteralExpression" />
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="FirstOrDefault" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="TestArrayNotNull1" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Module[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Type="MemberAccessExpression">
+                        <Expression Text="Assembly" Type="LiteralExpression" />
+                        <Expression Text="GetExecutingAssembly" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="GetModules" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Contract" Type="LiteralExpression" />
+                <Expression Text="Assume" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="NullConditionExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Type="RelationalExpression">
+                  <Expression Text="Length" Type="LiteralExpression" />
+                  <Expression Text="0" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="result" Type="LiteralExpression" />
+                <Expression Type="NullConditionExpression">
+                  <Expression Text="modules" Type="LiteralExpression" />
+                  <Expression Type="ArrayAccessExpression">
+                    <Expression Text="modules" Type="LiteralExpression" />
+                    <Expression Text="0" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="modules" Type="LiteralExpression" />
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="TestArrayNotNull2" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="index" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Module[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Type="MemberAccessExpression">
+                        <Expression Text="Assembly" Type="LiteralExpression" />
+                        <Expression Text="GetExecutingAssembly" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="GetModules" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="Contract" Type="LiteralExpression" />
+                <Expression Text="Assume" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="NullConditionExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Type="RelationalExpression">
+                  <Expression Text="Length" Type="LiteralExpression" />
+                  <Expression Text="0" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="result" Type="LiteralExpression" />
+                <Expression Type="NullConditionExpression">
+                  <Expression Text="modules" Type="LiteralExpression" />
+                  <Expression Type="ArrayAccessExpression">
+                    <Expression Text="modules" Type="LiteralExpression" />
+                    <Expression Text="index" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="modules" Type="LiteralExpression" />
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="modules" Type="LiteralExpression" />
+                <Expression Text="index" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="TestMethodReturnIsNotNull" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="company" Type="LiteralExpression" />
+                <Expression Type="NullConditionExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="AssemblyInfo" Type="LiteralExpression" />
+                      <Expression Text="Attribute" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Text="Company" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="posts" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="List&lt;string&gt;" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Text="&quot;abc&quot;" Type="LiteralExpression" />
+                    <Expression Text="&quot;123&quot;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="posts" Type="LiteralExpression" />
+                  <Expression Text="First" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Replace" Type="LiteralExpression" />
+                <Expression Text="'a'" Type="LiteralExpression" />
+                <Expression Text="'z'" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="SplitNullConditionOperator" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Bar" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Bar" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Bar" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="foo" Type="LiteralExpression" />
+                <Expression Text="index" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="foo" Type="LiteralExpression" />
+                <Expression Text="index" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="NullConditionExpression">
+              <Expression Text="foo" Type="LiteralExpression" />
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="foo" Type="LiteralExpression" />
+                <Expression Text="index" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="list" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="List&lt;string&gt;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="length" Type="LiteralExpression" />
+                <Expression Type="NullConditionExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="list" Type="LiteralExpression" />
+                      <Expression Text="FirstOrDefault" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Text="Length" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="myclass" Type="Class">
+          <Element Name="singleBitValue" Type="Field">
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="bool?" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="singleBitValue" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Element>
+          <Element Name="foo" Type="Method">
+            <Statement Type="ExpressionStatement">
+              <Expression Type="AssignmentExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="this" Type="LiteralExpression" />
+                  <Expression Text="singleBitValue" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="AsExpression">
+                  <Expression Text="obj" Type="LiteralExpression" />
+                  <Expression Text="bool?" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="AssignmentExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="this" Type="LiteralExpression" />
+                  <Expression Text="singleBitValue" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="NullCoalescingExpression">
+                  <Expression Type="AsExpression">
+                    <Expression Text="obj" Type="LiteralExpression" />
+                    <Expression Text="bool?" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="false" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="ReturnStatement">
+              <Expression Type="ConditionalExpression">
+                <Expression Text="true" Type="LiteralExpression" />
+                <Expression Text="true" Type="LiteralExpression" />
+                <Expression Text="false" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Element>
+        </Element>
+        <Element Name="MyTest" Type="Class">
+          <Element Name="Invoke" Type="Method">
+            <Statement Type="ReturnStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+            </Statement>
+          </Element>
+        </Element>
+        <Element Name="Class2" Type="Class">
+          <Element Name="Test" Type="Method">
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="bool" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="y" Type="LiteralExpression" />
+                  <Expression Text="true" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="MyTest" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="z" Type="LiteralExpression" />
+                  <Expression Type="NewExpression">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Text="MyTest" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="MyTest" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="w" Type="LiteralExpression" />
+                  <Expression Type="NewExpression">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Text="MyTest" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                  <Expression Type="ConditionalExpression">
+                    <Expression Text="y" Type="LiteralExpression" />
+                    <Expression Type="NullConditionExpression">
+                      <Expression Text="z" Type="LiteralExpression" />
+                      <Expression Type="MethodInvocationExpression">
+                        <Expression Text="Invoke" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Type="NullConditionExpression">
+                      <Expression Text="w" Type="LiteralExpression" />
+                      <Expression Type="MethodInvocationExpression">
+                        <Expression Text="Invoke" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

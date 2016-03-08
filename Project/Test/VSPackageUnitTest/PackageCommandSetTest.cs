@@ -20,6 +20,7 @@
 namespace VSPackageUnitTest
 {
     using System;
+    using System.Reflection;
 
     using EnvDTE;
 
@@ -27,7 +28,7 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-    using System.Reflection;
+
     /// <summary>
     /// This is a test class for PackageCommandSetTest and is intended
     ///  to contain all PackageCommandSetTest Unit Tests

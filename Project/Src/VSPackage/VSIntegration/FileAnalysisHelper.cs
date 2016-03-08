@@ -165,50 +165,64 @@ namespace StyleCop.VisualStudio
         /// documents were unable to be saved.</returns>
         protected override bool SaveOpenDocuments()
         {
-            // Convert the environment to a file environment. This must be so since the
-            // VS package initialized the environment as a file-based environment when
-            // creating the SourceAnalysisCore object.
-            FileBasedEnvironment fileEnvironment = this.Core.Environment as FileBasedEnvironment;
-            Debug.Assert(fileEnvironment != null, "The environment is not a file based environment");
-
-            // Save any matching document.
-            DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
-            foreach (Document document in dte.Documents)
+            try
             {
-                if (!document.Saved)
+                // Convert the environment to a file environment. This must be so since the
+                // VS package initialized the environment as a file-based environment when
+                // creating the SourceAnalysisCore object.
+                FileBasedEnvironment fileEnvironment = this.Core.Environment as FileBasedEnvironment;
+                Debug.Assert(fileEnvironment != null, "The environment is not a file based environment");
+
+                // Save any matching document.
+                DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+                foreach (Document document in dte.Documents)
                 {
-                    // Get the file extension.
-                    int index = document.Name.LastIndexOf(".", StringComparison.Ordinal);
-                    if (index != -1 && document.Name.Length >= index)
+                    if (!document.Saved)
                     {
-                        FileInfo file = new FileInfo(document.FullName);
-                        string extension = file.Extension.Substring(1).ToUpperInvariant();
-                        ICollection<SourceParser> parsers = fileEnvironment.GetParsersForFileType(extension);
-
-                        if (parsers != null && parsers.Count > 0)
+                        // Get the file extension.
+                        int index = document.Name.LastIndexOf(".", StringComparison.Ordinal);
+                        if (index != -1 && document.Name.Length >= index)
                         {
-                            try
-                            {
-                                document.Save(document.FullName);
-                            }
-                            catch (COMException)
-                            {
-                                AlertDialog.Show(
-                                    this.Core,
-                                    null,
-                                    string.Format(CultureInfo.CurrentUICulture, Strings.CouldNotSaveDocument, Path.GetFileName(document.FullName)),
-                                    Strings.Title,
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                            FileInfo file = new FileInfo(document.FullName);
+                            string extension = file.Extension.Substring(1).ToUpperInvariant();
+                            ICollection<SourceParser> parsers = fileEnvironment.GetParsersForFileType(extension);
 
-                                return false;
+                            if (parsers != null && parsers.Count > 0)
+                            {
+                                try
+                                {
+                                    document.Save(document.FullName);
+                                }
+                                catch (COMException)
+                                {
+                                    AlertDialog.Show(
+                                        this.Core,
+                                        null,
+                                        string.Format(CultureInfo.CurrentUICulture, Strings.CouldNotSaveDocument, Path.GetFileName(document.FullName)),
+                                        Strings.Title,
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+
+                                    return false;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            return true;
+                return true;
+            }
+            catch (COMException)
+            {
+                AlertDialog.Show(
+                    this.Core,
+                    null,
+                    Strings.ErrorWhileSavingDocument,
+                    Strings.Title,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            }
         }
 
         /// <summary>

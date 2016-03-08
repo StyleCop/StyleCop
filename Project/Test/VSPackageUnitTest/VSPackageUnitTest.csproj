@@ -73,6 +73,7 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.MockObjectFramework, Version=8.0.0.0, Culture=neutral, PublicKeyToken=4965c59bfb3e69be, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ENLISTMENTROOT)\tools\MockObjectframework\Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
@@ -111,6 +112,8 @@
     <Compile Include="Extensions\Mock.cs" />
     <Compile Include="InvisibleFormTest.cs" />
     <Compile Include="Mocks\MockBuildEvents.cs" />
+    <Compile Include="Mocks\MockDocument.cs" />
+    <Compile Include="Mocks\MockDocuments.cs" />
     <Compile Include="Mocks\MockDTE.cs" />
     <Compile Include="Mocks\MockDTEGlobals.cs" />
     <Compile Include="Mocks\MockDTEProject.cs" />
@@ -131,8 +134,10 @@
     <Compile Include="Mocks\MockTermTable.cs" />
     <Compile Include="Mocks\MockTextLines.cs" />
     <Compile Include="Mocks\MockTextManager.cs" />
+    <Compile Include="Mocks\MockTextSelection.cs" />
     <Compile Include="Mocks\MockTextView.cs" />
     <Compile Include="Mocks\MockUIShellOpenDocument.cs" />
+    <Compile Include="Mocks\MockVirtualPoint.cs" />
     <Compile Include="Mocks\MockWebBrowsingService.cs" />
     <Compile Include="Mocks\MockWindow.cs" />
     <Compile Include="Mocks\MockWindowFrame.cs" />
@@ -145,9 +150,7 @@
     <Compile Include="TaskTest.cs" />
     <Compile Include="UpdateSolutionListenerTest.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViolationTaskTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViolationTaskTest.cs" />
     <Compile Include="VSWindowsTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -244,4 +244,12 @@ public class Class8<T, S>
     }
 }
 
+// Introduced in C# 6
+public class ExpressionBodied
+{
+    public string Test(string a) => a + "b";
+
+    public Point Move(int variableX, int variableY) => new Point(x + variableX, y + variableY);
+}
+
 #endregion

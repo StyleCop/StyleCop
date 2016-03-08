@@ -250,6 +250,10 @@ namespace StyleCop.CSharp
                     type = OperatorType.Lambda;
                     category = OperatorCategory.Lambda;
                     break;
+                case SymbolType.NullConditional:
+                    type = OperatorType.NullConditional;
+                    category = OperatorCategory.Logical;
+                    break;
                 default:
 
                     // Assign random values.
@@ -368,6 +372,8 @@ namespace StyleCop.CSharp
                     return SymbolType.QualifiedAlias;
                 case OperatorType.Lambda:
                     return SymbolType.Lambda;
+                case OperatorType.NullConditional:
+                    return SymbolType.NullConditional;
                 default:
                     Debug.Fail("Invalid operator type.");
                     throw new StyleCopException();
@@ -1147,6 +1153,37 @@ namespace StyleCop.CSharp
             }
 
             return foundDereferenceSymbol;
+        }
+
+        /// <summary>
+        /// Gets a token representing a name identifier.
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
+        /// <returns>
+        /// Returns the token.
+        /// </returns>
+        private LiteralExpression GetNameTokenExpression(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets)
+        {
+            Param.AssertNotNull(parentReference, "parentReference");
+            Param.Ignore(unsafeCode);
+            Param.Ignore(includeArrayBrackets);
+
+            TypeToken token = this.GetTypeToken(parentReference, unsafeCode, includeArrayBrackets);
+            Node<CsToken> tokenNode = this.tokens.InsertLast(token);
+
+            // Create a partial token list containing this token.
+            CsTokenList partialTokenList = new CsTokenList(this.tokens, tokenNode, tokenNode);
+
+            // Create and return the literal expression.
+            return new LiteralExpression(partialTokenList, tokenNode);
         }
 
         /// <summary>

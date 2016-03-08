@@ -153,6 +153,9 @@
   <data name="ErrorHelpNotAvailable" xml:space="preserve">
     <value>No Error Help is available for this StyleCop violation. This is usually the case when a violation is discovered through a custom rule.</value>
   </data>
+  <data name="ErrorWhileSavingDocument" xml:space="preserve">
+    <value>Error while saving documents.</value>
+  </data>
   <data name="FailedToLaunchRulesHelp" xml:space="preserve">
     <value>Unable to display the StyleCop rule help documentation.</value>
   </data>

@@ -34,13 +34,13 @@ namespace StyleCop.CSharp
         /// </summary>
         private readonly string[][] builtInTypes = new[]
                                                        {
-                                                           new[] { "Boolean", "System.Boolean", "bool" }, new[] { "Object", "System.Object", "object" }, 
-                                                           new[] { "String", "System.String", "string" }, new[] { "Int16", "System.Int16", "short" }, 
-                                                           new[] { "UInt16", "System.UInt16", "ushort" }, new[] { "Int32", "System.Int32", "int" }, 
-                                                           new[] { "UInt32", "System.UInt32", "uint" }, new[] { "Int64", "System.Int64", "long" }, 
-                                                           new[] { "UInt64", "System.UInt64", "ulong" }, new[] { "Double", "System.Double", "double" }, 
-                                                           new[] { "Single", "System.Single", "float" }, new[] { "Byte", "System.Byte", "byte" }, 
-                                                           new[] { "SByte", "System.SByte", "sbyte" }, new[] { "Char", "System.Char", "char" }, 
+                                                           new[] { "Boolean", "System.Boolean", "bool" }, new[] { "Object", "System.Object", "object" },
+                                                           new[] { "String", "System.String", "string" }, new[] { "Int16", "System.Int16", "short" },
+                                                           new[] { "UInt16", "System.UInt16", "ushort" }, new[] { "Int32", "System.Int32", "int" },
+                                                           new[] { "UInt32", "System.UInt32", "uint" }, new[] { "Int64", "System.Int64", "long" },
+                                                           new[] { "UInt64", "System.UInt64", "ulong" }, new[] { "Double", "System.Double", "double" },
+                                                           new[] { "Single", "System.Single", "float" }, new[] { "Byte", "System.Byte", "byte" },
+                                                           new[] { "SByte", "System.SByte", "sbyte" }, new[] { "Char", "System.Char", "char" },
                                                            new[] { "Decimal", "System.Decimal", "decimal" }
                                                        };
 
@@ -264,7 +264,7 @@ namespace StyleCop.CSharp
             CsToken @string = stringNode.Value;
             Debug.Assert(@string.CsTokenType == CsTokenType.String, "The token must be a string.");
 
-            if (string.Equals(@string.Text, "\"\"", StringComparison.Ordinal) || string.Equals(@string.Text, "@\"\"", StringComparison.Ordinal))
+            if (string.Equals(@string.Text, "\"\"", StringComparison.Ordinal) || string.Equals(@string.Text, "@\"\"", StringComparison.Ordinal) || string.Equals(@string.Text, "$\"\"", StringComparison.Ordinal))
             {
                 // Look at the previous non-whitespace token. If it is the 'case' keyword, then do not throw this
                 // exception. It is illegal to write case String.Empty : and instead case "": must be written.

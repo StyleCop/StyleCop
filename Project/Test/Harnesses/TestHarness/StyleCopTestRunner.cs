@@ -68,6 +68,11 @@ namespace StyleCop.Test
         private string overallTestName = string.Empty;
 
         /// <summary>
+        /// The simulation of framework version to check only new specifications.
+        /// </summary>
+        private double frameworkVersion;
+
+        /// <summary>
         /// Keeps of track of whether any tests have failed.
         /// </summary>
         private bool failure;
@@ -81,7 +86,7 @@ namespace StyleCop.Test
         /// Additional add-in files to copy to the test bin directory.
         /// </summary>
         private IEnumerable<string> addinFiles;
-        
+
         #endregion Private Fields
 
         #region Internal Constructors
@@ -95,19 +100,21 @@ namespace StyleCop.Test
         /// <param name="resultsOutputLocation">The location to output the test results.</param>
         /// <param name="autoFix">Indicates whether to run StyleCop in "auto-fix" mode.</param>
         /// <param name="addinFiles">Additional add-in files to copy to the test bin directory.</param>
-        internal StyleCopTestRunner(string testInputPath, XmlDocument testDescription, string testDataLocation, string resultsOutputLocation, bool autoFix, IEnumerable<string> addinFiles)
+        /// <param name="simulationFrameworkVersion">The simulation framework version.</param>
+        internal StyleCopTestRunner(string testInputPath, XmlDocument testDescription, string testDataLocation, string resultsOutputLocation, bool autoFix, IEnumerable<string> addinFiles, double simulationFrameworkVersion)
         {
             Debug.Assert(!string.IsNullOrEmpty(testInputPath), "The string is invalid");
             Debug.Assert(testDescription != null, "The parameter must not be null");
             Debug.Assert(testDataLocation != null, "The parameter must not be null");
             Debug.Assert(!string.IsNullOrEmpty(resultsOutputLocation), "The string is invalid");
-
+            
             this.testInputPath = testInputPath;
             this.testDescription = testDescription;
             this.testDataLocation = testDataLocation;
             this.resultsOutputLocation = resultsOutputLocation;
             this.autoFix = autoFix;
             this.addinFiles = addinFiles;
+            this.frameworkVersion = simulationFrameworkVersion;
         }
 
         #endregion Internal Constructors
@@ -122,23 +129,23 @@ namespace StyleCop.Test
         /// <param name="testInputLocation">The test run input location.</param>
         /// <param name="testOutputLocation">The test run output location.</param>
         /// <param name="autoFix">Indicates whether to run StyleCop in "auto-fix" mode.</param>
+        /// <param name="simulationFrameworkVersion">The framework version to simulate.</param>
         /// <param name="addinFiles">Additional add-in files to copy to the test bin directory.</param>
-        /// <returns>Returns true if the test passes.</returns>
-        public static bool Run(string testName, string testRoot, string testInputLocation, string testOutputLocation, bool autoFix, params string[] addinFiles)
+        /// <returns>
+        /// Returns true if the test passes.
+        /// </returns>
+        public static bool Run(string testName, string testRoot, string testInputLocation, string testOutputLocation, bool autoFix, double simulationFrameworkVersion, params string[] addinFiles)
         {
             Param.RequireValidString(testName, "testName");
             Param.RequireValidString(testRoot, "testRoot");
             Param.RequireValidString(testInputLocation, "testInputLocation");
             Param.RequireValidString(testOutputLocation, "testOutputLocation");
+            Param.Ignore(simulationFrameworkVersion);
             Param.Ignore(autoFix);
             Param.Ignore(addinFiles);
 
             string resultsOutputLocation = Path.Combine(testOutputLocation, testName + "Results.xml");
-            string testDataLocation = Path.Combine(Path.Combine(testRoot, "TestData"), testName);
-
-            resultsOutputLocation = Environment.ExpandEnvironmentVariables(resultsOutputLocation);
-            testDataLocation = Environment.ExpandEnvironmentVariables(testDataLocation);
-            
+            string testDataLocation = Path.Combine(testOutputLocation, testName);
             string testDescriptionLocation = Path.Combine(testDataLocation, "TestDescription.xml");
 
             if (!File.Exists(testDescriptionLocation))
@@ -177,7 +184,7 @@ namespace StyleCop.Test
                 }
                 else
                 {
-                    StyleCopTestRunner runner = new StyleCopTestRunner(testInputLocation, testDescriptionDocument, testDataLocation, resultsOutputLocation, autoFix, addinFiles);
+                    StyleCopTestRunner runner = new StyleCopTestRunner(testInputLocation, testDescriptionDocument, testDataLocation, resultsOutputLocation, autoFix, addinFiles, simulationFrameworkVersion);
                     return runner.RunTests();
                 }
             }
@@ -534,8 +541,11 @@ namespace StyleCop.Test
         /// <param name="console">The console which will run the test.</param>
         /// <param name="autoFix">Indicates whether the test is running in auto-fix mode.</param>
         /// <param name="copy">Indicates whether to create the file copy.</param>
-        /// <returns>Returns the CodeProject.</returns>
-        private static CodeProject PrepareCodeProjectForTest(TestInfo testInfo, StyleCopConsole console, bool autoFix, bool copy)
+        /// <param name="simulationFrameworkVersion">The framework version to simulate.</param>
+        /// <returns>
+        /// Returns the CodeProject.
+        /// </returns>
+        private static CodeProject PrepareCodeProjectForTest(TestInfo testInfo, StyleCopConsole console, bool autoFix, bool copy, double simulationFrameworkVersion)
         {
             // Create an empty configuration.
             Configuration configuration = new Configuration(null);
@@ -544,7 +554,8 @@ namespace StyleCop.Test
             CodeProject project = new CodeProject(
                 "TheProject".GetHashCode(),
                 Path.GetDirectoryName(testInfo.StyleCopSettingsFileLocation),
-                configuration);
+                configuration, 
+                simulationFrameworkVersion);
 
             // Add each source file to this project.
             foreach (TestCodeFileInfo sourceFile in testInfo.TestCodeFiles)
@@ -810,7 +821,7 @@ namespace StyleCop.Test
                 // Set up the StyleCop console which will run the test.
                 StyleCopConsole testConsole = PrepareStyleCopConsoleForTest(testInfo, false);
 
-                CodeProject project = PrepareCodeProjectForTest(testInfo, testConsole, autoFix, false);
+                CodeProject project = PrepareCodeProjectForTest(testInfo, testConsole, autoFix, false, this.frameworkVersion);
 
                 // Run the test and capture any exceptions.
                 Exception testException = null;
@@ -860,7 +871,7 @@ namespace StyleCop.Test
                 // Set up the StyleCop console which will run the test.
                 StyleCopConsole testConsole = PrepareStyleCopConsoleForTest(testInfo, true);
 
-                CodeProject project = PrepareCodeProjectForTest(testInfo, testConsole, true, true);
+                CodeProject project = PrepareCodeProjectForTest(testInfo, testConsole, true, true, this.frameworkVersion);
 
                 // Run the test and capture any exceptions.
                 Exception testException = null;

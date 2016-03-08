@@ -21,6 +21,7 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Diagnostics;
+    using System.Reflection;
 
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -30,7 +31,7 @@ namespace VSPackageUnitTest
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
-    using System.Reflection;
+
     /// <summary>
     /// This is a test class for SolutionListenerTest and is intended
     ///   to contain all SolutionListenerTest Unit Tests

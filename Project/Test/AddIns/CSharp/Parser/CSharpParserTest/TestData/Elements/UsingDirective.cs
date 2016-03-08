@@ -11,6 +11,8 @@ using System .
 using Whatever = System.WeakReference;
 using Whatever2 = System . WeakReference   ;
 
+using static System.Math;
+
 namespace Namespace1
 {
     using System;

@@ -41,6 +41,11 @@ namespace StyleCop.CSharp
         private readonly BlockStatement embeddedStatement;
 
         /// <summary>
+        /// The when statement.
+        /// </summary>
+        private readonly WhenStatement whenStatement;
+
+        /// <summary>
         /// The exception variable identifier.
         /// </summary>
         private readonly LiteralExpression identifier;
@@ -57,29 +62,24 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Initializes a new instance of the CatchStatement class.
         /// </summary>
-        /// <param name="tokens">
-        /// The list of tokens that form the statement.
-        /// </param>
-        /// <param name="tryStatement">
-        /// The try-statement that this catch-statement is attached to.
-        /// </param>
-        /// <param name="classExpression">
-        /// The inner expression.
-        /// </param>
-        /// <param name="embeddedStatement">
-        /// The statement embedded within the catch-statement.
-        /// </param>
-        internal CatchStatement(CsTokenList tokens, TryStatement tryStatement, Expression classExpression, BlockStatement embeddedStatement)
+        /// <param name="tokens">The list of tokens that form the statement.</param>
+        /// <param name="tryStatement">The try-statement that this catch-statement is attached to.</param>
+        /// <param name="classExpression">The inner expression.</param>
+        /// <param name="embeddedStatement">The statement embedded within the catch-statement.</param>
+        /// <param name="whenStatement">The when statement.</param>
+        internal CatchStatement(CsTokenList tokens, TryStatement tryStatement, Expression classExpression, BlockStatement embeddedStatement, WhenStatement whenStatement)
             : base(StatementType.Catch, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(tryStatement, "tryStatement");
             Param.Ignore(classExpression);
             Param.AssertNotNull(embeddedStatement, "embeddedStatement");
+            Param.Ignore(whenStatement); // When statement can be null and not found for a try catch.
 
             this.tryStatement = tryStatement;
             this.catchExpression = classExpression;
             this.embeddedStatement = embeddedStatement;
+            this.whenStatement = whenStatement;
 
             if (classExpression != null)
             {
@@ -165,6 +165,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.tryStatement;
+            }
+        }
+
+        /// <summary>
+        /// Gets the when statement to filter a catch expression introduced in C# 6.
+        /// </summary>
+        public WhenStatement WhenStatement
+        {
+            get
+            {
+                return this.whenStatement;
             }
         }
 
