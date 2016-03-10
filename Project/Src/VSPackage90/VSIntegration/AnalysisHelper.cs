@@ -598,9 +598,9 @@ namespace StyleCop.VisualStudio
             }
 
             project.Save();
-
-            var proj = new Microsoft.Build.Evaluation.Project(
-                project.FullName, null, null, new Microsoft.Build.Evaluation.ProjectCollection());
+            Microsoft.Build.BuildEngine.Engine engine = new Microsoft.Build.BuildEngine.Engine();
+            Microsoft.Build.BuildEngine.Project proj = engine.CreateNewProject();
+            proj.Load(project.FullName);
             e.Add(new BuildIntegrationOptions(proj));
         }
 

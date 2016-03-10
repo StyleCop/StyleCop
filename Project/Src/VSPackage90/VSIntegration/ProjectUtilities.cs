@@ -28,6 +28,7 @@ namespace StyleCop.VisualStudio
     using System.Security;
     using EnvDTE;
 
+    using Microsoft.Build.BuildEngine;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -884,7 +885,7 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="project">The MSBuild project.</param>
         /// <param name="buildIntegration">The build integration setting.</param>
-        internal static void SetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project, BuildIntegration buildIntegration)
+        internal static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(buildIntegration, "buildIntegration");
@@ -892,22 +893,18 @@ namespace StyleCop.VisualStudio
             SetBuildIntegrationInProject(project, buildIntegration != BuildIntegration.None);
             SetTreatLevel(project, buildIntegration);
 
-            project.Save();
+            project.Save(project.FullFileName);
         }
 
-        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project)
+        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project)
         {
             Param.AssertNotNull(project, "project");
 
             ProjectUtilities.BuildIntegration setting = BuildIntegration.None;
-            if (project.Imports.Any(p => p.ImportedProject.FullPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
+            if (project.Imports.Cast<Import>().Any(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
             {
                 setting = BuildIntegration.TreatErrorAsWarning;
-                var styleCopTreatErrorsAsWarningsProp = project.AllEvaluatedProperties
-                    .SingleOrDefault(p => p.Name == StyleCopTreatErrorsAsWarnings);
-                string property = styleCopTreatErrorsAsWarningsProp != null
-                    ? styleCopTreatErrorsAsWarningsProp.EvaluatedValue
-                    : null;
+                string property = project.GetEvaluatedProperty(StyleCopTreatErrorsAsWarnings);
                 bool treatAsWarnings;
                 if (bool.TryParse(property, out treatAsWarnings) && !treatAsWarnings)
                 {
@@ -1951,31 +1948,26 @@ namespace StyleCop.VisualStudio
             ClearCaches();
         }
 
-        private static void SetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project, bool enable)
+        private static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, bool enable)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(enable, "enable");
 
-            bool isStyleCopImported = project.Imports
-                .Any(p => p.ImportedProject.FullPath.IndexOf(
-                    StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
-            if (enable && !isStyleCopImported)
+            var import = project
+                .Imports
+                .Cast<Import>()
+                .FirstOrDefault(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
+            if (enable && import == null)
             {
-                project.Xml.AddImport(StyleCopTargetsFullName);
+                project.AddNewImport(StyleCopTargetsFullName, string.Empty);
             }
-            else if (!enable && isStyleCopImported)
+            else if (!enable && import != null)
             {
-                var styleCopImports = project.Imports
-                    .Where(p => p.ImportedProject.FullPath.IndexOf(
-                        StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
-                foreach (var styleCopImport in styleCopImports)
-                {
-                    project.Xml.RemoveChild(styleCopImport.ImportingElement);
-                }
+                project.Imports.RemoveImport(import);
             }
         }
 
-        private static void SetTreatLevel(Microsoft.Build.Evaluation.Project project, BuildIntegration buildIntegration)
+        private static void SetTreatLevel(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(buildIntegration, "enable");
@@ -1985,10 +1977,10 @@ namespace StyleCop.VisualStudio
                 case BuildIntegration.None:
                     break;
                 case BuildIntegration.TreatErrorAsWarning:
-                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString());
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString(), string.Empty);
                     break;
                 case BuildIntegration.TreatErrorAsError:
-                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString());
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString(), string.Empty);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("buildIntegration");

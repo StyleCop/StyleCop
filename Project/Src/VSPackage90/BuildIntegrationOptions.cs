@@ -14,8 +14,12 @@
 //-----------------------------------------------------------------------
 namespace StyleCop.VisualStudio
 {
+    using System;
+    using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
-    using Microsoft.Build.Evaluation;
+
+    using Microsoft.Build.BuildEngine;
 
     /// <summary>
     /// Allows setting the company and copyright requirements.

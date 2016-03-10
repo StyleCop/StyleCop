@@ -8,12 +8,12 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StyleCop.VisualStudio</RootNamespace>
-    <AssemblyName>StyleCop.VSPackage</AssemblyName>
+    <AssemblyName>StyleCop.VSPackage90</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
     <DelaySign>$(SADelaySign)</DelaySign>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <ProjectGuid>{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}</ProjectGuid>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ProjectGuid>{DC39E243-18F0-4C1C-B500-5686EF12AF46}</ProjectGuid>
     <OldToolsVersion>3.5</OldToolsVersion>
     <CreateVsixContainer>false</CreateVsixContainer>
     <DeployExtension>false</DeployExtension>
@@ -58,7 +58,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Engine" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />

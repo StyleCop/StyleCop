@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- // This is the file that defines the actual layout and type of the commands. -->
+  <!-- // It is divided in different sections (e.g. command definition, command -->
+  <!-- // placement, ...), with each defining a specific set of properties. -->
+  <!-- // See the comment before each section for more details about how to -->
+  <!-- // use it. -->
+  <!--  -->
+
+  <Extern href="stdidcmd.h"/>
+  <!-- #include "stdidcmd.h"      // This is the file that defines the IDs for all the -->
+  <!--                            // commands exposed by VisualStudio. -->
+  <Extern href="vsshlids.h"/>
+  <!-- #include "vsshlids.h"      // This header contains the command ids for the menus -->
+  <!--                            // provided by the shell. -->
+  <!--<Extern href="msobtnid.h"/>-->
+  <!-- #include "msobtnid.h"      // Definition of some CTC specific constants. In this sample -->
+  <!--                            // we use it for the IDs inside the guidOfficeIcon group. -->
+  <Extern href="virtkeys.h"/>
+  <!-- #include "virtkeys.h"      // Definition of virtual keys like VK_F1, VK_INSERT etc. -->
+
+  <!-- // The CMDS_SECTION section is where the commands, menus and menu groups are defined.  -->
+  <!-- // This section uses a Guid to identify the package that provides the command defined  -->
+  <!-- // inside it. -->
+  <Commands package="StyleCopPackageId">
+
+    <!--   // In this section you can define new menu groups. A menu group is a container for other menus or  -->
+    <!--   // buttons (commands); from a visual point of view you can see the group as the part of a menu  -->
+    <!--   // contained between two lines. The parent of a group must be a menu. -->
+    <Groups>
+      
+      <!--     // Puts a group on the Tools Main Menu -->
+      <Group guid="StyleCopCommandGroupId" id="GroupIdTools" priority="0x0700">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+
+      <!--     // For placing the menu on folders in folders in web projects -->
+      <Group guid="StyleCopCommandGroupId" id="GroupIdProjectFolder" priority="0x0050">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
+      </Group>
+
+      <!--     // For placing the menu on folders in (web)projects -->
+      <Group guid="StyleCopCommandGroupId" id="GroupIdProjectFolder" priority="0x0050">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBFOLDER"/>
+      </Group>
+
+      <!--     // For placing a "StyleCop" Group on the Code Window CTX menu -->
+      <Group guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain" priority="0x0050">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </Group>
+    </Groups>
+
+    <!--  -->
+    <!--   // This section defines the elements the user can interact with, like a menu command or a button  -->
+    <!--   // or combo box in a toolbar. To define a menu group you have to specify its ID, the parent menu  -->
+    <!--   // and its display priority. Some commands are not defined as shared, so they use our package CLSID -->
+    <!--   // as the command set GUID. Also, by specifying blank for the FLAGS, the command is default visible  -->
+    <!--   // and enabled. Other valid values for FLAGS are the following: -->
+    <!--   //    DEFAULTDISABLED, DEFAULTINVISIBLE, DYNAMICVISIBILITY, TEXTCHANGES -->
+    <!--   // These values for FLAGS can be or'ed together, e.g. "DEFAULTINVISIBLE | DYNAMICVISIBILITY" -->
+    <!--   // If you do not want an image next to your command, set the image to "guidOfficeIcon:msotcidNoIcon" -->
+    <Buttons>
+      <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeSolution" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdReanalyzeSolution" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run StyleCop (R&amp;escan All)</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run StyleCop (R&amp;escan All)</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeThisFile" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdExcludeThisFile" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Exclude From StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdIncludeThisFile" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Include In StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeItem" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdExcludeItem" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Exclude From StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdIncludeItem" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>Include In StyleCop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic1"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Run Style&amp;Cop</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <Icon guid="StyleCopCmdBmpId" id="bmpPic2"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>StyleCop Se&amp;ttings</ButtonText>
+          <CommandName>StyleCop Settings</CommandName>
+        </Strings>
+      </Button>
+      <Button guid="StyleCopCommandSetId" id="CommandIdCancel" priority="0x0000" type="Button">
+        <Parent guid="StyleCopCommandSetId" id="0"/>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <Strings>
+          <ButtonText>&amp;Cancel StyleCop</ButtonText>
+          <CommandName>Cancel StyleCop</CommandName>        
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <!--   // The bitmaps section is used to define the bitmaps that are used for the commands. -->
+    <!--   // The bitmap id is defined in a way that is a little bit different from the others: -->
+    <!--   // The declaration starts with a guid for the bitmap strip, then there is the resource id of the -->
+    <!--   // bitmap strip containing the bitmaps and then there are the numeric ids of the elements used -->
+    <!--   // inside a button definition. An important aspect of this declaration is that the element id -->
+    <!--   // must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
+    <Bitmaps>
+      <Bitmap guid="StyleCopCmdBmpId" resID="IDB_MENU_IMAGES" usedList="bmpPic1, bmpPic2"/>
+    </Bitmaps>
+  </Commands>
+  
+  <!-- // Within this section you can specify the set of commands defined somewhere else that your  -->
+  <!-- // packages uses; for instance if your package uses the standard ‘Copy’ command, you don’t  -->
+  <!-- // need to define it, because it is defined by the shell, but you have to use this section  -->
+  <!-- // of the CTC file to notify the shell that your package uses it using this section. -->
+  <UsedCommands>
+    <!-- CMDUSED_SECTION -->
+  </UsedCommands>
+  
+  <!-- // Inside this section, we have the ability to place menu groups inside some other menu or -->
+  <!-- // menu / commands inside other groups. -->
+  <!-- // For instance, it is possible to place one of VisualStudio's menus or commands inside one of our  -->
+  <!-- // groups or one of our groups inside a menu defined somewhere else. -->
+  <CommandPlacements>
+    <!-- CMDPLACEMENT_SECTION -->
+    <!--   // Command                                       Group                                            Priority -->
+    <!--  -->
+    <!--   // Placement on the Tools main menu -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeSolution" priority="0x700">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdTools"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeSolution" priority="0x710">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdTools"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdCancel" priority="0x750">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdTools"/>
+    </CommandPlacement>
+    <!--  -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeSolution" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeSolution" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdCancel" priority="0x950">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_BUILD"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement when a single project has been selected -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x950">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_BUILD"/>
+    </CommandPlacement>
+    <!--  -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
+      <Parent guid="guidVenusCmdId" id="IDG_CTX_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
+      <Parent guid="guidVenusCmdId" id="IDG_CTX_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdProjectSettings" priority="0x950">
+      <Parent guid="guidVenusCmdId" id="IDG_CTX_BUILD"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement when multiple projects have been selected -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeProject" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_MULTIPROJ_BUILD"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdReanalyzeProject" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_MULTIPROJ_BUILD"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement when a single item has been selected -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeItem" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdExcludeItem" priority="0x910">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdIncludeItem" priority="0x920">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_ITEM_OPEN"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement on a project folder -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x900">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdProjectFolder"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement on a solution folder -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeFolder" priority="0x900">
+      <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SLNFLDR_BUILD"/>
+    </CommandPlacement>
+    <!--  -->
+    <!--   // Placement on the Code Editor Context Submenu -->
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdAnalyzeThisFile" priority="0x0100">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdExcludeThisFile" priority="0x0110">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
+    </CommandPlacement>
+    <CommandPlacement guid="StyleCopCommandSetId" id="CommandIdIncludeThisFile" priority="0x0120">
+      <Parent guid="StyleCopCommandGroupId" id="GroupIdCodeWindowMain"/>
+    </CommandPlacement>
+    <!--  -->
+
+  </CommandPlacements>
+  
+  <VisibilityConstraints>
+    <!-- VISIBILITY_SECTION -->
+    <!--   // Command                                              GUID when visible -->
+  </VisibilityConstraints>
+
+  <!-- // This section is where you can associate a command with a keyboard shortcut; this association is  -->
+  <!-- // valid within a specific UI context, that is when the shell is inside a specific mode, e.g. during  -->
+  <!-- // debugging, editing a file or when the user is using a specific designer. -->
+  <KeyBindings>
+    <!-- KEYBINDINGS_SECTION -->
+    <!--   // To define a binding, you have to specify the sequence of keys to press to activate the command  -->
+    <!--   // (keystate); the syntax to use is <key>[:<special keys>] where the special keys section can be  -->
+    <!--   // empty. The accepted special keys and their representation are: -->
+    <!--   //   Alt - A -->
+    <!--   //   Control - C -->
+    <!--   //   Shift - S -->
+    <!--   //   Windows Key - W -->
+    <!--   // For example, if you want to define a binding for <Control>C the definition will be 'C':C; if the  -->
+    <!--   // binding is <Control><Alt>C, then the keybinding is 'C':AC. -->
+    <!--   // -->
+    <!--   // Notice that Visual Studio has a lot of components and commands, so it can be difficult to find a  -->
+    <!--   // key binding not used by somebody else; if the key bindings are conflicting only one will be used -->
+    <!--   // and one problem is that the shell will not inform the user that a conflict was found. The only  -->
+    <!--   // way to detect the problem is to start Visual Studio under debugger, try to execute any command  -->
+    <!--   // and look if there is a message in the output window about a duplicated accelerator found. -->
+    <!--  -->
+    <!--   // Command                                             when available          emulation               keystate -->
+    <KeyBinding guid="StyleCopCommandSetId" id="CommandIdAnalyzeSolution" editor="guidVSStd97" key1="Y" mod1="Control Shift"/>
+  </KeyBindings>
+
+  <!-- The "Symbols" section is where this association between descriptive names and actual values happen. -->
+  <Symbols>
+
+    <GuidSymbol name="StyleCopPackageId" value="{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}" />
+
+    <GuidSymbol name="StyleCopCommandSetId" value="{CE99DB75-E6A6-41C9-9091-434390724FAC}">
+
+      <!--Commands-->
+      <IDSymbol name="CommandIdAnalyzeProject" value="0x100" />
+      <IDSymbol name="CommandIdAnalyzeFolder" value="0x110" />
+      <IDSymbol name="CommandIdAnalyzeItem" value="0x120" />
+      <IDSymbol name="CommandIdAnalyzeThisFile" value="0x130" />
+      <IDSymbol name="CommandIdExcludeThisFile" value="0x140" />
+      <IDSymbol name="CommandIdIncludeThisFile" value="0x145" />
+      <IDSymbol name="CommandIdAnalyzeSolution" value="0x150" />
+      <IDSymbol name="CommandIdReanalyzeSolution" value="0x160" />
+      <IDSymbol name="CommandIdReanalyzeProject" value="0x170" />
+      <IDSymbol name="CommandIdExcludeItem" value="0x180" />
+      <IDSymbol name="CommandIdIncludeItem" value="0x190" />
+      <IDSymbol name="CommandIdProjectSettings" value="0x240" />
+      <IDSymbol name="CommandIdCancel" value="0x250" />
+
+    </GuidSymbol>
+
+    <GuidSymbol name="StyleCopCommandGroupId" value="{BE756C52-918D-44fc-8FDD-E2EB31F541FA}">
+      <!--Groups-->
+      <IDSymbol name="GroupIdProjectFolder" value="0x1170" />
+      <IDSymbol name="GroupIdCodeWindowMain" value="0x1180" />
+      <IDSymbol name="GroupIdTools" value="0x1100" />
+
+    </GuidSymbol>>
+
+    <!-- From venusids.h -->
+    <GuidSymbol name="guidVenusCmdId" value="{C7547851-4E3A-4E5B-9173-FA6E9C8BD82C}" >
+      <!--Menus-->
+      <IDSymbol name="IDG_CTX_BUILD" value="0x0104" />
+
+    </GuidSymbol>
+
+    <!--Last is the definition of the GUID used for the Bitmap and the ID of its used slots.-->
+    <GuidSymbol name="StyleCopCmdBmpId" value="{0292CA2D-1894-41d3-A3EA-EFC688EE6FE1}">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+
+      <IDSymbol name="IDB_MENU_IMAGES" value="300" />
+    </GuidSymbol>
+  </Symbols>
+  
+</CommandTable>
