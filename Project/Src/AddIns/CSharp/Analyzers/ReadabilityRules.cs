@@ -194,22 +194,24 @@ namespace StyleCop.CSharp
                     {
                         // If the previous token is an equals sign, then this is a using alias directive. For example:
                         // using SomeAlias = System.String;
-                        bool usingAliasDirective = false;
+                        // If the previous token is the 'static' keyword, then this is a using static directive. For example:
+                        // using static System.String;
+                        bool shouldBuiltInTypeAliasBeUsed = true;
                         for (Node<CsToken> previous = type.Previous; previous != null; previous = previous.Previous)
                         {
                             if (previous.Value.CsTokenType != CsTokenType.EndOfLine && previous.Value.CsTokenType != CsTokenType.MultiLineComment
                                 && previous.Value.CsTokenType != CsTokenType.SingleLineComment && previous.Value.CsTokenType != CsTokenType.WhiteSpace)
                             {
-                                if (previous.Value.Text == "=")
+                                if (previous.Value.Text == "=" || previous.Value.Text == "static")
                                 {
-                                    usingAliasDirective = true;
+                                    shouldBuiltInTypeAliasBeUsed = false;
                                 }
 
                                 break;
                             }
                         }
 
-                        if (!usingAliasDirective)
+                        if (shouldBuiltInTypeAliasBeUsed)
                         {
                             this.AddViolation(
                                 typeToken.FindParentElement(), typeToken.LineNumber, Rules.UseBuiltInTypeAlias, builtInType[2], builtInType[0], builtInType[1]);

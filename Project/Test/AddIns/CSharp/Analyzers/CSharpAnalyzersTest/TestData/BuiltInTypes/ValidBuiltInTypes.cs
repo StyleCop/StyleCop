@@ -18,6 +18,23 @@ using UInt16Alias = System.UInt16;
 using UInt32Alias = System.UInt32;
 using UInt64Alias = System.UInt64;
 
+// The following uses of the built-in types are alias within using static directives.
+using static System.Boolean;
+using static System.Byte;
+using static System.Char;
+using static System.Decimal;
+using static System.Double;
+using static System.Int16;
+using static System.Int32;
+using static System.Int64;
+using static System.Object;
+using static System.Single;
+using static System.SByte;
+using static System.String;
+using static System.UInt16;
+using static System.UInt32;
+using static System.UInt64;
+
 namespace ValidBuildInTypes
 {
     #region The base class of a class or interface.
