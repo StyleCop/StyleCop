@@ -878,5 +878,10 @@ namespace StyleCop.CSharp
         /// Null conditional operator must not be split by new row or space.
         /// </summary>
         DoNotSplitNullConditionalOperators,
+
+        /// <summary>
+        /// Verifies that all using static directives are placed after using namespace directives.
+        /// </summary>
+        UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives,
     }
 }

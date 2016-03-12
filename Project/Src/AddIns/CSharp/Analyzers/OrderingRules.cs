@@ -888,42 +888,44 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(firstUsing, "firstUsing");
             Param.AssertNotNull(secondUsing, "secondUsing");
 
-            if (string.IsNullOrEmpty(firstUsing.Alias))
+            // UsingNamespace
+            if (!firstUsing.IsStatic && string.IsNullOrEmpty(firstUsing.Alias))
             {
-                if (string.IsNullOrEmpty(secondUsing.Alias))
+                if (secondUsing.IsStatic || !string.IsNullOrEmpty(secondUsing.Alias))
                 {
-                    bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
-                                         || firstUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
-                    bool isSecondSystem = secondUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
-                                          || secondUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
-
-                    // Neither of the usings is an alias. First, ensure that System namespaces are placed above all
-                    // non-System namespaces.
-                    if (isSecondSystem && !isFirstSystem)
-                    {
-                        this.AddViolation(secondUsing, Rules.SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives);
-                        return false;
-                    }
-                    else if ((isFirstSystem && isSecondSystem) || (!isFirstSystem && !isSecondSystem))
-                    {
-                        if (!CheckNamespaceOrdering(firstUsing.NamespaceType, secondUsing.NamespaceType))
-                        {
-                            // The usings are not in alphabetical order by namespace.
-                            this.AddViolation(firstUsing, Rules.UsingDirectivesMustBeOrderedAlphabeticallyByNamespace);
-                            return false;
-                        }
-                    }
+                    // A UsingNamespace is followed by a UsingStatic or UsingAlias
+                    return true;
                 }
             }
-            else
+
+            // UsingStatic
+            if (firstUsing.IsStatic)
             {
-                if (string.IsNullOrEmpty(secondUsing.Alias))
+                if (!string.IsNullOrEmpty(secondUsing.Alias))
                 {
-                    // The first using is an alias, but the second is not. They are in the wrong order.
+                    // A UsingStatic is followed by a UsingAlias
+                    return true;
+                }
+
+                if (!secondUsing.IsStatic)
+                {
+                    // A UsingStatic is followed by a UsingNamespace
+                    this.AddViolation(firstUsing, Rules.UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives);
+                    return false;
+                }
+            }
+
+            // UsingAlias
+            if (!string.IsNullOrEmpty(firstUsing.Alias))
+            {
+                if (string.IsNullOrEmpty(secondUsing.Alias) || secondUsing.IsStatic)
+                {
+                    // A UsingAlias is followed by a UsingNamespace or UsingStatic
                     this.AddViolation(firstUsing, Rules.UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives);
                     return false;
                 }
-                else
+
+                if (!string.IsNullOrEmpty(secondUsing.Alias))
                 {
                     // Both of the usings are aliases. Verify that they are sorted alphabetically by the alias name.
                     if (string.Compare(firstUsing.Alias, secondUsing.Alias, StringComparison.OrdinalIgnoreCase) > 0)
@@ -932,6 +934,30 @@ namespace StyleCop.CSharp
                         this.AddViolation(firstUsing, Rules.UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName);
                         return false;
                     }
+
+                    return true;
+                }
+            }
+
+            bool isFirstSystem = firstUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
+                || firstUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
+            bool isSecondSystem = secondUsing.NamespaceType.StartsWith("System", StringComparison.Ordinal)
+                || secondUsing.NamespaceType.StartsWith("global::System", StringComparison.Ordinal);
+
+            // Neither of the usings is an alias. First, ensure that System namespaces are placed above all
+            // non-System namespaces.
+            if (isSecondSystem && !isFirstSystem)
+            {
+                this.AddViolation(secondUsing, Rules.SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives);
+                return false;
+            }
+            else if ((isFirstSystem && isSecondSystem) || (!isFirstSystem && !isSecondSystem))
+            {
+                if (!CheckNamespaceOrdering(firstUsing.NamespaceType, secondUsing.NamespaceType))
+                {
+                    // The usings are not in alphabetical order by namespace.
+                    this.AddViolation(firstUsing, Rules.UsingDirectivesMustBeOrderedAlphabeticallyByNamespace);
+                    return false;
                 }
             }
 

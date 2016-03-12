@@ -76,7 +76,7 @@
       </Rule>
       <Rule Name="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" CheckId="SA1209">
         <Context>Using alias directives must be placed after all using namespace directives.</Context>
-        <Description>Verifies that all using alias directives are placed after all using namespace directives.</Description>
+        <Description>Verifies that all using alias directives are placed after all other using directives.</Description>
       </Rule>
       <Rule Name="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" CheckId="SA1210">
         <Context>Using directives must be sorted alphabetically by the namespaces.</Context>
@@ -85,6 +85,10 @@
       <Rule Name="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName" CheckId="SA1211">
         <Context>Using alias directives must be sorted alphabetically by the alias names.</Context>
         <Description>Verifies that using alias directives are sorted alphabetically by the alias names.</Description>
+      </Rule>
+      <Rule Name="UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives" CheckId="SA1217">
+        <Context>Using static directives must be placed after using namespace directives.</Context>
+        <Description>Verifies that all using static directives are placed after all using namespace directives.</Description>
       </Rule>
     </RuleGroup>
   </Rules>

@@ -117,3 +117,39 @@ namespace NamespacesWithGlobalInThem_Valid
 
     using VeryGoodCustomer.NetSuite.Service.DataContracts;
 }
+
+namespace UsingStatic_Valid
+{
+    using static System.DateTime;
+    using static System.String;
+}
+
+namespace UsingStatic_Invalid
+{
+    using static System.String;
+    using static System.DateTime;
+}
+
+namespace UsingStaticAndUsingNamespaceAndUsingAliasDirectives_Valid
+{
+    using System;
+    using System.Collections;
+    using System.Threading;
+    using static System.String;
+    using AliasedString = System.String;
+}
+
+namespace UsingStaticAndUsingNamespaceDirectives_Invalid
+{
+    using System;
+    using System.Collections;
+    using static System.String;
+    using System.Threading;
+}
+
+namespace UsingStaticAndUsingAliasDirectives_Invalid
+{
+    using static System.Math;
+    using str = System.String;
+    using static System.String;
+}
