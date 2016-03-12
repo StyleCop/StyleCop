@@ -757,6 +757,26 @@ namespace CSharpAnalyzersTest.TestData.ClassMembers
             }
         }
 
+        public class EventNullConditional
+        {
+            /// <summary>
+            /// Raises the open editor and file event. 
+            /// </summary>
+            /// <param name="filename">The filename.</param>
+            protected void RaiseOpenEditorAndFileEvent(string filename)
+            {
+                var handler = this.OpenEditorAndFileEvent;
+                if (handler != null)
+                {
+                    // Raise the PropertyChanged event.
+                    handler?.Invoke(this, filename);
+                }
+
+                // This is wrong an open should raise this event
+                this.RaiseOpenedEvent();
+            }
+        }
+
     }
 }
 

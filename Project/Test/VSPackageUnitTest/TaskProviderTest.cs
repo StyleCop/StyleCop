@@ -19,10 +19,12 @@
 
 namespace VSPackageUnitTest
 {
+    using System.Reflection;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-    using System.Reflection;
+
     using VSPackageUnitTest.Mocks;
 
     /// <summary>

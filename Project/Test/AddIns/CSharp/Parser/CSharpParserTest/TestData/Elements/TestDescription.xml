@@ -20,6 +20,8 @@
     <TestCodeFile TestObjectModel="true">Constructor.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Destructor.cs</TestCodeFile>
     <TestCodeFile TestObjectModel="true">Event.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">FilterExceptions.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">NameOf.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

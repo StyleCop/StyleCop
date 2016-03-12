@@ -970,6 +970,11 @@
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
             </Rule>
+            <Rule Name="UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
           </Rules>
         </Analyzer>
       </Analyzers>
@@ -984,6 +989,9 @@
       <Violation Section="Root.CapitalVsLowerInvalid.SZ" LineNumber="73" Rule="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName" />
       <Violation Section="Root.NamespacesDifferingOnlyByCaseInvalid.Microsoft.Dynamics.AX.Something" LineNumber="80" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
       <Violation Section="Root.NamespacesDifferingByCaseAndSubsequentlyOrderedProperly_Invalid.Microsoft.Dynamics.AX.A" LineNumber="94" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.UsingStatic_Invalid.System.String" LineNumber="129" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.UsingStaticAndUsingNamespaceDirectives_Invalid.System.String" LineNumber="146" Rule="UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives" />
+      <Violation Section="Root.UsingStaticAndUsingAliasDirectives_Invalid.str" LineNumber="153" Rule="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" />
     </ExpectedViolations>
   </Test>
 

@@ -22,6 +22,7 @@ namespace StyleCop.CSharp
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -206,7 +207,7 @@ namespace StyleCop.CSharp
         /// Returns the next symbol in the document.
         /// </returns>
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "The method is not overly complex.")]
-        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters",
             Justification = "The literals represent non-localizable C# operators.")]
         internal Symbol GetSymbol(List<Symbol> symbols, SourceCode sourceCode, Configuration configuration)
         {
@@ -232,6 +233,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case '@':
+                    case '$':
                         symbol = this.GetLiteral();
                         break;
 
@@ -490,6 +492,9 @@ namespace StyleCop.CSharp
 
                 case "lock":
                     return SymbolType.Lock;
+
+                case "nameof":
+                    return SymbolType.NameOf;
 
                 case "namespace":
                     return SymbolType.Namespace;
@@ -1301,11 +1306,18 @@ namespace StyleCop.CSharp
 
             // Read the literal string character and add it to the string buffer.
             char character = this.codeReader.ReadNext();
-            Debug.Assert(character == '@', "Expected an @ keyword");
+            Debug.Assert(character == '@' || character == '$', "Expected an @ keyword or $ for interpolation");
             text.Append(character);
 
-            // Make sure there is enough code left to contain at least @ plus one additional character.
             character = this.codeReader.Peek();
+            if (character == '@')
+            {
+                text.Append(character);
+                this.codeReader.ReadNext();
+                character = this.codeReader.Peek();
+            }
+
+            // Make sure there is enough code left to contain at least @ plus one additional character.
             if (character == char.MinValue)
             {
                 throw new SyntaxException(this.source, this.marker.LineNumber);
@@ -1351,11 +1363,11 @@ namespace StyleCop.CSharp
 
             // Get the token location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -1381,7 +1393,7 @@ namespace StyleCop.CSharp
         private Symbol GetLiteralString(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
-            Debug.Assert(text.Length == 1 && text[0] == '@', "Expected an @ symbol");
+            Debug.Assert(text[0] == '@' || text[0] == '$' || (text.Length == 2 && text[0] == '$' && text[1] == '@'), "Expected an @ symbol or $ for interpolation.");
 
             // Initialize the location of the start of the string.
             int startIndex = this.marker.Index;
@@ -1419,9 +1431,10 @@ namespace StyleCop.CSharp
                     ++endIndex;
                     ++endIndexOnLine;
 
-                    // If the next character is also the same string type, then this is internal to the string.
+                    // If the next character is also the same string type, then this is internal to the string or if next char is open curly bracket we are in a string interpolation with escape char.
                     character = this.codeReader.Peek();
-                    if (character == stringType)
+                    if (character == stringType || character == '{'
+                        || (text.ToString().Contains("$") && text.ToString().Contains("{") && !text.ToString().Contains("}")))
                     {
                         // Also move past this character and add it.
                         this.codeReader.ReadNext();
@@ -1458,6 +1471,20 @@ namespace StyleCop.CSharp
                         continue;
                     }
                 }
+                else if (character == ' ' || character == ')' || character == ';')
+                {
+                    if (this.IsEndOfString(1) != -1)
+                    {
+                        List<char> charsForText = new List<char>(text.ToString().ToCharArray());
+                        int count = charsForText.Count(c => c == stringType);
+
+                        // Check if we have the end of string.
+                        if (count % 2 == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
 
                 this.codeReader.ReadNext();
                 text.Append(character);
@@ -1484,6 +1511,40 @@ namespace StyleCop.CSharp
 
             // Return the token.
             return token;
+        }
+
+        /// <summary>
+        /// Determines whether [is end of string].
+        /// </summary>
+        /// <param name="startSearchIndex">Start index of the search.</param>
+        /// <returns>If this is not the end of the string return -1 else return positive number.</returns>
+        private int IsEndOfString(int startSearchIndex)
+        {
+            // Get the next char to check if it's a space.
+            char character = this.codeReader.Peek(startSearchIndex);
+
+            // While the character is a space read next char without advance in the code file.
+            while (character == ' ')
+            {
+                startSearchIndex++;
+
+                // Get next char and check again.
+                character = this.codeReader.Peek(startSearchIndex);
+            }
+
+            startSearchIndex++;
+
+            // Check if current char is semi colon or if it's a closing curve bracket and a semi colon.
+            if ((character == ')' && this.codeReader.Peek(startSearchIndex) == ';') || character == '\r' || character == '\n')
+            {
+                return startSearchIndex;
+            }
+            else if (this.codeReader.Peek(startSearchIndex) == ' ' || character == ';')
+            {
+                return this.IsEndOfString(startSearchIndex);
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -1590,8 +1651,8 @@ namespace StyleCop.CSharp
         /// Gets the next newline character from the document.
         /// </summary>
         /// <returns>Returns the newline.</returns>
-        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters", 
-            MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)", 
+        [SuppressMessage("Microsoft.Globalization", "CA1303:DoNotPassLiteralsAsLocalizedParameters",
+            MessageId = "StyleCop.CSharp.Symbol.#ctor(System.String,StyleCop.CSharp.SymbolType,StyleCop.CodeLocation)",
             Justification = "The literal is a non-localizable newline character")]
         private Symbol GetNewLine()
         {
@@ -1675,11 +1736,11 @@ namespace StyleCop.CSharp
 
                 // Create the location object.
                 CodeLocation location = new CodeLocation(
-                    this.marker.Index, 
-                    this.marker.Index + length - 1, 
-                    this.marker.IndexOnLine, 
-                    this.marker.IndexOnLine + length - 1, 
-                    this.marker.LineNumber, 
+                    this.marker.Index,
+                    this.marker.Index + length - 1,
+                    this.marker.IndexOnLine,
+                    this.marker.IndexOnLine + length - 1,
+                    this.marker.LineNumber,
                     this.marker.LineNumber);
 
                 number = new Symbol(numberText, SymbolType.Number, location);
@@ -1709,6 +1770,8 @@ namespace StyleCop.CSharp
 
             SymbolType type = SymbolType.Other;
             StringBuilder text = new StringBuilder();
+            int endLineIndex = this.marker.LineNumber;
+            bool updateEndLineIndex = false;
 
             if (character == '.')
             {
@@ -1953,13 +2016,86 @@ namespace StyleCop.CSharp
                 text.Append("?");
                 type = SymbolType.QuestionMark;
                 this.codeReader.ReadNext();
-
                 character = this.codeReader.Peek();
-                if (character == '?')
+
+                StringBuilder checkNullCondition = new StringBuilder();
+                int checkIndex = 0;
+
+                while (true)
+                {
+                    if (character == '\r' || character == '\n' || character == ' ')
+                    {
+                        if (character == '\r')
+                        {
+                            endLineIndex++;
+                        }
+                        else if (character == '\n' && this.codeReader.Peek(checkIndex - 1) != '\r')
+                        {
+                            endLineIndex++;
+                        }
+
+                        checkNullCondition.Append(character);
+                    }
+                    else if (character == '/')
+                    {
+                        if (this.codeReader.Peek(checkIndex + 1) == '/')
+                        {
+                            this.codeReader.ReadNext(checkIndex);
+                            Symbol nextComment = this.GetComment();
+                            checkNullCondition.Append(nextComment.Text);
+                            checkIndex = -1;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    checkIndex++;
+                    character = this.codeReader.Peek(checkIndex);
+                }
+
+                if (character == '?' && checkNullCondition.Length == 0)
                 {
                     text.Append("?");
                     type = SymbolType.NullCoalescingSymbol;
                     this.codeReader.ReadNext();
+                }
+                else if (character == '.')
+                {
+                    // Check split for null conditional operator.
+                    if (!string.IsNullOrEmpty(checkNullCondition.ToString()))
+                    {
+                        text.Append(checkNullCondition.ToString());
+
+                        // Advance cursor for next symbol.
+                        this.codeReader.ReadNext(checkIndex);
+
+                        updateEndLineIndex = true;
+                    }
+
+                    text.Append(".");
+                    type = SymbolType.NullConditional;
+                    this.codeReader.ReadNext();
+                }
+                else if (character == '[')
+                {
+                    if (this.codeReader.Peek(1) != ']')
+                    {
+                        // Check split for null conditional operator.
+                        if (!string.IsNullOrEmpty(checkNullCondition.ToString()))
+                        {
+                            text.Append(checkNullCondition.ToString());
+
+                            // Advance cursor for next symbol.
+                            this.codeReader.ReadNext(checkIndex);
+
+                            updateEndLineIndex = true;
+                        }
+
+                        // null conditional against an opening bracket like foo?[0];
+                        type = SymbolType.NullConditional;
+                    }
                 }
             }
             else if (character == ':')
@@ -1983,14 +2119,24 @@ namespace StyleCop.CSharp
                 throw new SyntaxException(this.source, this.marker.LineNumber);
             }
 
+            if (!updateEndLineIndex)
+            {
+                endLineIndex = this.marker.LineNumber;
+            }
+
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
-                this.marker.LineNumber);
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
+                endLineIndex);
+
+            if (updateEndLineIndex)
+            {
+                this.marker.LineNumber = endLineIndex;
+            }
 
             // Create the token.
             Symbol symbol = new Symbol(text.ToString(), type, location);
@@ -2027,11 +2173,11 @@ namespace StyleCop.CSharp
 
             // Get the token location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -2104,11 +2250,11 @@ namespace StyleCop.CSharp
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -2258,11 +2404,11 @@ namespace StyleCop.CSharp
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -2326,11 +2472,11 @@ namespace StyleCop.CSharp
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -2415,11 +2561,11 @@ namespace StyleCop.CSharp
 
             // Create the whitespace location object.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the whitespace object.
@@ -2451,11 +2597,11 @@ namespace StyleCop.CSharp
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
-                this.marker.Index, 
-                this.marker.Index + text.Length - 1, 
-                this.marker.IndexOnLine, 
-                this.marker.IndexOnLine + text.Length - 1, 
-                this.marker.LineNumber, 
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
                 this.marker.LineNumber);
 
             // Create the symbol.
@@ -2487,7 +2633,7 @@ namespace StyleCop.CSharp
 
             sequence = new[]
                            {
-                               this.codeReader.Peek(0), this.codeReader.Peek(1), this.codeReader.Peek(2), this.codeReader.Peek(3), this.codeReader.Peek(4), 
+                               this.codeReader.Peek(0), this.codeReader.Peek(1), this.codeReader.Peek(2), this.codeReader.Peek(3), this.codeReader.Peek(4),
                                this.codeReader.Peek(5)
                            };
 

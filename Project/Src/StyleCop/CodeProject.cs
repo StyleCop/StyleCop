@@ -59,6 +59,11 @@ namespace StyleCop
         private readonly string location;
 
         /// <summary>
+        /// The target framework version used to check new specification features.
+        /// </summary>
+        private readonly double targetFrameworkVersion;
+
+        /// <summary>
         /// The list of source code documents in the project.
         /// </summary>
         private readonly List<SourceCode> sourceCodes = new List<SourceCode>();
@@ -122,23 +127,20 @@ namespace StyleCop
         /// <summary>
         /// Initializes a new instance of the CodeProject class.
         /// </summary>
-        /// <param name="key">
-        /// The unique key for the project.
-        /// </param>
-        /// <param name="location">
-        /// The location where the project is contained.
-        /// </param>
-        /// <param name="configuration">
-        /// The active configuration.
-        /// </param>
-        public CodeProject(int key, string location, Configuration configuration)
+        /// <param name="key">The unique key for the project.</param>
+        /// <param name="location">The location where the project is contained.</param>
+        /// <param name="configuration">The active configuration.</param>
+        /// <param name="frameworkVersion">The framework version for current code project, default 0 if not found.</param>
+        public CodeProject(int key, string location, Configuration configuration, double frameworkVersion = 0)
         {
             Param.Ignore(key);
             Param.Ignore(location);
+            Param.Ignore(frameworkVersion);
             Param.RequireNotNull(configuration, "configuration");
 
             this.key = key;
             this.configuration = configuration;
+            this.targetFrameworkVersion = frameworkVersion;
 
             if (location != null)
             {
@@ -394,6 +396,17 @@ namespace StyleCop
             get
             {
                 return this.location;
+            }
+        }
+
+        /// <summary>
+        /// Gets the target framework version for current project.
+        /// </summary>
+        public double TargetFrameworkVersion
+        {
+            get
+            {
+                return this.targetFrameworkVersion;
             }
         }
 

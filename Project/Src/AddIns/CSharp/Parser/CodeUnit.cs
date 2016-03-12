@@ -20,6 +20,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     /// <summary>
     /// A basic code unit, either an expression or a statement.
@@ -262,6 +263,31 @@ namespace StyleCop.CSharp
             get
             {
                 return this.parent;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance has body.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has body; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasBody
+        {
+            get
+            {
+                if (this.expressions != null)
+                {
+                    return !this.expressions.Any(e => e.ExpressionType == ExpressionType.Bodied);
+                }
+                else if (this.statements != null)
+                {
+                    return !this.statements.Any(s => s.ChildExpressions != null && s.ChildExpressions.Any(e => e.ExpressionType == ExpressionType.Bodied));
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
 

@@ -335,7 +335,7 @@ namespace StyleCop.Spelling
                 return null;
             }
 
-            if (languageTable.TryGetValue(culture.Name, out language) && language.IsAvailable)
+            if (languageTable.TryGetValue(culture.Name.ToLowerInvariant(), out language) && language.IsAvailable)
             {
                 return new SpellChecker(culture, language);
             }

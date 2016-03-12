@@ -7,6 +7,7 @@
       <Word>addin</Word>
       <Word>addins</Word>
       <Word>Args</Word>
+      <Word>args</Word>
       <Word>async</Word>
       <Word>cacheability</Word>
       <Word>callee</Word>
@@ -27,12 +28,14 @@
       <Word>enqueued</Word>
       <Word>enqueueing</Word>
       <Word>enqueues</Word>
+      <Word>enum</Word>
       <Word>Env</Word>
       <Word>etc</Word>
       <Word>Foo</Word>
       <Word>foreach</Word>
       <Word>goto</Word>
       <Word>guids</Word>
+      <Word>guid</Word>
       <Word>hexidecimal</Word>
       <Word>ietf</Word>
       <Word>inlined</Word>
@@ -48,6 +51,7 @@
       <Word>mutex</Word>
       <Word>muxer</Word>
       <Word>muxing</Word>
+      <Word>nameof</Word>
       <Word>overridable</Word>
       <Word>ownable</Word>
       <Word>packshot</Word>

@@ -182,3 +182,17 @@ public interface Interface1
     int Property1 { set; get; }
 }
 #endregion
+
+#region Properties initializer and Expression bodied member C# 6
+
+public class ClassPropInit1
+{
+    public int Property1 { get; set; } = 45;
+}
+
+public class ExpressionBodiedMember
+{
+    public double Distance => Sqrt((y * x) + (y * y));
+}
+
+#endregion

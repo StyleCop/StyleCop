@@ -18,6 +18,7 @@ namespace StyleCop.VisualStudio
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Data;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -27,7 +28,6 @@ namespace StyleCop.VisualStudio
     using System.Security;
     using EnvDTE;
 
-    using Microsoft.Build.BuildEngine;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
 
@@ -65,12 +65,12 @@ namespace StyleCop.VisualStudio
         /// Keeps a collection of projects which do not contain the properties in the List.
         /// </summary>
         private static readonly Dictionary<string, List<string>> ProjectsMissingProperties = new Dictionary<string, List<string>>();
-        
+
         /// <summary>   
         /// System Service provider.
         /// </summary>
         private static IServiceProvider serviceProvider;
-       
+
         /// <summary>
         /// The EnvDTE class used to register ItemsAdded, ItemsRemoved, and ItemsRenamed events.
         /// </summary>
@@ -124,7 +124,7 @@ namespace StyleCop.VisualStudio
         #endregion
 
         #region Internal Static Methods
-        
+
         /// <summary>
         /// Initializes this static class.
         /// </summary>
@@ -166,6 +166,51 @@ namespace StyleCop.VisualStudio
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Determines the target framework version for the c# project file.
+        /// </summary> 
+        /// <param name="project">The project file to read property.</param> 
+        /// <returns>The target framework version, or 0 if none is specified.</returns> 
+        internal static double TargetFrameworkVersion(Project project)
+        {
+            string projectFilePathName = GetProjectFileName(project);
+            double targetFrameworkVersion = 0;
+            if (!string.IsNullOrEmpty(projectFilePathName))
+            {
+                using (DataSet data = new DataSet())
+                {
+                    try
+                    {
+                        // Load project as dataset
+                        data.ReadXml(projectFilePathName);
+                        DataTable propertyGroups = data.Tables["PropertyGroup"];
+
+                        object projectTargetFrameworkVersion = propertyGroups.Rows[0]["TargetFrameworkVersion"];
+
+                        if (projectTargetFrameworkVersion != System.DBNull.Value)
+                        {
+                            if (projectTargetFrameworkVersion.ToString().Length > 4)
+                            {
+                                // TargetFrameworkVersion will be something like "v4.5.1", so skip the "v" and last char when parsing to double: 
+                                double.TryParse(((string)projectTargetFrameworkVersion).Substring(1, 3), out targetFrameworkVersion);
+                            }
+                            else
+                            {
+                                // TargetFrameworkVersion will be something like "v3.5", so skip the "v" when parsing to double: 
+                                double.TryParse(((string)projectTargetFrameworkVersion).Substring(1), out targetFrameworkVersion);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // Ignore missing TargetFrameworkVersion version. targetFrameworkVersion will remain 0. 
+                    }
+                }
+            }
+
+            return targetFrameworkVersion;
         }
 
         /// <summary>
@@ -236,7 +281,7 @@ namespace StyleCop.VisualStudio
                 {
                     foreach (Project project in applicationObject.Solution.Projects)
                     {
-                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor,  null, file);
+                        object codeEditor = EnumerateProject(project, null, OpenCodeEditor, null, file);
 
                         if (codeEditor != null)
                         {
@@ -282,7 +327,7 @@ namespace StyleCop.VisualStudio
             Param.AssertValidString(file, "file");
 
             Document doc = null;
-            
+
             try
             {
                 DTE applicationObject = GetDTE();
@@ -327,7 +372,7 @@ namespace StyleCop.VisualStudio
 
             return doc != null ? doc.ProjectItem.ContainingProject : null;
         }
-        
+
         /// <summary>
         /// Attempts to locate a code editor document for the given file within the given project.
         /// </summary>
@@ -466,7 +511,7 @@ namespace StyleCop.VisualStudio
             DTE applicationObject = GetDTE();
 
             if (type == AnalysisType.Solution || type == AnalysisType.Project || type == AnalysisType.Folder)
-            { 
+            {
                 return true;
             }
 
@@ -568,7 +613,7 @@ namespace StyleCop.VisualStudio
                         string projectPath = GetProjectPath(document.ProjectItem.ContainingProject);
                         if (projectPath != null)
                         {
-                            codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(document.ProjectItem.ContainingProject));
+                            codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(document.ProjectItem.ContainingProject), TargetFrameworkVersion(document.ProjectItem.ContainingProject));
                         }
                         else if (!string.IsNullOrEmpty(document.FullName))
                         {
@@ -599,7 +644,7 @@ namespace StyleCop.VisualStudio
 
             return codeProjects;
         }
-        
+
         /// <summary>
         /// Gets the selected item files.
         /// </summary>
@@ -634,7 +679,7 @@ namespace StyleCop.VisualStudio
                                 string projectPath = GetProjectPath(project);
                                 if (projectPath != null)
                                 {
-                                    codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(project));
+                                    codeProject = new CodeProject(projectPath.GetHashCode(), projectPath, GetProjectConfiguration(project), TargetFrameworkVersion(project));
 
                                     codeProjects.Add(codeProject);
                                     cachedProjects.Add(project, codeProject);
@@ -839,7 +884,7 @@ namespace StyleCop.VisualStudio
         /// </summary>
         /// <param name="project">The MSBuild project.</param>
         /// <param name="buildIntegration">The build integration setting.</param>
-        internal static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        internal static void SetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project, BuildIntegration buildIntegration)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(buildIntegration, "buildIntegration");
@@ -847,18 +892,22 @@ namespace StyleCop.VisualStudio
             SetBuildIntegrationInProject(project, buildIntegration != BuildIntegration.None);
             SetTreatLevel(project, buildIntegration);
 
-            project.Save(project.FullFileName);
+            project.Save();
         }
 
-        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project)
+        internal static BuildIntegration GetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project)
         {
             Param.AssertNotNull(project, "project");
 
             ProjectUtilities.BuildIntegration setting = BuildIntegration.None;
-            if (project.Imports.Cast<Import>().Any(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
+            if (project.Imports.Any(p => p.ImportedProject.FullPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1))
             {
                 setting = BuildIntegration.TreatErrorAsWarning;
-                string property = project.GetEvaluatedProperty(StyleCopTreatErrorsAsWarnings);
+                var styleCopTreatErrorsAsWarningsProp = project.AllEvaluatedProperties
+                    .SingleOrDefault(p => p.Name == StyleCopTreatErrorsAsWarnings);
+                string property = styleCopTreatErrorsAsWarningsProp != null
+                    ? styleCopTreatErrorsAsWarningsProp.EvaluatedValue
+                    : null;
                 bool treatAsWarnings;
                 if (bool.TryParse(property, out treatAsWarnings) && !treatAsWarnings)
                 {
@@ -1213,7 +1262,7 @@ namespace StyleCop.VisualStudio
                 }
 
                 string key = GetKeyForProjectItem(item);
-                
+
                 if (ProjectItemExcluded.ContainsKey(key))
                 {
                     ProjectItemExcluded[key] = newValue;
@@ -1246,7 +1295,7 @@ namespace StyleCop.VisualStudio
             try
             {
                 string key = GetKeyForProjectItem(item);
-                
+
                 string uniqueName = item.ContainingProject.UniqueName;
 
                 var solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
@@ -1292,7 +1341,7 @@ namespace StyleCop.VisualStudio
                 // The project won't load as the item.ContainingProject.Filename is not the fullpath
                 // Any exceptions whilst attempting this we assume the item is not excluded.
                 return false;
-            }  
+            }
         }
 
         /// <summary>
@@ -1362,7 +1411,7 @@ namespace StyleCop.VisualStudio
                                     {
                                         if (CheckProjectItemIsIncluded(item))
                                         {
-                                            object callbackResult = projectItemCallback(item, filePath, AnalysisType.Project,  ref projectContext, ref fileContext);
+                                            object callbackResult = projectItemCallback(item, filePath, AnalysisType.Project, ref projectContext, ref fileContext);
                                             if (callbackResult != null)
                                             {
                                                 return callbackResult;
@@ -1422,7 +1471,7 @@ namespace StyleCop.VisualStudio
         private static bool CheckProjectItemIsIncluded(ProjectItem item)
         {
             Param.AssertNotNull(item, "item");
-            
+
             try
             {
                 var isLinkProperty = item.Properties.Item("IsLink");
@@ -1455,6 +1504,12 @@ namespace StyleCop.VisualStudio
 
             try
             {
+                // Analyze cs file for ASP V5
+                if (item.Kind == Constants.vsProjectItemKindPhysicalFile && item.ContainingProject.Kind == "{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}")
+                {
+                    return true;
+                }
+                 
                 Property buildAction = item.Properties.Item("BuildAction");
                 if (buildAction == null)
                 {
@@ -1560,8 +1615,8 @@ namespace StyleCop.VisualStudio
             // Get the list of code projects.
             var codeProjects = (List<CodeProject>)projectContext;
 
-            // Create a new CodeProject for this project.
-            var codeProject = new CodeProject(projectKey, path, GetProjectConfiguration(project));
+            // Create a new CodeProject for this project.          
+            var codeProject = new CodeProject(projectKey, path, GetProjectConfiguration(project), TargetFrameworkVersion(project));
 
             // Set this new CodeProject as the outgoing file context.
             fileContext = codeProject;
@@ -1666,7 +1721,7 @@ namespace StyleCop.VisualStudio
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(helper, "helper");
-            
+
             // If this project type exists in the list of known project types, then return true to indicate
             // that this is a known project type.
             if (helper.ProjectTypes != null)
@@ -1776,7 +1831,7 @@ namespace StyleCop.VisualStudio
                 {
                     return null;
                 }
-                
+
                 Property property = projectItem.Properties.Item("FullPath");
                 if (property == null)
                 {
@@ -1793,7 +1848,7 @@ namespace StyleCop.VisualStudio
             {
                 // For certain project types, this throws a COM Exception.
             }
-        
+
             return null;
         }
 
@@ -1896,26 +1951,31 @@ namespace StyleCop.VisualStudio
             ClearCaches();
         }
 
-        private static void SetBuildIntegrationInProject(Microsoft.Build.BuildEngine.Project project, bool enable)
+        private static void SetBuildIntegrationInProject(Microsoft.Build.Evaluation.Project project, bool enable)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(enable, "enable");
 
-            var import = project
-                .Imports
-                .Cast<Import>()
-                .FirstOrDefault(p => p.ProjectPath.IndexOf(StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
-            if (enable && import == null)
+            bool isStyleCopImported = project.Imports
+                .Any(p => p.ImportedProject.FullPath.IndexOf(
+                    StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
+            if (enable && !isStyleCopImported)
             {
-                project.AddNewImport(StyleCopTargetsFullName, string.Empty);
+                project.Xml.AddImport(StyleCopTargetsFullName);
             }
-            else if (!enable && import != null)
+            else if (!enable && isStyleCopImported)
             {
-                project.Imports.RemoveImport(import);
+                var styleCopImports = project.Imports
+                    .Where(p => p.ImportedProject.FullPath.IndexOf(
+                        StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
+                foreach (var styleCopImport in styleCopImports)
+                {
+                    project.Xml.RemoveChild(styleCopImport.ImportingElement);
+                }
             }
         }
 
-        private static void SetTreatLevel(Microsoft.Build.BuildEngine.Project project, BuildIntegration buildIntegration)
+        private static void SetTreatLevel(Microsoft.Build.Evaluation.Project project, BuildIntegration buildIntegration)
         {
             Param.AssertNotNull(project, "project");
             Param.AssertNotNull(buildIntegration, "enable");
@@ -1925,10 +1985,10 @@ namespace StyleCop.VisualStudio
                 case BuildIntegration.None:
                     break;
                 case BuildIntegration.TreatErrorAsWarning:
-                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString(), string.Empty);
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, true.ToString());
                     break;
                 case BuildIntegration.TreatErrorAsError:
-                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString(), string.Empty);
+                    project.SetProperty(StyleCopTreatErrorsAsWarnings, false.ToString());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("buildIntegration");

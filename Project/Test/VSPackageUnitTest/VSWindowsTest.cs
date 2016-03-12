@@ -21,12 +21,14 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Reflection;
+	
     using EnvDTE;
 
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
+
     using VSPackageUnitTest.Mocks;
 
     /// <summary>

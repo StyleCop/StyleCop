@@ -203,7 +203,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A question mark: '?'.
         /// </summary>
-        ConditionalQuestionMark, 
+        ConditionalQuestionMark,
+
+        /// <summary>
+        /// The null conditional operator ?.
+        /// </summary>
+        NullConditional,
 
         #endregion Conditional Operators
 

@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper800", "Src\AddIns\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper920", "Src\AddIns\ReSharper920\ReSharper920.csproj", "{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackage90", "Src\VSPackage90\VSPackage90.csproj", "{DC39E243-18F0-4C1C-B500-5686EF12AF46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,7 +26,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An await statement.
         /// </summary>
-        Await, 
+        Await,
+
+        /// <summary>
+        /// a bodied statement.
+        /// </summary>
+        Bodied,
 
         /// <summary>
         /// A block statement.
@@ -116,7 +121,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A lock statement.
         /// </summary>
-        Lock, 
+        Lock,
+
+        /// <summary>
+        /// The nameof statement.
+        /// </summary>
+        NameOf,
 
         /// <summary>
         /// A return statement.
@@ -171,11 +181,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A while statement.
         /// </summary>
-        While, 
+        While,
+
+        /// <summary>
+        /// A When statement.
+        /// </summary>
+        When,
 
         /// <summary>
         /// A yield statement.
         /// </summary>
-        Yield
+        Yield,
     }
 }

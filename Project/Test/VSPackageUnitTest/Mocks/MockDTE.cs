@@ -35,6 +35,8 @@ namespace VSPackageUnitTest.Mocks
 
         private readonly MockDTESolution _solution;
 
+        private readonly MockDocuments _documents;
+
         #endregion
 
         #region Constructors and Destructors
@@ -49,6 +51,7 @@ namespace VSPackageUnitTest.Mocks
         {
             this._serviceProvider = serviceProvider;
             this._solution = new MockDTESolution(this._serviceProvider);
+            this._documents = new MockDocuments(this);
         }
 
         #endregion
@@ -64,7 +67,7 @@ namespace VSPackageUnitTest.Mocks
         {
             get
             {
-                throw new Exception("The method or operation is not implemented.");
+                return new MockDocument();
             }
         }
 
@@ -227,7 +230,7 @@ namespace VSPackageUnitTest.Mocks
         {
             get
             {
-                throw new Exception("The method or operation is not implemented.");
+                return this._documents;
             }
         }
 

@@ -61,7 +61,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An await expression.
         /// </summary>
-        Await, 
+        Await,
+
+        /// <summary>
+        /// A bodied expression.
+        /// </summary>
+        Bodied,
 
         /// <summary>
         /// A cast expression.
@@ -136,7 +141,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A method invocation expression.
         /// </summary>
-        MethodInvocation, 
+        MethodInvocation,
+
+        /// <summary>
+        /// A nameof expression.
+        /// </summary>
+        NameOf,
 
         /// <summary>
         /// A new array allocation expression.

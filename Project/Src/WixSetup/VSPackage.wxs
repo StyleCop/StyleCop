@@ -8,6 +8,11 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLDIR" Name="$(var.ProductNameShort)" FileSource="$(var.DropDir)">
 
+          <Component Id="VisualStudioPackage90Common" Guid="{040A450D-8BC6-4C7B-BFB5-987E81A99003}">
+            <File Id='VsPackage90Dll' Name='StyleCop.VSPackage90.dll' Checksum="yes" Vital='yes'>
+              <netfx:NativeImage Id="ngen_VsPackage90Dll" Platform="all" Priority="0"/>
+            </File>
+          </Component>
           <Component Id="VisualStudioPackageCommon" Guid="3c439240-494f-423d-bcc5-8247e4c21076">
             <File Id='VsPackageDll' Name='StyleCop.VSPackage.dll' Checksum="yes" Vital='yes'>
               <netfx:NativeImage Id="ngen_VsPackageDll" Platform="all" Priority="0"/>
@@ -93,6 +98,7 @@
     </Directory>
 
     <ComponentGroup Id="VisualStudio_Common">
+      <ComponentRef Id="VisualStudioPackage90Common" />
       <ComponentRef Id="VisualStudioPackageCommon" />
       <ComponentRef Id="StyleCopCommon" />
       <ComponentRef Id="VisualStudio2008Component" />

@@ -19,12 +19,13 @@
 
 namespace VSPackageUnitTest
 {
+    using System.Reflection;
     using System.Windows.Forms;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using StyleCop.VisualStudio;
-    using System.Reflection;
+
     /// <summary>
     /// This is a test class for InvisibleFormTest and is intended
     ///   to contain all InvisibleFormTest Unit Tests

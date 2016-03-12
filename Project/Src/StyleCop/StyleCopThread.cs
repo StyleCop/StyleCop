@@ -342,7 +342,7 @@ namespace StyleCop
                 {
                     string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(sourceCode));
                     this.data.Core.SignalOutput(MessageImportance.Normal, format);
-       
+
                     documentStatus.Complete = true;
                 }
                 else if (this.TestAndRunAnalyzers(parsedDocument, sourceCode.Parser, analyzers, this.data.PassNumber))
@@ -426,12 +426,18 @@ namespace StyleCop
                                     analyzer.AnalyzeDocument(document);
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                string details = string.Format(
-                                    CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path);
+                                StringBuilder details = new StringBuilder();
+                                details.AppendLine(string.Format(CultureInfo.CurrentCulture, "Exception thrown by analyzer '{0}' while processing '{1}'.", analyzer.Name, document.SourceCode.Path));
 
-                                this.data.Core.SignalOutput(MessageImportance.High, details);
+                                // Add exception message for help on bugfix.
+                                if (!string.IsNullOrEmpty(ex.Message))
+                                {
+                                    details.AppendLine(string.Format(CultureInfo.CurrentCulture, "Exception message : {0}", ex.Message));
+                                }
+
+                                this.data.Core.SignalOutput(MessageImportance.High, details.ToString());
                                 throw;
                             }
                         }

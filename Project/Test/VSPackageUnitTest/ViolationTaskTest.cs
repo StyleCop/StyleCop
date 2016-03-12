@@ -21,6 +21,7 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Collections;
+    using System.Reflection;
 
     using EnvDTE;
 
@@ -29,13 +30,12 @@ namespace VSPackageUnitTest
     using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using StyleCop;
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
-    using System.Reflection;
-    using StyleCop;
-	
-	/// <summary>
+    
+    /// <summary>
     /// This is a test class for ViolationTaskTest and is intended
     ///  to contain all ViolationTaskTest Unit Tests
     /// </summary>

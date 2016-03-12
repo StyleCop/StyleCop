@@ -615,6 +615,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A line within an Xml header.
         /// </summary>
-        XmlHeaderLine
+        XmlHeaderLine,
+
+        /// <summary>
+        /// The keyword 'nameof'.
+        /// </summary>
+        NameOf,
+
+        /// <summary>
+        /// The null conditional operator ?.
+        /// </summary>
+        NullConditional,
     }
 }

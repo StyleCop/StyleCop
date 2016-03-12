@@ -6,6 +6,7 @@
     <Element Name="System.Diagnostics.CodeAnalysis" Type="UsingDirective" />
     <Element Name="Whatever" Type="UsingDirective" />
     <Element Name="Whatever2" Type="UsingDirective" />
+    <Element Name="System.Math" Type="UsingDirective" />
     <Element Name="Namespace1" Type="Namespace">
       <Element Name="System" Type="UsingDirective" />
     </Element>
