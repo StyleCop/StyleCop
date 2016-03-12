@@ -3548,7 +3548,7 @@ namespace StyleCop.CSharp
             this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, elementReference));
 
             // Create the using directive.
-            UsingDirective element = new UsingDirective(this.document, parent, declaration, generated, @namespace.Text, alias == null ? null : alias.Text);
+            UsingDirective element = new UsingDirective(this.document, parent, declaration, generated, staticSymbol.SymbolType == SymbolType.Static, @namespace.Text, alias == null ? null : alias.Text);
             elementReference.Target = element;
 
             return element;

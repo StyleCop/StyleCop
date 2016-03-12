@@ -35,6 +35,11 @@ namespace StyleCop.CSharp
         /// </summary>
         private string namespaceType = string.Empty;
 
+        /// <summary>
+        /// Indicates whether this using statement is a static using statement.
+        /// </summary>
+        private bool isStatic = false;
+
         #endregion
 
         #region Constructors and Destructors
@@ -54,13 +59,14 @@ namespace StyleCop.CSharp
         /// <param name="generated">
         /// Indicates whether the code element was generated or written by hand.
         /// </param>
+        /// <param name="isStatic">Indicates whether the using statement is a static using statement.</param>
         /// <param name="namespace">
         /// The namespace being used.
         /// </param>
         /// <param name="alias">
         /// Optional alias for the namespace, if any.
         /// </param>
-        internal UsingDirective(CsDocument document, CsElement parent, Declaration declaration, bool generated, string @namespace, string alias)
+        internal UsingDirective(CsDocument document, CsElement parent, Declaration declaration, bool generated, bool isStatic, string @namespace, string alias)
             : base(document, parent, ElementType.UsingDirective, "using " + declaration.Name, null, null, declaration, false, generated)
         {
             Param.Ignore(document);
@@ -71,6 +77,7 @@ namespace StyleCop.CSharp
             Param.Ignore(alias);
 
             this.namespaceType = @namespace;
+            this.isStatic = isStatic;
 
             if (alias != null)
             {
@@ -101,6 +108,17 @@ namespace StyleCop.CSharp
             get
             {
                 return this.namespaceType;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this using statement is a static using statement.
+        /// </summary>
+        public bool IsStatic
+        {
+            get
+            {
+                return this.isStatic;
             }
         }
 
