@@ -6,18 +6,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WixCustomAction", "..\WixCu
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|x86.ActiveCfg = Debug|x86
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Debug|x86.Build.0 = Debug|x86
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|x86.ActiveCfg = Release|x86
+		{C6D48FF0-2189-4038-90BD-0751F327C482}.Release|x86.Build.0 = Release|x86
+		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Debug|x86.ActiveCfg = Release|Any CPU
+		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Debug|x86.Build.0 = Release|Any CPU
+		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Release|x86.ActiveCfg = Release|Any CPU
+		{7626E327-ACCF-42B3-9013-AEA7AAFF729B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
