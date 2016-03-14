@@ -1,4 +1,10 @@
 <StyleCopSettings Version="4.3">
+  <GlobalSettings>
+    <CollectionProperty Name="DeprecatedWords">
+      <Value>preprocessor,pre-processor</Value>
+      <Value>shortlived,short-lived</Value>
+    </CollectionProperty>
+  </GlobalSettings>
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">
       <ParserSettings>

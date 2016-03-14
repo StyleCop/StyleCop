@@ -19,7 +19,11 @@
       <Word>serialiser</Word>
       <Word>uninitialise</Word>
       <Word>uninitialises</Word>
-    </Recognized>
+    </Recognized>  
+    <Deprecated>
+      <Term PreferredAlternate="pre-processed">preprocessed</Term>
+      <Term PreferredAlternate="short-lived">shortlived</Term>
+    </Deprecated>
   </Words>
 </Dictionary>
 
