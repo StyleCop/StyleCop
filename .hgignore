@@ -11,3 +11,4 @@ errors.log
 *.err
 *.wrn
 *\_ReSharper*
+*\packages\*
