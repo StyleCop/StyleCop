@@ -25,7 +25,7 @@ using JetBrains.ReSharper.Feature.Services.Daemon;
 
 #endregion
 
-[assembly: AssemblyTitle("StyleCop R# 8.0.0 Plugin")]
+[assembly: AssemblyTitle("StyleCop R# 9.2 Plugin")]
 [assembly: AssemblyDescription("R# plugin for StyleCop")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
