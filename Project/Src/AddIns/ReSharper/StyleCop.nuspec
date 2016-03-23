@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop.StyleCop</id>
+    <title>StyleCop by JetBrains</title>
+    <version>4.8.0</version>
+    <authors>Matt Ellis, Andy Reeves</authors>
+    <owners>JetBrains, Matt Ellis</owners>
+    <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules. Maintained by JetBrains</summary>
+    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7, and maintained by JetBrains.</description>
+    <releaseNotes>
+&#8226; Support for ReSharper 10 (#22)
+
+From previous releases:
+&#8226; Automatically disable analysis if StyleCop.Analyzers is referenced in VS2015 (#20)
+&#8226; Supports loading custom StyleCop addins. Specify location in settings (#18)
+&#8226; Fix duplication of constructor summary XML doc element in Code Cleanup (#17)
+&#8226; StyleCop issues now grouped under "StyleCop" in Inspection Results (#16)
+&#8226; Separate Code Cleanup option to create XML doc stubs (#15)
+&#8226; Not honouring settings when adjusting file header in Code Cleanup (#14)
+    </releaseNotes>
+    <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
+    <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
+    <dependencies>
+      <dependency id="Wave" version="[4.0]" />
+    </dependencies>
+    <tags>StyleCop analysis</tags>
+  </metadata>
+  <files>
+    <!-- The main plugin -->
+    <file src="bin\Release\StyleCop.ReSharper.dll" target="DotFiles" />
+    <file src="bin\Release\StyleCop.dll" target="DotFiles" />
+
+    <!-- StyleCop will try and find the appropriate language spell checker from
+         Office 2010's install location. If it can't find them, it tries to load
+         them from the AppDomain base directory (likely the location of devenv.exe)
+         or from the location of StyleCop.dll. StyleCop itself only ships with
+         the EN spell checker, and has limited fallback - it will fallback to the
+         parent Culture, e.g. en-US -> en -> Invariant, but won't fallback to another
+         language, e.g. de-DE doesn't fallback to en -->
+    <file src="..\..\StyleCop\mssp7en.dll" target="DotFiles" />
+    <file src="..\..\StyleCop\mssp7en.lex" target="DotFiles" />
+
+    <!-- The default settings file needs to be located next to StyleCop.dll.
+         NuGet very helpfully thinks that any target with a different file extension is
+         actually a directory (instead of using a much more sensible trailing slash).
+         So the ReSharper project copies and renames the default settings -->
+    <file src="bin\Release\Settings.StyleCop" target="DotFiles\" />
+
+    <!-- Custom dictionaries are read from the location of StyleCop.dll, or in any
+         child folders. To prevent clashes with other similarly named files, we'll
+         put ours in an Extensions folder (this only prevents overwriting clashes,
+         StyleCop will still try and load similarly named files, if they exist.
+         However, it does guard against the file not being xml) -->
+    <file src="..\..\StyleCop\CustomDictionary.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+    <file src="..\..\StyleCop\CustomDictionary.en-GB.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+    <file src="..\..\StyleCop\CustomDictionary.en-US.xml" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopDictionaries\" />
+
+    <!-- These files get loaded dynamically, rather than by ReSharper.
+         The code loads all assemblies in a given folder, so let's not load/scan all of DotFiles -->
+    <file src="bin\Release\StyleCop.CSharp.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
+    <file src="bin\Release\StyleCop.CSharp.Rules.dll" target="DotFiles\Extensions\StyleCop.StyleCop\StyleCopAddins\" />
+
+    <!-- Settings -->
+    <file src="StyleCop.dotSettings" target="DotFiles\Extensions\StyleCop.StyleCop\settings\StyleCop.dotSettings" />
+  </files>
+</package>
