@@ -26,12 +26,18 @@
           <Value>id</Value>
           <Value>if</Value>
           <Value>in</Value>
+          <Value>ip</Value>
           <Value>is</Value>
+          <Value>mx</Value>
           <Value>my</Value>
           <Value>no</Value>
           <Value>on</Value>
           <Value>to</Value>
           <Value>ui</Value>
+          <Value>vs</Value>
+          <Value>x</Value>
+          <Value>y</Value>
+          <Value>z</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

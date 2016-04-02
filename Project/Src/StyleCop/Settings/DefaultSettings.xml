@@ -32,6 +32,10 @@
           <Value>on</Value>
           <Value>to</Value>
           <Value>ui</Value>
+          <Value>vs</Value>
+          <Value>x</Value>
+          <Value>y</Value>
+          <Value>z</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
