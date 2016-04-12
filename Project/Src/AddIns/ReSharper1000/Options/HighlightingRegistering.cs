@@ -60,11 +60,9 @@ namespace StyleCop.ReSharper1000.Options
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
         /// <param name="lifetime">Lifetime of the component</param>
-        /// <param name="partsCatalogueSet">The catalogue set</param>
+        /// <param name="jetEnvironment">The jet environment</param>
         /// <param name="settingsStore">The settings store.</param>
-        /// <param name="fileSystemTracker">
-        /// The file System Tracker.
-        /// </param>
+        /// <param name="fileSystemTracker">The file System Tracker.</param>
         public HighlightingRegistering(Lifetime lifetime, JetEnvironment jetEnvironment, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
         {
             this.partsCatalogueSet = jetEnvironment.FullPartCatalogSet;
@@ -120,6 +118,48 @@ namespace StyleCop.ReSharper1000.Options
             string output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
 
             return output;
+        }
+
+        private static PartCatalogueAttribute CreatePartAttribute(Attribute attribute, IPartCatalogueFactory factory)
+        {
+            // OK, this is getting out of hand. It seemed like a good idea to replace
+            // reflection with a fake catalogue, but ReSharper 10 has changed things.
+            // Implementing your own catalogue is non-trivial, and the wrapper for
+            // legacy catalogues has issues with attribute properties (including ctor
+            // args). It expects a string instance to be represented with a StringSource,
+            // and tries to unbox an enum directly into a ulong, which fails. We can work
+            // around these by replacing the actual value in the properties with one that
+            // will work. But it also tries to unbox a bool into a ulong, which also fails,
+            // and we can't work around that (it asserts that the value in the property is
+            // also a bool). So, we totally fudge it. It just so happens that the values
+            // we want to use are false, and HighlightSettingsManagerImpl will handle
+            // missing values nicely, defaulting to false. So, rip em out.
+            // Perhaps reflection was the better idea... (well, strictly speaking not having
+            // "dynamically" loaded highlightings is a better idea!)
+            var originalPartAttribute = PartHelpers.CreatePartAttribute(attribute, factory);
+            var newProperties = from p in originalPartAttribute.GetProperties()
+                                where !(p.Value is bool && (bool)p.Value == false)
+                                select new PartCatalogueAttributeProperty(p.Name, WrapValue(p.Value), p.Disposition);
+
+            return new PartCatalogueAttribute(originalPartAttribute.Type, newProperties, originalPartAttribute.ConstructorFormalParameterTypes);
+        }
+
+        private static object WrapValue(object value)
+        {
+            var s = value as string;
+            if (s != null)
+            {
+                StringSource ss = s;
+                return ss;
+            }
+
+            if (value != null && value.GetType().IsEnum)
+            {
+                int i = (int)value;
+                return (ulong)i;
+            }
+
+            return value;
         }
 
         private void Register(StyleCopCore core)
@@ -195,48 +235,6 @@ namespace StyleCop.ReSharper1000.Options
             IList<PartCatalogueType> parts = new List<PartCatalogueType>();
             parts.Add(fakeConfigurableSeverityHighlight);
             return new PartsCatalogue(parts, assemblies);
-        }
-
-        private static PartCatalogueAttribute CreatePartAttribute(Attribute attribute, IPartCatalogueFactory factory)
-        {
-            // OK, this is getting out of hand. It seemed like a good idea to replace
-            // reflection with a fake catalogue, but ReSharper 10 has changed things.
-            // Implementing your own catalogue is non-trivial, and the wrapper for
-            // legacy catalogues has issues with attribute properties (including ctor
-            // args). It expects a string instance to be represented with a StringSource,
-            // and tries to unbox an enum directly into a ulong, which fails. We can work
-            // around these by replacing the actual value in the properties with one that
-            // will work. But it also tries to unbox a bool into a ulong, which also fails,
-            // and we can't work around that (it asserts that the value in the property is
-            // also a bool). So, we totally fudge it. It just so happens that the values
-            // we want to use are false, and HighlightSettingsManagerImpl will handle
-            // missing values nicely, defaulting to false. So, rip em out.
-            // Perhaps reflection was the better idea... (well, strictly speaking not having
-            // "dynamically" loaded highlightings is a better idea!)
-            var originalPartAttribute = PartHelpers.CreatePartAttribute(attribute, factory);
-            var newProperties = from p in originalPartAttribute.GetProperties()
-                                where !(p.Value is bool && (bool)p.Value == false)
-                                select new PartCatalogueAttributeProperty(p.Name, WrapValue(p.Value), p.Disposition);
-
-            return new PartCatalogueAttribute(originalPartAttribute.Type, newProperties, originalPartAttribute.ConstructorFormalParameterTypes);
-        }
-
-        private static object WrapValue(object value)
-        {
-            var s = value as string;
-            if (s != null)
-            {
-                StringSource ss = s;
-                return ss;
-            }
-
-            if (value != null && value.GetType().IsEnum)
-            {
-                int i = (int)value;
-                return (ulong)i;
-            }
-
-            return value;
         }
     }
 }

@@ -54,11 +54,11 @@ namespace StyleCop.ReSharper1000.BulbItems.Maintainability
             {
                 if (modifiersListOwner.ModifiersList == null)
                 {
-                    modifiersListOwner.SetModifiersList(GetModifierList(modifiersListOwner));
+                    modifiersListOwner.SetModifiersList(this.GetModifierList(modifiersListOwner));
                 }
                 else
                 {
-                    modifiersListOwner.ModifiersList.AddModifier(GetModifier(modifiersListOwner));
+                    modifiersListOwner.ModifiersList.AddModifier(this.GetModifier(modifiersListOwner));
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace StyleCop.ReSharper1000.BulbItems.Maintainability
 
         private ITokenNode GetModifier(ITreeNode declaration)
         {
-            return GetModifierList(declaration).Modifiers[0];
+            return this.GetModifierList(declaration).Modifiers[0];
         }
     }
 }

@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper1000.QuickFixes.Framework
     /// <summary>
     ///   Adds changing the display option for the style cop rule as context menu.
     /// </summary>
-    public class ChangeStyleCopRuleAction : IBulbItem
+    public class ChangeStyleCopRuleAction : IBulbAction
     {
         /// <summary>
         /// The common icons component.

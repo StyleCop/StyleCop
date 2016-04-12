@@ -1152,7 +1152,7 @@ namespace StyleCop.ReSharper1000.Core
                     return new JetBrains.Util.TextRange();
                 }
 
-                IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+                IDocument document = solution.GetComponent<DocumentManager>().GetOrCreateDocument(projectFile);
 
                 return GetTextRange(document, resharperLineNumber);
             }
@@ -1180,7 +1180,7 @@ namespace StyleCop.ReSharper1000.Core
                     return new JetBrains.Util.TextRange();
                 }
 
-                IDocument document = DocumentManager.GetInstance(solution).GetOrCreateDocument(projectFile);
+                IDocument document = solution.GetComponent<DocumentManager>().GetOrCreateDocument(projectFile);
 
                 return GetTextRange(document, location);
             }

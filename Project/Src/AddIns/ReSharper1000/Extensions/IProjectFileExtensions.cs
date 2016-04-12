@@ -68,7 +68,7 @@ namespace StyleCop.ReSharper1000.Extensions
             {
                 XmlDocument xmlDocument = new XmlDocument();
 
-                string relativePathToCsFile = projectFile.Location.ConvertToRelativePath(project.Location).ToString();
+                string relativePathToCsFile = projectFile.Location.MakeRelativeTo(project.Location).ToString();
 
                 xmlDocument.Load(project.ProjectFile.Location.FullPath);
 

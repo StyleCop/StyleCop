@@ -9,12 +9,9 @@
 
 namespace StyleCop.ReSharper1000.CodeCleanup
 {
-    using System;
     using System.ComponentModel;
     using System.Globalization;
-    using System.Text;
     using System.Xml;
-
     using JetBrains.ReSharper.Feature.Services.CodeCleanup;
     using JetBrains.Util;
 
@@ -83,45 +80,6 @@ namespace StyleCop.ReSharper1000.CodeCleanup
                            FixViolations = bool.Parse(XmlUtil.ReadLeafElementValue(element, "FixViolations")),
                            CreateXmlDocStubs = bool.Parse(XmlUtil.ReadLeafElementValue(element, "CreateXmlDocStubs"))
                        };
-        }
-    }
-
-    /// <summary>
-    /// Options for code cleanup
-    /// </summary>
-    public class StyleCopCodeCleanupOptions
-    {
-        /// <summary>
-        /// Option to fix StyleCop violations
-        /// </summary>
-        [DisplayName("Fix StyleCop violations")]
-        public bool FixViolations { get; set; }
-
-        /// <summary>
-        /// Options to generate XML doc stubs
-        /// </summary>
-        [DisplayName("Create XML doc stubs")]
-        public bool CreateXmlDocStubs { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopCodeCleanupOptions"/> class.
-        /// </summary>
-        public StyleCopCodeCleanupOptions()
-        {
-            this.FixViolations = true;
-
-            // TODO: What's the best default?
-            // I like the argument that we shouldn't blindly create XML docs, but set
-            // them properly, but it's nice to be able to fix up everything we can...
-            this.CreateXmlDocStubs = false;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(this.FixViolations ? "Yes" : "No");
-            stringBuilder.Append(this.CreateXmlDocStubs ? " (create XML doc stubs)" : " (do not create XML doc stubs)");
-            return stringBuilder.ToString();
         }
     }
 }

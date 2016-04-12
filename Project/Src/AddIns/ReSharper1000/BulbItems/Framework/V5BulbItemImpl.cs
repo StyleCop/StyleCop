@@ -26,13 +26,16 @@ namespace StyleCop.ReSharper1000.BulbItems.Framework
     using JetBrains.DocumentModel.Transactions;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Bulbs;
+    using JetBrains.ReSharper.Feature.Services.ContextActions;
+    using JetBrains.ReSharper.Feature.Services.QuickFixes;
     using JetBrains.ReSharper.Psi;
     using JetBrains.TextControl;
+    using JetBrains.Util;
 
     /// <summary>
     /// BulbItem Implementation for ReSharper build items.
     /// </summary>
-    public abstract class V5BulbItemImpl : BulbItemImpl
+    public abstract class V5BulbItemImpl : QuickFixBase
     {
         /// <summary>
         /// Gets or sets the description of the BulbItem.
@@ -68,6 +71,17 @@ namespace StyleCop.ReSharper1000.BulbItems.Framework
         /// Current Text Control.
         /// </param>
         public abstract void ExecuteTransactionInner(ISolution solution, ITextControl textControl);
+
+        /// <summary>
+        /// Check if this action is available at the constructed context. Actions could store pre-calculated info
+        /// in <paramref name="cache" /> to share it between different actions
+        /// </summary>
+        /// <param name="cache">A cache that can be used to share info between different actions</param>
+        /// <returns><c>true</c> if this bulb action is available, <c>false</c> otherwise.</returns>
+        public override bool IsAvailable(IUserDataHolder cache)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Performs the QuickFix, ensures the file is both writable and creates a transaction.

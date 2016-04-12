@@ -173,7 +173,7 @@ SET BuildLogFile=Build.%BuildTarget%
 REM Build Main Solution
 IF EXIST %PROJECTROOT%\%BuildLogFile%.wrn DEL /F /Q %PROJECTROOT%\%BuildLogFile%.wrn
 IF EXIST %PROJECTROOT%\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
-CALL "%windir%\microsoft.net\framework\%FrameworkVersion%\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:VisualStudioVersion=12.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
+CALL "%programfiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" %PROJECTROOT%\StyleCop.sln /p:VisualStudioVersion=14.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%PROJECTROOT%\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\%BuildLogFile%.err
 CALL %STTOOLS%\Scripts\DeleteEmptyFile.cmd %PROJECTROOT%\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
@@ -186,8 +186,6 @@ IF EXIST %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err DEL /F /Q %PROJECTROOT%\s
 IF "%SkipWixBuild%" == "1" GOTO PostWixBuild
 
 SET WixBuildTarget=%BuildTarget%
-
-IF "%BuildTarget%" == "Debug.NoReSharper" SET WixBuildTarget=Debug
 
 CALL "%windir%\microsoft.net\framework\v3.5\msbuild.exe" %PROJECTROOT%\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%WixBuildTarget% /flp1:warningsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%PROJECTROOT%\src\wixsetup\%buildlogfile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %PROJECTROOT%\src\WixSetup\%BuildLogFile%.err
