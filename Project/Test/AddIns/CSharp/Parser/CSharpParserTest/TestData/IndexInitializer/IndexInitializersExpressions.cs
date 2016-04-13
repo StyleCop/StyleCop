@@ -22,6 +22,13 @@ namespace CSharpParserTest.TestData
             [3] = new People() { Name = "test" },
             [4] = new People() { Name = "test" },
         };
+
+        private Dictionary<int, int> singleLine = new Dictionary<int, int> { [0] = 0 };
+
+        public void InitializeDictionary()
+        {
+            var dictionary = new Dictionary<string, string> { ["key"] = "value" };
+        }
     }
 }
 

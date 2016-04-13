@@ -56,6 +56,38 @@
             </Expression>
           </Statement>
         </Element>
+        <Element Name="singleLine" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Dictionary&lt;int,int&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="singleLine" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Dictionary&lt;int,int&gt;" Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="DictionaryItemInitializationExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="InitializeDictionary" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="dictionary" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Dictionary&lt;string,string&gt;" Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="DictionaryItemInitializationExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
       </Element>
     </Element>
   </Element>

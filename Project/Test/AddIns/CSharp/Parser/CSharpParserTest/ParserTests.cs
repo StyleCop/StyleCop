@@ -211,7 +211,7 @@ namespace CSharpParserTest
         [DeploymentItem("StyleCop.CSharp.Rules.dll")]
         [DeploymentItem("CSharpParserTestRules.dll")]
         [DeploymentItem("TestData\\ObjectAndCollectionInitializers", "ObjectAndCollectionInitializers")]
-        public void CsParserObjectAndCollectionInitializers()
+        public void CsParserTestObjectAndCollectionInitializers()
         {
             this.RunTest("ObjectAndCollectionInitializers");
         }
@@ -223,7 +223,7 @@ namespace CSharpParserTest
         [DeploymentItem("StyleCop.CSharp.Rules.dll")]
         [DeploymentItem("CSharpParserTestRules.dll")]
         [DeploymentItem("TestData\\TernaryOperator", "TernaryOperator")]
-        public void CsParserTernaryOperator()
+        public void CsParserTestTernaryOperator()
         {
             this.RunTest("TernaryOperator");
         }

@@ -974,55 +974,6 @@
             </Expression>
           </Statement>
         </Element>
-        <Element Name="CollectionInit"
-                 Type="Method">
-          <Statement Type="VariableDeclarationStatement">
-            <Expression Type="VariableDeclarationExpression">
-              <Expression Text="Dictionary"
-                          Type="LiteralExpression" />
-              <Expression Type="VariableDeclaratorExpression">
-                <Expression Text="primaryNumbers"
-                            Type="LiteralExpression" />
-                <Expression Type="NewExpression">
-                  <Expression Type="MethodInvocationExpression">
-                    <Expression Text="Dictionary"
-                                Type="LiteralExpression" />
-                  </Expression>
-                  <Expression Type="CollectionInitializerExpression">
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                  </Expression>
-                </Expression>
-              </Expression>
-            </Expression>
-          </Statement>
-          <Statement Type="VariableDeclarationStatement">
-            <Expression Type="VariableDeclarationExpression">
-              <Expression Text="Dictionary"
-                          Type="LiteralExpression" />
-              <Expression Type="VariableDeclaratorExpression">
-                <Expression Text="secondaryNumbers"
-                            Type="LiteralExpression" />
-                <Expression Type="NewExpression">
-                  <Expression Type="MethodInvocationExpression">
-                    <Expression Text="Dictionary"
-                                Type="LiteralExpression" />
-                  </Expression>
-                  <Expression Type="CollectionInitializerExpression">
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                    <Expression Type="DictionaryItemInitializationExpression" />
-                  </Expression>
-                </Expression>
-              </Expression>
-            </Expression>
-          </Statement>
-        </Element>
       </Element>
     </Element>
   </Element>

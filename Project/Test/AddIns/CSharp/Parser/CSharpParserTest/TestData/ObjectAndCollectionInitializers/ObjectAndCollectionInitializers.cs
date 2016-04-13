@@ -97,36 +97,11 @@ reader["Distribution2"].ToString() };
             {
                 strings[9], // line 16
                 strings[8],
-                strings[0],
-                strings[1],
-                strings[2],
-                strings[3],
-                strings[4],
-                strings[5],
+                strings[0], strings[1],
+                strings[2] ,strings[3],
+                strings[4] , strings [ 5 ]
+                ,
                 strings[6],
-            };
-        }
-
-        public void CollectionInit()
-        {
-            // Index initializers
-            Dictionary primaryNumbers = new Dictionary()
-            {
-                [1] = "one",
-                [3] = "three",
-                [5] = "five",
-                [7] = "seven",
-                [11] = "eleven"
-            };
-
-            // Index initializers
-            Dictionary secondaryNumbers = new Dictionary()
-            {
-                [1] = "one",
-                [3] = "three",
-                [5] = "five",
-                [7] = "seven",
-                [11] = "eleven",
             };
         }
     }
