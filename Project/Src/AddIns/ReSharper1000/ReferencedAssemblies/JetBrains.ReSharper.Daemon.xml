@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.ReSharper.Daemon</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.ReSharper.Daemon.Impl.SlowTooltipProvider">
+            Calculates tooltip inside ShouldShowToolTip method which is called in UI thread. 
+            Use this provider only when there is no other way to calculate if a tooltip should be shown
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.CodeInspectionSettingsPage">
+            <summary>
+              Main settings for the code inspection.
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.InspectionSeverityPage">
+            <summary>
+              Severities of the inspections (error/warning/suggestion hilites).
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.InspectionSeverityView">
+            <summary>
+            InspectionSeverityView
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.OptionPages.Inspections.InspectionSeverityView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.AnnotationNamespaceView">
+            <summary>
+            AnnotationNamespaceView
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.AnnotationNamespaceView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.CodeAnnotationsPageView">
+            <summary>
+            CodeAnnotationsPageView
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.CodeAnnotationsPageView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.CodeInspectionGeneratedView">
+            <summary>
+            CodeInspectionGeneratedView
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.OptionPages.Inspections.View.CodeInspectionGeneratedView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.Impl.DaemonEnablePolicy.IsDaemonEnabled(JetBrains.DocumentModel.IDocument)">
+            <summary>Primary filter for daemon</summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CaretDependentFeatures.MatchingBraceContextHighlighterBase.IsValidNode(JetBrains.ReSharper.Psi.Tree.ITokenNode)">
+            <summary>
+            Checks if the node is valid (that is, may be highlighted)
+            In C++, currentNode may come from a macro substitution and therefore may have invalid document range
+            so we should find its prototype node
+            </summary>
+            <param name="currentToken">currentToken is a matched parenthesis/bracket/brace</param>
+            <returns>true if the token or its prototype can be highlighted</returns>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CaretDependentFeatures.MatchingBraceContextHighlighterBase.GetActualToken(JetBrains.ReSharper.Psi.Tree.ITokenNode)">
+            <summary>
+            Returns the token itself or its prototype macro call
+            (should be overloaded in C++ to support macros)
+            </summary>
+            <param name="currentToken">currentToken is a matched parenthesis/bracket/brace</param>
+            <returns>corresponding visible token in the document</returns>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.DaemonBase">
+            <summary>
+            Class managing background code analysis
+            </summary>
+        </member>
+        <member name="P:JetBrains.ReSharper.Daemon.DaemonBase.IsSuspended">
+            <summary>
+            Suspend/resume error highlighting &amp; quickfixes activity
+            </summary>
+        </member>
+        <member name="E:JetBrains.ReSharper.Daemon.DaemonBase.DaemonStateChanged">
+            <summary>
+            Raised when DaemonState of any document is changed
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.Impl.DaemonImpl.OnPsiModulesChange(JetBrains.ReSharper.Psi.Modules.PsiModuleChange)">
+            <summary>
+            remove invalidated daemons
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.DaemonTooltipProviderAttribute">
+            <summary>
+            Custom tooltip provider for the error.
+            Tooltip provider should be solution-level component and implement <see cref="T:JetBrains.TextControl.DocumentMarkup.IHighlighterTooltipProvider"/> interface
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.Impl.DaemonStageManager">
+            <summary>
+            Suports stages in topologically sorted state and manages states lifetime. 
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.DaemonUtil.GetHighlightingRange(JetBrains.ReSharper.Psi.Tree.ITreeNode)">
+            <summary>
+            Translates tree node range into document. Returns valid range if there if treerange *covers* single document range, 
+            and this is the difference from <see cref="M:JetBrains.ReSharper.Psi.Tree.TreeNodeExtensions.GetDocumentRange(JetBrains.ReSharper.Psi.Tree.ITreeNode)"/>
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.SolutionAnalysisService">
+            <summary>
+            Interface which is used by daemon to interact with SWEA
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.Impl.VisibleDocumentDaemonProcess.Committer.DaemonResultCommitter.Step">
+            <summary>
+            Returns <c>true</c> when this Committer is done
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons">
+             <summary>
+              <para>
+                <para>Autogenerated identifier classes and identifier objects to Themed Icons registered with <see cref="T:JetBrains.UI.Icons.IThemedIconManager"/>.</para>
+                <para>Identifier classes should be used in attributes, XAML, or generic parameters. Where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected, use the identifier object in the <c>Id</c> field of the identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>This code was compile-time generated to support Themed Icons in the JetBrains application.</para>
+              <para>It has two primary goals: load the icons of this assembly to be registered with <see cref="T:JetBrains.UI.Icons.IThemedIconManager"/> so that they were WPF-accessible and theme-sensitive; and emit early-bound accessors for referencing icons in codebehind in a compile-time-validated manner.</para>
+              <h1>XAML</h1>
+              <para>For performance reasons, the icons are not individually exposed with application resources. There is a custom markup extension to bind an image source in markup.</para>
+              <para>To use an icon from XAML, set an <see cref="T:System.Windows.Media.ImageSource"/> property to the <see cref="T:JetBrains.UI.Icons.ThemedIconExtension"/> markup extension, which takes an icon identifier class (nested in <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class) as a parameter.</para>
+              <para>Example:</para>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsAddMask}" /&gt;</code>
+              <h1>Attributes</h1>
+              <para>Sometimes you have to reference an icon from a type attriute when you're defining objects in code. Typical examples are Options pages and Tool Windows.</para>
+              <para>To avoid the use of string IDs which are not validated very well, we've emitted identifier classes to be used with <c>typeof()</c> expression, one per each icon. Use the attribute overload which takes a <see cref="T:System.Type"/> for an image, and choose your icon class from nested classes in the <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+              <para>Example:</para>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsAddMask))]</code>
+              <h1>CodeBehind</h1>
+              <para>In codebehind, we have two distinct tasks: (a) specify some icon in the APIs and (b) render icon images onscreen.</para>
+              <para>On the APIs stage you should only manipulate icon identifier objects (of type <see cref="T:JetBrains.UI.Icons.IconId"/>, statically defined in <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> in <c>Id</c> fields). Icon identifier classes (nested in <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>) should be turned into icon identifier objects as early as possible. Rendering is about getting an <see cref="T:System.Windows.Media.ImageSource"/> to assign to WPF, or <see cref="T:System.Drawing.Bitmap"/> to use with GDI+ / Windows Forms.</para>
+              <para>You should turn an identifier object into a rendered image as late as possible. The identifier is static and lightweight and does not depend on the current theme, while the image is themed and has to be loaded or generated/rasterized. You need an <see cref="T:JetBrains.UI.Icons.IThemedIconManager"/> instance to get the image out of an icon identifier object. Once you got the image, you should take care to change it with theme changes — either by using a live image property, or by listening to the theme change event. See <see cref="T:JetBrains.UI.Icons.IThemedIconManager"/> and its extensions for the related facilities.</para>
+              <para>Example:</para>
+              <code>// Getting IconId identifier object to use with APIs
+            IconId iconid = SkipItemsDialogThemedIcons.SkipItemsAddMask.Id;</code>
+              <code>// Getting IconId out of an Icon Identifier Class type
+            IconId iconid = CompiledIconClassAttribute.TryGetCompiledIconClassId(typeof(SkipItemsDialogThemedIcons.SkipItemsAddMask), OnError.Throw);</code>
+              <code>// Getting image for screen rendering by IconId
+            themediconmanager.Icons[icnoid]</code>
+              <code>// Getting image for screen rendering by Icon Identifier Class
+            themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsAddMask&gt;()</code>
+              <h1>Icons Origin</h1>
+              <para>This code was generated by a pre-compile build task from a set of input files which are XAML files adhering to a certain convention, as convenient for exporting them from the Illustrator workspace, plus separate PNG files with raster icons. In the projects, these files are designated with <c>ThemedIconsXamlV3</c> and <c>ThemedIconPng</c> build actions and do not themselves get into the output assembly. All of such files are processed, vector images for different themes of the same icon are split and combined into the single list of icons in this assembly. This list is then written into the genearted XAML file (compiled into BAML within assembly), and serves as the source for this generated code.</para>
+            </remarks>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsAddMask">
+             <summary>
+              <para>
+                <para>Autogenerated identifier class for the SkipItemsAddMask Themed Icon.</para>
+                <para>Identifier classes should be used in attributes, XAML, or generic parameters. Where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected, use the identifier object in the <see cref="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsAddMask.Id"/> field of the identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsAddMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsAddMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsAddMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsAddMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsAddMask.Id">
+             <summary>
+              <para>
+                <para>Autogenerated identifier object for the SkipItemsAddMask Themed Icon.</para>
+                <para>Identifier objects should be used where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected. In attributes, XAML, or generic parameters use the containing <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsAddMask"/> identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsAddMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsAddMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsAddMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsAddMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsEditMask">
+             <summary>
+              <para>
+                <para>Autogenerated identifier class for the SkipItemsEditMask Themed Icon.</para>
+                <para>Identifier classes should be used in attributes, XAML, or generic parameters. Where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected, use the identifier object in the <see cref="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsEditMask.Id"/> field of the identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsEditMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsEditMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsEditMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsEditMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsEditMask.Id">
+             <summary>
+              <para>
+                <para>Autogenerated identifier object for the SkipItemsEditMask Themed Icon.</para>
+                <para>Identifier objects should be used where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected. In attributes, XAML, or generic parameters use the containing <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsEditMask"/> identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsEditMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsEditMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsEditMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsEditMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsRemoveMask">
+             <summary>
+              <para>
+                <para>Autogenerated identifier class for the SkipItemsRemoveMask Themed Icon.</para>
+                <para>Identifier classes should be used in attributes, XAML, or generic parameters. Where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected, use the identifier object in the <see cref="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsRemoveMask.Id"/> field of the identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsRemoveMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsRemoveMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsRemoveMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsRemoveMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsRemoveMask.Id">
+             <summary>
+              <para>
+                <para>Autogenerated identifier object for the SkipItemsRemoveMask Themed Icon.</para>
+                <para>Identifier objects should be used where an <see cref="T:JetBrains.UI.Icons.IconId"/> value is expected. In attributes, XAML, or generic parameters use the containing <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons.SkipItemsRemoveMask"/> identifier class.</para>
+              </para>
+            </summary>
+            <remarks>
+              <para>For details on Themed Icons and their use, see Remarks on <see cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/> class.</para>
+            </remarks>
+            <seealso cref="T:JetBrains.ReSharper.Daemon.Src.OptionPages.Inspections.SkipItemsDialogThemedIcons"/>
+            <example>
+              <code>&lt;Image Source="{icons:ThemedIcon myres:SkipItemsDialogThemedIcons+SkipItemsRemoveMask}" /&gt;        &lt;!-- XAML --&gt;</code>
+            </example>
+            <example>
+              <code>[Item(Name="Sample", Icon=typeof(SkipItemsDialogThemedIcons.SkipItemsRemoveMask))]        // C# Type attribute</code>
+            </example>
+            <example>
+              <code>IconId iconid = SkipItemsDialogThemedIcons.SkipItemsRemoveMask.Id;        // IconId identifier object</code>
+            </example>
+            <example>
+              <code>themediconmanager.GetIcon&lt;SkipItemsDialogThemedIcons.SkipItemsRemoveMask&gt;()        // Icon image for rendering</code>
+            </example>
+        </member>
+    </members>
+</doc>

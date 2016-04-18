@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.Platform.DocumentManager</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.DocumentManagers.ProjectModelAwareRangeMarkerManager">
+            <summary>
+            Per-solution range marker manager.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.RangeMarkersManager_GetProjectFileRangeMarkersOnDocument">
+            <summary>
+            Populates <see cref="F:JetBrains.DocumentModel.RangeMarkersManager.GetAllRangeMarkersOnDocument"/> with range markers on the project file on which the document has been created (if so).
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.AddFile(JetBrains.ProjectModel.IProjectFolder,JetBrains.Util.FileSystemPath,JetBrains.DocumentManagers.Transactions.IFileCreationContext)">
+            <summary>
+            Adds specified file to the project 
+            </summary>
+            <param name="parentFolder">Parent folder</param>
+            <param name="location">Path to the file being added</param>
+            <param name="context">Additional untyped data that can be used by AddFileAction. Used in C++ to create files in particular 'filter'</param>
+            <returns>Reference to the new project item</returns>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.AddFolder(JetBrains.ProjectModel.IProjectFolder,System.String,JetBrains.Util.FileSystemPath)">
+            <summary>
+            Adds a directory to the project
+            </summary>
+            /// <param name="parentFolder">Parent folder</param>
+            <param name="name">Name of the directory being added</param>
+            <param name="folderPath">Path to the directory being added. If null, folderPath equals to parentFolder.Location.Combine(name)</param>
+            <returns>Reference to the new project item</returns>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.Rename(JetBrains.ProjectModel.IProjectItem,System.String)">
+            <summary>
+            Renames the project item.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.Move(JetBrains.ProjectModel.IProjectItem,JetBrains.ProjectModel.IProjectFolder)">
+            <summary>
+            Moves the project item so that it becomes a child of the specified parent.
+            </summary>
+            <param name="projectItem">Project item to move</param>
+            <param name="newParentItem">newParentItem == null means project becomes a top-level one</param>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.Copy(JetBrains.ProjectModel.IProjectItem,JetBrains.ProjectModel.IProjectFolder)">
+            <summary>
+            Cpoies the project item so that it's copy becomes a child of the specified parent.
+            </summary>
+            <param name="projectItem">Project item to copy</param>
+            <param name="newParentItem">newParentItem == null means project becomes a top-level one</param>
+            <returns>Reference to the new project item</returns>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.Remove(JetBrains.ProjectModel.IProjectItem,System.Boolean)">
+            <summary>
+            Removes project item.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.AddModuleReference(JetBrains.ProjectModel.IProject,JetBrains.ProjectModel.IModule)">
+            <summary>
+            Makes the project reference the specified module
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.AddAssemblyReference(JetBrains.ProjectModel.IProject,JetBrains.Util.FileSystemPath)">
+            <summary>
+            Adds the specified library to the project's references
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.Transactions.IProjectModelEditor.RemoveModuleReference(JetBrains.ProjectModel.IProjectToModuleReference)">
+            <summary>
+            Removes the specified assembly or project from project's references
+            </summary>
+            <param name="referenceToRemove"></param>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.DocumentsOnProjectFiles">
+            <summary>
+            For those documents that are created over project files, exposes the mapping, and allows to create documents over project files on-demand.
+            Uses <see cref="T:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage"/> as the backing store.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentsOnProjectFiles.GetOrCreateDocument(JetBrains.ProjectModel.IProjectFile)">
+            <summary>
+            Gets the existing document over the project file, if it has already been created and has not yet expired.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentsOnProjectFiles.GetProjectFile(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            If this document has been created over a project file, returns that project file.
+            Otherwise, throws an exception.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage">
+            <summary>
+            Just stores the mapping between documents and project files.
+            You should rather use the <see cref="T:JetBrains.DocumentManagers.DocumentManager"/> façade in high-level code, or <see cref="T:JetBrains.DocumentManagers.DocumentsOnProjectFiles"/> inside document-vs-project-model cases.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.myProjectItemKey">
+            <summary>
+            Key for backmapping from document to project file. Currently, the mapping is stored on the document's userdata (as document lifetime is CLR-defined, while for a project file there's explicit removal).
+            Note: must be a new key instance per component instance, to avoid mixing up documents from different solutions (like, getting project file from another solution). <see cref="T:JetBrains.Util.Key`1"/>'s equality is only by reference, string is just for diag.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.Added">
+            <summary>
+            Fires when a new mapping gets added.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.RemovedExplicitly">
+            <summary>
+            Fires when a mapping gets explicitly removed.
+            Note that it will NOT fire for each <see cref="F:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.Added"/> item because mappings are weak-references and might expire on their own.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.TryGetDocumentByProjectFile(JetBrains.ProjectModel.IProjectFile)">
+            <summary>
+            Gets document by project item, if it's already created.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.TryGetDocumentByProjectFileNoValidityCheck(JetBrains.ProjectModel.IProjectFile)">
+            <summary>
+            Gets document by project item, if it's already created.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.TryGetDocumentByPath(JetBrains.Util.FileSystemPath)">
+            <summary>
+            Gets document by project item, if it's already created.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.GetAllDocuments">
+            <summary>
+            Gets a copy of registered mapped items in a form of a list.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.TryGetProjectFile(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            If this document has a mapping to a project file, returns that project file.
+            Otherwise, returns <c>Null</c>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentToProjectFileMappingStorage.TryGetInvalidProjectFile(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            If this document has a mapping to a project file, returns that project file.
+            Also returns project file if one is invalid (ex. was removed from project model but transaction is committing)
+            Otherwise, returns <c>Null</c>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentManagerOperations.SaveDocument(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            Saves the specified document
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentManagerOperations.GetUnsavedDocuments">
+            <summary>
+            Returns all unsaved documents.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentManagerOperations.IsDocumentUnsaved(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            Returns true if the specified document has not been saved since the last modification
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentManagerOperations.SaveAllDocuments">
+            <summary>
+            Saves all documents 
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentManagers.impl.DocumentManagerOperations.AfterDocumentSaved">
+            <summary>
+            Raised after a document has been saved.
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentManagers.impl.DocumentManagerOperations.BeforeDocumentSaved">
+            <summary>
+            Raised before a document has been saved. The handlers of this event are given a chance to
+            cancel save.
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentManagers.impl.DocumentManagerOperations.BeforeDocumentReloaded">
+            <summary>
+            Raised before a document has been changed externally. The handlers of this event are given a chance to
+            cancel the external change.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentOperationsImpl.SynchronizeDocumentContentsWithFile(JetBrains.DocumentModel.IDocument,JetBrains.Util.FileSystemPath)">
+            <summary>
+            Forces synchronizing the document with its content source.
+            For standalone documents or VS documents not opened in the editor, these are external files.
+            For open VS documents, this is the RDT document content.
+            Requires a writer lock.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.DocumentOperationsImpl.SynchronizeDocumentContentsWithFile_Standalone(JetBrains.DocumentModel.IDocument,JetBrains.Util.FileSystemPath)">
+            <summary>
+            Implements the standalone case for <see cref="M:JetBrains.DocumentManagers.impl.DocumentOperationsImpl.SynchronizeDocumentContentsWithFile(JetBrains.DocumentModel.IDocument,JetBrains.Util.FileSystemPath)"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.impl.IdeInMemoryDocumentFactory.CreateIdeDocumentFromText(System.String,System.String,System.Func{JetBrains.DocumentModel.IDocument,JetBrains.Util.ModificationCookie})">
+            <summary>
+            Creates an <see cref="T:JetBrains.DocumentModel.IDocument"/> from the given text.
+            The document implementation is specific to the Shell. In tests, this is the same as <see cref="!:IDocumentFactory.CreateSimpleDocumentFromText(string,string,System.Func&lt;JetBrains.DocumentModel.IDocument,JetBrains.Util.ModificationCookie&gt;)"/>. In Visual Studio, this is a VS Text Buffer.
+            </summary>
+            <param name="text">Document text.</param>
+            <param name="moniker">Document moniker that uniquely identifies this document.</param>
+            <param name="ensureWritableHandler">Queries whether the document is allowed to be written.</param>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.ProjectFilesRemovedOnDocumentTransactionCommit">
+            <summary>
+            As project files are removed within a transaction, sometimes processing for them must be delayed, as the transaction might be rolled back or something.
+            Listens to project model changes, maintains the list of files removed under transaction, and fires their remove only when transaction gets committed (not rolled back).
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.ProjectFilesRemovedOnDocumentTransactionCommit.ProjectFileRemoved">
+            <summary>
+            Fires when a project file gets removed.
+            If there's no transaction, fires immediately.
+            Under a transaction, fires when it's closed.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.RangeMarkersManager_InvalidateFileMarkersOnProjectModelChange">
+            <summary>
+            Listens to solution-specific events on behalf of <see cref="T:JetBrains.DocumentModel.RangeMarkersManager"/>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.SolutionDocumentChangeEventsAggregator">
+            <summary>
+            Listens to changes in all of the living documents, retranslates them to clients as a single event.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.SolutionDocumentChangeEventsAggregator.BeforeAnyDocumentChanged">
+            <summary>
+            Fires before a document is modified.
+            Aggregates the <see cref="E:JetBrains.DocumentModel.IDocument.BeforeDocumentChanged"/> event on all the documents.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.SolutionDocumentChangeEventsAggregator.BeforeAnyDocumentCopyChanged">
+            <summary>
+            Ask Serjik.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.SolutionDocumentChangeProvider">
+            <summary>
+            The change provider that's firing <see cref="T:JetBrains.DocumentModel.DocumentChange"/> and <see cref="T:JetBrains.DocumentModel.DocumentCopyChanged"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.SolutionDocumentChangeProvider.AssertOnFileBasedDocumentModification(JetBrains.DocumentModel.Impl.DocumentBase,JetBrains.ProjectModel.IProjectFile)">
+            <summary>
+            When a file-based document is modified, asserts that it's allowed.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentManagers.DocumentManager">
+            <summary>
+            Manages file-based documents that are backed with <see cref="T:JetBrains.ProjectModel.IProjectFile"/>s.
+            Simple in-memory documents can be created with <see cref="T:JetBrains.DocumentModel.IInMemoryDocumentFactory"/> and used independently of this class.
+            Note: this class does not (and MUST NOT) have any own logic, it's only an aggregate of single-responsibility components. This prevents circular dependencies.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentManagers.DocumentManager.OptionDontAssertNonVsDocumentModifications">
+            <summary>
+            Limits <see cref="M:JetBrains.DocumentManagers.SolutionDocumentChangeProvider.AssertOnFileBasedDocumentModification(JetBrains.DocumentModel.Impl.DocumentBase,JetBrains.ProjectModel.IProjectFile)"/> for legacy code.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.GetOrCreateDocument(JetBrains.ProjectModel.IProjectFile)">
+            <summary>
+            Gets document by project item.
+            Creates if it hasn't been created yet for this project file.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.GetOrCreateDocument(JetBrains.Util.FileSystemPath)">
+            <summary>
+            Gets document by project item.
+            Creates if it hasn't been created yet for this disk path.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.TryGetProjectFile(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            If this document has been created over a project file, returns that project file.
+            Otherwise, returns <c>Null</c>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.GetProjectFile(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            If this document has been created over a project file, returns that project file.
+            Otherwise, throws an exception.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.EnsureWritable(JetBrains.DocumentModel.IDocument,System.Action{JetBrains.Util.ModificationCookie})">
+            <summary>
+            Get clearance for write access to the docment, for example, at the Source Code Control.
+            You MUST scope file-based-document modifications with this method.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.EnsureWritableSuccess(JetBrains.DocumentModel.IDocument,System.Action)">
+            <summary>
+            Get clearance for write access to the docment, for example, at the Source Code Control.
+            Executes the <paramref name="onSucceeded"/> action only if the modification query succeeds (<see cref="P:JetBrains.Util.ModificationCookie.EnsureWritableResult"/> is <see cref="F:JetBrains.Util.EnsureWritableResult.SUCCESS"/>).
+            You MUST scope file-based-document modifications with this method.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentManagers.DocumentManager.GetSharedDocuments(JetBrains.DocumentModel.IDocument)">
+            <summary>
+            Returns list of documents corresponding to "shared" project files (i.e. project files with the same location) including the argument.
+            </summary>
+            <param name="document">Any document</param>
+            <returns>List of documents corresponding to "shared" project files (i.e. project files with the same location) including the argument.</returns>
+        </member>
+        <member name="P:JetBrains.DocumentManagers.DocumentManager.BeforeAnyDocumentChanged">
+            <summary>
+            Fires before a document is modified.
+            Aggregates the <see cref="E:JetBrains.DocumentModel.IDocument.BeforeDocumentChanged"/> event on all the documents.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentManagers.DocumentManager.BeforeAnyDocumentCopyChanged">
+            <summary>
+            Ask Serjik.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentManagers.DocumentManager.ChangeProvider">
+            <summary>
+            Gets the change provider that's firing <see cref="T:JetBrains.DocumentModel.DocumentChange"/> and <see cref="T:JetBrains.DocumentModel.DocumentCopyChanged"/>.
+            </summary>
+        </member>
+    </members>
+</doc>

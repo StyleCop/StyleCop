@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.ReSharper.Daemon.CSharp</name>
+    </assembly>
+    <members>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.myMembers">
+            <summary>
+            Collection of all type members of the class being inspected.
+            Only members of the class part being exprected has declarations in the value of the dictionary
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.GetPolymorphicMembers">
+            <summary>
+            Enumerate members which could be overriden in this class.
+            NOTE: call this method only before inspection
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.GetInterfaceMembers">
+            <summary>
+            Enumerate all members from the interfaces of the given class.
+            NOTE: call this method only before inspection
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.IsQuasiImplemented(JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem)">
+            <summary>
+            Check if the given member of direct interface is quasi implemented
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.CheckInterfaceMemberNotImplemented(JetBrains.ReSharper.Psi.CSharp.Tree.IMemberOwnerDeclaration)">
+            <summary>
+            Analyze which interface members are implemented by this class.
+            The implementation check should be weak, because accessibility and type mismatch problems 
+            will be highlighted elsewhere
+            </summary>
+            <param name="typeDeclarationParam"></param>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.ProblemsImplementingInterfaceMember(JetBrains.ReSharper.Psi.IOverridableMember,JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem,System.Collections.Generic.List{JetBrains.ReSharper.Feature.Services.Daemon.IHighlighting}@)">
+            <summary>
+            Checks if the given <paramref name="superMember"/> in some interface is implemented by <paramref name="typeMember"/>.
+            </summary>
+            <returns>
+            <c>false</c> if <paramref name="superMember"/> is implemented without fatal problems (from CSC point of view). 
+            Returns <c>true</c> if there are any of them. If the given <paramref name="typeMember"/> has declaration, 
+            then return list of problems
+            </returns>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.GetExplicitlyImplementedMembers(JetBrains.ReSharper.Psi.IOverridableMember,JetBrains.ReSharper.Psi.IDeclaredType,System.Collections.Generic.IEnumerable{JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem})">
+            <summary>
+            Get all interface members which could be implemented by the given class member
+            The candidates are categorized into two groups - with match of return type, and candidates when return type didn't match
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.ProblemsInExplicitInterfaceImplementation(JetBrains.ReSharper.Psi.IOverridableMember,JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem,System.Collections.Generic.List{JetBrains.ReSharper.Feature.Services.Daemon.IHighlighting}@)">
+            <summary>
+            </summary>
+            <returns><c>true</c> if there are problems</returns>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.ShouldCheckAbstractImplementation">
+            <summary>
+            find out if the implementation of the abstract members should be checked
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.CanHide(JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem,JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem)">
+            <summary>
+            predicate: inheritor and parent must have same name
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.CanHide(JetBrains.ReSharper.Psi.ITypeMember,JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem)">
+            <summary>
+            predicate: inheritor and parent must have same name
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.CanQuasiImplement(JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem,JetBrains.ReSharper.Daemon.CSharp.Cipa.ClassInheritanceProblemsAnalyzer.MemberItem)">
+            <summary>
+            predicate: inheritor and parent must have same name
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.ControlFlowProblemAnalyzerBase.IsUsageOfRecursiveLambdaDeclaration(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpExpression,JetBrains.ReSharper.Feature.Services.Daemon.IDaemonProcess)">
+            <summary>
+            Detects the case of recursive lambda declaration:
+            <code>Action lambda = null; lambda = () => { lambda(); };</code>
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.ExpressionBodySuggestionProblemAnalyzer.IsNiceEnoughExpressionBody(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpExpression)">
+            <summary>This is something between code style and heuristic.</summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.ArrayCreationProblemAnalyzer.CheckArrayInitializer(JetBrains.ReSharper.Feature.Services.Daemon.IDaemonProcess,JetBrains.ReSharper.Feature.Services.Daemon.IHighlightingConsumer,JetBrains.ReSharper.Psi.CSharp.Tree.IArrayInitializer,System.Nullable{System.UInt64}[],JetBrains.ReSharper.Psi.IType)">
+            <summary>
+            Check for arrays in array initializer.
+            </summary>
+            <param name="process"></param>
+            <param name="consumer"></param>
+            <param name="initializer"></param>
+            <param name="size">Sizes of the array. Element == -1 for open array. Array size is the rank ot the array</param>
+            <param name="elementType"></param>
+            <returns>Number of initializer elements in the array (for each dimension)</returns>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.SpecifyStringComparisonAnalyzer.Matchers.EnsureCreatedIfAvailable">
+            <summary>
+            Creates matchers on demand if C# language is availble
+            </summary>
+            <returns>True if there is C# language, false otherwise</returns>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.StringProblemAnalyzer.UnrecognizedEscapeSequence">
+            <summary>
+            error CS1009: Unrecognized escape sequence
+            </summary>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.StringProblemAnalyzer.UnescapedCurly">
+            <summary>
+            error CS8086: A '}' character must be escaped (by doubling) in an interpolated string
+            </summary>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.StringProblemAnalyzer.EscapedCurly">
+            <summary>
+            error CS8087: A '}' character may only be escaped by doubling '}}' in an interpolated string
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.CSharp.Stages.CSharpIncrementalDaemonStageProcessBase">
+            <summary>
+            Base class for daemon stages which can incrementally re-highlight changed function only
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.ObjectCreationProblemAnalyzer.IsObjectCreationRedundant(JetBrains.ReSharper.Psi.CSharp.Tree.IObjectCreationExpression,JetBrains.ReSharper.Psi.ITypeConversionRule)">
+            <summary>
+            In some cases, object creation could be redundant. (For example, delegate creation and nullable type conversion)
+            Check that!
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.TypeElementProblemAnalyzer.CheckStaticClassProblems(JetBrains.ReSharper.Psi.CSharp.Tree.IClassDeclaration,JetBrains.ReSharper.Psi.IClass)">
+            <summary>
+            According to paragraph 25.2.1 of C# specs
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.AnonymousMethodProblemAnalyzer.ShouldHighlightAnonymousMethodConversionProblem(JetBrains.ReSharper.Psi.CSharp.Types.IAnonymousFunctionType,JetBrains.ReSharper.Psi.IType,JetBrains.ReSharper.Psi.CSharp.Impl.ICSharpTypeConversionRule)">
+            <summary>
+            Highlight errors when anonymous method couldn't be assigned to target type, 
+            except for return type mismatch - it will be highlighted
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.AttributeAnalyzer.IsValidTargetUsage(System.AttributeTargets,System.AttributeTargets,JetBrains.ReSharper.Psi.Tree.IDeclaration,JetBrains.ReSharper.Psi.CSharp.Tree.IAttribute)">
+            <summary>
+            According to C# specs 17.2
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.LocalVariableScopeAnalyzer.Run(JetBrains.ReSharper.Psi.CSharp.Tree.ILocalVariableDeclaration,System.Boolean)">
+            <summary>
+            </summary>
+            <param name="declaration"></param>
+            <param name="ignoreInitializerPresence">
+            This parameter is set to <c>true</c> when control flow analysis checks that
+            constant initializer isn't used at any execution path</param>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.CSharp.Stages.TypeArgumentProblemAnalyzer">
+            <summary>
+            According to C# specs 25.7.1
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.TypeParameterProblemAnalyzer.IsValid(System.Collections.Generic.IEnumerable{JetBrains.ReSharper.Psi.CSharp.Tree.ITypeParameterConstraintsClause})">
+            <summary>
+            Check that constraints clasuses are subject for further analysis, i.e. all parsed properly
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.InconsistentAccessibilityAnalyzer.CheckAccessibilityConsistent(JetBrains.ReSharper.Psi.ITypeElement,JetBrains.ReSharper.Psi.ITypeMember,JetBrains.ReSharper.Daemon.UsageChecking.CollectUsagesStageProcess)">
+            <summary>
+            Compare the accessibility rights and returns <c>false</c>
+            if <paramref name="testType"/> is less accessible then <paramref name="contextMember"/>, 
+            which means that the error should be highlighted according to C# specs 10.5.2
+            </summary>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Stages.SmartResolverProcess.ScopeResolver.myCheckRedundantQualifiers">
+            <summary>
+            Indicates wether resolve for redundant qualifier check should be done
+            If daemon incrementally rehighlights method body, then only this body should be checked
+            </summary>
+        </member>
+        <member name="F:JetBrains.ReSharper.Daemon.CSharp.Stages.UnsafeContextCheckingStageProcess.myUnsafeContextCounter">
+            <summary>
+            Current number of 'unsafe' keywords upper in the tree.
+            -1 means that unsafe context is prohibited here
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.UnsafeContextCheckingStageProcess.GetTypeToCheckForUnsafe(JetBrains.ReSharper.Psi.Tree.IExpression)">
+            <summary>
+            just optimizations, since asking type of every expression is too expensive
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.UnsafeContextCheckingStageProcess.IsFixedExpression(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpExpression)">
+            <summary>
+            Heuristic. Not found in specs what it means
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Daemon.CSharp.Stages.UnsafeContextCheckingStageProcess.CheckIsUnmanagedType(JetBrains.ReSharper.Psi.IType,System.Collections.Generic.JetHashSet{JetBrains.ReSharper.Psi.IStruct})">
+            <summary>
+            Check if this type is unmanaged type:
+            •  sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, or bool.
+            •  Any pointer-type.
+            •  Any enum-type.
+            •  Any user-defined struct-type that contains fields of unmanaged-types only
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Daemon.CSharp.Stages.Analysis.XmlDocProblemAnalyzer">
+            <summary>
+            This will analyze semantic problems in XML documentation
+            Resolve errors are highlighted in <see cref="T:JetBrains.ReSharper.Daemon.CSharp.Stages.Resolve.ResolveProblemHighlighter"/>
+            </summary>
+        </member>
+    </members>
+</doc>

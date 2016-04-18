@@ -1,0 +1,771 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.Platform.DocumentModel</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.DocumentModel.IDocumentOperationsHandler">
+            <summary>
+            Base interface for the pluggable part of the <see cref="!:VsDocumentWhidbey"/> implementation that switches between feeding on file system entities and Visual Studio RDT Text Buffers (preferred if a document is known to the RDT).
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IDocumentOperationsHandler.Moniker">
+            <summary>
+            Gets the document moniker (an arbitrary string that helps with identifying this document).
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.FileSystemDocumentOperationsHandler">
+            <summary>
+            Pluggable part of the <see cref="!:VsDocumentWhidbey"/> implementation.
+            When the document is not open in Visual Studio RDT, operates on the disk files directly.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.FileSystemDocumentOperationsHandler.ExpectChangeCallbackForOurActivity(System.Nullable{JetBrains.Util.TextRange},System.Nullable{JetBrains.Util.TextRange})">
+            <summary>
+            We're doing smth to VS that it will report back to us in an event, ack the event and let into the transaction.
+            Might be nested.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.FileSystemDocumentOperationsHandler.FileDidNotExist">
+            <summary>
+            The file did not exist at the moment when the operation handler was created.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.FileSystemDocumentOperationsHandler.Moniker">
+            <summary>
+            Gets the document moniker (an arbitrary string that helps with identifying this document).
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.CommandProcessing.DocumentCommandProcessor.AddUndoRedoHandlers(JetBrains.DocumentModel.IDocument,System.Collections.Generic.IEnumerable{JetBrains.Util.IUndoRedoHandler})">
+            <summary>
+            ask gorelov
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.DocColumn">
+            <summary>
+            Type disambig for <see cref="T:JetBrains.Util.dataStructures.TypedIntrinsics.Int32`1"/>.
+            Represents zero-based column indices in the document stream.
+            This does not correspond directly to the text control view lines and columns because of the collapsed regions and other view transformations.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.DocLine">
+            <summary>
+            Type disambig for <see cref="T:JetBrains.Util.dataStructures.TypedIntrinsics.Int32`1"/>.
+            Represents zero-based line indices in the document stream.
+            This does not correspond directly to the text control view lines and columns because of the collapsed regions and other view transformations.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.DocLineColumnRange">
+            <summary>
+            Ranges two <see cref="T:JetBrains.DocumentModel.DocumentCoords"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocLineColumnRange.#ctor(JetBrains.DocumentModel.DocumentCoords,JetBrains.DocumentModel.DocumentCoords)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Object"/> class.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocLineColumnRange.#ctor(JetBrains.DocumentModel.DocumentCoords)">
+            <summary>
+            Creates a zero-length range at the given position.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocLineColumnRange.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <returns>
+            true if <paramref name="obj"/> and this instance are the same type and represent the same value; otherwise, false.
+            </returns>
+            <param name="obj">Another object to compare to. </param><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocLineColumnRange.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns>
+            A 32-bit signed integer that is the hash code for this instance.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocLineColumnRange.Equals(JetBrains.DocumentModel.DocLineColumnRange)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="T:JetBrains.DocumentModel.DocumentChange">
+            <summary>
+            <para>Denotes a change to the document text.</para>
+            <para>Possible changes are: characters inserted, characters deleted, characters replaced. All these are represented as replacements, eg deletion is replacing a range with an empty string, and insertion is replacing an empty range with some text.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentChange.#ctor(JetBrains.DocumentModel.IDocument,System.Int32,System.Int32,System.String,System.Int32,JetBrains.DocumentModel.TextModificationSide)">
+            <summary>
+            This constructor is used for delta-changes
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.Document">
+            <summary>
+            Gets the document affected by the change.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.StartOffset">
+            <summary>
+            <para>Offset at which the replacement operation is performed.</para>
+            <para>The range being removed by the replacement is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.OldLength"/>).</para>
+            <para>The range of the new text after the replacement is performed is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>).</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.NewText">
+            <summary>
+            <para>The replacement text.</para>
+            <para>It is <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/> characters long and occupies the [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>) range after the replacement is performed.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.OldLength">
+            <summary>
+            <para>Length of the affected text before the replacement is performed.</para>
+            <para>The range being removed by the replacement is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.OldLength"/>).</para>
+            <para>The range of the new text after the replacement is performed is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>).</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.NewExtent">
+            <summary>
+            <para>The range of the replacement text.</para>
+            <para>The range being removed by the replacement is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.OldLength"/>).</para>
+            <para>The range of the new text after the replacement is performed is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>).</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.NewLength">
+            <summary>
+            <para>Length of the affected text after the replacement is performed. Essentialy equal to the <see cref="P:JetBrains.DocumentModel.DocumentChange.NewText"/>'s <see cref="P:System.String.Length"/></para>
+            <para>The range being removed by the replacement is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.OldLength"/>).</para>
+            <para>The range of the new text after the replacement is performed is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>).</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentChange.OldExtent">
+            <summary>
+            <para>The affected text range, before the replacement is performed.</para>
+            <para>The range being removed by the replacement is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.OldLength"/>).</para>
+            <para>The range of the new text after the replacement is performed is [<see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/>, <see cref="P:JetBrains.DocumentModel.DocumentChange.StartOffset"/> + <see cref="P:JetBrains.DocumentModel.DocumentChange.NewLength"/>).</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.TryParse(System.String)">
+            <summary>
+            Try parse string representation of coordinates.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.TryParse(System.String,System.IFormatProvider)">
+            <summary>
+            Try parse string representation of coordinates.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.Parse(System.String)">
+            <summary>
+            Parse string representation of coordinates.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.Equals(JetBrains.DocumentModel.DocumentCoords)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+            <returns>
+            true if <paramref name="obj"/> and this instance are the same type and represent the same value; otherwise, false.
+            </returns>
+            <param name="obj">Another object to compare to. </param><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentCoords.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+            <returns>
+            A 32-bit signed integer that is the hash code for this instance.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentCoords.Line">
+            <summary>
+            Zero-based line of the document. VS displays one-based line numbers, so add 1 to get consistent result.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.DocumentCoords.Column">
+            <summary>
+            Zero-based column of the document. VS displays one-based column numbers, so add 1 to get consistent result.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IDocumentModelZone">
+            <summary>
+            Text documents support.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IDocumentOwner">
+            <summary>
+            <para>An interface on the entity which can create documents, and for such documents defines various strategies for their operations.</para>
+            <para>Each <see cref="T:JetBrains.DocumentModel.IDocument"/> gives out its <see cref="T:JetBrains.DocumentModel.IDocumentOwner"/> as a property.</para>
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IDocumentPointer">
+            <summary>
+            <para>Represents a document without necessarily holding it in the memory. Can restore and return the document on demand.</para>
+            <para>Examples are documents bound to project model or file system paths, which can be read from files / Visual Studio as needed.</para>
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IIdeInMemoryDocumentFactory">
+            <summary>
+            Creates uncontrolled documents based on string that can be edited in IDE editor.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IIdeInMemoryDocumentFactory.CreateIdeDocumentFromText(System.String,System.String,System.Func{JetBrains.DocumentModel.IDocument,JetBrains.Util.ModificationCookie})">
+            <summary>
+            <para>Creates uncontrolled (not bound to any real source like project file) documents based on string that can be edited in IDE editor.</para>
+            <para>In tests, that would be a simple implementation. In VS, that would be a VS text buffer.</para>
+            </summary>
+            <param name="text">Document text.</param>
+            <param name="moniker">Document moniker that uniquely identifies this document.</param>
+            <param name="ensureWritableHandler">Queries whether the document is allowed to be written.</param>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IInMemoryDocumentFactory">
+            <summary>
+            Creates uncontrolled documents based on string.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IInMemoryDocumentFactory.CreateSimpleDocumentFromText(System.String,System.String,JetBrains.DocumentModel.Transactions.IDocumentTransactionManager)">
+            <summary>
+            Creates an <see cref="T:JetBrains.DocumentModel.IDocument"/> from the given text.
+            This is always the simple implementation of the standalone string-based document.
+            </summary>
+            <param name="text">Document text.</param>
+            <param name="moniker">Document moniker that uniquely identifies this document.</param>
+            <param name="customTransactionManager"> </param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.InMemoryDocumentFactoryEx.CreateSimpleDocumentFromFile(JetBrains.DocumentModel.IInMemoryDocumentFactory,JetBrains.Util.FileSystemPath)">
+            <summary>
+            Creates an <see cref="T:JetBrains.DocumentModel.IDocument"/> from the text if the given file. The file encoding is retained so that it could be re-applied when the file is saved.
+            This is always the simple implementation of the standalone string-based document.
+            The file path is used as the document moniker.
+            Throws exception when file does not exist or there is any other IO problem. If the document should be returned despite any IO problem use <see cref="M:JetBrains.DocumentModel.InMemoryDocumentFactoryEx.CreateSimpleDocumentFromFileSafe(JetBrains.DocumentModel.IInMemoryDocumentFactory,JetBrains.Util.FileSystemPath,System.Func{JetBrains.DocumentModel.IDocument,JetBrains.Util.ModificationCookie})"/>
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.InMemoryDocumentFactoryEx.CreateSimpleDocumentFromFileSafe(JetBrains.DocumentModel.IInMemoryDocumentFactory,JetBrains.Util.FileSystemPath,System.Func{JetBrains.DocumentModel.IDocument,JetBrains.Util.ModificationCookie})">
+            <summary>
+            Creates an <see cref="T:JetBrains.DocumentModel.IDocument"/> from the text if the given file. The file encoding is retained so that it could be re-applied when the file is saved.
+            This is always the simple implementation of the standalone string-based document.
+            The file path is used as the document moniker.
+            The method is 
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.InMemoryDocumentFactoryEx.CreateSimpleDocumentFromStream(JetBrains.DocumentModel.IInMemoryDocumentFactory,System.IO.Stream,System.String)">
+            <summary>
+            Creates an <see cref="T:JetBrains.DocumentModel.IDocument"/> from the text if the given file. The file encoding is retained so that it could be re-applied when the file is saved.
+            This is always the simple implementation of the standalone string-based document.
+            <param name="stream">Document text stream.</param>
+            <param name="moniker">Document moniker that uniquely identifies this document.</param>
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.DocumentRange">
+            <summary>
+            Text range in document
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentRange.ToString">
+            <summary>
+            Returns the fully qualified type name of this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> containing a fully qualified type name.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:JetBrains.DocumentModel.DocumentRangeExtensions.AssertValid(JetBrains.DocumentModel.DocumentRange)">
+            <summary>
+            In addition to it's range validity also checks that range is contained in the owner document. 
+            </summary>
+            <param name="documentRange"></param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetCoordsByOffset(System.Int32)">
+            <summary>
+            <para>Gets document coordinates (line and column) by flat document offset.</para>
+            <para>The column number is forced within line length limits (inclusive) in case the offset falls on the line-break characters. In this case the offset/line-col might not roundtrip.</para>
+            </summary>
+            <param name="offset">Offset in document, must be non-negative and less than or equal to <see cref="M:JetBrains.DocumentModel.IDocument.GetTextLength">document text length</see>.</param>
+            <returns>DocumentCoords.</returns>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetOffsetByCoords(JetBrains.DocumentModel.DocumentCoords)">
+            <summary>
+            Gets offset in document by document coordinates (line and column)
+            </summary>
+            <param name="coords">Coordinates in document</param>
+            <returns>offset in document, or -1 if coordinates are not within the document</returns>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetLineStartOffset(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.DocumentModel.DocLine})">
+            <summary>
+            Gets the start offset of the given line.
+            </summary>
+            <param name="line">Line number.</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetLineEndOffsetNoLineBreak(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.DocumentModel.DocLine})">
+            <summary>
+            Gets the end offset of the given line.
+            The possible line-break characters at the end of the line are NOT included by this method.
+            </summary>
+            <param name="line">Line number.</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetLineEndOffsetWithLineBreak(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.DocumentModel.DocLine})">
+            <summary>
+            Gets the end offset of the given line.
+            The possible line-break characters at the end of the line are included by this method.
+            </summary>
+            <param name="line">Line number.</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetLineCount">
+            <summary>
+            <para>Gets the number of lines in the document.</para>
+            <para>This is the maximum possible line number (non-inclusive) for methods that take a line number.</para>
+            <para>A document has at least one line. An empty document has exactly one zero-length line.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetTextLength">
+            <summary>
+            Gets the number of characters in the document. This is the maximum possible offset (inclusive) for methods that take an offset, including <see cref="T:JetBrains.Util.TextRange">text ranges</see>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.EnsureWritable">
+            <summary>
+            Use <see cref="!:IDocumentEx.EnsureWritable"/> wherever possible.
+            Get clearance for write access to the docment, for example, at the Source Code Control.
+            You MUST scope document modifications with the return value of this method (dispose of the return value when done).
+            </summary>
+            <returns>The cookie that must be disposed of immediately after you're done with writing to the document. You're only allowed to write while it's alive and if its <see cref="P:JetBrains.Util.ModificationCookie.EnsureWritableResult"/> is <see cref="F:JetBrains.Util.EnsureWritableResult.SUCCESS"/>.</returns>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.ContainsReadOnlyRegions">
+            <summary><seealso cref="M:JetBrains.DocumentModel.IDocument.MakeReadonly(JetBrains.DataFlow.Lifetime,JetBrains.Util.TextRange)"/>
+            Checks whether portions of the document are locked from being edited.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.MakeReadonly(JetBrains.DataFlow.Lifetime,JetBrains.Util.TextRange)">
+            <summary><seealso cref="M:JetBrains.DocumentModel.IDocument.ContainsReadOnlyRegions"/>
+            Locks a document range temporarily to prevent it from being edited. To unlock, dispose of the return value.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.IDocument.GetLineLength(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.DocumentModel.DocLine})">
+            <summary>
+            Gets the length of the document line.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IDocument.Moniker">
+            <summary>
+            Gets the document moniker (an arbitrary string that helps with identifying this document).
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IDocument.DocumentRange">
+            <summary>
+            Gets the whole range of the document, from <c>0</c> to <see cref="M:JetBrains.DocumentModel.IDocument.GetTextLength"/>.
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentModel.IDocument.DocumentChanged">
+            <summary>
+            'real' document is changed. This event is raised at the end of transaction.
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentModel.IDocument.BeforeDocumentChanged">
+            <summary>
+            Before 'real' document is changed. This event is raised at the end of transaction.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.Impl.DocumentBase">
+            <summary>
+            Base class for document implementations
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.DocumentBase.myActionsToExecuteAfterChange">
+            <summary>
+            Non-thread-safe init, changes are primary-thread-related only.
+            Lazy: this field n/a when document is used from PSI for readonly background access.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.DocumentBase.myDocumentChangedEventDispatcher">
+            <summary>
+            Lazy: this field n/a when document is used from PSI for readonly background access.
+            Thread-safe init required: even though changes would only fire on the Write-Lock Thread, sometimes PSi would sink this event from secondary threads, eg on Generated Documents.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.DocumentBase.myBeforeDocumentChangedEventDispatcher">
+            <summary>
+            Lazy: this field n/a when document is used from PSI for readonly background access.
+            Thread-safe init required: even though changes would only fire on the Write-Lock Thread, sometimes PSi would sink this event from secondary threads, eg on Generated Documents.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.DocumentBase.myBeforeDocumentCopyChangedEventDispatcher">
+            <summary>
+            Lazy: this field n/a when document is used from PSI for readonly background access.
+            Thread-safe init required: even though changes would only fire on the Write-Lock Thread, sometimes PSi would sink this event from secondary threads, eg on Generated Documents.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.DocumentBase.myLineIndex">
+            <summary>
+            Maps lines to their flat offsets. Lazy-inited when first requested.
+            Free-threaded access, must be init-protected.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.ExpectCallbacksFromUnderlyingStore(System.Action)">
+            <summary>
+            For documents that are wrapping some underlying store (eg Visual Studio documents over Text Buffers), marks a state when we expect modification callbacks from the underlying store.
+            This relaxes some limitations on document modifications, as those are actual changes to the underlying store we MUST apply to be in sync.
+            The limitations include eg Modification Cookies that must be taken for all file-based documents on the Solution so that they could be cleared with SCC. These do not apply when the changes are coming from the underlying store.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.ChangeDocument(JetBrains.DocumentModel.DocumentChange,System.Int32)">
+            <summary>
+            Apply change caused by operation on the document (e.g. )
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.HandleExternalChange(JetBrains.DocumentModel.DocumentChange,System.Int32,System.Boolean)">
+            <summary>
+            Apply external change
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.MakeReadonly(JetBrains.DataFlow.Lifetime,JetBrains.Util.TextRange)">
+            <summary>
+            Locks a document range temporarily to prevent it from being edited. To unlock, dispose of the return value.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentBase.AssertOnDocumentModification">
+            <summary>
+            Called by document implementations when they'd like to modify the document to assert that modification is allowed at the moment.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.DocumentBase.IsExpectingCallbacksFromUnderlyingStore">
+            <summary>
+            For documents that are wrapping some underlying store (eg Visual Studio documents over Text Buffers), marks a state when we expect modification callbacks from the underlying store.
+            This relaxes some limitations on document modifications, as those are actual changes to the underlying store we MUST apply to be in sync.
+            The limitations include eg Modification Cookies that must be taken for all file-based documents on the Solution so that they could be cleared with SCC. These do not apply when the changes are coming from the underlying store.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.DocumentBase.Moniker">
+            <summary>
+            Gets the document moniker (an arbitrary string that helps with identifying this document).
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.DocumentBase.DocumentRange">
+            <summary>
+            Gets the whole range of the document, from <c>0</c> to <see cref="M:JetBrains.DocumentModel.Impl.DocumentBase.GetTextLength"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentUtil.ReadTextFromFile(JetBrains.Util.FileSystemPath,System.Boolean)">
+            <summary>
+            Reads text from a file on disk.
+            </summary>
+            <param name="path">The file to read.</param>
+            <param name="bFailOnErrors">Whether to throw on failures (eg missing file), otherwise, an empty string will be returned.</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentUtil.ReadTextFromFile(JetBrains.Util.FileSystemPath,System.Boolean,System.Text.Encoding@)">
+            <summary>
+            Reads text from a file on disk.
+            </summary>
+            <param name="path">The file to read.</param>
+            <param name="bFailOnErrors">Whether to throw on failures (eg missing file), otherwise, an empty string will be returned.</param>
+            <param name="encoding">Detected file encoding</param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.DocumentUtil.SaveDocumentToFile(JetBrains.DocumentModel.IDocument,JetBrains.Util.FileSystemPath)">
+            <summary>
+            May throw IOException, SecurityException etc
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.Impl.EditableBuffer">
+            <summary>
+            IEditableBuffer implementation
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.EditableBuffer.myInsertPoint">
+            <summary>
+            Point where we expect text to be inserted
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.EditableBuffer.myInsertBuffer">
+            <summary>
+            Buffer to hold the subsequent characters being inserted
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.EditableBuffer.myText">
+            <summary>
+            The rest of the text except for the insert point
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.Impl.LineIndex">
+            <summary>
+            <para>Array-based implementation of line index.</para>
+            <para>Mapping between one-dimensional (offsets) to two-dimensional (lines and columns) coordinate systems.</para>
+            <para>This class is not thread-safe, the caller should take care of locking the read and write operations apart. This class has no implicit writes on reads.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Impl.LineIndex.myLineSegments">
+            <summary>
+            Maps line number to TextRange containing start and end offsets of the line.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineIndex.GetLineColByOffset(System.Int32)">
+            <summary>
+            Gets line-col by the flat document offset.
+            The column number is forced within line length limits (inclusive) in case the offset falls on the line-break characters. In this case the offset/line-col might not roundtrip.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineIndex.GetLineText(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.DocumentModel.DocLine})">
+            <summary>
+            Gets the text of the line, not including any line break characters.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineIndex.UpdateByChange(JetBrains.DocumentModel.DocumentChange)">
+            <summary>
+            Accomodates a document change incrementally
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineIndex.FindLineByOffset(System.Collections.Generic.List{JetBrains.DocumentModel.Impl.LineSegment},System.Int32)">
+            <summary>
+            Binary-searches the line segments.
+            Static because it cannot rely on object state (eg myBuffer) because the state could be inconsistent due to a text change being accomodated (when buffer is already changed and segments array is not yet).
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineIndex.RebuildIndex(JetBrains.Util.TextRange)">
+            <summary>
+            Rebuilds a part of the index (or the whole index). 
+            </summary>
+            <param name="rangeWholeLines">The part to rebuild. Range ends must be at start offsets of some lines (or end-offset-with-line-break, which is the same).</param>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineIndex.LineCount">
+            <summary>
+            The number of lines in the index. There's always at least one line.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Impl.LineSegment.ToString">
+            <summary>
+            Returns the fully qualified type name of this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> containing a fully qualified type name.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.EndOffsetNoLineBreak">
+            <summary>
+            Index after the last non-line-break character of the line. This denotes the line length.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.EndOffsetWithLineBreak">
+            <summary>
+            Index after the last character of the line, including any line break characters it has.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.ExtentNoLineBreak">
+            <summary>
+            Gets the line extent, not including the line break characters.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.ExtentWithLineBreak">
+            <summary>
+            Gets the line extent, including the line break characters.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.LengthNoLineBreak">
+            <summary>
+            Gets the number of non-line-break characters in the line.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.LengthWithLineBreak">
+            <summary>
+            Gets the number of characters in the line, including the line break characters.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.Impl.LineSegment.StartOffset">
+            <summary>
+            Index of the first character in the line.
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.impl.ManagedDocumentBase">
+            <summary>
+            This implementation of document performs operations using 'document transactions'.
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.impl.ManagedDocumentBase.ApplyInternalDocumentChange(JetBrains.DocumentModel.DocumentChange,System.Boolean,System.Int32)">
+            <summary>
+            Initiates change that can be made in some external storage (like VS doc)
+            This method handles internal changes (psi, document write operations, etc.)
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.impl.ManagedDocumentBase.HandleExternalDocumentChange(JetBrains.DocumentModel.DocumentChange,System.Boolean,System.Int32)">
+            <summary>
+            Handle modification, raise events
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IRangeMarker">
+            <summary>
+            Represents a common interface for range markers
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IRangeMarker.Range">
+            <summary>
+            Gets the current text range corresponding to the range marker
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IRangeMarker.Document">
+            <summary>
+            Gets the associated document
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IRangeMarker.IsValid">
+            <summary>
+            Gets or set a value indicating whether the range marker is valid
+            <remarks>Setting works only for invalidating marker</remarks>
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IRangeMarker.IsGreedyToLeft">
+            <summary>
+            Indicates whether the range market is greedy to left
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.IRangeMarker.IsGreedyToRight">
+            <summary>
+            Indicates whether the range market is greedy to right
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentModel.IRangeMarker.Changed">
+            <summary>
+            Fired when range marker changed
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.IRangeMarkerTipProvider">
+            <summary>
+            Provider for tool-tips appearing when the mouse cursor hovers over the area covered by a range marker
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.RangeMarker">
+            <summary>
+            Implementation of the <see cref="T:JetBrains.DocumentModel.IRangeMarker"/> interface.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.RangeMarker.myRangeBeforeTransaction">
+            <summary>
+            Stores range before transaction.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.RangeMarker.myIsValid">
+            <summary>
+            Indicates whether the range marker is valid or not
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.RangeMarker.NotifyDocumentChanged(JetBrains.DocumentModel.DocumentChange,System.Int32)">
+            <summary>
+            Notifies a range marker about document change
+            </summary>
+        </member>
+        <member name="E:JetBrains.DocumentModel.RangeMarker.Changed">
+            <summary>
+            Fired when range marker changed
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.RangeMarker.IsGreedyToLeft">
+            <summary>
+            Indicates whether the range marker is greedy to left
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.RangeMarker.IsGreedyToRight">
+            <summary>
+            Indicates whether the range marker is greedy to right
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.RangeMarker.IsValid">
+            <summary>
+            Gets or set a value indicating whether the range marker is valid
+            <remarks>Setting works only for invalidating marker</remarks>
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.RangeMarkerExtentions.CreateRangeMarkerWithMappingToDocument(JetBrains.DocumentModel.DocumentRange)">
+            <summary>
+            Specific implementation for markup range markers.
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.RangeMarkersManager.RangeMarkerKey">
+            <summary>
+            This key is used to store range markers collection in document or project file...
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.RangeMarkersManager.CachedDocumentKey">
+            <summary>
+            The key is used to cache document corresponding to project file to avoid unnecessary queries
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.RangeMarkersManager.RangeMarkerTimeStampKey">
+            <summary>
+            This key is used to store dicument timestamp for which range markers are updated
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.StandaloneDocument.MakeReadonly(JetBrains.DataFlow.Lifetime,JetBrains.Util.TextRange)">
+            <summary>
+            Locks a document range temporarily to prevent it from being edited. To unlock, dispose of the return value.
+            </summary>
+        </member>
+        <member name="P:JetBrains.DocumentModel.StandaloneDocument.Moniker">
+            <summary>
+            Gets the document moniker (an arbitrary string that helps with identifying this document).
+            </summary>
+        </member>
+        <member name="T:JetBrains.DocumentModel.Transactions.DocumentModificationMap">
+            <summary>
+            Converts series of sequential document changes to optimized final document change map
+            </summary>
+        </member>
+        <member name="F:JetBrains.DocumentModel.Transactions.DocumentModificationMap.myMap">
+            <summary>
+            Sorted
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Transactions.DocumentModificationMap.Finish(JetBrains.Text.IBuffer,JetBrains.Text.IBuffer)">
+            <summary>
+            When all changes are consumed, make final optimization
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Transactions.DocumentModificationMap.FindStartPoint(System.Int32,System.Int32@)">
+            <summary>
+            Try to find the right segment in the modified document
+            Returns true if the point is inside modified segment, and <paramref name="segment"/> contains the segment index
+            Returns false if the point is outside modified segment, and <paramref name="segment"/> contains the previous segment index
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Transactions.DocumentModificationMap.FindEndPoint(System.Int32,System.Int32@)">
+            <summary>
+            Try to find the right segment in the modified document
+            Returns true if the point is inside modified segment, and <paramref name="segment"/> contains the segment index
+            Returns false if the point is outside modified segment, and <paramref name="segment"/> contains the next segment index
+            </summary>
+        </member>
+        <member name="M:JetBrains.DocumentModel.Transactions.DocumentTransactionUtil.GetOptimizedChange(JetBrains.DocumentModel.DocumentChange,System.String)">
+             <summary>
+             If the replaced text is the same at the beginning/ending, then do not modify that portion of text
+             </summary>
+            <param name="documentChange"></param>
+            <param name="oldRangeText"></param>
+        </member>
+    </members>
+</doc>

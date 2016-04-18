@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.ReSharper.Feature.Services.CSharp</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedUsingStatement">
+            <summary>
+            Using statement is lifted if resource expression is lifted
+            or all resource variables are initialized by lifted expressions.
+            </summary>
+            <example>
+             using (var t = x.M()) { } => using (var t = x?.M()) { }
+             using (x.M()) { }         => using (x?.M()) { }
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedAssignmentStatement">
+            <summary>
+            Expression statement with assignment is lifted if destination
+            is simple lifted reference and source expression can be lifted.
+            </summary>
+            <example>
+             x = x.M(); => x = x?.M();
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedInvertedIfStatement">
+            <summary>
+            If statement with negative check, no else statement and control flow jump as then statement.
+            </summary>
+            <example>
+             if (x == null) return;
+             if (x == null || ...) continue;
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedBlockStatement">
+            <summary>
+            Blocks are lifted if containing statements are all lifted.
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedDeclarationStatement">
+            <summary>
+            Declaration statement is lifted if all it's variables are initialized by lifted expressions.
+            </summary>
+            <example>
+             var t = x.M(); => var t = x?.M();
+             int i = x.Val; => int? i = x?.Val;
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedExpressionStatement">
+            <summary>
+            Expression statement is lifted if it's expression can be lifted.
+            </summary>
+            <example>
+             x.M(); => x?.M();
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedIfStatement">
+            <summary>
+            If statement with no else block is lifted when condition
+            is lifted (or if first of conjuncted conditions can be lifted).
+            </summary>
+            <example>
+             if (x != null) { }
+             if (x != null &amp;&amp; ...) { }
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedJumpStatement">
+            <summary>
+            Jump statement (break/continue/return/goto/goto case/yield break) is lifted if merged.
+            </summary>
+            <example>
+             return x.M(); => return x?.M();
+            </example>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ConditionalAccess.Statements.LiftedReturnStatement">
+            <summary>
+            Return statement is lifted if it's return value can be lifted
+            and there is lifted jump statement to merge with.
+            </summary>
+            <example>
+             return x.M(); => return x?.M();
+            </example>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.StructuralSearch.CSharpStructuralSearchReplacer.DiffNodes(JetBrains.ReSharper.Psi.ITreeRange,JetBrains.ReSharper.Psi.ITreeRange,JetBrains.ReSharper.Feature.Services.StructuralSearch.IStructuralMatchResult,System.Collections.Generic.ICollection{JetBrains.Util.Pair{JetBrains.ReSharper.Psi.TreeTextRange,JetBrains.ReSharper.Psi.TreeTextRange}})">
+            <summary>
+            Returns list of pairs of ranges in original and modified trees where they differ.
+            </summary>
+            <param name="original"></param>
+            <param name="modified"></param>
+            <param name="result"></param>
+            <param name="diffRanges"></param>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.Util.CSharpAutoPropertyUtil.IsDefaultInitializer(JetBrains.ReSharper.Psi.IType,JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpExpression)">
+            <summary>
+            Check if this expression initializer field with given type to default value, i.e. could be safely omitted.
+            This means '0' for integral types, default ctor for value types, null for reference types.
+            NOTE: initializing with named constant is not counted as default!
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.CSharpReparseContext">
+            <summary>
+            Extract part of the physical file as context, which could be reparsed multiple times 
+            to check if some contruct could be parsed in given context, or not
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.Daemon.CSharpDaemonUtil.IsClosureVariable(JetBrains.ReSharper.Psi.IDeclaredElement,JetBrains.ReSharper.Psi.CSharp.Tree.IReferenceExpression)">
+            <summary>
+            Check if given declared element is part of closure in respect to given access expression
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.Daemon.RedundantCastAnalyzer.CheckInvariantSemantics(JetBrains.ReSharper.Psi.IType)">
+            <summary>
+            Checks if semantic will not be broken if the cast will be removed
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.CodeCompletion.CodeCompletionArgumentsContext.Create(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpIdentifier,JetBrains.ReSharper.Psi.TreeTextRange@)">
+            <summary>
+            Calculates completion range for the specified reference
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.Intentions.CSharpImplementInterfaceIntention.Implement(JetBrains.ReSharper.Psi.ITypeElement,JetBrains.ReSharper.Psi.IDeclaredType[])">
+            <summary>
+            Implements interfaces
+            </summary>
+            <param name="implementor">Type to implement interface for</param>
+            <param name="interfacesToImplement">Interfaces to implement</param>
+            <returns>Post-execute action to run template for generated methods body</returns>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.Intentions.CSharpImplementInterfaceIntention.Implement(JetBrains.ReSharper.Psi.CSharp.Tree.IClassLikeDeclaration,JetBrains.ReSharper.Psi.IDeclaredType[])">
+            <summary>
+            Implements interfaces
+            </summary>
+            <param name="declaration">Declaration to implement intarfaces</param>
+            <param name="interfacesToImplement">Interfaces to implement</param>
+            <returns>Post-execute action to run template for generated methods body</returns>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.OptionPages.CsharpPage">
+            <summary>
+            Root options page for the C# language options.
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.ParameterInfo.CsParameterInfoInvocationContext.CreateInvocationContext(JetBrains.ReSharper.Psi.Tree.ITreeNode,JetBrains.ReSharper.Psi.TreeOffset,JetBrains.ReSharper.Psi.TreeOffset,JetBrains.ReSharper.Feature.Services.CSharp.ParameterInfo.CsParameterInfoInvocationContext.UseParentContext)">
+            <summary>
+            Finds appropriate invocation seeking at the specified tree node
+            </summary>
+        </member>
+        <member name="P:JetBrains.ReSharper.Feature.Services.CSharp.ParameterInfo.CsParameterInfoInvocationContext.BoundsRange">
+            <summary>
+            Offsets within this range allow showing parameter information.
+            </summary>
+        </member>
+        <member name="P:JetBrains.ReSharper.Feature.Services.CSharp.ParameterInfo.CsParameterInfoInvocationContext.Arguments">
+            <summary>
+            Actual arguments of invocation. Convert them to nodes and use to find on which argument caret is.
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.SelectEmbracingConstruct.CSharpSelectEmbracingConstructProvider.ExtendRangeSelection(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpFile,JetBrains.ReSharper.Psi.Tree.ITreeNode,JetBrains.ReSharper.Psi.Tree.ITreeNode)">
+            <summary>
+            Try to build the tree range selection leaving it on the same tree level (i.e. don't walk to parent)
+            Return null if such selection couldn't be built
+            </summary>
+        </member>
+        <member name="M:JetBrains.ReSharper.Feature.Services.CSharp.SelectEmbracingConstruct.CSharpSelectEmbracingConstructProvider.BuildNodeSelection(JetBrains.ReSharper.Psi.CSharp.Tree.ICSharpFile,JetBrains.ReSharper.Psi.Tree.ITreeNode)">
+            <summary>
+            Try to build selection from the given node
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.StructuralSearch.CSharpPlaceholderStructuralMatcher">
+            <summary>
+            Special structural matcher if IElementMatcher underneath is in fact Placeholder matcher.
+            Used for optimization in Daemon
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ValueTracking.Nodes.LocalDeclarationNode">
+            <summary>
+            Local variable to usages or initializer...
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ValueTracking.Nodes.PropertyInitialNode">
+            <summary>
+            This node is created when value tracking runs on property declaration.
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ValueTracking.Nodes.PropertySelfValueNode">
+            <summary>
+            This node is descendant of <see cref="T:JetBrains.ReSharper.Feature.Services.CSharp.ValueTracking.Nodes.PropertyInitialNode"/>.
+            It is expanded into return value of getter or 'value' parameter of setter.
+            </summary>
+        </member>
+        <member name="T:JetBrains.ReSharper.Feature.Services.CSharp.ValueTracking.PreNodes.PreExpandedNodeParameterOut">
+            <summary>
+            Parameter to argument value
+            </summary>
+        </member>
+    </members>
+</doc>

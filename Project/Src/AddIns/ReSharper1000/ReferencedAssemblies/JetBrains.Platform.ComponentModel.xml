@@ -1,0 +1,2572 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JetBrains.Platform.ComponentModel</name>
+    </assembly>
+    <members>
+        <member name="T:JetBrains.Application.AssemblyReferenceClass_ComponentModel">
+            <summary>
+            Forces the compiler to add assembly references.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.MetadataLoaderAssemblyResolverOnMasterBinder">
+            <summary>
+            Tells how to bind metadata assemblies by name based on the <see cref="T:JetBrains.Application.Bindings.IAssemblyMasterBinder"/>.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemData.Paths">
+            <summary>
+            The first one is the DLL path, the rest are aux paths.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification">
+            <summary>
+            Allows to unify assembly files, as realized on disk, by their unique assembly name.
+            This is essential when you're loading runtime assemblies from them, otherwise your runtime types won't match.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification">
+            <summary>
+            Allows to unify assembly files, as realized on disk, by their unique assembly name.
+            This is essential when you're loading runtime assemblies from them, otherwise your runtime types won't match.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification.RealizeAssemblyItem(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.IAssemblyItem)">
+            <summary>
+            Realizes your assembly item on disk, or extends the lifetime of an already-realized assembly item with the same name and returns its path.
+            </summary>
+            <param name="lifetime">Will exist at the given path for at least this lifetime. Don't delete yourself, might be shared.</param>
+            <param name="item">Assembly name and content.</param>
+            <returns>Path to the disk file for assembly.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification.RealizeAssemblyItemNew(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.IAssemblyItem,JetBrains.Util.RelativePath)">
+            <summary>
+            Specifies the explicit subfolder name to place the file into. The file name is still taken from the item.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification.RealizeAssemblyItemNew(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.Util.FileSystemPath[]})">
+            <summary>
+            Registers a user-realized assembly item.
+            Fails if already present.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.InstallAssemblyResolver(JetBrains.DataFlow.Lifetime)">
+            <summary>
+            For assemblies which has been passed thru unification, and for which we know the mapping of the assembly name onto disk, installs an assembly resolver into the current appdomain.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.RealizeAssemblyItem(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.IAssemblyItem)">
+            <summary>
+            Realizes your assembly item on disk, or extends the lifetime of an already-realized assembly item with the same name and returns its path.
+            </summary>
+            <param name="lifetime">Will exist at the given path for at least this lifetime. Don't delete yourself, might be shared.</param>
+            <param name="item">Assembly name and content.</param>
+            <returns>Path to the disk file for assembly.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.RealizeAssemblyItemNew(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.IAssemblyItem,JetBrains.Util.RelativePath)">
+            <summary>
+            Specifies the explicit subfolder name to place the file into. The file name is still taken from the item.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.RealizeAssemblyItemNew(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.Util.FileSystemPath[]})">
+            <summary>
+            Registers a user-realized assembly item.
+            Fails if already present.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.MasterEnsureReleaseOnShutdown">
+            <summary>
+            Master shutdown, releases what's come from slave.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.UnrealizeAssemblyItem(JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemData,JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.FilesInUse)">
+            <summary>
+            Reverts assembly realization when its locks are gone, or when the object ends.
+            Has an option to tolerate locked files, e.g. for the Slave mode.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.Role.Master">
+            <summary>
+            Default mode.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnification.Role.Slave">
+            <summary>
+            Slave mode. Means we load some perdefined
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnificationEx.RealizeOnAssemblyResolveDemand(JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification,JetBrains.DataFlow.Lifetime,System.Collections.Generic.ICollection{JetBrains.Metadata.Utils.AssemblyItem})">
+            <summary>
+            Watch for assembly resolve events, if fired for one of the given assemblies, realize it using the assembly unification and load.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnificationMaster">
+            <summary>
+            The master unification manager which can share with a slave instance (e.g. running in another appdomain).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationMaster">
+            <summary>
+            The master unification manager which can share with a slave instance (e.g. running in another appdomain).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationMaster.MasterExportForReuseInSlave(JetBrains.Util.Storage.StructuredStorage.IStructuredStorage)">
+            <summary>
+            In master instance, writes the current realizations.
+            Reading them with <see cref="T:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationSlave"/> allows to reuse unified paths for allemblies already realized by the master instance.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationMaster.MasterImportForReleaseFromSlave(JetBrains.Util.Storage.StructuredStorage.IStructuredStorage)">
+            <summary>
+            In master instance, loads what's been yielded in a slave instance for later release by the master instance.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.RealizedAssemblyItemUnificationSlave">
+            <summary>
+            Loads the realizations already known in some master instance and saved with <see cref="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationMaster.MasterExportForReuseInSlave(JetBrains.Util.Storage.StructuredStorage.IStructuredStorage)"/>.
+            Won't be freed by slave instance upon termination.
+            In slave instance, if some realizations were made while running the slave instance, defers their release (and deletion) for the master instance.
+            Example: slave instance running in appdomain, realizing and executing assemblies, can't release them because they're locked by the appdomain, but the master instance can after the appdomain is unloaded.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationSlave">
+            <summary>
+            Loads the realizations already known in some master instance and saved with <see cref="M:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnificationMaster.MasterExportForReuseInSlave(JetBrains.Util.Storage.StructuredStorage.IStructuredStorage)"/>.
+            Won't be freed by slave instance upon termination.
+            In slave instance, if some realizations were made while running the slave instance, defers their release (and deletion) for the master instance.
+            Example: slave instance running in appdomain, realizing and executing assemblies, can't release them because they're locked by the appdomain, but the master instance can after the appdomain is unloaded.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.IAssemblyBinder">
+            <summary>
+            Knows how to bind an assembly to various real-life stuff.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyBinder.BindToDiskPath(JetBrains.Util.OnError)">
+            <summary>
+            If the assembly already resides on disk, returns its disk path.
+            </summary>
+            <param name="onerror"></param>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyBinder.BindToMetadataAssembly(JetBrains.DataFlow.Lifetime,JetBrains.Util.OnError)">
+            <summary>
+              <para>Loads the metadata reader for this assembly.</para>
+              <para>If you got a row of assemblies and a <see cref="T:JetBrains.Application.Bindings.IAssemblyMasterBinder"/> for them, it's better to use the master binder to create a <see cref="T:JetBrains.Metadata.Reader.API.MetadataLoader"/>, then call <see cref="M:JetBrains.Metadata.Reader.API.MetadataLoader.TryLoad(JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.Metadata.Utils.AssemblyNameInfo,System.Boolean},System.Boolean,JetBrains.Metadata.Reader.API.IMetadataAssembly)"/> on it to load the assemblies by name, on the same loader in a row. This provides for the best perf and also manages metadata access lifetimes correctly.</para>
+            </summary>
+            <param name="lifetime">Metadata loader's lifetime.</param>
+            <param name="onerror"></param>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyBinder.BindToRuntimeAssembly(JetBrains.Util.OnError)">
+            <summary>
+            Loads the runtime assembly.
+            </summary>
+            <param name="onerror"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyBinder.BindToStream(JetBrains.DataFlow.Lifetime,JetBrains.Util.OnError)">
+            <summary>
+            Gets the assembly contents as a stream.
+            </summary>
+            <param name="lifetime"></param>
+            <param name="onerror"></param>
+            <returns></returns>
+        </member>
+        <member name="P:JetBrains.Application.Bindings.IAssemblyBinder.AssemblyName">
+            <summary>
+            Gets the name of the assembly which this binder binds.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.IAssemblyMasterBinder">
+            <summary>
+            Like an <see cref="T:JetBrains.Application.Bindings.IAssemblyBinder"/>, but for a group of assemblies rather than for a single assembly.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyMasterBinder.BindToDiskPath(JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Util.OnError)">
+            <summary>
+            If the assembly already resides on disk, returns its disk path.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyMasterBinder.BindToMetadataAccess(JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Metadata.Reader.API.IModuleReferenceResolveContext,JetBrains.Util.OnError)">
+            <summary>
+            Service method for a <see cref="T:JetBrains.Metadata.Reader.API.MetadataLoader"/> based on this object. Don't use directly unless you're sure about lifetimes and all.
+            To load a metadata assembly via this binder, call <see cref="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.BindToMetadataAssembly(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Metadata.Reader.API.MetadataLoader,JetBrains.Util.OnError)"/>.
+            Refcounting: the value is returned together with one counted reference, it's up to the receiver to decrement the refcount after use. If returned from <see cref="M:JetBrains.Metadata.Reader.API.IAssemblyResolver.ResolveAssembly(JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Util.FileSystemPath@,JetBrains.Metadata.Reader.API.IModuleReferenceResolveContext)"/> call on behalf of <see cref="M:JetBrains.Metadata.Reader.API.MetadataLoader.TryLoad(JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.Metadata.Utils.AssemblyNameInfo,System.Boolean},System.Boolean,JetBrains.Metadata.Reader.API.IMetadataAssembly)"/>, then this dereferencing is handled by <see cref="!:MetadataLoader.Dispose"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyMasterBinder.BindToRuntimeAssembly(JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Util.OnError)">
+            <summary>
+            Loads the runtime assembly.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.IAssemblyMasterBinder.BindToStream(JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Util.OnError)">
+            <summary>
+            Gets the assembly contents as a stream.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.BindToMetadataAssembly(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Metadata.Reader.API.MetadataLoader,JetBrains.Util.OnError)">
+            <summary>
+              <para>Binds an assembly to its metadata access.</para>
+              <para>The loader should be created with <see cref="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.CreateMetadataLoader(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.DataFlow.Lifetime,JetBrains.Util.OnError)"/> for the short lifetime of the session of yours working with a group of assemblies in this binder.</para>
+              <para>Actually, the <paramref name="loader"/> is fully prepared and this func just calls <see cref="M:JetBrains.Metadata.Reader.API.MetadataLoader.TryLoad(JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.Metadata.Utils.AssemblyNameInfo,System.Boolean},System.Boolean,JetBrains.Metadata.Reader.API.IMetadataAssembly)"/> by name on it.</para>
+            </summary>
+            <param name="assembly"></param>
+            <param name="loader">Create on the same master-binder with <see cref="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.CreateMetadataLoader(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.DataFlow.Lifetime,JetBrains.Util.OnError)"/>, for it to be able to resolve all of the assemblies.</param>
+            <param name="thіs">Actually, not needed. Just makes the API.</param>
+            <param name="onerror"></param>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.CreateMetadataLoader(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.DataFlow.Lifetime,JetBrains.Util.OnError)">
+            <summary>
+            Creates the metadata loader which can resolve into all of the assemblies of this master binder, plus their references (as needed for reading the catalog).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Bindings.AssemblyBinderExtensions.GetBinder(JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Util.OnError)">
+            <summary>
+            Gets the binder for the specific assembly.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyMasterBinderOnAssemblyItems">
+            <summary>
+            Helper for binding part catalog assemblies to assembly items, with <see cref="T:JetBrains.Application.Bindings.AssemblyUnification.IRealizedAssemblyItemUnification"/> for loading into Runtime.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnAssemblyItems.myCacheRuntimeAssemblies">
+            <summary>
+            Avoid requesting too many realizations for the same assembly.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnAssemblyItems.myReportResolveFailure">
+            <summary>
+            Formatting and “Distinct” on assembly resolution errors.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Bindings.AssemblyMasterBinderOnAssemblyItems.AssemblyItems">
+            <summary>
+            Gets the assembly items known to this binder.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnDiskFiles.myGacAssemblyResolver">
+            <summary>
+            Fallback to GAC, thread-safe.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnDiskFiles.myMapNameToPath">
+            <summary>
+            Filled on demand.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnDiskFiles.myMapPathToName">
+            <summary>
+            Filled on start with what we know initially, then completed on demand.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnDiskFiles.myPathsNotReadForNames">
+            <summary>
+            Filled on start, after that, accessed under lock-on-itself.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Bindings.AssemblyMasterBinderOnDiskFiles.myReportResolveFailure">
+            <summary>
+            Formatting and “Distinct” on assembly resolution errors. Thread-safe.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.AssemblyMasterBinderOnRuntimeAssemblies">
+            <summary>
+            Helper for binding part catalog assemblies to assembly items, in case we're running off the runtime assemblies.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Bindings.PartCatalogAttributeBinding">
+            <summary>
+            Can create the real runtime instance of an attribute based on its catalog record.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.CatalogIntersectFilterEx.Intersect(System.Collections.Generic.IEnumerable{JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter})">
+            <summary>
+            Creates a group that passes an item only if all filters in the group pass it.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.CatalogIntersectFilterEx.IntersectIfNotNull(JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter,JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter)">
+            <summary>
+            Creates a group that passes an item only if all filters in the group pass it.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.CatalogIntersectFilterEx.IntersectWith(JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter,JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter)">
+            <summary>
+            Creates a group that passes an item only if all filters in the group pass it.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilterRequiresTraits">
+            <summary>
+            A filter which can be calculated on part catalog type traits, if the catalog knows how to track them.
+            All common filters should support this to show good perf.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter">
+            <summary>
+            A filter that can be applied to a part catalog to limit the set of parts returned from the querying methods.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter.GetParts(JetBrains.Util.dataStructures.Sources.CollectionSource{JetBrains.Application.Catalogs.PartCatalogType})">
+            <summary>
+            Applies the filter to a list of parts.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter.IsPassing(JetBrains.Application.Catalogs.PartCatalogType)">
+            <summary>
+            Gets whether the specific part type is passing the filter.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilterRequiresTraits.Traits">
+            <summary>
+            Gets the names of the traits that this filter requires.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.PartCatalogTrait">
+            <summary>
+            Typed wrapper for the name of a part catalog trait.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations">
+            <summary>
+            The list of individual bool-result operations on traits whose results are ANDed.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.Operations">
+            <summary>
+            The list of individual bool-result operations on traits whose results are ANDed.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.TotalTraitsCount">
+            <summary>
+            Gives the number of traits taking part in all operations, for preallocing data structures.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.Operation">
+            <summary>
+            Describes one operation on traits.
+            The equality is a fast-check for whether this struct is NULL, for storing in FLLists.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.Operation.GetCommonNamespace">
+            <summary>
+            Asserts there are traits, they're all in the same namespace, and gives that ns.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.OperationKind.HasAtLeast">
+            <summary>
+            The item must have at least the given traits.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.OperationKind.HasAtMost">
+            <summary>
+            The item might only have the given traits off their namespace (but not required to); having any other traits from the same namespace is a no-match.
+            All traits in this group must be in the same namespace.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations.OperationKind.HasAnyOf">
+            <summary>
+            The item must have at least one of the traits.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs">
+            <summary>
+            Factory methods for standard catalogs — an implementation that façades the old catalogs for the new API.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.Create(System.Collections.Generic.IList{JetBrains.Application.Catalogs.PartCatalogAssembly})">
+            <summary>
+            Creates the catalog from precalculated data.
+            </summary>
+            <param name="assemblies">The assemblies list.</param>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.CreateFromRuntimeTypes(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Creates a parts catalog over a few specific runtime types — for precision filtering of what gets consumed.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.CreateFromRuntimeTypes(System.Type[])">
+            <summary>
+            Creates a parts catalog over a few specific runtime types — for precision filtering of what gets consumed.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.CreateWithMetadataReader(System.Collections.Generic.IEnumerable{JetBrains.Metadata.Utils.AssemblyNameInfo},JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.Application.Parts.IPartCatalogueFactory,JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from streams with our fast metadata reader.
+            </summary>
+            <param name="assemblies">The list of assembly names for assemblies which should be included with the catalog (and scanned for types).</param>
+            <param name="masterbinder">Knows how to bind assembly names for reading, including the listed names and their references.</param>
+            <param name="typeFactory">Factory, mainly for caching creation of equal types.</param>
+            <param name="filter">Which classes to take as parts into the catalog.</param>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.CreateWithMetadataReaderFromAssemblyFiles(System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from disk with our fast metadata reader.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.LegacyWrappedPartCatalogs.CreateWithMetadataReaderFromAssemblyFiles(System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from disk with our fast metadata reader.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetArrayValue">
+            <summary>Gets the array value of the attribute argument, throws for any other specific type, including a <c>NULL</c> value.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetBooleanValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetBoxedValue">
+            <summary>Gets the value of the attribute argument of any type boxed as an object. This method won't fail for any data type, but incurs boxing.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetByteValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetCharValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetDoubleValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetInt16Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetInt32Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetInt64Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetIsNullValue">
+            <summary>
+            Gets if the attribute value is <c>NULL</c>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetRawPrimitiveValue">
+            <summary>
+            Gets the attribute primitive value, if it actually is of a primitive type, in its raw form of the eight little-endian bytes. All other primitive-value methods coerce this value to a specific type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetSByteValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetSingleValue">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetStringValue">
+            <summary>Gets the string value of the attribute argument, throws for any other specific type, including <c>NULL</c>.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetTypeValue">
+            <summary>Gets the type value of the attribute argument, throws for any other specific type, including <c>NULL</c>.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetUInt16Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetUInt32Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.GetUInt64Value">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttributeArgument.Disposition">
+            <summary>
+            The set of attribute arguments records the set of values which are applied in the code to the attr. These include: ctor positional parameters, ctor named parameters, fields, and properties. This property tells in which way an arg were assigned to the attr, so this can be used for constructing an attr runtime instance.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentEx.GetArrayValueOrNull(JetBrains.Application.Catalogs.PartCatalogAttributeArgument)">
+            <summary>Gets the string value of the attribute argument (or <c>NULL</c>), throws for any other specific type.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentEx.GetStringValueOrNull(JetBrains.Application.Catalogs.PartCatalogAttributeArgument)">
+            <summary>Gets the string value of the attribute argument (or <c>NULL</c>), throws for any other specific type.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentEx.GetTypeValueOrNull(JetBrains.Application.Catalogs.PartCatalogAttributeArgument)">
+            <summary>Gets the type value of the attribute argument (or <c>NULL</c>), throws for any other specific type.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentEx.GetValue``1(JetBrains.Application.Catalogs.PartCatalogAttributeArgument)">
+            <summary>
+            Gets the typed value of the attribute argument, avoiding any boxing.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogAttributeArguments">
+            <summary>
+            Indexer helper for attribute arguments.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttributeArguments.All">
+            <summary>
+            Gets the arguments which were assigned upon creation of this attribute. This includes constructor positional parameters, field assignments, and property assignments.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttributeArguments.Item(System.String)">
+            <summary>
+            Looks up arguments by name.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentsNullable">
+            <summary>
+            Indexer helper for attribute arguments.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentsNullable.All">
+            <summary>
+            Gets the arguments which were assigned upon creation of this attribute. This includes constructor positional parameters, field assignments, and property assignments.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentsNullable.Item(System.String)">
+            <summary>
+            Looks up arguments by name.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetArrayValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the array value of the attribute argument, throws for any other specific type, including a <c>NULL</c> value.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetBooleanValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetBoxedValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the value of the attribute argument of any type boxed as an object. This method won't fail for any data type, but incurs boxing.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetByteValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetCharValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetDoubleValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetInt16ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetInt32ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetInt64ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetIsNullValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>
+            Gets if the attribute value is <c>NULL</c>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetRawPrimitiveValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>
+            Gets the attribute primitive value, if it actually is of a primitive type, in its raw form of the eight little-endian bytes. All other primitive-value methods coerce this value to a specific type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetSByteValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetSingleValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetStringValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the string value of the attribute argument, throws for any other specific type, including <c>NULL</c>.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetTypeValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the type value of the attribute argument, throws for any other specific type, including <c>NULL</c>.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetUInt16ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetUInt32ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentNullableEx.GetUInt64ValueIfDefined(System.Nullable{JetBrains.Application.Catalogs.PartCatalogAttributeArgument})">
+            <summary>Gets the primitive value of the attribute argument coerced to the requested type, if coercing could be done without losing data.</summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogStorageHelpers.TypeGetHashCode(JetBrains.Application.Catalogs.PartCatalogTypeKind,JetBrains.Util.dataStructures.Sources.StringSource,JetBrains.Util.dataStructures.Sources.StringSource)">
+            <summary>
+            Gets the hash code of a part catalog type.
+            To ensure interoperability in hash maps, calculation of hash codes must be consistent across different storage implementations.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogTypeEx.GetPartAttributes``1(JetBrains.Application.Catalogs.PartCatalogType)">
+            <summary>
+            For a type which is a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">Part type</see>, gets the custom attributes on this type which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <typeparamref name="TAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup">
+            <summary>
+            ANDs a group of filters, providing for the Intersect operation.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.CreateIntersection(System.Collections.Generic.IEnumerable{JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter})">
+            <summary>
+            Creates a group that passes an item only if all filters in the group pass it.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.CreateIntersection(JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter,JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter)">
+            <summary>
+            Creates a group that passes an item only if all filters in the group pass it.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.AllFilters">
+            <summary>
+            Returns all of the filters originally submitted for this component, with other intersect-filters flattened into a plain list.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.NonTraitRequiringFilters">
+            <summary>
+            Gets a subset of <see cref="P:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.AllFilters"/> that does not implement <see cref="T:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilterRequiresTraits"/>.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.RequiredTraits">
+            <summary>
+            Gets the list of traits collected from those filters in <see cref="P:JetBrains.Application.Catalogs.Filtering.PartCatalogFilterGroup.AllFilters"/> that implement <see cref="T:JetBrains.Application.Catalogs.Filtering.IPartCatalogFilterRequiresTraits"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.IPartCatalogStorage.AttributeArgumentGetBoxedValue(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAttributeArgumentToken})">
+            <summary>
+            Gets the attribute argument value of any type by boxing it into an object. Part catalog types and arrays are handled correctly. NULL is also a valid value.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.IPartCatalogStorage.AttributeArgumentGetPrimitiveValue(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAttributeArgumentToken},System.Nullable{JetBrains.Application.Table.Record.AttributeArgumentValueElementType})">
+            <summary>
+            Gets the primitive value of an attribute argument, in case it's really a primitive value. If you plan on reinterpret-casting the return value, specify <paramref name="typeExpected" /> to ensure that it won't lose data. If omitted, the primitive value will be returned as is.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.IPartCatalogStorage.AttributeArgumentGetStringValue(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAttributeArgumentToken})">
+            <summary>
+            For an attribute argument of type <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.String"/>, returns the source for that string.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.IPartCatalogStorage.AttributeArgumentGetTypeValue(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAttributeArgumentToken})">
+            <summary>
+            For an attribute argument of type <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Type"/>, returns the catalog type for that type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.IPartCatalogStorage.AttributeArgumentGetValueElementType(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAttributeArgumentToken})">
+            <summary>
+            Gets the type of the attr arg value.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalog.ApplyFilter(JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter)">
+            <summary>
+              <para>Returns an interface to this catalog filtered by some criteria. The filtering only applies to parts, i.e. part types from cataloged assemblies, as returned from <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes"/>.</para>
+              <para>Typical criteria are: has attribute, is in module zone.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalog.AllPartTypes">
+            <summary>
+              <para>This is the shortcut API for <c>Assemblies.SelectMany(PartTypes)</c> which tries to perform a single lookup instead of combining collections.</para>
+              <para>Gets all of the part types in this catalog — all <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">part types</see> in all <see cref="P:JetBrains.Application.Catalogs.PartCatalog.CatalogedAssemblies">cataloged assemblies</see>.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalog.CatalogedAssemblies">
+            <summary>
+              <para>Gets the list of cataloged assemblies.</para>
+              <para>See <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> on what are these.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAssembly.CreateAssemblyName">
+            <summary>
+              <para>Allocates the runtime object for the assembly name of this assembly.</para>
+              <para>For operations which only need the assembly name text, use <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.FullName"/> or <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.SimpleName"/>.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAssembly.GetPartAttributes">
+            <summary>
+            For an <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> assembly, gets the custom attributes of this assembly which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAssembly.GetPartAttributes(System.Type)">
+            <summary>
+            For an <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> assembly, gets the custom attributes of this assembly which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <paramref name="typeAttrBase"/>.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.Binder">
+            <summary>
+            Knows how to bind part catalog assemblies to various real-life stuff.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.FullName">
+            <summary>
+            Gets the full name of the assembly without allocating heap memory.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged">
+            <summary>
+              <para>Gets whether this assembly were originally intended for cataloging, were fully inspected, and has its part types, referenced assemblies, custom attributes and so on fully available.</para>
+              <para>Besides these, the catalog will also have all the assemblies mentioned in process of cataloging (e.g. to return something from <see cref="P:JetBrains.Application.Catalogs.PartCatalogType.Assembly"/>), and those do not have these parameters defined.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">
+            <summary>
+              <para>For an <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> assembly, gets the part types in this assembly — those that qualify for the part, i.e. got the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> or its derivatives on themselves or one of their members.</para>
+              <para>This assembly might also have non-part types known to this catalog, e.g. as part base/member/param types and so on. Their <see cref="P:JetBrains.Application.Catalogs.PartCatalogType.Assembly"/> will return this assembly, but this types list does not include them.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.ReferencedAssemblies">
+            <summary>
+            For an <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> assembly, gets the list of its assembly references.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAssembly.SimpleName">
+            <summary>
+            Gets the simple name of the assembly without allocating heap memory.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAssemblyEx.Bind(JetBrains.Application.Catalogs.PartCatalogAssembly)">
+            <summary>
+            Gets the real runtime object for this assembly. Uses <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.Binder"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAssemblyEx.GetPartAttributes``1(JetBrains.Application.Catalogs.PartCatalogAssembly)">
+            <summary>
+            For an <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged"/> assembly, gets the custom attributes of this assembly which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <typeparamref name="TAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogAttribute">
+            <summary>
+            A custom attribute in the part catalog, either on a type or on an assembly.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttribute.GetArguments">
+            <summary>
+            Gets the arguments which were assigned upon creation of this attribute. This includes constructor positional parameters, field assignments, and property assignments.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttribute.GetConstructorFormalParameterTypes">
+            <summary>
+            The signature of the .ctor which is encoded for creation of the attr instance, if known.
+            An empty array means the attr is to be created with an empty .ctor.
+            If the .ctor is not known (see <see cref="P:JetBrains.Application.Catalogs.PartCatalogAttribute.IsConstructorKnown"/>), throws an exception.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttribute.GetInstance(JetBrains.Util.OnError)">
+            <summary>
+            Tries creating an attribute runtime instance if we got enough information.
+            Should be OK if the attribute originates from a metadata reader and has <see cref="P:JetBrains.Application.Catalogs.PartCatalogAttribute.IsConstructorKnown"/>, but with runtime type attributes this only works if a parameterless attribute .ctor is available.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttribute.TryFindArgument(System.String)">
+            <summary>
+            Queries one of the <see cref="M:JetBrains.Application.Catalogs.PartCatalogAttribute.GetArguments"/> by name.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttribute.Arguments">
+            <summary>
+            Gets the arguments accessor.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttribute.ArgumentsOptional">
+            <summary>
+            Gets the arguments accessor.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttribute.IsConstructorKnown">
+            <summary>
+            Whether we know which .ctor was encoded for creation of this attr (e.g. there's no such info when getting it from Reflection rather then by reading metadata).
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogAttribute.Type">
+            <summary>
+            The type of the attribute.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeEx.Find``2(JetBrains.Application.Catalogs.PartCatalogAttributeArguments,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+              <para>Find argument by its name, given by the expression.</para>
+              <para>NOTE that it's recommended to pre-calculate the name from expression (call <see cref="M:JetBrains.Reflection.ReflectionExtensions.GetInstanceMemberName``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})"/> on it) and use the string parameter, for speed.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogAttributeEx.Find(JetBrains.Application.Catalogs.PartCatalogAttributeArguments,JetBrains.Application.Table.Record.AttributeArgumentValueElementType)">
+            <summary>
+              <para>Looks up an argument by its element type (must be unique among other arguments).</para>
+              <para>Often this is more reliable than looking up by name, because there's no early-bound way to supply a constructor paramtere name for example.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogEx.DiagnosticsDumpCatalogToExcel(JetBrains.Application.Catalogs.PartCatalog)">
+            <summary>
+            TODO: consider if this should be moved into tests or into internal product actions
+            </summary>
+            <param name="thіs"></param>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.Bind">
+            <summary>
+            Binds to the runtime type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GenericTypeParameterOwner">
+            <summary>
+            For a type which is a generic type parameter reference, gets the type which declares the generic formal parameter.
+            Note that this might be any class containing the usage (immediate, outer, outer-outer, etc).
+            For a method parameter, I believe the choice is limited to the containing method.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GetArrayItemType">
+            <summary>
+            For an array type, returns a type of the array items (without the array rank). Much like getting the only generic parameter of the <see cref="T:System.Collections.Generic.IList`1"/> for its item type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GetGenericTypeDeclarationFullName">
+            <summary>
+            For a generic type specialization (<see cref="P:JetBrains.Application.Catalogs.PartCatalogType.IsGenericTypeSpecialization"/>), gets the full type name of the matching generic type definition, e.g. <c>System.Collections.Generic.IList`1</c>, which can be matched with the CLR non-specialized type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GetPartAttributes">
+            <summary>
+            For a type which is a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">Part type</see>, gets the custom attributes on this type which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GetPartAttributes(System.Type)">
+            <summary>
+            For a type which is a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">Part type</see>, gets the custom attributes on this type which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <paramref name="typeAttrBase"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogType.GetReferenceTargetType">
+            <summary>
+            For a reference type, returns the type being referenced.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.Assembly">
+            <summary>
+              <para>Gets the assembly for this type.</para>
+              <para>For a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">Part type</see>,this would be a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.IsCataloged">Cataloged assembly</see>. For any other, a placeholder assembly which basically only knows its name.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.BaseTypes">
+            <summary>
+            Gets the base types of this type which includes base classes and interfaces, but does not include the type itself.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.ExtraTypes">
+            <summary>
+              <para>Raw access for serialization etc.</para>
+              <para>A backend for certain type-related properties of this type.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.IsArray">
+            <summary>
+              <para>The type is actually a single-dimensional array with zero lower bound. Other cases are not supported yet.</para>
+              <para>NOTE(H): If you ever need to support these, which requires a hierarchy of different type classes nesting each other, I'd rather recomment dropping this special class altogether and using the <see cref="T:JetBrains.Metadata.Reader.API.IMetadataType"/> interfaces family with a separate implementation which can be filled from runtime types, from metadata, or from cache.</para>
+              <para>Call <see cref="M:JetBrains.Application.Parts.PartCatalogueType.GetArrayItemType"/> to get the type of items in this array.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.IsGenericTypeDeclaraion">
+            <summary>
+            This is a generic type declaration, an open generic which is not specialized with any parameters.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.IsGenericTypeSpecialization">
+            <summary>
+            This is a generic type specialized with some generic actual parameters, look in <see cref="M:JetBrains.Application.Catalogs.PartCatalogType.GetGenericActualParameters"/> for their values.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.IsReference">
+            <summary>
+              <para>The type is a reference (as in ref/out parameters), a.k.a. <see cref="P:System.Type.IsByRef">ByRef type</see>.</para>
+              <para>Call <see cref="M:JetBrains.Application.Catalogs.PartCatalogType.GetReferenceTargetType"/> to get the referenced type.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogType.PartMembers">
+            <summary>
+            For a type which is a <see cref="P:JetBrains.Application.Catalogs.PartCatalogAssembly.PartTypes">Part type</see>, gets its members which are Part members, i.e. have the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> or one of its derivatives on them.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogTypeIdentityComparer">
+            <summary>
+            Compares if two PCTypes are the same instances, does not go in details on which types they actually do represent.
+            This might result in getting false negatives, but should be fast enough for caching.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogTypeKind">
+            <summary>
+            The kind of the <see cref="T:JetBrains.Application.Catalogs.PartCatalogType"/>, if it's a regular type, or an array of types, generic, etc.
+            </summary>
+            <remarks>These are not flags, even though values are assigned bit-independently for convenience.</remarks>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.Regular">
+            <summary>
+            A type declaration or a type usage which has no additional info to the type declaration (not generic, not reference, not array, etc).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.GenericDeclaration">
+            <summary>
+            This is a generic type declaration, an open generic which is not specialized with any parameters. No additional methods available.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.GenericSpecialization">
+            <summary>
+            This is a generic type specialized with some generic actual parameters, look in <see cref="M:JetBrains.Application.Catalogs.PartCatalogType.GetGenericActualParameters"/> for their values.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.Array">
+            <summary>
+              <para>The type is actually a single-dimensional array with zero lower bound. Other cases are not supported yet.</para>
+              <para>NOTE(H): If you ever need to support these, which requires a hierarchy of different type classes nesting each other, I'd rather recomment dropping this special class altogether and using the <see cref="T:JetBrains.Metadata.Reader.API.IMetadataType"/> interfaces family with a separate implementation which can be filled from runtime types, from metadata, or from cache.</para>
+              <para>Call <see cref="M:JetBrains.Application.Parts.PartCatalogueType.GetArrayItemType"/> to get the type of items in this array.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.Reference">
+            <summary>
+              <para>The type is a reference (as in ref/out parameters), a.k.a. <see cref="P:System.Type.IsByRef">ByRef type</see>.</para>
+              <para>Call <see cref="M:JetBrains.Application.Catalogs.PartCatalogType.GetReferenceTargetType"/> to get the referenced type.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.GenericTypeParameterReference">
+            <summary>
+            This type is a reference to the type of the class generic parameter.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Catalogs.PartCatalogTypeKind.GenericMethodParameterReference">
+            <summary>
+            This type is a reference to the type of the method generic parameter.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogTypeMember.GetPartAttributes">
+            <summary>
+            Gets the custom attributes on this member which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogTypeMember.GetPartAttributes(System.Type)">
+            <summary>
+            Gets the custom attributes on this member which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <paramref name="typeAttrBase"/>.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Catalogs.PartCatalogTypeMember.DeclaringType">
+            <summary>
+            This object is a member of the type returned from this property.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Catalogs.PartCatalogTypeMemberEx.GetPartAttributes``1(JetBrains.Application.Catalogs.PartCatalogTypeMember)">
+            <summary>
+            Gets the custom attributes on this member which are derived from the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> and from <typeparamref name="TAttribute"/>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Catalogs.PartCatalogTypeMemberKind">
+            <summary>
+            Which kind of member a <see cref="T:JetBrains.Application.Catalogs.PartCatalogTypeMember"/> is.
+            </summary>
+            <remarks>These are not flags, even though values are assigned bit-independently for convenience.</remarks>
+        </member>
+        <member name="T:JetBrains.Application.Components.IComponentContainer">
+            <summary>
+            Interface for abstract component container
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.IComponentContainer.CreateResolveContext(JetBrains.Application.Components.IValueDescriptor)">
+            <summary>
+            Creates value resolution context for requesting descriptor.
+            </summary>
+            <param name="requestingDescriptor">Requesting descriptor or <see cref="F:JetBrains.Application.Components.DynamicComponentDescriptor.Instance"/> for unbound lookups</param>
+            <returns>IValueResolveContext for instance lookups</returns>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentContainer.myUnknownContext">
+            <summary>
+            Immutable context for resolving in unknown (dynamic) context. Avoids memory traffic on GetComponent calls without context.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Null">
+            <summary>
+            The component has just been created, it has not been initialized yet.
+            Cannot be returned from GetComponent in this state.
+            If queried from the Primary thread, initializes the component; on other threads, fails.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Initializing">
+            <summary>
+            We're currently initializing the component.
+            Can be queried on the Primary thread only if there're no nested component initializations (because such a condition means a circular dependency); on other threads, fails.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Initialized">
+            <summary>
+            The component has been initialized and its instance is accessible from any thread.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Corrupted">
+            <summary>
+            We attempted to init the component, but it has failed to complete its Init.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Disposing">
+            <summary>
+            The component is currently being disposed
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.SingletonDescriptor.ComponentState.Disposed">
+            <summary>
+            The component was disposed and no longer accessible 
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Extensibility.AppDomainPartCatalogAssembliesResolver">
+            <summary>
+            In a scenario when product assembly is loaded as a dependency of plugin assembly we need to specify product assembly location explicitly (as it can not be resolved in plugin folder).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Extensibility.CatalogComponentSource.myCatalogSet">
+            <summary>
+            Catalog set used to retrieve parts from
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Extensibility.CatalogComponentSource.mySelector">
+            <summary>
+            Selects subset of parts to instantiate, e.g. handles parts overrides
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Extensibility.CatalogComponentSource.PartsFilter">
+            <summary>
+            Filter applied to select parts for this component container
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Extensibility.Reflection.CodeDomCatalogEx">
+            <summary>
+            Expands <see cref="T:JetBrains.Util.Reflection.CodeDomEx"/> with catalogs-specific stuff.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Components.Optional`1">
+            <summary>
+            Wraps an optional component instance in an explicit fashion.
+            To get a component which is OK to be missing, request <see cref="T:JetBrains.Application.Components.Optional`1"/> specialized with your type.
+            The wrapper value you get is always non-<c>Null</c>, and you can inspect if the contained component instance is present or not.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Components.OptionalValueResolver">
+            <summary>
+            Services <see cref="T:JetBrains.Application.Components.Optional`1"/> for the container.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.OptionalValueResolver.TryExtractTypeUnderOptional(System.Type)">
+            <summary>
+            If <paramref name="typePossiblyOptional"/> is a type wrapped in <see cref="T:JetBrains.Application.Components.Optional`1"/>, extracts the type it holds (its generic parametrization type).
+            Otherwise yields NULL.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.CreateInstance``1(JetBrains.Application.Components.IComponentContainer)">
+            <summary>
+            Create an instance of arbitrary type <typeparamref name="T"/>, selecting best constructor and providing parameter values from container
+            </summary>
+            <typeparam name="T">Type to instantiate</typeparam>
+            <param name="container">Container to get values for parameters from</param>
+            <returns>New instance of type <typeparamref name="T"/></returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.CreateInstance(JetBrains.Application.Components.IComponentContainer,System.Type)">
+            <summary>
+            Create an instance of arbitrary type <paramref name="type"/>, selecting best constructor and providing parameter values from container
+            </summary>
+            <param name="container">Container to get values for parameters from</param>
+            <param name="type">Type to instantiate</param>
+            <returns>New instance of type <paramref name="type"/></returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.DynamicInvoke(JetBrains.Application.Components.IComponentContainer,System.Delegate)">
+            <summary>
+            Invoke a function using reflection and supplying parameters' values from container
+            </summary>
+            <param name="container">Container</param>
+            <param name="function">Function</param>
+            <returns>Return value of the function</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.CreateInstance(JetBrains.Application.Components.SignatureResolution.Binding)">
+            <summary>
+            Creates an instance from the resolved binding. Method should be <see cref="T:System.Reflection.ConstructorInfo"/>.
+            </summary>
+            <param name="binding">Resolved binding</param>
+            <returns>New instance</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.BindToConstructor(System.Type,JetBrains.Application.Components.IValueResolveContext)">
+            <summary>
+            Creates a binding to a constructor of the specified type using the specified resolver
+            </summary>
+            <param name="type">Type to create binding for</param>
+            <param name="context">Context for parameter resolution</param>
+            <returns>Resolved binding</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.BindToMethod(System.Type,System.String,JetBrains.Application.Components.IValueResolveContext)">
+            <summary>
+            Creates a binding to a method of the specified type using the specified resolver
+            </summary>
+            <param name="type">Type to create binding for</param>
+            <param name="context">Context for parameter resolution</param>
+            <param name="name">Name for diagnostics</param>
+            <returns>Resolved binding</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.SignatureResolution.BindToMethod(System.Reflection.MethodBase[],JetBrains.Application.Components.IValueResolveContext,System.Object)">
+            <summary>
+            Finds method in candidates list which can be satisfied by resolver
+            </summary>
+            <param name="candidates">Candidates to select from</param>
+            <param name="context">Resolution service, can find descriptor by type</param>
+            <param name="origin">Name for diagnostics</param>
+            <returns>Resolved binding</returns>
+        </member>
+        <member name="T:JetBrains.Application.Components.SignatureResolution.Binding">
+            <summary>
+            Holds information about a method bound to a list of descriptor to supply as parameters
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.LazyValueResolver.TryExtractTypeUnderLazy(System.Type)">
+            <summary>
+            If <paramref name="typePossiblyLazy"/> is a lazy type, extracts the type it lazily creates (its generic parametrization type).
+            In case it looks like lazy but is not lazy (e.g. from newer system libraries), issues an exception.
+            If it's just clearly a non-Lazy type, yields NULL.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Components.ViewableValueResolver">
+            <summary>
+            Handles generic descriptors of <see cref="T:JetBrains.DataFlow.IViewable`1"/> kind
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Extensibility.CatalogueComponentSource.myCatalogueSet">
+            <summary>
+            Catalogue set used to retrieve parts from
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Extensibility.CatalogueComponentSource.mySelector">
+            <summary>
+            Selects subset of parts to instantiate, e.g. handles parts overrides
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Extensibility.CatalogueComponentSource.PartsFilter">
+            <summary>
+            Filter applied to select parts for this component container
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.DispatcherAccessPolicy.myDispatcher">
+            <summary>
+            Marks the container's thread affinity.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.CreateInstance``1(JetBrains.DataFlow.Lifetime,JetBrains.Application.Components.IComponentContainer,System.Object[])">
+            <summary>
+            Creates an object instance of type <typeparamref name="TInstance"/>, injecting it with custom <paramref name="args">arguments</paramref> and components from the <paramref name="parent">parent container</paramref>.
+            </summary>
+            <typeparam name="TInstance">Type of the object to create.</typeparam>
+            <param name="lifetime">Defines the lifetime for the object that will be created. The object gets it in the constructor.</param>
+            <param name="parent">The parent component container to define the set of components that could be imported in the object constructor.</param>
+            <param name="args">Additional custom actual parameters to be passed to the object constructor. These take precedence over parent container components. Note that currently there is no indication of unused parameters.</param>
+            <returns>The new instance.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.CreateInstance(JetBrains.DataFlow.Lifetime,System.Type,JetBrains.Application.Components.IComponentContainer,System.Object[])">
+            <summary>
+            Creates an object instance of type <paramref name="objecttype"/>, injecting it with custom <paramref name="args">arguments</paramref> and components from the <paramref name="parent">parent container</paramref>.
+            </summary>
+            <param name="lifetime">Defines the lifetime for the object that will be created. The object gets it in the constructor.</param>
+            <param name="objecttype">Type of the object to create.</param>
+            <param name="parent">The parent component container to define the set of components that could be imported in the object constructor.</param>
+            <param name="args">Additional custom actual parameters to be passed to the object constructor. These take precedence over parent container components. Note that currently there is no indication of unused parameters.</param>
+            <returns>The new instance.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.CreateInstanceWithoutContainer(JetBrains.DataFlow.Lifetime,System.Type,System.Object[])">
+            <summary>
+            Creates an object instance of type <paramref name="objecttype"/>, injecting it with custom <paramref name="args">arguments</paramref>, but does not chain this to the parent component container.
+            </summary>
+            <param name="lifetime">Defines the lifetime for the object that will be created. The object gets it in the constructor.</param>
+            <param name="objecttype">Type of the object to create.</param>
+            <param name="args">Additional custom actual parameters to be passed to the object constructor. These take precedence over parent container components. Note that currently there is no indication of unused parameters.</param>
+            <returns>The new instance.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.CreateInstanceCore(JetBrains.DataFlow.Lifetime,System.Type,JetBrains.Application.Components.IComponentContainer,System.Object[])">
+            <summary>
+            Creates an object instance of type <paramref name="type"/>, injecting it with custom <paramref name="args">arguments</paramref> and components from the <paramref name="parent">parent container</paramref>.
+            </summary>
+            <param name="lifetime">Defines the lifetime for the object that will be created. The object gets it in the constructor.</param>
+            <param name="type">Type of the object to create.</param>
+            <param name="parent">The parent component container to define the set of components that could be imported in the object constructor.</param>
+            <param name="args">Additional custom actual parameters to be passed to the object constructor. These take precedence over parent container components. Note that currently there is no indication of unused parameters.</param>
+            <returns>The new instance.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.InvokeTransient(JetBrains.Application.Components.IComponentContainer,System.Linq.Expressions.Expression{System.Action})">
+            <summary>
+            Invokes a method transiently (without any lifetime control). The method should not initiate any long-running activities, otherwise the entities passed into the method might get invalid.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.FactoryComponentContainer.InvokeLive(JetBrains.DataFlow.Lifetime,JetBrains.Application.Components.IComponentContainer,System.Linq.Expressions.Expression{System.Action},System.Object[])">
+            <summary>
+            Invokes a method with a live result (it gets its own lifetime, based on the lifetime you pass in and lifetimes of any components it also imports). The imported stuff is safe to use as long as you're not exceeding your lifetime.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentRegisterEntry.myDescriptors">
+            <summary>
+            null, IComponentDescriptor or <see cref="T:System.Collections.Generic.IList`1"/>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Components.ComponentStorage">
+            <summary>
+            Base class for component containers. Provides storage for components and initialization services
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myId">
+            <summary>
+            Container ID 
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myAccessPolicy">
+            <summary>
+            Attached access control policies
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myState">
+            <summary>
+            Current lifetime state for this container
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myDescriptors">
+            <summary>
+            Registered descriptors and their lifetimes 
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myComponentRegister">
+            <summary>
+            Composed components map
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorage.myViewers">
+            <summary>
+            Current viewers
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.ComponentStorage.#ctor(System.String,JetBrains.Application.Components.IInitializationStrategy)">
+            <summary>
+            Creates new instance of <see cref="T:JetBrains.Application.Components.ComponentStorage"/>
+            </summary>
+            <param name="id">Identifier string for this container</param>
+            <param name="initializationStrategy"></param>
+        </member>
+        <member name="M:JetBrains.Application.Components.ComponentStorage.AttachPolicy(JetBrains.Application.Components.IComponentAccessPolicy)">
+            <summary>
+            Attaches new policy control to this container
+            </summary>
+            <param name="accessPolicy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Components.ComponentStorage.Compose">
+            <summary>
+            Initializes the components in the container.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Components.ComponentContainerEx.TryGetComponent``1(JetBrains.Application.Components.IComponentContainer)">
+            <summary>
+            Gets the component whose interface type is <typeparamref name="TInterface"/>.
+            Returns <c>Null</c> if there is no such component, or there are multiple components
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorageState.Initial">
+            <summary>
+            The container has just been created and is not ready for creating the components yet. Call <see cref="M:JetBrains.Application.Components.ComponentContainer.Compose"/> to proceed.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorageState.Initialized">
+            <summary>
+            The container is running. The first pack of components has been created.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorageState.Disposing">
+            <summary>
+            <see cref="M:System.IDisposable.Dispose"/> has been called on the container, and it's currently in the process of tearing down the components.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Components.ComponentStorageState.Disposed">
+            <summary>
+            The container has destroyed all of the components and is functional no more.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Parts.ClassOrMemberWithPartAttributePassFilter">
+            <summary>
+            Lets in types which explicitly have the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> on them, or which have static methods with the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> in them.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Parts.IMetadataPartsPassFilter">
+            <summary>
+            Governs what gets picked into the parts catalog initially when it's constructed (before any of the <see cref="T:JetBrains.Application.Parts.IPartsCatalogueFilter"/> is applied).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Parts.ClassWithPartAttributePassFilter">
+            <summary>
+            Lets in only types which explicitly have the <see cref="T:JetBrains.Application.Parts.PartAttribute"/> on them.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Extensibility.FeaturePartsExtensions.FilterFactoryPattern``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Uses factory pattern for applicability check. (instantiate part is not null means applicability)
+            Doesn't instantiate parts for overridden components.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Parts.PartCatalogueAttribute.ConstructorFormalParameterTypes">
+            <summary>
+            The signature of the .ctor which is encoded for creation of the attr instance, if known.
+            An empty array means the attr is to be created with an empty .ctor.
+            <c>NULL</c> means we don't know which .ctor was encoded for creation of this attr (e.g. when getting it from Reflection rather then by reading metadata).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueAttribute.GetInstance(JetBrains.Util.OnError)">
+            <summary>
+            Tries creating an attribute runtime instance if we got enough information.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueAssembly.Bind">
+            <summary>
+            Same as <see cref="M:JetBrains.Application.Parts.PartCatalogueType.Bind"/> for a type, gets the runtime object for this assembly.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueAssembly.Binder">
+            <summary>
+            Knows how to bind part catalog assemblies to various real-life stuff.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Parts.PartCatalogueType.myNamePieces">
+            <summary>
+            For memory usage optimization purposes, the name is optionally split into two dot-separated pieces (first might be empty, the second always holds some name).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Parts.PartCatalogueType.myExtraTypes">
+            <summary>
+            Depending on the kind, holds either the generic parameters specialization, or the array item type, or the reference target type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueType.GetGenericTypeDeclarationFullName">
+            <summary>
+            For a generic type specialization (<see cref="P:JetBrains.Application.Parts.PartCatalogueType.IsGenericTypeSpecialization"/>), gets the full type name of the matching generic type definition, e.g. <c>System.Collections.Generic.IList`1</c>, which can be matched with the CLR non-specialized type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueType.AssignRecursiveTypes(JetBrains.Application.Parts.PartCatalogueType.RecursiveData)">
+            <summary>
+            Recursive types. Assigned later than .ctor because for building them we might need this type class already in factory cache (e.g. class CA : IIface{CA}).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueType.GetArrayItemType">
+            <summary>
+            For an array type, returns a type of the array items (without the array rank). Much like getting the only generic parameter of the <see cref="T:System.Collections.Generic.IList`1"/> for its item type.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueType.GetReferenceTargetType">
+            <summary>
+            For a reference type, returns the type being referenced.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartCatalogueType.GenericTypeParameterOwner">
+            <summary>
+            For a type which is a generic type parameter reference, gets the type which declares the generic formal parameter.
+            Note that this might be any class containing the usage (immediate, outer, outer-outer, etc).
+            For a method parameter, I believe the choice is limited to the containing method.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.NamePieces">
+            <summary>
+            Internal use only.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.IsGenericTypeSpecialization">
+            <summary>
+            This is a generic type specialized with some generic actual parameters, look in <see cref="M:JetBrains.Application.Parts.PartCatalogueType.GetGenericActualParameters"/> for their values.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.IsGenericTypeDeclaraion">
+            <summary>
+            This is a generic type declaration, an open generic which is not specialized with any parameters.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.IsArray">
+            <summary>
+              <para>The type is actually a single-dimensional array with zero lower bound. Other cases are not supported yet.</para>
+              <para>NOTE(H): If you ever need to support these, which requires a hierarchy of different type classes nesting each other, I'd rather recomment dropping this special class altogether and using the <see cref="T:JetBrains.Metadata.Reader.API.IMetadataType"/> interfaces family with a separate implementation which can be filled from runtime types, from metadata, or from cache.</para>
+              <para>Call <see cref="M:JetBrains.Application.Parts.PartCatalogueType.GetArrayItemType"/> to get the type of items in this array.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.IsReference">
+            <summary>
+              <para>The type is a reference (as in ref/out parameters), a.k.a. <see cref="P:System.Type.IsByRef">ByRef type</see>.</para>
+              <para>Call <see cref="M:JetBrains.Application.Parts.PartCatalogueType.GetReferenceTargetType"/> to get the referenced type.</para>
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueType.ExtraTypes">
+            <summary>
+            Raw access for serialization etc.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Parts.PartCatalogueTypeMember.DeclaringType">
+            <summary>
+            This object is a member of the type returned from this property.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartHelpers.ExpandMetadataValue(JetBrains.Metadata.Reader.API.MetadataAttributeValue)">
+            <summary>
+            Handles complex attribute values in metadata format, e.g. creates arrays and fills them with values recursively.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartHelpers.CreateFileResolver(JetBrains.DataFlow.Lifetime,System.Collections.Generic.IEnumerable{JetBrains.Util.FileSystemPath},System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Util.OnError,System.Nullable{JetBrains.Metadata.Reader.API.GacAssemblyResolver.GacResolvePreferences})">
+            <summary>
+            Creates a resolver for reading the group of assemblies.
+            </summary>
+            <param name="lifetime">Lifetime, usually a <see cref="M:JetBrains.DataFlow.Lifetimes.Using(System.Action{JetBrains.DataFlow.Lifetime})"/> around the usage.</param>
+            <param name="assembliesCurrent">The list of assemblies we're going to process during this run. They will be available for resolve.</param>
+            <param name="FCreateAdditionalResolvers">Optional. Creates any additional resolvers.</param>
+            <param name="resolveerrors">Reports unresolved assembly errors when you call into the resolver. The full set of errors will be submitted after you terminate the lifetime.</param>
+            <param name="gacpreferences">Allows to modify GAC lookup strategy for ambiguous matches.</param>
+            <returns>Resolver.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartHelpers.CreateFileResolver(JetBrains.DataFlow.Lifetime,System.Collections.Generic.IEnumerable{JetBrains.Util.FileSystemPath},JetBrains.Metadata.Reader.API.IAssemblyResolver,JetBrains.Util.OnError,System.Nullable{JetBrains.Metadata.Reader.API.GacAssemblyResolver.GacResolvePreferences})">
+            <summary>
+            Creates a resolver for reading the group of assemblies.
+            </summary>
+            <param name="lifetime">Lifetime, usually a <see cref="M:JetBrains.DataFlow.Lifetimes.Using(System.Action{JetBrains.DataFlow.Lifetime})"/> around the usage.</param>
+            <param name="assembliesCurrent">The list of assemblies we're going to process during this run. They will be available for resolve.</param>
+            <param name="customresolver">Optional. Any custom resolvers.</param>
+            <param name="resolveerrors">Reports unresolved assembly errors when you call into the resolver. The full set of errors will be submitted after you terminate the lifetime.</param>
+            <param name="gacpreferences">Allows to modify GAC lookup strategy for ambiguous matches.</param>
+            <returns>Resolver.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartHelpers.CreateStreamResolver(JetBrains.DataFlow.Lifetime,System.Collections.Generic.IDictionary{JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.DataFlow.Lifetime,System.IO.Stream}},System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Util.OnError,System.Nullable{JetBrains.Metadata.Reader.API.GacAssemblyResolver.GacResolvePreferences})">
+            <summary>
+            Creates a resolver for reading the group of assemblies.
+            </summary>
+            <param name="lifetime">Lifetime, usually a <see cref="M:JetBrains.DataFlow.Lifetimes.Using(System.Action{JetBrains.DataFlow.Lifetime})"/> around the usage.</param>
+            <param name="assembliesCurrent">The list of assemblies we're going to process during this run. They will be available for resolve.</param>
+            <param name="FCreateAdditionalResolvers">Optional. Creates any additional resolvers.</param>
+            <param name="resolveerrors">Reports unresolved assembly errors when you call into the resolver. The full set of errors will be submitted after you terminate the lifetime.</param>
+            <param name="gacpreferences">Allows to modify GAC lookup strategy for ambiguous matches.</param>
+            <returns>Resolver.</returns>
+        </member>
+        <member name="T:JetBrains.Application.Parts.PartsCatalogue">
+            <summary>
+            A default implementation for a pre-calculated catalogue.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogue.#ctor(System.Collections.Generic.IList{JetBrains.Application.Parts.PartCatalogueType},System.Collections.Generic.IList{JetBrains.Application.Parts.PartCatalogueAssembly})">
+            <summary>
+            Creates the catalogue from precalculated data.
+            </summary>
+            <param name="parts">The types (parts) in the catalog.</param>
+            <param name="assemblies">The assemblies list, if known by creator. If omitted, the list will be deduced from all unique assemblies of the submitted <paramref name="parts" />.</param>
+        </member>
+        <member name="T:JetBrains.Application.Parts.PartsCatalogues">
+            <summary>
+            Factory methods for standard catalogs.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.Create(System.Collections.Generic.IList{JetBrains.Application.Parts.PartCatalogueType},System.Collections.Generic.IList{JetBrains.Application.Parts.PartCatalogueAssembly})">
+            <summary>
+            Creates the catalogue from precalculated data.
+            </summary>
+            <param name="parts">The types (parts) in the catalog.</param>
+            <param name="assemblies">The assemblies list, if known by creator. If omitted, the list will be deduced from all unique assemblies of the submitted <paramref name="parts" />.</param>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateFromRuntimeTypes(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Creates a parts catalog over a few specific runtime types — for precision filtering of what gets consumed.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateFromRuntimeTypes(System.Type[])">
+            <summary>
+            Creates a parts catalog over a few specific runtime types — for precision filtering of what gets consumed.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateWithMetadataReader(System.Collections.Generic.IEnumerable{JetBrains.Metadata.Utils.AssemblyNameInfo},JetBrains.Application.Bindings.IAssemblyMasterBinder,JetBrains.Application.Parts.IPartCatalogueFactory,JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from streams with our fast metadata reader.
+            </summary>
+            <param name="assemblies">The list of assembly names for assemblies which should be included with the catalog (and scanned for types).</param>
+            <param name="masterbinder">Knows how to bind assembly names for reading, including the listed names and their references.</param>
+            <param name="typeFactory">Factory, mainly for caching creation of equal types.</param>
+            <param name="filter">Which classes to take as parts into the catalog.</param>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateWithMetadataReaderFromAssemblyFiles(System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from disk with our fast metadata reader.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateWithMetadataReaderFromAssemblyFiles(System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},System.Collections.Generic.IList{JetBrains.Util.FileSystemPath},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from disk with our fast metadata reader.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateWithMetadataReaderFromAssemblyStreams(System.Collections.Generic.ICollection{System.IO.Stream},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from streams with our fast metadata reader.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CreateWithMetadataReaderFromAssemblyStreams(System.Collections.Generic.IEnumerable{JetBrains.Metadata.Utils.AssemblyNameInfo},System.Collections.Generic.IDictionary{JetBrains.Metadata.Utils.AssemblyNameInfo,System.Func{JetBrains.DataFlow.Lifetime,System.IO.Stream}},JetBrains.Application.Parts.IPartCatalogueFactory,System.Func{JetBrains.DataFlow.Lifetime,JetBrains.Metadata.Reader.API.IAssemblyResolver},JetBrains.Application.Parts.IMetadataPartsPassFilter)">
+            <summary>
+            Loads assembly files from streams with our fast metadata reader.
+            </summary>
+            <param name="assemblies">The list of assembly names for assemblies which should be included with the catalog (and scanned for types).</param>
+            <param name="mapResolver">Resolves assembly stream by its assembly name. Must include (1) the assemblies for scanning in <paramref name="assemblies" /> and (2) any of their assembly references, transitively, which might be needed for resolving catalog types/attrs, and which are not present in GAC.</param>
+            <param name="typeFactory">Factory, mainly for caching creation of equal types.</param>
+            <param name="FCreateAdditionalResolvers">Any custom resolvers for metadata loader.</param>
+            <param name="filter">Which classes to take as parts into the catalog.</param>
+        </member>
+        <member name="M:JetBrains.Application.Parts.PartsCatalogues.CheckLoadedAssemblyName(JetBrains.Application.Parts.PartCatalogueAssembly,JetBrains.Metadata.Utils.AssemblyNameInfo)">
+            <summary>
+            After the binder loads an assembly by its assembly name, checks that the assembly actually loaded matches what was requested.
+            </summary>
+            <param name="partassembly"></param>
+            <param name="assname"></param>
+        </member>
+        <member name="T:JetBrains.Application.Parts.PartsCatalogues.RuntimePartsPassFilter">
+            <summary>
+            Similar to <see cref="T:JetBrains.Application.Parts.IMetadataPartsPassFilter"/>, but for runtime types.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Parts.TypesPartsCatalogue">
+            <summary>
+            Creates a parts catalog over a few specific runtime types — for precision filtering of what gets consumed.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.#ctor(JetBrains.DataFlow.Lifetime,System.Void*,System.UInt32)">
+            <param name="lifetime">Controls the validness of the native memory at the pointer destination/</param>
+            <param name="pCatalogTablesFile"></param>
+            <param name="cbCatalogTablesFile"></param>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Open(JetBrains.DataFlow.Lifetime,System.Void*,System.UInt32,JetBrains.Util.OnError)">
+            <summary>
+            Opens the bytes as a catalog.
+            </summary>
+            <param name="lifetime">Controls the validness of the native memory at the pointer destination/</param>
+            <param name="pCatalogTablesFile"></param>
+            <param name="cbCatalogTablesFile"></param>
+            <param name="onerror"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.OpenCopiedFromStream(JetBrains.DataFlow.Lifetime,System.IO.Stream,JetBrains.Util.OnError)">
+            <summary>
+            Catalog tables operate on fixed memory, so the stream must be copied into a newly-allocated chunk each time you call this function.
+            If you intend on doing this repeatedly, consider pre-copying yourself.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.CalculateHash(System.String)">
+            <summary>
+              <para>Calculates the stable hash for the string, in the format used in the Catalog Tables: MurmurHash3, 128bit-output, x86-cpu version.</para>
+              <para>Yeilds to the common impl in the <see cref="T:JetBrains.Application.Table.Record.StringRecordHeader"/>.</para>
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetAllPartTypesRange(JetBrains.Application.Table.CatalogTables)">
+            <summary>
+            Gets the range to the list of all Part types in this catalog.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetCatalogedAssembliesRange(JetBrains.Application.Table.CatalogTables)">
+            <summary>
+            Gets the range to the list of those assembly records that were primarily cataloged for part types (<see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/>).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetSortedTraitNameHashes(JetBrains.Util.dataStructures.FrugalLocalList{JetBrains.Application.Catalogs.Filtering.PartCatalogTrait},JetBrains.Application.Table.CatalogTables.Helpers.QualifiedNameHashes*)">
+            <summary>
+            Gets a sorted native array of unique trait name hashes.
+            </summary>
+            <param name="traits">Names.</param>
+            <param name="pTraitHashes">Native array, at least as long as the names list.</param>
+            <returns>The actual number of hashes written, after deduplication.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetStringHash(JetBrains.Application.Table.CatalogTables,JetBrains.Application.Table.Record.Ref.StringRef)">
+            <summary>
+            Gets the hash for a string from the string table (without creating a string or calculating the hash).
+            Does the RVA range check, so for running in a loop you might consider reading the hashes directly. Does not validate the record BOM/size though, just reads the hash.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetTraitBanksCount(JetBrains.Application.Table.CatalogTables)">
+            <summary>
+            Gets the number of trait banks in this catalog, based on the number of known trait names ( ceil(knowntraits / 0x40) ).
+            Each bank holds bit presence flags for 64 traits in 64-bit values.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.GetTraitNamesInNamespace(JetBrains.Application.Table.CatalogTables,JetBrains.Util.Maths.OWORD)">
+            <summary>
+            <see cref="T:JetBrains.Application.Table.Record.TraitNameRecord"/> table is sorted first by namespace, then by local name, so we can look up a contiguous range of the same-namespace traits.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.MakeTraitMasks(JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations@,JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations@,JetBrains.Application.Table.CatalogTables)">
+            <summary>
+            Makes per-bank bitmasks for looking up named traits in the current catalog.
+            </summary>
+            <param name="traitops">Names of the traits. Bits corresponding to these names will be set high in the masks.</param>
+            <param name="traitmasks">Masks, if applicable.</param>
+            <param name="tables"></param>
+            <returns>Whether all traits were bitmapped. False, if some traits are not known to this catalog, and the process were aborted. The masks state is undefined in this case.</returns>
+        </member>
+        <member name="M:JetBrains.Application.Table.CatalogTables.Helpers.TryGetBlob(JetBrains.Util.Maths.OWORD,JetBrains.Application.Table.CatalogTables,JetBrains.Util.OnError)">
+            <summary>
+            Gets a BLOB from the BLOB table, if present.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.CatalogTables.Helpers.TraitMask">
+            <summary>
+              <para>This struct holds trait masks for a single operation in a single trait bank.</para>
+              <para>The total set of operations corresponds to the operations listed in <see cref="T:JetBrains.Application.Catalogs.Filtering.PartCatalogTraitOperations"/>. Operations' results are ANDed.</para>
+              <para>All operations are normalized into the same <c>!(x ∧ AND ⊻ XOR)</c> form, where negation is boolean, and others are bitwise. This way we can store only the AND/XOR args and execute them in a loop in a uniform manner for any operation kind.</para>
+              <para>Here's how AND/XOR masks are assigned for operations of different kinds. Here <c>x</c> is the trait mask bank being tested, and <c>A</c>, <c>B</c>, <c>C</c> are bitmasks for traits of this operation (each with only one bit set).</para>
+              <para>HasAtLeast operation: <c>x ∧ (A∨B∨C) == A∨B∨C</c>. Thus <c>AND := A∨B∨C</c> and <c>XOR := A∨B∨C</c>.</para>
+              <para>HasAtMost operation: <c>x ∧ ¬(A∨B∨C) ∧ Ns == 0</c> (<c>Ns</c> is a mask for all the traits in the same namespace as <c>A</c>, <c>B</c>, <c>C</c>). Thus <c>AND := ¬(A∨B∨C) ∧ Ns</c> and <c>XOR := 0</c></para>
+              <para>HasAnyOf operation: <c>x ∧ (A∨B∨C)</c>. Thus <c>AND := A∨B∨C</c> and <c>XOR := ¬0</c></para>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations">
+            <summary>
+            Precalculated masks for execution of trait-filtering functions.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.OperationsAndBanks">
+            <summary>
+            Masks for each bank for each operation, total <see cref="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.TraitBanksCount"/> * <see cref="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.OperationsCount"/>.
+            First all banks for the first operation (each applied to the corresponding trait bitmask bank of the item in the table). Then for the second. And so on.
+            Packing them into the single array provides for better locality than with subarrays.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.OperationsCount">
+            <summary>
+            Number of independent operations in CNF, see <see cref="T:JetBrains.Application.Table.CatalogTables.Helpers.TraitMask"/> for operation description. Needed to iterate <see cref="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.OperationsAndBanks"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.TraitBanksCount">
+            <summary>
+            Caches the number of trait banks in the CatalogTables. Needed to iterate <see cref="F:JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations.OperationsAndBanks"/>.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.CalculateAttributeTypeTraitsForPartCatalogTables">
+            <summary>
+            Traits for all assignable-to types of attributes on some type.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.ICalculateTraitsForPartCatalogTables">
+            <summary>
+            Calculates traits for parts in the part catalog, to be written into an index, and to provide for fast filtering by commonly-used facets at runtime.
+            If you're asked for traits collection, then:
+            (1) If in a Shell-dependent assembly, use the standard set as given in the <c>PartCatalogs</c> class. This would index all we know, incl attrs, zones, etc.
+            (2) If you can't reference Shell, then you shan't be creating general-purpose catalogs here. For special-needs catalogs, pick the set of available/applicable/required trait calculators individually.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.ICalculateTraitsForPartCatalogTables.CalculateTraits(JetBrains.Application.Table.Emit.EmitTimeTables,JetBrains.Util.OneToSetMap{JetBrains.Application.Table.Record.Ref.TypeRef,JetBrains.Application.Table.Record.TraitNameRecord})">
+            <summary>
+            Does tha calc.
+            </summary>
+            <param name="tables">The catalog tables in which all the essential parts info is already written, but traits index is still to be written.</param>
+            <param name="typetraits">Write your new traits here.</param>
+        </member>
+        <member name="P:JetBrains.Application.Table.Emit.ICalculateTraitsForPartCatalogTables.TraitNamespace">
+            <summary>
+            Gets the unique namespace name for traits produced by this calculator, to register as available with the catalog, so that filters on traits in this namespace could be sped up by using traits.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.CalculateAttributeTypeTraitsForPartCatalogTables.TraitNamespace">
+            <summary>
+            Namespace for all attribute type based traits.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.CalculateAttributeTypeTraitsForPartCatalogTables.GetAttributeTypeTraitName(System.Type)">
+            <summary>
+            Std name for attr type based traits.
+            Only for immediate type, so you must manually traverse its base types if you need to make those also available as traits.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.CalculateAttributeTypeTraitsForPartCatalogTables.GetAttributeTypeTraitName(System.String)">
+            <summary>
+            Std name for attr type based traits.
+            Only for immediate type, so you must manually traverse its base types if you need to make those also available as traits.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.CreateCatalogTablesWithMetadataReader(System.Collections.Generic.IEnumerable{JetBrains.Metadata.Utils.AssemblyNameInfo},JetBrains.Application.Bindings.IAssemblyMasterBinder,System.Collections.Generic.ICollection{JetBrains.Application.Table.Emit.ICalculateTraitsForPartCatalogTables},System.IO.Stream,JetBrains.Util.OnError)">
+            <summary>
+            E
+            </summary>
+            <param name="assemblies">The list of assembly names for assemblies which should be included with the catalog (and scanned for types).</param>
+            <param name="masterbinder">Knows how to bind assembly names for reading, including the listed names and their references.</param>
+            <param name="traitcalc"></param>
+            <param name="output">Write target for the catalog tables.</param>
+            <param name="onerrorForMetadataLoaderTmp">TMP until adhoc catalog calculation at runtime is fixed.</param>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.GetAssemblyNameFromMetadataAssembly(JetBrains.Metadata.Reader.API.IMetadataAssembly)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.GetAssemblyNameFromMetadataTypeDeclaration(JetBrains.Metadata.Reader.API.IMetadataTypeInfo)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.GetAssemblyNameFromMetadataTypeReference(JetBrains.Metadata.Reader.API.IMetadataType)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.PreCreateFromMetadataAssembly(JetBrains.Metadata.Reader.API.IMetadataAssembly,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.PreCreateFromMetadataTypeDeclaration(JetBrains.Metadata.Reader.API.IMetadataTypeInfo,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.PreCreateFromMetadataTypeReference(JetBrains.Metadata.Reader.API.IMetadataType,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Creates a reference to the Assembly table without filling its details. No recursion possible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Assemblies.CheckLoadedAssemblyName(JetBrains.Metadata.Utils.AssemblyNameInfo,JetBrains.Metadata.Utils.AssemblyNameInfo)">
+            <summary>
+            After the binder loads an assembly by its assembly name, checks that the assembly actually loaded matches what was requested.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Attributes.IsPartAttribute(JetBrains.Metadata.Reader.API.IMetadataCustomAttribute,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Checks if the attr is a part attr (others won't be recorded).
+            </summary>
+            <param name="attributeMetadata"></param>
+            <param name="tables">Optional. If available, caches repeated checks.</param>
+            <returns></returns>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Blobs.CreateCatalogEntryPointListsAndBlobs(JetBrains.Application.Table.Emit.EmitTimeTables,System.Collections.Generic.IEnumerable{JetBrains.Application.Table.Record.Ref.AssemblyRef})">
+            <summary>
+            Creates global lists in the catalog which are entry points for the global enumeration functions: the ranges for all cataloged assemblies and all part types.
+            These are the backends for the global catalog functions with which everything begins.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.PreCreateFromMetadataTypeDeclaration(JetBrains.Metadata.Reader.API.IMetadataTypeInfo,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Gets a type table reference for the given metadata type declaration.
+            The type record is allocated in the Type table and scheduled for completion, but at the moment no fields are filled and there can be no recursion at all in this method, to it's safe to use in any sequential context.
+            A metadata type declaration is a class-like thing declared in metadata. A metadata type reference is some usage of a metadata type declaration, either AS IS if it's a simple case, but could be a generic specialization, a reference, an array and lots of other things. Also a type reference might resolve to synthetic stuff like generic formal parameters.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.PreCreateFromMetadataTypeReference(JetBrains.Metadata.Reader.API.IMetadataType,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Gets a type table reference for the given metadata type reference.
+            The type record is allocated in the Type table and scheduled for completion, but at the moment no fields are filled and there can be no recursion at all in this method, to it's safe to use in any sequential context.
+            A metadata type declaration is a class-like thing declared in metadata. A metadata type reference is some usage of a metadata type declaration, either AS IS if it's a simple case, but could be a generic specialization, a reference, an array and lots of other things. Also a type reference might resolve to synthetic stuff like generic formal parameters.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.GetClassBaseTypes(JetBrains.Metadata.Reader.API.IMetadataTypeInfo,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Traverses bases of a class (which is a a generic specialization of a type declaration, or the type declaration itself as an open-generic).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.GetClassBaseTypes(JetBrains.Metadata.Reader.API.IMetadataClassType,JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Traverses bases of a class (which is a a generic specialization of a type declaration, or the type declaration itself as an open-generic).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.TypePreCreationKey">
+            <summary>
+            When we pre-create a type without traversing it recursively, that's the identity object by which we match types for reuse.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.TypePreCreationKey.AssemblyName">
+            <summary>
+            Stores the assembly of the type. Not an assembly ref yet, because we don't want to recurse into its creation.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.TypePreCreationRecord">
+            <summary>
+            The full stored info for a pre-created type.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.TypePreCreationRecord.SourceObject">
+            <summary>
+            Either a type declaration or a type reference or the reference to the original table or whatever else the originator tracks in this field. The table handles it transparently.
+            For metadata entities, this is not unique per type because a transparent typeref is the same as typedecl, and typerefs are not singletons.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitCatalogTables.Types.TypePreCreationRecord.TypeRef">
+            <summary>
+            Points to the allocated cell for this type in the Types table.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitTablesFileWriter">
+            <summary>
+            Helps with writing catalog tables file from the runtime tables.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTablesFileWriter.WriteCatalogTablesFile(JetBrains.Application.Table.Emit.EmitTimeTables,System.IO.Stream)">
+            <summary>
+            After emit-time tables are fully filled, writes them to a BLOB in the <see cref="T:JetBrains.Application.Table.CatalogTables"/> format.
+            </summary>
+            <param name="tables"></param>
+            <param name="output"></param>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTablesFileWriter.CatalogTablesFileWriteSession.OffsetFirstTableFromFileHeader">
+            <summary>
+            Helps with positioning for writing the next <see cref="T:JetBrains.Application.Table.Record.TableHeader"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTablesFileWriter.CatalogTablesFileWriteSession.SupposedNumTables">
+            <summary>
+            Alloc some space for the header to have known RVAs for tables we write — take the number not too large but enough to fit our tables.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTablesFileWriter.CatalogTablesFileWriteSession.NumActualTablesWritten">
+            <summary>
+            Counts <see cref="T:JetBrains.Application.Table.Record.TableHeader"/> items as we write them to the stream. Goes to the count in the header at the end. Is checked against the <see cref="F:JetBrains.Application.Table.Emit.EmitTablesFileWriter.CatalogTablesFileWriteSession.SupposedNumTables"/> size we preallocate.
+            Set to <see cref="F:System.Int32.MaxValue"/> upon finalization of the session (when actual count is written to the header).
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Emit.EmitTablesFileWriter.CatalogTablesFileWriteSession.NextTableBodyRva">
+            <summary>
+            Free space for writing the next table body.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1">
+            <summary>
+            A generic POD table which supports common-sence merging of idential records, and ranges of records.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.myCurrentRange">
+            <summary>
+            NULL if not writing a range (can never have zero items in a table).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.myIsOccupiedReference">
+            <summary>
+            Some algorithm is working on references to this table, and thinks that this should not be reentered.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.myIsOccupiedTable">
+            <summary>
+            Some algorithm has taken an occupance lock on this table.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.Storage">
+            <summary>
+            Storage. Immediately adds an empty record to block the NULL address.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.AddRecord(`0)">
+            <summary>
+            Adds a record to the table, when not in range mode. Might get merged into an existing record.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.BeginRange">
+            <summary>
+            Starts writing a range of records for which you then get a RangeRef.
+            Should add records thru this object only. For instance, individual items won't be merged into existing ones, but a range in the whole would be attempted to be merged.
+            <see cref="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.RangeMarker.CommitRange(JetBrains.Application.Table.Emit.RecordsOrder)"/> when done.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.MergeRangeIfAtEnd(JetBrains.Application.Table.Record.RangeRef.ARangeRef,JetBrains.Application.Table.Emit.RecordsOrder)">
+            <summary>
+            Tries to look up an existing range with exactly the same values already in the table. If so, “merges” the new range into it: returns the existing range and frees the new items.
+            Only works if the current range is still at the end of the table, otherwise we can't trivially remove the range without rewriting refs from other tables.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.OccupyReferences">
+            <summary>
+            Some algorithm is working on references to this table, and thinks that this should not be reentered.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.OccupyTable">
+            <summary>
+            Occupies the table for exclusive use, to make sure our intermediate references are still valid.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.ReserveRange(System.Int32)">
+            <summary>
+            Reserves a range of empty slots at the end of the table.
+            No merge applicable here, the items are not yet filled.
+            DON'T USE unless special case like recursive attr arg fill.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.MergeRange(JetBrains.Application.Table.Record.RangeRef.ARangeRef,JetBrains.Application.Table.Emit.RecordsOrder)">
+            <summary>
+            Tries to look up an existing range with exactly the same values already in the table. If so, “merges” the new range into it: returns the existing range and frees the new items.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.Item(System.Int32)">
+            <summary>
+            Accesses the table storage by index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.RangeMarker">
+            <summary>
+            When in range mode.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.RangeMarker.AddRecord(`0)">
+            <summary>
+            Adds a record, when in Range mode.
+            Merging won't be done for this single record, but for the range in the whole, to ensure it's contiguous.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitPodTable`1.RangeMarker.Dispose">
+            <summary>
+            A safety catch in case building a range is aborted with an exception, unwinds and lets other operations proceed without leaving an unfinished range behind.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitAttributeTable.IsPartAttribute(JetBrains.Metadata.Reader.API.IMetadataCustomAttribute)">
+            <summary>
+            Checks if the attr is a part attr, with caching check results for speed.
+            </summary>
+            <param name="attributeMetadata"></param>
+            <returns></returns>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitBlobTable.myIndexPreRecords">
+            <summary>
+            These records have their RVAs relative to the blob bodies dump temporarily, will be rewritten to table-body-based when writing out.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitBlobTable.WriteOut">
+            <summary>
+            Renders the table body in storage-ready form.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitStringTable.myMapStrings">
+            <summary>
+            For handling duplicates.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTables.EmitStringTable.GetOrCreateRecord(JetBrains.Application.Table.CatalogTables,JetBrains.Application.Table.Record.Ref.StringRef)">
+            <summary>
+            Creates a new string record based on a string record in another existing table.
+            </summary>
+            <param name="other"></param>
+            <param name="refInOther"></param>
+            <returns></returns>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.EmitTimeTables.EmitTypeTable.PreCreatedShallowTypesQueue">
+            <summary>
+            First, when filling catalog, all pre-created types get here (details are not collected to avoid recursion and reentrancy in all funcs).
+            Then we run the queue to fill details on those types. During that procedure more types might be added to the queue because recursive traversal of the types hits more of them.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.EmitTimeTablesPartCatalogStorageEmulation">
+            <summary>
+            A part catalog backing storage implementation which runs off the emit-time catalog tables.
+            This is a not general-purpose impl, covers select scnarios when we want the convenient APIs to a catalog still being constructed.
+            Any unintended use might fail because (1) only useful code paths were implemented, and might have been partially implemented, and (2) emit-time tables are not always in a consistent state.
+            Don't try this at home, all usages are performed by trained professionals %-/
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.EmitTimeTablesPartCatalogStorageEmulation.GetString(JetBrains.Application.Table.Record.Ref.StringRef)">
+            <summary>
+            Unlike catalog tables, at emittime this operation is not prohibitively slow (currently).
+            </summary>
+            <param name="sref"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.RecordsOrder">
+            <summary>
+            Whether the order of records in the range is important.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.CatalogTablesMerger.MergeCatalogTables(JetBrains.Application.Table.CatalogTables[],System.IO.Stream)">
+            <summary>
+            Merges several catalog tables for non-intersecting cataloged assembly sets into a single catalog table.
+            </summary>
+            <param name="olds">Partial tables.</param>
+            <param name="output">Write target for the catalog tables.</param>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.CatalogTablesMerger.FillPreCreatedShallowTypes_Traits(JetBrains.Application.Table.Record.Ref.TypeRef,JetBrains.Application.Table.Emit.CatalogTablesMerger.TableAndRef{JetBrains.Application.Table.Record.Ref.TypeRef},JetBrains.Application.Table.Emit.EmitTimeTables,JetBrains.Util.OneToSetMap{JetBrains.Application.Table.Record.Ref.TypeRef,JetBrains.Application.Table.Record.TraitNameRecord})">
+            <summary>
+            Fetches trait names of the old type, registers to be applied to the new one.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.CatalogTablesMerger.AssemblyCataloged">
+            <summary>
+            An assembly after cataloging into the merged tables.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Emit.TraitsInCatalogTables">
+            <summary>
+            PartCatalog in the CatalogTables form has traits written per each type.
+            A trait is a named boolean value which a type either has or does not have.
+            A type has a trait named after each of its part attributes, and after each zone it's in.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Emit.TraitsInCatalogTables.SupportedTraitNamespacesNamespace">
+            <summary>
+            Namespace in which the namespaces of available traits are written as if they're trait local names.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.TraitsInCatalogTables.CalculateTraits(JetBrains.Application.Table.Emit.EmitTimeTables,System.Collections.Generic.ICollection{JetBrains.Application.Table.Emit.ICalculateTraitsForPartCatalogTables})">
+            <summary>
+            Calculates traits for a catalog whose tables have been filled by actual data, before writing it as a memdump.
+            This process is not extensible.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.TraitsInCatalogTables.WriteTraits(JetBrains.Application.Table.Emit.EmitTimeTables,JetBrains.Util.OneToSetMap{JetBrains.Application.Table.Record.Ref.TypeRef,JetBrains.Application.Table.Record.TraitNameRecord})">
+            <summary>
+            Records the traits in their correct format after they have already been calculated.
+            Supposed sources:
+            (1) Original calculation of the type traits off the already-written other tables.
+            (2) Collected info from old groups of tables for writing into a single new set of tables.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Emit.TraitsInCatalogTables.RegisterTraitNamespace(System.String,JetBrains.Util.OneToSetMap{JetBrains.Application.Table.Record.Ref.TypeRef,JetBrains.Application.Table.Record.TraitNameRecord},JetBrains.Application.Table.Emit.EmitTimeTables)">
+            <summary>
+            Lets catalog tables consumer know that traits in this namespace have been calculated for this catalog.
+            Trait names in some namespace usually look like "namespace::localname".
+            If the namespace is not known in the catalog, then a catalog filter cannot be optimized by querying for its traits, and must be applied as a function.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly">
+            <summary>
+            If this assembly were originally requested for cataloging.
+            If yes, for such an assembly the part types, attributes, references etc are collected.
+            If no, then only the assembly name will be written for such an assembly.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.AttributeArgumentValueElementType">
+            <summary>
+            Types of attr arg values.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Null">
+            <summary>
+            A <c>NULL</c> value (<c>default(object)</c>).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.Bitmask64">
+            <summary>
+            Wraps a bit mask, for type safety and neat presentation of this field in diag dumps
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.BlobTableHeader">
+            <summary>
+              <para>The BLOB table stores user-defined BLOBs, indexed by 128bit keys, each of them might be either a GUIDs (as they're of the same size), or a hash of the string key, obtained with <see cref="M:JetBrains.Application.Table.Record.StringRecordHeader.CalculateHash(System.String)"/>.</para>
+              <para>This is not a POD table. First comes this header, then an index which allows to look up BLOB body addresses, and then the BLOB bodies.</para>
+              <para>The header is a single struct located at RVA zero, other entities have their RVAs explicitly defined (all to the table body start).</para>
+              <para>For the index format, see comment on <see cref="T:JetBrains.Application.Table.Record.BlobTableIndexRecord"/>. The BLOB bodies have no format or extra metadata besides the user-supplied bytes.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableHeader.IndexRva">
+            <summary>
+            Points to the beginning of the memory space allocated for <see cref="T:JetBrains.Application.Table.Record.BlobTableIndexRecord"/>, relatively to the table body start.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableHeader.IndexHashHighestSetBit">
+            <summary>
+            The highest possibly used bit of the index hash, which gives the total allocated size of the index, in <see cref="T:JetBrains.Application.Table.Record.BlobTableIndexRecord"/> records. The number of records actually in use would be smaller.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.BlobTableIndexRecord">
+            <summary>
+              <para>Each record in the BLOB index hash table.</para>
+              <para>The <see cref="F:JetBrains.Application.Table.Record.BlobTableHeader.IndexHashHighestSetBit"/> lower bits of the <see cref="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Identity"/> are used as the row index. In case of a collision, when lower bits of multiple identities match, it's resolved as a close hash table, by doing a quadratic proble with <c>hash + N*(N+1)/2</c>, which should eventually cover all possible indices for a modulo which is a power of 2.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Identity">
+            <summary>
+              <para>The main and only identity of the BLOB.</para>
+              <para>This can be either produced as a new GUID, or calculated as a hash <see cref="M:JetBrains.Application.Table.Record.StringRecordHeader.CalculateHash(System.String)"/> to some string name.</para>
+              <para>The lower bits of this hash (<see cref="F:JetBrains.Application.Table.Record.BlobTableHeader.IndexHashHighestSetBit"/> of them) give the row number of the first record in the index matching the key.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Flags">
+            <summary>
+            Flags, now only used to tell occupied index records.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Note">
+            <summary>
+            Optional reference to a string which describes the <see cref="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Identity"/> (not the BLOB value). If the <see cref="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.Identity"/> is a hash of some string key, would point to this key string.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.BodyRva">
+            <summary>
+            Points to the beginning of the BLOB body, relatively to the table body start.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecord.BodyCbSize">
+            <summary>
+            The BLOB body size, in bytes.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.BlobTableIndexRecordFlags.IsDefined">
+            <summary>
+            This record is actually defined (not an empty slot in a closed hash table).
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.AssemblyListRangeRef">
+            <summary>
+            A reference to a range in the <see cref="T:JetBrains.Application.Table.Record.AssemblyListRecord"/> table.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.IRecordRangeRef">
+            <summary>
+            Means this type represents a record range reference.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.RangeRef.IRecordRangeRef.GetEnumerator">
+            <summary>
+            Enumerates the indices in the range.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Record.RangeRef.IRecordRangeRef.Range">
+            <summary>
+            A copy of the value of the inner field which implements the range.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Record.RangeRef.IRecordRangeRef.TargetRecordType">
+            <summary>
+            Type of the record this range references.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.Ref.IRecordRef">
+            <summary>
+            Means this type represents a record reference.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Record.Ref.IRecordRef.Ref">
+            <summary>
+            A copy of the value of the inner field which implements the reference.
+            </summary>
+        </member>
+        <member name="P:JetBrains.Application.Table.Record.Ref.IRecordRef.TargetRecordType">
+            <summary>
+            Type of the referenced record.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyListRecord.CatalogedAssembliesListRangeBlobName">
+            <summary>
+              <para>Name of the BLOB that holds the single <see cref="T:JetBrains.Application.Table.Record.RangeRef.AssemblyListRangeRef"/> object that points to the range in the <see cref="T:JetBrains.Application.Table.Record.AssemblyListRecord"/> table that gives the list of assemblies primarily taken for cataloging (and not just mentioned as refs etc).</para>
+              <para>In short, gives the <see cref="P:JetBrains.Application.Catalogs.PartCatalog.CatalogedAssemblies"/>.</para>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.AssemblyRecord">
+            <summary>
+            Describes an assembly whose types are listed in this catalog.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.FullName">
+            <summary>
+            Assembly textual identity string.
+            Must be written for any assembly record, <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/> or not.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.Attributes">
+            <summary>
+            Assembly-level custom attributes.
+            Only for <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.Types">
+            <summary>
+            Part types in this assembly. All other types created from this assembly, like bases/extras of part types, are not included with this listing.
+            The order is undefined.
+            Only for <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.ReferencedAssemblies">
+            <summary>
+            Lists assembly references of this assembly.
+            The order is undefined.
+            Only for <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.Mvid">
+            <summary>
+              <para>MVID of the assembly, which is an unique UUID per assembly compilation (actually, with modern compilers it should be a function of all the compiler inputs, incl sources, options, and version).</para>
+              <para>MVID should match such of the actual assembly on disk for a catalog to be valid and up-to-date for that assembly.</para>
+              <para>Only for <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/>.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AssemblyRecord.Flags">
+            <summary>
+            Flags.
+            <see cref="F:JetBrains.Application.Table.Record.AssemblyRecordFlags.IsCatalogedAssembly"/> is only written for fully-defined assemblies.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.RangeEnumerator">
+            <summary>
+            A non-allocating enumerator for ranges.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.Ref.ARef">
+            <summary>
+            Anonymous record reference — a reference to a record in some table, by index.
+            The base implementation for all record ref types.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.AttributeArgumentRangeRef">
+            <summary>
+            A range in the <see cref="T:JetBrains.Application.Table.Record.AttributeArgumentRecord"/> table.
+            NOTE: unlike types, arguments only support contiguous ranges in the table, and there is no extra level of indirection.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.Name">
+            <summary>
+            Name of the argument, if applicable.
+            Positional actual constructor parameter: name of the corresponding formal parameter in the chosen constructor.
+            Named argument: name of the corresponding field or property being assigned by this argument.
+            Nested argument as an array item in some other argument: n/a.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.Disposition">
+            <summary>
+            <see cref="T:JetBrains.Application.Catalogs.PartCatalogAttributeArgumentDisposition"/> struct raw value, decoded as an Int16, if an immediate argument of an attribute.
+            <see cref="F:System.Int16.MinValue"/> for a nested argument.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.ElementType">
+            <summary>
+            <see cref="T:JetBrains.Application.Table.Record.AttributeArgumentValueElementType"/> whose values directly map onto <see cref="T:JetBrains.Metadata.Reader.API.ElementType"/> of the value encoded in this argument. Defines which value fields should be considered as holding the actual value, others will be n/a.
+            All valid and expected element types are mentioned in corresponding value documentation, but for the special <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Null"/> case which represents a <c>default(object)</c> and for which none of the value fields is set to anything.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.StringValue">
+            <summary>
+            If <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.String"/>, points to the string value of the argument. Otherwise, n/a.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.TypeValue">
+            <summary>
+            If <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Type"/>, points to the type value of the argument. Otherwise, n/a.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.PrimitiveValue">
+            <summary>
+            If <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Bool"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.Char"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.I1"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.U1"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.I2"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.U2"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.I4"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.U4"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.I8"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.U8"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.R4"/> <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.R8"/>, holds the literal integral value zero-extended to the QWORD size. Note that signed values are not sign-extended, and unused bytes will always be zero.
+            Otherwise, n/a.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeArgumentRecord.ArrayItemsValue">
+            <summary>
+            If <see cref="F:JetBrains.Application.Table.Record.AttributeArgumentValueElementType.SzArray"/>, this argument represents an array whose items are given by nested arguments pointed to by this range. Otherwise, n/a.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.AttributeRangeRef">
+            <summary>
+            A reference to a range in the <see cref="T:JetBrains.Application.Table.Record.AttributeRecord"/> table.
+            NOTE: unlike types, attributes only support contiguous ranges in the table, and there is no extra level of indirection.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.AttributeRecord.ConstructorFormalParameterTypes">
+            <summary>
+            We now don't tell NULL from an empty range, so no way to get if the actual ctor is known right now. Probably, this will be discovered only at runtime.
+            The order must match the order of formal parameters on the method declaration.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.CurrentFormatMark">
+            <summary>
+            <see cref="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.szFormatMark"/>'s (1) current value we write (2) the only value we'd expect to see when loading for the format to be valid.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.CurrentFormatRevision">
+            <summary>
+            <see cref="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.FormatRevision"/>'s (1) current value we write  (2) the only value we'd expect to see when loading for the format to be valid.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.szFormatMark">
+            <summary>
+            Beginning of the file, characters to idenfity the format. ASCII encoding.
+            This should also include the major generational version of the format.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.FormatRevision">
+            <summary>
+            Format revision. Changes with each format change. We'd only load exactly matching revisions.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.TableRefsCount">
+            <summary>
+            The number of actual <see cref="T:JetBrains.Application.Table.Record.TableHeader"/> records starting with <see cref="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.FirstTableHeader"/>.
+            The lowest supported number is <c>1</c>.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.CatalogTablesFileHeader.FirstTableHeader">
+            <summary>
+            The first table reference. Others follow immediately (pack=2).
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.CatalogTablesFileHeader.WithFormat">
+            <summary>
+            Gets a struct copy with format marks all set.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.MemberRangeRef">
+            <summary>
+            A range in the <see cref="T:JetBrains.Application.Table.Record.MemberRecord"/> table.
+            NOTE: unlike types, only supports contiguous ranges in the table, and there is no extra level of indirection.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.MemberRecord.ParameterTypes">
+            <summary>
+            The order must match the order of formal parameters on the method declaration.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.ARangeRef">
+            <summary>
+            Anonymous range reference — a reference to a range of records in some table.
+            The base implementation for all record range ref types.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.RangeRef.ARangeRef.CreateNullIfEmpty(System.Int32,System.Int32)">
+            <summary>
+            For zero-length ranges, returns a NULL value — to avoid FirstIndex values possibly pointing out of the table.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.StringRecordHeader">
+            <summary>
+            The string table holds variable-sized records, and references to this table have RVAs rather than indices.
+            This header starts each record.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.StringRecordHeader.Hash">
+            <summary>
+            The hash of the string content, not counting the trailing zero.
+            MUST always be the same hashing algorithm, Murmur3 128-bit x86 version.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.StringRecordHeader.CchLength">
+            <summary>
+            Length of the string, in chars, not including the terminating zero (which must also be written).
+            Could have been a WORD, but that would have spoiled the padding (.NET has all the strings padded at a DWORD, let's keep the vibe).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.StringRecordHeader.MagicBom">
+            <summary>
+            UTF-16LE BOM, as a magic marker of the string start.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.StringRecordHeader.wsz">
+            <summary>
+            Not in the structure! Just marks the beginning of the string, UTF-16LE, zero-terminated (ready for use in the runtime).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.StringRecordHeader.MagicBomValue">
+            <summary>
+            UTF16-LE BOM.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.StringRecordHeader.CalculateHash(System.String)">
+            <summary>
+            Calculates the stable hash for the string, in the format used in the Catalog Tables: MurmurHash3, 128bit-output, x86-cpu version.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.Ref.StringRef">
+            <summary>
+            A special case: refernce to non-POD table.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.TableHeader">
+            <summary>
+            Header for a table.
+            Might be a POD table, which is a regular array of POD structure records; or a custom table, for which only the size is known. See POD-specific fields to tell a POD table.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TableHeader.rva">
+            <summary>
+            Rva to the table in the binary data.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TableHeader.cbSize">
+            <summary>
+            Byte size of the whole table.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TableHeader.wszTableName">
+            <summary>
+            Name of the table. The tables are told apart by this identifier rather than by their order in the file. Must be unique in the tables list.
+            For a POD table, should be related to <see cref="F:JetBrains.Application.Table.Record.TableHeader.wszPodTableRecordTypeAqn"/> (usually, a part of the type local name).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TableHeader.wszPodTableRecordTypeAqn">
+            <summary>
+            For a POD table which is an array of same-sized POD sturctures, AQN of the type which describes each record. Otherwise, an empty string.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TableHeader.cbPodTableRecordSize">
+            <summary>
+            For a POD table which is an array of same-sized POD sturctures, the size of a record in the table. Otherwise, zero.
+            <see cref="F:JetBrains.Application.Table.Record.TableHeader.cbSize"/> must be a multiple of this value.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.SetCustomTable(JetBrains.Application.Table.Record.TableHeader*,System.Int64,System.Int64,System.String)">
+            <summary>
+            Base case for all tables, and all that we have to say for a non-POD custom table.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.SetPodTable(JetBrains.Application.Table.Record.TableHeader*,System.Int64,System.Int64,System.String,System.String,System.Int32)">
+            <summary>
+            POD table case.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.TableNameEquals(System.String)">
+            <summary>
+            Does the check against the native string, without allocations.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.CreateTableNameString">
+            <summary>
+            Allocates a runtime string for the table name. Must not be used on the main production track, for secondary scenarios like dumping only.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.CreatePodTableRecordTypeAqn">
+            <summary>
+            Allocates a runtime string for the PodTableRecordTypeAqn. Must not be used on the main production track, for secondary scenarios like dumping only.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.GetPodTableNameFromRecordType``1">
+            <summary>
+            The rul for naming POD tables after their record type class.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.Record.TableHeader.GetPodTableNameFromRecordType(System.Type)">
+            <summary>
+            The rul for naming POD tables after their record type class.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.RangeRef.TypeListRangeRef">
+            <summary>
+            A reference to a range in the <see cref="T:JetBrains.Application.Table.Record.TypeListRecord"/> table.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.TraitNameRecord">
+            <summary>
+            This table lists trait names.
+            The records MUST be sorted by the string hashes, see <see cref="F:JetBrains.Application.Table.Record.StringRecordHeader.Hash"/>. This allows for fast lookup when mapping trait names into bitmasks for this specific catalog.
+            The row index of a certain trait gives its bitmask location in the <see cref="T:JetBrains.Application.Table.Record.TypeTraitBankRecord"/> table: the bank number is (row div 64), and the bit number is (row mod 64).
+            See <see cref="T:JetBrains.Application.Table.Record.TypeTraitBankRecord"/> for more details.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TypeListRecord.AllPartTypesListRangeBlobName">
+            <summary>
+              <para>Name of the BLOB that holds the single <see cref="T:JetBrains.Application.Table.Record.RangeRef.TypeListRangeRef"/> object that points to the range in the <see cref="T:JetBrains.Application.Table.Record.TypeListRecord"/> table that gives the list of all Part types in this catalog. This list should be equivalent to a union of (non-intersecting) lists of part types in all cataloged assemblies in this catalog.</para>
+              <para>In short, gives the <see cref="P:JetBrains.Application.Catalogs.PartCatalog.AllPartTypes"/>, which optimizes the common operation.</para>
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TypeRecord.BaseTypes">
+            <summary>
+            Base types, including classes and interfaces, transitively collected, excluding well-knowns like Object and ValueType.
+            Order is undefined.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TypeRecord.ExtraTypes">
+            <summary>
+            Meaning depends on the <see cref="F:JetBrains.Application.Table.Record.TypeRecord.TypeKind"/>: either generic actual parameters, or array item type, or reference target type, or nothing for a regular type.
+            Ordering is important (e.g. to match generic actual parameters to the formatl parameters).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TypeRecord.MetadataToken">
+            <summary>
+              <para>For a part type (i.e. a type originally chosen for cataloging, and not just any random mentioned type), stores the metadata token in the original assembly for faster lookup.</para>
+              <para>The assembly MVID is validated upon loading the catalog to make sure that it has not been recompiled, so the tokens should match.</para>
+              <para>For non-part-types there're no strong checks on MVIDs, so their metadata tokens are not preserved.</para>
+              <para>In either case, a value of <c>0</c> means that the token has not been defined.</para>
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.Record.TypeTraitBankRecord">
+            <summary>
+            Each trait is a named feature which an entity in this catalog (e.g. <see cref="T:JetBrains.Application.Table.Record.TypeRecord"/>) either has or not.
+            The list of ALL known trait names for this catalog is stored in the <see cref="T:JetBrains.Application.Table.Record.TraitNameRecord"/> table.
+            Their order is important, and they're sorted by their string name hashes (<see cref="F:JetBrains.Application.Table.Record.StringRecordHeader.Hash"/>).
+            Traits for types are stored in the <see cref="T:JetBrains.Application.Table.Record.TypeTraitBankRecord"/> table as bit masks: each type has bits for all known traits in this catalog.
+            For each <see cref="T:JetBrains.Application.Table.Record.TypeRecord"/> in this catalog, <see cref="T:JetBrains.Application.Table.Record.TypeTraitBankRecord"/> has enough banks to store bits for all known traits listed in <see cref="T:JetBrains.Application.Table.Record.TraitNameRecord"/>.
+            As each mask bank is 64-bit, the number of banks is NumBank = Ceil(NumKnownTraits) / 64).
+            As a result, <see cref="T:JetBrains.Application.Table.Record.TypeRecord"/> must have NumTypeRecords*NumBanks records.
+            The structure is as follows: first, NumBanks records for the <see cref="T:JetBrains.Application.Table.Record.TypeRecord"/> with index 0, then NumBanks masks for type #1, and so on.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.Record.TypeTraitBankRecord.Bitmask">
+            <summary>
+            64 bits of trait bitmask, for the current bank, for the <see cref="T:JetBrains.Application.Table.Record.TypeRecord"/> whose row index is the same as this record's, mod $(NumTypes).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.myAttributeTypeSkipList">
+            <summary>
+            Caches tokens of attribute types which cannot match the requested user attribute type and should be skipped from checking, e.g. PartAttribute itself, Attribute, etc.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.myFilter">
+            <summary>
+            The original filter for this catalog.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.myNonTraitFilter">
+            <summary>
+            Those filters that do not support traits (if applicable).
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.myTraitMasks">
+            <summary>
+            The filters for which we picked the traits.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.Tables">
+            <summary>
+            Shortcut access to tables in the storage.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.AssessFilterStatus(JetBrains.Application.Table.CatalogTables,JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter,JetBrains.Application.Catalogs.Filtering.IPartCatalogFilter@,JetBrains.Application.Table.CatalogTables.Helpers.TraitMaskBanksAndOperations@)">
+            <summary>
+            Chooses the filtering scenario the first time we try to use filters.
+            We could always get all types and apply the filter AS IS, but using traits in supported cases might improve performance a lot.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.GetAttributeTypeSkipList(JetBrains.Application.Catalogs.PartCatalogType)">
+            <summary>
+            Caches tokens of attribute types which cannot match the requested user attribute type and should be skipped from checking, e.g. PartAttribute itself, Attribute, etc.
+            Called only once to lazy-fill the list.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.CollectionFlags.IsFiltering">
+            <summary>
+            Applies to types only. Means that type trait filter based on the storage's traits should be applied.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.CollectionFlags.IsOwnTypesOnly">
+            <summary>
+            Applies to types only. If <c>True</c>, we're only expecting types from our own catalog upon enumeration. Otherwise we should look up the parent group for type translation.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.CollectionPodData">
+            <summary>
+            Universal POD data for default collection types.
+            </summary>
+        </member>
+        <member name="T:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.EnumeratorPodData">
+            <summary>
+            Universal POD data for default enumerator types.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogCollectionSourceOwner.EnumeratorPodData.Current">
+            <summary>
+            The current index, if positioned on a valid element.
+            <c>-1</c> if before first. <see cref="F:System.Int32.MaxValue"/> if after last.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogGroupStorage.GetMapAssemblyToStorage">
+            <summary>
+            Lazy-fills the mapping.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogGroupStorage.GetPrimaryPartCatalogAssembly(JetBrains.Application.Catalogs.PartCatalogAssembly)">
+            <summary>
+            A part assembly might reference part assemblies from other catalogs, in which case a copy of it will be embedded into the catalog tables even if the assembly does not belong to the catalog.
+            This method looks up the primary assembly (from the catalog to which it belongs as a part assembly), to make sure all customers use only up-to-date primary assemblies with their types, attrs, etc.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogGroupStorage.GetPrimaryPartCatalogType(JetBrains.Application.Catalogs.PartCatalogType)">
+            <summary>
+            A part type might reference part types from other assemblies, in which case a copy of it will be embedded into the catalog tables even if the assembly does not belong to the catalog.
+            This method looks up the primary type (from the catalog to which it belongs as a part of a cataloged assembly), to make sure all customers use only up-to-date primary types.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogStorage.myCollectionSourceOwner">
+            <summary>
+            Manages virtual collections with direct access to the tables.
+            </summary>
+        </member>
+        <member name="F:JetBrains.Application.Table.TablePartCatalogStorage.myFilter">
+            <summary>
+            The original filter for this catalog.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogStorage.GetPartAssembly(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogAssemblyToken})">
+            <summary>
+            When opening a group of catalog tables together, routes related assemblies to the appropriate catalog table storage.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogStorage.GetPartType(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogTypeToken})">
+            <summary>
+            When opening a group of catalog tables together, routes related types to the appropriate catalog table storage.
+            </summary>
+        </member>
+        <member name="M:JetBrains.Application.Table.TablePartCatalogStorage.TypeEqualsRuntimeType_NamesCheck(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogTypeToken},System.Type)">
+            <summary>
+            Slow route of the <see cref="M:JetBrains.Application.Table.TablePartCatalogStorage.TypeEqualsRuntimeType(JetBrains.Util.dataStructures.TypedIntrinsics.Int32{JetBrains.Application.Catalogs.CatalogTypeToken},System.Type)"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
