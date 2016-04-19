@@ -125,45 +125,12 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt, style=Bold</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 18</value>
-  </data>
-  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 6</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 30</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Auto updates</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="maxViolationCountMaskedTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>579, 272</value>
+    <value>284, 88</value>
   </data>
   <data name="maxViolationCountMaskedTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 7, 3, 6</value>
+    <value>2, 4, 2, 3</value>
   </data>
   <data name="maxViolationCountMaskedTextBox.Mask" xml:space="preserve">
     <value>999999</value>
@@ -172,7 +139,7 @@
     <value> </value>
   </data>
   <data name="maxViolationCountMaskedTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>57, 31</value>
+    <value>30, 20</value>
   </data>
   <data name="maxViolationCountMaskedTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -193,7 +160,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;maxViolationCountMaskedTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -205,13 +172,13 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 315</value>
+    <value>8, 114</value>
   </data>
   <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 0</value>
+    <value>2, 3, 2, 0</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 33</value>
+    <value>95, 21</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -232,37 +199,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="autoUpdateCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="autoUpdateCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 60</value>
-  </data>
-  <data name="autoUpdateCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 0</value>
-  </data>
-  <data name="autoUpdateCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>349, 29</value>
-  </data>
-  <data name="autoUpdateCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="autoUpdateCheckBox.Text" xml:space="preserve">
-    <value>Automatically check for updates</value>
-  </data>
-  <data name="&gt;&gt;autoUpdateCheckBox.Name" xml:space="preserve">
-    <value>autoUpdateCheckBox</value>
-  </data>
-  <data name="&gt;&gt;autoUpdateCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;autoUpdateCheckBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;autoUpdateCheckBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -274,13 +211,13 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 271</value>
+    <value>8, 87</value>
   </data>
   <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 6</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>558, 32</value>
+    <value>272, 21</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -301,7 +238,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="tableLayoutPanel2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -312,125 +249,17 @@
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="daysLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="daysLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="daysLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>287, 0</value>
-  </data>
-  <data name="daysLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 32</value>
-  </data>
-  <data name="daysLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="daysLabel.Text" xml:space="preserve">
-    <value>day(s)</value>
-  </data>
-  <data name="daysLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;daysLabel.Name" xml:space="preserve">
-    <value>daysLabel</value>
-  </data>
-  <data name="&gt;&gt;daysLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;daysLabel.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;daysLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="checkForUpdatesLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="checkForUpdatesLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="checkForUpdatesLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="checkForUpdatesLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 0</value>
-  </data>
-  <data name="checkForUpdatesLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 32</value>
-  </data>
-  <data name="checkForUpdatesLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="checkForUpdatesLabel.Text" xml:space="preserve">
-    <value>Check for updates every</value>
-  </data>
-  <data name="checkForUpdatesLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;checkForUpdatesLabel.Name" xml:space="preserve">
-    <value>checkForUpdatesLabel</value>
-  </data>
-  <data name="&gt;&gt;checkForUpdatesLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;checkForUpdatesLabel.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;checkForUpdatesLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="daysMaskedTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="daysMaskedTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 1</value>
-  </data>
-  <data name="daysMaskedTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 1, 3, 0</value>
-  </data>
-  <data name="daysMaskedTextBox.Mask" xml:space="preserve">
-    <value>999</value>
-  </data>
-  <data name="daysMaskedTextBox.PromptChar" type="System.Char, mscorlib" xml:space="preserve">
-    <value> </value>
-  </data>
-  <data name="daysMaskedTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 31</value>
-  </data>
-  <data name="daysMaskedTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="daysMaskedTextBox.Text" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="daysMaskedTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="&gt;&gt;daysMaskedTextBox.Name" xml:space="preserve">
-    <value>daysMaskedTextBox</value>
-  </data>
-  <data name="&gt;&gt;daysMaskedTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MaskedTextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;daysMaskedTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;daysMaskedTextBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 92</value>
+    <value>8, 8</value>
   </data>
   <data name="tableLayoutPanel2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 12</value>
+    <value>2, 2, 2, 6</value>
   </data>
   <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 32</value>
+    <value>0, 0</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
@@ -445,22 +274,22 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="daysLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="checkForUpdatesLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="daysMaskedTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,32" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Absolute,1" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="enableCache.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="enableCache.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 148</value>
+    <value>8, 20</value>
   </data>
   <data name="enableCache.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 12, 3, 3</value>
+    <value>2, 6, 2, 2</value>
   </data>
   <data name="enableCache.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 29</value>
+    <value>178, 17</value>
   </data>
   <data name="enableCache.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -478,16 +307,16 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;enableCache.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="cultureComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 315</value>
+    <value>107, 114</value>
   </data>
   <data name="cultureComboBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 0</value>
+    <value>2, 3, 2, 0</value>
   </data>
   <data name="cultureComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 33</value>
+    <value>62, 21</value>
   </data>
   <data name="cultureComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>39</value>
@@ -502,7 +331,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;cultureComboBox.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="violationsAsErrorsCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -511,13 +340,13 @@
     <value>NoControl</value>
   </data>
   <data name="violationsAsErrorsCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 230</value>
+    <value>8, 64</value>
   </data>
   <data name="violationsAsErrorsCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 6</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="violationsAsErrorsCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>282, 29</value>
+    <value>141, 17</value>
   </data>
   <data name="violationsAsErrorsCheckBox.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -535,16 +364,19 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;violationsAsErrorsCheckBox.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
   <data name="neededToMakeLastRowFill.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="neededToMakeLastRowFill.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 351</value>
+    <value>8, 137</value>
+  </data>
+  <data name="neededToMakeLastRowFill.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="neededToMakeLastRowFill.Size" type="System.Drawing.Size, System.Drawing">
-    <value>621, 1</value>
+    <value>310, 25</value>
   </data>
   <data name="neededToMakeLastRowFill.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -559,7 +391,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;neededToMakeLastRowFill.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
   <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -567,14 +399,17 @@
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="tableLayoutPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
   <data name="tableLayoutPanel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>12, 12, 12, 12</value>
+    <value>6, 6, 6, 6</value>
   </data>
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 340</value>
+    <value>181, 170</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -592,16 +427,16 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="maxViolationCountMaskedTextBox" Row="6" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="autoUpdateCheckBox" Row="1" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label3" Row="6" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="tableLayoutPanel2" Row="2" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="enableCache" Row="3" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label1" Row="4" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="cultureComboBox" Row="7" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="violationsAsErrorsCheckBox" Row="5" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="neededToMakeLastRowFill" Row="8" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="maxViolationCountMaskedTextBox" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="4" RowSpan="1" Column="0" ColumnSpan="2" /&gt;&lt;Control Name="tableLayoutPanel2" Row="0" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="enableCache" Row="1" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="label1" Row="2" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="cultureComboBox" Row="5" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="violationsAsErrorsCheckBox" Row="3" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="neededToMakeLastRowFill" Row="6" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 183</value>
+    <value>8, 41</value>
   </data>
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 12</value>
+    <value>2, 2, 2, 6</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>621, 29</value>
+    <value>310, 14</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -619,7 +454,7 @@
     <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -628,10 +463,13 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>192, 192</value>
+    <value>96, 96</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 340</value>
+    <value>181, 170</value>
   </data>
   <data name="&gt;&gt;toolTip.Name" xml:space="preserve">
     <value>toolTip</value>
