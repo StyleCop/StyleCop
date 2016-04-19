@@ -3,8 +3,9 @@
     <Element Name="StyleCop.CSharp" Type="Namespace" />
     <Element Name="StyleCop.CSharp" Type="Namespace" />
     <Element Name="StyleCop.CSharp" Type="Namespace" />
-    <Element Name="Microsoft.StyleCop.CSharp" Type="Namespace" />
-    <Element Name="Microsoft.StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
     <Element Name="StyleCop.CSharp" Type="Namespace">
       <Element Name="Class1&lt;TKey&gt;" Type="Class">
         <Element Name="variable" Type="Field">

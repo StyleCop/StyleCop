@@ -160,6 +160,7 @@ namespace StyleCop.CSharp
                     continue;
                 }
 
+                // Check whether short syntax is used.
                 if (i < text.Length - 5)
                 {
                     char[] sequence = new[] { c, text[i + 1], text[i + 2], text[i + 3], text[i + 4], text[i + 5], };
@@ -168,6 +169,32 @@ namespace StyleCop.CSharp
                     if (IsLetterEncoded(sequence, out value))
                     {
                         i += 5;
+                        sb.Append(value);
+                        continue;
+                    }
+                }
+
+                // Check whether long syntax is used.
+                if (i < text.Length - 9)
+                {
+                    char[] sequence = new char[]
+                    {
+                        c,
+                        text[i + 1],
+                        text[i + 2],
+                        text[i + 3],
+                        text[i + 4],
+                        text[i + 5],
+                        text[i + 6],
+                        text[i + 7],
+                        text[i + 8],
+                        text[i + 9],
+                    };
+
+                    char value;
+                    if (IsLetterEncoded(sequence, out value))
+                    {
+                        i += 9;
                         sb.Append(value);
                         continue;
                     }
@@ -604,7 +631,9 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(character);
 
-            if (char.IsNumber(character) || (character >= 'a' && character <= 'f') || (character >= 'A' && character <= 'F'))
+            if (char.IsNumber(character)
+                || (character >= 'a' && character <= 'f')
+                || (character >= 'A' && character <= 'F'))
             {
                 return true;
             }
@@ -630,10 +659,54 @@ namespace StyleCop.CSharp
 
             character = char.MinValue;
 
-            if (sequence.Length == 6 && sequence[0] == '\\' && sequence[1] == 'u' && IsHexadecimalChar(sequence[2]) && IsHexadecimalChar(sequence[3])
-                && IsHexadecimalChar(sequence[4]) && IsHexadecimalChar(sequence[5]))
+            // Short syntax is used.
+            if (sequence.Length == 6
+                && sequence[0] == '\\'
+                && sequence[1] == 'u'
+                && IsHexadecimalChar(sequence[2])
+                && IsHexadecimalChar(sequence[3])
+                && IsHexadecimalChar(sequence[4])
+                && IsHexadecimalChar(sequence[5]))
             {
-                character = (char)Convert.ToInt32(new string(new[] { sequence[2], sequence[3], sequence[4], sequence[5] }), 16);
+                character = (char)Convert.ToInt32(
+                    new string(new[]
+                        {
+                            sequence[2],
+                            sequence[3],
+                            sequence[4],
+                            sequence[5]
+                        }),
+                    16);
+
+                return true;
+            }
+
+            // Long syntax is used.
+            if (sequence.Length == 10
+                && sequence[0] == '\\'
+                && sequence[1] == 'U'
+                && IsHexadecimalChar(sequence[2])
+                && IsHexadecimalChar(sequence[3])
+                && IsHexadecimalChar(sequence[4])
+                && IsHexadecimalChar(sequence[5])
+                && IsHexadecimalChar(sequence[6])
+                && IsHexadecimalChar(sequence[7])
+                && IsHexadecimalChar(sequence[8])
+                && IsHexadecimalChar(sequence[9]))
+            {
+                character = (char)Convert.ToInt32(
+                    new string(new[]
+                        {
+                            sequence[2],
+                            sequence[3],
+                            sequence[4],
+                            sequence[5],
+                            sequence[6],
+                            sequence[7],
+                            sequence[8],
+                            sequence[9]
+                        }),
+                    16);
 
                 return true;
             }
@@ -2631,13 +2704,48 @@ namespace StyleCop.CSharp
         {
             Param.Ignore(sequence, character);
 
-            sequence = new[]
-                           {
-                               this.codeReader.Peek(0), this.codeReader.Peek(1), this.codeReader.Peek(2), this.codeReader.Peek(3), this.codeReader.Peek(4),
-                               this.codeReader.Peek(5)
-                           };
+            if (this.codeReader.Peek(0) != '\\')
+            {
+                return false;
+            }
 
-            return IsLetterEncoded(sequence, out character);
+            // Check whether short syntax is used.
+            sequence = new[]
+            {
+                this.codeReader.Peek(0),
+                this.codeReader.Peek(1),
+                this.codeReader.Peek(2),
+                this.codeReader.Peek(3),
+                this.codeReader.Peek(4),
+                this.codeReader.Peek(5)
+            };
+
+            if (IsLetterEncoded(sequence, out character))
+            {
+                return true;
+            }
+
+            // Check whether long syntax is used.
+            sequence = new[]
+            {
+                this.codeReader.Peek(0),
+                this.codeReader.Peek(1),
+                this.codeReader.Peek(2),
+                this.codeReader.Peek(3),
+                this.codeReader.Peek(4),
+                this.codeReader.Peek(5),
+                this.codeReader.Peek(6),
+                this.codeReader.Peek(7),
+                this.codeReader.Peek(8),
+                this.codeReader.Peek(9)
+            };
+
+            if (IsLetterEncoded(sequence, out character))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

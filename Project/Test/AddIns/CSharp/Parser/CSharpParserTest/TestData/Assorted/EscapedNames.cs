@@ -14,12 +14,17 @@ namespace StyleCop.@CSharp
 }
 
 // Using Unicode character escape sequence (upper-cased and lower-cased).
-namespace Micr\u006Fs\u006fft.StyleCop.CSh\u0061rp
+namespace Sty\u006CeC\u006fp.CSh\u0061rp
+{
+}
+
+// Using Unicode character escape sequence (long syntax).
+namespace Sty\U0000006CeC\U0000006fp.CSh\U00000061rp
 {
 }
 
 // Names prefixing with "at" sign together with Unicode character escape sequence.
-namespace @Micr\u006Fs\u006fft.@StyleCop.CSh\u0061rp
+namespace @Sty\U0000006CeC\U0000006fp.@CSh\u0061rp
 {
 }
 
@@ -32,7 +37,7 @@ namespace StyleCop.CSharp
     class Cl\u0061ss1<TK\u0065y> where TKe\u0079 : IDisposa\u0062le
     {
         string v\u0061riable = "StyleC\u006Fp";
-        char ch\u0061racter = '\u0078';
+        char ch\U00000061racter = '\U00000078';
 
         void Meth\u006Fd1()
         {
