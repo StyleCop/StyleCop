@@ -1272,15 +1272,15 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Extracts a hexidecimal integer literal from the code.
+        /// Extracts a hexadecimal integer literal from the code.
         /// </summary>
         /// <param name="index">
-        /// The first index of the hexidecimal integer literal.
+        /// The first index of the hexadecimal integer literal.
         /// </param>
         /// <returns>
-        /// Returns the last index of the hexidecimal integer literal.
+        /// Returns the last index of the hexadecimal integer literal.
         /// </returns>
-        private int GetHexidecimalIntegerLiteral(int index)
+        private int GetHexadecimalIntegerLiteral(int index)
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
 
@@ -1290,7 +1290,7 @@ namespace StyleCop.CSharp
             {
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
-                // Break if this is not a valid hexidecimal digit.
+                // Break if this is not a valid hexadecimal digit.
                 if (!(character >= '0' && character <= '9') && !(character >= 'a' && character <= 'f') && !(character >= 'A' && character <= 'F'))
                 {
                     break;
@@ -2277,14 +2277,14 @@ namespace StyleCop.CSharp
         {
             Param.AssertGreaterThanOrEqualToZero(index, "index");
 
-            // First, check if this is a hexidecimal number.
+            // First, check if this is a hexadecimal number.
             char character = this.codeReader.Peek();
             if (character == '0')
             {
                 character = this.codeReader.Peek(1);
                 if (character == 'x' || character == 'X')
                 {
-                    return this.GetHexidecimalIntegerLiteral(index + 2);
+                    return this.GetHexadecimalIntegerLiteral(index + 2);
                 }
             }
 
