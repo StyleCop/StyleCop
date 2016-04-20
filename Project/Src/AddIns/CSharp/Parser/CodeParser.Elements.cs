@@ -2830,8 +2830,17 @@ namespace StyleCop.CSharp
             Indexer indexer = new Indexer(this.document, parent, xmlHeader, attributes, declaration, returnType, parameters, unsafeCode, generated);
             elementReference.Target = indexer;
 
-            // Parse the body of the indexer.
-            this.ParseElementContainer(indexer, elementReference, null, unsafeCode);
+            Symbol symbol = this.GetNextSymbol(SkipSymbols.All, elementReference);
+            if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
+            {
+                // Parse the body of the indexer.
+                this.ParseElementContainer(indexer, elementReference, null, unsafeCode);
+            }
+            else if (symbol.SymbolType == SymbolType.Lambda)
+            {
+                // Parse the expression body statement of the indexer.
+                this.ParseStatementContainer(indexer, true, unsafeCode);
+            }
 
             return indexer;
         }

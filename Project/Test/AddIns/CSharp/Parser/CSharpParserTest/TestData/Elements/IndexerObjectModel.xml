@@ -341,5 +341,29 @@
         <Element Name="set" Type="Accessor" />
       </Element>
     </Element>
+    <Element Name="ExpressionBodied" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="ArrayAccessExpression">
+              <Expression Text="this" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                  <Expression Text="ToString" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Text="$&quot;Lower{x.ToLowerInvariant()}&quot;" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

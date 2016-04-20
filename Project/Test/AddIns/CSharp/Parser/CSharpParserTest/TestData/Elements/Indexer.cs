@@ -1,4 +1,4 @@
-#region Normal Imdexers
+#region Normal Indexers
 public class Class1
 {
     bool this[int x]
@@ -157,7 +157,7 @@ public unsafe class UnsafeClass
 
 #endregion 
 
-#region Indexers with sttributes and headers
+#region Indexers with attributes and headers
 
 public class Class5
 {
@@ -239,5 +239,14 @@ public interface Interface1
         get;
         set;
     }
+}
+#endregion
+
+#region Expression-bodied indexers
+public class ExpressionBodied
+{
+    public string this[int x] => this[x.ToString()];
+
+    public string this[string x] => $"Lower{x.ToLowerInvariant()}";
 }
 #endregion
