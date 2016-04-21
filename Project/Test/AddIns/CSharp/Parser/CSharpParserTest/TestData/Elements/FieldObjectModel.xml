@@ -828,5 +828,65 @@
         </Statement>
       </Element>
     </Element>
+    <Element Name="NonDefaultWhiteSpace" Type="Class">
+      <Element Name="a" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="b" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="System.Int32[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="b" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="c" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="c" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="d" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="System.Int32[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="d" Type="LiteralExpression" />
+              <Expression Type="ArrayInitializerExpression">
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="e" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="e" Type="LiteralExpression" />
+              <Expression Type="ArrayInitializerExpression">
+                <Expression Text="3" Type="LiteralExpression" />
+                <Expression Text="4" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

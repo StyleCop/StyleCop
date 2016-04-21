@@ -157,3 +157,16 @@ public unsafe class Class8
     // A generic nullable type.
     public ArraySegment<byte>? loadedData;
 }
+
+public class NonDefaultWhiteSpace
+{
+    public int [] a;
+
+    public System.Int32 [ ] b;
+
+    public int[]c;
+
+    public System.Int32 [] d = { 1, 2 };
+
+    public int [ ] e = {3,4};
+}

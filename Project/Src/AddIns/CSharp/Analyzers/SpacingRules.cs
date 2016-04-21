@@ -1047,9 +1047,18 @@ namespace StyleCop.CSharp
                 {
                     // Check if parent expression is an array, initialization was introduced in C# 6.
                     Expression parentExpression = tokenNode.Value.Parent as Expression;
-                    if (parentExpression.ExpressionType != ExpressionType.ArrayInitializer)
+                    if (parentExpression != null
+                        && parentExpression.ExpressionType != ExpressionType.ArrayInitializer)
                     {
                         this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
+                    }
+                    else
+                    {
+                        TypeToken parentTypeToken = tokenNode.Value.Parent as TypeToken;
+                        if (parentTypeToken != null && parentTypeToken.CsTokenClass == CsTokenClass.Type)
+                        {
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.OpeningSquareBracketsMustBeSpacedCorrectly);
+                        }
                     }
                 }
             }

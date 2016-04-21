@@ -64,6 +64,9 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Spacing\OpenSquareBracket.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\ClassMembers\NullPropogation.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
