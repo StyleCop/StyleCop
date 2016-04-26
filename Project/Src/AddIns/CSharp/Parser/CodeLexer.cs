@@ -259,8 +259,11 @@ namespace StyleCop.CSharp
                         symbol = this.GetString();
                         break;
 
-                    case '@':
                     case '$':
+                        symbol = this.GetInterpolatedString();
+                        break;
+
+                    case '@':
                         symbol = this.GetLiteral();
                         break;
 
@@ -1379,18 +1382,11 @@ namespace StyleCop.CSharp
 
             // Read the literal string character and add it to the string buffer.
             char character = this.codeReader.ReadNext();
-            Debug.Assert(character == '@' || character == '$', "Expected an @ keyword or $ for interpolation");
+            Debug.Assert(character == '@', "Expected an @ keyword");
             text.Append(character);
 
-            character = this.codeReader.Peek();
-            if (character == '@')
-            {
-                text.Append(character);
-                this.codeReader.ReadNext();
-                character = this.codeReader.Peek();
-            }
-
             // Make sure there is enough code left to contain at least @ plus one additional character.
+            character = this.codeReader.Peek();
             if (character == char.MinValue)
             {
                 throw new SyntaxException(this.source, this.marker.LineNumber);
@@ -1466,7 +1462,7 @@ namespace StyleCop.CSharp
         private Symbol GetLiteralString(StringBuilder text)
         {
             Param.AssertNotNull(text, "text");
-            Debug.Assert(text[0] == '@' || text[0] == '$' || (text.Length == 2 && text[0] == '$' && text[1] == '@'), "Expected an @ symbol or $ for interpolation.");
+            Debug.Assert(text.Length == 1 && text[0] == '@', "Expected an @ symbol");
 
             // Initialize the location of the start of the string.
             int startIndex = this.marker.Index;
@@ -1504,10 +1500,9 @@ namespace StyleCop.CSharp
                     ++endIndex;
                     ++endIndexOnLine;
 
-                    // If the next character is also the same string type, then this is internal to the string or if next char is open curly bracket we are in a string interpolation with escape char.
+                    // If the next character is also the same string type, then this is internal to the string.
                     character = this.codeReader.Peek();
-                    if (character == stringType || character == '{'
-                        || (text.ToString().Contains("$") && text.ToString().Contains("{") && !text.ToString().Contains("}")))
+                    if (character == stringType)
                     {
                         // Also move past this character and add it.
                         this.codeReader.ReadNext();
@@ -1544,20 +1539,6 @@ namespace StyleCop.CSharp
                         continue;
                     }
                 }
-                else if (character == ' ' || character == ')' || character == ';')
-                {
-                    if (this.IsEndOfString(1) != -1)
-                    {
-                        List<char> charsForText = new List<char>(text.ToString().ToCharArray());
-                        int count = charsForText.Count(c => c == stringType);
-
-                        // Check if we have the end of string.
-                        if (count % 2 == 0)
-                        {
-                            break;
-                        }
-                    }
-                }
 
                 this.codeReader.ReadNext();
                 text.Append(character);
@@ -1584,40 +1565,6 @@ namespace StyleCop.CSharp
 
             // Return the token.
             return token;
-        }
-
-        /// <summary>
-        /// Determines whether [is end of string].
-        /// </summary>
-        /// <param name="startSearchIndex">Start index of the search.</param>
-        /// <returns>If this is not the end of the string return -1 else return positive number.</returns>
-        private int IsEndOfString(int startSearchIndex)
-        {
-            // Get the next char to check if it's a space.
-            char character = this.codeReader.Peek(startSearchIndex);
-
-            // While the character is a space read next char without advance in the code file.
-            while (character == ' ')
-            {
-                startSearchIndex++;
-
-                // Get next char and check again.
-                character = this.codeReader.Peek(startSearchIndex);
-            }
-
-            startSearchIndex++;
-
-            // Check if current char is semi colon or if it's a closing curve bracket and a semi colon.
-            if ((character == ')' && this.codeReader.Peek(startSearchIndex) == ';') || character == '\r' || character == '\n')
-            {
-                return startSearchIndex;
-            }
-            else if (this.codeReader.Peek(startSearchIndex) == ' ' || character == ';')
-            {
-                return this.IsEndOfString(startSearchIndex);
-            }
-
-            return -1;
         }
 
         /// <summary>
@@ -2503,6 +2450,30 @@ namespace StyleCop.CSharp
         {
             StringBuilder text = new StringBuilder();
 
+            this.ReadStringText(text);
+
+            // Create the code location.
+            CodeLocation location = new CodeLocation(
+                this.marker.Index,
+                this.marker.Index + text.Length - 1,
+                this.marker.IndexOnLine,
+                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.LineNumber,
+                this.marker.LineNumber);
+
+            // Create the symbol.
+            Symbol symbol = new Symbol(text.ToString(), SymbolType.String, location);
+
+            // Update the marker.
+            this.marker.Index += text.Length;
+            this.marker.IndexOnLine += text.Length;
+
+            // Return the symbol.
+            return symbol;
+        }
+
+        private void ReadStringText(StringBuilder text)
+        {
             // Read the opening quote character and add it to the string.
             char quoteType = this.codeReader.ReadNext();
             Debug.Assert(quoteType == '\'' || quoteType == '\"', "Expected a quote character");
@@ -2542,6 +2513,17 @@ namespace StyleCop.CSharp
                 // Advance past this character.
                 this.codeReader.ReadNext();
             }
+        }
+
+        /// <summary>
+        /// Gets the next interpolated string from the code.
+        /// </summary>
+        /// <returns>Returns the interpolated string.</returns>
+        private Symbol GetInterpolatedString()
+        {
+            StringBuilder text = new StringBuilder();
+
+            this.ReadInterpolatedStringText(text);
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
@@ -2561,6 +2543,160 @@ namespace StyleCop.CSharp
 
             // Return the symbol.
             return symbol;
+        }
+
+        private void ReadInterpolatedStringText(StringBuilder text)
+        {
+            char dollarSign = this.codeReader.ReadNext();
+            Debug.Assert(dollarSign == '$', "Interoplated strings must begin with a dollar sign ('$').");
+            text.Append(dollarSign);
+
+            bool isMultiLine;
+            if (this.codeReader.Peek() == '@')
+            {
+                text.Append(this.codeReader.ReadNext());
+                isMultiLine = true;
+            }
+            else
+            {
+                isMultiLine = false;
+            }
+
+            // Read the opening quote character and add it to the string.
+            char character = this.codeReader.ReadNext();
+            Debug.Assert(character == '\"', "Expected a quote character");
+            text.Append(character);
+
+            Stack<char> openingCharacters = new Stack<char>();
+            openingCharacters.Push(character);
+
+            bool slash = false;
+
+            // Read through to the end of the string.
+            while (openingCharacters.Count > 0)
+            {
+                character = this.codeReader.Peek();
+                if (character == char.MinValue)
+                {
+                    // This is the end of the code file
+                    return;
+                }
+
+                if (!slash)
+                {
+                    if (openingCharacters.Peek() == '{')
+                    {
+                        if (character == '"')
+                        {
+                            // There is a string within the interpolated string
+                            this.ReadStringText(text);
+                            continue;
+                        }
+
+                        if (character == '$')
+                        {
+                            // There is an interpolated string within the interpolated string
+                            this.ReadInterpolatedStringText(text);
+                            continue;
+                        }
+
+                        if (character == '}')
+                        {
+                            // This is a closing curly bracket
+                            text.Append(character);
+                            openingCharacters.Pop();
+                            this.codeReader.ReadNext();
+                            continue;
+                        }
+                    }
+
+                    if (openingCharacters.Peek() == '"'
+                        && (character == '{' || character == '}')
+                        && character == this.codeReader.Peek(1))
+                    {
+                        // This is an escaped curly bracket
+                        text.Append(this.codeReader.ReadString(2));
+                        continue;
+                    }
+
+                    if (character == '"')
+                    {
+                        if (isMultiLine)
+                        {
+                            if (this.codeReader.Peek(1) == '"')
+                            {
+                                // This is a double-quote escaped by another double-quote
+                                text.Append(this.codeReader.ReadString(2));
+                                continue;
+                            }
+                            else
+                            {
+                                // This is a closing double-quote
+                                text.Append(character);
+                                openingCharacters.Pop();
+                                this.codeReader.ReadNext();
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            if (openingCharacters.Peek() == '"')
+                            {
+                                text.Append(character);
+                                openingCharacters.Pop();
+                                this.codeReader.ReadNext();
+                                continue;
+                            }
+
+                            text.Append(character);
+                            openingCharacters.Push(character);
+                            this.codeReader.ReadNext();
+                            continue;
+                        }
+                    }
+
+                    if (character == '{')
+                    {
+                        text.Append(character);
+                        openingCharacters.Push(character);
+                        this.codeReader.ReadNext();
+                        continue;
+                    }
+                }
+
+                if (character == '\\')
+                {
+                    slash = !slash;
+                }
+                else
+                {
+                    slash = false;
+
+                    if (!isMultiLine && (character == '\r' || character == '\n'))
+                    {
+                        // We've hit the end of the line. Just exit.
+                        return;
+                    }
+                }
+
+                text.Append(character);
+
+                // Advance past this character.
+                this.codeReader.ReadNext();
+            }
+        }
+
+        private bool IsClosingCharacter(char character, char openingCharacter)
+        {
+            switch (character)
+            {
+                case '"':
+                    return openingCharacter == '"';
+                case '}':
+                    return openingCharacter == '{';
+                default:
+                    return false;
+            }
         }
 
         /// <summary>

@@ -8,6 +8,15 @@ namespace Strings
         public const string test = "test";
         public string string1 = string.Format("string format");
         string string2 = $"string interpolation {test}";
+        string string3 = $"string \"interpolation\" {test}";
+        string string4 = $"string {{interpolation}} {test + "x"}";
+        string string5 = $"string interpolation {test + "\"x\""}";
+        string string6 = $"string interpolation {test + $"\"x\"{"y"}"}";
+        string string7 = $@"Test ""literal"" with at sign";
+        string string8 = $@"Test
+{"multi"}
+line";
+        string string9 = $"Test with {$"nested interpolated {"\"strings\""}"}";
 
         public void Method1(string item)
         {
@@ -82,22 +91,22 @@ namespace Strings
             return @"<style>
 body
 {
-	padding-right: 0px;
-	padding-left: 0px;
-	font-size: 8pt;
-	padding-bottom: 0px;
-	margin: 0px;
-	padding-top: 0px;
-	font-family: arial, helvetica, sans-serif;
-	background-color: #cccccc;
+    padding-right: 0px;
+    padding-left: 0px;
+    font-size: 8pt;
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-top: 0px;
+    font-family: arial, helvetica, sans-serif;
+    background-color: #cccccc;
 }
 form
 {
-	padding-right: 0px;
-	padding-left: 0px;
-	padding-bottom: 0px;
-	margin: 0px;
-	padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-top: 0px;
 }
 </style>";
         }
@@ -107,22 +116,22 @@ form
             return @"<style>
 body
 {
-	padding-right: 0px;
-	padding-left: 0px;
-	font-size: 8pt;
-	padding-bottom: 0px;
-	margin: 0px;
-	padding-top: 0px;
-	font-family: arial, helvetica, sans-serif;
-	background-color: #cccccc; ""this is another test"" 
+    padding-right: 0px;
+    padding-left: 0px;
+    font-size: 8pt;
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-top: 0px;
+    font-family: arial, helvetica, sans-serif;
+    background-color: #cccccc; ""this is another test"" 
 }
 form
 {
-	padding-right: 0px;
-	padding-left: 0px;
-	padding-bottom: 0px;
-	margin: 0px;
-	padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-top: 0px;
 }
 </style>";
         }

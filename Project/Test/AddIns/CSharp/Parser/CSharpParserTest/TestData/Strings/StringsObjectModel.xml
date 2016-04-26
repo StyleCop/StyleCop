@@ -43,6 +43,83 @@
             </Expression>
           </Statement>
         </Element>
+        <Element Name="string3" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string3" Type="LiteralExpression" />
+                <Expression Text="$&quot;string \&quot;interpolation\&quot; {test}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string4" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string4" Type="LiteralExpression" />
+                <Expression Text="$&quot;string {{interpolation}} {test + &quot;x&quot;}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string5" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string5" Type="LiteralExpression" />
+                <Expression Text="$&quot;string interpolation {test + &quot;\&quot;x\&quot;&quot;}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string6" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string6" Type="LiteralExpression" />
+                <Expression Text="$&quot;string interpolation {test + $&quot;\&quot;x\&quot;{&quot;y&quot;}&quot;}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string7" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string7" Type="LiteralExpression" />
+                <Expression Text="$@&quot;Test &quot;&quot;literal&quot;&quot; with at sign&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string8" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string8" Type="LiteralExpression" />
+                <Expression Text="$@&quot;Test&#xD;&#xA;{&quot;multi&quot;}&#xD;&#xA;line&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="string9" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="string9" Type="LiteralExpression" />
+                <Expression Text="$&quot;Test with {$&quot;nested interpolated {&quot;\&quot;strings\&quot;&quot;}&quot;}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
         <Element Name="Method1" Type="Method">
           <Statement Type="ExpressionStatement">
             <Expression Type="AssignmentExpression">
@@ -395,12 +472,12 @@
       <Element Name="CSSAsString" Type="Class">
         <Element Name="GetStyle" Type="Method">
           <Statement Type="ReturnStatement">
-            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	font-size: 8pt;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;	font-family: arial, helvetica, sans-serif;&#xA;	background-color: #cccccc;&#xA;}&#xA;form&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
+            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;    padding-right: 0px;&#xA;    padding-left: 0px;&#xA;    font-size: 8pt;&#xA;    padding-bottom: 0px;&#xA;    margin: 0px;&#xA;    padding-top: 0px;&#xA;    font-family: arial, helvetica, sans-serif;&#xA;    background-color: #cccccc;&#xA;}&#xA;form&#xA;{&#xA;    padding-right: 0px;&#xA;    padding-left: 0px;&#xA;    padding-bottom: 0px;&#xA;    margin: 0px;&#xA;    padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
           </Statement>
         </Element>
         <Element Name="GetStyleWithDoubleQuotes" Type="Method">
           <Statement Type="ReturnStatement">
-            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	font-size: 8pt;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;	font-family: arial, helvetica, sans-serif;&#xA;	background-color: #cccccc; &quot;&quot;this is another test&quot;&quot; &#xA;}&#xA;form&#xA;{&#xA;	padding-right: 0px;&#xA;	padding-left: 0px;&#xA;	padding-bottom: 0px;&#xA;	margin: 0px;&#xA;	padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
+            <Expression Text="@&quot;&lt;style&gt;&#xA;body&#xA;{&#xA;    padding-right: 0px;&#xA;    padding-left: 0px;&#xA;    font-size: 8pt;&#xA;    padding-bottom: 0px;&#xA;    margin: 0px;&#xA;    padding-top: 0px;&#xA;    font-family: arial, helvetica, sans-serif;&#xA;    background-color: #cccccc; &quot;&quot;this is another test&quot;&quot; &#xA;}&#xA;form&#xA;{&#xA;    padding-right: 0px;&#xA;    padding-left: 0px;&#xA;    padding-bottom: 0px;&#xA;    margin: 0px;&#xA;    padding-top: 0px;&#xA;}&#xA;&lt;/style&gt;&quot;" Type="LiteralExpression" />
           </Statement>
         </Element>
       </Element>
