@@ -1681,15 +1681,33 @@ namespace StyleCop.CSharp
             {
                 // Symbols should not have whitespace on both sides for operator '?.'.
                 Node<CsToken> previousNode = tokenNode.Previous;
-                if (previousNode != null && previousNode.Value.CsTokenType == CsTokenType.WhiteSpace && previousNode.Value.CsTokenType != CsTokenType.EndOfLine)
+                if (previousNode != null && previousNode.Value.CsTokenType == CsTokenType.WhiteSpace)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                    while (previousNode != null && previousNode.Value.CsTokenType != CsTokenType.EndOfLine)
+                    {
+                        if (previousNode.Value.CsTokenType != CsTokenType.WhiteSpace)
+                        {
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                            break;
+                        }
+
+                        previousNode = previousNode.Previous;
+                    }
                 }
 
                 Node<CsToken> nextNode = tokenNode.Next;
-                if (nextNode != null && nextNode.Value.CsTokenType == CsTokenType.WhiteSpace && nextNode.Value.CsTokenType != CsTokenType.EndOfLine)
+                if (nextNode != null && nextNode.Value.CsTokenType == CsTokenType.WhiteSpace)
                 {
-                    this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                    while (nextNode != null && nextNode.Value.CsTokenType != CsTokenType.EndOfLine)
+                    {
+                        if (nextNode.Value.CsTokenType != CsTokenType.WhiteSpace)
+                        {
+                            this.AddViolation(tokenNode.Value.FindParentElement(), tokenNode.Value.Location, Rules.SymbolsMustBeSpacedCorrectly, tokenNode.Value.Text);
+                            break;
+                        }
+
+                        nextNode = nextNode.Next;
+                    }
                 }
 
                 if (operatorSymbol.Text.Length > 2 || operatorSymbol.Text.Contains("\r") || operatorSymbol.Text.Contains("\n") || operatorSymbol.Text.Contains(" "))
