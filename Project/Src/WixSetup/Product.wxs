@@ -67,11 +67,11 @@
       <AppSearch Before="FindRelatedProducts" />
       <RemoveExistingProducts After="InstallInitialize" />
       <!--  We replace the use of VS90Setup with StyleCopVS90Setup to add support for other devenv.exe flags -->
-      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV <> "" AND NOT Installed]]></Custom>
-      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
-      <Custom Action="StyleCopVS11Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2012DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
-      <Custom Action="StyleCopVS12Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2013DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
-      <Custom Action="StyleCopVS14Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2015DEVENV <> "" AND NOT Installed) OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
+      <Custom Action="StyleCopVS90Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS90DEVENV <> ""]]></Custom>
+      <Custom Action="StyleCopVS10Setup" Before="InstallFinalize"><![CDATA[(&Feature_StyleCopPackage > 1 AND VS2010DEVENV <> "") OR (&Feature_VisualStudioTemplates = 3)]]></Custom>
+      <Custom Action="StyleCopVS11Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2012DEVENV <> ""]]></Custom>
+      <Custom Action="StyleCopVS12Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2013DEVENV <> ""]]></Custom>
+      <Custom Action="StyleCopVS14Setup" Before="InstallFinalize"><![CDATA[&Feature_StyleCopPackage > 1 AND VS2015DEVENV <> ""]]></Custom>
       <Custom Action="SetARPINSTALLLOCATION" After="InstallValidate"></Custom>
       <Custom Action='CA_BackupVisualStudioTemplateFiles' Before='InstallFiles'><![CDATA[&Feature_VisualStudioTemplates = 3]]></Custom>
       <Custom Action='CA_RestoreVisualStudioTemplateFiles' Before='InstallFinalize'><![CDATA[&Feature_VisualStudioTemplates = 2 AND !Feature_VisualStudioTemplates = 3]]></Custom>
@@ -130,6 +130,12 @@
           ]]>
       </Publish>
       <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3"><![CDATA[&Feature_ReSharper < 3]]></Publish>
+
+      <ProgressText Action="StyleCopVS90Setup">Setting up integration with Visual Studio 2008...</ProgressText>
+      <ProgressText Action="StyleCopVS10Setup">Setting up integration with Visual Studio 2010...</ProgressText>
+      <ProgressText Action="StyleCopVS11Setup">Setting up integration with Visual Studio 2012...</ProgressText>
+      <ProgressText Action="StyleCopVS12Setup">Setting up integration with Visual Studio 2013...</ProgressText>
+      <ProgressText Action="StyleCopVS14Setup">Setting up integration with Visual Studio 2015...</ProgressText>
     </UI>
 
     <Media Id="1" Cabinet="WixSetup.cab" EmbedCab="yes" />
