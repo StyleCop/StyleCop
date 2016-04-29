@@ -35,7 +35,6 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
     using JetBrains.ReSharper.Psi.Impl.Types;
     using JetBrains.ReSharper.Psi.Tree;
 
-    using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Core;
     using StyleCop.ReSharper.Options;
@@ -205,6 +204,8 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
             {
                 return;
             }
+
+            CachedCodeStrings.Initialise(constructorDeclaration.GetSolution());
 
             string existingSummaryText = declarationHeader.SummaryXmlNode.InnerXml;
 
@@ -791,7 +792,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
 
         private static AnalyzerSettings GetAnalyzerSettings(Settings settings)
         {
-            return new AnalyzerSettings(settings, typeof(CSharp.DocumentationRules).FullName);
+            return new AnalyzerSettings(settings, "StyleCop.CSharp.DocumentationRules");
         }
 
         /// <summary>

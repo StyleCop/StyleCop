@@ -384,7 +384,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             StyleCopTrace.In(file);
 
-            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.ReadabilityRules).FullName);
+            var analyzerSettings = new AnalyzerSettings(settings, "StyleCop.CSharp.ReadabilityRules");
 
             if (analyzerSettings.IsRuleEnabled("DoNotPlaceRegionsWithinElements"))
             {

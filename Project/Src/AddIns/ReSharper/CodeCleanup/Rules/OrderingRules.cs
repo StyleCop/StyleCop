@@ -79,7 +79,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             StyleCopTrace.In(file, settings);
 
-            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.OrderingRules).FullName);
+            var analyzerSettings = new AnalyzerSettings(settings, "StyleCop.CSharp.OrderingRules");
 
             OrderUsings(file, analyzerSettings);
             OrderPropertyIndexerAndEventDeclarations(file, analyzerSettings);

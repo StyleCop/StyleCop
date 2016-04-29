@@ -119,7 +119,7 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         {
             StyleCopTrace.In(file, settings);
 
-            var analyzerSettings = new AnalyzerSettings(settings, typeof(CSharp.MaintainabilityRules).FullName);
+            var analyzerSettings = new AnalyzerSettings(settings, "StyleCop.CSharp.MaintainabilityRules");
 
             if (analyzerSettings.IsRuleEnabled("StatementMustNotUseUnnecessaryParenthesis"))
             {

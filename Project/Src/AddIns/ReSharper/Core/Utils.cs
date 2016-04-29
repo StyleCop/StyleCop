@@ -49,7 +49,6 @@ namespace StyleCop.ReSharper.Core
     using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.TextControl;
 
-    using StyleCop.CSharp;
     using StyleCop.Diagnostics;
     using StyleCop.ReSharper.Extensions;
     using StyleCop.ReSharper.Options;
