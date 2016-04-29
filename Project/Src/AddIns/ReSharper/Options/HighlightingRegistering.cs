@@ -32,6 +32,8 @@ namespace StyleCop.ReSharper.Options
     using JetBrains.DataFlow;
     using JetBrains.Metadata.Utils;
     using JetBrains.ReSharper.Feature.Services.Daemon;
+    using JetBrains.ReSharper.Psi;
+    using JetBrains.ReSharper.Psi.CSharp;
     using JetBrains.Util.dataStructures.Sources;
 
     using StyleCop.ReSharper.Core;
@@ -40,8 +42,10 @@ namespace StyleCop.ReSharper.Options
     /// Registers StyleCop Highlighters to allow their severity to be set.
     /// </summary>
     [ShellComponent]
-    public class HighlightingRegistering
+    public class HighlightingRegistering : ICustomConfigurableSeverityItemProvider
     {
+        private readonly Lifetime lifetime;
+
         /// <summary>
         /// The template to be used for the group title.
         /// </summary>
@@ -54,21 +58,19 @@ namespace StyleCop.ReSharper.Options
 
         private readonly IPartCatalogSet partsCatalogueSet;
 
-        private readonly SequentialLifetimes registrationLifetimes;
-
         /// <summary>
         /// Initializes a new instance of the HighlightingRegistering class.
         /// </summary>
         /// <param name="lifetime">Lifetime of the component</param>
-        /// <param name="partsCatalogueSet">The catalogue set</param>
+        /// <param name="jetEnvironment">The environment</param>
         /// <param name="settingsStore">The settings store.</param>
         /// <param name="fileSystemTracker">
         /// The file System Tracker.
         /// </param>
         public HighlightingRegistering(Lifetime lifetime, JetEnvironment jetEnvironment, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
         {
+            this.lifetime = lifetime;
             this.partsCatalogueSet = jetEnvironment.FullPartCatalogSet;
-            this.registrationLifetimes = new SequentialLifetimes(lifetime);
 
             // TODO: We shouldn't be doing any of this at runtime, especially not on each load
             // Registering highlightings should happen declaratively
@@ -106,39 +108,50 @@ namespace StyleCop.ReSharper.Options
             return string.Format(HighlightIdTemplate, ruleID);
         }
 
-        /// <summary>
-        /// Reregisters the highlights with the given core
-        /// </summary>
-        /// <param name="core">The core API</param>
-        public void Reregister(StyleCopCore core)
-        {
-            this.Register(core);
-        }
-
         private static string SplitCamelCase(string input)
         {
-            string output = Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
-
-            return output;
+            return Regex.Replace(input, "([A-Z])", " $1", RegexOptions.Compiled).Trim();
         }
 
         private void Register(StyleCopCore core)
         {
-            this.registrationLifetimes.Next(
-                lifetime =>
-                    {
-                        Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);
+            Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRulesDictionary = StyleCopRule.GetRules(core);
 
-                        // Not the best way of doing this, but better than reflection. Create a "fake" parts catalogue
-                        // that contains parts representing the attributes that we would specify if we were doing this
-                        // "properly" and not dynamically based on the rules loaded by StyleCop and any addins (this is
-                        // compounded by allowing addins to be different per-solution, thanks to the settings subsystem).
-                        // Adding the catalogue to the global parts catalogue causes ReSharper to automatically evaluate
-                        // it, and automatically remove it when the lifetime is terminated.
-                        IPartsCatalogue catalogue = this.CreateFakeCatalogue(analyzerRulesDictionary);
-                        PartCatalog catalog = catalogue.WrapLegacy();
-                        this.partsCatalogueSet.Catalogs.Add(lifetime, catalog, null);
-                    });
+            // ICustomConfigurableSeverityItemProvider allows us to add the items, but not groups. We'll
+            // cheat at adding groups by creating a fake catalogue that is loaded into the container.
+            // When the HighlightingSettingsManager sees the new catalogue it pulls the group attributes
+            // from it and registers them. We can't use this to register the items, as there's a bug in
+            // the catalogue builders that means we can't add enums (they need to be ulong when they're
+            // retrieved, but there's a check to verify that the expected type (int) is compatible, and
+            // it isn't. This bug isn't affected by the group name, which is just a string)
+            IPartsCatalogue catalogue = this.CreateFakeCatalogue(analyzerRulesDictionary);
+            PartCatalog catalog = catalogue.WrapLegacy();
+            this.partsCatalogueSet.Catalogs.Add(this.lifetime, catalog);
+
+            var configurableSeverityItems = new List<Tuple<PsiLanguageType, ConfigurableSeverityItem>>();
+            foreach (KeyValuePair<SourceAnalyzer, List<StyleCopRule>> analyzerRule in analyzerRulesDictionary)
+            {
+                string analyzerName = analyzerRule.Key.Name;
+                string groupName = string.Format(GroupTitleTemplate, analyzerName);
+
+                foreach (StyleCopRule rule in analyzerRule.Value)
+                {
+                    string ruleName = rule.RuleID + ": " + SplitCamelCase(rule.Name);
+                    string highlightID = GetHighlightID(rule.RuleID);
+                    ConfigurableSeverityItem severityItem = new ConfigurableSeverityItem(
+                        highlightID,
+                        null,
+                        groupName,
+                        ruleName,
+                        rule.Description,
+                        Severity.WARNING,
+                        false,
+                        false,
+                        null);
+                    configurableSeverityItems.Add(Tuple.Create((PsiLanguageType)CSharpLanguage.Instance, severityItem));
+                }
+            }
+            this.ConfigurableSeverityItems = configurableSeverityItems;
         }
 
         private IPartsCatalogue CreateFakeCatalogue(Dictionary<SourceAnalyzer, List<StyleCopRule>> analyzerRules)
@@ -148,7 +161,6 @@ namespace StyleCop.ReSharper.Options
             PartCatalogueAssembly assembly = new PartCatalogueAssembly(AssemblyNameInfo.Create("StyleCopHighlightings", null), null);
 
             List<PartCatalogueAttribute> assemblyAttributes = new List<PartCatalogueAttribute>();
-            List<PartCatalogueAttribute> configurableSeverityAttributes = new List<PartCatalogueAttribute>();
             foreach (KeyValuePair<SourceAnalyzer, List<StyleCopRule>> analyzerRule in analyzerRules)
             {
                 string analyzerName = analyzerRule.Key.Name;
@@ -156,36 +168,9 @@ namespace StyleCop.ReSharper.Options
 
                 var groupAttribute = new RegisterConfigurableHighlightingsGroupAttribute(groupName, groupName);
                 assemblyAttributes.Add(CreatePartAttribute(groupAttribute, factory));
-
-                foreach (StyleCopRule rule in analyzerRule.Value)
-                {
-                    string ruleName = rule.RuleID + ": " + SplitCamelCase(rule.Name);
-                    string highlightID = GetHighlightID(rule.RuleID);
-
-                    RegisterConfigurableSeverityAttribute itemAttribute =
-                        new RegisterConfigurableSeverityAttribute(
-                            highlightID,
-                            null,
-                            groupName,
-                            ruleName,
-                            rule.Description,
-                            Severity.WARNING,
-                            false);
-                    assemblyAttributes.Add(CreatePartAttribute(itemAttribute, factory));
-
-                    ConfigurableSeverityHighlightingAttribute configurableSeverityHighlightingAttribute = new ConfigurableSeverityHighlightingAttribute(highlightID, "CSHARP");
-                    configurableSeverityAttributes.Add(PartHelpers.CreatePartAttribute(configurableSeverityHighlightingAttribute, factory));
-                }
             }
 
             assembly.AssignAttributes(assemblyAttributes);
-
-            PartCatalogueType fakeConfigurableSeverityHighlight;
-            factory.GetOrCreateType("Fake", PartCatalogTypeKind.Regular, assembly, out fakeConfigurableSeverityHighlight);
-            fakeConfigurableSeverityHighlight.AssignRecursiveTypes(new PartCatalogueType.RecursiveData
-                                          {
-                                              Attributes = configurableSeverityAttributes
-                                          });
 
             IList<PartCatalogueAssembly> assemblies = new List<PartCatalogueAssembly>()
                                                           {
@@ -193,7 +178,6 @@ namespace StyleCop.ReSharper.Options
                                                           };
 
             IList<PartCatalogueType> parts = new List<PartCatalogueType>();
-            parts.Add(fakeConfigurableSeverityHighlight);
             return new PartsCatalogue(parts, assemblies);
         }
 
@@ -230,13 +214,9 @@ namespace StyleCop.ReSharper.Options
                 return ss;
             }
 
-            if (value != null && value.GetType().IsEnum)
-            {
-                int i = (int)value;
-                return (ulong)i;
-            }
-
             return value;
         }
+
+        public IEnumerable<Tuple<PsiLanguageType, ConfigurableSeverityItem>> ConfigurableSeverityItems { get; private set; }
     }
 }

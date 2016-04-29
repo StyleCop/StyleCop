@@ -27,7 +27,6 @@ namespace StyleCop.ReSharper.ShellComponents
     using JetBrains.Util.Collections;
 
     using StyleCop.ReSharper.Core;
-    using StyleCop.ReSharper.Options;
 
     /// <summary>
     /// The style cop API pool. Needs to be a solution component, because the API caches settings
@@ -67,8 +66,7 @@ namespace StyleCop.ReSharper.ShellComponents
         /// <param name="fileSystemTracker">
         /// The file system tracker.
         /// </param>
-        /// <param name="highlightingRegistering">The highlighting registrar</param>
-        public StyleCopApiPool(Lifetime lifetime, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker, HighlightingRegistering highlightingRegistering)
+        public StyleCopApiPool(Lifetime lifetime, ISettingsStore settingsStore, IFileSystemTracker fileSystemTracker)
         {
             this.componentLifetime = lifetime;
             this.settingsStore = settingsStore;
@@ -78,10 +76,6 @@ namespace StyleCop.ReSharper.ShellComponents
                 {
                     var initialObject = this.CreateApiObject();
                     this.pool = new ObjectPool<StyleCopApi>(this.CreateApiObject, new[] { initialObject });
-
-                    // We need to re-register the highlightings, because we might have loaded a plugin from a location
-                    // specified in per-solution settings
-                    highlightingRegistering.Reregister(initialObject.Core);
                 };
             this.reset();
         }
