@@ -28,6 +28,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     using JetBrains.ReSharper.Feature.Services.Resources;
     using JetBrains.ReSharper.Psi;
     using JetBrains.UI.Application;
+    using JetBrains.UI.BulbMenu;
     using JetBrains.UI.Icons;
 
     using StyleCop.ReSharper.Options;
@@ -92,10 +93,12 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <param name="sourceFile">
         /// The file. 
         /// </param>
+        /// <param name="configureAnchor">The anchor for configuration items</param>
         /// <returns>
         /// The available actions. 
         /// </returns>
-        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile)
+        public IEnumerable<IntentionAction> GetActions(IHighlighting highlighting, DocumentRange highlightingRange, IPsiSourceFile sourceFile,
+            IAnchor configureAnchor)
         {
             StyleCopHighlightingBase violation = highlighting as StyleCopHighlightingBase;
 

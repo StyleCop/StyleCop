@@ -18,15 +18,13 @@
 
 namespace StyleCop.ReSharper.Options
 {
-    using System;
-
     using JetBrains.Application.Components;
     using JetBrains.Application.Settings;
+    using JetBrains.Application.UI.Commands;
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
     using JetBrains.ReSharper.Resources.Shell;
-    using JetBrains.UI.Extensions.Commands;
     using JetBrains.UI.Options;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions;
     using JetBrains.UI.Options.OptionsDialog2.SimpleOptions.ViewModel;
@@ -181,7 +179,7 @@ namespace StyleCop.ReSharper.Options
             var vsEnvironmentInformation = container.TryGetComponent<IVsEnvironmentInformation>();
             if (vsEnvironmentInformation != null)
             {
-                hostSupportsRoslynAnalzyers = vsEnvironmentInformation.VsVersion2 >= new Version(14, 0);
+                hostSupportsRoslynAnalzyers = vsEnvironmentInformation.VsVersion2 >= new Version2(14);
             }
 
             return hostSupportsRoslynAnalzyers;

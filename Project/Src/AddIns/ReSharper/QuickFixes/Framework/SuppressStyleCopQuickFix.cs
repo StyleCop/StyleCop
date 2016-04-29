@@ -120,7 +120,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         /// <returns>The QuickFix actions.</returns>
         public IEnumerable<IntentionAction> CreateBulbItems()
         {
-           return this.bulbItems.ToQuickFixAction(IntentionsAnchors.ConfigureActionsAnchor);
+           return this.bulbItems.ToQuickFixIntentions(IntentionsAnchors.ConfigureActionsAnchor);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace StyleCop.ReSharper.BulbItems.Readability
 {
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Psi.CodeStyle;
-    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Inspection;
+    using JetBrains.ReSharper.Psi.CSharp.CodeStyle.Suggestions;
     using JetBrains.TextControl;
 
     using StyleCop.ReSharper.BulbItems.Framework;

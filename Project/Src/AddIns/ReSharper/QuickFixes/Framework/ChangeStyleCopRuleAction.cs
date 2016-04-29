@@ -19,7 +19,7 @@
 namespace StyleCop.ReSharper.QuickFixes.Framework
 {
     using JetBrains.Application.Settings;
-    using JetBrains.DocumentModel;
+    using JetBrains.DocumentModel.DataContext;
     using JetBrains.Interop.WinApi;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Daemon.Impl;
@@ -32,7 +32,7 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
     /// <summary>
     ///   Adds changing the display option for the style cop rule as context menu.
     /// </summary>
-    public class ChangeStyleCopRuleAction : IBulbItem
+    public class ChangeStyleCopRuleAction : IBulbAction
     {
         /// <summary>
         /// The common icons component.
