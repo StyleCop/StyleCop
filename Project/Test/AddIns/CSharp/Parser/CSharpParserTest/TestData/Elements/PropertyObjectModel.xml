@@ -225,19 +225,58 @@
       </Element>
     </Element>
     <Element Name="ClassPropInit1" Type="Class">
-        <Element Name="Property1" Type="Property">
-          <Statement Type="VariableDeclarationStatement">
-            <Expression Type="VariableDeclarationExpression">
-              <Expression Text="int" Type="LiteralExpression" />
-              <Expression Type="VariableDeclaratorExpression">
-                <Expression Text="Property1" Type="LiteralExpression" />
-                <Expression Text="45" Type="LiteralExpression" />
-              </Expression>
+      <Element Name="Property1" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property1" Type="LiteralExpression" />
+              <Expression Text="45" Type="LiteralExpression" />
             </Expression>
-          </Statement>
-          <Element Name="get" Type="Accessor" />
-          <Element Name="set" Type="Accessor" />
-        </Element>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="Property2" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property2" Type="LiteralExpression" />
+              <Expression Text="46" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="Property3" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property3" Type="LiteralExpression" />
+              <Expression Text="47" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="Property4" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property4" Type="LiteralExpression" />
+              <Expression Text="48" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
     </Element>
     <Element Name="ExpressionBodiedMember" Type="Class">
       <Element Name="Distance" Type="Property">

@@ -3305,9 +3305,11 @@ namespace StyleCop.CSharp
                 this.ParseElementContainer(property, elementReference, null, unsafeCode);
 
                 // Check if current property has initializer (C#6).
-                Symbol nextSymbol = this.GetNextSymbol(SkipSymbols.WhiteSpace, elementReference, true);
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, elementReference, true);
                 if (nextSymbol != null && nextSymbol.SymbolType == SymbolType.Equals)
                 {
+                    nextSymbol = this.GetNextSymbol(SkipSymbols.All, elementReference, true);
+
                     // Get all of the variable declarators.
                     IList<VariableDeclaratorExpression> declarators = this.ParsePropertyDeclarators(elementReference, unsafeCode, propertyType, propertyNameNode);
 
@@ -3318,7 +3320,8 @@ namespace StyleCop.CSharp
 
                     VariableDeclarationExpression declarationExpression =
                         new VariableDeclarationExpression(
-                            new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), new LiteralExpression(this.tokens, propertyTypeNode), declarators);
+                            new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last),
+                            new LiteralExpression(this.tokens, propertyTypeNode), declarators);
 
                     // Get the trailing semicolon.
                     this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, elementReference));
@@ -3326,6 +3329,10 @@ namespace StyleCop.CSharp
                     // Create the variable declaration statement and add it to the field.
                     property.VariableDeclarationStatement = new VariableDeclarationStatement(
                         new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), false, declarationExpression);
+                }
+                else
+                {
+                    this.GetNextSymbol(SkipSymbols.WhiteSpace, elementReference, true);
                 }
             }
 
@@ -3562,7 +3569,7 @@ namespace StyleCop.CSharp
 
             return element;
         }
-
+        
         #endregion
     }
 }

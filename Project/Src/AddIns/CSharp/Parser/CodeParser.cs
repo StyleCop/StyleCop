@@ -1519,6 +1519,72 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Returns the next code symbol.
+        /// </summary>
+        /// <param name="skip">Indicates the types of symbols to skip past.</param>
+        /// <param name="parentReference">The parent code part.</param>
+        /// <param name="allowNull">If true, indicates that this method is allowed to return a null symbol, if
+        /// there are no more symbols in the document. If false, the method will throw an exception if it is unable
+        /// to get another symbol.</param>
+        /// <returns>Returns the next code symbol.</returns>
+        /// <exception cref="SyntaxException">Will be thrown if there are no more symbols in the document.
+        /// </exception>
+        private Symbol PeekNextSymbol(SkipSymbols skip, Reference<ICodePart> parentReference, bool allowNull)
+        {
+            Param.Ignore(skip);
+            Param.AssertNotNull(parentReference, "parentReference");
+
+            int index = 1;
+            Symbol symbol = this.symbols.Peek(index);
+            while (symbol != null)
+            {
+                if (symbol.SymbolType == SymbolType.WhiteSpace && (skip & SkipSymbols.WhiteSpace) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else if (symbol.SymbolType == SymbolType.EndOfLine && (skip & SkipSymbols.EndOfLine) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else if (symbol.SymbolType == SymbolType.SingleLineComment && (skip & SkipSymbols.SingleLineComment) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else if (symbol.SymbolType == SymbolType.MultiLineComment && (skip & SkipSymbols.MultiLineComment) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else if (symbol.SymbolType == SymbolType.PreprocessorDirective && (skip & SkipSymbols.Preprocessor) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else if (symbol.SymbolType == SymbolType.XmlHeaderLine && (skip & SkipSymbols.XmlHeader) != 0)
+                {
+                    index += 1;
+                    symbol = this.symbols.Peek(index);
+                }
+                else
+                {
+                    break;
+                }
+
+                symbol = this.symbols.Peek(index);
+            }
+
+            if (symbol == null && !allowNull)
+            {
+                throw this.CreateSyntaxException();
+            }
+
+            return symbol;
+        }
+
+        /// <summary>
         /// Gets and converts preprocessor directive.
         /// </summary>
         /// <param name="preprocessorSymbol">
