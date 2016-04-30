@@ -3321,7 +3321,8 @@ namespace StyleCop.CSharp
                     VariableDeclarationExpression declarationExpression =
                         new VariableDeclarationExpression(
                             new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last),
-                            new LiteralExpression(this.tokens, propertyTypeNode), declarators);
+                            new LiteralExpression(this.tokens, propertyTypeNode),
+                            declarators);
 
                     // Get the trailing semicolon.
                     this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, elementReference));

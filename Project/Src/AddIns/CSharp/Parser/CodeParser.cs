@@ -1519,7 +1519,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Returns the next code symbol.
+        /// Returns the next code symbol without advancing to it.
         /// </summary>
         /// <param name="skip">Indicates the types of symbols to skip past.</param>
         /// <param name="parentReference">The parent code part.</param>
