@@ -3,13 +3,16 @@
   <metadata>
     <id>StyleCop.StyleCop</id>
     <title>StyleCop by JetBrains</title>
-    <version>4.8.0</version>
+    <version>2016.1.0</version>
     <authors>Matt Ellis, Andy Reeves</authors>
     <owners>JetBrains, Matt Ellis</owners>
     <summary>StyleCop analyzes C# source code to enforce a set of style and consistency rules. Maintained by JetBrains</summary>
-    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7, and maintained by JetBrains.</description>
+    <description>StyleCop analyzes C# source code to enforce a set of style and consistency rules. This plugin is compatible with StyleCop 4.7.49, and maintained by JetBrains.</description>
     <releaseNotes>
-&#8226; Support for ReSharper 10 (#22)
+&#8226; Support for ReSharper 2016.1 (#47)
+&#8226; Fix to allow filtering by StyleCop issues in code inspection window (#37)
+&#8226; Fix error messages in installer (#32)
+&#8226; Fix to stop code cleanup opening unedited files (#27)
 
 From previous releases:
 &#8226; Automatically disable analysis if StyleCop.Analyzers is referenced in VS2015 (#20)
@@ -23,7 +26,7 @@ From previous releases:
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
     <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
     <dependencies>
-      <dependency id="Wave" version="[4.0]" />
+      <dependency id="Wave" version="[5.0]" />
     </dependencies>
     <tags>StyleCop analysis</tags>
   </metadata>
