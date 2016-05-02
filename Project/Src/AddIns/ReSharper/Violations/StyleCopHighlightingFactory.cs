@@ -20,8 +20,6 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ProjectModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
-    using JetBrains.ReSharper.Psi;
-    using JetBrains.ReSharper.Resources.Shell;
 
     using StyleCop.ReSharper.Options;
 
@@ -52,21 +50,7 @@ namespace StyleCop.ReSharper.Violations
 
             Severity severity = HighlightingSettingsManager.Instance.GetConfigurableSeverity(highlightID, solution);
 
-            switch (severity)
-            {
-                case Severity.ERROR:
-                    return new StyleCopHighlightingError(violation, documentRange);
-                case Severity.HINT:
-                    return new StyleCopHighlightingHint(violation, documentRange);
-                case Severity.INFO:
-                    return new StyleCopHighlightingError(violation, documentRange);
-                case Severity.SUGGESTION:
-                    return new StyleCopHighlightingSuggestion(violation, documentRange);
-                case Severity.WARNING:
-                    return new StyleCopHighlightingWarning(violation, documentRange);
-                default:
-                    return new StyleCopHighlightingDoNotShow(violation, documentRange);
-            }
+            return new StyleCopHighlighting(violation, documentRange, severity, highlightID);
         }
     }
 }

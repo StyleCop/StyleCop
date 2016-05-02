@@ -40,55 +40,7 @@ namespace StyleCop.ReSharper.QuickFixes.Documentation
         /// <param name="highlight">
         /// <see cref="StyleCopHighlightingError"/>that has been detected.
         /// </param>
-        public SA1636QuickFix(StyleCopHighlightingError highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1636QuickFix class that can handle
-        /// <see cref="StyleCopHighlightingHint"/>.
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingHint"/>that has been detected.
-        /// </param>
-        public SA1636QuickFix(StyleCopHighlightingHint highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1636QuickFix class that can handle
-        /// <see cref="StyleCopHighlightingInfo"/>.
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingInfo"/>that has been detected.
-        /// </param>
-        public SA1636QuickFix(StyleCopHighlightingInfo highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1636QuickFix class that can handle
-        /// <see cref="StyleCopHighlightingSuggestion"/>.
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingSuggestion"/>that has been detected.
-        /// </param>
-        public SA1636QuickFix(StyleCopHighlightingSuggestion highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1636QuickFix class that can handle
-        /// <see cref="StyleCopHighlightingWarning"/>.
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingWarning"/>that has been detected.
-        /// </param>
-        public SA1636QuickFix(StyleCopHighlightingWarning highlight)
+        public SA1636QuickFix(StyleCopHighlighting highlight)
             : base(highlight)
         {
         }

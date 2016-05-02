@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopHighlightingError.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopHighlighting.cs" company="http://stylecop.codeplex.com">
 //   MS-PL
 // </copyright>
 // <license>
@@ -20,29 +20,40 @@ namespace StyleCop.ReSharper.Violations
     using JetBrains.DocumentModel;
     using JetBrains.ReSharper.Feature.Services.Daemon;
 
-    /// <summary>
-    /// Highlighting class for a StyleCop Violation set to severity level Error.
-    /// </summary>
-    [StaticSeverityHighlighting(ViolationSeverity, "StyleCop")]
-    public class StyleCopHighlightingError : StyleCopHighlightingBase
+    [ConfigurableSeverityHighlighting("", "CSHARP")]
+    public class StyleCopHighlighting : StyleCopHighlightingBase, ICustomSeverityHighlighting, ICustomConfigurableSeverityIdHighlighting
     {
-        /// <summary>
-        /// The Violation severity.
-        /// </summary>
-        private const Severity ViolationSeverity = Severity.ERROR;
+        private readonly Severity severity;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StyleCopHighlightingError"/> class.
-        /// </summary>
-        /// <param name="violationEventArgs">
-        /// The <see cref="StyleCop.ViolationEventArgs"/> instance containing the event data.
-        /// </param>
-        /// <param name="documentRange">
-        /// Range where the Violation happened.
-        /// </param>
-        public StyleCopHighlightingError(ViolationEventArgs violationEventArgs, DocumentRange documentRange)
+        private readonly string highlightID;
+
+        public StyleCopHighlighting(ViolationEventArgs violationEventArgs, DocumentRange documentRange, Severity severity, string highlightID)
             : base(violationEventArgs, documentRange)
         {
+            this.severity = severity;
+            this.highlightID = highlightID;
+        }
+
+        /// <summary>
+        /// The severity of the highlighting.
+        /// </summary>
+        public Severity Severity
+        {
+            get
+            {
+                return this.severity;
+            }
+        }
+
+        /// <summary>
+        /// The ID of the highlighting.
+        /// </summary>
+        public string ConfigurableSeverityId
+        {
+            get
+            {
+                return this.highlightID;
+            }
         }
     }
 }

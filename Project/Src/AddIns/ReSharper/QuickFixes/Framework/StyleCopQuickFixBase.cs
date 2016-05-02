@@ -42,67 +42,12 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         private List<IBulbAction> bulbItems = new List<IBulbAction>();
 
         /// <summary>
-        /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingError"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingError"/> that has been detected. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingError highlight)
-            : this((StyleCopHighlightingBase)highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingHint"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingHint highlight)
-            : this((StyleCopHighlightingBase)highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingInfo"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingInfo highlight)
-            : this((StyleCopHighlightingBase)highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingSuggestion"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingSuggestion highlight)
-            : this((StyleCopHighlightingBase)highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingWarning"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
-        /// </param>
-        protected StyleCopQuickFixBase(StyleCopHighlightingWarning highlight)
-            : this((StyleCopHighlightingBase)highlight)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the StyleCopQuickFixBase class that can handle <see cref="StyleCopHighlightingBase"/> .
         /// </summary>
         /// <param name="highlight">
         /// <see cref="StyleCopHighlightingBase"/> that has been detected. 
         /// </param>
-        private StyleCopQuickFixBase(StyleCopHighlightingBase highlight)
+        protected StyleCopQuickFixBase(StyleCopHighlightingBase highlight)
         {
             this.Highlighting = highlight;
 
@@ -121,7 +66,6 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
             {
                 return this.bulbItems;
             }
-
             set
             {
                 this.bulbItems = value;

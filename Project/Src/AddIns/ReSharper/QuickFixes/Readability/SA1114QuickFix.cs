@@ -34,56 +34,12 @@ namespace StyleCop.ReSharper.QuickFixes.Readability
     public class SA1114QuickFix : StyleCopQuickFixBase
     {
         /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
+        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlighting"/> .
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingError"/> that has been detected. 
+        /// <see cref="StyleCopHighlighting"/> that has been detected. 
         /// </param>
-        public SA1114QuickFix(StyleCopHighlightingError highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingHint"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
-        /// </param>
-        public SA1114QuickFix(StyleCopHighlightingHint highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingInfo"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
-        /// </param>
-        public SA1114QuickFix(StyleCopHighlightingInfo highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingSuggestion"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
-        /// </param>
-        public SA1114QuickFix(StyleCopHighlightingSuggestion highlight)
-            : base(highlight)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SA1114QuickFix class that can handle <see cref="StyleCopHighlightingWarning"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
-        /// </param>
-        public SA1114QuickFix(StyleCopHighlightingWarning highlight)
+        public SA1114QuickFix(StyleCopHighlighting highlight)
             : base(highlight)
         {
         }

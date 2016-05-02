@@ -45,70 +45,15 @@ namespace StyleCop.ReSharper.QuickFixes.Framework
         private List<IBulbAction> bulbItems = new List<IBulbAction>();
 
         /// <summary>
-        /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingError"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingError"/> that has been detected. 
-        /// </param>
-        public SuppressStyleCopQuickFix(StyleCopHighlightingError highlight)
-            : this(highlight, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingHint"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingHint"/> that has been detected. 
-        /// </param>
-        public SuppressStyleCopQuickFix(StyleCopHighlightingHint highlight)
-            : this(highlight, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingInfo"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingInfo"/> that has been detected. 
-        /// </param>
-        public SuppressStyleCopQuickFix(StyleCopHighlightingInfo highlight)
-            : this(highlight, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingSuggestion"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingSuggestion"/> that has been detected. 
-        /// </param>
-        public SuppressStyleCopQuickFix(StyleCopHighlightingSuggestion highlight)
-            : this(highlight, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle <see cref="StyleCopHighlightingWarning"/> .
-        /// </summary>
-        /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
-        /// </param>
-        public SuppressStyleCopQuickFix(StyleCopHighlightingWarning highlight)
-            : this(highlight, true)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the SuppressStyleCopQuickFix class that can handle.
         /// </summary>
         /// <param name="highlight">
-        /// <see cref="StyleCopHighlightingWarning"/> that has been detected. 
+        /// <see cref="StyleCopHighlightingBase"/> that has been detected. 
         /// </param>
         /// <param name="initialise">
         /// True to initialize. 
         /// </param>
-        protected SuppressStyleCopQuickFix(StyleCopHighlightingBase highlight, bool initialise)
+        public SuppressStyleCopQuickFix(StyleCopHighlightingBase highlight, bool initialise)
         {
             this.highlighting = highlight;
             this.InitialiseBulbItems();

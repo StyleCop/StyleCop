@@ -452,14 +452,9 @@
     <Compile Include="ShellComponents\StyleCopApiPool.cs" />
     <Compile Include="ShellComponents\StyleCopApi.cs" />
     <Compile Include="ShellComponents\VisualStudio2015\ZoneMarker.cs" />
+    <Compile Include="Violations\StyleCopHighlighting.cs" />
     <Compile Include="Violations\StyleCopHighlightingBase.cs" />
-    <Compile Include="Violations\StyleCopHighlightingDoNotShow.cs" />
-    <Compile Include="Violations\StyleCopHighlightingError.cs" />
     <Compile Include="Violations\StyleCopHighlightingFactory.cs" />
-    <Compile Include="Violations\StyleCopHighlightingHint.cs" />
-    <Compile Include="Violations\StyleCopHighlightingInfo.cs" />
-    <Compile Include="Violations\StyleCopHighlightingSuggestion.cs" />
-    <Compile Include="Violations\StyleCopHighlightingWarning.cs" />
     <Compile Include="ZoneMarker.cs" />
   </ItemGroup>
   <ItemGroup>
