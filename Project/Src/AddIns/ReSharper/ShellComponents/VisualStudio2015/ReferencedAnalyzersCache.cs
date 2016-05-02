@@ -23,6 +23,8 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
     using JetBrains.Application.Components;
     using JetBrains.DataFlow;
     using JetBrains.ProjectModel;
+    using JetBrains.ProjectModel.Tasks;
+    using JetBrains.ReSharper.Daemon;
     using JetBrains.ReSharper.Resources.Shell;
     using JetBrains.Threading;
     using JetBrains.Util;
@@ -61,6 +63,7 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
         /// <param name="lifetime">The lifetime of the component</param>
         /// <param name="solution">The current solution</param>
         /// <param name="threading">The threading API</param>
+        /// <param name="solutionLoadTasksScheduler">Solution load task scheduler</param>
         /// <param name="projectModelSynchronizer">The project model synchronizer</param>
         /// <param name="packageInstallerServices">NuGet installer services API</param>
         /// <param name="packageInstallerEvents">NuGet installer events API</param>
@@ -68,6 +71,7 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
             Lifetime lifetime,
             ISolution solution,
             IThreading threading,
+            ISolutionLoadTasksScheduler solutionLoadTasksScheduler,
             ProjectModelSynchronizer projectModelSynchronizer,
             Lazy<Optional<IVsPackageInstallerServices>> packageInstallerServices,
             Lazy<Optional<IVsPackageInstallerEvents>> packageInstallerEvents)
@@ -108,7 +112,11 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
                             this.packageInstallerEvents.PackageInstalled -= this.ResetAnalyzersCache;
                             this.packageInstallerEvents.PackageUninstalled -= this.ResetAnalyzersCache;
                         });
-                this.ResetAnalyzersCache(null);
+                solutionLoadTasksScheduler.EnqueueTask(new SolutionLoadTask("StyleCop.ReferencedAnalyzersCache", SolutionLoadTaskKinds.AfterDone,
+                    () =>
+                        {
+                            this.ResetAnalyzersCache(null);
+                        }));
             }
         }
 
@@ -159,23 +167,30 @@ namespace StyleCop.ReSharper.ShellComponents.VisualStudio2015
                             var vsProjectInfo = this.projectModelSynchronizer.GetProjectInfoByProject(project);
                             if (vsProjectInfo != null)
                             {
-                                var vsProject3 = vsProjectInfo.GetExtProject().Object as VSProject3;
-                                if (vsProject3 != null)
+                                var extProject = vsProjectInfo.GetExtProject();
+                                if (extProject != null)
                                 {
-                                    var projectId = project.GetPersistentID();
-
-                                    var analyzerReferences = vsProject3.AnalyzerReferences;
-                                    foreach (string analyzerReference in analyzerReferences)
+                                    var vsProject3 = extProject.Object as VSProject3;
+                                    if (vsProject3 != null)
                                     {
-                                        var analyzerPath = FileSystemPath.Parse(analyzerReference);
-                                        var analyzer = analyzerPath.NameWithoutExtension;
-                                        this.referencedAnalyzers.Add(projectId, analyzer);
+                                        var projectId = project.GetPersistentID();
+
+                                        var analyzerReferences = vsProject3.AnalyzerReferences;
+                                        foreach (string analyzerReference in analyzerReferences)
+                                        {
+                                            var analyzerPath = FileSystemPath.Parse(analyzerReference);
+                                            var analyzer = analyzerPath.NameWithoutExtension;
+                                            this.referencedAnalyzers.Add(projectId, analyzer.ToLowerInvariant());
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+                // Can't inject, get a circular reference
+                DaemonBase.GetInstance(this.solution).Invalidate();
             }
         }
 
