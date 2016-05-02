@@ -120,25 +120,49 @@ namespace StyleCop.ReSharper.CodeCleanup.Rules
         }
 
         private static void ProcessImports(
-            IList<IUsingDirective> newImportsList, 
+            IList<IUsingDirective> originalImportsList, 
             bool organiseUsings, 
             bool expandUsings, 
             ICSharpTypeAndNamespaceHolderDeclaration declaration)
         {
-            if (newImportsList == null || newImportsList.Count == 0)
+            if (originalImportsList == null || originalImportsList.Count == 0)
             {
                 return;
             }
 
-            List<IUsingDirective> arrayList = new List<IUsingDirective>();
-            arrayList.AddRange(newImportsList);
+            List<IUsingDirective> sortedImportsList = new List<IUsingDirective>();
+            sortedImportsList.AddRange(originalImportsList);
 
             if (organiseUsings)
             {
-                arrayList.Sort(new UsingStatementSorter());
+                sortedImportsList.Sort(new UsingStatementSorter());
             }
 
-            foreach (IUsingDirective directive in arrayList)
+            bool alreadySorted = true;
+            bool alreadyExpanded = true;
+            for (int i = 0; i < originalImportsList.Count; i++)
+            {
+                if (originalImportsList[i] != sortedImportsList[i])
+                {
+                    alreadySorted = false;
+                    break;
+                }
+
+                IUsingAliasDirective aliasDirective = originalImportsList[i] as IUsingAliasDirective;
+                if (aliasDirective != null)
+                {
+                    if (aliasDirective.ImportedSymbolName.GetText() != aliasDirective.GetFullyQualifiedNamespace())
+                    {
+                        alreadyExpanded = false;
+                        break;
+                    }
+                }
+            }
+
+            if (alreadySorted && alreadyExpanded)
+                return;
+
+            foreach (IUsingDirective directive in sortedImportsList)
             {
                 IUsingDirective newUsingDirective;
 
