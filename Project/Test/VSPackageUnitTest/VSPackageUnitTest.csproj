@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SAInternalKeyFile)</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\Src\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <FileUpgradeFlags>
@@ -42,7 +42,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(TestBin)</OutputPath>
+    <OutputPath>..\TestBin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,7 +52,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>$(TestBin)</OutputPath>
+    <OutputPath>..\TestBin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -68,11 +68,11 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <HintPath>..\..\..\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.MockObjectFramework, Version=8.0.0.0, Culture=neutral, PublicKeyToken=4965c59bfb3e69be, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\MockObjectframework\Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll</HintPath>
+      <HintPath>..\..\..\tools\MockObjectframework\Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -80,20 +80,20 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\VisualStudioSDK\2010.RTM\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.dll</HintPath>
+      <HintPath>..\..\..\tools\VisualStudioSDK\2010.RTM\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <HintPath>..\..\..\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+      <HintPath>..\..\..\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ENLISTMENTROOT)\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+      <HintPath>..\..\..\tools\VisualStudioSDK\2008.V1\VisualStudioIntegration\Common\Assemblies\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -154,15 +154,15 @@
     <Compile Include="VSWindowsTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="$(PROJECTROOT)\src\AddIns\CSharp\Parser\CSharpParser.csproj">
+    <ProjectReference Include="$(ProjectDir)..\..\src\AddIns\CSharp\Parser\CSharpParser.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>
-    <ProjectReference Include="$(PROJECTROOT)\src\StyleCop\StyleCop.csproj">
+    <ProjectReference Include="$(ProjectDir)..\..\src\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="$(PROJECTROOT)\src\VSPackage\VSPackage.csproj">
+    <ProjectReference Include="$(ProjectDir)..\..\src\VSPackage\VSPackage.csproj">
       <Project>{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}</Project>
       <Name>VSPackage</Name>
     </ProjectReference>
@@ -194,7 +194,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

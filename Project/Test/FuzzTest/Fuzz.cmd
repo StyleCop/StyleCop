@@ -1,7 +1,7 @@
 set FuzzRoot=%~dp0
 
 set Fuzzer="%programfiles%\Microsoft\FileFuzzer\Fuzzer.exe"
-set SAFuzzHarness="%TestBin%StyleCopFuzzTestHarness.exe"
+set SAFuzzHarness="%~dp0..\TestBin\StyleCopFuzzTestHarness.exe"
 set FuzzFilesDir="%FuzzRoot%\%FuzzFilesSubFolder%"
 set FuzzOutputDir="%FuzzRoot%\Results"
 

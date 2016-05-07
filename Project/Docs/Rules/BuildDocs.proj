@@ -4,11 +4,11 @@
     ToolsVersion="4.0">
 
     <Import
-        Project="$(STTOOLS)\SDcTasks\Microsoft.Sdc.Common.tasks" />
+        Project="..\..\..\Tools\SDcTasks\Microsoft.Sdc.Common.tasks" />
 
     <Target Name="Docs">
-        <Error Condition="!Exists('$(ProgramFiles)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
-        <MakeDir Directories="$(PROJECTROOT)\Docs\Rules\Bin" />
-        <Help.Compile ProjectFilePath="$(PROJECTROOT)\Docs\Rules\StyleCop.hhp" />
+        <Error Condition="!Exists('$(MSBuildProgramFiles32)\HTML Help Workshop\hhc.exe')" Text="Please ensure the Microsoft HTML Help Workshop is installed." />   
+        <MakeDir Directories="Bin" />
+        <Help.Compile ProjectFilePath="StyleCop.hhp" />
     </Target>
 </Project>

@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>StyleCop</OutputName>
     <OutputType>Package</OutputType>
-    <WixTargetsPath>$(WixToolsDirectory)\Wix.targets</WixTargetsPath>
-    <WixTasksPath>$(WixToolsDirectory)\WixTasks.dll</WixTasksPath>
-    <WixToolPath>$(WixToolsDirectory)\</WixToolPath>
+    <WixTargetsPath>..\..\..\Tools\Wix\wix.3.5.1526.0\Wix.targets</WixTargetsPath>
+    <WixTasksPath>..\..\..\Tools\Wix\wix.3.5.1526.0\WixTasks.dll</WixTasksPath>
+    <WixToolPath>..\..\..\Tools\Wix\wix.3.5.1526.0\</WixToolPath>
     <DefineSolutionProperties>false</DefineSolutionProperties>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <IncludeSearchPaths>..</IncludeSearchPaths>
@@ -18,7 +18,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>..\..\InstallDrop\Debug\</OutputPath>
     <IntermediateOutputPath>obj\Debug\</IntermediateOutputPath>
-    <DefineConstants>Debug;DropDir=..\..\BuildDrop\$(Configuration);RootDir=$(PROJECTROOT)</DefineConstants>
+    <DefineConstants>Debug;DropDir=..\..\BuildDrop\$(Configuration);RootDir=$(ProjectDir)..\..</DefineConstants>
     <AllowIdenticalRows>False</AllowIdenticalRows>
     <CabinetCachePath>
     </CabinetCachePath>
@@ -63,7 +63,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>..\..\InstallDrop\Release\</OutputPath>
     <IntermediateOutputPath>obj\Release\</IntermediateOutputPath>
-    <DefineConstants>DropDir=..\..\BuildDrop\$(Configuration);RootDir=$(PROJECTROOT)</DefineConstants>
+    <DefineConstants>DropDir=..\..\BuildDrop\$(Configuration);RootDir=$(ProjectDir)..\..</DefineConstants>
     <AllowIdenticalRows>False</AllowIdenticalRows>
     <CabinetCachePath>
     </CabinetCachePath>
@@ -122,16 +122,16 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixToolsDirectory)\WixNetFxExtension.dll</HintPath>
+      <HintPath>..\..\..\Tools\Wix\wix.3.5.1526.0\WixNetFxExtension.dll</HintPath>
       <Name>WixNetFxExtension</Name>
     </WixExtension>
     <WixExtension Include="WixUIExtension">
       <Name>WixUIExtension</Name>
-      <HintPath>$(WixToolsDirectory)\WixUIExtension.dll</HintPath>
+      <HintPath>..\..\..\Tools\Wix\wix.3.5.1526.0\WixUIExtension.dll</HintPath>
     </WixExtension>
     <WixExtension Include="WixVSExtension">
       <Name>WixVSExtension</Name>
-      <HintPath>$(WixToolsDirectory)\WixVSExtension.dll</HintPath>
+      <HintPath>..\..\..\Tools\Wix\wix.3.5.1526.0\WixVSExtension.dll</HintPath>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
@@ -148,7 +148,7 @@
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(WixToolsDirectory)\Wix.targets" />
+  <Import Project="..\..\..\Tools\Wix\wix.3.5.1526.0\Wix.targets" />
   <PropertyGroup>
     <Cultures>en-us</Cultures>
     <DefineConstants>$(DefineConstants)</DefineConstants>

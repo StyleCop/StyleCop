@@ -19,10 +19,11 @@
 namespace CSharpAnalyzersTest
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using StyleCop.Spelling;
     using StyleCop.Test;
 
     /// <summary>
@@ -153,6 +154,15 @@ namespace CSharpAnalyzersTest
         [DeploymentItem("TestData\\Documentation", "Documentation")]
         public void CsAnalyzerDocumentationTest()
         {
+            using (var namingService = NamingService.GetNamingService(CultureInfo.CurrentCulture))
+            {
+                if (!namingService.SupportsSpelling)
+                {
+                    Assert.Inconclusive(
+                        "Spell checking is not available, most likely because Word 2010 is not installed.");
+                }
+            }
+
             this.RunTest("Documentation");
         }
 

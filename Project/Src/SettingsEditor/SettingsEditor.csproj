@@ -12,8 +12,8 @@
     <AssemblyName>StyleCopSettingsEditor</AssemblyName>
     <ApplicationIcon>..\VSPackage\Resources\StyleCop.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
-    <DelaySign>$(SADelaySign)</DelaySign>
+    <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
     <TargetZone>LocalIntranet</TargetZone>
     <GenerateManifests>false</GenerateManifests>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -42,7 +42,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(RootBin)\Debug\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,7 +51,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>$(RootBin)\Release\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -119,8 +119,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
-  <Import Project="..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <Import Project="$(SolutionDir)..\Tools\StyleCop\v4.7\StyleCop.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -129,6 +128,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

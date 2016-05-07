@@ -13,8 +13,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
-    <DelaySign>$(SADelaySign)</DelaySign>
+    <AssemblyOriginatorKeyFile>..\..\StyleCop.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -25,26 +25,26 @@
     <Optimize>false</Optimize>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
-    <OutputPath>$(RootBin)\Debug\</OutputPath>
+    <OutputPath>..\..\..\BuildDrop\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <WarningLevel>0</WarningLevel>
     <CodeAnalysisRuleSet>..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(RootBin)\Debug\StyleCop.ReSharper910.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\BuildDrop\Debug\StyleCop.ReSharper910.xml</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DocumentationFile>$(RootBin)\Release\StyleCop.ReSharper910.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\BuildDrop\Release\StyleCop.ReSharper910.xml</DocumentationFile>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
     <Optimize>true</Optimize>
-    <OutputPath>$(RootBin)\Release\</OutputPath>
+    <OutputPath>..\..\..\BuildDrop\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
@@ -424,9 +424,21 @@
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="StyleCop.ReSharper1000.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
-  <Import Project="..\..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <Import Project="$(SolutionDir)..\Tools\StyleCop\v4.7\StyleCop.Targets" />
+  <Target Name="AfterBuild">
+    <GetAssemblyIdentity AssemblyFiles="$(OutDir)\$(AssemblyName).dll">
+      <Output TaskParameter="Assemblies" ItemName="AnalyzerAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot; pack StyleCop.ReSharper1000.nuspec -NoPackageAnalysis -OutputDirectory ." WorkingDirectory="$(OutDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

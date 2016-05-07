@@ -80,7 +80,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Deployment.WindowsInstaller">
-      <HintPath>$(WixToolsDirectory)\Microsoft.Deployment.WindowsInstaller.dll</HintPath>
+      <HintPath>..\..\..\Tools\Wix\wix.3.5.1526.0\Microsoft.Deployment.WindowsInstaller.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

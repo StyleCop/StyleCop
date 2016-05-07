@@ -1,2 +1,2 @@
 @echo off
-%TESTBIN%\StyleCopPerfHarness.exe -n:10 LargeTestFile.cs
+%~dp0..\..\TestBin\StyleCopPerfHarness.exe -n:10 LargeTestFile.cs

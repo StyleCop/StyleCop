@@ -1,1 +1,1 @@
-@CALL %PROJECTROOT%\tools\scripts\UnInstallProduct.cmd $*
+@CALL %~dp0..\..\..\tools\scripts\UnInstallProduct.cmd $*

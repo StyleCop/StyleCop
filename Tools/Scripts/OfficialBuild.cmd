@@ -2,6 +2,6 @@
 
 echo --------------------------------------------------------------
 echo Running build and tests
-call verifybuild retail
+call %~dp0\verifybuild retail
 
 :END

@@ -238,7 +238,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
-            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.Item);
+            bool show = ProjectUtilities.IsItemIncluded(AnalysisType.Item);
             
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             this.StatusAnalyzeBase(menuCommand,  show);
@@ -254,7 +254,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
-            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.Item);
+            bool show = ProjectUtilities.IsItemIncluded(AnalysisType.Item);
             
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             this.StatusAnalyzeBase(menuCommand, !show);
@@ -286,7 +286,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
-            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.File);
+            bool show = ProjectUtilities.IsItemIncluded(AnalysisType.File);
 
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             this.StatusAnalyzeBase(menuCommand, show);
@@ -302,7 +302,7 @@ namespace StyleCop.VisualStudio
             Param.AssertNotNull(sender, "sender");
             Param.Ignore(eventArgs);
 
-            bool show = ProjectUtilities.IsItemIncluded(this.helper, AnalysisType.File);
+            bool show = ProjectUtilities.IsItemIncluded(AnalysisType.File);
             
             OleMenuCommand menuCommand = (OleMenuCommand)sender;
             this.StatusAnalyzeBase(menuCommand,  !show);

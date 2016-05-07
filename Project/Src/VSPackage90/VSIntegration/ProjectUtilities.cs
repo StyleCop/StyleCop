@@ -21,6 +21,7 @@ namespace StyleCop.VisualStudio
     using System.Data;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -174,44 +175,57 @@ namespace StyleCop.VisualStudio
         /// </summary> 
         /// <param name="project">The project file to read property.</param> 
         /// <returns>The target framework version, or 0 if none is specified.</returns> 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Cannot allow exception from plug-in to kill VS or build")]
         internal static double TargetFrameworkVersion(Project project)
         {
             string projectFilePathName = GetProjectFileName(project);
-            double targetFrameworkVersion = 0;
-            if (!string.IsNullOrEmpty(projectFilePathName))
+            if (string.IsNullOrEmpty(projectFilePathName))
             {
-                using (DataSet data = new DataSet())
+                return 0.0;
+            }
+
+            using (DataSet data = new DataSet())
+            {
+                data.Locale = CultureInfo.InvariantCulture;
+
+                try
                 {
-                    try
+                    // Load project as dataset
+                    data.ReadXml(projectFilePathName);
+                    DataTable propertyGroups = data.Tables["PropertyGroup"];
+
+                    object projectTargetFrameworkVersion = propertyGroups.Rows[0]["TargetFrameworkVersion"];
+
+                    if (projectTargetFrameworkVersion != System.DBNull.Value)
                     {
-                        // Load project as dataset
-                        data.ReadXml(projectFilePathName);
-                        DataTable propertyGroups = data.Tables["PropertyGroup"];
+                        double targetFrameworkVersion;
+                        string projectTargetFrameworkVersionString = (string)projectTargetFrameworkVersion;
 
-                        object projectTargetFrameworkVersion = propertyGroups.Rows[0]["TargetFrameworkVersion"];
-
-                        if (projectTargetFrameworkVersion != System.DBNull.Value)
+                        if (projectTargetFrameworkVersionString.Length > 4)
                         {
-                            if (projectTargetFrameworkVersion.ToString().Length > 4)
+                            // TargetFrameworkVersion will be something like "v4.5.1", so skip the "v" and last char when parsing to double: 
+                            if (double.TryParse(projectTargetFrameworkVersionString.Substring(1, 3), out targetFrameworkVersion))
                             {
-                                // TargetFrameworkVersion will be something like "v4.5.1", so skip the "v" and last char when parsing to double: 
-                                double.TryParse(((string)projectTargetFrameworkVersion).Substring(1, 3), out targetFrameworkVersion);
+                                return targetFrameworkVersion;
                             }
-                            else
+                        }
+                        else
+                        {
+                            // TargetFrameworkVersion will be something like "v3.5", so skip the "v" when parsing to double: 
+                            if (double.TryParse(projectTargetFrameworkVersionString.Substring(1), out targetFrameworkVersion))
                             {
-                                // TargetFrameworkVersion will be something like "v3.5", so skip the "v" when parsing to double: 
-                                double.TryParse(((string)projectTargetFrameworkVersion).Substring(1), out targetFrameworkVersion);
+                                return targetFrameworkVersion;
                             }
                         }
                     }
-                    catch
-                    {
-                        // Ignore missing TargetFrameworkVersion version. targetFrameworkVersion will remain 0. 
-                    }
+                }
+                catch
+                {
+                    // Ignore missing TargetFrameworkVersion version. Just return 0.0.
                 }
             }
 
-            return targetFrameworkVersion;
+            return 0.0;
         }
 
         /// <summary>
@@ -502,13 +516,10 @@ namespace StyleCop.VisualStudio
         /// <summary>
         /// Determines whether the selected item is included in StyleCop analysis.
         /// </summary>
-        /// <param name="helper">The analysis helper instance.</param>
         /// <param name="type">Indicates the type of solution artifacts to search.</param>
         /// <returns>True if the selected item would be included in analysis.</returns>
-        internal static bool IsItemIncluded(AnalysisHelper helper, AnalysisType type)
+        internal static bool IsItemIncluded(AnalysisType type)
         {
-            Param.Ignore(helper, type);
-
             DTE applicationObject = GetDTE();
 
             if (type == AnalysisType.Solution || type == AnalysisType.Project || type == AnalysisType.Folder)

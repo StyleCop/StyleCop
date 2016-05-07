@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <!-- Import the common targets -->
-  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 
   <!-- This defines the dependencies for the Generate target -->
   <PropertyGroup>

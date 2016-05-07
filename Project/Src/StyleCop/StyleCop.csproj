@@ -8,8 +8,8 @@
     <RootNamespace>StyleCop</RootNamespace>
     <AssemblyName>StyleCop</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SAAssemblyOriginatorKeyFile)</AssemblyOriginatorKeyFile>
-    <DelaySign>$(SADelaySign)</DelaySign>
+    <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <ProjectGuid>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</ProjectGuid>
@@ -36,7 +36,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>$(RootBin)\Debug\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Debug\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -52,15 +52,15 @@
     <CodeAnalysisRules>
     </CodeAnalysisRules>
     <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(RootBin)\Debug\StyleCop.xml</DocumentationFile>
+    <DocumentationFile>..\..\BuildDrop\Debug\StyleCop.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>$(RootBin)\Release\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Release\</OutputPath>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>$(RootBin)\Release\StyleCop.xml</DocumentationFile>
+    <DocumentationFile>..\..\BuildDrop\Release\StyleCop.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
@@ -278,13 +278,14 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CoreParser.xml" />
-    <CodeAnalysisDictionary Include="CustomDictionary.xml">
+    <Content Include="CustomDictionary.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </CodeAnalysisDictionary>
+    </Content>
     <None Include="mssp7en.lex">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="Settings\DefaultSettings.xml">
       <SubType>Designer</SubType>
     </None>
@@ -324,26 +325,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CustomDictionary.en-GB.xml">
+    <Content Include="CustomDictionary.en-GB.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </CodeAnalysisDictionary>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CustomDictionary.en-US.xml">
+    <Content Include="CustomDictionary.en-US.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </CodeAnalysisDictionary>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="..\..\..\Tools\msbuild\StyleCop.Build.Targets" />
-  <Import Project="..\..\..\Tools\msbuild\StyleCop.Shipping.Targets" />
+  <Import Project="$(SolutionDir)..\Tools\StyleCop\v4.7\StyleCop.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(TestBin)"&amp;copy /y "$(ProjectDir)\Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"&amp;copy /y "$(TargetDir)\Settings.StyleCop" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)StyleCop.Targets" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(TargetDir)*.lex" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"&amp;copy /y "$(ProjectDir)CustomDictionary*" "$(TargetDir)"&amp;copy /y "$(TargetDir)CustomDictionary*" "$(PROJECTROOT)\BuildDrop\$(Configuration)\"</PostBuildEvent>
+    <PostBuildEvent>copy /y "$(ProjectDir)Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="BeforeBuild">
     <!-- Since we copy to this directory in the post build event,
          we should make sure the directory exists before trying to make the copy -->
-    <MakeDir Directories="$(PROJECTROOT)\BuildDrop\$(Configuration)\" />
+    <MakeDir Directories="$(ProjectDir)..\..\BuildDrop\$(Configuration)\" />
   </Target>
 </Project>

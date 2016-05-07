@@ -12,3 +12,5 @@ errors.log
 *.wrn
 *\_ReSharper*
 *\packages\*
+Log.Uninstall.txt
+Project/Docs/Sdk/Build.Release

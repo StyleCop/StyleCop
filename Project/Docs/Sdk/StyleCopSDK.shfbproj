@@ -17,12 +17,12 @@
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>StyleCopSDKDocumentation</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.Rules.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.Rules.xml" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.CSharp.xml" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.dll" />
-      <DocumentationSource sourceFile="..\..\bin\Debug\StyleCop.xml" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.CSharp.dll" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.CSharp.Rules.dll" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.CSharp.Rules.xml" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.CSharp.xml" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.dll" />
+      <DocumentationSource sourceFile="..\..\BuildDrop\Release\StyleCop.xml" />
     </DocumentationSources>
     <FrameworkVersion>4.0.30319</FrameworkVersion>
     <HelpTitle>StyleCop SDK Documentation</HelpTitle>
