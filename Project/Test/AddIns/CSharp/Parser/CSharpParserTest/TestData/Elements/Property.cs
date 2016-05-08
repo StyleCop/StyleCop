@@ -202,6 +202,25 @@ public class ClassPropInit1
     }
         =
         48;
+
+    public byte[] Property5 { get; } = { 211, 63, 107, 31, 8, 247, 168, 41, 167, 204, 75, 127, 230, 63, 141, 88 };
+
+    public byte[] Property6 { get; } = { };
+
+    public byte[] Property7 { get; }
+        = { };
+
+    public byte[] Property8 {get;}={};
+
+    public byte[] Property9 { get; } = GetValue();
+
+    public byte[] Property10 { get; } = System.DateTime.Now.ToString();
+
+    public byte[] Property11 { get; }
+        = System.DateTime.Now.ToString();
+
+    public byte[] Property12 { get; } =
+        System.DateTime.Now.ToString();
 }
 
 public class ExpressionBodiedMember

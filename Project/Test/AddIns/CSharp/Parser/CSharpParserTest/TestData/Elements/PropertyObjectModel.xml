@@ -277,6 +277,154 @@
         <Element Name="get" Type="Accessor" />
         <Element Name="set" Type="Accessor" />
       </Element>
+      <Element Name="Property5" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property5" Type="LiteralExpression" />
+              <Expression Type="CollectionInitializerExpression">
+                <Expression Text="211" Type="LiteralExpression" />
+                <Expression Text="63" Type="LiteralExpression" />
+                <Expression Text="107" Type="LiteralExpression" />
+                <Expression Text="31" Type="LiteralExpression" />
+                <Expression Text="8" Type="LiteralExpression" />
+                <Expression Text="247" Type="LiteralExpression" />
+                <Expression Text="168" Type="LiteralExpression" />
+                <Expression Text="41" Type="LiteralExpression" />
+                <Expression Text="167" Type="LiteralExpression" />
+                <Expression Text="204" Type="LiteralExpression" />
+                <Expression Text="75" Type="LiteralExpression" />
+                <Expression Text="127" Type="LiteralExpression" />
+                <Expression Text="230" Type="LiteralExpression" />
+                <Expression Text="63" Type="LiteralExpression" />
+                <Expression Text="141" Type="LiteralExpression" />
+                <Expression Text="88" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property6" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property6" Type="LiteralExpression" />
+              <Expression Type="CollectionInitializerExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property7" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property7" Type="LiteralExpression" />
+              <Expression Type="CollectionInitializerExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property8" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property8" Type="LiteralExpression" />
+              <Expression Type="CollectionInitializerExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property9" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property9" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="GetValue" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property10" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property10" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="System" Type="LiteralExpression" />
+                      <Expression Text="DateTime" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="Now" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="ToString" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property11" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property11" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="System" Type="LiteralExpression" />
+                      <Expression Text="DateTime" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="Now" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="ToString" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
+      <Element Name="Property12" Type="Property">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="byte[]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="Property12" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="System" Type="LiteralExpression" />
+                      <Expression Text="DateTime" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="Now" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="ToString" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Element Name="get" Type="Accessor" />
+      </Element>
     </Element>
     <Element Name="ExpressionBodiedMember" Type="Class">
       <Element Name="Distance" Type="Property">

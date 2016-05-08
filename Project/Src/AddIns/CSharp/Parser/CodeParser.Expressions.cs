@@ -2838,6 +2838,10 @@ namespace StyleCop.CSharp
                         expression = this.GetUnsafeAccessExpression(parentReference, unsafeCode);
                         break;
 
+                    case SymbolType.OpenCurlyBracket:
+                        expression = this.GetCollectionInitializerExpression(unsafeCode);
+                        break;
+
                     default:
                         throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
