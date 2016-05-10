@@ -378,20 +378,37 @@ namespace StyleCop.CSharp
                         // or if the next line contains property initializers.
                         if (tokens.First.Value.LineNumber != tokens.Last.Value.LineNumber)
                         {
-                            bool foundObjectInializer = false;
+                            bool isViolation = true;
+
                             if (parentStatement is VariableDeclarationStatement)
                             {
                                 VariableDeclarationStatement variableDeclarationStatement = parentStatement as VariableDeclarationStatement;
 
                                 foreach (VariableDeclaratorExpression declarator in variableDeclarationStatement.Declarators)
                                 {
-                                    foundObjectInializer =
-                                        declarator.Initializer.ChildExpressions.Any(
-                                            initializerExpressions => initializerExpressions.ExpressionType == ExpressionType.ObjectInitializer);
+                                    if (declarator.Initializer.ChildExpressions.Any(
+                                            initializerExpressions => initializerExpressions.ExpressionType == ExpressionType.ObjectInitializer))
+                                    {
+                                        isViolation = false;
+                                        break;
+                                    }
                                 }
                             }
+                            else if (parentElement is Property)
+                            {
+                                int closingBracketIndex = openBracket.MatchingBracket.Location.EndPoint.Index;
 
-                            if (!(parentStatement is VariableDeclarationStatement) || !foundObjectInializer)
+                                var propertyElement = (Property)parentElement;
+                                if (propertyElement.Tokens
+                                    .SkipWhile(token => token.Location.EndPoint.Index < closingBracketIndex)
+                                    .OfType<OperatorSymbol>()
+                                    .Any(token => token.SymbolType == OperatorType.Equals))
+                                {
+                                    isViolation = false;
+                                }
+                            }
+                            
+                            if (isViolation)
                             {
                                 this.AddViolation(
                                     parentElement, 

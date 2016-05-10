@@ -98,6 +98,17 @@ namespace CSharpAnalyzersTest.TestData
         public bool InvalidProperty13
         { get { return true; } }
 
+        public bool InvalidProperty14 {
+            get;
+        } = GetPropertyValue();
+
+        public bool InvalidProperty15 { get;
+        } = GetPropertyValue();
+
+        public bool InvalidProperty16
+        {
+            get; } = GetPropertyValue();
+
         // Valid properties.
         public bool ValidProperty1
         {
@@ -134,5 +145,13 @@ namespace CSharpAnalyzersTest.TestData
             get;
             set;
         }
+
+        public bool ValidProperty8 { get; } = GetPropertyValue();
+
+        public bool ValidProperty9 { get; }
+            = GetPropertyValue();
+
+        public bool ValidProperty10 { get; } =
+            GetPropertyValue();
     }
 }

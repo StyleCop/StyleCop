@@ -314,6 +314,11 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty11" LineNumber="90" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty12" LineNumber="95" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty13" LineNumber="99" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty14" LineNumber="101" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty14" LineNumber="103" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty15" LineNumber="105" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty15" LineNumber="106" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty16" LineNumber="110" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct3" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
