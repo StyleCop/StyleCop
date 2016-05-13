@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>StyleCop</id>
-    <version>4.7.53.0</version>
+    <version>4.7.54.0</version>
     <authors>Andy Reeves</authors>
     <description>Core StyleCop libraries to create custom rules</description>
     <language>en-US</language>
