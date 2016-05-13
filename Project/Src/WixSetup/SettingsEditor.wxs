@@ -11,18 +11,18 @@
         <!-- The Settings Editor allows editing of the settings files without VS. -->
         <File Id='SettingsEditorProgFiles' Name='StyleCopSettingsEditor.exe' Checksum="yes" Vital='yes' />
 
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_001' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_001' />
         <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Value='Settings.SourceAnalysis' Id='ProgFilesEditor_002' />
         <RegistryValue Root='HKCR' Key='.SourceAnalysis' Type='string' Name='ContentType' Value='text/xml' Id='ProgFilesEditor_003' />
 
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_004' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKCR' Key='.SourceAnalysis' Id='ProgFilesEditor_004' />
         <RegistryValue Root='HKCR' Key='Settings.SourceAnalysis\shell\open\command' Type='string' Value='"[INSTALLDIR]StyleCopSettingsEditor.exe" "%1"' Id='ProgFilesEditor_005' />
 
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_006' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_006' />
         <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Value='Settings.StyleCop' Id='ProgFilesEditor_007' />
         <RegistryValue Root='HKCR' Key='.StyleCop' Type='string' Name='ContentType' Value='text/xml' Id='ProgFilesEditor_008' />
 
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_009' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKCR' Key='.StyleCop' Id='ProgFilesEditor_009' />
         <RegistryValue Root='HKCR' Key='Settings.StyleCop\shell\open\command' Type='string' Value='"[INSTALLDIR]StyleCopSettingsEditor.exe" "%1"' Id='ProgFilesEditor_010' />
 
       </Component>

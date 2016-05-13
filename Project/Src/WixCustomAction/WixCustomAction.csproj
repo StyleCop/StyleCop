@@ -79,9 +79,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Deployment.WindowsInstaller">
-      <HintPath>..\..\..\Tools\Wix\wix.3.5.1526.0\Microsoft.Deployment.WindowsInstaller.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Deployment.WindowsInstaller" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

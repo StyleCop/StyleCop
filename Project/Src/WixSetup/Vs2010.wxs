@@ -8,7 +8,7 @@
       <Component Id="VisualStudio2010Component" Guid="6823F737-6FA6-4A3F-915C-CCEA746B6CDF">
 
         <!-- Installed products -->
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Id='InstalledProducts_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Value='#110' Id='InstalledProducts_$(var.VsVersion)_002' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='Package' Value='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='InstalledProducts_$(var.VsVersion)_003' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\InstalledProducts\StyleCop' Type='string' Name='LogoID' Value='#400' Id='InstalledProducts_$(var.VsVersion)_004' />
@@ -19,13 +19,13 @@
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Menus' Type='string' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value=', 1000, 1' Id='Menus_$(var.VsVersion)' />
 
         <!-- Autoload the first time a solution is loaded -->
-        <RegistryKey Action='create' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Id='AutoLoadPackages_$(var.VsVersion)_001' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Id='AutoLoadPackages_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{f1536ef8-92ec-443c-9ed7-fdadf150da82}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_002' />
-        <RegistryKey Action='create' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Id='AutoLoadPackages_$(var.VsVersion)_003' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Id='AutoLoadPackages_$(var.VsVersion)_003' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\AutoLoadPackages\{ADFC4E64-0397-11D1-9F4E-00A0C911004F}' Type='integer' Name='{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Value='0' Id='AutoLoadPackages_$(var.VsVersion)_004' />
 
         <!-- Package -->
-        <RegistryKey Action='createAndRemoveOnUninstall' Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='Package_$(var.VsVersion)' />
+        <RegistryKey ForceDeleteOnUninstall="yes" Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Id='Package_$(var.VsVersion)' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='integer' Name='ID' Value='200' Id='Package_$(var.VsVersion)_001' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='ProductVersion' Value='$(var.WixVersionShort)' Id='Package_$(var.VsVersion)_002' />
         <RegistryValue Root='HKLM' Key='Software\Microsoft\VisualStudio\$(var.VsVersion)\Packages\{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}' Type='string' Name='MinEdition' Value='Standard' Id='Package_$(var.VsVersion)_003' />
@@ -43,8 +43,8 @@
       </Component>
     </DirectoryRef>
 
-    <CustomAction Id="StyleCopVS10Setup" Property="VS2010DEVENV" ExeCommand="/setup /InstallVSTemplates" Execute="deferred" Return="ignore" Impersonate="no" />
     <PropertyRef Id="VS2010DEVENV" />
+    <CustomActionRef Id="VS2010Setup" />
 
   </Fragment>
 </Wix>
