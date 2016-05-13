@@ -55,9 +55,14 @@ namespace StyleCop
         public const string Vendor = "http://stylecop.codeplex.com";
 
         /// <summary>
-        /// The Plugin description.
+        /// The StyleCop package description.
         /// </summary>
-        public const string Description = "R# plugin for StyleCop. This plugin allows StyleCop to be run as you type, generating real-time syntax highlighting of violations. It also provides a series of Quick-Fixes and Code Clean Up Modules to help automatically fix violations. See http://stylecop.codeplex.com for more info.";
+        public const string Description = "Provides source code style and consistency tools.See http://stylecop.codeplex.com/ for more details.";
+
+        /// <summary>
+        /// The ReSharper plugin description.
+        /// </summary>
+        public const string ReSharperDescription = "R# plugin for StyleCop. This plugin allows StyleCop to be run as you type, generating real-time syntax highlighting of violations. It also provides a series of Quick-Fixes and Code Clean Up Modules to help automatically fix violations. See http://stylecop.codeplex.com for more info.";
 
         #endregion
     }

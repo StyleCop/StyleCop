@@ -17,6 +17,7 @@ namespace StyleCop.VisualStudio
     using System;
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
+    using System.Reflection;
     using System.Runtime.InteropServices;
 
     using Microsoft.VisualStudio;
@@ -30,7 +31,11 @@ namespace StyleCop.VisualStudio
     /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
-    [InstalledProductRegistration(false, "#110", "#112", StyleCop.Constants.ProductVersionFull, IconResourceID = 400)]
+    [InstalledProductRegistration(
+        StyleCop.Constants.ProductName,
+        StyleCop.Constants.Description,
+        StyleCop.Constants.ProductVersionFull,
+        IconResourceID = 400)]
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
     [ProvideAutoLoad(UIContextGuids.NoSolution)]
     [ProvideLoadKey("Standard", "4.7", "StyleCop", "stylecop.codeplex.com", 200)]

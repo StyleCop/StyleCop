@@ -43,4 +43,4 @@ using JetBrains.ReSharper.Daemon;
 [assembly: RegisterConfigurableSeverity("StyleCop.DefaultSeverity", null, HighlightingGroupIds.CodeSmell, "item title", "item description", Severity.WARNING, false)]
 [assembly: PluginTitle(StyleCop.Constants.ProductNameWithVersion)]
 [assembly: PluginVendor(StyleCop.Constants.Vendor)]
-[assembly: PluginDescription(StyleCop.Constants.Description)]
+[assembly: PluginDescription(StyleCop.Constants.ReSharperDescription)]

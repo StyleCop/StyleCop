@@ -29,7 +29,7 @@ namespace StyleCop.VisualStudio
     /// Provides a Visual Studio package for StyleCop.
     /// </summary>
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
+    [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\9.0")]
     [InstalledProductRegistration(false, "#110", "#112", StyleCop.Constants.ProductVersionFull, IconResourceID = 400)]
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
     [ProvideAutoLoad(UIContextGuids.NoSolution)]
