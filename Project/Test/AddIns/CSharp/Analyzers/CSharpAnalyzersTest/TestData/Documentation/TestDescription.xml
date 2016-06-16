@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <StyleCopTestDescription TestName="Documentation">
-  <!--<Test Name="Documentation">
+  <Test Name="Documentation">
     <TestCodeFile>DocumentationClasses.cs</TestCodeFile>
     <TestCodeFile>DocumentationCopiedAndPasted.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructors.cs</TestCodeFile>
@@ -13,7 +13,6 @@
     <TestCodeFile>DocumentationInterfaces.cs</TestCodeFile>
     <TestCodeFile>DocumentationMethods.cs</TestCodeFile>
     <TestCodeFile>DocumentationProperties.cs</TestCodeFile>
-    <TestCodeFile>DocumentationSpelling.cs</TestCodeFile>
     <TestCodeFile>DocumentationStructs.cs</TestCodeFile>
     <TestCodeFile>DocumentationSlashes.cs</TestCodeFile>
     <Settings>
@@ -196,7 +195,7 @@
             </Rule>
             <Rule Name="ElementDocumentationMustBeSpelledCorrectly">
               <RuleSettings>
-                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                <BooleanProperty Name="Enabled">False</BooleanProperty>
               </RuleSettings>
             </Rule>
           </Rules>
@@ -744,7 +743,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the IgnorePrivates setting works properly when it is enabled. --><!--
+  <!-- Tests that the IgnorePrivates setting works properly when it is enabled. -->
   <Test Name="DocumentationIgnorePrivates">
     <TestCodeFile>DocumentationIgnorePrivates.cs</TestCodeFile>
     <Settings>
@@ -1124,7 +1123,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the IncludeFields setting works properly when it is disabled. --><!--
+  <!-- Tests that the IncludeFields setting works properly when it is disabled. -->
   <Test Name="DocumentationIncludeFields">
     <TestCodeFile>DocumentationIncludeFields.cs</TestCodeFile>
     <Settings>
@@ -1316,7 +1315,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the RequireValueTags setting works properly when it is disabled. --><!--
+  <!-- Tests that the RequireValueTags setting works properly when it is disabled. -->
   <Test Name="DocumentationRequireValueTags">
     <TestCodeFile>DocumentationRequireValueTags.cs</TestCodeFile>
     <Settings>
@@ -1355,7 +1354,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the RequireProperFormatting setting works properly when it is disabled. --><!--
+  <!-- Tests that the RequireProperFormatting setting works properly when it is disabled. -->
   <Test Name="DocumentationRequireProperFormatting">
     <TestCodeFile>DocumentationRequireProperFormatting.cs</TestCodeFile>
     <Settings>
@@ -1546,7 +1545,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the RequireCapitalLetter setting works properly when it is disabled. --><!--
+  <!-- Tests that the RequireCapitalLetter setting works properly when it is disabled. -->
   <Test Name="DocumentationRequireCapitalLetter">
     <TestCodeFile>DocumentationRequireCapitalLetter.cs</TestCodeFile>
     <Settings>
@@ -1737,7 +1736,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the RequirePeriod setting works properly when it is disabled. --><!--
+  <!-- Tests that the RequirePeriod setting works properly when it is disabled. -->
   <Test Name="DocumentationRequirePeriod">
     <TestCodeFile>DocumentationRequirePeriod.cs</TestCodeFile>
     <Settings>
@@ -1928,7 +1927,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests constructor summary text rules. --><!--
+  <!-- Tests constructor summary text rules. -->
   <Test Name="DocumentationConstructorSummary">
     <TestCodeFile>DocumentationConstructorSummary.cs</TestCodeFile>
     <TestCodeFile>DocumentationConstructorSummaryDetailed.cs</TestCodeFile>
@@ -2044,7 +2043,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests destructor summary text rules. --><!--
+  <!-- Tests destructor summary text rules. -->
   <Test Name="DocumentationDestructorSummary">
     <TestCodeFile>DocumentationDestructorSummary.cs</TestCodeFile>
     <Settings>
@@ -2091,7 +2090,7 @@
         <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
           <Rules>
             <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
-              --><!-- This rule is enabled here to ensure that it does not fire within the code sections of these headers. --><!--
+              <!-- This rule is enabled here to ensure that it does not fire within the code sections of these headers. -->
               <RuleSettings>
                 <BooleanProperty Name="Enabled">True</BooleanProperty>
               </RuleSettings>
@@ -2113,7 +2112,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that non-public static extern DllImports do not require headers. --><!--
+  <!-- Tests that non-public static extern DllImports do not require headers. -->
   <Test Name="DocumentationDllImports">
     <TestCodeFile>DocumentationExternDllImports.cs</TestCodeFile>
     <Settings>
@@ -2146,7 +2145,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests the use of the 'include' tag in documentation headers. --><!--
+  <!-- Tests the use of the 'include' tag in documentation headers. -->
   <Test Name="IncludedDocumentation">
     <TestCodeFile>IncludedDocumentation.cs</TestCodeFile>
     <Settings>
@@ -3171,7 +3170,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both false. --><!--
+  <!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both false. -->
   <Test Name="DocumentationIgnoresWithEverythingEnforced">
     <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
     <Settings>
@@ -3432,7 +3431,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the correct headers are required when IgnorePrivates is true and IgnoreInternals is false. --><!--
+  <!-- Tests that the correct headers are required when IgnorePrivates is true and IgnoreInternals is false. -->
   <Test Name="DocumentationIgnoresWithPrivatesIgnored">
     <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
     <Settings>
@@ -3671,7 +3670,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the correct headers are required when IgnorePrivates is false and IgnoreInternals is true. --><!--
+  <!-- Tests that the correct headers are required when IgnorePrivates is false and IgnoreInternals is true. -->
   <Test Name="DocumentationIgnoresWithInternalsIgnored">
     <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
     <Settings>
@@ -3898,7 +3897,7 @@
     </ExpectedViolations>
   </Test>
 
-  --><!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both true. --><!--
+  <!-- Tests that the correct headers are required when IgnorePrivates and IgnoreInternals are both true. -->
   <Test Name="DocumentationIgnoresWithInternalsAndPrivatesIgnored">
     <TestCodeFile>DocumentationIgnores.cs</TestCodeFile>
     <Settings>
@@ -4103,7 +4102,7 @@
     </ExpectedViolations>
   </Test>
   
-  --><!-- Tests that the DocumentationGenericTypeParameters --><!--
+  <!-- Tests that the DocumentationGenericTypeParameters -->
   <Test Name="DocumentationGenericTypeParameters">
     <TestCodeFile>DocumentationGenericTypeParameters.cs</TestCodeFile>
     <Settings>
@@ -4157,7 +4156,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" LineNumber="31" Rule="GenericTypeParameterDocumentationMustMatchTypeParameters" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationGenericTypeParameters.Method3`T%int" LineNumber="31" Rule="GenericTypeParameterDocumentationMustHaveText" />
     </ExpectedViolations>
-  </Test>-->
+  </Test>
 
   <!-- DocumentationSpelling.cs custom StyleCop settings -->
   <Test Name="DocumentationSpelling">
