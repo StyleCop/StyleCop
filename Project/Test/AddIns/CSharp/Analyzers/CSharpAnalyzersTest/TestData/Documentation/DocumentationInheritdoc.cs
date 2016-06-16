@@ -194,4 +194,12 @@ namespace CSharpAnalyzersTest.ValidTestData2
             // Inheritdoc is valid here as the other partial class implements an interface
         }
     }
+
+    // Inheritdoc is valid here because of the cref.
+    /// <inheritdoc cref="ICanHasCheezBurger" />
+    public class ValidInheritDoc1
+    {
+        /// <inheritdoc cref="ICanHasCheezBurger.Eat" />
+        public void Method1();
+    }
 }
