@@ -2100,7 +2100,9 @@ namespace StyleCop.CSharp
                 }
                 else if (character == '[')
                 {
-                    if (this.codeReader.Peek(1) != ']')
+                    // ']' indicates that it's a 1-dimensional array, not an indexer
+                    // ',' indicates that it's a multi-dimensional array, not an indexer.
+                    if (this.codeReader.Peek(1) != ']' && this.codeReader.PeekNonWhitespace(1) != ',')
                     {
                         // Check split for null conditional operator.
                         if (!string.IsNullOrEmpty(checkNullCondition.ToString()))

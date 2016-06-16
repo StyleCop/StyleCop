@@ -42,6 +42,10 @@ public class Class1
     {
         return null;
     }
+
+    void Method11(int?[,] arg)
+    {
+    }
 }
 #endregion
 
