@@ -18,6 +18,7 @@
 namespace StyleCop.CSharp
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using System.Xml;
 
@@ -296,13 +297,46 @@ namespace StyleCop.CSharp
         /// <param name="word">
         /// The word to check.
         /// </param>
+        /// <param name="hint">
+        /// A message indicating why the word isn't spelled correctly, or <see langword="null"/> if there is none.
+        /// </param>
         /// <returns>
-        /// True if spelled correct.
+        /// True if spelled correctly; otherwise, False.
         /// </returns>
-        private static bool IsSpelledCorrectly(NamingService namingService, string word)
+        private static bool IsSpelledCorrectly(NamingService namingService, string word, out string hint)
         {
-            return (namingService.GetPreferredAlternateForDeprecatedWord(word) == null) && (namingService.GetCompoundAlternateForDiscreteWord(word) == null)
-                   && (namingService.CheckSpelling(word) != WordSpelling.Unrecognized);
+            string alternate;
+
+            alternate = namingService.GetPreferredAlternateForDeprecatedWord(word);
+            if (alternate != null)
+            {
+                // Deprecated word, preferred alternate should be used.
+                hint = (alternate.Length > 0)
+                        ? string.Format(CultureInfo.InvariantCulture, Strings.SpellingPreferredAlternate, alternate)
+                        : null;
+                return false;
+            }
+
+            alternate = namingService.GetCompoundAlternateForDiscreteWord(word);
+            if (alternate != null)
+            {
+                // Compound alternate should be used.
+                hint = (alternate.Length > 0)
+                        ? string.Format(CultureInfo.InvariantCulture, Strings.SpellingUseCompoundWord, alternate)
+                        : null;
+                return false;
+            }
+
+            if (namingService.CheckSpelling(word) == WordSpelling.Unrecognized)
+            {
+                // Spelling error.
+                hint = null;
+                return false;
+            }
+
+            // No error.
+            hint = null;
+            return true;
         }
 
         /// <summary>
@@ -338,17 +372,25 @@ namespace StyleCop.CSharp
                     {
                         // Ignore words starting and ending with '$'.
                         // Ignore if in our recognized words list or correct spelling
-                        if ((word.StartsWith("$") && word.EndsWith("$")) || (recognizedWords.Contains(word) || IsSpelledCorrectly(namingService, word)))
+                        string hint = null;
+                        if ((word.StartsWith("$") && word.EndsWith("$")) || (recognizedWords.Contains(word) || IsSpelledCorrectly(namingService, word, out hint)))
                         {
                             continue;
                         }
 
+                        // If we already have a spelling error for this element, add a comma to separate them.
                         if (!string.IsNullOrEmpty(spellingError))
                         {
                             spellingError += ", ";
                         }
 
-                        spellingError += word;
+                        spellingError += "'" + word + "'";
+
+                        // Append a hint message to this spelling error if we have one.
+                        if (hint != null && hint.Trim().Length > 0)
+                        {
+                            spellingError += " " + hint;
+                        }
                     }
                     while ((word = parser.NextWord()) != null);
                 }

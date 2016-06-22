@@ -147,6 +147,12 @@
   <data name="Other" xml:space="preserve">
     <value>other</value>
   </data>
+  <data name="SpellingPreferredAlternate" xml:space="preserve">
+    <value>(Preferred alternate: '{0}')</value>
+  </data>
+  <data name="SpellingUseCompoundWord" xml:space="preserve">
+    <value>(Use compound word '{0}')</value>
+  </data>
   <data name="Static" xml:space="preserve">
     <value>static</value>
   </data>
