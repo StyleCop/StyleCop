@@ -187,7 +187,7 @@ namespace StyleCop.CSharp
 
                 namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Path));
 
-                namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Project.Location));
+                namingService.AddDictionaryFolder(document.SourceCode.Project.Location);
 
                 this.CheckElementDocumentation(csdocument);
                 this.CheckFileHeader(csdocument);
