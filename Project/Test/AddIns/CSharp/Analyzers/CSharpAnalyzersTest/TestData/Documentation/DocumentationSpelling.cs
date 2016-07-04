@@ -44,5 +44,15 @@
         {
 
         }
+
+        /// <summary>
+        /// This method documents two thrown exceptions, and the second one has a spelling error.
+        /// </summary>
+        /// <exception cref="System.ArgumentException">You lost the argument.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">This text contains a misspelling of the word mispelled.</exception>
+        public void TheSecondExceptionElementHasMisspelledText()
+        {
+
+        }
     }
 }
