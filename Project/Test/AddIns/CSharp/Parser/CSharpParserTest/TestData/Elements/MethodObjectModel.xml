@@ -19,6 +19,7 @@
           <Expression Text="null" Type="LiteralExpression" />
         </Statement>
       </Element>
+      <Element Name="Method11" Type="Method" />
     </Element>
     <Element Name="Class2" Type="Class">
       <Element Name="MethodWithTypeConstraint1&lt;T&gt;" Type="Method">

@@ -123,6 +123,16 @@
           </Expression>
         </Statement>
       </Element>
+      <Element Name="d" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int?[,]" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="d" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
     </Element>
     <Element Name="Class3" Type="Class">
       <Element Name="a" Type="Field">

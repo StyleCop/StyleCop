@@ -20,6 +20,8 @@ public class Class2
     int? b = true;
 
     SomeType<bool, SomeOtherType<int, short[][,,]>> c = new SomeType<bool, SomeOtherType<int, short[][,,]>>(4);
+
+    int?[,] d;
 }
 
 public class Class3
