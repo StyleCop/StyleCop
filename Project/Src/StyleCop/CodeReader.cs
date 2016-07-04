@@ -114,6 +114,35 @@ namespace StyleCop
         }
 
         /// <summary>
+        /// Gets the next non-whitespace character from the code without advancing the internal pointer.
+        /// </summary>
+        /// <param name="index">
+        /// The index of the character to retrieve, advanced from the current index.
+        /// </param>
+        /// <returns>
+        /// Returns the next non-whitespace character from the code or <see cref="char.MinValue"/> if there are no more 
+        /// non-whitespace characters to read.
+        /// </returns>
+        public char PeekNonWhitespace(int index)
+        {
+            Param.Ignore(index);
+
+            while (true)
+            {
+                char currChar = this.Peek(index);
+
+                if (char.IsWhiteSpace(currChar) == false)
+                {
+                    // Found a non-whitespace character (could be char.MinValue) - return it.
+                    return currChar;
+                }
+
+                // Keep looping.
+                index++;
+            }
+        }
+
+        /// <summary>
         /// Reads the next character from the code and advances the internal index.
         /// </summary>
         /// <returns>Returns the next character from the code or char.MinValue if there are no more characters to read.</returns>

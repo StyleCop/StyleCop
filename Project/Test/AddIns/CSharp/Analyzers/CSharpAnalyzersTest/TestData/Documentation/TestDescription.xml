@@ -4185,6 +4185,7 @@
     </Settings>
     <ExpectedViolations>
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationSpelling.TheWordMisspelledIsMisspelledInTheTextInTheSummary" LineNumber="19" Rule="ElementDocumentationMustBeSpelledCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Documentation.DocumentationSpelling.TheSecondExceptionElementHasMisspelledText" LineNumber="53" Rule="ElementDocumentationMustBeSpelledCorrectly" />
     </ExpectedViolations>
   </Test>
 </StyleCopTestDescription>

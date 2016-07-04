@@ -187,7 +187,7 @@ namespace StyleCop.CSharp
 
                 namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Path));
 
-                namingService.AddDictionaryFolder(Path.GetDirectoryName(document.SourceCode.Project.Location));
+                namingService.AddDictionaryFolder(document.SourceCode.Project.Location);
 
                 this.CheckElementDocumentation(csdocument);
                 this.CheckFileHeader(csdocument);
@@ -2078,10 +2078,10 @@ namespace StyleCop.CSharp
                 this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "permission");
             }
 
-            xmlNode = formattedDocs.SelectSingleNode("root/exception");
-            if (xmlNode != null)
+            XmlNodeList exceptionNodes = formattedDocs.SelectNodes("root/exception");
+            foreach (XmlNode exceptionNode in exceptionNodes)
             {
-                this.CheckDocumentationValidity(element, element.LineNumber, xmlNode, "exception");
+                this.CheckDocumentationValidity(element, element.LineNumber, exceptionNode, "exception");
             }
         }
 
