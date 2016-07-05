@@ -2911,86 +2911,118 @@ namespace StyleCop.CSharp
 
             this.LoadHeaderIntoDocuments(element, header, lineNumber, out rawDocs, out formattedDocs);
 
-            if (rawDocs != null && formattedDocs != null)
+            if (rawDocs == null || formattedDocs == null)
             {
-                // Check whether the method has an <inheritdoc> tag at the root. If so, discontinue checking the contents of the header, 
-                // but verify that the class actually inherits from a base class. Otherwise this tag is not allowed.
-                XmlNode inheritDocNode = rawDocs.SelectSingleNode("root/inheritdoc");
-                if (inheritDocNode != null)
-                {
-                    // Don't check inheritdoc rules if the tag contains a cref attribute. The C# compiler will already warn
-                    // if the cref target is invalid, so we don't need to worry about doing it ourselves.
-                    bool hasCrefAttr = inheritDocNode.Attributes.OfType<XmlAttribute>().Any(attr => attr.Name == "cref");
-                    if (hasCrefAttr == false)
-                    {
-                        this.CheckInheritDocRules(element);
-                    }
-                }
-                else
-                {
-                    // Insert any documentation present in 'include' tags.
-                    if (this.InsertIncludedDocumentation(element, formattedDocs))
-                    {
-                        this.CheckForBlankLinesInDocumentationHeader(element, header);
-                        this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
-                        this.CheckHeaderElementsForEmptyText(element, formattedDocs);
-
-                        // Check element parameters and return types.
-                        if (element.ElementType == ElementType.Method)
-                        {
-                            Method item = element as Method;
-                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
-                        }
-                        else if (element.ElementType == ElementType.Constructor)
-                        {
-                            Constructor item = element as Constructor;
-                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                            this.CheckConstructorSummaryText(item, formattedDocs);
-                        }
-                        else if (element.ElementType == ElementType.Delegate)
-                        {
-                            Delegate item = element as Delegate;
-                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
-                        }
-                        else if (element.ElementType == ElementType.Indexer)
-                        {
-                            Indexer item = element as Indexer;
-                            this.CheckHeaderParams(element, item.Parameters, formattedDocs);
-                            this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
-                        }
-                        else if (element.ElementType == ElementType.Property)
-                        {
-                            // Check value tags on properties.
-                            this.CheckPropertyValueTag(element, formattedDocs);
-
-                            // Check that the property summary starts with the correct text.
-                            this.CheckPropertySummaryFormatting(element as Property, formattedDocs);
-                        }
-                        else if (element.ElementType == ElementType.Destructor)
-                        {
-                            this.CheckDestructorSummaryText((Destructor)element, formattedDocs);
-                        }
-
-                        // Check for repeating comments on all element types which can contain params or typeparams.
-                        if (element.ElementType == ElementType.Method || element.ElementType == ElementType.Constructor || element.ElementType == ElementType.Delegate
-                            || element.ElementType == ElementType.Indexer || element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct
-                            || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Property || element.ElementType == ElementType.Event
-                            || element.ElementType == ElementType.Field || element.ElementType == ElementType.Destructor)
-                        {
-                            this.CheckForRepeatingComments(element, formattedDocs);
-                        }
-
-                        // Check generic type parameters.
-                        if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Method || element.ElementType == ElementType.Delegate
-                            || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
-                        {
-                            this.CheckGenericTypeParams(element, formattedDocs);
-                        }
-                    }
-                }
+                // There was an error loading the documentation header. This will be reported as its own violation,
+                // and we have nothing to check.
+                return;
             }
+
+            // Check whether the header has an <exclude> tag at the root. If so, discontinue checking the contents of the header.
+            if (this.HasExcludeTag(formattedDocs))
+            {
+                // Exclude tag detected - skip this documentation header.
+                return;
+            }
+
+            // Check whether the method has an <inheritdoc> tag at the root. If so, discontinue checking the contents of the header, 
+            // but verify that the class actually inherits from a base class. Otherwise this tag is not allowed.
+            XmlNode inheritDocNode = rawDocs.SelectSingleNode("root/inheritdoc");
+            if (inheritDocNode != null)
+            {
+                // Don't check inheritdoc rules if the tag contains a cref attribute. The C# compiler will already warn
+                // if the cref target is invalid, so we don't need to worry about doing it ourselves.
+                bool hasCrefAttr = inheritDocNode.Attributes.OfType<XmlAttribute>().Any(attr => attr.Name == "cref");
+                if (hasCrefAttr == false)
+                {
+                    this.CheckInheritDocRules(element);
+                }
+
+                return;
+            }
+
+            // Insert any documentation present in 'include' tags.
+            if (this.InsertIncludedDocumentation(element, formattedDocs) == false)
+            {
+                // Error inserting included documentation. This will be reported as its own violation,
+                // so we don't need to process the rest of the documentation header.
+                return;
+            }
+
+            //////////////////////////////////////////////////////////////////////
+            // All checks passed - proceed with checking the documentation header.
+            //////////////////////////////////////////////////////////////////////
+
+            this.CheckForBlankLinesInDocumentationHeader(element, header);
+            this.CheckHeaderSummary(element, lineNumber, partialElement, formattedDocs);
+            this.CheckHeaderElementsForEmptyText(element, formattedDocs);
+
+            // Check element parameters and return types.
+            if (element.ElementType == ElementType.Method)
+            {
+                Method item = element as Method;
+                this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
+            }
+            else if (element.ElementType == ElementType.Constructor)
+            {
+                Constructor item = element as Constructor;
+                this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                this.CheckConstructorSummaryText(item, formattedDocs);
+            }
+            else if (element.ElementType == ElementType.Delegate)
+            {
+                Delegate item = element as Delegate;
+                this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
+            }
+            else if (element.ElementType == ElementType.Indexer)
+            {
+                Indexer item = element as Indexer;
+                this.CheckHeaderParams(element, item.Parameters, formattedDocs);
+                this.CheckHeaderReturnValue(element, item.ReturnType, formattedDocs);
+            }
+            else if (element.ElementType == ElementType.Property)
+            {
+                // Check value tags on properties.
+                this.CheckPropertyValueTag(element, formattedDocs);
+
+                // Check that the property summary starts with the correct text.
+                this.CheckPropertySummaryFormatting(element as Property, formattedDocs);
+            }
+            else if (element.ElementType == ElementType.Destructor)
+            {
+                this.CheckDestructorSummaryText((Destructor)element, formattedDocs);
+            }
+
+            // Check for repeating comments on all element types which can contain params or typeparams.
+            if (element.ElementType == ElementType.Method || element.ElementType == ElementType.Constructor || element.ElementType == ElementType.Delegate
+                || element.ElementType == ElementType.Indexer || element.ElementType == ElementType.Class || element.ElementType == ElementType.Struct
+                || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Property || element.ElementType == ElementType.Event
+                || element.ElementType == ElementType.Field || element.ElementType == ElementType.Destructor)
+            {
+                this.CheckForRepeatingComments(element, formattedDocs);
+            }
+
+            // Check generic type parameters.
+            if (element.ElementType == ElementType.Class || element.ElementType == ElementType.Method || element.ElementType == ElementType.Delegate
+                || element.ElementType == ElementType.Interface || element.ElementType == ElementType.Struct)
+            {
+                this.CheckGenericTypeParams(element, formattedDocs);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether an <c>exclude</c> tag exists in the documentation.
+        /// </summary>
+        /// <param name="formattedDocs">The XML documentation to check.</param>
+        /// <returns>
+        ///   <see langword="true" /> if an exclude tag is present; otherwise, <see langword="false" />.
+        /// </returns>
+        private bool HasExcludeTag(XmlDocument formattedDocs)
+        {
+            XmlNode exclude = formattedDocs.SelectSingleNode("root/exclude");
+            return exclude != null;
         }
 
         /// <summary>

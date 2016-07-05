@@ -457,4 +457,10 @@ namespace CSharpAnalyzersTest.TestData
             }
         }
     }
+
+    /// <exclude />
+    public class ExcludedClassDocs
+    {
+        // Ensures that classes with "/// <exclude />" don't get flagged for documentation checks.
+    }
 }
