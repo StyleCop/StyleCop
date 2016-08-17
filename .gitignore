@@ -1,0 +1,9 @@
+obj/
+bin/
+*.user
+*.cache
+*.suo
+Project/packages/
+TestBin/
+*.nupkg
+
