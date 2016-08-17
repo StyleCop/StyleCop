@@ -19,7 +19,7 @@ namespace PerfHarness
     using StyleCop;
 
     /// <summary>
-    /// The main entrypoint to the application.
+    /// The main entry point to the application.
     /// </summary>
     public static class Program
     {
