@@ -3,6 +3,7 @@ bin/
 *.user
 *.cache
 *.suo
+BuildDrop/
 Project/packages/
 TestBin/
 *.nupkg
