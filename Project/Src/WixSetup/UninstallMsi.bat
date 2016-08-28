@@ -1,1 +1,0 @@
-@CALL %~dp0..\..\..\tools\scripts\UnInstallProduct.cmd $*

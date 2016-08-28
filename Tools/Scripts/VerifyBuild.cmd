@@ -29,13 +29,6 @@ ECHO Usage:
 Echo VerifyBuild.cmd [-Retail] [-Docs]
 
 Echo.
-ECHO **** Uninstall product BEGIN *********************************************
-msiexec  /qb-! /x {3175553C-88D5-453B-93CB-4012A827533A} /quiet /l*v %~dp0Log.Uninstall.txt NOVSSHUTDOWNCHECK=1
-echo Logged uninstall result to %~dp0\Log.Uninstall.txt 
-
-ECHO **** Uninstall product END ***********************************************
-
-Echo.
 ECHO **** Purge enlistment BEGIN **********************************************
 Echo Purge enlistment
 CALL %~dp0\Purger.cmd
@@ -56,17 +49,6 @@ IF EXIST %~dp0..\..\Project\%BuildLogFile%.err DEL /F /Q %~dp0..\..\Project\%Bui
 CALL "%programfiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" %~dp0..\..\Project\StyleCop.sln /p:VisualStudioVersion=14.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %~dp0..\..\Project\%BuildLogFile%.err
 CALL %~dp0\DeleteEmptyFile.cmd %~dp0..\..\Project\%BuildLogFile%.wrn
-IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
-
-REM Build Setup Solution
-IF EXIST %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.wrn DEL /F /Q %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.wrn
-IF EXIST %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.err DEL /F /Q %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.err
-
-SET WixBuildTarget=%BuildTarget%
-
-CALL "%windir%\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe" %~dp0..\..\Project\src\wixsetup\StyleCop.Wix.sln /p:Configuration=%WixBuildTarget% /flp1:warningsonly;logfile=%~dp0..\..\Project\src\wixsetup\%buildlogfile%.wrn /flp2:errorsonly;logfile=%~dp0..\..\Project\src\wixsetup\%buildlogfile%.err
-IF "%ERRORLEVEL%" == "0" DEL /F /Q %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.err
-CALL %~dp0\DeleteEmptyFile.cmd %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 
 ECHO **** Build %BuildTarget% END ***************************************************

@@ -10,7 +10,6 @@ rd /s /q %~dp0..\..\Project\Src\SettingsEditor\obj
 rd /s /q %~dp0..\..\Project\Src\StyleCop\bin
 rd /s /q %~dp0..\..\Project\Src\StyleCop\obj
 rd /s /q %~dp0..\..\Project\Src\VSPackage\obj
-rd /s /q %~dp0..\..\Project\Src\WixSetup\obj
 rd /s /q %~dp0..\..\Project\Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\bin
 rd /s /q %~dp0..\..\Project\Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\obj
 rd /s /q %~dp0..\..\Project\Test\AddIns\CSharp\Parser\CSharpParserTest\bin
