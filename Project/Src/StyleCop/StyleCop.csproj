@@ -315,7 +315,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="$(SolutionDir)..\Tools\StyleCop\v4.7\StyleCop.Targets" />
+  <Import Project="..\..\..\Tools\StyleCop\StyleCop.Targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"</PostBuildEvent>
   </PropertyGroup>
