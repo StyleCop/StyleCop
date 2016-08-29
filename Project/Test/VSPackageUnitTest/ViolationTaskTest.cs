@@ -293,7 +293,7 @@ namespace VSPackageUnitTest
         {
             return (AnalysisHelper)typeof(StyleCopVSPackage)
                 .GetProperty("Helper", BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(this.package);
+                .GetValue(this.package, null);
         }
 
         private void SetupProjectUtilities(

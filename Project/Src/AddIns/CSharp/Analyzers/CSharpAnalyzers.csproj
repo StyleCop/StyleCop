@@ -11,7 +11,7 @@
     <RootNamespace>StyleCop.CSharp</RootNamespace>
     <AssemblyName>StyleCop.CSharp.Rules</AssemblyName>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -60,8 +60,6 @@
     <DocumentationFile>..\..\..\..\BuildDrop\Release\StyleCop.CSharp.Rules.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Build.Framework" />
-    <Reference Include="Microsoft.Build.Utilities.v3.5" />
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />

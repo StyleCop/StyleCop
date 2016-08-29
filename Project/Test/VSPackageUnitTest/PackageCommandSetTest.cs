@@ -60,10 +60,10 @@ namespace VSPackageUnitTest
             PackageCommandSet target = new PackageCommandSet(this.mockServiceProvider.Instance);
             CommandSet innerTarget = new PackageCommandSet(this.mockServiceProvider.Instance);
             Assert.IsNotNull(typeof(PackageCommandSet).GetProperty("CommandList", BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(innerTarget),
+                .GetValue(innerTarget, null),
                 "CommandList was not created.");
             Assert.IsNotNull(typeof(PackageCommandSet).GetProperty("ServiceProvider", BindingFlags.NonPublic | BindingFlags.Instance)
-                .GetValue(innerTarget),
+                .GetValue(innerTarget, null),
                 "Service provider not stored by the constructor");
         }
 

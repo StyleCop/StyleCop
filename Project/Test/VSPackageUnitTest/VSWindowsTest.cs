@@ -54,7 +54,7 @@ namespace VSPackageUnitTest
         {
             VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
             Assert.IsNotNull(typeof(VSWindows).GetProperty("DTE", BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetValue(actual), "DTE property was null");
+                .GetValue(actual, null), "DTE property was null");
         }
 
         /// <summary>

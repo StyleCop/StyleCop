@@ -20,7 +20,7 @@
         <Edition>Community</Edition>
       </VisualStudio>
     </SupportedProducts>    
-    <SupportedFrameworkRuntimeEdition MinVersion="3.5" MaxVersion="4.6" />
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.6.2" />
   </Identifier>
   <References />
   <Content>
