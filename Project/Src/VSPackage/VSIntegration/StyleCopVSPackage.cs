@@ -32,13 +32,13 @@ namespace StyleCop.VisualStudio
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [DefaultRegistryRoot("Software\\Microsoft\\VisualStudio\\10.0")]
     [InstalledProductRegistration(
-        StyleCop.Constants.ProductName,
-        StyleCop.Constants.Description,
-        StyleCop.Constants.ProductVersionFull,
+        "StyleCop",
+        "Provides source code style and consistency tools. For more information, see https://github.com/StyleCop/StyleCop.",
+        "5.0",
         IconResourceID = 400)]
     [ProvideAutoLoad(UIContextGuids.SolutionExists)]
     [ProvideAutoLoad(UIContextGuids.NoSolution)]
-    [ProvideLoadKey("Standard", "4.7", "StyleCop", "stylecop.codeplex.com", 200)]
+    [ProvideLoadKey("Standard", "5.0", "StyleCop", "StyleCop", 200)]
     [ProvideMenuResource(1000, 1)]
     [Guid(GuidList.StyleCopPackageIdString)]
     [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "The class is complex.")]

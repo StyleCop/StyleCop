@@ -554,7 +554,7 @@ namespace StyleCop.VisualStudio
 
                     violationInfo.Severity = e.SourceCode.Project.ViolationsAsErrors ? TaskErrorCategory.Error : TaskErrorCategory.Warning;
 
-                    var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
+                    var trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter("StyleCop.", StringComparison.Ordinal);
                     trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
 
                     violationInfo.Description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);

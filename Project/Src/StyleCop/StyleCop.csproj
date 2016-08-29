@@ -83,9 +83,6 @@
     <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
-    <Compile Include="..\Constants.cs">
-      <Link>Properties\Constants.cs</Link>
-    </Compile>
     <Compile Include="AlertDialog.cs" />
     <Compile Include="AddSettingsPagesEventArgs.cs" />
     <Compile Include="CodeLocation.cs" />
