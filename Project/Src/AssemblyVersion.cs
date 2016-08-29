@@ -18,6 +18,6 @@
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("4.7.1000.0")] // Fixed at 4.7.1000.0 until version 5.
-
-[assembly: AssemblyFileVersion("4.7.54.0")]
+[assembly: AssemblyVersion("5.0.0.0")]
+[assembly: AssemblyFileVersion("5.0.0.0")]
+[assembly: AssemblyInformationalVersion("5.0.0-alpha01")]

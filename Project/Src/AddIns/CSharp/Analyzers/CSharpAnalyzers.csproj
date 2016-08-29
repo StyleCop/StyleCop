@@ -214,6 +214,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="CSharpAnalyzers.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\..\Tools\StyleCop\StyleCop.Targets" />
@@ -226,7 +227,11 @@
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">
-	Dont use this here - Used in StyleCop.Shipping.Targets
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot; pack &quot;$(ProjectFileName)&quot; -BasePath &quot;$(OutDir) &quot; -IncludeReferencedProjects -OutputDirectory &quot;$(OutDir) &quot; -Properties Configuration=$(Configuration)" WorkingDirectory="$(ProjectDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
 </Project>

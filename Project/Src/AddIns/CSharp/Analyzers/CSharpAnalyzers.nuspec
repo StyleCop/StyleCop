@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop.Rules</id>
+    <version>$version$</version>
+    <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
+    <description>StyleCop rules that can be incorporated into other projects (such as ReSharper).</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
+    <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
+  </metadata>
+  <files>
+    <file src="mssp7en.dll" target="content" />
+    <file src="mssp7en.lex" target="content" />
+    <file src="Settings.StyleCop" target="content" />
+    <file src="de-DE\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\de-DE" />
+    <file src="en-GB\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\en-GB" />
+    <file src="es-MX\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\es-MX" />
+    <file src="fr-FR\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\fr-FR" />
+    <file src="pl-PL\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\pl-PL" />
+    <file src="pt-BR\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\pt-BR" />
+    <file src="ru-RU\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\ru-RU" />
+  </files>
+</package>

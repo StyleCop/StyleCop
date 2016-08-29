@@ -313,9 +313,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="StyleCop.nuspec">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="CSharpParser.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\..\..\Tools\StyleCop\StyleCop.Targets" />
@@ -327,7 +325,7 @@
     <GetAssemblyIdentity AssemblyFiles="$(OutDir)\$(AssemblyName).dll">
       <Output TaskParameter="Assemblies" ItemName="AnalyzerAssemblyInfo" />
     </GetAssemblyIdentity>
-    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot; pack StyleCop.nuspec -NoPackageAnalysis -OutputDirectory ." WorkingDirectory="$(OutDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot; pack &quot;$(ProjectFileName)&quot; -BasePath &quot;$(OutDir) &quot; -IncludeReferencedProjects -OutputDirectory &quot;$(OutDir) &quot; -Properties Configuration=$(Configuration)" WorkingDirectory="$(ProjectDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>

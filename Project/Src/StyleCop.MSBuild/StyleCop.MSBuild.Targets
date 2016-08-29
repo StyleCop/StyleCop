@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Specify where tasks are implemented. -->
-  <UsingTask AssemblyFile="$(MSBuildExtensionsPath)\..\StyleCop 4.7\StyleCop.dll" TaskName="StyleCopTask"/>
+  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\tools\StyleCop.dll" TaskName="StyleCopTask"/>
 
   <PropertyGroup>
     <BuildDependsOn>$(BuildDependsOn);StyleCop</BuildDependsOn>
@@ -42,6 +42,9 @@
   <!-- Define StyleCopOverrideSettingsFile property. -->
   <PropertyGroup Condition="('$(SourceAnalysisOverrideSettingsFile)' != '') and ('$(StyleCopOverrideSettingsFile)' == '')">
     <StyleCopOverrideSettingsFile>$(SourceAnalysisOverrideSettingsFile)</StyleCopOverrideSettingsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(StyleCopOverrideSettingsFile)' == '' and Exists('$(AppData)\StyleCop\settings.StyleCop')">
+    <StyleCopOverrideSettingsFile>$(AppData)\StyleCop\settings.StyleCop</StyleCopOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(StyleCopOverrideSettingsFile)' == ''">
     <StyleCopOverrideSettingsFile> </StyleCopOverrideSettingsFile>

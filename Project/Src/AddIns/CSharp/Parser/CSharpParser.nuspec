@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop</id>
+    <version>$version$</version>
+    <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
+    <description>StyleCop libraries that can be used to create custom rules.</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
+    <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
+  </metadata>
+</package>

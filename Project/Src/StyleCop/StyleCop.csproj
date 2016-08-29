@@ -289,12 +289,6 @@
     <EmbeddedResource Include="StyleCopAddIn.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="StyleCop.Targets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="mssp7en.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

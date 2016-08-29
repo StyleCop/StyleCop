@@ -1,7 +1,5 @@
 @ECHO OFF
 
-SET /p AssemblyVersion=<"%~dp0..\..\Project\src\AssemblyVersion.txt"
-
 REM Default value for parameters
 SET BuildTarget=Debug
 SET BuildDocs=0
@@ -58,16 +56,6 @@ ECHO **** Run tests BEGIN ******************************************************
 CALL "%programfiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" /Platform:x86 /Framework:framework40 %~dp0..\..\Project\Test\TestBin\Release\CSharpAnalyzersTest.dll %~dp0..\..\Project\Test\TestBin\Release\CSharpParserTest.dll %~dp0..\..\Project\Test\TestBin\Release\CSharpParserTestRules.dll %~dp0..\..\Project\Test\TestBin\Release\ObjectBasedEnvironmentTest.dll %~dp0..\..\Project\Test\TestBin\Release\StyleCop.Test.dll %~dp0..\..\Project\Test\TestBin\Release\VSPackageUnitTest.dll
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 ECHO **** Run tests END *************************************************************
-
-:NUGET
-REM Copy NuGet packages to InstallDrop folder
-COPY "%~dp0..\..\Project\BuildDrop\%BuildTarget%\*.nupkg" "%~dp0..\..\Project\InstallDrop\%BuildTarget%"
-
-:RELEASENOTES
-CALL "hg.exe" log >%~dp0..\..\Project\BuildDrop\%BuildTarget%\ChangeHistory.txt
-CALL %~dp0..\HgReleaseNotesGen\HgReleaseNotesGen.exe %~dp0..\..\Project\BuildDrop\%BuildTarget%\ChangeHistory.txt %~dp0..\..\Project\Docs\ReleaseHistory.txt %~dp0..\..\Project\InstallDrop\%BuildTarget%\ReleaseNotes.txt
-
-echo Done.
 
 :SUMMARY
 
