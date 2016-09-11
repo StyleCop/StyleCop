@@ -1,9 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings
-  id="8146dae7-c24c-4ad0-a5af-6e29301eeffe"
-  name="StyleCop"
-  enableDefaultDataCollectors="false"
-  xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Description><!--_locID_text="Description1"-->These are default test settings for a local test run.</Description>
-  <Deployment enabled="false" />
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestSettings name="StyleCop" id="8146dae7-c24c-4ad0-a5af-6e29301eeffe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>These are default test settings for a local test run.</Description>
+  <Execution>
+    <TestTypeSpecific>
+      <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+        <AssemblyResolution>
+          <TestDirectory useLoadContext="true" />
+        </AssemblyResolution>
+      </UnitTestRunConfig>
+    </TestTypeSpecific>
+    <AgentRule name="Execution Agents">
+    </AgentRule>
+  </Execution>
+  <Properties />
 </TestSettings>
