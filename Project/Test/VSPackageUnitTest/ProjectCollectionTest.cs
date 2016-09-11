@@ -23,9 +23,8 @@ namespace VSPackageUnitTest
 
     using EnvDTE;
 
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop.VisualStudio;
 
     /// <summary>
@@ -88,11 +87,11 @@ namespace VSPackageUnitTest
         public void GetEnumeratorSelectedProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
-            Mock<IEnumerable> mockEnumerable = new Mock<IEnumerable>();
-            Mock<IEnumerator> mockEnumerator = new Mock<IEnumerator>();
-            IEnumerator expected = mockEnumerator.Instance;
-            mockEnumerable.ImplementExpr(e => e.GetEnumerator(), expected);
-            target.SelectedProjects = mockEnumerable.Instance;
+            Mock<IEnumerable> mockEnumerable = new Mock<IEnumerable>(MockBehavior.Strict);
+            Mock<IEnumerator> mockEnumerator = new Mock<IEnumerator>(MockBehavior.Strict);
+            IEnumerator expected = mockEnumerator.Object;
+            mockEnumerable.Setup(e => e.GetEnumerator()).Returns(expected);
+            target.SelectedProjects = mockEnumerable.Object;
             IEnumerator actual;
             actual = target.GetEnumerator();
             Assert.AreEqual(expected, actual);
@@ -105,13 +104,13 @@ namespace VSPackageUnitTest
         public void GetEnumeratorSolutionProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
-            Mock<IEnumerable> mockEnumerable = new Mock<IEnumerable>();
-            Mock<IEnumerator> mockEnumerator = new Mock<IEnumerator>();
-            Mock<Projects> mockProjects = new Mock<Projects>();
-            IEnumerator expected = mockEnumerator.Instance;
-            mockProjects.ImplementExpr(p => p.GetEnumerator(), expected);
-            mockEnumerable.ImplementExpr(e => e.GetEnumerator(), expected);
-            target.SolutionProjects = mockProjects.Instance;
+            Mock<IEnumerable> mockEnumerable = new Mock<IEnumerable>(MockBehavior.Strict);
+            Mock<IEnumerator> mockEnumerator = new Mock<IEnumerator>(MockBehavior.Strict);
+            Mock<Projects> mockProjects = new Mock<Projects>(MockBehavior.Strict);
+            IEnumerator expected = mockEnumerator.Object;
+            mockProjects.Setup(p => p.GetEnumerator()).Returns(expected);
+            mockEnumerable.Setup(e => e.GetEnumerator()).Returns(expected);
+            target.SolutionProjects = mockProjects.Object;
             IEnumerator actual;
             actual = target.GetEnumerator();
             Assert.AreEqual(expected, actual);
@@ -124,7 +123,7 @@ namespace VSPackageUnitTest
         public void SelectedProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
-            IEnumerable expected = new Mock<IEnumerable>().Instance;
+            IEnumerable expected = new Mock<IEnumerable>(MockBehavior.Strict).Object;
             IEnumerable actual;
             target.SelectedProjects = expected;
             actual = target.SelectedProjects;
@@ -138,8 +137,8 @@ namespace VSPackageUnitTest
         public void SolutionProjectsTest()
         {
             ProjectCollection target = new ProjectCollection();
-            Mock<Projects> mockProjects = new Mock<Projects>();
-            Projects expected = mockProjects.Instance;
+            Mock<Projects> mockProjects = new Mock<Projects>(MockBehavior.Strict);
+            Projects expected = mockProjects.Object;
             Projects actual;
             target.SolutionProjects = expected;
             actual = target.SolutionProjects;

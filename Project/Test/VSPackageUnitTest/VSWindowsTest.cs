@@ -21,12 +21,11 @@ namespace VSPackageUnitTest
 {
     using System;
     using System.Reflection;
-	
+
     using EnvDTE;
 
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
@@ -97,12 +96,12 @@ namespace VSPackageUnitTest
         {
             // Setup
             Mock<Window> mockWindow = this.SetupMockWindow();
-            Mock<OutputWindow> mockOutputWindow = new Mock<OutputWindow>();
-            mockWindow.ImplementExpr(w => w.Object, (EnvDTE.OutputWindow)mockOutputWindow.Instance);
-            Mock<OutputWindowPane> mockOutputWindowPane = new Mock<OutputWindowPane>();
-            Mock<OutputWindowPanes> mockOutputWindowPanes = new Mock<OutputWindowPanes>();
-            mockOutputWindow.ImplementExpr(ow => ow.OutputWindowPanes, (EnvDTE.OutputWindowPanes)mockOutputWindowPanes.Instance);
-            mockOutputWindowPanes.ImplementExpr(owp => owp.Add("StyleCop"), (EnvDTE.OutputWindowPane)mockOutputWindowPane.Instance);
+            Mock<OutputWindow> mockOutputWindow = new Mock<OutputWindow>(MockBehavior.Strict);
+            mockWindow.SetupGet(w => w.Object).Returns(mockOutputWindow.Object);
+            Mock<OutputWindowPane> mockOutputWindowPane = new Mock<OutputWindowPane>(MockBehavior.Strict);
+            Mock<OutputWindowPanes> mockOutputWindowPanes = new Mock<OutputWindowPanes>(MockBehavior.Strict);
+            mockOutputWindow.SetupGet(ow => ow.OutputWindowPanes).Returns((EnvDTE.OutputWindowPanes)mockOutputWindowPanes.Object);
+            mockOutputWindowPanes.Setup(owp => owp.Add("StyleCop")).Returns((EnvDTE.OutputWindowPane)mockOutputWindowPane.Object);
 
             // Call
             VSWindows actual = VSWindows.GetInstance(this.serviceProvider);
@@ -133,10 +132,10 @@ namespace VSPackageUnitTest
 
         private Mock<Window> SetupMockWindow()
         {
-            Mock<Windows> mockWindows = new Mock<Windows>();
-            Mock<Window> mockWindow = new Mock<Window>();
-            mockWindows.ImplementExpr(ws => ws.Item(EnvDTE.Constants.vsWindowKindOutput), (EnvDTE.Window)mockWindow.Instance);
-            this.serviceProvider.DTE.Windows = mockWindows.Instance as EnvDTE.Windows;
+            Mock<Windows> mockWindows = new Mock<Windows>(MockBehavior.Strict);
+            Mock<Window> mockWindow = new Mock<Window>(MockBehavior.Strict);
+            mockWindows.Setup(ws => ws.Item(Constants.vsWindowKindOutput)).Returns(mockWindow.Object);
+            this.serviceProvider.DTE.Windows = mockWindows.Object;
             return mockWindow;
         }
 

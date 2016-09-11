@@ -19,8 +19,8 @@ namespace VSPackageUnitTest
     using System.Reflection;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
     using StyleCop.VisualStudio;
     using VSPackageUnitTest.Mocks;
 
@@ -135,11 +135,11 @@ namespace VSPackageUnitTest
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
-            var mockUpdateSolutionEvents = new Mock<IVsUpdateSolutionEvents>();
+            var mockUpdateSolutionEvents = new Mock<IVsUpdateSolutionEvents>(MockBehavior.Strict);
             UpdateSolutionListener target = new UpdateSolutionListener(serviceProvider);
 
             uint cookie = 0;
-            ((IVsSolutionBuildManager)serviceProvider.GetService(typeof(SVsSolutionBuildManager))).AdviseUpdateSolutionEvents(mockUpdateSolutionEvents.Instance as IVsUpdateSolutionEvents, out cookie);
+            ((IVsSolutionBuildManager)serviceProvider.GetService(typeof(SVsSolutionBuildManager))).AdviseUpdateSolutionEvents(mockUpdateSolutionEvents.Object, out cookie);
             Debug.Assert(cookie == 1);
 
             target.GetType()

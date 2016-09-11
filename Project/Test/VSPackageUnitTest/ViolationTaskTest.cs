@@ -27,14 +27,13 @@ namespace VSPackageUnitTest
 
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop;
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
-    
+
     /// <summary>
     /// This is a test class for ViolationTaskTest and is intended
     ///  to contain all ViolationTaskTest Unit Tests
@@ -99,7 +98,7 @@ namespace VSPackageUnitTest
             // Creating a package will set the factory service provider.
             this.package = new StyleCopVSPackage();
 
-            this.mockServiceProvider = new Mock<IServiceProvider>();
+            this.mockServiceProvider = new Mock<IServiceProvider>(MockBehavior.Strict);
             this.violation = CreateDummyViolationInfo();
 
             this.package.Core.DisplayUI = false;
@@ -114,9 +113,9 @@ namespace VSPackageUnitTest
         public void OnNavigateEmptyDocumentTest()
         {
             bool eventFired = false;
-            var mockDte = new Mock<DTE>();
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(SVsSolutionBuildManager)), new MockSolutionBuildManager());
+            var mockDte = new Mock<DTE>(MockBehavior.Strict);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(EnvDTE.DTE))).Returns(mockDte.Object);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(SVsSolutionBuildManager))).Returns(new MockSolutionBuildManager());
             AnalysisHelper analysisHelper = this.SetCoreNoUI();
             var styleCopCore = (StyleCopCore)typeof(AnalysisHelper)
                 .GetField("core", BindingFlags.Instance | BindingFlags.NonPublic)
@@ -137,9 +136,9 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void OnNavigateNoDocumentTest()
         {
-            var mockDte = new Mock<DTE>();
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(SVsSolutionBuildManager)), new MockSolutionBuildManager());
+            var mockDte = new Mock<DTE>(MockBehavior.Strict);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(EnvDTE.DTE))).Returns(mockDte.Object);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(SVsSolutionBuildManager))).Returns(new MockSolutionBuildManager());
             AnalysisHelper analysisHelper = this.SetCoreNoUI();
             bool eventFired = false;
             var styleCopCore = (StyleCopCore)typeof(AnalysisHelper)
@@ -167,38 +166,44 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void OnNavigateToDocInProjectTest()
         {
-            var mockDocumentEnumerator = new SequenceMock<IEnumerator>();
-            var mockDte = new Mock<DTE>();
-            var mockDocuments = new Mock<Documents>();
-            var mockDocument = new SequenceMock<Document>();
-            var mockActiveDocument = new Mock<Document>();
-            var mockTextSelection = new SequenceMock<TextSelection>();
-            var mockVirtualPoint = new SequenceMock<VirtualPoint>();
+            var mockDocumentEnumerator = new Mock<IEnumerator>(MockBehavior.Strict);
+            var mockDte = new Mock<DTE>(MockBehavior.Strict);
+            var mockDocuments = new Mock<Documents>(MockBehavior.Strict);
+            var mockDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockActiveDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockTextSelection = new Mock<TextSelection>(MockBehavior.Strict);
+            var mockVirtualPoint = new Mock<VirtualPoint>(MockBehavior.Strict);
 
-            this.SetupProjectUtilities(mockDocumentEnumerator, mockDte, mockDocuments, mockDocument, mockActiveDocument, this.violation.File);
+            this.SetupProjectUtilities(mockDocumentEnumerator, mockDte, mockDocuments, mockDocument, mockActiveDocument);
 
-            mockDocument.AddExpectationExpr(doc => doc.Activate());
-            mockDocument.AddExpectationExpr(doc => doc.DTE, (Func<DTE>)delegate { return (EnvDTE.DTE)mockDte.Instance; });
+            var mockDocumentSequence = new MockSequence();
+            mockDocument.SetupGet(doc => doc.FullName).Returns(this.violation.File);
+            mockDocument.InSequence(mockDocumentSequence).Setup(doc => doc.Activate());
+            mockDocument.InSequence(mockDocumentSequence).SetupGet(doc => doc.DTE)
+                .Returns((Func<DTE>)delegate { return (EnvDTE.DTE)mockDte.Object; });
 
-            mockActiveDocument.ImplementExpr(doc => doc.Selection, mockTextSelection.Instance);
+            mockActiveDocument.SetupGet(doc => doc.Selection).Returns(mockTextSelection.Object);
 
-            mockTextSelection.ImplementExpr(sel => sel.GotoLine(this.violation.LineNumber, true));
-            mockTextSelection.ImplementExpr(sel => sel.ActivePoint, mockVirtualPoint.Instance);
+            var mockTextSelectionSequence = new MockSequence();
+            mockTextSelection.InSequence(mockTextSelectionSequence)
+                .Setup(sel => sel.GotoLine(this.violation.LineNumber, true));
+            mockTextSelection.InSequence(mockTextSelectionSequence)
+                .SetupGet(sel => sel.ActivePoint).Returns(mockVirtualPoint.Object);
 
-            mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
+            mockVirtualPoint.Setup(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0)).Returns(false);
 
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(EnvDTE.DTE))).Returns(mockDte.Object);
             typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.Static | BindingFlags.NonPublic)
-                .SetValue(null, this.mockServiceProvider.Instance);
+                .SetValue(null, this.mockServiceProvider.Object);
 
             // Execute
             typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
                 .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             // Verify the required methods are called to show the violation
-            mockTextSelection.Verify();
-            mockVirtualPoint.Verify();
-            mockDocument.Verify();
+            mockTextSelection.VerifyAll();
+            mockVirtualPoint.VerifyAll();
+            mockDocument.VerifyAll();
         }
 
         /// <summary>
@@ -207,21 +212,24 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void OnNavigateToDocNotInProjectTest()
         {
-            var mockDocumentEnumerator = new SequenceMock<IEnumerator>();
-            var mockDte = new Mock<DTE>();
-            var mockDocuments = new Mock<Documents>();
-            var mockDocument = new SequenceMock<Document>();
-            var mockActiveDocument = new Mock<Document>();
-            var mockTextSelection = new SequenceMock<TextSelection>();
-            var mockVirtualPoint = new SequenceMock<VirtualPoint>();
+            var mockDocumentEnumerator = new Mock<IEnumerator>(MockBehavior.Strict);
+            var mockDte = new Mock<DTE>(MockBehavior.Strict);
+            var mockDocuments = new Mock<Documents>(MockBehavior.Strict);
+            var mockDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockActiveDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockTextSelection = new Mock<TextSelection>(MockBehavior.Strict);
 
-            this.SetupProjectUtilities(mockDocumentEnumerator, mockDte, mockDocuments, mockDocument, mockActiveDocument, "DummyFile.txt");
-            var mockSecondDocument = new SequenceMock<Document>();
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.MoveNext(), true);
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.Current, mockSecondDocument.Instance);
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.MoveNext(), false);
+            this.SetupProjectUtilities(mockDocumentEnumerator, mockDte, mockDocuments, mockDocument, mockActiveDocument);
+            var mockSecondDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockDocumentEnumeratorSequence = new MockSequence();
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence).Setup(docs => docs.MoveNext())
+                .Returns(true);
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence).SetupGet(docs => docs.Current)
+                .Returns(mockSecondDocument.Object);
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence).Setup(docs => docs.MoveNext())
+                .Returns(false);
 
-            mockSecondDocument.AddExpectationExpr(doc => doc.FullName, "DummyFile.txt");
+            mockSecondDocument.SetupGet(doc => doc.FullName).Returns("DummyFile.txt");
 
             AnalysisHelper analysisHelper = this.SetCoreNoUI();
             bool eventFired = false;
@@ -230,25 +238,22 @@ namespace VSPackageUnitTest
                 .GetValue(analysisHelper);
             styleCopCore.OutputGenerated += (sender, args) => { eventFired = true; };
 
-            mockActiveDocument.ImplementExpr(doc => doc.Selection, mockTextSelection.Instance);
+            mockActiveDocument.SetupGet(doc => doc.Selection).Returns(mockTextSelection.Object);
 
-            mockTextSelection.ImplementExpr(sel => sel.GotoLine(this.violation.LineNumber, true));
-            mockTextSelection.ImplementExpr(sel => sel.ActivePoint, mockVirtualPoint.Instance);
+            var mockTextSelectionSequence = new MockSequence();
+            mockTextSelection.InSequence(mockTextSelectionSequence).Setup(sel => sel.GotoLine(this.violation.LineNumber, true));
 
-            mockVirtualPoint.ImplementExpr(vp => vp.TryToShow(EnvDTE.vsPaneShowHow.vsPaneShowCentered, 0));
-
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
+            this.mockServiceProvider.Setup(sp => sp.GetService(typeof(EnvDTE.DTE))).Returns(mockDte.Object);
             typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.Static | BindingFlags.NonPublic)
-                .SetValue(null, this.mockServiceProvider.Instance);
+                .SetValue(null, this.mockServiceProvider.Object);
 
             // Execute
             typeof(ViolationTask).GetMethod("OnNavigate", BindingFlags.Instance | BindingFlags.NonPublic)
                 .Invoke(this.taskUnderTest, new object[] { EventArgs.Empty });
 
             // Verify the required methods are called to show the violation
-            mockTextSelection.Verify();
-            mockVirtualPoint.Verify();
-            mockDocument.Verify();
+            mockTextSelection.VerifyAll();
+            mockDocument.VerifyAll();
 
             Assert.IsTrue(eventFired, "Core did not fire output event");
         }
@@ -297,41 +302,44 @@ namespace VSPackageUnitTest
         }
 
         private void SetupProjectUtilities(
-            SequenceMock<IEnumerator> mockDocumentEnumerator,
+            Mock<IEnumerator> mockDocumentEnumerator,
             Mock<DTE> mockDte,
             Mock<Documents> mockDocuments,
-            SequenceMock<Document> mockDocument,
-            Mock<Document> mockActiveDocument,
-            string fileName)
+            Mock<Document> mockDocument,
+            Mock<Document> mockActiveDocument)
         {
-            var mockSolution = new Mock<Solution>();
-            var mockProjects = new Mock<Projects>();
-            var mockProject = new Mock<Project>();
-            var mockProjectEnumerator = new SequenceMock<IEnumerator>();
+            var mockSolution = new Mock<Solution>(MockBehavior.Strict);
+            var mockProjects = new Mock<Projects>(MockBehavior.Strict);
+            var mockProject = new Mock<Project>(MockBehavior.Strict);
+            var mockProjectEnumerator = new Mock<IEnumerator>(MockBehavior.Strict);
+            
+            mockDte.SetupGet(dte => dte.Solution).Returns(mockSolution.Object);
+            mockDte.SetupGet(dte => dte.Documents).Returns(mockDocuments.Object);
+            mockDte.SetupGet(dte => dte.ActiveDocument).Returns(mockActiveDocument.Object);
 
-            // var mockEvents = new Mock<EnvDTE.Events>();
-            mockDte.ImplementExpr(dte => dte.Solution, mockSolution.Instance);
-            mockDte.ImplementExpr(dte => dte.Documents, mockDocuments.Instance);
-            mockDte.ImplementExpr(dte => dte.ActiveDocument, mockActiveDocument.Instance);
+            mockSolution.SetupGet(sol => sol.Projects).Returns(mockProjects.Object);
+            mockProjects.Setup(e => e.GetEnumerator()).Returns(mockProjectEnumerator.Object);
 
-            // mockDte.ImplementExpr(dte => dte.Events, mockEvents.Instance);
-            mockSolution.ImplementExpr(sol => sol.Projects, mockProjects.Instance);
-            mockProjects.ImplementExpr(e => e.GetEnumerator(), mockProjectEnumerator.Instance);
+            var mockProjectEnumeratorSequence = new MockSequence();
+            mockProjectEnumerator.InSequence(mockProjectEnumeratorSequence)
+                .Setup(en => en.MoveNext()).Returns(true);
+            mockProjectEnumerator.InSequence(mockProjectEnumeratorSequence)
+                .SetupGet(en => en.Current).Returns(mockProject.Object);
+            mockProjectEnumerator.InSequence(mockProjectEnumeratorSequence)
+                .Setup(en => en.MoveNext()).Returns(false);
 
-            mockProjectEnumerator.AddExpectationExpr(en => en.MoveNext(), true);
-            mockProjectEnumerator.AddExpectationExpr(en => en.Current, mockProject.Instance);
-            mockProjectEnumerator.AddExpectationExpr(en => en.MoveNext(), false);
+            mockProject.SetupGet(p => p.Kind).Returns(EnvDTE.Constants.vsProjectKindMisc);
+            mockProject.SetupGet(p => p.ProjectItems).Returns((Func<ProjectItems>)delegate { return null; });
 
-            mockProject.ImplementExpr(p => p.Kind, EnvDTE.Constants.vsProjectKindMisc);
-            mockProject.ImplementExpr(p => p.ProjectItems, (Func<ProjectItems>)delegate { return null; });
+            mockDocuments.Setup(docs => docs.GetEnumerator()).Returns(mockDocumentEnumerator.Object);
 
-            mockDocuments.ImplementExpr(docs => docs.GetEnumerator(), mockDocumentEnumerator.Instance);
-
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.MoveNext(), true);
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.Current, mockDocument.Instance);
-            mockDocumentEnumerator.AddExpectationExpr(docs => docs.MoveNext(), false);
-
-            mockDocument.AddExpectationExpr(doc => doc.FullName, fileName);
+            var mockDocumentEnumeratorSequence = new MockSequence();
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence)
+                .Setup(docs => docs.MoveNext()).Returns(true);
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence)
+                .SetupGet(docs => docs.Current).Returns(mockDocument.Object);
+            mockDocumentEnumerator.InSequence(mockDocumentEnumeratorSequence)
+                .Setup(docs => docs.MoveNext()).Returns(false);
         }
 
         #endregion

@@ -24,9 +24,8 @@ namespace VSPackageUnitTest
 
     using EnvDTE;
 
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop.VisualStudio;
 
     /// <summary>
@@ -50,15 +49,15 @@ namespace VSPackageUnitTest
         [TestMethod]
         public void PackageCommandSetConstructorTest()
         {
-            var mockActiveDocument = new Mock<Document>();
-            var mockDte = new Mock<DTE>();
+            var mockActiveDocument = new Mock<Document>(MockBehavior.Strict);
+            var mockDte = new Mock<DTE>(MockBehavior.Strict);
 
-            mockDte.ImplementExpr(dte => dte.ActiveDocument, mockActiveDocument.Instance);
+            mockDte.SetupGet(x => x.ActiveDocument).Returns(mockActiveDocument.Object);
 
-            this.mockServiceProvider.ImplementExpr(sp => sp.GetService(typeof(EnvDTE.DTE)), mockDte.Instance);
+            this.mockServiceProvider.Setup(x => x.GetService(typeof(EnvDTE.DTE))).Returns(mockDte.Object);
 
-            PackageCommandSet target = new PackageCommandSet(this.mockServiceProvider.Instance);
-            CommandSet innerTarget = new PackageCommandSet(this.mockServiceProvider.Instance);
+            PackageCommandSet target = new PackageCommandSet(this.mockServiceProvider.Object);
+            CommandSet innerTarget = new PackageCommandSet(this.mockServiceProvider.Object);
             Assert.IsNotNull(typeof(PackageCommandSet).GetProperty("CommandList", BindingFlags.NonPublic | BindingFlags.Instance)
                 .GetValue(innerTarget, null),
                 "CommandList was not created.");
@@ -83,9 +82,9 @@ namespace VSPackageUnitTest
         [TestInitialize]
         public void TestInitialize()
         {
-            this.mockServiceProvider = new Mock<IServiceProvider>();
+            this.mockServiceProvider = new Mock<IServiceProvider>(MockBehavior.Strict);
             typeof(ProjectUtilities).GetField("serviceProvider", BindingFlags.NonPublic | BindingFlags.Static)
-                .SetValue(null, this.mockServiceProvider.Instance);
+                .SetValue(null, this.mockServiceProvider.Object);
         }
 
         #endregion

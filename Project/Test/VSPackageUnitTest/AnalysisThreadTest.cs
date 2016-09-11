@@ -22,12 +22,11 @@ namespace VSPackageUnitTest
     using System.Collections.Generic;
     using System.Reflection;
 
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop;
     using StyleCop.VisualStudio;
-    
+
     /// <summary>
     /// This is a test class for AnalysisThreadTest and is intended
     ///  to contain all AnalysisThreadTest Unit Tests
@@ -125,7 +124,7 @@ namespace VSPackageUnitTest
         {
             var core = new StyleCopCore();
             var projects = new List<CodeProject>();
-            var mockCodeProject = new Mock<CodeProject>();
+            var mockCodeProject = new Mock<CodeProject>(MockBehavior.Strict);
             var codeProject = new CodeProject(0, "test", new Configuration(new string[0]));
             projects.Add(codeProject);
 

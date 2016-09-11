@@ -25,9 +25,8 @@ namespace VSPackageUnitTest
 
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Shell.Interop;
-    using Microsoft.VisualStudio.TestTools.MockObjects;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Moq;
     using StyleCop.VisualStudio;
 
     using VSPackageUnitTest.Mocks;
@@ -58,10 +57,10 @@ namespace VSPackageUnitTest
         public void DisposeTest()
         {
             var serviceProvider = new MockServiceProvider();
-            var mockSolutionEvents = new Mock<IVsSolutionEvents>();
+            var mockSolutionEvents = new Mock<IVsSolutionEvents>(MockBehavior.Strict);
 
             uint cookie = 0;
-            ((IVsSolution)serviceProvider.GetService(typeof(SVsSolution))).AdviseSolutionEvents(mockSolutionEvents.Instance as IVsSolutionEvents, out cookie);
+            ((IVsSolution)serviceProvider.GetService(typeof(SVsSolution))).AdviseSolutionEvents(mockSolutionEvents.Object, out cookie);
             Debug.Assert(cookie == 1);
 
             SolutionListener target = new SolutionListener(serviceProvider);
@@ -460,10 +459,10 @@ namespace VSPackageUnitTest
 
         private IServiceProvider PrepareServiceProvider()
         {
-            var mock = new Mock<IServiceProvider>();
-            var mockSolution = new Mock<IVsSolution>();
-            mock.ImplementExpr(m => m.GetService(typeof(SVsSolution)), mockSolution.Instance as IVsSolution);
-            return mock.Instance as IServiceProvider;
+            var mock = new Mock<IServiceProvider>(MockBehavior.Strict);
+            var mockSolution = new Mock<IVsSolution>(MockBehavior.Strict);
+            mock.Setup(m => m.GetService(typeof(SVsSolution))).Returns(mockSolution.Object);
+            return mock.Object;
         }
 
         #endregion
