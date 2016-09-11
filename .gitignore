@@ -5,6 +5,7 @@ bin/
 *.suo
 BuildDrop/
 Project/packages/
+Project/TestResults/
 TestBin/
 *.nupkg
 Build.*.err
