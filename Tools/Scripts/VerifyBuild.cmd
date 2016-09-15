@@ -65,18 +65,10 @@ ECHO.
 if exist %~dp0..\..\Project\%BuildLogFile%.wrn (
     ECHO %BuildTarget% build is finished with warnings - please fix them. See %~dp0..\..\Project\%BuildLogFile%.wrn for details
 )
-if exist %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.wrn (
-    ECHO %BuildTarget% build is finished with warnings - please fix them. See %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.wrn for details
-)
 
 SET GOTOEND=
 if exist %~dp0..\..\Project\%BuildLogFile%.err (
     ECHO %BuildTarget% build is finished with errors. See %~dp0..\..\Project\%BuildLogFile%.err for details
-    SET GOTOEND=1
-)
-
-if exist %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.err (
-    ECHO %BuildTarget% wix build is finished with errors. See %~dp0..\..\Project\src\WixSetup\%BuildLogFile%.err for details
     SET GOTOEND=1
 )
 
