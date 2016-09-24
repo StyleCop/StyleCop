@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StyleCop.VisualStudio</RootNamespace>
-    <AssemblyName>StyleCop.VSPackage</AssemblyName>
+    <AssemblyName>StyleCop.VisualStudio</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>

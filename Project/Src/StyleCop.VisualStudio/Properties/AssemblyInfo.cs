@@ -48,7 +48,7 @@ using System.Runtime.InteropServices;
     MessageId = "codeplex", Scope = "resource", Target = "StyleCop.VisualStudio.VSPackage.resources",
     Justification = "Codeplex is spelled correctly.")]
 
-[assembly: InternalsVisibleTo("VSPackageUnitTest, PublicKey=002400000480000094000000060200000024000052534131000400"
-    + "0001000100b5824b3bbdbf76d14939a57e0c9cc6b5715b892c6dcdcdb3d3490b07531e6ea4f65b50d87fe55d72831e03841cc1c086b"
-    + "7c49d6ceaf59f923d6bdfb6e8382adfc9b99c627c7e55dc2463c40cf1f162bc71b9930f110e3f59d93e6c6946c7cf7c9947b86974f1"
-    + "1187534b8057683012f59cde50b6b4752eb247ecf4b4c8de23ce")]
+[assembly: InternalsVisibleTo("Tests.StyleCop.VisualStudio, PublicKey=00240000048000009400000006020000002400005253"
+    + "41310004000001000100b5824b3bbdbf76d14939a57e0c9cc6b5715b892c6dcdcdb3d3490b07531e6ea4f65b50d87fe55d72831e038"
+    + "41cc1c086b7c49d6ceaf59f923d6bdfb6e8382adfc9b99c627c7e55dc2463c40cf1f162bc71b9930f110e3f59d93e6c6946c7cf7c99"
+    + "47b86974f11187534b8057683012f59cde50b6b4752eb247ecf4b4c8de23ce")]
