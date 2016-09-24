@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzersTest", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTest", "Test\AddIns\CSharp\Parser\CSharpParserTest\CSharpParserTest.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsEditor", "Src\SettingsEditor\SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.SettingsEditor", "Src\StyleCop.SettingsEditor\StyleCop.SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackageUnitTest", "Test\VSPackageUnitTest\VSPackageUnitTest.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
 EndProject

@@ -60,7 +60,7 @@ Adds official StyleCop MSBuild targets to your project for running StyleCop anal
         <file src="StyleCop.CSharp.dll" target="tools" />
         <file src="StyleCop.CSharp.Rules.dll" target="tools" />
         <file src="StyleCop.dll" target="tools" />
-        <file src="StyleCopSettingsEditor.exe" target="tools" />
+        <file src="StyleCop.SettingsEditor.exe" target="tools" />
         <file src="license.txt" />
     </files>
 </package>

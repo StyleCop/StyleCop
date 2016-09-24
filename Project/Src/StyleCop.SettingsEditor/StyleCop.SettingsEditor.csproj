@@ -9,8 +9,8 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StyleCop.SettingsEditor</RootNamespace>
-    <AssemblyName>StyleCopSettingsEditor</AssemblyName>
-    <ApplicationIcon>..\VSPackage\Resources\StyleCop.ico</ApplicationIcon>
+    <AssemblyName>StyleCop.SettingsEditor</AssemblyName>
+    <ApplicationIcon>..\StyleCop.VisualStudio\Resources\StyleCop.ico</ApplicationIcon>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>

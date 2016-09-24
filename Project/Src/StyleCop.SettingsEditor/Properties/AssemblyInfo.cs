@@ -21,11 +21,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("StyleCopSettingsEditor")]
+[assembly: AssemblyTitle("StyleCop Settings Editor")]
 [assembly: AssemblyDescription("Displays StyleCop project settings")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("StyleCopSettingsEditor")]
+[assembly: AssemblyProduct("StyleCop")]
 [assembly: AssemblyCopyright("MS-PL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

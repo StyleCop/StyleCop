@@ -53,9 +53,9 @@
       <Project>{c173acf5-2ce5-4771-83a4-d01453c8cb09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SettingsEditor\SettingsEditor.csproj">
+    <ProjectReference Include="..\StyleCop.SettingsEditor\StyleCop.SettingsEditor.csproj">
       <Project>{88bee003-4764-455a-9705-b65d3521984f}</Project>
-      <Name>SettingsEditor</Name>
+      <Name>StyleCop.SettingsEditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\StyleCop\StyleCop.csproj">
       <Project>{af7a7fea-c07b-456a-b072-c7e795a6cbd4}</Project>
