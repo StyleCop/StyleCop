@@ -944,7 +944,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj">
+    <ProjectReference Include="..\..\..\..\..\Src\StyleCop.CSharp.Rules\StyleCop.CSharp.Rules.csproj">
       <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>

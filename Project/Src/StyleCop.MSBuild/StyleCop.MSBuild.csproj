@@ -45,7 +45,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj">
+    <ProjectReference Include="..\StyleCop.CSharp.Rules\StyleCop.CSharp.Rules.csproj">
       <Project>{de988d84-eaf4-4fd7-a33a-9ee0e6de752c}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>

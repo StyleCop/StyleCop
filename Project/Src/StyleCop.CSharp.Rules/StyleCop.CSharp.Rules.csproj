@@ -13,7 +13,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\StyleCop.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -39,25 +39,25 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\BuildDrop\Debug\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>none</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <CodeAnalysisRuleSet>..\..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\..\..\..\BuildDrop\Debug\StyleCop.CSharp.Rules.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\BuildDrop\Debug\StyleCop.CSharp.Rules.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\BuildDrop\Release\</OutputPath>
+    <OutputPath>..\..\BuildDrop\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\..\..\..\BuildDrop\Release\StyleCop.CSharp.Rules.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\BuildDrop\Release\StyleCop.CSharp.Rules.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,7 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\AssemblyVersion.cs">
+    <Compile Include="..\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
     <Compile Include="CachedCodeStrings.cs" />
@@ -119,13 +119,13 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\StyleCop\StyleCop.csproj">
+    <ProjectReference Include="..\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\StyleCop.CSharp\StyleCop.CSharp.csproj">
+    <ProjectReference Include="..\StyleCop.CSharp\StyleCop.CSharp.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
-      <Name>CSharpParser</Name>
+      <Name>StyleCop.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +217,7 @@
     <None Include="CSharpAnalyzers.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\..\..\Tools\StyleCop\StyleCop.Targets" />
+  <Import Project="..\..\..\Tools\StyleCop\StyleCop.Targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
