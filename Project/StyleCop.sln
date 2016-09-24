@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParser", "Src\AddIns\CSharp\Parser\CSharpParser.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.CSharp", "Src\StyleCop.CSharp\StyleCop.CSharp.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop", "Src\StyleCop\StyleCop.csproj", "{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}"
 EndProject

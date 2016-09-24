@@ -54,7 +54,7 @@
       <Project>{de988d84-eaf4-4fd7-a33a-9ee0e6de752c}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AddIns\CSharp\Parser\CSharpParser.csproj">
+    <ProjectReference Include="..\StyleCop.CSharp\StyleCop.CSharp.csproj">
       <Project>{c173acf5-2ce5-4771-83a4-d01453c8cb09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>

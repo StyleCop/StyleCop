@@ -123,7 +123,7 @@
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Parser\CSharpParser.csproj">
+    <ProjectReference Include="..\..\..\StyleCop.CSharp\StyleCop.CSharp.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>

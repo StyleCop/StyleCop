@@ -948,7 +948,7 @@
       <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
       <Name>CSharpAnalyzers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Src\AddIns\CSharp\Parser\CSharpParser.csproj">
+    <ProjectReference Include="..\..\..\..\..\Src\StyleCop.CSharp\StyleCop.CSharp.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
       <Name>CSharpParser</Name>
     </ProjectReference>
