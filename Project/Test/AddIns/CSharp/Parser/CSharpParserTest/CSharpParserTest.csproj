@@ -385,7 +385,7 @@
       <Project>{73E4EB43-7B77-4084-81F9-35BA8241B686}</Project>
       <Name>StyleCopTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSharpParserTestRules\CSharpParserTestRules.csproj">
+    <ProjectReference Include="..\..\..\..\Testing.StyleCop.CSharp.ParserDump\Testing.StyleCop.CSharp.ParserDump.csproj">
       <Project>{40EDAB29-01CA-4135-A330-E63F0E99D9FF}</Project>
       <Name>CSharpParserTestRules</Name>
     </ProjectReference>
