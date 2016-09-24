@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio.VSIX"
 		{C173ACF5-2CE5-4771-83A4-D01453C8CB09} = {C173ACF5-2CE5-4771-83A4-D01453C8CB09}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTest", "Test\Harnesses\TestHarness\StyleCopTest.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop", "Test\Tests.StyleCop\Tests.StyleCop.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.MSBuild", "Src\StyleCop.MSBuild\StyleCop.MSBuild.csproj", "{C4B18494-90A6-47B0-8F38-CA3EA44079B5}"
 EndProject

@@ -24,6 +24,7 @@ namespace StyleCop.Test
     using System.Threading;
     using System.Xml;
     using StyleCop;
+    using Tests.StyleCop;
 
     /// <summary>
     /// Runs the test.

@@ -381,7 +381,7 @@
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Harnesses\TestHarness\StyleCopTest.csproj">
+    <ProjectReference Include="..\..\..\..\Tests.StyleCop\Tests.StyleCop.csproj">
       <Project>{73E4EB43-7B77-4084-81F9-35BA8241B686}</Project>
       <Name>StyleCopTest</Name>
     </ProjectReference>
