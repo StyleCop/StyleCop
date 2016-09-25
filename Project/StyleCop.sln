@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "Test\Harness
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.StyleCop.CSharp.ParserDump", "Test\Testing.StyleCop.CSharp.ParserDump\Testing.StyleCop.CSharp.ParserDump.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBasedEnvironmentTest", "Test\StyleCopCore\ObjectBasedEnvironmentTest\ObjectBasedEnvironmentTest.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.ObjectBasedEnvironment", "Test\Tests.StyleCop.ObjectBasedEnvironment\Tests.StyleCop.ObjectBasedEnvironment.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio.VSIX", "Src\StyleCop.VisualStudio.VSIX\StyleCop.VisualStudio.VSIX.csproj", "{9CD07D44-5890-45D5-AB29-7B105F1BB6AE}"
 	ProjectSection(ProjectDependencies) = postProject
