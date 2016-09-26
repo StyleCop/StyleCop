@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{859D876F-8088-42EA-922A-800D2319C5CE}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>CSharpAnalyzersTest</RootNamespace>
-    <AssemblyName>CSharpAnalyzersTest</AssemblyName>
+    <RootNamespace>Tests.StyleCop.CSharp.Rules</RootNamespace>
+    <AssemblyName>Tests.StyleCop.CSharp.Rules</AssemblyName>
     <WarningLevel>4</WarningLevel>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <FileUpgradeFlags>
@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\..\..\..\Src\StyleCop.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\Src\StyleCop.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -41,16 +41,16 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\TestBin\Debug\</OutputPath>
+    <OutputPath>..\..\TestBin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <CodeAnalysisRuleSet>..\..\..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\TestBin\Release\</OutputPath>
+    <OutputPath>..\..\TestBin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <CodeAnalysisRuleSet>..\..\..\..\FxCopRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\FxCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -944,21 +944,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Src\StyleCop.CSharp.Rules\StyleCop.CSharp.Rules.csproj">
+    <ProjectReference Include="..\..\Src\StyleCop.CSharp.Rules\StyleCop.CSharp.Rules.csproj">
       <Project>{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}</Project>
-      <Name>CSharpAnalyzers</Name>
+      <Name>StyleCop.CSharp.Rules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Src\StyleCop.CSharp\StyleCop.CSharp.csproj">
+    <ProjectReference Include="..\..\Src\StyleCop.CSharp\StyleCop.CSharp.csproj">
       <Project>{C173ACF5-2CE5-4771-83A4-D01453C8CB09}</Project>
-      <Name>CSharpParser</Name>
+      <Name>StyleCop.CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Src\StyleCop\StyleCop.csproj">
+    <ProjectReference Include="..\..\Src\StyleCop\StyleCop.csproj">
       <Project>{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}</Project>
       <Name>StyleCop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Tests.StyleCop\Tests.StyleCop.csproj">
+    <ProjectReference Include="..\Tests.StyleCop\Tests.StyleCop.csproj">
       <Project>{73e4eb43-7b77-4084-81f9-35ba8241b686}</Project>
-      <Name>StyleCopTest</Name>
+      <Name>Tests.StyleCop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
