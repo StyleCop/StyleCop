@@ -72,7 +72,6 @@ namespace VSPackageUnitTest
         ///   This tests ???.
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Microsoft.VisualStudio.QualityTools.MockObjectFramework.dll")]
         public void ConstructorTest()
         {
             bool isFull = true;
