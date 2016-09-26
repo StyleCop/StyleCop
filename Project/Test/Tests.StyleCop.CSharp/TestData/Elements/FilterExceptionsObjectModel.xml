@@ -1,0 +1,41 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="FilterExceptions" Type="Class">
+      <Element Name="Test" Type="Method">
+        <Statement Type="TryStatement">
+          <Statement Type="BlockStatement">
+            <Statement Type="ExpressionStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="Console" Type="LiteralExpression" />
+                  <Expression Text="Write" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;Test&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+        <Statement Type="CatchStatement">
+          <Expression Text="Exception" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+      </Element>
+      <Element Name="TestWhenAsVariableName" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="when" Type="LiteralExpression" />
+              <Expression Type="NewExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="XElement" Type="LiteralExpression" />
+                  <Expression Text="&quot;someelement&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

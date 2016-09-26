@@ -1,0 +1,407 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="Test1" Type="Class">
+        <Element Name="Rect2" Type="Struct">
+          <Element Name="x" Type="Field">
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="float" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="w" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="h" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Element>
+        </Element>
+        <Element Name="TestClass" Type="Class">
+          <Element Name="TrackPosition" Type="Field">
+            <Statement Type="VariableDeclarationStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="Rect2" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  <Expression Type="NewExpression">
+                    <Expression Type="MethodInvocationExpression">
+                      <Expression Text="Rect2" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+          </Element>
+          <Element Name="TestClass" Type="Constructor" />
+        </Element>
+        <Element Name="TestGroupKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="group" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestGroupKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="group" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestWhereKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="where" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestWhereKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="where" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestSelectKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="select" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestSelectKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="select" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestIntoKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="into" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestIntoKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="into" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestOrdeyByKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="orderby" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestOrdeyByKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="orderby" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestJoinKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="join" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestJoinKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="join" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestLetKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="let" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestLetKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="let" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestEqualsKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="equals" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestEqualsKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="equals" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestByKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="by" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestByKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="by" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestOnKeyword" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="on" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+        <Element Name="TestOnKeyword2" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="RelationalExpression">
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="42.0f" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="CastExpression">
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="on" Type="LiteralExpression" />
+                    <Expression Text="TrackPosition" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="y" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

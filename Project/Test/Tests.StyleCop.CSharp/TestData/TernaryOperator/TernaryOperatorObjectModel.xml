@@ -1,0 +1,72 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root"
+           Type="DocumentRoot">
+    <Element Name="System"
+             Type="UsingDirective" />
+    <Element Name="System.Collections.Generic"
+             Type="UsingDirective" />
+    <Element Name="Operator"
+             Type="Namespace">
+      <Element Name="TernaryOperator"
+               Type="Class">
+        <Element Name="GetSelectedOrgIds"
+                 Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Type="ConditionalExpression">
+              <Expression Type="RelationalExpression">
+                <Expression Text="BulkScheduleEvents"
+                            Type="LiteralExpression" />
+                <Expression Text="null"
+                            Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="NewArrayExpression">
+                <Expression Type="ArrayAccessExpression">
+                  <Expression Text="long"
+                              Type="LiteralExpression" />
+                  <Expression Text="0"
+                              Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Type="MethodInvocationExpression">
+                        <Expression Type="MemberAccessExpression">
+                          <Expression Text="BulkScheduleEvents"
+                                      Type="LiteralExpression" />
+                          <Expression Text="Where"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="LambdaExpression">
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Text="a"
+                                        Type="LiteralExpression" />
+                            <Expression Text="IsChecked"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                      <Expression Text="Select"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="LambdaExpression">
+                      <Expression Type="MemberAccessExpression">
+                        <Expression Text="a"
+                                    Type="LiteralExpression" />
+                        <Expression Text="OrganizationId"
+                                    Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                  <Expression Text="ToArray"
+                              Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

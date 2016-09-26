@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio", "Sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzersTest", "Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\CSharpAnalyzersTest.csproj", "{859D876F-8088-42EA-922A-800D2319C5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTest", "Test\AddIns\CSharp\Parser\CSharpParserTest\CSharpParserTest.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.CSharp", "Test\Tests.StyleCop.CSharp\Tests.StyleCop.CSharp.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.SettingsEditor", "Src\StyleCop.SettingsEditor\StyleCop.SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
 EndProject
