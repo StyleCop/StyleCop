@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.SettingsEditor", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackageUnitTest", "Test\VSPackageUnitTest\VSPackageUnitTest.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "Test\Harnesses\PerfHarness\PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.StyleCop.PerfHarness", "Test\Testing.StyleCop.PerfHarness\Testing.StyleCop.PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.StyleCop.CSharp.ParserDump", "Test\Testing.StyleCop.CSharp.ParserDump\Testing.StyleCop.CSharp.ParserDump.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
 EndProject
