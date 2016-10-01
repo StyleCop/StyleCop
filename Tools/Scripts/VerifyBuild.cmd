@@ -44,7 +44,7 @@ SET BuildLogFile=Build.%BuildTarget%
 REM Build Main Solution
 IF EXIST %~dp0..\..\Project\%BuildLogFile%.wrn DEL /F /Q %~dp0..\..\Project\%BuildLogFile%.wrn
 IF EXIST %~dp0..\..\Project\%BuildLogFile%.err DEL /F /Q %~dp0..\..\Project\%BuildLogFile%.err
-CALL "%programfiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" %~dp0..\..\Project\StyleCop.sln /p:VisualStudioVersion=14.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.err
+CALL "%programfiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" %~dp0..\..\Project\StyleCop.sln /m /p:VisualStudioVersion=14.0;Configuration=%BuildTarget%;CODE_ANALYSIS=true /flp1:warningsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.wrn /flp2:errorsonly;logfile=%~dp0..\..\Project\%BuildLogFile%.err
 IF "%ERRORLEVEL%" == "0" DEL /F /Q %~dp0..\..\Project\%BuildLogFile%.err
 CALL %~dp0\DeleteEmptyFile.cmd %~dp0..\..\Project\%BuildLogFile%.wrn
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
@@ -53,7 +53,7 @@ ECHO **** Build %BuildTarget% END **********************************************
 
 Echo.
 ECHO **** Run tests BEGIN ***********************************************************
-CALL "%programfiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" /Platform:x86 /Framework:framework40 %~dp0..\..\Project\Test\TestBin\Release\CSharpAnalyzersTest.dll %~dp0..\..\Project\Test\TestBin\Release\CSharpParserTest.dll %~dp0..\..\Project\Test\TestBin\Release\CSharpParserTestRules.dll %~dp0..\..\Project\Test\TestBin\Release\ObjectBasedEnvironmentTest.dll %~dp0..\..\Project\Test\TestBin\Release\StyleCop.Test.dll %~dp0..\..\Project\Test\TestBin\Release\VSPackageUnitTest.dll
+CALL "%programfiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" /Platform:x86 /Framework:framework40 /Logger:trx %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.CSharp.Rules.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.CSharp.dll %~dp0..\..\Project\TestBin\Release\Testing.StyleCop.CSharp.ParserDump.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.ObjectBasedEnvironment.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.VisualStudio.dll
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 ECHO **** Run tests END *************************************************************
 
