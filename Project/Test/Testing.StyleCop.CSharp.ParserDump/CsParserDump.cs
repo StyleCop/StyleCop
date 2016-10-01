@@ -16,13 +16,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace StyleCop.CSharpParserTest
+namespace Testing.StyleCop.CSharp.ParserDump
 {
     using System;
     using System.IO;
     using System.Xml;
-
-    using StyleCop.CSharp;
+    using global::StyleCop;
+    using global::StyleCop.CSharp;
 
     /// <summary>
     /// Dumps the parsed object model from the CsParser into an Xml file.

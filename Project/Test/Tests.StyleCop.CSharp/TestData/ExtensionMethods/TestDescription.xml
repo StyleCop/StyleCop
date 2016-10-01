@@ -9,7 +9,7 @@
         <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
       </GlobalSettings>
       <Analyzers>
-        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -32,7 +32,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -58,7 +58,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -84,7 +84,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
@@ -110,7 +110,7 @@
       </GlobalSettings>
       <Analyzers>
         <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
-        <Analyzer AnalyzerId="StyleCop.CSharpParserTest.CsParserDump">
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
           <Rules>
             <Rule Name="CsParserDumpRule">
               <RuleSettings>
