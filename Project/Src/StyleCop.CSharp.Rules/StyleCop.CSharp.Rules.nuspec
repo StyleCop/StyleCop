@@ -11,8 +11,6 @@
     <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
   </metadata>
   <files>
-    <file src="mssp7en.dll" target="content" />
-    <file src="mssp7en.lex" target="content" />
     <file src="de-DE\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\de-DE" />
     <file src="en-GB\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\en-GB" />
     <file src="es-MX\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\es-MX" />
@@ -20,6 +18,12 @@
     <file src="pl-PL\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\pl-PL" />
     <file src="pt-BR\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\pt-BR" />
     <file src="ru-RU\StyleCop.CSharp.Rules.resources.dll" target="lib\net40\ru-RU" />
+
+    <!-- These files are from the StyleCop project but are included in this NuGet package. They are only needed
+      when running analyzers. -->
+    <file src="mssp7en.dll" target="build" />
+    <file src="mssp7en.lex" target="build" />
     <file src="Settings\DefaultSettings.StyleCop" target="content" />
+    <file src="StyleCop.CSharp.Rules.targets" target="build" />
   </files>
 </package>
