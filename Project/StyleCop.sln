@@ -41,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio.VSIX"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop", "Test\Tests.StyleCop\Tests.StyleCop.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.MSBuild", "Src\StyleCop.MSBuild\StyleCop.MSBuild.csproj", "{C4B18494-90A6-47B0-8F38-CA3EA44079B5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,10 +99,6 @@ Global
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C4B18494-90A6-47B0-8F38-CA3EA44079B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4B18494-90A6-47B0-8F38-CA3EA44079B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C4B18494-90A6-47B0-8F38-CA3EA44079B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C4B18494-90A6-47B0-8F38-CA3EA44079B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

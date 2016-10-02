@@ -45,8 +45,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BuildNuGetPackage.ps1" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="StyleCop.MSBuild.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="StyleCop.MSBuild.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="StyleCop.VSPackage.pkgdef">
+    <Content Include="license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -83,7 +94,8 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <Exec Command="powershell.exe -command &quot;$(MSBuildProjectDirectory)\BuildNuGetPackage.ps1&quot; -nuspecPath &quot;$(ProjectDir)StyleCop.MSBuild.nuspec&quot; -outputDirectory &quot;$(OutDir) &quot; -buildConfiguration $(Configuration) -nugetExePath &quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot;" />
+  </Target>
 </Project>
