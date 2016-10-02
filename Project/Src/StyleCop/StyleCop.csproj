@@ -283,10 +283,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="Settings\DefaultSettings.xml">
+    <None Include="Settings\DefaultSettings.StyleCop">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="StyleCopAddIn.xml" />
+    <None Include="StyleCop.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mssp7en.dll">
@@ -305,14 +307,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
-  <Import Project="..\..\..\Tools\StyleCop\StyleCop.Targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /y "$(ProjectDir)Settings\DefaultSettings.xml" "$(TargetDir)Settings.StyleCop"</PostBuildEvent>
-  </PropertyGroup>
-  <Target Name="BeforeBuild">
-    <!-- Since we copy to this directory in the post build event,
-         we should make sure the directory exists before trying to make the copy -->
-    <MakeDir Directories="$(ProjectDir)..\..\BuildDrop\$(Configuration)\" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\Tools\StyleCop\StyleCop.targets" />
+  <Target Name="AfterBuild">
+    <Exec Command="&quot;$(SolutionDir)packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe&quot; pack &quot;$(ProjectFileName)&quot; -BasePath &quot;$(OutDir) &quot; -IncludeReferencedProjects -OutputDirectory &quot;$(OutDir) &quot; -Properties Configuration=$(Configuration)" WorkingDirectory="$(ProjectDir)" LogStandardErrorAsError="true" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
   </Target>
 </Project>

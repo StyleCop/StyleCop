@@ -4,7 +4,7 @@
     <id>StyleCop</id>
     <version>$version$</version>
     <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
-    <description>StyleCop libraries that can be used to create custom rules.</description>
+    <description>The core StyleCop library that is used to create and use parsers and analyzers.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
