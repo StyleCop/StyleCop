@@ -1338,10 +1338,10 @@ namespace StyleCop
 
                         // We want to skip the StyleCop assemblies.
                         if (fileName == null ||
-                            fileName.Equals("stylecop.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.StartsWith("stylecop.resharper", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.Equals("StyleCop.dll", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.StartsWith("Stylecop.ReSharper", StringComparison.OrdinalIgnoreCase) ||
                             fileName.Equals("mssp7en.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.Equals("stylecop.vspackage.dll"))
+                            fileName.Equals("StyleCop.VisualStudio.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             continue;
                         }
