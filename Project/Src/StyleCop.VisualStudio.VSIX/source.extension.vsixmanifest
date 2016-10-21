@@ -6,6 +6,7 @@
     <Version>5.0</Version>
     <Description xml:space="preserve">Provides source code style and consistency tools.</Description>
     <Locale>1033</Locale>
+    <Icon>StyleCop.ico</Icon>
     <SupportedProducts>
       <VisualStudio Version="10.0">
         <Edition>Pro</Edition>
