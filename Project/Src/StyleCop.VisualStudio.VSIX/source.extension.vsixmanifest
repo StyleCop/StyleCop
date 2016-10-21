@@ -27,6 +27,6 @@
   </Identifier>
   <References />
   <Content>
-    <VsPackage>StyleCop.VSPackage.pkgdef</VsPackage>
+    <VsPackage>StyleCop.VisualStudio.pkgdef</VsPackage>
   </Content>
 </Vsix>
