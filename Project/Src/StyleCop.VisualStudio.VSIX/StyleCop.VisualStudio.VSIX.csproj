@@ -14,8 +14,8 @@
     <ProjectGuid>{9CD07D44-5890-45D5-AB29-7B105F1BB6AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StyleCop.VisualStudio.VSIX</RootNamespace>
-    <AssemblyName>StyleCop.VisualStudio.VSIX</AssemblyName>
+    <RootNamespace>StyleCop</RootNamespace>
+    <AssemblyName>StyleCop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>false</IncludeAssemblyInVSIXContainer>
