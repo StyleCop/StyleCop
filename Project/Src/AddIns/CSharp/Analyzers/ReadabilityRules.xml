@@ -53,6 +53,10 @@
         <Context>A region may not be placed within the bracketed statement.</Context>
         <Description>Validates that there are no regions placed between the declaration and opening bracket in a bracketed statement.</Description>
       </Rule>
+      <Rule Name="UseReadableConditions" CheckId="SA1131">
+        <Context>Do not use comparison where value goes first, reverse order of operands in '{0}'.</Context>
+        <Description>Validates that value first comparison is not used.</Description>
+      </Rule>
     </RuleGroup>
     <RuleGroup Name="Method Parameter Placement">
       <Rule Name="OpeningParenthesisMustBeOnDeclarationLine" CheckId="SA1110">

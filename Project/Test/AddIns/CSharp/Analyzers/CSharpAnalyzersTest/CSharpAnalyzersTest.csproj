@@ -178,7 +178,7 @@
     <None Include="TestData\Documentation\DocumentationSpelling.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestData\ElementOrder\ElementOrderNoValueFirstComparison.cs">
+    <None Include="TestData\Statements\StatementsUseReadableConditions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\FileHeaders\Global.asax.cs">
@@ -929,6 +929,7 @@
     </None>
     <None Include="TestData\Statements\TestDescription.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="TestData\Tabs\TestDescription.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

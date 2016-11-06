@@ -291,4 +291,47 @@
       <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="26" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
     </ExpectedViolations>
   </Test>
+
+  <!-- Tests that comparisons are not in reverse (value first) order. -->
+  <Test Name="UseReadableConditions">
+    <TestCodeFile>StatementsUseReadableConditions.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseReadableConditions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.N.Incorrect._bx" LineNumber="6" StartLine="6" StartColumn="28" EndLine="6" EndColumn="48" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="28" EndLine="7" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="47" EndLine="7" EndColumn="62" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="71" EndLine="7" EndColumn="92" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b5" LineNumber="10" StartLine="10" StartColumn="28" EndLine="10" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="16" StartLine="16" StartColumn="17" EndLine="16" EndColumn="22" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="20" StartLine="20" StartColumn="29" EndLine="20" EndColumn="46" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="25" StartLine="25" StartColumn="17" EndLine="25" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="30" StartLine="30" StartColumn="17" EndLine="30" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="34" StartLine="34" StartColumn="17" EndLine="34" EndColumn="26" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="38" StartLine="38" StartColumn="20" EndLine="38" EndColumn="28" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="45" StartLine="45" StartColumn="20" EndLine="45" EndColumn="24" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="47" StartLine="47" StartColumn="17" EndLine="47" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="51" StartLine="51" StartColumn="28" EndLine="51" EndColumn="36" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="51" StartLine="51" StartColumn="42" EndLine="51" EndColumn="50" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="55" StartLine="55" StartColumn="30" EndLine="55" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="59" StartLine="59" StartColumn="17" EndLine="59" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="59" StartLine="59" StartColumn="30" EndLine="59" EndColumn="35" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="66" StartLine="66" StartColumn="22" EndLine="66" EndColumn="31" Rule="UseReadableConditions" />
+    </ExpectedViolations>
+  </Test>
 </StyleCopTestDescription>
