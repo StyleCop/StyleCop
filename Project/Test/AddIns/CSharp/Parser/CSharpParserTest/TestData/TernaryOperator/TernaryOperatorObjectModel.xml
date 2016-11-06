@@ -11,6 +11,96 @@
                Type="Class">
         <Element Name="GetSelectedOrgIds"
                  Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="b"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="c"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="d"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="e"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="f"
+                            Type="LiteralExpression" />
+                <Expression Type="ConditionalExpression">
+                  <Expression Text="true" Type="LiteralExpression" />
+                  <Expression Text="&quot;true&quot;" Type="LiteralExpression" />
+                  <Expression Text="&quot;false&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
           <Statement Type="ReturnStatement">
             <Expression Type="ConditionalExpression">
               <Expression Type="RelationalExpression">

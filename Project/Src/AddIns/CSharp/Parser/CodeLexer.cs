@@ -2049,7 +2049,9 @@ namespace StyleCop.CSharp
                         {
                             endLineIndex++;
                         }
-                        else if (character == '\n' && this.codeReader.Peek(checkIndex - 1) != '\r')
+                        else if (character == '\n'
+                            && checkIndex > 0
+                            && this.codeReader.Peek(checkIndex - 1) != '\r')
                         {
                             endLineIndex++;
                         }
