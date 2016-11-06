@@ -839,7 +839,7 @@ namespace StyleCop.CSharp
                 if (!secondUsing.IsStatic)
                 {
                     // A UsingStatic is followed by a UsingNamespace
-                    this.AddViolation(firstUsing, Rules.UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives);
+                    this.AddViolation(firstUsing, Rules.UsingStaticDirectivesMustBePlacedAtTheCorrectLocation);
                     return false;
                 }
             }

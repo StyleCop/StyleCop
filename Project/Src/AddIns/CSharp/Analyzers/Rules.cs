@@ -882,6 +882,6 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Verifies that all using static directives are placed after using namespace directives.
         /// </summary>
-        UsingStaticDirectivesMustBePlacedAfterUsingNamespaceDirectives,
+        UsingStaticDirectivesMustBePlacedAtTheCorrectLocation,
     }
 }
