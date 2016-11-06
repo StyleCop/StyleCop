@@ -91,6 +91,13 @@ reader["Distribution2"].ToString() };
             var p2 = new { Name = "Lawnmower" };
             var p3 = new { Name = "Lawnmower", Price = 495.00 };
             var p4 = new { Name = "Lawnmower", Price = 495.00, };
+            var p5 = new {};
+            var p6 = new {Name = "Lawnmower"};
+            var p7 = new {Name = "Lawnmower",};
+            var p8 = new {Name = "Lawnmower",Price = 495.00};
+            var p9 = new {Name = "Lawnmower",Price = 495.00,};
+            var p10 = new {Name = "Lawnmower", Price = 495.00};
+            var p11 = new {Name = "Lawnmower", Price = 495.00,};
 
             string[] strings = null;
             var l = new List<string>

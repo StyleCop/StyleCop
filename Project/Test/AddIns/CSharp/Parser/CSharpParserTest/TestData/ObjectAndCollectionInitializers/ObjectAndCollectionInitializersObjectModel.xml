@@ -893,6 +893,163 @@
           </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p5"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p6"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p7"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p8"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p9"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p10"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p11"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
               <Expression Text="string[]"
                           Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
