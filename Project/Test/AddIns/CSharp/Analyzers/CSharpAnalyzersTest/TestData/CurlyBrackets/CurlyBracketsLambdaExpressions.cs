@@ -150,4 +150,117 @@ namespace CSharpAnalyzersTest.TestData
             };
         }
     }
+
+    public class CurlyBracketsLambdasWithObjectAndCollectionInitializers
+    {
+        public void Method()
+        {
+            Func<string> func;
+
+            // Valid
+            func = () => string.Format(
+                "{0}{1}{2}",
+                new[] { 'a', 'b' },
+                new[] { 1, 2 },
+                new { Name = "Test Name" });
+            func = () => string.Format(
+                "{0}{1}{2}",
+                new List<char> { 'a', 'b' },
+                new List<int> { 1, 2 },
+                new { Name = "Test Name" });
+            func = () => string.Format(
+                "{0}{1}{2}",
+                new List<char>
+                {
+                    'a',
+                    'b'
+                },
+                new List<int>
+                {
+                    1, 2
+                },
+                new
+                {
+                    Name = "Test Name"
+                });
+
+            // Invalid
+            func = () => string.Format(
+                "{0}{1}{2}",
+                new[] { 'a', 'b'
+                },
+                new[] { 1, 2
+                },
+                new { Name = "Test Name"
+                });
+            func = () => string.Format(
+                "{0}{1}{2}",
+                new List<char> {
+                    'a', 'b' },
+                new List<int> {
+                    1, 2 },
+                new {
+                    Name = "Test Name" });
+
+            // Valid
+            func = () =>
+            {
+                return string.Format(
+                    "{0}{1}{2}",
+                    new[] { 'a', 'b' },
+                    new[] { 1, 2 },
+                    new { Name = "Test Name" });
+            };
+            func = () =>
+            {
+                return string.Format(
+                    "{0}{1}{2}",
+                    new List<char> { 'a', 'b' },
+                    new List<int> { 1, 2 },
+                    new { Name = "Test Name" });
+            };
+            func = () =>
+            {
+                return string.Format(
+                    "{0}{1}{2}",
+                    new List<char>
+                    {
+                        'a',
+                        'b'
+                    },
+                    new List<int>
+                    {
+                        1, 2
+                    },
+                    new
+                    {
+                        Name = "Test Name"
+                    });
+            };
+
+            // Invalid
+            func = () =>
+            {
+                return string.Format(
+                    "{0}{1}{2}",
+                    new[] { 'a', 'b'
+                    },
+                    new[] { 1, 2
+                    },
+                    new { Name = "Test Name"
+                    });
+            };
+            func = () =>
+            {
+                return string.Format(
+                    "{0}{1}{2}",
+                    new List<char> {
+                        'a', 'b' },
+                    new List<int> {
+                        1, 2 },
+                    new {
+                        Name = "Test Name" });
+            };
+        }
+    }
 }

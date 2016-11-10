@@ -641,7 +641,7 @@ namespace StyleCop.CSharp
                     // expression is on one line.
                     Node<CsToken> openBracketNode = LayoutRules.GetOpenBracket(expression.Tokens);
 
-                    if (openBracketNode != null)
+                    if (openBracketNode != null && openBracketNode.Value.Parent == expression)
                     {
                         bool allowAllOnOneLine = expression.Location.StartPoint.LineNumber == expression.Location.EndPoint.LineNumber;
 

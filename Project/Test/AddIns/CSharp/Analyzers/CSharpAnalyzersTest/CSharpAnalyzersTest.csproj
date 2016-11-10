@@ -895,6 +895,7 @@
     </None>
     <None Include="TestData\ElementOrder\TestDescription.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="TestData\FileContents\TestDescription.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
