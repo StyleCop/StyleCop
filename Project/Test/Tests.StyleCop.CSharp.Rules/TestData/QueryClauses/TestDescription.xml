@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="QueryClauses">
+  <Test Name="QueryClauses">
+    <TestCodeFile>ValidQueryClauses.cs</TestCodeFile>
+    <TestCodeFile>InvalidQueryClauses.cs</TestCodeFile>
+    <TestCodeFile>InvalidContinuationQueryClauses.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="QueryClauseMustFollowPreviousClause">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="QueryClausesMustBeOnSeparateLinesOrAllOnOneLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="QueryClausesSpanningMultipleLinesMustBeginOnOwnLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="10" Rule="QueryClauseMustFollowPreviousClause" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="17" Rule="QueryClauseMustFollowPreviousClause" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="23" Rule="QueryClauseMustFollowPreviousClause" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="29" Rule="QueryClausesMustBeOnSeparateLinesOrAllOnOneLine" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="33" Rule="QueryClausesMustBeOnSeparateLinesOrAllOnOneLine" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="37" Rule="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="41" Rule="QueryClausesSpanningMultipleLinesMustBeginOnOwnLine" />
+      <Violation Section="Root.InvalidQueryClauses.Class1.Method" LineNumber="45" Rule="QueryClausesSpanningMultipleLinesMustBeginOnOwnLine" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="12" Rule="QueryClauseMustFollowPreviousClause" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="20" Rule="QueryClauseMustFollowPreviousClause" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="24" Rule="QueryClausesMustBeOnSeparateLinesOrAllOnOneLine" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="26" Rule="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="31" Rule="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="33" Rule="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" />
+      <Violation Section="Root.InvalidContinuationQueryClauses.Class1.Method" LineNumber="36" Rule="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

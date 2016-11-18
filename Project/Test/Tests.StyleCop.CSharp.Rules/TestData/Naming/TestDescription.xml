@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Naming">
+  <!-- Tests valid naming.  -->
+  <Test Name="ValidNaming">
+    <TestCodeFile>ValidNaming.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
+          <Rules>
+            <Rule Name="ElementMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementMustBeginWithLowerCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InterfaceNamesMustBeginWithI">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ConstFieldNamesMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotUseHungarianNotation">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustBeginWithLowerCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="AccessibleFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VariableNamesMustNotBePrefixed">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotBeginWithUnderscore">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotContainUnderscore">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ValidNaming1.class0" LineNumber="7" Rule="ElementMustBeginWithUpperCaseLetter" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests valid hungarian.  -->
+  <Test Name="ValidHungarian">
+    <TestCodeFile>ValidHungarian.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
+          <AnalyzerSettings>
+            <CollectionProperty Name="Hungarian">
+              <Value>x</Value>
+              <Value>xx</Value>
+              <Value>a2</Value>
+            </CollectionProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="FieldNamesMustNotUseHungarianNotation">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ValidHungarian1.Class1.yField" LineNumber="13" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class1.yyField" LineNumber="14" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Method3%int" LineNumber="27" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Method4%int" LineNumber="31" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.this%long.get" LineNumber="57" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.this%bool.get" LineNumber="62" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Method20" LineNumber="71" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Method20" LineNumber="72" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="81" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class2.Property20.set" LineNumber="82" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.ValidHungarian1.Class3.Method2%string%int" LineNumber="92" Rule="FieldNamesMustNotUseHungarianNotation" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests invalid naming.  -->
+  <Test Name="InvalidNaming">
+    <TestCodeFile>InvalidNaming.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
+          <Rules>
+            <Rule Name="ElementMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementMustBeginWithLowerCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InterfaceNamesMustBeginWithI">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ConstFieldNamesMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotUseHungarianNotation">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustBeginWithLowerCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="AccessibleFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="VariableNamesMustNotBePrefixed">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotBeginWithUnderscore">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldNamesMustNotContainUnderscore">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyFieldsMustBeginWithUpperCaseLetter">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.invalidNaming1" LineNumber="2" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1" LineNumber="7" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.enum1" LineNumber="10" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.struct1" LineNumber="16" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.delegate1" LineNumber="22" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.event1" LineNumber="25" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.property1" LineNumber="28" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.method1" LineNumber="34" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.MyInterface1" LineNumber="39" Rule="InterfaceNamesMustBeginWithI" />
+      <Violation Section="Root.invalidNaming1.class1.Field1" LineNumber="44" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.Field2" LineNumber="45" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.field3" LineNumber="48" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.field4" LineNumber="49" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.field5" LineNumber="50" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.const1" LineNumber="53" Rule="ConstFieldNamesMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly3" LineNumber="56" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly3" LineNumber="56" Rule="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly4" LineNumber="57" Rule="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly5" LineNumber="58" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly5" LineNumber="58" Rule="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly6" LineNumber="59" Rule="AccessibleFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.readonly6" LineNumber="59" Rule="NonPrivateReadonlyFieldsMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.class1.xField" LineNumber="62" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.class1.xyField" LineNumber="63" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.class1.xField2" LineNumber="64" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.class1.xyField2" LineNumber="65" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.class1.m_field" LineNumber="68" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1.s_field" LineNumber="69" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1.m_Field2" LineNumber="70" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1.s_Field2" LineNumber="71" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1.m_field3" LineNumber="72" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1.s_field3" LineNumber="73" Rule="VariableNamesMustNotBePrefixed" />
+      <Violation Section="Root.invalidNaming1.class1._field" LineNumber="76" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1._Field2" LineNumber="77" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1._field3" LineNumber="78" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.fi_eld" LineNumber="81" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.Fi_eld2" LineNumber="82" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.fi_eld3" LineNumber="83" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.field_" LineNumber="85" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.Field2_" LineNumber="86" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.class1.field3_" LineNumber="87" Rule="FieldNamesMustNotContainUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.Method2%int" LineNumber="96" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Method3%int" LineNumber="100" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Method4%int" LineNumber="104" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.this%short.get" LineNumber="133" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.this%long.get" LineNumber="138" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.this%float.get" LineNumber="143" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.Method20" LineNumber="161" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Method20" LineNumber="162" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Method20" LineNumber="165" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.Method20" LineNumber="166" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.Property20.set" LineNumber="174" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Property20.set" LineNumber="175" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class2.Property20.set" LineNumber="178" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.Class2.Property20.set" LineNumber="179" Rule="FieldNamesMustNotBeginWithUnderscore" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.event2" LineNumber="190" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.event5" LineNumber="192" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.Event7" LineNumber="193" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.event9" LineNumber="194" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.event9" LineNumber="194" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.Event11" LineNumber="195" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.CheckEvents.Event14" LineNumber="196" Rule="ElementMustBeginWithUpperCaseLetter" />
+      <Violation Section="Root.invalidNaming1.InvalidIndexerParameterNaming.this%char.get" LineNumber="206" Rule="FieldNamesMustBeginWithLowerCaseLetter" />
+      <Violation Section="Root.invalidNaming1.Class3.a2Field" LineNumber="221" Rule="FieldNamesMustNotUseHungarianNotation" />
+      <Violation Section="Root.invalidNaming1.Class4.thisField" LineNumber="226" Rule="StaticReadonlyFieldsMustBeginWithUpperCaseLetter" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

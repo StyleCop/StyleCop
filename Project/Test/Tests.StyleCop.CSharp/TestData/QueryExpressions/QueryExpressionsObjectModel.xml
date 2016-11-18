@@ -1,0 +1,336 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="StyleCop.CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="System" Type="UsingDirective" />
+      <Element Name="QueryExpressions" Type="Class">
+        <Element Name="Method" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="deltas" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="Address" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="c" Type="LiteralExpression" />
+                  <Expression Text="PhoneNumber" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="AreaCode" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="address" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="address" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="address" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Text="ZipCode" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="phonenumber" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="AreaCode" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="n" Type="LiteralExpression" />
+                <Expression Text="AreaCode" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="LastName" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="LastName" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="LastName" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="FirstName" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="LastName" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="FirstName" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="LastName" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="FirstName" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="Address" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="Name" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="c" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="Country" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="QueryExpression">
+              <Expression Text="customers" Type="LiteralExpression" />
+              <Expression Text="c" Type="LiteralExpression" />
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="c" Type="LiteralExpression" />
+                <Expression Text="Country" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="g" Type="LiteralExpression" />
+                <Expression Text="Key" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="test" Type="LiteralExpression" />
+                <Expression Type="QueryExpression">
+                  <Expression Type="NewArrayExpression">
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="int" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayInitializerExpression">
+                      <Expression Text="1" Type="LiteralExpression" />
+                      <Expression Text="2" Type="LiteralExpression" />
+                      <Expression Text="3" Type="LiteralExpression" />
+                      <Expression Text="4" Type="LiteralExpression" />
+                      <Expression Text="5" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Type="ConditionalExpression">
+                    <Expression Type="RelationalExpression">
+                      <Expression Text="itm" Type="LiteralExpression" />
+                      <Expression Text="1" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="1" Type="LiteralExpression" />
+                    <Expression Text="0" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="i" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="ConditionalLogicalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+<Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="ConditionalLogicalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="QueryExpression">
+                        <Expression Type="NewArrayExpression">
+                          <Expression Type="ArrayAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="ArrayInitializerExpression">
+                            <Expression Text="1" Type="LiteralExpression" />
+                            <Expression Text="2" Type="LiteralExpression" />
+                            <Expression Text="3" Type="LiteralExpression" />
+                            <Expression Text="4" Type="LiteralExpression" />
+                            <Expression Text="5" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                        <Expression Type="RelationalExpression">
+                          <Expression Text="true" Type="LiteralExpression" />
+                          <Expression Type="ParenthesizedExpression">
+                            <Expression Type="MemberAccessExpression">
+                              <Expression Text="b" Type="LiteralExpression" />
+                              <Expression Text="Equals" Type="LiteralExpression" />
+                            </Expression>
+                          </Expression>
+                        </Expression>
+                        <Expression Text="b" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement> 
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

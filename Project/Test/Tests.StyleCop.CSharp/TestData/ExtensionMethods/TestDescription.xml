@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="ExtensionMethods">
+  <!-- Tests parsing of valid extension methods. -->
+  <Test Name="ValidExtensionMethods">
+    <TestCodeFile TestObjectModel="true">ValidExtensionMethods.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+
+  <!-- Tests parsing of invalid extension methods to ensure that we get the expected syntax error violations. -->
+  <Test Name="InvalidExtensionMethod1">
+    <TestCodeFile>InvalidExtensionMethod1.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests parsing of invalid extension methods to ensure that we get the expected syntax error violations. -->
+  <Test Name="InvalidExtensionMethod2">
+    <TestCodeFile>InvalidExtensionMethod2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests parsing of invalid extension methods to ensure that we get the expected syntax error violations. -->
+  <Test Name="InvalidExtensionMetho3">
+    <TestCodeFile>InvalidExtensionMethod3.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests parsing of invalid extension methods to ensure that we get the expected syntax error violations. -->
+  <Test Name="InvalidExtensionMethod4">
+    <TestCodeFile>InvalidExtensionMethod4.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <!-- The output of the parser dump analyzer is not checked, but we must have at least one analyzer enabled so we use this one. -->
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation LineNumber="10" RuleNamespace="StyleCop.CSharp.CsParser" Rule="SyntaxException" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

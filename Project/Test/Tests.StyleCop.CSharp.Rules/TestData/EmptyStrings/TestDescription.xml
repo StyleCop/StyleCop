@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="EmptyStrings">
+  <Test Name="EmptyStrings">
+    <TestCodeFile>EmptyStrings.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseStringEmptyForEmptyStrings">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.EmptyStrings.Class1.string1" LineNumber="8" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.string2" LineNumber="9" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.string6" LineNumber="13" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method1%string" LineNumber="18" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method1%string" LineNumber="19" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method1%string" LineNumber="23" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method2" LineNumber="29" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method2" LineNumber="30" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.Class1.Method2" LineNumber="35" Rule="UseStringEmptyForEmptyStrings" />
+      <Violation Section="Root.EmptyStrings.ConstVariables.y" LineNumber="58" Rule="UseStringEmptyForEmptyStrings" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

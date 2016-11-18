@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="CurlyBrackets">
+  <Test Name="CurlyBrackets">
+    <TestCodeFile>CurlyBracketsBlocks.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsCheckeds.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsClasses.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsConstructorInitializers.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsConstructors.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsDelegates.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsLambdaExpressions.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsDestructors.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsDoWhiles.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsEnums.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsEvents.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsFixeds.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsForeaches.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsFors.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsIfs.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsIndexers.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsInterfaces.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsLocks.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsMethods.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsNamespaces.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsProperties.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsQueries.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsStructs.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsSwitches.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsTryCatchFinallys.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsUncheckeds.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsUnsafes.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsUsings.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsWhiles.cs</TestCodeFile>
+    <TestCodeFile>CurlyBracketsObjectInitializers.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="StatementMustNotBeOnSingleLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementMustNotBeOnSingleLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CurlyBracketsForMultiLineStatementsMustNotShareLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="AllAccessorsMustBeMultiLineOrSingleLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CurlyBracketsMustNotBeOmitted">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>         
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsBlocks.TestBlocks" LineNumber="12" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsBlocks.TestBlocks" LineNumber="13" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsBlocks.TestBlocks" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsBlocks.TestBlocks" LineNumber="18" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsBlocks.TestBlocks" LineNumber="21" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsCheckeds.TestChecked" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass3" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass3" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass4" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass5" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass6" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsClasses.InvalidClass7" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%int" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%bool" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%bool" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%short" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%long" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%long" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.CurlyBracketsConstructors%float" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="17" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="24" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="28" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="31" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="35" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="39" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="45" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="46" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="50" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="53" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDelegates.TestDelegates" LineNumber="57" Rule="StatementMustNotBeOnSingleLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="17" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="24" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="28" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="31" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="35" Rule="StatementMustNotBeOnSingleLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="39" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="45" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="46" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="50" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="53" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdaExpressions.TestLambdaExpressions" LineNumber="57" Rule="StatementMustNotBeOnSingleLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="190" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="192" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="194" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="198" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="199" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="200" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="201" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="202" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="203" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="246" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="248" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="250" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="257" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="258" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="259" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="260" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="261" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLambdasWithObjectAndCollectionInitializers.Method" LineNumber="262" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDestructors.~CurlyBracketsDestructors" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="28" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="35" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="36" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="38" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="39" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="43" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="44" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="47" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="52" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="55" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="60" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsDoWhiles.TestDoWhile" LineNumber="65" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum3" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum3" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum4" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum5" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum6" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEnums.InvalidEnum7" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent1.add" LineNumber="12" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent2.remove" LineNumber="26" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent3.add" LineNumber="31" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent3.add" LineNumber="32" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent3.remove" LineNumber="34" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent3.remove" LineNumber="35" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent4.add" LineNumber="40" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent4.remove" LineNumber="44" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent5.add" LineNumber="53" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent5.remove" LineNumber="57" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent6.add" LineNumber="63" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent6.remove" LineNumber="67" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent7.add" LineNumber="74" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent7.remove" LineNumber="77" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent8" LineNumber="80" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent9" LineNumber="84" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent10" LineNumber="86" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent10" LineNumber="87" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent11" LineNumber="89" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent12" LineNumber="94" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsEvents.InvalidEvent13" LineNumber="98" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFixeds.TestFixed" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="16" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="20" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="27" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="34" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="36" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="39" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="53" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsForeaches.TestForeach" LineNumber="54" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="35" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="38" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="52" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsFors.TestFor" LineNumber="53" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="35" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIf" LineNumber="38" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="59" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="64" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="69" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="76" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="77" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="84" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="90" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="97" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="102" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestElse" LineNumber="108" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIfStack%int" LineNumber="131" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIfs.TestIfStack%int" LineNumber="132" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%int.get" LineNumber="12" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%bool.set" LineNumber="27" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%string.get" LineNumber="32" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%string.get" LineNumber="33" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%string.set" LineNumber="35" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%string.set" LineNumber="36" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%float.get" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%float.set" LineNumber="45" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%double.get" LineNumber="54" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%double.set" LineNumber="58" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%DateTime[].get" LineNumber="64" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%DateTime[].set" LineNumber="68" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%DateTime.get" LineNumber="75" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%DateTime.set" LineNumber="78" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%int[]" LineNumber="81" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%char" LineNumber="85" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%long[]" LineNumber="87" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%long[]" LineNumber="88" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%byte" LineNumber="90" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%char[]" LineNumber="95" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsIndexers.this%short[]" LineNumber="99" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface3" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface3" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface4" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface5" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface6" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsConstructors.InvalidInterface7" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="16" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="20" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="27" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.TestLocks" LineNumber="34" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsLocks.MethodName%string" LineNumber="50" Rule="CurlyBracketsMustNotBeOmitted" /> 
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod3" LineNumber="15" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod4" LineNumber="17" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod5" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod6" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsMethods.InvalidMethod7" LineNumber="30" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.InvalidNamespace1" LineNumber="2" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.InvalidNamespace2" LineNumber="3" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.InvalidNamespace3" LineNumber="7" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.InvalidNamespace4" LineNumber="9" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.InvalidNamespace5" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.InvalidNamespace5" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.InvalidNamespace6" LineNumber="17" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.InvalidNamespace7" LineNumber="21" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty1.get" LineNumber="12" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty2.set" LineNumber="27" Rule="AllAccessorsMustBeMultiLineOrSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty3.get" LineNumber="32" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty3.get" LineNumber="33" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty3.set" LineNumber="35" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty3.set" LineNumber="36" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty4.get" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty4.set" LineNumber="45" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty5.get" LineNumber="54" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty5.set" LineNumber="58" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty6.get" LineNumber="64" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty6.set" LineNumber="68" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty7.get" LineNumber="75" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty7.set" LineNumber="78" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty8" LineNumber="81" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty9" LineNumber="85" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty10" LineNumber="87" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty10" LineNumber="88" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty11" LineNumber="90" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty12" LineNumber="95" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty13" LineNumber="99" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty14" LineNumber="101" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty14" LineNumber="103" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty15" LineNumber="105" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty15" LineNumber="106" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsProperties.InvalidProperty16" LineNumber="110" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct1" LineNumber="10" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct2" LineNumber="11" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct3" LineNumber="13" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct3" LineNumber="14" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct4" LineNumber="16" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct5" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct6" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsStructs.InvalidStruct7" LineNumber="29" Rule="ElementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="28" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="33" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="36" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="42" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsSwitches.TestSwitch" LineNumber="45" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="12" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="13" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="16" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="18" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="19" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="31" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="34" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="37" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="41" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="42" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="43" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="44" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="45" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="46" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="49" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="52" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="55" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="59" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="61" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsTryCatchFinallys.TestTryCatchFinally" LineNumber="63" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUncheckeds.TestUnchecked" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUnsafes.TestUnsafes" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="16" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="20" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="22" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="27" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="34" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="48" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="84" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="88" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="97" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="98" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsUsings.TestUsings" LineNumber="106" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="14" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="15" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="19" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="29" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="33" Rule="StatementMustNotBeOnSingleLine"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="35" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="38" Rule="CurlyBracketsMustNotBeOmitted"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="52" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBracketsWhiles.TestWhile" LineNumber="53" Rule="CurlyBracketsMustNotBeOmitted" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="11" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="15" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="17" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="18" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="20" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="21" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="23" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="25" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="26" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="30" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="37" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="38" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="42" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="53" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="59" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="63" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="68" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="70" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="75" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="78" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.contacts" LineNumber="83" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="144" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="148" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="150" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="151" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="153" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="154" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="156" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="158" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="159" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="163" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="170" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="171" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="175" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="186" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="192" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="196" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="201" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="203" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="208" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="211" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CurlyBrackets.CurlyBracketsObjectInitializers.Method" LineNumber="216" Rule="CurlyBracketsForMultiLineStatementsMustNotShareLine" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

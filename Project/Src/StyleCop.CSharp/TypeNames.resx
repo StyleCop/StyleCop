@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accessor" xml:space="preserve">
+    <value>accessor</value>
+  </data>
+  <data name="AccessorPlural" xml:space="preserve">
+    <value>accessors</value>
+  </data>
+  <data name="AnonymousMethodExpression" xml:space="preserve">
+    <value>anonymous method expression</value>
+  </data>
+  <data name="AnonymousMethodExpressionPlural" xml:space="preserve">
+    <value>anonymous method expressions</value>
+  </data>
+  <data name="ArithmeticExpression" xml:space="preserve">
+    <value>arithmetic expression</value>
+  </data>
+  <data name="ArithmeticExpressionPlural" xml:space="preserve">
+    <value>arithmetic expressions</value>
+  </data>
+  <data name="ArrayAccessExpression" xml:space="preserve">
+    <value>array access expression</value>
+  </data>
+  <data name="ArrayAccessExpressionPlural" xml:space="preserve">
+    <value>array access expressions</value>
+  </data>
+  <data name="ArrayInitializerExpression" xml:space="preserve">
+    <value>array initializer expression</value>
+  </data>
+  <data name="ArrayInitializerExpressionPlural" xml:space="preserve">
+    <value>array initializer expressions</value>
+  </data>
+  <data name="AsExpression" xml:space="preserve">
+    <value>as expression</value>
+  </data>
+  <data name="AsExpressionPlural" xml:space="preserve">
+    <value>as expressions</value>
+  </data>
+  <data name="AssignmentExpression" xml:space="preserve">
+    <value>assignment expression</value>
+  </data>
+  <data name="AssignmentExpressionPlural" xml:space="preserve">
+    <value>assignment expressions</value>
+  </data>
+  <data name="AttributeExpression" xml:space="preserve">
+    <value>attribute expression</value>
+  </data>
+  <data name="AttributeExpressionPlural" xml:space="preserve">
+    <value>attribute expressions</value>
+  </data>
+  <data name="BlockStatement" xml:space="preserve">
+    <value>block statement</value>
+  </data>
+  <data name="BlockStatementPlural" xml:space="preserve">
+    <value>block statements</value>
+  </data>
+  <data name="BreakStatement" xml:space="preserve">
+    <value>break statement</value>
+  </data>
+  <data name="BreakStatementPlural" xml:space="preserve">
+    <value>break statements</value>
+  </data>
+  <data name="CastExpression" xml:space="preserve">
+    <value>cast expression</value>
+  </data>
+  <data name="CastExpressionPlural" xml:space="preserve">
+    <value>cast expressions</value>
+  </data>
+  <data name="CatchStatement" xml:space="preserve">
+    <value>catch statement</value>
+  </data>
+  <data name="CatchStatementPlural" xml:space="preserve">
+    <value>catch statements</value>
+  </data>
+  <data name="CheckedExpression" xml:space="preserve">
+    <value>checked expression</value>
+  </data>
+  <data name="CheckedExpressionPlural" xml:space="preserve">
+    <value>checked expressions</value>
+  </data>
+  <data name="CheckedStatement" xml:space="preserve">
+    <value>checked statement</value>
+  </data>
+  <data name="CheckedStatementPlural" xml:space="preserve">
+    <value>checked statements</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>class</value>
+  </data>
+  <data name="ClassPlural" xml:space="preserve">
+    <value>classes</value>
+  </data>
+  <data name="CollectionInitializerExpression" xml:space="preserve">
+    <value>collection initializer expression</value>
+  </data>
+  <data name="CollectionInitializerExpressionPlural" xml:space="preserve">
+    <value>collection initializer expressions</value>
+  </data>
+  <data name="ConditionalExpression" xml:space="preserve">
+    <value>conditional expression</value>
+  </data>
+  <data name="ConditionalExpressionPlural" xml:space="preserve">
+    <value>conditional expressions</value>
+  </data>
+  <data name="ConditionalLogicalExpression" xml:space="preserve">
+    <value>conditional-logical expression</value>
+  </data>
+  <data name="ConditionalLogicalExpressionPlural" xml:space="preserve">
+    <value>conditional-logical expressions</value>
+  </data>
+  <data name="Constructor" xml:space="preserve">
+    <value>constructor</value>
+  </data>
+  <data name="ConstructorInitializerStatement" xml:space="preserve">
+    <value>constructor initializer</value>
+  </data>
+  <data name="ConstructorInitializerStatementPlural" xml:space="preserve">
+    <value>constructor initializers</value>
+  </data>
+  <data name="ConstructorPlural" xml:space="preserve">
+    <value>constructors</value>
+  </data>
+  <data name="ContinueStatement" xml:space="preserve">
+    <value>continue statement</value>
+  </data>
+  <data name="ContinueStatementPlural" xml:space="preserve">
+    <value>continue statements</value>
+  </data>
+  <data name="DecrementExpression" xml:space="preserve">
+    <value>decrement expression</value>
+  </data>
+  <data name="DecrementExpressionPlural" xml:space="preserve">
+    <value>decrement expressions</value>
+  </data>
+  <data name="DefaultValueExpression" xml:space="preserve">
+    <value>default value expression</value>
+  </data>
+  <data name="DefaultValueExpressionPlural" xml:space="preserve">
+    <value>default value expressions</value>
+  </data>
+  <data name="Delegate" xml:space="preserve">
+    <value>delegate</value>
+  </data>
+  <data name="DelegatePlural" xml:space="preserve">
+    <value>delegates</value>
+  </data>
+  <data name="Destructor" xml:space="preserve">
+    <value>destructor</value>
+  </data>
+  <data name="DestructorPlural" xml:space="preserve">
+    <value>destructors</value>
+  </data>
+  <data name="DoWhileStatement" xml:space="preserve">
+    <value>do-while statement</value>
+  </data>
+  <data name="DoWhileStatementPlural" xml:space="preserve">
+    <value>do-while statements</value>
+  </data>
+  <data name="ElseStatement" xml:space="preserve">
+    <value>else statement</value>
+  </data>
+  <data name="ElseStatementPlural" xml:space="preserve">
+    <value>else statements</value>
+  </data>
+  <data name="EmptyElement" xml:space="preserve">
+    <value>empty element</value>
+  </data>
+  <data name="EmptyElementPlural" xml:space="preserve">
+    <value>empty elements</value>
+  </data>
+  <data name="EmptyStatement" xml:space="preserve">
+    <value>empty statement (extra semicolon)</value>
+  </data>
+  <data name="EmptyStatementPlural" xml:space="preserve">
+    <value>empty statements (extra semicolons)</value>
+  </data>
+  <data name="Enum" xml:space="preserve">
+    <value>enum</value>
+  </data>
+  <data name="EnumItem" xml:space="preserve">
+    <value>enum item</value>
+  </data>
+  <data name="EnumItemPlural" xml:space="preserve">
+    <value>enum items</value>
+  </data>
+  <data name="EnumPlural" xml:space="preserve">
+    <value>enums</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>event</value>
+  </data>
+  <data name="EventPlural" xml:space="preserve">
+    <value>events</value>
+  </data>
+  <data name="ExpressionStatement" xml:space="preserve">
+    <value>expression statement</value>
+  </data>
+  <data name="ExpressionStatementPlural" xml:space="preserve">
+    <value>expression statements</value>
+  </data>
+  <data name="ExternAliasDirective" xml:space="preserve">
+    <value>extern alias directive</value>
+  </data>
+  <data name="ExternAliasDirectivePlural" xml:space="preserve">
+    <value>extern alias directives</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>field</value>
+  </data>
+  <data name="FieldPlural" xml:space="preserve">
+    <value>fields</value>
+  </data>
+  <data name="FinallyStatement" xml:space="preserve">
+    <value>finally statement</value>
+  </data>
+  <data name="FinallyStatementPlural" xml:space="preserve">
+    <value>finally statements</value>
+  </data>
+  <data name="FixedStatement" xml:space="preserve">
+    <value>fixed statement</value>
+  </data>
+  <data name="FixedStatementPlural" xml:space="preserve">
+    <value>fixed statements</value>
+  </data>
+  <data name="ForeachStatement" xml:space="preserve">
+    <value>foreach statement</value>
+  </data>
+  <data name="ForeachStatementPlural" xml:space="preserve">
+    <value>foreach statements</value>
+  </data>
+  <data name="ForStatement" xml:space="preserve">
+    <value>for statement</value>
+  </data>
+  <data name="ForStatementPlural" xml:space="preserve">
+    <value>for statements</value>
+  </data>
+  <data name="GotoStatement" xml:space="preserve">
+    <value>goto statement</value>
+  </data>
+  <data name="GotoStatementPlural" xml:space="preserve">
+    <value>goto statements</value>
+  </data>
+  <data name="IfStatement" xml:space="preserve">
+    <value>if statement</value>
+  </data>
+  <data name="IfStatementPlural" xml:space="preserve">
+    <value>if statements</value>
+  </data>
+  <data name="IncrementExpression" xml:space="preserve">
+    <value>increment expression</value>
+  </data>
+  <data name="IncrementExpressionPlural" xml:space="preserve">
+    <value>increment expressions</value>
+  </data>
+  <data name="Indexer" xml:space="preserve">
+    <value>indexer</value>
+  </data>
+  <data name="IndexerPlural" xml:space="preserve">
+    <value>indexers</value>
+  </data>
+  <data name="Interface" xml:space="preserve">
+    <value>interface</value>
+  </data>
+  <data name="InterfacePlural" xml:space="preserve">
+    <value>interfaces</value>
+  </data>
+  <data name="IsExpression" xml:space="preserve">
+    <value>is expression</value>
+  </data>
+  <data name="IsExpressionPlural" xml:space="preserve">
+    <value>is expressions</value>
+  </data>
+  <data name="LabelStatement" xml:space="preserve">
+    <value>label statement</value>
+  </data>
+  <data name="LabelStatementPlural" xml:space="preserve">
+    <value>label statements</value>
+  </data>
+  <data name="LambdaExpression" xml:space="preserve">
+    <value>lambda expression</value>
+  </data>
+  <data name="LambdaExpressionPlural" xml:space="preserve">
+    <value>lambda expressions</value>
+  </data>
+  <data name="LiteralExpression" xml:space="preserve">
+    <value>literal expression</value>
+  </data>
+  <data name="LiteralExpressionPlural" xml:space="preserve">
+    <value>literal expressions</value>
+  </data>
+  <data name="LockStatement" xml:space="preserve">
+    <value>lock statement</value>
+  </data>
+  <data name="LockStatementPlural" xml:space="preserve">
+    <value>lock statements</value>
+  </data>
+  <data name="LogicalExpression" xml:space="preserve">
+    <value>logical expression</value>
+  </data>
+  <data name="LogicalExpressionPlural" xml:space="preserve">
+    <value>logical expressions</value>
+  </data>
+  <data name="MemberAccessExpression" xml:space="preserve">
+    <value>member access expression</value>
+  </data>
+  <data name="MemberAccessExpressionPlural" xml:space="preserve">
+    <value>member access expressions</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>method</value>
+  </data>
+  <data name="MethodInvocationExpression" xml:space="preserve">
+    <value>method invocation expression</value>
+  </data>
+  <data name="MethodInvocationExpressionPlural" xml:space="preserve">
+    <value>method invocation expressions</value>
+  </data>
+  <data name="MethodPlural" xml:space="preserve">
+    <value>methods</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>namespace</value>
+  </data>
+  <data name="NamespacePlural" xml:space="preserve">
+    <value>namespaces</value>
+  </data>
+  <data name="NewArrayExpression" xml:space="preserve">
+    <value>new array expression</value>
+  </data>
+  <data name="NewArrayExpressionPlural" xml:space="preserve">
+    <value>new array expressions</value>
+  </data>
+  <data name="NewExpression" xml:space="preserve">
+    <value>new expression</value>
+  </data>
+  <data name="NewExpressionPlural" xml:space="preserve">
+    <value>new expressions</value>
+  </data>
+  <data name="NullCoalescingExpression" xml:space="preserve">
+    <value>null-coalescing expression</value>
+  </data>
+  <data name="NullCoalescingExpressionPlural" xml:space="preserve">
+    <value>null-coalescing expressions</value>
+  </data>
+  <data name="ObjectInitializerExpression" xml:space="preserve">
+    <value>object initializer expression</value>
+  </data>
+  <data name="ObjectInitializerExpressionPlural" xml:space="preserve">
+    <value>object initializer expressions</value>
+  </data>
+  <data name="ParenthesizedExpression" xml:space="preserve">
+    <value>parenthesized expression</value>
+  </data>
+  <data name="ParenthesizedExpressionPlural" xml:space="preserve">
+    <value>parenthesized expressions</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>property</value>
+  </data>
+  <data name="PropertyPlural" xml:space="preserve">
+    <value>properties</value>
+  </data>
+  <data name="QueryContinuationClause" xml:space="preserve">
+    <value>into clause</value>
+  </data>
+  <data name="QueryContinuationClausePlural" xml:space="preserve">
+    <value>into clauses</value>
+  </data>
+  <data name="QueryExpression" xml:space="preserve">
+    <value>query expression</value>
+  </data>
+  <data name="QueryExpressionPlural" xml:space="preserve">
+    <value>query expressions</value>
+  </data>
+  <data name="QueryFromClause" xml:space="preserve">
+    <value>from clause</value>
+  </data>
+  <data name="QueryFromClausePlural" xml:space="preserve">
+    <value>from clauses</value>
+  </data>
+  <data name="QueryGroupClause" xml:space="preserve">
+    <value>group clause</value>
+  </data>
+  <data name="QueryGroupClausePlural" xml:space="preserve">
+    <value>group clauses</value>
+  </data>
+  <data name="QueryJoinClause" xml:space="preserve">
+    <value>join clause</value>
+  </data>
+  <data name="QueryJoinClausePlural" xml:space="preserve">
+    <value>join clauses</value>
+  </data>
+  <data name="QueryLetClause" xml:space="preserve">
+    <value>let clause</value>
+  </data>
+  <data name="QueryLetClausePlural" xml:space="preserve">
+    <value>let clauses</value>
+  </data>
+  <data name="QueryOrderByClause" xml:space="preserve">
+    <value>order-by clause</value>
+  </data>
+  <data name="QueryOrderByClausePlural" xml:space="preserve">
+    <value>order-by clauses</value>
+  </data>
+  <data name="QuerySelectClause" xml:space="preserve">
+    <value>select clause</value>
+  </data>
+  <data name="QuerySelectClausePlural" xml:space="preserve">
+    <value>select clauses</value>
+  </data>
+  <data name="QueryWhereClause" xml:space="preserve">
+    <value>where clause</value>
+  </data>
+  <data name="QueryWhereClausePlural" xml:space="preserve">
+    <value>where clauses</value>
+  </data>
+  <data name="RelationalExpression" xml:space="preserve">
+    <value>relational expression</value>
+  </data>
+  <data name="RelationalExpressionPlural" xml:space="preserve">
+    <value>relational expressions</value>
+  </data>
+  <data name="ReturnStatement" xml:space="preserve">
+    <value>return statement</value>
+  </data>
+  <data name="ReturnStatementPlural" xml:space="preserve">
+    <value>return statements</value>
+  </data>
+  <data name="SizeofExpression" xml:space="preserve">
+    <value>sizeof expression</value>
+  </data>
+  <data name="SizeofExpressionPlural" xml:space="preserve">
+    <value>sizeof expressions</value>
+  </data>
+  <data name="StackallocExpression" xml:space="preserve">
+    <value>stackalloc expression</value>
+  </data>
+  <data name="StackallocExpressionPlural" xml:space="preserve">
+    <value>stackalloc expressions</value>
+  </data>
+  <data name="Struct" xml:space="preserve">
+    <value>struct</value>
+  </data>
+  <data name="StructPlural" xml:space="preserve">
+    <value>structs</value>
+  </data>
+  <data name="SwitchCaseStatement" xml:space="preserve">
+    <value>switch-case statement</value>
+  </data>
+  <data name="SwitchCaseStatementPlural" xml:space="preserve">
+    <value>switch-case statements</value>
+  </data>
+  <data name="SwitchDefaultStatement" xml:space="preserve">
+    <value>switch-default statement</value>
+  </data>
+  <data name="SwitchDefaultStatementPlural" xml:space="preserve">
+    <value>switch-default statements</value>
+  </data>
+  <data name="SwitchStatement" xml:space="preserve">
+    <value>switch statement</value>
+  </data>
+  <data name="SwitchStatementPlural" xml:space="preserve">
+    <value>switch statements</value>
+  </data>
+  <data name="ThrowStatement" xml:space="preserve">
+    <value>throw statement</value>
+  </data>
+  <data name="ThrowStatementPlural" xml:space="preserve">
+    <value>throw statements</value>
+  </data>
+  <data name="TryStatement" xml:space="preserve">
+    <value>try statement</value>
+  </data>
+  <data name="TryStatementPlural" xml:space="preserve">
+    <value>try statements</value>
+  </data>
+  <data name="TypeofExpression" xml:space="preserve">
+    <value>typeof expression</value>
+  </data>
+  <data name="TypeofExpressionPlural" xml:space="preserve">
+    <value>typeof expressions</value>
+  </data>
+  <data name="UnaryExpression" xml:space="preserve">
+    <value>unary expression</value>
+  </data>
+  <data name="UnaryExpressionPlural" xml:space="preserve">
+    <value>unary expressions</value>
+  </data>
+  <data name="UncheckedExpression" xml:space="preserve">
+    <value>unchecked expression</value>
+  </data>
+  <data name="UncheckedExpressionPlural" xml:space="preserve">
+    <value>unchecked expressions</value>
+  </data>
+  <data name="UncheckedStatement" xml:space="preserve">
+    <value>unchecked statement</value>
+  </data>
+  <data name="UncheckedStatementPlural" xml:space="preserve">
+    <value>unchecked statements</value>
+  </data>
+  <data name="UnsafeAccessExpression" xml:space="preserve">
+    <value>unsafe access expression</value>
+  </data>
+  <data name="UnsafeAccessExpressionPlural" xml:space="preserve">
+    <value>unsafe access expressions</value>
+  </data>
+  <data name="UnsafeStatement" xml:space="preserve">
+    <value>unsafe statement</value>
+  </data>
+  <data name="UnsafeStatementPlural" xml:space="preserve">
+    <value>unsafe statements</value>
+  </data>
+  <data name="UsingDirective" xml:space="preserve">
+    <value>using directive</value>
+  </data>
+  <data name="UsingDirectivePlural" xml:space="preserve">
+    <value>using directives</value>
+  </data>
+  <data name="UsingStatement" xml:space="preserve">
+    <value>using statement</value>
+  </data>
+  <data name="UsingStatementPlural" xml:space="preserve">
+    <value>using statements</value>
+  </data>
+  <data name="VariableDeclarationExpression" xml:space="preserve">
+    <value>variable declaration expression</value>
+  </data>
+  <data name="VariableDeclarationExpressionPlural" xml:space="preserve">
+    <value>variable declaration expressions</value>
+  </data>
+  <data name="VariableDeclarationStatement" xml:space="preserve">
+    <value>variable declaration statement</value>
+  </data>
+  <data name="VariableDeclarationStatementPlural" xml:space="preserve">
+    <value>variable declaration statements</value>
+  </data>
+  <data name="VariableDeclaratorExpression" xml:space="preserve">
+    <value>variable declarator expression</value>
+  </data>
+  <data name="VariableDeclaratorExpressionPlural" xml:space="preserve">
+    <value>variable declarator expressions</value>
+  </data>
+  <data name="WhileStatement" xml:space="preserve">
+    <value>while statement</value>
+  </data>
+  <data name="WhileStatementPlural" xml:space="preserve">
+    <value>while statements</value>
+  </data>
+  <data name="YieldStatement" xml:space="preserve">
+    <value>yield statement</value>
+  </data>
+  <data name="YieldStatementPlural" xml:space="preserve">
+    <value>yield statements</value>
+  </data>
+  <data name="AssemblyOrModuleAttribute" xml:space="preserve">
+    <value>assembly or module attribute</value>
+  </data>
+  <data name="AssemblyOrModuleAttributePlural" xml:space="preserve">
+    <value>assembly or module attributes</value>
+  </data>
+  <data name="DocumentRoot" xml:space="preserve">
+    <value>document root</value>
+  </data>
+  <data name="DocumentRootPlural" xml:space="preserve">
+    <value>document roots</value>
+  </data>
+</root>

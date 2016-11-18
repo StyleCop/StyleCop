@@ -1,0 +1,35 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Delegate1" Type="Delegate" />
+    <Element Name="Delegate2" Type="Delegate" />
+    <Element Name="Delegate3" Type="Delegate" />
+    <Element Name="Delegate4" Type="Delegate" />
+    <Element Name="Delegate5" Type="Delegate" />
+    <Element Name="Delegate6&lt;T&gt;" Type="Delegate" />
+    <Element Name="Delegate7&lt;T,S&gt;" Type="Delegate" />
+    <Element Name="Delegate8" Type="Delegate" />
+    <Element Name="Delegate9" Type="Delegate" />
+    <Element Name="DelegateWithTypeConstraint1&lt;T&gt;" Type="Delegate" />
+    <Element Name="DelegateWithTypeConstraint2&lt;T&gt;" Type="Delegate" />
+    <Element Name="DelegateWithTypeConstraint3&lt;T&gt;" Type="Delegate" />
+    <Element Name="DelegateWithTypeConstraint4&lt;T,S&gt;" Type="Delegate" />
+    <Element Name="ClassWithNestedDelegate1" Type="Class">
+      <Element Name="NestedDelegate1" Type="Delegate" />
+      <Element Name="NestedDelegate2" Type="Delegate" />
+      <Element Name="NestedDelegate3" Type="Delegate" />
+    </Element>
+    <Element Name="DelegateWithAccessModifier1" Type="Delegate" />
+    <Element Name="DelegateWithAccessModifier2" Type="Delegate" />
+    <Element Name="DelegateWithAccessModifier3" Type="Delegate" />
+    <Element Name="DelegateWithAccessModifier4" Type="Delegate" />
+    <Element Name="DelegateWithAccessModifier5" Type="Delegate" />
+    <Element Name="DelegateWithAccessModifier6" Type="Delegate" />
+    <Element Name="ClassWithNestedDelegate2" Type="Class">
+      <Element Name="DelegateWithModifier1" Type="Delegate" />
+      <Element Name="DelegateWithModifier2" Type="Delegate" />
+    </Element>
+    <Element Name="DelegateWithAttributes" Type="Delegate" />
+    <Element Name="DelegateWithHeader" Type="Delegate" />
+    <Element Name="DelegateWithHeaderAndAttributes" Type="Delegate" />
+  </Element>
+</StyleCopCsParserObjectModel>

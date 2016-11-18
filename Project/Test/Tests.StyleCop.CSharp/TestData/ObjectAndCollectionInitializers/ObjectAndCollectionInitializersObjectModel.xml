@@ -1,0 +1,1137 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root"
+           Type="DocumentRoot">
+    <Element Name="MS.StyleCop.CSharpParserTest.TestData"
+             Type="Namespace">
+      <Element Name="System"
+               Type="UsingDirective" />
+      <Element Name="ObjectAndCollectionInitializers"
+               Type="Class">
+        <Element Name="Method"
+                 Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="a"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Point"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="b"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Point"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="c"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Point"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="d"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Point"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Y"
+                                  Type="LiteralExpression" />
+                      <Expression Text="1"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="e"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Point"
+                                Type="LiteralExpression" />
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="f"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Point"
+                                Type="LiteralExpression" />
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="g"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Point"
+                                Type="LiteralExpression" />
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="h"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Point"
+                                Type="LiteralExpression" />
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Point"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="i"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Point"
+                                Type="LiteralExpression" />
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="X"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Y"
+                                  Type="LiteralExpression" />
+                      <Expression Text="1"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Rectangle"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="r"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Rectangle"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P1"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Text="Point"
+                                    Type="LiteralExpression" />
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="0"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="1"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P2"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Text="Point"
+                                    Type="LiteralExpression" />
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="2"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="3"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Rectangle"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="r"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Rectangle"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P1"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Text="Point"
+                                    Type="LiteralExpression" />
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="0"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="1"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P2"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Text="Point"
+                                    Type="LiteralExpression" />
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="2"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="3"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Rectangle"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="r"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Rectangle"
+                                Type="LiteralExpression" />
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="Point"
+                                  Type="LiteralExpression" />
+                      <Expression Text="Empty"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="Point"
+                                  Type="LiteralExpression" />
+                      <Expression Text="Empty"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P1"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Type="MethodInvocationExpression">
+                          <Expression Text="Point"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="0"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="1"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P2"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Type="MethodInvocationExpression">
+                          <Expression Text="Point"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="ObjectInitializerExpression">
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="X"
+                                        Type="LiteralExpression" />
+                            <Expression Text="2"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="AssignmentExpression">
+                            <Expression Text="Y"
+                                        Type="LiteralExpression" />
+                            <Expression Text="3"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Rectangle"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="r"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Rectangle"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P1"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="X"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Y"
+                                      Type="LiteralExpression" />
+                          <Expression Text="1"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P2"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="X"
+                                      Type="LiteralExpression" />
+                          <Expression Text="2"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Y"
+                                      Type="LiteralExpression" />
+                          <Expression Text="3"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Rectangle"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="r"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="Rectangle"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P1"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="X"
+                                      Type="LiteralExpression" />
+                          <Expression Text="0"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Y"
+                                      Type="LiteralExpression" />
+                          <Expression Text="1"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="P2"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="X"
+                                      Type="LiteralExpression" />
+                          <Expression Text="2"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Y"
+                                      Type="LiteralExpression" />
+                          <Expression Text="3"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;int&gt;"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="digits"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;int&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;int&gt;"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="digits"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;int&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                    <Expression Text="2"
+                                Type="LiteralExpression" />
+                    <Expression Text="3"
+                                Type="LiteralExpression" />
+                    <Expression Text="4"
+                                Type="LiteralExpression" />
+                    <Expression Text="5"
+                                Type="LiteralExpression" />
+                    <Expression Text="6"
+                                Type="LiteralExpression" />
+                    <Expression Text="7"
+                                Type="LiteralExpression" />
+                    <Expression Text="8"
+                                Type="LiteralExpression" />
+                    <Expression Text="9"
+                                Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;int&gt;"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="digits"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;int&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Text="0"
+                                Type="LiteralExpression" />
+                    <Expression Text="1"
+                                Type="LiteralExpression" />
+                    <Expression Text="2"
+                                Type="LiteralExpression" />
+                    <Expression Text="3"
+                                Type="LiteralExpression" />
+                    <Expression Text="4"
+                                Type="LiteralExpression" />
+                    <Expression Text="5"
+                                Type="LiteralExpression" />
+                    <Expression Text="6"
+                                Type="LiteralExpression" />
+                    <Expression Text="7"
+                                Type="LiteralExpression" />
+                    <Expression Text="8"
+                                Type="LiteralExpression" />
+                    <Expression Text="9"
+                                Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="expected"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="InstitutionalInfo"
+                              Type="LiteralExpression" />
+                  <Expression Type="ObjectInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="AlternateNames"
+                                  Type="LiteralExpression" />
+                      <Expression Type="NewExpression">
+                        <Expression Text="List&lt;string&gt;"
+                                    Type="LiteralExpression" />
+                        <Expression Type="CollectionInitializerExpression">
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Type="ArrayAccessExpression">
+                              <Expression Text="_names"
+                                          Type="LiteralExpression" />
+                              <Expression Text="0"
+                                          Type="LiteralExpression" />
+                            </Expression>
+                            <Expression Text="AlternateName"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Type="ArrayAccessExpression">
+                              <Expression Text="_names"
+                                          Type="LiteralExpression" />
+                              <Expression Text="1"
+                                          Type="LiteralExpression" />
+                            </Expression>
+                            <Expression Text="AlternateName"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="Distributions"
+                          Type="LiteralExpression" />
+              <Expression Type="NewExpression">
+                <Expression Text="List"
+                            Type="LiteralExpression" />
+                <Expression Type="CollectionInitializerExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Type="ArrayAccessExpression">
+                        <Expression Text="reader"
+                                    Type="LiteralExpression" />
+                        <Expression Text="&quot;Distribution1&quot;"
+                                    Type="LiteralExpression" />
+                      </Expression>
+                      <Expression Text="ToString"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Type="ArrayAccessExpression">
+                        <Expression Text="reader"
+                                    Type="LiteralExpression" />
+                        <Expression Text="&quot;Distribution2&quot;"
+                                    Type="LiteralExpression" />
+                      </Expression>
+                      <Expression Text="ToString"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;int&gt;"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="digits"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;int&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="CollectionInitializerExpression">
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                      <Expression Text="1"
+                                  Type="LiteralExpression" />
+                      <Expression Text="2"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="CollectionInitializerExpression">
+                      <Expression Text="3"
+                                  Type="LiteralExpression" />
+                      <Expression Text="4"
+                                  Type="LiteralExpression" />
+                      <Expression Text="5"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="CollectionInitializerExpression">
+                      <Expression Text="6"
+                                  Type="LiteralExpression" />
+                      <Expression Text="7"
+                                  Type="LiteralExpression" />
+                      <Expression Text="8"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="9"
+                                Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="List&lt;Contact&gt;"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="contacts"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;Contact&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="NewExpression">
+                      <Expression Text="Contact"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Name"
+                                      Type="LiteralExpression" />
+                          <Expression Text="&quot;Chris Smith&quot;"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="PhoneNumbers"
+                                      Type="LiteralExpression" />
+                          <Expression Type="CollectionInitializerExpression">
+                            <Expression Text="&quot;206-555-0101&quot;"
+                                        Type="LiteralExpression" />
+                            <Expression Text="&quot;425-882-8080&quot;"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                    <Expression Type="NewExpression">
+                      <Expression Text="Contact"
+                                  Type="LiteralExpression" />
+                      <Expression Type="ObjectInitializerExpression">
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="Name"
+                                      Type="LiteralExpression" />
+                          <Expression Text="&quot;Bob Harris&quot;"
+                                      Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="AssignmentExpression">
+                          <Expression Text="PhoneNumbers"
+                                      Type="LiteralExpression" />
+                          <Expression Type="CollectionInitializerExpression">
+                            <Expression Text="&quot;650-555-0199&quot;"
+                                        Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p1"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p2"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p3"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p4"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p5"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p6"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p7"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p8"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p9"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p10"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="p11"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Name"
+                                  Type="LiteralExpression" />
+                      <Expression Text="&quot;Lawnmower&quot;"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="AssignmentExpression">
+                      <Expression Text="Price"
+                                  Type="LiteralExpression" />
+                      <Expression Text="495.00"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string[]"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="strings"
+                            Type="LiteralExpression" />
+                <Expression Text="null"
+                            Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var"
+                          Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="l"
+                            Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Text="List&lt;string&gt;"
+                              Type="LiteralExpression" />
+                  <Expression Type="CollectionInitializerExpression">
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="9"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="8"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="0"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="1"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="2"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="3"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="4"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="5"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ArrayAccessExpression">
+                      <Expression Text="strings"
+                                  Type="LiteralExpression" />
+                      <Expression Text="6"
+                                  Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

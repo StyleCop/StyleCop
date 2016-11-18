@@ -1,0 +1,1029 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="ElementOrder">
+  <!-- Tests that using directives are within the namespace. -->
+  <Test Name="ElementOrderUsingDirectives">
+    <TestCodeFile>ElementOrderUsingDirectives.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderUsingDirectives2.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderUsingDirectives3.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="UsingDirectivesMustBePlacedWithinNamespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.System" LineNumber="2" Rule="UsingDirectivesMustBePlacedWithinNamespace" />
+      <Violation Section="Root.Thread" LineNumber="3" Rule="UsingDirectivesMustBePlacedWithinNamespace" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the order of elements within a file. -->
+  <Test Name="ElementOrder">
+    <TestCodeFile>ElementOrderNamespaceElementOrder.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderRootElementOrder.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderClassElementOrder.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustAppearInTheCorrectOrder">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderNamespace2.Enum1" LineNumber="16" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace4.Interface1" LineNumber="36" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace6.Struct1" LineNumber="56" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace8.Class1" LineNumber="76" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace10.Interface1" LineNumber="102" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace12.Struct1" LineNumber="126" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace14.Class1" LineNumber="150" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace16.Struct1" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace18.Class1" LineNumber="202" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderNamespace20.Class1" LineNumber="230" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderClass1" LineNumber="2" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderClass1" LineNumber="2" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderClass1" LineNumber="2" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderClass1" LineNumber="2" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderClass1" LineNumber="2" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderStruct1" LineNumber="6" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderStruct1" LineNumber="6" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderStruct1" LineNumber="6" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderStruct1" LineNumber="6" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderInterface1" LineNumber="10" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderInterface1" LineNumber="10" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderInterface1" LineNumber="10" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderEnum1" LineNumber="14" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderEnum1" LineNumber="14" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderRootElementOrderDelegate1" LineNumber="18" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class2.Class2" LineNumber="18" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class4.~Class4" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class6.Delegate1" LineNumber="56" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class8.Event1" LineNumber="72" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class10.Enum1" LineNumber="90" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class12.Interface1" LineNumber="110" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class14.Property1" LineNumber="131" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class16.this%int" LineNumber="153" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class18.Method1" LineNumber="175" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class20.Struct1" LineNumber="196" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class22.SubClass1" LineNumber="216" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class24.~Class24" LineNumber="242" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class26.Delegate1" LineNumber="264" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class28.Event1" LineNumber="284" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class30.Enum1" LineNumber="306" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class32.Interface1" LineNumber="330" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class34.Property1" LineNumber="355" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class36.this%int" LineNumber="381" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class38.Method1" LineNumber="407" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class40.Struct1" LineNumber="432" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class42.SubClass1" LineNumber="457" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class44.Delegate1" LineNumber="483" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class46.Event1" LineNumber="503" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class48.Enum1" LineNumber="525" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class50.Interface1" LineNumber="549" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class52.Property1" LineNumber="574" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class54.this%int" LineNumber="600" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class56.Method1" LineNumber="626" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class58.Struct1" LineNumber="651" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class60.SubClass1" LineNumber="676" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class62.Event1" LineNumber="700" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class64.Enum1" LineNumber="718" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class66.Interface1" LineNumber="738" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class68.Property1" LineNumber="759" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class70.this%int" LineNumber="781" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class72.Method1" LineNumber="803" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class74.Struct1" LineNumber="824" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class76.SubClass1" LineNumber="845" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class78.Enum1" LineNumber="869" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class80.Interface1" LineNumber="889" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class82.Property1" LineNumber="910" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class84.this%int" LineNumber="932" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class86.Method1" LineNumber="954" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class88.Struct1" LineNumber="975" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class90.SubClass1" LineNumber="996" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class92.Interface1" LineNumber="1022" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class94.Property1" LineNumber="1047" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class96.this%int" LineNumber="1073" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class98.Method1" LineNumber="1099" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class100.Struct1" LineNumber="1124" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class102.SubClass1" LineNumber="1149" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class104.Property1" LineNumber="1178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class106.this%int" LineNumber="1204" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class108.Method1" LineNumber="1230" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class110.Struct1" LineNumber="1255" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class112.SubClass1" LineNumber="1279" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class114.this%int" LineNumber="1309" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class116.Method1" LineNumber="1337" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class118.Struct1" LineNumber="1364" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class120.SubClass1" LineNumber="1390" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class122.Method1" LineNumber="1421" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class124.Struct1" LineNumber="1448" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class126.SubClass1" LineNumber="1474" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class128.Struct1" LineNumber="1504" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class130.SubClass1" LineNumber="1530" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderClassElementOrder1.Class132.SubClass1" LineNumber="1559" Rule="ElementsMustAppearInTheCorrectOrder" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the order of static elements within a file. -->
+  <Test Name="ElementOrderStatics">
+    <TestCodeFile>ElementOrderStatics.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderStaticsByAccess.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="StaticElementsMustAppearBeforeInstanceElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ConstantsMustAppearBeforeFields">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementsMustBeOrderedByAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderStatics1.Class2.staticField1" LineNumber="14" Rule="StaticElementsMustAppearBeforeInstanceElements" />
+      <Violation Section="Root.ElementOrderStatics1.Class4.Class4" LineNumber="34" Rule="StaticElementsMustAppearBeforeInstanceElements" />
+      <Violation Section="Root.ElementOrderStatics1.Class6.Property1" LineNumber="60" Rule="StaticElementsMustAppearBeforeInstanceElements" />
+      <Violation Section="Root.ElementOrderStatics1.Class8.Method1" LineNumber="88" Rule="StaticElementsMustAppearBeforeInstanceElements" />
+      <Violation Section="Root.ElementOrderStaticsByAccess1.Class2.staticField1" LineNumber="14" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderStaticsByAccess1.Class4.Property1" LineNumber="36" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderStaticsByAccess1.Class6.Method1" LineNumber="64" Rule="ElementsMustBeOrderedByAccess" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the order of static elements within a file. -->
+  <Test Name="ElementOrderByAccess">
+    <TestCodeFile>ElementOrderByAccess.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeOrderedByAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field6" LineNumber="22" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field8" LineNumber="30" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field10" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field12" LineNumber="46" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field14" LineNumber="54" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field16" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field18" LineNumber="70" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field20" LineNumber="78" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field22" LineNumber="86" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess1.Class1.field24" LineNumber="94" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%short%short" LineNumber="123" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%long%long" LineNumber="131" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%float%float" LineNumber="139" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%double%double" LineNumber="147" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%byte%byte" LineNumber="155" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%char%char" LineNumber="163" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%string%string" LineNumber="171" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%object%object" LineNumber="179" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%int[]%int[]" LineNumber="187" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess2.Class1.Class1%short[]%short[]" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate6" LineNumber="224" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate8" LineNumber="232" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate10" LineNumber="240" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate12" LineNumber="248" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate14" LineNumber="256" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate16" LineNumber="264" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate18" LineNumber="272" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate20" LineNumber="280" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate22" LineNumber="288" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess3.Class1.Delegate24" LineNumber="296" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event6" LineNumber="325" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event8" LineNumber="333" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event10" LineNumber="341" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event12" LineNumber="349" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event14" LineNumber="357" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event16" LineNumber="365" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event18" LineNumber="373" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event20" LineNumber="381" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event22" LineNumber="389" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess4.Class1.Event24" LineNumber="397" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum6" LineNumber="426" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum8" LineNumber="434" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum10" LineNumber="442" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum12" LineNumber="450" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum14" LineNumber="458" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum16" LineNumber="466" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum18" LineNumber="474" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum20" LineNumber="482" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum22" LineNumber="490" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess5.Class1.Enum24" LineNumber="498" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface6" LineNumber="527" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface8" LineNumber="535" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface10" LineNumber="543" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface12" LineNumber="551" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface14" LineNumber="559" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface16" LineNumber="567" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface18" LineNumber="575" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface20" LineNumber="583" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface22" LineNumber="591" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess6.Class1.Interface24" LineNumber="599" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property6" LineNumber="628" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property8" LineNumber="636" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property10" LineNumber="644" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property12" LineNumber="652" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property14" LineNumber="660" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property16" LineNumber="668" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property18" LineNumber="676" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property20" LineNumber="684" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property22" LineNumber="692" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess7.Class1.Property24" LineNumber="700" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%float" LineNumber="729" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%string" LineNumber="737" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%int%int" LineNumber="745" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%int%long" LineNumber="753" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%int%char" LineNumber="761" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%int%float" LineNumber="769" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%int%object" LineNumber="777" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%short%int" LineNumber="785" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%short%float" LineNumber="793" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess8.Class1.this%short%byte" LineNumber="801" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method6" LineNumber="830" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method8" LineNumber="838" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method10" LineNumber="846" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method12" LineNumber="854" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method14" LineNumber="862" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method16" LineNumber="870" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method18" LineNumber="878" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method20" LineNumber="886" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method22" LineNumber="894" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess9.Class1.Method24" LineNumber="902" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct6" LineNumber="931" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct8" LineNumber="939" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct10" LineNumber="947" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct12" LineNumber="955" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct14" LineNumber="963" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct16" LineNumber="971" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct18" LineNumber="979" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct20" LineNumber="987" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct22" LineNumber="995" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess10.Class1.Struct24" LineNumber="1003" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass6" LineNumber="1032" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass8" LineNumber="1040" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass10" LineNumber="1048" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass12" LineNumber="1056" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass14" LineNumber="1064" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass16" LineNumber="1072" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass18" LineNumber="1080" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass20" LineNumber="1088" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass22" LineNumber="1096" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess11.Class1.SubClass24" LineNumber="1104" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderByAccess12.Class1.Class2.SomethingInternal" LineNumber="1119" Rule="ElementsMustBeOrderedByAccess" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that a violation is flagged for any partial element missing an access modifier. -->
+  <Test Name="ElementOrderPartialElementsMissingAccessModifier">
+    <TestCodeFile>ElementOrderPartialElementsMissingAccessModifier.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="PartialElementsMustDeclareAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderPartialElementsMissingAccessModifier.Interface2" LineNumber="8" Rule="PartialElementsMustDeclareAccess" />
+      <Violation Section="Root.ElementOrderPartialElementsMissingAccessModifier.Struct2" LineNumber="17" Rule="PartialElementsMustDeclareAccess" />
+      <Violation Section="Root.ElementOrderPartialElementsMissingAccessModifier.Class2" LineNumber="26" Rule="PartialElementsMustDeclareAccess" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that a violation is thrown if const fields are in the wrong order. -->
+  <Test Name="ElementOrderConstField">
+    <TestCodeFile>ElementOrderConstField.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ConstantsMustAppearBeforeFields">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderConstField1.Struct2.field1" LineNumber="14" Rule="ConstantsMustAppearBeforeFields" />
+      <Violation Section="Root.ElementOrderConstField1.Struct4.field1" LineNumber="30" Rule="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" />
+      <Violation Section="Root.ElementOrderConstField1.Class2.field1" LineNumber="62" Rule="ConstantsMustAppearBeforeFields" />
+      <Violation Section="Root.ElementOrderConstField1.Class4.field1" LineNumber="78" Rule="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that we get violations within generated code regions with the GeneratedCodeElementOrder flag is set to true. -->
+  <Test Name="ElementOrderGeneratedCodeTrue">
+    <TestCodeFile>ElementOrderGeneratedCode.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderGlobalGeneratedCode.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeOrderedByAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementsMustAppearInTheCorrectOrder">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticElementsMustAppearBeforeInstanceElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface10" LineNumber="54" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum9" LineNumber="59" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum9" LineNumber="59" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum10" LineNumber="60" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate8" LineNumber="64" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate9" LineNumber="65" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface30" LineNumber="192" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum29" LineNumber="197" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum29" LineNumber="197" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum30" LineNumber="198" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate28" LineNumber="202" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate29" LineNumber="203" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class16" LineNumber="211" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class16" LineNumber="211" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct18" LineNumber="217" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface18" LineNumber="222" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface19" LineNumber="223" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum16" LineNumber="227" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum16" LineNumber="227" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum17" LineNumber="228" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum17" LineNumber="228" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum20" LineNumber="230" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Delegate17" LineNumber="233" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Delegate19" LineNumber="235" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface10" LineNumber="54" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate8" LineNumber="64" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface30" LineNumber="192" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate28" LineNumber="202" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class16" LineNumber="211" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class16" LineNumber="211" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class16" LineNumber="211" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct18" LineNumber="217" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct18" LineNumber="217" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface18" LineNumber="222" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface19" LineNumber="223" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Delegate17" LineNumber="233" Rule="ElementsMustBeOrderedByAccess" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that we do not get violations within generated code regions with the GeneratedCodeElementOrder flag is set to false. -->
+  <Test Name="ElementOrderGeneratedCodeFalse">
+    <TestCodeFile>ElementOrderGeneratedCode.cs</TestCodeFile>
+    <TestCodeFile>ElementOrderGlobalGeneratedCode.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="GeneratedCodeElementOrder">False</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="ElementsMustBeOrderedByAccess">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementsMustAppearInTheCorrectOrder">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface10" LineNumber="54" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum9" LineNumber="59" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum9" LineNumber="59" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum10" LineNumber="60" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate8" LineNumber="64" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate9" LineNumber="65" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface30" LineNumber="192" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum29" LineNumber="197" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum29" LineNumber="197" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum30" LineNumber="198" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate28" LineNumber="202" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate29" LineNumber="203" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Enum20" LineNumber="230" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Delegate19" LineNumber="235" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class6" LineNumber="38" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class7" LineNumber="39" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class8" LineNumber="40" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class9" LineNumber="41" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Class10" LineNumber="42" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct6" LineNumber="44" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct7" LineNumber="45" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct8" LineNumber="46" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct9" LineNumber="47" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Struct10" LineNumber="48" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface6" LineNumber="50" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface7" LineNumber="51" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface8" LineNumber="52" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface9" LineNumber="53" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Interface10" LineNumber="54" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum6" LineNumber="56" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum7" LineNumber="57" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Enum8" LineNumber="58" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate6" LineNumber="62" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate7" LineNumber="63" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.ElementOrderGeneratedCode2.Delegate8" LineNumber="64" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class26" LineNumber="176" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class27" LineNumber="177" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class28" LineNumber="178" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class29" LineNumber="179" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Class30" LineNumber="180" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct26" LineNumber="182" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct27" LineNumber="183" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct28" LineNumber="184" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct29" LineNumber="185" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Struct30" LineNumber="186" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface26" LineNumber="188" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface27" LineNumber="189" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface28" LineNumber="190" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface29" LineNumber="191" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Interface30" LineNumber="192" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum26" LineNumber="194" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum27" LineNumber="195" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Enum28" LineNumber="196" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate26" LineNumber="200" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate27" LineNumber="201" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder6.Delegate28" LineNumber="202" Rule="ElementsMustBeOrderedByAccess" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Class20" LineNumber="213" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Struct17" LineNumber="215" Rule="ElementsMustAppearInTheCorrectOrder" />
+      <Violation Section="Root.GeneratedCodeElementOrder7.Interface16" LineNumber="220" Rule="ElementsMustAppearInTheCorrectOrder" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that using directives are ordered correctly. -->
+  <Test Name="UsingDirectiveOrdering">
+    <TestCodeFile>UsingDirectiveOrdering.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <Rules>
+            <Rule Name="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="UsingStaticDirectivesMustBePlacedAtTheCorrectLocation">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.System.Windows" LineNumber="1" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.SomeNamespace.System.Windows" LineNumber="11" Rule="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives" />
+      <Violation Section="Root.OtherNamespace.Y" LineNumber="31" Rule="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName" />
+      <Violation Section="Root.OtherNamespace.X" LineNumber="39" Rule="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" />
+      <Violation Section="Root.OtherNamespace.SomeNamespace.SubNamespace" LineNumber="48" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.UnderscoresInvalid.ProductMgmtWeb" LineNumber="61" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.CapitalVsLowerInvalid.SZ" LineNumber="73" Rule="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName" />
+      <Violation Section="Root.NamespacesDifferingOnlyByCaseInvalid.Microsoft.Dynamics.AX.Something" LineNumber="80" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.NamespacesDifferingByCaseAndSubsequentlyOrderedProperly_Invalid.Microsoft.Dynamics.AX.A" LineNumber="94" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.UsingStatic_Invalid.System.String" LineNumber="129" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.UsingStaticAndUsingNamespaceDirectives_Invalid.System.String" LineNumber="146" Rule="UsingStaticDirectivesMustBePlacedAtTheCorrectLocation" />
+      <Violation Section="Root.UsingStaticAndUsingAliasDirectives_Invalid.str" LineNumber="153" Rule="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that using directives are within the namespace. -->
+  <Test Name="AccessorOrder">
+    <TestCodeFile>AccessorOrder.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.OrderingRules">
+          <Rules>
+            <Rule Name="PropertyAccessorsMustFollowOrder">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="EventAccessorsMustFollowOrder">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.A.P5.set" LineNumber="32" Rule="PropertyAccessorsMustFollowOrder" />
+      <Violation Section="Root.A.P1.set" LineNumber="39" Rule="PropertyAccessorsMustFollowOrder" />
+      <Violation Section="Root.E.E4.remove" LineNumber="68" Rule="EventAccessorsMustFollowOrder" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

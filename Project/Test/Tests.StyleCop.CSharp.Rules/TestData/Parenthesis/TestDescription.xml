@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Parenthesis">
+    <Test Name="AttributeConstructorParenthesis">
+        <TestCodeFile>AttributeConstructorParenthesis.cs</TestCodeFile>
+        <Settings>
+            <GlobalSettings>
+                <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+                <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+            </GlobalSettings>
+            <Analyzers>
+                <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+                    <Rules>
+                        <Rule Name="AttributeConstructorMustNotUseUnnecessaryParenthesis">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                    </Rules>
+                </Analyzer>
+            </Analyzers>
+        </Settings>
+        <ExpectedViolations>
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1" LineNumber="26" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1.InvalidMethod1" LineNumber="29" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1" LineNumber="53" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+          <Violation Section="Root.CSharpAnalyzersTest.TestData.Parenthesis.AttributeConstructorParenthesisInvalid1.InvalidMethod1" LineNumber="56" Rule="AttributeConstructorMustNotUseUnnecessaryParenthesis" />
+        </ExpectedViolations>
+    </Test>
+  <!-- Tests valid and invalid use of parenthesis. -->
+  <Test Name="Parenthesis">
+    <TestCodeFile>Parenthesis.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="StatementMustNotUseUnnecessaryParenthesis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="110" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="114" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="118" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="121" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="122" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="123" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="126" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="127" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="128" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="131" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="134" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="137" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="22" EndLine="140" EndColumn="54" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="23" EndLine="140" EndColumn="46" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="140" StartColumn="24" EndLine="140" EndColumn="38" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="141" StartColumn="22" EndLine="141" EndColumn="52" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" StartLine="141" StartColumn="23" EndLine="141" EndColumn="44" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="142" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="145" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="148" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="151" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="156" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="160" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="165" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.InvalidAsChild" LineNumber="178" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="184" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="185" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.Lambdas" LineNumber="193" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+      <Violation Section="Root.Parenthesis1.Class1.InvalidMethodParameters%int" StartLine="238" StartColumn="29" EndLine="238" EndColumn="35" Rule="StatementMustNotUseUnnecessaryParenthesis" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests parenthesis within arithmetic expressions. -->
+  <Test Name="ArithmeticParenthesis">
+    <TestCodeFile>ArithmeticParenthesis.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="ArithmeticExpressionsMustDeclarePrecedence">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="9" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="10" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="11" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="12" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="13" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="14" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="15" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+      <Violation Section="Root.Parenthesis1.Class1.Invalid" LineNumber="16" Rule="ArithmeticExpressionsMustDeclarePrecedence" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests parenthesis within conditional logical expressions. -->
+  <Test Name="ConditionalLogicalParenthesis">
+    <TestCodeFile>ConditionalLogicalParenthesis.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="ConditionalExpressionsMustDeclarePrecedence">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.Parenthesis1.Class1.Method" LineNumber="10" Rule="ConditionalExpressionsMustDeclarePrecedence" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

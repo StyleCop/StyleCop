@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Layout Rules">
+  <Description>
+    Rules which enforce code layout and line spacing.
+  </Description>
+  <Rules>
+    <RuleGroup Name="Curly Brackets">
+      <Rule Name="CurlyBracketsForMultiLineStatementsMustNotShareLine" CheckId="SA1500">
+        <Context>If a statement spans multiple lines, the {0} curly bracket must be placed on its own line.</Context>
+        <Description>Validates that the opening or closing curly bracket in a bracketed statement is placed on its own line if the statement spans multiple lines.</Description>
+      </Rule>
+      <Rule Name="StatementMustNotBeOnSingleLine" CheckId="SA1501">
+        <Context>A statement containing curly brackets must not be placed on a single line. The opening and closing curly brackets must each be placed on their own line.</Context>
+        <Description>Validates that a bracketed statement is not placed on a single line.</Description>
+      </Rule>
+      <Rule Name="ElementMustNotBeOnSingleLine" CheckId="SA1502">
+        <Context>The {0} must not be placed on a single line. The opening and closing curly brackets must each be placed on their own line.</Context>
+        <Description>Validates that a bracketed element is not placement on a single line.</Description>
+      </Rule>
+      <Rule Name="CurlyBracketsMustNotBeOmitted" CheckId="SA1503">
+        <Context>The body of the {0} must be wrapped in opening and closing curly brackets.</Context>
+        <Description>Validates that opening and closing curly brackets are always included, even if the statement type allows them to be omitted.</Description>
+      </Rule>
+      <Rule Name="AllAccessorsMustBeMultiLineOrSingleLine" CheckId="SA1504">
+        <Context>An accessor can only be placed on a single line if all of the accessors in the {0} are placed on a single line.</Context>
+        <Description>Validates that an accessor in a property or indexer is only placed on a single line if all accessors in the property or indexer are placed on a single line.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Line Spacing">
+      <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" CheckId="SA1505">
+        <Context>An opening curly bracket must not be followed by a blank line.</Context>
+        <Description>Validates that an opening curly bracket in a bracketed statement or element is not followed by a blank line.</Description>
+      </Rule>
+      <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine" CheckId="SA1506">
+        <Context>A documentation header line must not be followed by a blank line.</Context>
+        <Description>Validates that a documentation header is not followed by a blank line.</Description>
+      </Rule>
+      <Rule Name="CodeMustNotContainMultipleBlankLinesInARow" CheckId="SA1507">
+        <Context>The code must not contain multiple blank lines in a row.</Context>
+        <Description>Validates that the code does not contain multiple blank lines in a row.</Description>
+      </Rule>
+      <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine" CheckId="SA1508">
+        <Context>A closing curly bracket must not be preceded by a blank line.</Context>
+        <Description>Validates that a closing curly bracket in a bracketed statement or element is not preceded by a blank line.</Description>
+      </Rule>
+      <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine" CheckId="SA1509">
+        <Context>An opening curly bracket must not be preceded by a blank line.</Context>
+        <Description>Validates that an opening curly bracket in a bracketed statement or element is not preceded by a blank line.</Description>
+      </Rule>
+      <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine" CheckId="SA1510">
+        <Context>An else, catch, or finally statement must not be preceded by a blank line.</Context>
+        <Description>Validates than an else, catch, or finally statement is not preceded by a blank line.</Description>
+      </Rule>
+      <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine" CheckId="SA1511">
+        <Context>The while keyword in a do-while statement must not be preceded by a blank line.</Context>
+        <Description>Validates that the while keyword in a do-while statement is not preceded by a blank line.</Description>
+      </Rule>
+      <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine" CheckId="SA1512">
+        <Context>A single-line comment must not be followed by a blank line. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</Context>
+        <Description>Validates that a comment is not followed by a blank line. (This does not apply to C-style comments.)</Description>
+      </Rule>
+      <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine" CheckId="SA1513">
+        <Context>Statements or elements wrapped in curly brackets must be followed by a blank line.</Context>
+        <Description>Validates that a bracketed statement or element is followed by a blank line.</Description>
+      </Rule>
+      <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine" CheckId="SA1514">
+        <Context>A documentation header must be preceded by a blank line or must be the first item in its scope.</Context>
+        <Description>Validates that a documentation header is preceded by a blank line, or is the first item in its scope.</Description>
+      </Rule>
+      <Rule Name="SingleLineCommentMustBePrecededByBlankLine" CheckId="SA1515">
+        <Context>A single-line comment must be preceded by a blank line or another single-line comment, or must be the first item in its scope. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</Context>
+        <Description>Validates that a comment is preceded by a blank line, or is the first item in its scope.</Description>
+      </Rule>
+      <Rule Name="ElementsMustBeSeparatedByBlankLine" CheckId="SA1516">
+        <Context>Adjacent elements must be separated by a blank line.</Context>
+        <Description>Validates that adjacent elements are separated by a blank line.</Description>
+      </Rule>
+      <Rule Name="CodeMustNotContainBlankLinesAtStartOfFile" CheckId="SA1517">
+        <Context>The code must not contain blank lines at the start of the file.</Context>
+        <Description>Validates that the code does not contain blank lines at the start of the file.</Description>
+      </Rule>
+      <Rule Name="CodeMustNotContainBlankLinesAtEndOfFile" CheckId="SA1518">
+        <Context>The code must not contain blank lines at the end of the file.</Context>
+        <Description>Validates that the code does not contain blank lines at the end of the file.</Description>
+      </Rule>      
+    </RuleGroup>
+  </Rules>
+</SourceAnalyzer>

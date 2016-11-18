@@ -1,0 +1,78 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Enum1" Type="Enum" />
+    <Element Name="Enum2" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="Enum3" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+    </Element>
+    <Element Name="Enum4" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+      <Element Name="Item3" Type="EnumItem" />
+    </Element>
+    <Element Name="Enum5" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+    </Element>
+    <Element Name="Enum6" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+      <Element Name="Item3" Type="EnumItem" />
+    </Element>
+    <Element Name="Enum7" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithSemicolon" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="" Type="EmptyElement" />
+    <Element Name="EnumWithExtraComma" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+    </Element>
+    <Element Name="ClassWithNestedEnum1" Type="Class">
+      <Element Name="NestedEnum1" Type="Enum">
+        <Element Name="Item2" Type="EnumItem" />
+      </Element>
+    </Element>
+    <Element Name="EnumWithAccessModifier1" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithAccessModifier2" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithAccessModifier3" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithAccessModifier4" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithAccessModifier5" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithAccessModifier6" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="ClassWithNestedEnum2" Type="Class">
+      <Element Name="EnumWithNewModifier" Type="Enum">
+        <Element Name="Item1" Type="EnumItem" />
+      </Element>
+    </Element>
+    <Element Name="EnumWithAttributes" Type="Enum" />
+    <Element Name="EnumWithHeader" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="Item2" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithHeaderAndAttributes" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+    </Element>
+    <Element Name="EnumWithExtraTokens" Type="Enum">
+      <Element Name="Item1" Type="EnumItem" />
+      <Element Name="item2" Type="EnumItem" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

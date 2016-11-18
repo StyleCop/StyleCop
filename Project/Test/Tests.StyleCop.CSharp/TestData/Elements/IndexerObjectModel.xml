@@ -1,0 +1,369 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Class1" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="1" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="null" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="ISomeInterface.this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class3" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class4" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="null" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="UnsafeClass" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="null" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="short" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="2" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="UnsafeAccessExpression">
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Class5" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Struct1" Type="Struct">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+    <Element Name="Interface1" Type="Interface">
+      <Element Name="this" Type="Indexer">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="ExpressionBodied" Type="Class">
+      <Element Name="this" Type="Indexer">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="ArrayAccessExpression">
+              <Expression Text="this" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                  <Expression Text="ToString" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="this" Type="Indexer">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Text="$&quot;Lower{x.ToLowerInvariant()}&quot;" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

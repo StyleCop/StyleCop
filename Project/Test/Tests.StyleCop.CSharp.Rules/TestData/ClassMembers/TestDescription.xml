@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="ClassMembers">
+  <!-- Tests that the base. prefix is used properly. -->
+  <Test Name="ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists">
+    <TestCodeFile>ClassMembersDoNotPrefixCallsWithBaseUnlessLocalImplementationExists.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersDerivedWithBase.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="DoNotPrefixCallsWithBaseUnlessLocalImplementationExists">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists.OnLoad" LineNumber="17" Rule="DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DoNotPrefixCallsWithBaseUnlessLocalImplementationExists.Method" LineNumber="27" Rule="DoNotPrefixCallsWithBaseUnlessLocalImplementationExists"/>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that local member calls are prefixed with this. -->
+  <Test Name="ClassMembersPrefixLocalCallsWithThis">
+    <TestCodeFile>ClassMembersPrefixLocalCallsWithThis.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersPrefixLocalCallsWithThis2.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersPrefixLocalCallsWithThisForBodied.cs</TestCodeFile>
+    <TestCodeFile>ValidPrefix.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersNoViolations.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersCodeWalker{T}.cs</TestCodeFile>
+    <TestCodeFile>ClassMembersMaintainabilityRules.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PrefixCallsCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="70" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="72" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="74" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="75" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="77" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestMissingMembers" LineNumber="79" Rule="PrefixLocalCallsWithThis"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="142" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="143" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="144" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="145" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="147" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="148" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="149" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.TestIncrementDecrement" LineNumber="150" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestAnonymousTypes.CreateAnonymousType" LineNumber="172" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="188" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="191" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="194" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="197" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="200" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="188" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TestNestedMemberAccessAndMethodInvocationCalls.Method2" LineNumber="191" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThis2.Equals%ClassMembersPrefixLocalCallsWithThis2" LineNumber="41" StartLine="41" StartColumn="20" EndLine="41" EndColumn="25" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class1.A" StartLine="94" StartColumn="13" EndLine="94" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class2.A" StartLine="102" StartColumn="13" EndLine="102" EndColumn="13" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class3.A`T" LineNumber="114" StartLine="114" StartColumn="20" EndLine="114" EndColumn="23" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.Class4.A`T" LineNumber="127" StartLine="127" StartColumn="20" EndLine="127" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class1.A`T" LineNumber="12" StartLine="12" StartColumn="20" EndLine="12" EndColumn="23" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class2.A`T" LineNumber="25" StartLine="25" StartColumn="20" EndLine="25" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class4.A1`T%T" LineNumber="147" StartLine="147" StartColumn="13" EndLine="147" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class4.A1`T%T" LineNumber="148" StartLine="148" StartColumn="13" EndLine="148" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1%int" LineNumber="160" StartLine="160" StartColumn="13" EndLine="160" EndColumn="19" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1%int" LineNumber="161" StartLine="161" StartColumn="13" EndLine="161" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1`T%T" LineNumber="170" StartLine="170" StartColumn="13" EndLine="170" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class5.A1`T%T" LineNumber="171" StartLine="171" StartColumn="13" EndLine="171" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="183" StartLine="183" StartColumn="13" EndLine="183" EndColumn="19" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="184" StartLine="184" StartColumn="13" EndLine="184" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class6.A1%int" LineNumber="185" StartLine="185" StartColumn="13" EndLine="185" EndColumn="20" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="201" StartLine="201" StartColumn="13" EndLine="201" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="202" StartLine="202" StartColumn="13" EndLine="202" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="208" StartLine="208" StartColumn="13" EndLine="208" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class7.A2`T%T" LineNumber="209" StartLine="209" StartColumn="13" EndLine="209" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="221" StartLine="221" StartColumn="13" EndLine="221" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="222" StartLine="222" StartColumn="13" EndLine="222" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="228" StartLine="228" StartColumn="13" EndLine="228" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class8.A2`T%T" LineNumber="229" StartLine="229" StartColumn="13" EndLine="229" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixCallsCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="239" StartLine="239" StartColumn="13" EndLine="239" EndColumn="17" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ValidPrefixes.Class9.A2`T%T" LineNumber="240" StartLine="240" StartColumn="13" EndLine="240" EndColumn="14" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="41" EndLine="33" EndColumn="42" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="46" EndLine="33" EndColumn="47" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="53" EndLine="33" EndColumn="54" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance" LineNumber="33" StartLine="33" StartColumn="58" EndLine="33" EndColumn="59" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="44" EndLine="38" EndColumn="45" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="49" EndLine="38" EndColumn="50" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="56" EndLine="38" EndColumn="57" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.Distance2" LineNumber="38" StartLine="38" StartColumn="61" EndLine="38" EndColumn="62" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="30" EndLine="47" EndColumn="31" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="35" EndLine="47" EndColumn="36" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="42" EndLine="47" EndColumn="43" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersPrefixLocalCallsWithThisForBodied.DistanceRegular.get" LineNumber="47" StartLine="47" StartColumn="47" EndLine="47" EndColumn="48" RuleNamespace="StyleCop.CSharp.ReadabilityRules" Rule="PrefixLocalCallsWithThis" />     
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests this is not required when there is a local variable with the same name as a class member. -->
+  <Test Name="ClassMembersLocalVariables">
+    <TestCodeFile>ClassMembersLocalVariables.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="16" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="17" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="20" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="21" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="33" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="36" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="38" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="45" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="46" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="49" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="50" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="53" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="53" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method1%int" LineNumber="60" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.Method2%string" LineNumber="66" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.this%double.get" LineNumber="76" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.this%double.get" LineNumber="82" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.this%double.set" LineNumber="87" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.this%double.set" LineNumber="93" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="109" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="110" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="113" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="118" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="123" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="139" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="153" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="161" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="165" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.QueryExpressionsMethod" LineNumber="178" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.VariablesUsedAfterQueryClauses" LineNumber="197" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.VariablesUsedAfterQueryClauses" LineNumber="198" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.VariablesUsedAfterQueryClauses" LineNumber="206" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.PrefixLocalCallsWithThis.VariablesUsedAfterQueryClauses" LineNumber="207" Rule="PrefixLocalCallsWithThis" />
+    </ExpectedViolations>
+  </Test>
+  
+  <!-- Tests that arguments passed to method calls are checked. -->
+  <Test Name="ClassMembersMethodArguments">
+    <TestCodeFile>ClassMembersMethodArguments.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="19" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="20" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="21" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="22" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="23" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="28" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="29" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="30" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="32" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="34" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="35" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="36" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="21" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="23" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="24" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="30" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMembers.ClassMembersMethodArguments.TestMethodCalls" LineNumber="32" Rule="PrefixLocalCallsWithThis" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that members of collection initializers are ignored. -->
+  <Test Name="ClassMembersCollectionInitializers">
+    <TestCodeFile>ClassMembersCollectionInitializers.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="25" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="33" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="41" Rule="PrefixLocalCallsWithThis" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Program.Method" LineNumber="47" Rule="PrefixLocalCallsWithThis" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the null propagation ?. doesn't result in incorrect violations. -->
+  <Test Name="NullPropogationsDoesNotResultInReadabilityViolations">
+    <TestCodeFile>NullPropogation.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="PrefixLocalCallsWithThis">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="PrefixCallsCorrectly">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+</StyleCopTestDescription>

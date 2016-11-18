@@ -1,0 +1,4 @@
+April 20, 2008		Elapsed time: 00:00:37.8117740
+April 20, 2008		Elapsed time: 00:00:05.3123980		Checkin 6910
+April 20, 2008		Elapsed time: 00:00:03.1874388		Checkin 6914
+May 8, 2008		Elapsed time: 00:00:02.9999424		Checkin 7086	Remove call to GC.Collect after analysis

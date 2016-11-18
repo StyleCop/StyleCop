@@ -1,0 +1,30 @@
+<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="StyleCopRepro" Type="Namespace">
+      <Element Name="ErrorClass" Type="Class">
+        <Element Name="MyMethod" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="myStrings" Type="LiteralExpression" />
+                <Expression Type="NewArrayExpression">
+                  <Expression Type="ArrayAccessExpression">
+                    <Expression Text="string" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="ArrayInitializerExpression">
+                    <Expression Text="&quot;VerifiedByMedicalRecordOnly&quot;" Type="LiteralExpression" />
+                    <Expression Text="&quot;Aborted&quot;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Text="myStrings" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

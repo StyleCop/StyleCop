@@ -1,0 +1,1087 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="LineSpacing">
+  <!-- Tests for blank lines at start and end of files -->
+  <Test Name="BlankLinesAtStartAndEndOfFile">
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile1.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile2.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile3.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile4.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile5.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile6.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile7.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile8.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile9.cs</TestCodeFile>
+    <TestCodeFile>BlankLinesAtStartAndEndOfFile10.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="CodeMustNotContainBlankLinesAtStartOfFile">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainBlankLinesAtEndOfFile">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>                  
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="1" Rule="CodeMustNotContainBlankLinesAtStartOfFile" />
+      <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+      <Violation Section="Root" LineNumber="14" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+      <Violation Section="Root" LineNumber="13" Rule="CodeMustNotContainBlankLinesAtEndOfFile" />
+    </ExpectedViolations>
+  </Test>
+  <!-- Tests the line spacing around curly brackets. -->     
+  <Test Name="LineSpacingCurlyBrackets">
+    <TestCodeFile>LineSpacingBlankLineCurly.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingBlankLineCurly2" LineNumber="8" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly2" LineNumber="10" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Class2" LineNumber="23" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Class2" LineNumber="25" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Struct2" LineNumber="32" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Struct2" LineNumber="34" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Interface2" LineNumber="41" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly3.Interface2" LineNumber="43" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.items" LineNumber="60" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.items" LineNumber="62" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Class1" LineNumber="70" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Class1" LineNumber="72" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.~Class1" LineNumber="80" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.~Class1" LineNumber="82" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Method2" LineNumber="90" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Method2" LineNumber="92" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Property2" LineNumber="100" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Property2" LineNumber="102" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Property4.set" LineNumber="114" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Property4.set" LineNumber="116" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.this%short" LineNumber="125" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.this%short" LineNumber="127" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.this%float.set" LineNumber="139" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.this%float.set" LineNumber="141" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Enum1" LineNumber="150" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly4.Class1.Enum1" LineNumber="152" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="170" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="172" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="186" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="188" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="190" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="192" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="194" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="196" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="205" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="207" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="223" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="225" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="227" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="229" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="231" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="233" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="241" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="243" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="252" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="254" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="262" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="264" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="272" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="274" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="282" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="284" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="292" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="294" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="304" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly5.Class1.Method1" LineNumber="306" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event2" LineNumber="325" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event2" LineNumber="327" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event4.add" LineNumber="339" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Event4.add" LineNumber="341" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="353" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="357" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="361" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="367" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="374" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="378" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="382" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="388" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="395" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="401" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="407" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="413" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="419" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingBlankLineCurly6.Class1.Method1" LineNumber="426" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the line spacing around closing curly brackets. -->
+  <Test Name="LineSpacingClosingCurlyBrackets">
+    <TestCodeFile>LineSpacingClosingCurly.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingClosingCurly2" LineNumber="12" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly3.Class2" LineNumber="29" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly3.Struct2" LineNumber="40" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly3.Interface2" LineNumber="51" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.items" LineNumber="72" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.Class1" LineNumber="84" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.~Class1" LineNumber="96" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.Method2" LineNumber="108" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.Property2" LineNumber="120" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.Property4.get" LineNumber="136" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.this%short" LineNumber="149" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.this%float.get" LineNumber="165" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly4.Class1.Enum1" LineNumber="178" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="200" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="220" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="225" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="230" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="243" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="265" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="270" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="275" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="287" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="302" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="314" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="326" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="338" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="350" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5.Class1.Method1" LineNumber="364" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly5" LineNumber="368" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly6.Class1.Event2" LineNumber="388" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingClosingCurly6.Class1.Event4.add" LineNumber="404" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the line spacing around opening curly brackets. -->
+  <Test Name="LineSpacingOpeningCurlyBrackets">
+    <TestCodeFile>LineSpacingOpeningCurly.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingOpeningCurly2" LineNumber="9" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly3.Class2" LineNumber="26" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly3.Struct2" LineNumber="37" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly3.Interface2" LineNumber="48" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.items" LineNumber="69" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Class1" LineNumber="81" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.~Class1" LineNumber="93" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Method2" LineNumber="105" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Property2" LineNumber="117" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Property4.get" LineNumber="133" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.this%short" LineNumber="146" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.this%float.get" LineNumber="162" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly4.Class1.Enum1" LineNumber="175" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="197" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="217" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="222" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="227" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="240" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="262" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="267" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="272" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="284" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="298" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="311" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="323" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="335" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="347" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly5.Class1.Method1" LineNumber="361" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Class1.Event2" LineNumber="384" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Class1.Event4.add" LineNumber="400" Rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="483" StartLine="483" StartColumn="13" EndLine="483" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="487" StartLine="487" StartColumn="13" EndLine="487" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="491" StartLine="491" StartColumn="13" EndLine="491" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="497" StartLine="497" StartColumn="13" EndLine="497" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="504" StartLine="504" StartColumn="13" EndLine="504" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="508" StartLine="508" StartColumn="13" EndLine="508" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="512" StartLine="512" StartColumn="13" EndLine="512" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="518" StartLine="518" StartColumn="13" EndLine="518" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="525" StartLine="525" StartColumn="13" EndLine="525" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="531" StartLine="531" StartColumn="13" EndLine="531" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="537" StartLine="537" StartColumn="13" EndLine="537" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="543" StartLine="543" StartColumn="13" EndLine="543" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="549" StartLine="549" StartColumn="13" EndLine="549" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingOpeningCurly6.Example.Invalid" LineNumber="556" StartLine="556" StartColumn="13" EndLine="556" EndColumn="13" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the that blank lines before opening curly brackets are flagged. -->
+  <Test Name="LineSpacingCurlyPrecedingBlankLine">
+    <TestCodeFile>LineSpacingCurlyPrecedingBlankLine.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine2" LineNumber="9" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine3.Class2" LineNumber="24" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine3.Struct2" LineNumber="33" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine3.Interface2" LineNumber="42" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.items" LineNumber="61" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Class1" LineNumber="71" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.~Class1" LineNumber="81" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Method2" LineNumber="91" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Property2" LineNumber="101" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Property4.set" LineNumber="115" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.this%short" LineNumber="126" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.this%float.set" LineNumber="140" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine4.Class1.Enum1" LineNumber="151" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="186" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="190" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="194" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="205" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="223" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="227" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="231" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="241" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="252" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="262" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="272" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="282" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="292" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine5.Class1.Method1" LineNumber="304" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine6.Class1.Event2" LineNumber="325" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyPrecedingBlankLine6.Class1.Event4.add" LineNumber="339" Rule="OpeningCurlyBracketsMustNotBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the that there should be a blank line after a closing curly bracket. -->
+  <Test Name="LineSpacingCurlyNoFollowingBlankLine">
+    <TestCodeFile>LineSpacingCurlyNoFollowingBlankLine.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine1" LineNumber="5" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine3.Class1" LineNumber="18" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine3.Struct1" LineNumber="25" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine3.Interface1" LineNumber="32" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Class1" LineNumber="49" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.~Class1" LineNumber="57" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Method1" LineNumber="65" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Property1" LineNumber="73" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Property3.get" LineNumber="82" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Property4.set" LineNumber="92" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.this%int" LineNumber="101" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.this%long.get" LineNumber="110" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.this%float.set" LineNumber="120" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine4.Class1.Enum1" LineNumber="129" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="148" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="161" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="181" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="195" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="204" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="212" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="220" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine5.Class1.Method1" LineNumber="228" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine6.Class1.Event1" LineNumber="247" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine6.Class1.Event3.add" LineNumber="256" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingCurlyNoFollowingBlankLine6.Class1.Event4.remove" LineNumber="266" Rule="ClosingCurlyBracketMustBeFollowedByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the line spacing around xml headers. -->
+  <Test Name="LineSpacingXmlHeaders">
+    <TestCodeFile>LineSpacingXmlHeaders.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method2" LineNumber="14" Rule="ElementDocumentationHeadersMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method3" LineNumber="22" Rule="ElementDocumentationHeadersMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method3" LineNumber="26" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method5%int" LineNumber="36" Rule="ElementDocumentationHeadersMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class2.Method2" LineNumber="54" Rule="ElementDocumentationHeaderMustBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class2.Method3" LineNumber="60" Rule="ElementDocumentationHeaderMustBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class2.Method4%int" LineNumber="66" Rule="ElementDocumentationHeaderMustBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that violations are thrown when there are multiple blank lines in a row. -->
+  <Test Name="LineSpacingMultipleBlankLines">
+    <TestCodeFile>LineSpacingMultipleBlankLines.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="13" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="16" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="17" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="18" Rule="SingleLineCommentsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="37" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="45" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.MultipleBlankLines1.Class1.Method1" LineNumber="46" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="53" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="56" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="57" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root" LineNumber="58" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that violations are when there are blank lines between chained statements. -->
+  <Test Name="LineSpacingChainedStatements">
+    <TestCodeFile>LineSpacingChainedStatements.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="23" Rule="ChainedStatementBlocksMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="27" Rule="ChainedStatementBlocksMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="48" Rule="ChainedStatementBlocksMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="52" Rule="ChainedStatementBlocksMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="56" Rule="ChainedStatementBlocksMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingChainedStatements1.Class1.Method1" LineNumber="73" Rule="WhileDoFooterMustNotBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the spacing around single-line comments. -->
+  <Test Name="LineSpacingSingleLineComments">
+    <TestCodeFile>LineSpacingSingleLineComments.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1" LineNumber="10" Rule="SingleLineCommentsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1" LineNumber="18" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1" LineNumber="16" Rule="SingleLineCommentsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method6" LineNumber="36" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class1.Method6" LineNumber="34" Rule="SingleLineCommentsMustNotBeFollowedByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class2" LineNumber="45" Rule="SingleLineCommentMustBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class2" LineNumber="49" Rule="SingleLineCommentMustBePrecededByBlankLine" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class3" LineNumber="85" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+      <Violation Section="Root.LineSpacingXmlHeaders1.Class3.Method6" LineNumber="103" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the spacing after a file header. -->
+  <Test Name="LineSpacingAfterFileHeader">
+    <TestCodeFile>LineSpacingFileHeaderNoBlankLines.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingFileHeaderOneBlankLine.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingFileHeaderTwoBlankLines.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="OpeningCurlyBracketsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeadersMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleBlankLinesInARow">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="OpeningCurlyBracketsMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ChainedStatementBlocksMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="WhileDoFooterMustNotBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentsMustNotBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ClosingCurlyBracketMustBeFollowedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="ElementDocumentationHeaderMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="7" Rule="CodeMustNotContainMultipleBlankLinesInARow" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests the line spacing between elements. -->
+  <Test Name="LineSpacingBetweenElements">
+    <TestCodeFile>LineSpacingBetweenElements.cs</TestCodeFile>
+    <TestCodeFile>LineSpacingBetweenAssemblyAttributes.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.LayoutRules">
+          <Rules>
+            <Rule Name="ElementsMustBeSeparatedByBlankLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.System" LineNumber="7" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.System.Windows.Forms" LineNumber="14" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1" LineNumber="17" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.field4" LineNumber="28" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.field6" LineNumber="34" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Class1%bool" LineNumber="43" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Class1%string" LineNumber="49" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Delegate1" LineNumber="52" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Delegate3" LineNumber="55" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Delegate4" LineNumber="59" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Event1" LineNumber="60" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Event3" LineNumber="63" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Event4" LineNumber="67" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.this%int" LineNumber="68" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.this%string" LineNumber="75" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.this%char" LineNumber="81" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Method1" LineNumber="84" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Method3" LineNumber="91" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Method4" LineNumber="97" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Property1" LineNumber="100" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Property2.set" LineNumber="118" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Property3" LineNumber="122" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Enum1" LineNumber="127" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Enum1.EnumItem3" LineNumber="134" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Enum3" LineNumber="142" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class1.Enum4" LineNumber="148" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class3" LineNumber="156" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Class4" LineNumber="162" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Interface1" LineNumber="165" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Interface3" LineNumber="170" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Interface4" LineNumber="176" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Struct1" LineNumber="179" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Struct3" LineNumber="184" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements1.Struct4" LineNumber="190" Rule="ElementsMustBeSeparatedByBlankLine" />
+      <Violation Section="Root.LineSpacingBetweenElements3" LineNumber="198" Rule="ElementsMustBeSeparatedByBlankLine" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

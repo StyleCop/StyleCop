@@ -1,0 +1,10 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="T" Type="ExternAliasDirective" />
+    <Element Name="WhateverAndSomeLongName" Type="ExternAliasDirective" />
+    <Element Name="WhateverAndSomeLongName2" Type="ExternAliasDirective" />
+    <Element Name="Namespace1" Type="Namespace">
+      <Element Name="X" Type="ExternAliasDirective" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

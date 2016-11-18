@@ -1,0 +1,143 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Test" Type="Class" />
+    <Element Name="SwitchCaseNameOfClass" Type="Class">
+      <Element Name="SwitchCaseNameOf" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="Test" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="test" Type="LiteralExpression" />
+              <Expression Type="NewExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="Test" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="string" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="CompanyFolderModel" Type="LiteralExpression" />
+              <Expression Text="&quot;test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="Test" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="result" Type="LiteralExpression" />
+              <Expression Text="null" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="string" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="name" Type="LiteralExpression" />
+              <Expression Text="&quot;test&quot;" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="SwitchStatement">
+          <Expression Type="MemberAccessExpression">
+            <Expression Type="TypeofExpression">
+              <Expression Text="Test" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="Name" Type="LiteralExpression" />
+          </Expression>
+          <Statement Type="SwitchCaseStatement">
+            <Expression Type="NameofExpression">
+              <Expression Text="CompanyFolderModel" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="AssignmentExpression">
+                <Expression Text="result" Type="LiteralExpression" />
+                <Expression Type="AsExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="this" Type="LiteralExpression" />
+                      <Expression Text="GetCompanyFolderModel" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="name" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="Test" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="BreakStatement" />
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="GetCompanyFolderModel" Type="Method">
+        <Statement Type="ThrowStatement">
+          <Expression Type="NewExpression">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="NotImplementedException" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="Test" Type="Class">
+      <Element Name="SearchAsync" Type="Property">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+    </Element>
+    <Element Name="Program" Type="Class">
+      <Element Name="index" Type="Property">
+        <Element Name="get" Type="Accessor" />
+        <Element Name="set" Type="Accessor" />
+      </Element>
+      <Element Name="Test" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="Console" Type="LiteralExpression" />
+              <Expression Text="WriteLine" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="NameofExpression">
+              <Expression Text="index" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="Console" Type="LiteralExpression" />
+              <Expression Text="WriteLine" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="NameofExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="index" Type="LiteralExpression" />
+                <Expression Text="SearchAsync" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="Console" Type="LiteralExpression" />
+              <Expression Text="WriteLine" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="NameofExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="this" Type="LiteralExpression" />
+                  <Expression Text="index" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="SearchAsync" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Comments">
+  <!-- Tests the use of empty comments. -->
+  <Test Name="CommentsMustContainText">
+    <TestCodeFile>CommentsMustContainText.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="CommentsMustContainText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="49" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="51" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="66" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="55" StartLine="55" StartColumn="13" EndLine="55" EndColumn="14" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="57" StartLine="57" StartColumn="13" EndLine="57" EndColumn="17" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="59" StartLine="59" StartColumn="13" EndLine="60" EndColumn="15" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="62" StartLine="62" StartColumn="13" EndLine="64" EndColumn="15" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="68" StartLine="68" StartColumn="1" EndLine="68" EndColumn="5" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="70" StartLine="70" StartColumn="1" EndLine="71" EndColumn="2" Rule="CommentsMustContainText" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.CommentsMustContainText.InvalidComments" LineNumber="73" StartLine="73" StartColumn="1" EndLine="74" EndColumn="3" Rule="CommentsMustContainText" />
+    </ExpectedViolations>
+  </Test>
+  <Test Name="CommentsBeginWithSingleSpace">
+    <TestCodeFile>CommentsBeginWithSingleSpace.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="SingleLineCommentsMustBeginWithSingleSpace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments" LineNumber="3" StartLine="3" StartColumn="5" EndLine="3" EndColumn="17" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace" LineNumber="8" StartLine="8" StartColumn="9" EndLine="8" EndColumn="21" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Comments.CommentsBeginWithSingleSpace.MethodName" LineNumber="12" StartLine="12" StartColumn="13" EndLine="12" EndColumn="25" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SingleLineCommentsMustBeginWithSingleSpace" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

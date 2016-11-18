@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Readability Rules">
+  <Description>
+    Rules which ensure that the code is well-formatted and readable.
+  </Description>
+  <Rules>
+    <RuleGroup Name="Member Access">
+      <Rule Name="DoNotPrefixCallsWithBaseUnlessLocalImplementationExists" CheckId="SA1100">
+        <Context>The call to {0} should only use the 'base.' prefix if the item is declared virtual in the base class and an override (or new) is defined in the local class.</Context>
+        <Description>Verifies that the 'base.' prefix is not misused.</Description>
+      </Rule>
+      <Rule Name="PrefixLocalCallsWithThis" CheckId="SA1101">
+        <Context>The call to {0} must begin with the 'this.' prefix to indicate that the item is a member of the class.</Context>
+        <Description>Verifies that calls to local members are prefixed with the 'this.' notation.</Description>
+      </Rule>
+      <Rule Name="PrefixCallsCorrectly" CheckId="SA1126">
+        <Context>The call to {0} must begin with the 'this.', 'base.', 'object.' or '{1}.' prefix to indicate the intended method call. </Context>
+        <Description>Verifies that calls to members are prefixed with the correct notation. In some case from sourcecode analysis we cannot be sure which prefix is required.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Query Expressions">
+      <Rule Name="QueryClauseMustFollowPreviousClause" CheckId="SA1102">
+        <Context>The query clause must begin on the line after the previous clause, with no blank lines in between.</Context>
+        <Description>Validates that blank lines are not placed between clauses within a query expression.</Description>
+      </Rule>
+      <Rule Name="QueryClausesMustBeOnSeparateLinesOrAllOnOneLine" CheckId="SA1103">
+        <Context>All clauses in the query expression must be placed on the same line, or each clause must begin on a new line.</Context>
+        <Description>Verifies that each clause in a query expression must begin on a new line, unless the entire expression is on a single line.</Description>
+      </Rule>
+      <Rule Name="QueryClauseMustBeginOnNewLineWhenPreviousClauseSpansMultipleLines" CheckId="SA1104">
+        <Context>A query clause must begin on a new line if the previous clause spans multiple lines.</Context>
+        <Description>Verifies that a query clause begins on a new line if the previous clause spans multiple lines.</Description>
+      </Rule>
+      <Rule Name="QueryClausesSpanningMultipleLinesMustBeginOnOwnLine" CheckId="SA1105">
+        <Context>If a query clause spans multiple lines, it must begin on its own line.</Context>
+        <Description>Validates that a query clause spanning multiple lines begins on a new line.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Statements">
+      <Rule Name="CodeMustNotContainEmptyStatements" CheckId="SA1106">
+        <Context>The code contains an extra semicolon.</Context>
+        <Description>Detects the presense of extra, unnecessary semicolons in the code.</Description>
+      </Rule>
+      <Rule Name="CodeMustNotContainMultipleStatementsOnOneLine" CheckId="SA1107">
+        <Context>A line may only contain a single statement.</Context>
+        <Description>Validates that multiple statements are not placed on a single line of code.</Description>
+      </Rule>
+      <Rule Name="BlockStatementsMustNotContainEmbeddedComments" CheckId="SA1108">
+        <Context>A comment may not be placed within the bracketed statement.</Context>
+        <Description>Validates that there are no comments placed between the declaration and opening bracket in a bracketed statement.</Description>
+      </Rule>
+      <Rule Name="BlockStatementsMustNotContainEmbeddedRegions" CheckId="SA1109">
+        <Context>A region may not be placed within the bracketed statement.</Context>
+        <Description>Validates that there are no regions placed between the declaration and opening bracket in a bracketed statement.</Description>
+      </Rule>
+      <Rule Name="UseReadableConditions" CheckId="SA1131">
+        <Context>Do not use comparison where value goes first, reverse order of operands in '{0}'.</Context>
+        <Description>Validates that value first comparison is not used.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Method Parameter Placement">
+      <Rule Name="OpeningParenthesisMustBeOnDeclarationLine" CheckId="SA1110">
+        <Context>The opening parenthesis or bracket must be placed on the same line as the name of the {0}.</Context>
+        <Description>Verifies that the opening bracket of a parameter list is placed just after the name of the method, on the same line.</Description>
+      </Rule>
+      <Rule Name="ClosingParenthesisMustBeOnLineOfLastParameter" CheckId="SA1111">
+        <Context>The closing parenthesis or bracket must be placed on the same line as the last parameter in the parameter list.</Context>
+        <Description>Verifies that the closing bracket of a parameter list is placed just after the last parameter, on the same line.</Description>
+      </Rule>
+      <Rule Name="ClosingParenthesisMustBeOnLineOfOpeningParenthesis" CheckId="SA1112">
+        <Context>The closing parenthesis or bracket must be placed on the same line as the opening parenthesis or bracket.</Context>
+        <Description>Verifies that the closing bracket of a parameter list is placed just after the opening bracket when the method has no parameters.</Description>
+      </Rule>
+      <Rule Name="CommaMustBeOnSameLineAsPreviousParameter" CheckId="SA1113">
+        <Context>The comma must be placed on the same line as the previous parameter.</Context>
+        <Description>Verifies that a comma between two parameters is placed just after the previous parameter, on the same line.</Description>
+      </Rule>
+      <Rule Name="ParameterListMustFollowDeclaration" CheckId="SA1114">
+        <Context>The first parameter in the parameter list must be placed on the same line as the opening bracket, parenthesis or on the next line.</Context>
+        <Description>Verifies that the first parameter in a parameter list is placed on the same line as the opening bracket, parenthesis or on the next line.</Description>
+      </Rule>
+      <Rule Name="ParameterMustFollowComma" CheckId="SA1115">
+        <Context>The parameter must begin on the line after the previous parameter.</Context>
+        <Description>Verifies that a parameter is placed on the line after the previous comma, in a multi-line parameter list.</Description>
+      </Rule>
+      <Rule Name="SplitParametersMustStartOnLineAfterDeclaration" CheckId="SA1116">
+        <Context>If the {0} parameters are on separate lines, the first parameter must begin on the line beneath the name of the {0}.</Context>
+        <Description>Verifies that the first parameter in a parameter list is placed on the line beneath the opening bracket, in a multi-line parameter list.</Description>
+      </Rule>
+      <Rule Name="ParametersMustBeOnSameLineOrSeparateLines" CheckId="SA1117">
+        <Context>All {0} parameters must be placed on the same line, or each parameter must be placed on a separate line.</Context>
+        <Description>Verifies that each parameter in a parameter list is placed on its own line, unless all parameters are on the same line.</Description>
+      </Rule>
+      <Rule Name="ParameterMustNotSpanMultipleLines" CheckId="SA1118">
+        <Context>
+          The parameter spans multiple lines. If the parameter is short, place the entire parameter on a single line. Otherwise, save the contents
+          of the parameter in a temporary variable and pass the temporary variable as a parameter.
+        </Context>
+        <Description>Validates that no parameter spans across multiple lines, other than the first parameter in a parameter list.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Comments">
+      <Rule Name="CommentsMustContainText" CheckId="SA1120">
+        <Context>The comment is empty. Add text to the comment or remove it.</Context>
+        <Description>Validates that a comment contains description text.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Types">
+      <Rule Name="UseBuiltInTypeAlias" CheckId="SA1121">
+        <Context>Use the built-in type alias '{0}' rather than {1} or {2}.</Context>
+        <Description>Enforces the use of the built-in types rather than the actual types that they represent.</Description>
+      </Rule>
+      <Rule Name="UseShorthandForNullableTypes" CheckId="SA1125">
+        <Context>Use the shorthand of the nullable type.</Context>
+        <Description>Enforces the use of the shorthand of a nullable type rather than the Nullable&lt;T&gt; except inside a typeof().</Description>
+      </Rule>      
+    </RuleGroup>
+    <RuleGroup Name="Strings">
+      <Rule Name="UseStringEmptyForEmptyStrings" CheckId="SA1122">
+        <Context>Use string.Empty rather than "".</Context>
+        <Description>Enforces the use of the string.Empty property for empty strings.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Regions">
+      <Rule Name="DoNotPlaceRegionsWithinElements" CheckId="SA1123">
+        <Context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</Context>
+        <Description>Prevents the use of regions within code elements, which limits code readability.</Description>
+      </Rule>
+      <Rule Name="DoNotUseRegions" CheckId="SA1124" DisabledByDefault="true">
+        <Context>The use of regions is not allowed. Remove the #region and #endregion tags.</Context>
+        <Description>Prevents the use of regions anywhere within the code.</Description>
+      </Rule>
+    </RuleGroup>
+  </Rules>
+</SourceAnalyzer>
+

@@ -1,0 +1,21 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Namespace1" Type="Namespace" />
+    <Element Name="Namespace1.Namespace2.Namespace3" Type="Namespace" />
+    <Element Name="Namespace3.Namespace4.Namespace5" Type="Namespace" />
+    <Element Name="NamespaceWithSemicolon" Type="Namespace" />
+    <Element Name="" Type="EmptyElement" />
+    <Element Name="NamespaceWithContents" Type="Namespace">
+      <Element Name="System" Type="UsingDirective" />
+    </Element>
+    <Element Name="NestedNamespace1" Type="Namespace">
+      <Element Name="NestedNamespace2" Type="Namespace">
+        <Element Name="NestedNamespace3" Type="Namespace">
+          <Element Name="NestedNamespace4" Type="Namespace">
+            <Element Name="System.Globalization" Type="UsingDirective" />
+          </Element>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

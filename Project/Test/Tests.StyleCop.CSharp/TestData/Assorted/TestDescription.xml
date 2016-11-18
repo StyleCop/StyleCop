@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Assorted">
+  <Test Name="ValidElements">
+    <TestCodeFile TestObjectModel="true">Assorted.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">EscapedNames.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">ErrorClass.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+  <Test Name="InvalidElements">
+    <TestCodeFile TestObjectModel="true">InvalidEscapedName1.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">InvalidEscapedName2.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">InvalidEscapedName3.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">InvalidEscapedName4.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+  <Test Name="UTF8Markers">
+    <TestCodeFile TestObjectModel="true">UTF8BOMSet.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">UTF8BOMNotSet.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+</StyleCopTestDescription>

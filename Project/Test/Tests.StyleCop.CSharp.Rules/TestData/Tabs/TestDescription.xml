@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Tabs">
+  <Test Name="Tabs">
+    <TestCodeFile>Tabs.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+          <Rules>
+            <Rule Name="TabsMustNotBeUsed">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1" LineNumber="2" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1" LineNumber="5" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.System.Collections" LineNumber="5" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1" LineNumber="15" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="15" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="16" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="17" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="18" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass.Invalid" LineNumber="19" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1.TabsClass" LineNumber="20" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root.Tabs1" LineNumber="21" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root" LineNumber="22" Rule="TabsMustNotBeUsed" />
+      <Violation Section="Root" LineNumber="25" Rule="TabsMustNotBeUsed" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

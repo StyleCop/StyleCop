@@ -1,0 +1,273 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="ConsoleApplication1" Type="Namespace">
+      <Element Name="System" Type="UsingDirective" />
+      <Element Name="NamedArguments" Type="Class">
+        <Element Name="NamedArguments" Type="Constructor" />
+        <Element Name="NamedArguments" Type="Constructor" />
+        <Element Name="Method1" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Text="0" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="CallMethod1" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method1" Type="LiteralExpression" />
+              <Expression Text="1" Type="LiteralExpression" />
+              <Expression Text="2" Type="LiteralExpression" />
+              <Expression Text="3" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method2" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Text="0" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="EnumValues" Type="Enum">
+          <Element Name="EnumValue1" Type="EnumItem" />
+          <Element Name="EnumValue2" Type="EnumItem" />
+        </Element>
+        <Element Name="CallMethod2" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method2" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="4" Type="LiteralExpression" />
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method2" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="Method2" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="Method2" Type="LiteralExpression" />
+                  <Expression Type="CastExpression">
+                    <Expression Text="int" Type="LiteralExpression" />
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="EnumValues" Type="LiteralExpression" />
+                      <Expression Text="EnumValue1" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method2" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="Method1" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="4" Type="LiteralExpression" />
+                <Expression Text="3" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method3" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Text="0" Type="LiteralExpression" />
+          </Statement>
+        </Element>
+        <Element Name="Method4" Type="Method" />
+        <Element Name="Method5" Type="Method" />
+        <Element Name="Method6&lt;T&gt;" Type="Method" />
+        <Element Name="Method7" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="x" Type="LiteralExpression" />
+              <Expression Text="true" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="CallMethod7" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+                <Expression Text="true" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Method7" Type="LiteralExpression" />
+              <Expression Text="x" Type="LiteralExpression" />
+              <Expression Text="y" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="this" Type="Indexer">
+          <Element Name="get" Type="Accessor">
+            <Statement Type="ReturnStatement">
+              <Expression Text="2" Type="LiteralExpression" />
+            </Statement>
+          </Element>
+        </Element>
+      </Element>
+      <Element Name="CallIndexer" Type="Class">
+        <Element Name="CallIndexerMethod" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="NamedArguments" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="args" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="NamedArguments" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="val" Type="LiteralExpression" />
+                <Expression Type="ArrayAccessExpression">
+                  <Expression Text="args" Type="LiteralExpression" />
+                  <Expression Type="UnaryExpression">
+                    <Expression Text="23" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="DateTime" Type="LiteralExpression" />
+                    <Expression Text="Now" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="UnaryExpression">
+                    <Expression Text="1223" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

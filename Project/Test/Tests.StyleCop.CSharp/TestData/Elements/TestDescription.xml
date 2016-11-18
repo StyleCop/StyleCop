@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Elements">
+  <!-- Tests parsing of valid elements. -->
+  <Test Name="ValidElements">
+    <TestCodeFile TestObjectModel="true">Namespace.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">UsingDirective.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">ExternAliasDirective.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Class.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Struct.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Interface.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Enum.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Delegate.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Field.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Method.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">PreProcessorDirectives.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">PreProcessorDirectives2.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">PreProcessorDirectives3.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Property.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Indexer.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Constructor.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Destructor.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">Event.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">FilterExceptions.cs</TestCodeFile>
+    <TestCodeFile TestObjectModel="true">NameOf.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+</StyleCopTestDescription>

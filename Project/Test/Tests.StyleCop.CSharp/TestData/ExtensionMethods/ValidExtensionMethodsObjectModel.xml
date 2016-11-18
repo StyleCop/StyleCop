@@ -1,0 +1,14 @@
+<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="System" Type="UsingDirective" />
+    <Element Name="System.Collections.Generic" Type="UsingDirective" />
+    <Element Name="System.Text" Type="UsingDirective" />
+    <Element Name="MS.StyleCop.CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="ValidExtensionMethods" Type="Class">
+        <Element Name="ValidMethod" Type="Method" />
+        <Element Name="ValidStaticMethod" Type="Method" />
+        <Element Name="ValidExtensionMethod" Type="Method" />
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

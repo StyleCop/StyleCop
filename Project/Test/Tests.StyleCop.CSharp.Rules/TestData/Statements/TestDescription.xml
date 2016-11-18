@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Statements">
+  <Test Name="BlockStatementsEmbeddedStuff">
+    <TestCodeFile>BlockStatementsEmbeddedStuff.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="QueryClauseMustFollowPreviousClause">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainEmptyStatements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleStatementsOnOneLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedComments">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedRegions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="8" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="11" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="13" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="18" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="21" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="23" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="28" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="31" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="33" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="36" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="38" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="43" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="46" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="48" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="51" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="53" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="56" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="58" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="63" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="66" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="68" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="73" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="76" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="78" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="81" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="83" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="88" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="93" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="98" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="103" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="108" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="113" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="119" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="126" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="131" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="136" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="141" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.SingleLineComment" LineNumber="144" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="150" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="152" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="153" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="157" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="160" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="161" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="164" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="166" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="168" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="170" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="171" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="175" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="177" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="178" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="180" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="182" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="184" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="185" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="188" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="190" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="191" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="194" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="196" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="197" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="199" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="200" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="205" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="210" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="215" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="220" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="225" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="230" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="236" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="243" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="248" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="253" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="258" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.MultiLineComment" LineNumber="260" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="267" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="270" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="272" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="277" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="280" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="282" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="287" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="290" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="292" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="295" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="297" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="302" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="305" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="307" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="310" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="312" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="315" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="317" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="322" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="325" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="327" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="332" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="335" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="337" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="340" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="342" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="347" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="352" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="357" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="362" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="367" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="372" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="378" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="385" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="390" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="395" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="400" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.XmlHeader" LineNumber="403" Rule="BlockStatementsMustNotContainEmbeddedComments" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="411" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="414" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="418" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="424" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="427" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="431" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="437" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="440" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="444" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="447" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="451" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="457" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="460" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="464" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="467" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="471" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="474" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="478" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="484" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="487" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="491" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="497" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="500" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="504" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="507" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="511" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="517" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="523" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="529" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="535" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="541" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="547" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="554" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="562" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="568" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="574" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="580" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+      <Violation Section="Root.BlockStatementComments.Class1.Regions" LineNumber="583" Rule="BlockStatementsMustNotContainEmbeddedRegions" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="StatementsExtraSemicolon">
+    <TestCodeFile>StatementsExtraSemicolon.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="QueryClauseMustFollowPreviousClause">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainEmptyStatements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleStatementsOnOneLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedComments">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedRegions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.StatementsExtraSemicolon" LineNumber="6" Rule="CodeMustNotContainEmptyStatements" />
+      <Violation Section="Root.StatementsExtraSemicolon.MyClass.Property1.get" LineNumber="14" Rule="CodeMustNotContainEmptyStatements" />
+      <Violation Section="Root.StatementsExtraSemicolon" LineNumber="17" Rule="CodeMustNotContainEmptyStatements" />
+      <Violation Section="Root" LineNumber="35" Rule="CodeMustNotContainEmptyStatements" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="StatementsMultipleStatementsOnOneLine">
+    <TestCodeFile>StatementsMultipleStatementsOnOneLine.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="QueryClauseMustFollowPreviousClause">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainEmptyStatements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="CodeMustNotContainMultipleStatementsOnOneLine">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedComments">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="BlockStatementsMustNotContainEmbeddedRegions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="8" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="9" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="11" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="13" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="16" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="21" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+      <Violation Section="Root.StatementsMultipleStatementsOnOneLine.Class1.Method1" LineNumber="26" Rule="CodeMustNotContainMultipleStatementsOnOneLine" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that comparisons are not in reverse (value first) order. -->
+  <Test Name="UseReadableConditions">
+    <TestCodeFile>StatementsUseReadableConditions.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseReadableConditions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.N.Incorrect._bx" LineNumber="6" StartLine="6" StartColumn="28" EndLine="6" EndColumn="48" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="28" EndLine="7" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="47" EndLine="7" EndColumn="62" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b2" LineNumber="7" StartLine="7" StartColumn="71" EndLine="7" EndColumn="92" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect._b5" LineNumber="10" StartLine="10" StartColumn="28" EndLine="10" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="16" StartLine="16" StartColumn="17" EndLine="16" EndColumn="22" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="20" StartLine="20" StartColumn="29" EndLine="20" EndColumn="46" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="25" StartLine="25" StartColumn="17" EndLine="25" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="30" StartLine="30" StartColumn="17" EndLine="30" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="34" StartLine="34" StartColumn="17" EndLine="34" EndColumn="26" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="38" StartLine="38" StartColumn="20" EndLine="38" EndColumn="28" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="45" StartLine="45" StartColumn="20" EndLine="45" EndColumn="24" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="47" StartLine="47" StartColumn="17" EndLine="47" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="51" StartLine="51" StartColumn="28" EndLine="51" EndColumn="36" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="51" StartLine="51" StartColumn="42" EndLine="51" EndColumn="50" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="55" StartLine="55" StartColumn="30" EndLine="55" EndColumn="38" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="59" StartLine="59" StartColumn="17" EndLine="59" EndColumn="25" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="59" StartLine="59" StartColumn="30" EndLine="59" EndColumn="35" Rule="UseReadableConditions" />
+      <Violation Section="Root.N.Incorrect.F" LineNumber="66" StartLine="66" StartColumn="22" EndLine="66" EndColumn="31" Rule="UseReadableConditions" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

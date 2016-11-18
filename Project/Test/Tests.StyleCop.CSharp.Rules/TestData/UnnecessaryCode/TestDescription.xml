@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="UnnecessaryCode">
+  <Test Name="UnnecessaryCodeTryStatement">
+    <TestCodeFile>UnnecessaryCodeTryStatement.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveUnnecessaryCode">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="53" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="56" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="61" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="69" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="75" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="80" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="87" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="96" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="108" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="118" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="127" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="131" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="136" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryTryAndFinally.Class1.UnnecessaryTryAndFinally" LineNumber="140" Rule="RemoveUnnecessaryCode" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="UnnecessaryCodeCheckedUncheckedStatement">
+    <TestCodeFile>UnnecessaryCodeCheckedUncheckedStatement.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveUnnecessaryCode">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.UnnecessaryCheckedAndUnchecked" LineNumber="20" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.UnnecessaryCheckedAndUnchecked" LineNumber="24" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.UnnecessaryCheckedAndUnchecked" LineNumber="28" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.UnnecessaryCheckedAndUnchecked" LineNumber="36" Rule="RemoveUnnecessaryCode" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="UnnecessaryCodeLockStatement">
+    <TestCodeFile>UnnecessaryCodeLockStatement.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveUnnecessaryCode">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryLock.Class1.UnnecessaryLock" LineNumber="15" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryLock.Class1.UnnecessaryLock" LineNumber="19" Rule="RemoveUnnecessaryCode" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="UnnecessaryCodeUnsafeStatement">
+    <TestCodeFile>UnnecessaryCodeUnsafeStatement.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveUnnecessaryCode">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryUnsafe.Class1.UnnecessaryUnsafe" LineNumber="15" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryUnsafe.Class1.UnnecessaryUnsafe" LineNumber="19" Rule="RemoveUnnecessaryCode" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="UnnecessaryCodeStaticConstructor">
+    <TestCodeFile>UnnecessaryCodeStaticConstructor.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveUnnecessaryCode">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryLock.Class2.Class2" LineNumber="26" Rule="RemoveUnnecessaryCode" />
+      <Violation Section="Root.UnnecessaryLock.Class3.Class3" LineNumber="34" Rule="RemoveUnnecessaryCode" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="AnonymousMethodParenthesis">
+    <TestCodeFile>AnonymousMethodParenthesis.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="RemoveDelegateParenthesisWhenPossible">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class1.Method2" LineNumber="18" Rule="RemoveDelegateParenthesisWhenPossible" />
+      <Violation Section="Root.UnnecessaryCheckedAndUnchecked.Class3.Test" LineNumber="56" Rule="RemoveDelegateParenthesisWhenPossible" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

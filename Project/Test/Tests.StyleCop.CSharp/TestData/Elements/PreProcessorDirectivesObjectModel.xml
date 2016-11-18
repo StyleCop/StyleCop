@@ -1,0 +1,12 @@
+﻿<StyleCopCsParserObjectModel>
+<Element Name="Root"
+             Type="DocumentRoot">
+         <Element Name="StyleCop.CSharpParserTest.TestData.Elements"
+                 Type="Namespace">
+            <Element Name="System"
+                     Type="UsingDirective" />
+            <Element Name="PreProcessorDirectives"
+                     Type="Class" />
+        </Element>
+    </Element>
+</StyleCopCsParserObjectModel>

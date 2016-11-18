@@ -1,0 +1,733 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="FileLists">
+  <!-- Tests that all of the violations appear with the default settings. -->
+  <Test Name="DefaultSettingsNoMerge">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that all of the violations appear with rules enabled by default = true. -->
+  <Test Name="DefaultSettingsNoMergeRulesEnabledByDefaultTrue">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that no violation appear when all rules are disabled by default. -->
+  <Test Name="EverythingDisabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that the right violations appear when only one rule is enabled globally. -->
+  <Test Name="OneRuleEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with an empty file list and everything else enabled by default. -->
+  <Test Name="EmptyFileListWithEverythingElseDefault">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with an empty file list and everything else disabled by default. -->
+  <Test Name="EmptyFileListWithEverythingElseDefault">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with an empty file list with only one rule enabled globally. -->
+  <Test Name="EmptyFileListWithOneRuleEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+      <SourceFileList>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a random file in the file list and everything else enabled by default. -->
+  <Test Name="RandomFileListWithEverythingElseDefaultEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>SomeRandomFile.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a random file in the file list and everything else disabled by default. -->
+  <Test Name="RandomFileListWithEverythingElseDefaultDisabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>SomeRandomFile.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a random file in the file list with only one rule enabled globally. -->
+  <Test Name="RandomFileListWithOneRuleEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+      <SourceFileList>
+        <SourceFile>SomeRandomFile.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a known file in the file list, without any file list settings, and everything else enabled by default. -->
+  <Test Name="KnownFileListWithEverythingElseDefaultEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a known file in the file list, without any file list settings, everything else disabled by default. -->
+  <Test Name="KnownFileListWithEverythingElseDefaultDisabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a known file in the file list, without any file list settings, with only one rule enabled globally. -->
+  <Test Name="KnownFileListWithOneRuleEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a known file in the file list, without any file list settings, with only one rule enabled globally and empty file list settings. -->
+  <Test Name="KnownFileListWithOneRuleEnabledAndEmptyFileListSettings">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests with a known file in the file list, without any file list settings, with only one rule enabled globally and a file list setting repeating the rules enabled by default setting. -->
+  <Test Name="KnownFileListWithOneRuleEnabledAndFileListSettingsWithRulesEnabledByDefault">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test with the global settings enabling all rules, and the file list settings disabling all rules. -->
+  <Test Name="GlobalEnabledSourceFileListDisabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test with the global settings enabling all rules, and the file list settings disabling all but one rule. -->
+  <Test Name="GlobalAllEnabledSourceFileListOneRuleEnabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+          <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+              <Rules>
+                <Rule Name="AccessModifierMustBeDeclared">
+                  <RuleSettings>
+                    <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+                </Rule>
+              </Rules>
+            </Analyzer>
+          </Analyzers>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test with the global settings enabling all rules, and the file list settings disabling all but one rule. -->
+  <Test Name="GlobalAllEnabledSourceFileListOneRuleEnabled2">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+          <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+              <Rules>
+                <Rule Name="AccessModifierMustBeDeclared">
+                  <RuleSettings>
+                    <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+                </Rule>
+              </Rules>
+            </Analyzer>
+          </Analyzers>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test with the global settings enabling all rules, and the file list settings disabling all but one rule, with all rules in the file list. -->
+  <Test Name="GlobalAllEnabledSourceFileListOneRuleEnabledWithAllFilesInFileList">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+          <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+              <Rules>
+                <Rule Name="AccessModifierMustBeDeclared">
+                  <RuleSettings>
+                    <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+                </Rule>
+              </Rules>
+            </Analyzer>
+          </Analyzers>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test with the global settings enabling all rules, and the file list settings disabling all but one rule, with all rules in the file list. -->
+  <Test Name="TwoFilesListsWithDifferentSettings">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+          <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+              <Rules>
+                <Rule Name="AccessModifierMustBeDeclared">
+                  <RuleSettings>
+                    <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+                </Rule>
+              </Rules>
+            </Analyzer>
+          </Analyzers>
+        </Settings>
+      </SourceFileList>
+      <SourceFileList>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+          <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+              <Rules>
+                <Rule Name="ElementsMustBeDocumented">
+                  <RuleSettings>
+                    <BooleanProperty Name="Enabled">True</BooleanProperty>
+                  </RuleSettings>
+                </Rule>
+              </Rules>
+            </Analyzer>
+          </Analyzers>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test that wildcards in the file list are ignored. -->
+  <Test Name="FileListWithIgnoredWildcards1">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>*.*</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Test that wildcards in the file list are ignored. -->
+  <Test Name="FileListWithIgnoredWildcards2">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile*.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests NoMerge in the file list with default settings otherwise. -->
+  <Test Name="TestNoMergeFileList">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests NoMerge in the file list with the global settings disabling all rules. The rules should still run. -->
+  <Test Name="TestNoMergeFileListWithAllRulesGloballyDisabled">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that when there are multiple file lists with the same files, the first is used and the second is ignored. -->
+  <Test Name="TestDuplicateFileLists1">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+      <SourceFileList>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that when there are multiple file lists with the same files, the first is used and the second is ignored. -->
+  <Test Name="TestDuplicateFileLists2">
+    <TestCodeFile>TestFile1.cs</TestCodeFile>
+    <TestCodeFile>TestFile2.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+      </GlobalSettings>
+      <SourceFileList>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">True</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+      <SourceFileList>
+        <SourceFile>TestFile2.cs</SourceFile>
+        <SourceFile>TestFile1.cs</SourceFile>
+        <Settings>
+          <GlobalSettings>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+          </GlobalSettings>
+        </Settings>
+      </SourceFileList>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="FileHeaderFileNameDocumentationMustMatchTypeName" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile1.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile1.ClassMissingAccessModifier" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
+      <Violation Section="Root.TestFile2.System.Text" LineNumber="9" RuleNamespace="StyleCop.CSharp.OrderingRules" Rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" />
+      <Violation Section="Root.TestFile2.TestFile2" LineNumber="12" RuleNamespace="StyleCop.CSharp.MaintainabilityRules" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+</StyleCopTestDescription>

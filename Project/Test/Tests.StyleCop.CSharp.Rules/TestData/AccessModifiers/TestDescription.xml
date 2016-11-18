@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="AccessModifiers">
+  <!-- Tests that access modifiers are not missing. -->
+  <Test Name="AccessModifiersMissing">
+    <TestCodeFile>AccessModifiersMissing.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="AccessModifierMustBeDeclared">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="FieldsMustBePrivate">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TopLevelDelegateMissingAccessModifier" LineNumber="9" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TopLevelEnumMissingAccessModifier" LineNumber="11" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier" LineNumber="15" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.fieldMissingAccessModifier" LineNumber="17" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.constFieldMissingAccessModifier" LineNumber="19" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.readonlyFieldMissingAccessModifier" LineNumber="21" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.ClassMissingAccessModifier" LineNumber="23" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.DelegateMissingAccessModifier" LineNumber="27" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.EventMissingAccessModifier" LineNumber="29" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.EnumMissingAccessModifier" LineNumber="31" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.PropertyMissingAccessModifier" LineNumber="35" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.MethodMissingAccessModifier" LineNumber="43" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.StructMissingAccessModifier" LineNumber="47" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier" LineNumber="51" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.internalFieldMissingAccessModifier" LineNumber="53" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalClassMissingAccessModifier" LineNumber="55" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalDelegateMissingAccessModifier" LineNumber="59" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalEventMissingAccessModifier" LineNumber="61" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalEnumMissingAccessModifier" LineNumber="63" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalPropertyMissingAccessModifier" LineNumber="67" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalMethodMissingAccessModifier" LineNumber="75" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.InternalClassMissingAccessModifier.InternalStructMissingAccessModifier" LineNumber="79" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.staticFieldMissingAccessModifier" LineNumber="84" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.StaticClassMissingAccessModifier" LineNumber="86" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.StaticPropertyMissingAccessModifier" LineNumber="90" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.StaticMethodMissingAccessModifier" LineNumber="98" Rule="AccessModifierMustBeDeclared"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.ClassMissingAccessModifier.staticFieldMissingAccessModifier" LineNumber="182" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Hello.Method2" LineNumber="213" Rule="AccessModifierMustBeDeclared" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Ensures that fields must be private. -->
+  <Test Name="AccessModifiersNonPrivateFields">
+    <TestCodeFile>AccessModifiersNonPrivateFields.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="FieldsMustBePrivate">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.publicAccessModifier" LineNumber="10" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.internalAccessModifier" LineNumber="11" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.protectedAccessModifier" LineNumber="12" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.publicStaticAccessModifier" LineNumber="14" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.internalStaticAccessModifier" LineNumber="15" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.protectedStaticAccessModifier" LineNumber="16" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.publicAccessModifier" LineNumber="34" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.internalAccessModifier" LineNumber="35" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.protectedAccessModifier" LineNumber="36" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.publicStaticAccessModifier" LineNumber="38" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.internalStaticAccessModifier" LineNumber="39" Rule="FieldsMustBePrivate"/>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.NonPrivateFields.MyInternalClass.protectedStaticAccessModifier" LineNumber="40" Rule="FieldsMustBePrivate"/>
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

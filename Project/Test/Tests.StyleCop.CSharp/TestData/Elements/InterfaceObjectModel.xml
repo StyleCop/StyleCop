@@ -1,0 +1,44 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Interface1" Type="Interface" />
+    <Element Name="Interface2&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface3&lt;T,S&gt;" Type="Interface" />
+    <Element Name="Interface4&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface5&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface6&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface7&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface8&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface9&lt;T,U,V&gt;" Type="Interface" />
+    <Element Name="Interface10&lt;T,U,V&gt;" Type="Interface" />
+    <Element Name="Interface11&lt;T,U,V&gt;" Type="Interface" />
+    <Element Name="Interface12" Type="Interface" />
+    <Element Name="Interface13" Type="Interface" />
+    <Element Name="Interface14" Type="Interface" />
+    <Element Name="Interface15&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface16&lt;T&gt;" Type="Interface" />
+    <Element Name="Interface17" Type="Interface" />
+    <Element Name="" Type="EmptyElement" />
+    <Element Name="ClassWithNestedInterface1" Type="Class">
+      <Element Name="NestedInterface1" Type="Interface" />
+    </Element>
+    <Element Name="InterfaceWithAccessModifier1" Type="Interface" />
+    <Element Name="InterfaceWithAccessModifier2" Type="Interface" />
+    <Element Name="InterfaceWithAccessModifier3" Type="Interface" />
+    <Element Name="InterfaceWithAccessModifier4" Type="Interface" />
+    <Element Name="InterfaceWithAccessModifier5" Type="Interface" />
+    <Element Name="InterfaceWithAccessModifier6" Type="Interface" />
+    <Element Name="ClassWithNestedInterface2" Type="Class">
+      <Element Name="InterfaceWithModifier1" Type="Interface" />
+    </Element>
+    <Element Name="PartialInterface1" Type="Interface" />
+    <Element Name="PartialInterface2" Type="Interface" />
+    <Element Name="PartialInterface3" Type="Interface" />
+    <Element Name="PartialInterface2" Type="Interface" />
+    <Element Name="InterfaceWithAttributes" Type="Interface" />
+    <Element Name="InterfaceWithHeader" Type="Interface" />
+    <Element Name="InterfaceWithHeaderAndAttributes" Type="Interface" />
+    <Element Name="UnsafeInterface" Type="Interface">
+      <Element Name="Method1" Type="Method" />
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

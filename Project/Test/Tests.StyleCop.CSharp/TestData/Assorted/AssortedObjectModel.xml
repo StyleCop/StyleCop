@@ -1,0 +1,195 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="StyleCop.CSharpParserTest.TestData" Type="Namespace">
+      <Element Name="System" Type="UsingDirective" />
+      <Element Name="AsType" Type="Class">
+        <Element Name="Method" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Type="AsExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="categoryIds" Type="LiteralExpression" />
+                  <Expression Text="ToArray" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="TypeofExpression">
+                  <Expression Text="Guid?" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Text="Guid?[]" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method2" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Foo&lt;short&gt;?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="foo1" Type="LiteralExpression" />
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="Foo&lt;short&gt;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1.Type2.Type3" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="aa" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1&lt;int,string&gt;.Type2.Type3" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="bb" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1.Type2&lt;int,string&gt;.Type3" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="cc" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1.Type2.Type3&lt;int,string&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="dd" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1&lt;int,string&gt;.Type2&lt;int,string&gt;.Type3" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="ee" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1&lt;int,string&gt;.Type2.Type3&lt;int,string&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="ff" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1.Type2&lt;int,string&gt;.Type3&lt;int,string&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="gg" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Type1&lt;int,string&gt;.Type2&lt;int,string&gt;.Type3&lt;int,string&gt;" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="hh" Type="LiteralExpression" />
+                <Expression Text="null" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="MyStruct" Type="Struct">
+        <Element Name="DATA_SIZE" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="DATA_SIZE" Type="LiteralExpression" />
+                <Expression Text="1024" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="data[DATA_SIZE]" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="byte" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="data[DATA_SIZE]" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="data2[1024]" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="byte" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="data2[1024]" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="Program" Type="Class">
+        <Element Name="Main" Type="Method">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="1" Type="LiteralExpression" />
+                <Expression Text="ToString" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="MyDictionary&lt;TKey,TValue&gt;" Type="Class">
+        <Element Name="MyDictionary" Type="Constructor" />
+      </Element>
+      <Element Name="BooleanExtensionMethods" Type="Class">
+        <Element Name="BooleanExtensionMethods" Type="Constructor">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="7" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="6" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="true" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="true" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="false" Type="LiteralExpression" />
+                <Expression Text="ShouldBe" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="false" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="__ClassNameStartingWithAt" Type="Class">
+        <Element Name="__ClassNameStartingWithAt" Type="Constructor" />
+        <Element Name="~__ClassNameStartingWithAt" Type="Destructor" />
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

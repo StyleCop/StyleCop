@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="BuiltInTypes">
+  <Test Name="ShorthandForNullableTypes">
+    <TestCodeFile>ShorthandForNullableTypes.cs</TestCodeFile>
+    <Settings>
+        <GlobalSettings>
+            <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+            <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+        </GlobalSettings>
+        <Analyzers>
+            <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+                <Rules>
+                    <Rule Name="UseShorthandForNullableTypes">
+                        <RuleSettings>
+                            <BooleanProperty Name="Enabled">True</BooleanProperty>
+                        </RuleSettings>
+                    </Rule>
+                </Rules>
+            </Analyzer>
+        </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.d2" LineNumber="9" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.dates" LineNumber="13" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.i1" LineNumber="17" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.nested2Levels" LineNumber="21" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.nested3Levels" LineNumber="25" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.rectangles" LineNumber="29" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.sizes" LineNumber="33" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.tuples" LineNumber="37" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.this%int" LineNumber="43" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.this%int%Nullable`long" LineNumber="59" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Dates" LineNumber="75" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.ShorthandForNullableTypes%IEnumerable`Nullable`DateTime" LineNumber="91" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.ShorthandForNullableTypes%IEnumerable`Nullable`DateTime" LineNumber="93" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="102" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method%Nullable`bool%bool?" LineNumber="105" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Method3" LineNumber="114" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="124" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="132" Rule="UseShorthandForNullableTypes" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.BuiltInTypes.ShorthandForNullableTypes.Inner" LineNumber="136" Rule="UseShorthandForNullableTypes" />
+    </ExpectedViolations>
+  </Test>
+  <Test Name="BuiltInTypes">
+    <TestCodeFile>ValidBuiltInTypes.cs</TestCodeFile>
+    <TestCodeFile>InvalidBuiltInTypes.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="UseBuiltInTypeAlias">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.InvalidBuildInTypes.Class1" LineNumber="8" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Interface1" LineNumber="12" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class2" LineNumber="20" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Interface2" LineNumber="24" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class3`T`S" LineNumber="34" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Interface3`T`S" LineNumber="39" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Struct3`T`S" LineNumber="46" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Delegate1`T`S%T" LineNumber="51" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Delegate2`T`S%T" LineNumber="56" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Delegate3`T`S%T" LineNumber="60" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class3b.Method1`T`S%T" LineNumber="66" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class3b.Method2`T`S%T" LineNumber="71" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class3b.Method3`T`S%T" LineNumber="78" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method1%Int32%Dictionary`int`List`List`bool" LineNumber="89" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method2%int%Dictionary`int`List`List`Int32" LineNumber="93" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method3%int%Dictionary`System.Int32`List`List`int" LineNumber="97" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method4%UInt32%Dictionary`uint`List`List`uint" LineNumber="101" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method5%uint%Dictionary`uint`List`List`UInt32" LineNumber="105" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Method6%uint%Dictionary`System.UInt32`List`List`uint" LineNumber="109" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%Int64%Dictionary`long`List`List`long" LineNumber="113" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%long%Dictionary`Int64`List`List`long" LineNumber="118" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%long%Dictionary`long`List`List`System.Int64" LineNumber="123" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%UInt64%Dictionary`ulong`List`List`ulong" LineNumber="128" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%ulong%Dictionary`UInt64`List`List`ulong" LineNumber="133" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.this%ulong%Dictionary`ulong`List`List`System.UInt64" LineNumber="138" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Class4%double%Dictionary`double`List`List`Double" LineNumber="143" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Class4%Double%Dictionary`double`List`List`double" LineNumber="147" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Class4%double%Dictionary`System.Double`List`List`double" LineNumber="151" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Delegate4%float%Dictionary`Single`List`List`float" LineNumber="155" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Delegate5%float%Dictionary`float`List`List`Single" LineNumber="157" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class4.Delegate6%System.Single%Dictionary`float`List`List`float" LineNumber="159" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class10.Method1" LineNumber="170" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class10.Method1" LineNumber="172" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class10.Method1" LineNumber="175" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class5.Method5" LineNumber="185" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class5.this%char" LineNumber="189" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class5.Property5" LineNumber="194" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class5.Delegate5" LineNumber="199" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class5.Event5" LineNumber="201" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field1" LineNumber="210" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field2" LineNumber="211" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field3" LineNumber="212" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field4" LineNumber="213" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field5" LineNumber="214" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class6.field6" LineNumber="215" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class7.Method1" LineNumber="226" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class7.Method1" LineNumber="227" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class7.Method1" LineNumber="229" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="242" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="247" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="255" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="260" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="265" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="268" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="273" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class9.Method1" LineNumber="276" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="289" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="290" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="293" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="296" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="297" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="300" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="303" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class11.Method1" LineNumber="306" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class12.Method1" LineNumber="318" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class12.Method1" LineNumber="320" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class13.Method1" LineNumber="332" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class13.Method1" LineNumber="334" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class13.Method1" LineNumber="336" Rule="UseBuiltInTypeAlias" />
+      <Violation Section="Root.InvalidBuildInTypes.Class13.Method1" LineNumber="338" Rule="UseBuiltInTypeAlias" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

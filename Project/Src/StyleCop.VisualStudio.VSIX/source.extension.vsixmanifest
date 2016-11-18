@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="StyleCop.629EB7CC-69C2-43AC-9BC9-482B0F810C4E">
+    <Name>StyleCop</Name>
+    <Author>StyleCop</Author>
+    <Version>5.0</Version>
+    <Description xml:space="preserve">Provides source code style and consistency tools.</Description>
+    <Locale>1033</Locale>
+    <MoreInfoUrl>https://github.com/StyleCop/StyleCop</MoreInfoUrl>
+    <License>license.txt</License>
+    <Icon>StyleCop.ico</Icon>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="11.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="12.0">
+        <Edition>Community</Edition>
+      </VisualStudio>
+      <VisualStudio Version="14.0">
+        <Edition>Community</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.6.2" />
+  </Identifier>
+  <References />
+  <Content>
+    <VsPackage>StyleCop.VisualStudio.pkgdef</VsPackage>
+  </Content>
+</Vsix>

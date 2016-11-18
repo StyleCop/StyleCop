@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FBEC870-B153-4917-A53A-9FB8B369FCA4}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,79 +10,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7F9347C0-CEB0-4CE6-BB4B-A61ADD960D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParser", "Src\AddIns\CSharp\Parser\CSharpParser.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.CSharp", "Src\StyleCop.CSharp\StyleCop.CSharp.csproj", "{C173ACF5-2CE5-4771-83A4-D01453C8CB09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop", "Src\StyleCop\StyleCop.csproj", "{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzers", "Src\AddIns\CSharp\Analyzers\CSharpAnalyzers.csproj", "{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.CSharp.Rules", "Src\StyleCop.CSharp.Rules\StyleCop.CSharp.Rules.csproj", "{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackage", "Src\VSPackage\VSPackage.csproj", "{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio", "Src\StyleCop.VisualStudio\StyleCop.VisualStudio.csproj", "{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalAnalyzers", "Src\AddIns\CSharp\InternalAnalyzers\InternalAnalyzers.csproj", "{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.CSharp.Rules", "Test\Tests.StyleCop.CSharp.Rules\Tests.StyleCop.CSharp.Rules.csproj", "{859D876F-8088-42EA-922A-800D2319C5CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpAnalyzersTest", "Test\AddIns\CSharp\Analyzers\CSharpAnalyzersTest\CSharpAnalyzersTest.csproj", "{859D876F-8088-42EA-922A-800D2319C5CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.CSharp", "Test\Tests.StyleCop.CSharp\Tests.StyleCop.CSharp.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTest", "Test\AddIns\CSharp\Parser\CSharpParserTest\CSharpParserTest.csproj", "{5970CD94-2C7C-4F83-8C15-A0B3148E631C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.SettingsEditor", "Src\StyleCop.SettingsEditor\StyleCop.SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingsEditor", "Src\SettingsEditor\SettingsEditor.csproj", "{88BEE003-4764-455A-9705-B65D3521984F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.VisualStudio", "Test\Tests.StyleCop.VisualStudio\Tests.StyleCop.VisualStudio.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackageUnitTest", "Test\VSPackageUnitTest\VSPackageUnitTest.csproj", "{074AD813-8DC3-46CA-8F7E-97703523EA38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.StyleCop.PerfHarness", "Test\Testing.StyleCop.PerfHarness\Testing.StyleCop.PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfHarness", "Test\Harnesses\PerfHarness\PerfHarness.csproj", "{C938AB10-78BE-46FC-8ACF-00D02C576BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing.StyleCop.CSharp.ParserDump", "Test\Testing.StyleCop.CSharp.ParserDump\Testing.StyleCop.CSharp.ParserDump.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpParserTestRules", "Test\AddIns\CSharp\Parser\CSharpParserTestRules\CSharpParserTestRules.csproj", "{40EDAB29-01CA-4135-A330-E63F0E99D9FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop.ObjectBasedEnvironment", "Test\Tests.StyleCop.ObjectBasedEnvironment\Tests.StyleCop.ObjectBasedEnvironment.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectBasedEnvironmentTest", "Test\StyleCopCore\ObjectBasedEnvironmentTest\ObjectBasedEnvironmentTest.csproj", "{321E62EE-A371-4CD7-93A9-4DF91BA092EA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSIXProject", "Src\VSIXProject\VSIXProject.csproj", "{9CD07D44-5890-45D5-AB29-7B105F1BB6AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCop.VisualStudio.VSIX", "Src\StyleCop.VisualStudio.VSIX\StyleCop.VisualStudio.VSIX.csproj", "{9CD07D44-5890-45D5-AB29-7B105F1BB6AE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C} = {DE988D84-EAF4-4FD7-A33A-9EE0E6DE752C}
 		{AF7A7FEA-C07B-456A-B072-C7E795A6CBD4} = {AF7A7FEA-C07B-456A-B072-C7E795A6CBD4}
 		{C173ACF5-2CE5-4771-83A4-D01453C8CB09} = {C173ACF5-2CE5-4771-83A4-D01453C8CB09}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleCopTest", "Test\Harnesses\TestHarness\StyleCopTest.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper611", "Src\AddIns\ReSharper611\ReSharper611.csproj", "{5C635946-F0AE-4406-81BC-13B9118CCD9F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{067FAEAC-CC57-463B-A965-D3ECF7EC225C} = {067FAEAC-CC57-463B-A965-D3ECF7EC225C}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper600", "Src\AddIns\ReSharper600\ReSharper600.csproj", "{067FAEAC-CC57-463B-A965-D3ECF7EC225C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0999800F-94F0-4D64-A87B-3643DED29710} = {0999800F-94F0-4D64-A87B-3643DED29710}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper513", "Src\AddIns\ReSharper513\ReSharper513.csproj", "{0999800F-94F0-4D64-A87B-3643DED29710}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper610", "Src\AddIns\ReSharper610\ReSharper610.csproj", "{1160267D-CE00-4122-881D-64F9DCAE2C37}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper700", "Src\AddIns\ReSharper700\ReSharper700.csproj", "{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5C635946-F0AE-4406-81BC-13B9118CCD9F} = {5C635946-F0AE-4406-81BC-13B9118CCD9F}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper710", "Src\AddIns\ReSharper710\ReSharper710.csproj", "{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53} = {CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper800", "Src\AddIns\ReSharper800\ReSharper800.csproj", "{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53} = {CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper920", "Src\AddIns\ReSharper920\ReSharper920.csproj", "{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF} = {A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSPackage90", "Src\VSPackage90\VSPackage90.csproj", "{DC39E243-18F0-4C1C-B500-5686EF12AF46}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharper1000", "Src\AddIns\ReSharper1000\ReSharper1000.csproj", "{5160DF97-5FC7-4C91-906D-C34AC99065D2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275} = {B8CB15B9-462A-4B44-8E91-85BA4C2A8275}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.StyleCop", "Test\Tests.StyleCop\Tests.StyleCop.csproj", "{73E4EB43-7B77-4084-81F9-35BA8241B686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,10 +63,6 @@ Global
 		{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58A36A69-E471-4E7D-B75D-EFDE5B1B851B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E566973-8BA3-4B6A-B300-7A5CC015B3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{859D876F-8088-42EA-922A-800D2319C5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{859D876F-8088-42EA-922A-800D2319C5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{859D876F-8088-42EA-922A-800D2319C5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -146,46 +99,6 @@ Global
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73E4EB43-7B77-4084-81F9-35BA8241B686}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C635946-F0AE-4406-81BC-13B9118CCD9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{067FAEAC-CC57-463B-A965-D3ECF7EC225C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0999800F-94F0-4D64-A87B-3643DED29710}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1160267D-CE00-4122-881D-64F9DCAE2C37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA8CAC02-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA8CAC03-6349-44C0-9AC3-FA49AAB58B53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A101FCFE-0024-4B4A-84AB-AB9C0442E9AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8CB15B9-462A-4B44-8E91-85BA4C2A8275}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC39E243-18F0-4C1C-B500-5686EF12AF46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5160DF97-5FC7-4C91-906D-C34AC99065D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5160DF97-5FC7-4C91-906D-C34AC99065D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5160DF97-5FC7-4C91-906D-C34AC99065D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5160DF97-5FC7-4C91-906D-C34AC99065D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

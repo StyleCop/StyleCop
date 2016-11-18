@@ -1320,7 +1320,11 @@ namespace StyleCop
         private void LoadAddins(string path, byte[] publicKey)
         {
             Param.AssertNotNull(path, "path");
-            Param.AssertValidCollection(publicKey, "publicKey");
+
+            // TODO: This doesn't play nicely with debugging + delay signed
+            // (While release mode + delay signed is just fine)
+            // Param.AssertValidCollection(publicKey, "publicKey");
+            Param.AssertNotNull(publicKey, "publicKey");
 
             try
             {
@@ -1334,10 +1338,10 @@ namespace StyleCop
 
                         // We want to skip the StyleCop assemblies.
                         if (fileName == null ||
-                            fileName.Equals("stylecop.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.StartsWith("stylecop.resharper", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.Equals("StyleCop.dll", StringComparison.OrdinalIgnoreCase) ||
+                            fileName.StartsWith("Stylecop.ReSharper", StringComparison.OrdinalIgnoreCase) ||
                             fileName.Equals("mssp7en.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.Equals("stylecop.vspackage.dll"))
+                            fileName.Equals("StyleCop.VisualStudio.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             continue;
                         }

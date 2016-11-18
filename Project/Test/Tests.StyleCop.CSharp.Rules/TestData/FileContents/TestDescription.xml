@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="FileContents">
+  <!-- Tests that there isn't more than one class in a file. -->
+  <Test Name="FileContentsClasses">
+    <TestCodeFile>FileContentsSingleClass.cs</TestCodeFile>
+    <TestCodeFile>FileContentsMultipleClasses.cs</TestCodeFile>
+    <TestCodeFile>FileContentsMultipleClassesNoNamespace.cs</TestCodeFile>
+    <TestCodeFile>FileContentsPartialClasses.cs</TestCodeFile>
+    <TestCodeFile>FileContentsPartialClassesDifferentTypes.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="FileMayOnlyContainASingleClass">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.FileContentsMultipleClassesNoNamespace2" LineNumber="6" Rule="FileMayOnlyContainASingleClass" />
+      <Violation Section="Root.FileContentsMultipleClasses.Class2" LineNumber="16" Rule="FileMayOnlyContainASingleClass" />
+      <Violation Section="Root.FileContentsPartialClassDifferentTypes.Class2" LineNumber="8" Rule="FileMayOnlyContainASingleClass" />
+    </ExpectedViolations>
+  </Test>
+
+  <!-- Tests that there isn't more than one namespace in a file. -->
+  <Test Name="FileContentsNamespaces">
+    <TestCodeFile>FileContentsMultipleNamespaces.cs</TestCodeFile>
+    <TestCodeFile>FileContentsSingleNamespace.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="FileMayOnlyContainASingleNamespace">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.FileContentsMultipleNamespaces2" LineNumber="6" Rule="FileMayOnlyContainASingleNamespace" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

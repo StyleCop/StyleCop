@@ -1,0 +1,47 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace" />
+    <Element Name="StyleCop.CSharp" Type="Namespace">
+      <Element Name="Class1&lt;TKey&gt;" Type="Class">
+        <Element Name="variable" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="variable" Type="LiteralExpression" />
+                <Expression Text="&quot;StyleCop&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="character" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="char" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="character" Type="LiteralExpression" />
+                <Expression Text="&apos;x&apos;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="Method1" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="local" Type="LiteralExpression" />
+                <Expression Text="&quot;StyleCop&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

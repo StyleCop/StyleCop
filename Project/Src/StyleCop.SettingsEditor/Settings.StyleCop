@@ -1,0 +1,9 @@
+<SourceAnalysisSettings Version="4.1">
+  <Analyzers>
+    <Analyzer AnalyzerId="Microsoft.SourceAnalysis.Internal.ParamCheck">
+      <AnalyzerSettings>
+        <BooleanProperty Name="Enabled">False</BooleanProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+  </Analyzers>
+</SourceAnalysisSettings>

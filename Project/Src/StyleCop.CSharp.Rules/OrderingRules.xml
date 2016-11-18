@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Ordering Rules">
+  <Description>
+    Rules which enforce a standard ordering scheme for code contents.
+  </Description>
+  <Properties>
+    <BooleanProperty
+      Name="GeneratedCodeElementOrder"
+      DefaultValue="True"
+      FriendlyName="Include generated code"
+      Description="Indicates whether to enforce standard code ordering rules for blocks of generated code. It is only necessary to disable this setting if the project contains generated code which does not follow standard ordering rules, resulting in StyleCop violations."
+    />
+  </Properties>
+  <Rules>
+    <RuleGroup Name="Element Order">
+      <Rule Name="UsingDirectivesMustBePlacedWithinNamespace" CheckId="SA1200">
+        <Context>All using directives must be placed inside of the namespace.</Context>
+        <Description>Validates that all using directives are placed within a namespace, if a namespace exists in the file unless used in an assembly attribute.</Description>
+      </Rule>
+      <Rule Name="ElementsMustAppearInTheCorrectOrder" CheckId="SA1201">
+        <Context>All {0} must be placed after all {1}.</Context>
+        <Description>Validates that elements are placed in the correct order.</Description>
+      </Rule>
+      <Rule Name="ElementsMustBeOrderedByAccess" CheckId="SA1202">
+        <Context>All {0} {1} must be placed after all {2} {3}.</Context>
+        <Description>Validates that elements of the same type are placed in order by access.</Description>
+      </Rule>
+      <Rule Name="ConstantsMustAppearBeforeFields" CheckId="SA1203">
+        <Context>All constants must be placed before all non-constants.</Context>
+        <Description>Validates that all constant elements are placed before non-constant elements of the same type.</Description>
+      </Rule>
+      <Rule Name="StaticElementsMustAppearBeforeInstanceElements" CheckId="SA1204">
+        <Context>All static {0} {1} must be placed before all non-static {2} {3}.</Context>
+        <Description>Validates that all static elements are placed before non-static elements of the same type.</Description>
+      </Rule>
+      <Rule Name="PartialElementsMustDeclareAccess" CheckId="SA1205" CanDisable="false">
+        <Context>
+          The partial {0} does not have an access modifier defined. StyleCop may not be able to determine the correct
+          placement of the elements in the file. Please declare an access modifier for all partial {1}.
+        </Context>
+        <Description>Validates that a partial element has a declared access modifier, which is necessary for determining the order of partial elements.</Description>
+      </Rule>
+      <Rule Name="DeclarationKeywordsMustFollowOrder" CheckId="SA1206">
+        <Context>The {0} keyword must come before the {1} keyword in the element declaration.</Context>
+        <Description>Verifies the ordering of keywords in an element declaration.</Description>
+      </Rule>
+      <Rule Name="ProtectedMustComeBeforeInternal" CheckId="SA1207">
+        <Context>The keyword 'protected' must come before 'internal'.</Context>
+        <Description>Verifies the ordering of the internal and protected keywords in an element with protected internal access.</Description>
+      </Rule>
+      <Rule Name="PropertyAccessorsMustFollowOrder" CheckId="SA1212">
+        <Context>A get-accessor within a property or indexer must be placed before a set-accessor.</Context>
+        <Description>Verifies that get-accessors are placed before set-accessors within properties and indexers.</Description>
+      </Rule>
+      <Rule Name="EventAccessorsMustFollowOrder" CheckId="SA1213">
+        <Context>An add-accessor within an event must be placed before a remove-accessor.</Context>
+        <Description>Verifies that add-accessors are placed before remove-accessors within events.</Description>
+      </Rule>
+      <Rule Name="StaticReadonlyElementsMustAppearBeforeStaticNonReadonlyElements" CheckId="SA1214">
+        <Context>All static readonly {0} {1} must be placed before all static non-readonly {2} {3}.</Context>
+        <Description>Validates that all static readonly elements are placed before all static non-readonly elements of the same type.</Description>
+      </Rule>
+      <Rule Name="InstanceReadonlyElementsMustAppearBeforeInstanceNonReadonlyElements" CheckId="SA1215">
+        <Context>All non-static readonly {0} {1} must be placed before all non-static non-readonly {2} {3}.</Context>
+        <Description>Validates that all non-static readonly elements are placed before non-static non-readonly elements of the same type.</Description>
+      </Rule>
+    </RuleGroup>
+    <RuleGroup Name="Using Directives">
+      <Rule Name="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives" CheckId="SA1208">
+        <Context>System using directives must be placed before all other using directives.</Context>
+        <Description>Verifies that all using directives within the System namespace are placed before all other using directives.</Description>
+      </Rule>
+      <Rule Name="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" CheckId="SA1209">
+        <Context>Using alias directives must be placed after all using namespace directives.</Context>
+        <Description>Verifies that all using alias directives are placed after all other using directives.</Description>
+      </Rule>
+      <Rule Name="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" CheckId="SA1210">
+        <Context>Using directives must be sorted alphabetically by the namespaces.</Context>
+        <Description>Verifies that using directives are sorted alphabetically by the namespaces.</Description>
+      </Rule>
+      <Rule Name="UsingAliasDirectivesMustBeOrderedAlphabeticallyByAliasName" CheckId="SA1211">
+        <Context>Using alias directives must be sorted alphabetically by the alias names.</Context>
+        <Description>Verifies that using alias directives are sorted alphabetically by the alias names.</Description>
+      </Rule>
+      <Rule Name="UsingStaticDirectivesMustBePlacedAtTheCorrectLocation" CheckId="SA1216">
+        <Context>Using static directives must be placed after using namespace directives.</Context>
+        <Description>Verifies that all using static directives are placed after all using namespace directives.</Description>
+      </Rule>
+    </RuleGroup>
+  </Rules>
+</SourceAnalyzer>

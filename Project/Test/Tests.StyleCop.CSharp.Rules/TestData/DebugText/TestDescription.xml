@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="DebugText">
+  <Test Name="SuppressMessage Justifications">
+    <TestCodeFile>SuppressMessageJustifications.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="CodeAnalysisSuppressionMustHaveJustification">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.SuppressMessageJustifications.Class2" LineNumber="66" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2" LineNumber="67" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2" LineNumber="68" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2" LineNumber="69" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2" LineNumber="70" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.field1" LineNumber="75" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.field1" LineNumber="76" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.field1" LineNumber="77" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.field1" LineNumber="78" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.field1" LineNumber="79" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Class2" LineNumber="84" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Class2" LineNumber="85" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Class2" LineNumber="86" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Class2" LineNumber="87" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Class2" LineNumber="88" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Delegate1" LineNumber="95" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Delegate1" LineNumber="96" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Delegate1" LineNumber="97" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Delegate1" LineNumber="98" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Delegate1" LineNumber="99" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Event1" LineNumber="104" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Event1" LineNumber="105" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Event1" LineNumber="106" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Event1" LineNumber="107" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Event1" LineNumber="108" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Enum1" LineNumber="113" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Enum1" LineNumber="114" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Enum1" LineNumber="115" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Enum1" LineNumber="116" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Enum1" LineNumber="117" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.this%int" LineNumber="124" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.this%int" LineNumber="125" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.this%int" LineNumber="126" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.this%int" LineNumber="127" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.this%int" LineNumber="128" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Property1" LineNumber="136" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Property1" LineNumber="137" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Property1" LineNumber="138" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Property1" LineNumber="139" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Property1" LineNumber="140" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Method1" LineNumber="148" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Method1" LineNumber="149" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Method1" LineNumber="150" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Method1" LineNumber="151" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Method1" LineNumber="152" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="159" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="160" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="161" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="162" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SuppressMessageJustifications.Class2.Struct1" LineNumber="163" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+      <Violation Section="Root.SA1404.SA1404Test" LineNumber="238" Rule="CodeAnalysisSuppressionMustHaveJustification" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="Debug.Assert Messages">
+    <TestCodeFile>DebugAssertMessages.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.MaintainabilityRules">
+          <Rules>
+            <Rule Name="DebugAssertMustProvideMessageText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+            <Rule Name="DebugFailMustProvideMessageText">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="35" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="36" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="37" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="38" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="39" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="40" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="41" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="42" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="43" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="44" Rule="DebugAssertMustProvideMessageText" />
+
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="46" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="47" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="48" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="49" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="50" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="51" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="52" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="53" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="54" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="55" Rule="DebugFailMustProvideMessageText" />
+
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="57" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="58" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="59" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="60" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="62" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="63" Rule="DebugAssertMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="64" Rule="DebugFailMustProvideMessageText" />
+      <Violation Section="Root.DebugAssertMessages.Class2.Method1" LineNumber="65" Rule="DebugAssertMustProvideMessageText" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

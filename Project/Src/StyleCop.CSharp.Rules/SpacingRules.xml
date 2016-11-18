@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SourceAnalyzer Name="Spacing Rules">
+  <Description>
+    Rules which verify the spacing placed between keywords and symbols in the code.
+  </Description>
+  <Rules>
+    <Rule Name="KeywordsMustBeSpacedCorrectly" CheckId="SA1000">
+      <Context>The spacing around the keyword '{0}' is invalid.</Context>
+      <Description>Validates the spacing before and after a reserved keyword.</Description>
+    </Rule>
+    <Rule Name="CommasMustBeSpacedCorrectly" CheckId="SA1001">
+      <Context>Invalid spacing around the comma.</Context>
+      <Description>Validates the spacing before and a comma.</Description>
+    </Rule>
+    <Rule Name="SemicolonsMustBeSpacedCorrectly" CheckId="SA1002">
+      <Context>Invalid spacing around the semicolon.</Context>
+      <Description>Validates the spacing before and a semicolon.</Description>
+    </Rule>
+    <Rule Name="SymbolsMustBeSpacedCorrectly" CheckId="SA1003">
+      <Context>The spacing around the symbol '{0}' is invalid.</Context>
+      <Description>Validates the spacing before and after an operator symbol.</Description>
+    </Rule>
+    <Rule Name="DocumentationLinesMustBeginWithSingleSpace" CheckId="SA1004">
+      <Context>The documentation header line must start with a single space.</Context>
+      <Description>Verifies that the forward slashes at the beginning of an documentation header line are followed by a single space.</Description>
+    </Rule>
+    <Rule Name="SingleLineCommentsMustBeginWithSingleSpace" CheckId="SA1005">
+      <Context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</Context>
+      <Description>Verifies that the forward slashes at the beginning of a comment are followed by a single space.</Description>
+    </Rule>
+    <Rule Name="PreprocessorKeywordsMustNotBePrecededBySpace" CheckId="SA1006">
+      <Context>The preprocessor type keyword must not be preceded by a space.</Context>
+      <Description>Verifies that there is no space between the opening hash mark and keyword within a preprocessor statement.</Description>
+    </Rule>
+    <Rule Name="OperatorKeywordMustBeFollowedBySpace" CheckId="SA1007">
+      <Context>The operator keyword must be followed by a space.</Context>
+      <Description>Verifies that there is a single space between the 'operator' keyword and the operator symbol within an operator overload.</Description>
+    </Rule>
+    <Rule Name="OpeningParenthesisMustBeSpacedCorrectly" CheckId="SA1008">
+      <Context>Invalid spacing around the opening parenthesis.</Context>
+      <Description>Validates the spacing before and after an opening parenthesis.</Description>
+    </Rule>
+    <Rule Name="ClosingParenthesisMustBeSpacedCorrectly" CheckId="SA1009">
+      <Context>Invalid spacing around the closing parenthesis.</Context>
+      <Description>Validates the spacing before and after a closing parenthesis.</Description>
+    </Rule>
+    <Rule Name="OpeningSquareBracketsMustBeSpacedCorrectly" CheckId="SA1010">
+      <Context>Invalid spacing around the opening square bracket.</Context>
+      <Description>Validates the spacing before and after an opening square bracket.</Description>
+    </Rule>
+    <Rule Name="ClosingSquareBracketsMustBeSpacedCorrectly" CheckId="SA1011">
+      <Context>Invalid spacing around the closing square bracket.</Context>
+      <Description>Validates the spacing before and after a closing square bracket.</Description>
+    </Rule>
+    <Rule Name="OpeningCurlyBracketsMustBeSpacedCorrectly" CheckId="SA1012">
+      <Context>Invalid spacing around the opening curly bracket.</Context>
+      <Description>Validates the spacing before and after an opening curly bracket.</Description>
+    </Rule>
+    <Rule Name="ClosingCurlyBracketsMustBeSpacedCorrectly" CheckId="SA1013">
+      <Context>Invalid spacing around the closing curly bracket.</Context>
+      <Description>Validates the spacing before and after a closing curly bracket.</Description>
+    </Rule>
+    <Rule Name="OpeningGenericBracketsMustBeSpacedCorrectly" CheckId="SA1014">
+      <Context>Invalid spacing around the opening generic bracket.</Context>
+      <Description>Validates the spacing before and after an opening bracket in a generic type.</Description>
+    </Rule>
+    <Rule Name="ClosingGenericBracketsMustBeSpacedCorrectly" CheckId="SA1015">
+      <Context>Invalid spacing around the closing generic bracket.</Context>
+      <Description>Validates the spacing before and after a closing bracket in a generic type.</Description>
+    </Rule>
+    <Rule Name="OpeningAttributeBracketsMustBeSpacedCorrectly" CheckId="SA1016">
+      <Context>Invalid spacing around the opening attribute bracket.</Context>
+      <Description>Validates the spacing before and after an opening attribute bracket.</Description>
+    </Rule>
+    <Rule Name="ClosingAttributeBracketsMustBeSpacedCorrectly" CheckId="SA1017">
+      <Context>Invalid spacing around the closing attribute bracket.</Context>
+      <Description>Validates the spacing before and after a closing attribute bracket.</Description>
+    </Rule>
+    <Rule Name="NullableTypeSymbolsMustNotBePrecededBySpace" CheckId="SA1018">
+      <Context>A nullable type symbol should not be preceded by white space.</Context>
+      <Description>Verifies that a nullable type symbol is not preceded by white space.</Description>
+    </Rule>
+    <Rule Name="MemberAccessSymbolsMustBeSpacedCorrectly" CheckId="SA1019">
+      <Context>Invalid spacing around the member access symbol.</Context>
+      <Description>Validates the spacing before and after a member access symbol.</Description>
+    </Rule>
+    <Rule Name="IncrementDecrementSymbolsMustBeSpacedCorrectly" CheckId="SA1020">
+      <Context>Invalid spacing around the increment or decrement symbol.</Context>
+      <Description>Validates the spacing before and after an increment or decrement symbol.</Description>
+    </Rule>
+    <Rule Name="NegativeSignsMustBeSpacedCorrectly" CheckId="SA1021">
+      <Context>Invalid spacing around the negative sign.</Context>
+      <Description>Validates the spacing before and after a negative sign.</Description>
+    </Rule>
+    <Rule Name="PositiveSignsMustBeSpacedCorrectly" CheckId="SA1022">
+      <Context>Invalid spacing around the positive sign.</Context>
+      <Description>Validates the spacing before and after a positive sign.</Description>
+    </Rule>
+    <Rule Name="DereferenceAndAccessOfSymbolsMustBeSpacedCorrectly" CheckId="SA1023">
+      <Context>Invalid spacing around the dereference or address-of symbol.</Context>
+      <Description>Validates the spacing before and after a dereference or address-of symbol.</Description>
+    </Rule>
+    <Rule Name="ColonsMustBeSpacedCorrectly" CheckId="SA1024">
+      <Context>Invalid spacing around the colon.</Context>
+      <Description>Validates the spacing before and after a colon.</Description>
+    </Rule>
+    <Rule Name="CodeMustNotContainMultipleWhitespaceInARow" CheckId="SA1025">
+      <Context>The code contains multiple spaces in a row. Only one space is needed.</Context>
+      <Description>Verifies that the code does not contain more than one spacing in a row.</Description>
+    </Rule>
+    <Rule Name="CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation" CheckId="SA1026">
+      <Context>There should be no space between the new keyword and the opening square bracket in an implicitly typed array allocation.</Context>
+      <Description>Verifies that there is no space between the new keyword and the opening square bracket in an implicitly typed array allocation.</Description>
+    </Rule>
+    <Rule Name="TabsMustNotBeUsed" CheckId="SA1027">
+      <Context>Tabs are not allowed. Use spaces instead.</Context>
+      <Description>Verifies that the code does not contain tabs.</Description>
+    </Rule>
+    <Rule Name="DoNotSplitNullConditionalOperators" CheckId="SA1029">
+      <Context>Do not split null conditional operator ('?.') or ('?').</Context>
+      <Description>Verifies that the code does not contain new rows or spaces.</Description>
+    </Rule>    
+  </Rules>
+</SourceAnalyzer>

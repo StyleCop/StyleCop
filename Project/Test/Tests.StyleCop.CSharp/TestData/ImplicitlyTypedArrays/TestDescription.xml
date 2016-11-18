@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="ImplicitlyTypedArrays">
+  <Test Name="ImplicitlyTypedArrays">
+    <TestCodeFile TestObjectModel="true">ImplicitlyTypedArrays.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="Testing.StyleCop.CSharp.ParserDump.CsParserDump">
+          <Rules>
+            <Rule Name="CsParserDumpRule">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+  </Test>
+</StyleCopTestDescription>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StyleCopTestDescription TestName="Regions">
+  <Test Name="DoNotUseRegions">
+    <TestCodeFile>DoNotUseRegions.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="DoNotUseRegions">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root" LineNumber="1" Rule="DoNotUseRegions" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1" LineNumber="6" Rule="DoNotUseRegions" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotUseRegions" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotUseRegions" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotUseRegions" />
+    </ExpectedViolations>
+  </Test>
+
+  <Test Name="DoNotPlaceRegionsWithinElements">
+    <TestCodeFile>DoNotPlaceRegionsWithinElements.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.ReadabilityRules">
+          <Rules>
+            <Rule Name="DoNotPlaceRegionsWithinElements">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="9" Rule="DoNotPlaceRegionsWithinElements" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="12" Rule="DoNotPlaceRegionsWithinElements" />
+      <Violation Section="Root.DoNotUseRegionsWithinElements.Class1.Method" LineNumber="15" Rule="DoNotPlaceRegionsWithinElements" />
+    </ExpectedViolations>
+  </Test>
+</StyleCopTestDescription>

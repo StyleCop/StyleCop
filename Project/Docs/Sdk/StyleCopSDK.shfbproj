@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <!-- The configuration and platform will be used to determine which
          assemblies to include from solution and project documentation
@@ -31,7 +31,7 @@
     <RootNamespaceContainer>True</RootNamespaceContainer>
     <RootNamespaceTitle>API Reference</RootNamespaceTitle>
     <NamingMethod>MemberName</NamingMethod>
-    <SandcastlePath>..\..\..\Tools\Sandcastle\2.4.10520</SandcastlePath>
+    <SandcastlePath>$(MSBuildProgramFiles32)\EWSoftware\Sandcastle Help File Builder</SandcastlePath>
     <FeedbackEMailLinkText>
     </FeedbackEMailLinkText>
     <FeedbackEMailAddress>
@@ -59,5 +59,5 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
   <!-- Import the SHFB build targets -->
-  <Import Project="..\..\..\Tools\Sandcastle Help File Builder\1.8.0.3\SandcastleHelpFileBuilder.targets" />
+  <Import Project="$(MSBuildProgramFiles32)\EWSoftware\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
 </Project>

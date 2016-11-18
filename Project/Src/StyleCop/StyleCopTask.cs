@@ -466,7 +466,7 @@ namespace StyleCop
 
                 lock (this)
                 {
-                    string trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter(StyleCop.Constants.ProductName + ".", StringComparison.Ordinal);
+                    string trimmedNamespace = e.Violation.Rule.Namespace.SubstringAfter("StyleCop.", StringComparison.Ordinal);
                     trimmedNamespace = trimmedNamespace.SubstringBeforeLast("Rules", StringComparison.Ordinal);
                     string description = string.Concat(e.Violation.Rule.CheckId, " : ", trimmedNamespace, " : ", e.Message);
 
