@@ -53,7 +53,9 @@ ECHO **** Build %BuildTarget% END **********************************************
 
 Echo.
 ECHO **** Run tests BEGIN ***********************************************************
-CALL "%programfiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" /Platform:x86 /Framework:framework40 /Logger:trx %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.CSharp.Rules.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.CSharp.dll %~dp0..\..\Project\TestBin\Release\Testing.StyleCop.CSharp.ParserDump.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.ObjectBasedEnvironment.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.dll %~dp0..\..\Project\TestBin\Release\Tests.StyleCop.VisualStudio.dll
+PUSHD %~dp0..\..\Project\
+CALL "%programfiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\VSTest.Console.exe" /Platform:x86 /Framework:framework40 /Logger:trx TestBin\Release\Tests.StyleCop.CSharp.Rules.dll TestBin\Release\Tests.StyleCop.CSharp.dll TestBin\Release\Testing.StyleCop.CSharp.ParserDump.dll TestBin\Release\Tests.StyleCop.ObjectBasedEnvironment.dll TestBin\Release\Tests.StyleCop.dll TestBin\Release\Tests.StyleCop.VisualStudio.dll
+POPD
 IF "%ERRORLEVEL%" == "1" GOTO SUMMARY
 ECHO **** Run tests END *************************************************************
 
