@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObjectBasedEnvironment.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ObjectBasedEnvironment.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

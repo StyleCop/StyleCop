@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObjectBasedSourceCode.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ObjectBasedSourceCode.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

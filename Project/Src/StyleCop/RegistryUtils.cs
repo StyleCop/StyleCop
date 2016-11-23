@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RegistryUtils.cs" company="http://stylecop.codeplex.com">
+// <copyright file="RegistryUtils.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WordParser.cs" company="http://stylecop.codeplex.com">
+// <copyright file="WordParser.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <summary>

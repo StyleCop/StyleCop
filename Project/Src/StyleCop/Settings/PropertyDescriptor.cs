@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyDescriptor.cs" company="http://stylecop.codeplex.com">
+// <copyright file="PropertyDescriptor.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

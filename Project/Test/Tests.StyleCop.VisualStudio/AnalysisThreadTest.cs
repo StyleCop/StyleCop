@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AnalysisThreadTest.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AnalysisThreadTest.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

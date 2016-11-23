@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="XmlHeader.cs" company="http://stylecop.codeplex.com">
+// <copyright file="XmlHeader.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WordSpelling.cs" company="http://stylecop.codeplex.com">
+// <copyright file="WordSpelling.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

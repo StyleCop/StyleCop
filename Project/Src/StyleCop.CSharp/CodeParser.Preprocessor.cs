@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeParser.Preprocessor.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CodeParser.Preprocessor.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

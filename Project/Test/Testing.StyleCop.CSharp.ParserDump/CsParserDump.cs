@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CsParserDump.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CsParserDump.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

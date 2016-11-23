@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkedItemList.cs" company="http://stylecop.codeplex.com">
+// <copyright file="LinkedItemList.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Field.cs" company="http://stylecop.codeplex.com">
+// <copyright file="Field.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

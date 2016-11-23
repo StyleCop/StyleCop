@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ClassBase.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ClassBase.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -33,7 +33,7 @@
         </Rule>
       </Rules>
       <AnalyzerSettings>
-        <StringProperty Name="CompanyName">http://stylecop.codeplex.com</StringProperty>
+        <StringProperty Name="CompanyName">https://github.com/StyleCop</StringProperty>
         <StringProperty Name="Copyright">MS-PL</StringProperty>
         <BooleanProperty Name="IgnorePrivates">True</BooleanProperty>
         <BooleanProperty Name="IgnoreInternals">True</BooleanProperty>

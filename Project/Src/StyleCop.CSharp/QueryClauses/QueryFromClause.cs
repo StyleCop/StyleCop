@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryFromClause.cs" company="http://stylecop.codeplex.com">
+// <copyright file="QueryFromClause.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

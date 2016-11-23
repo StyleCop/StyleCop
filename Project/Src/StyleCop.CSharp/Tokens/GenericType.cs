@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GenericType.cs" company="http://stylecop.codeplex.com">
+// <copyright file="GenericType.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

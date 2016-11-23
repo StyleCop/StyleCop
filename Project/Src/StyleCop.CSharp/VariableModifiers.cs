@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VariableModifiers.cs" company="http://stylecop.codeplex.com">
+// <copyright file="VariableModifiers.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReadabilityRules.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ReadabilityRules.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

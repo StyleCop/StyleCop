@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ParenthesizedExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ParenthesizedExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

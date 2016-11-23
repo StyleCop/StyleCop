@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="v103Settings.cs" company="http://stylecop.codeplex.com">
+// <copyright file="v103Settings.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

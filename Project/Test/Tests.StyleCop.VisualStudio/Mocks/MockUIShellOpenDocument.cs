@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockUIShellOpenDocument.cs" company="http://stylecop.codeplex.com">
+// <copyright file="MockUIShellOpenDocument.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

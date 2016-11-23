@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AccessModifierType.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AccessModifierType.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

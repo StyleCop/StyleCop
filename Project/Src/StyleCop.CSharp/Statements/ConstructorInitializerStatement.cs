@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConstructorInitializerStatement.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ConstructorInitializerStatement.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AsExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AsExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

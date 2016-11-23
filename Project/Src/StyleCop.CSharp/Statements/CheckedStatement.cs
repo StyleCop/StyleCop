@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CheckedStatement.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CheckedStatement.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

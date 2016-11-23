@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyVersion.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AssemblyVersion.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

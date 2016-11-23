@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockTextLines.cs" company="http://stylecop.codeplex.com">
+// <copyright file="MockTextLines.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopWebClient.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopWebClient.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

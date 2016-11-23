@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObjectInitializerExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ObjectInitializerExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockServiceProvider.cs" company="http://stylecop.codeplex.com">
+// <copyright file="MockServiceProvider.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

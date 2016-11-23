@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryOrderByDirection.cs" company="http://stylecop.codeplex.com">
+// <copyright file="QueryOrderByDirection.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

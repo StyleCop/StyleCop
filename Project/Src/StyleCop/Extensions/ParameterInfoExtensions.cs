@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ParameterInfoExtensions.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ParameterInfoExtensions.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

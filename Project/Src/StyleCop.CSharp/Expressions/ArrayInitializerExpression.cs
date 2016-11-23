@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ArrayInitializerExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ArrayInitializerExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

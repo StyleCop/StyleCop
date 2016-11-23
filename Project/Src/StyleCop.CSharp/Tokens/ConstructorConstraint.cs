@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConstructorConstraint.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ConstructorConstraint.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

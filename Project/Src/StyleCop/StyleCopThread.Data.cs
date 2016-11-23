@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopThread.Data.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopThread.Data.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

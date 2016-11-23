@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Indexer.cs" company="http://stylecop.codeplex.com">
+// <copyright file="Indexer.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

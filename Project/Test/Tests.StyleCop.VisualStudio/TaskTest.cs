@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TaskTest.cs" company="http://stylecop.codeplex.com">
+// <copyright file="TaskTest.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

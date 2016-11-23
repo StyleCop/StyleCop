@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ICodePart.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ICodePart.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

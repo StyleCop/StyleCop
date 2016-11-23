@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StyleCopAddInAttribute.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StyleCopAddInAttribute.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LegacyEnumeratorAdapter.cs" company="http://stylecop.codeplex.com">
+// <copyright file="LegacyEnumeratorAdapter.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

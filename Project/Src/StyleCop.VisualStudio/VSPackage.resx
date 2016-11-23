@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="110" xml:space="preserve">
     <value>StyleCop</value>
   </data>
   <data name="112" xml:space="preserve">
-    <value>Provides source code style and consistency tools. See http://stylecop.codeplex.com/ for more details.</value>
+    <value>Provides source code style and consistency tools. See https://github.com/StyleCop for more details.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="400" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -129,15 +129,5 @@
   </data>
   <data name="300" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images_32bit.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="200" xml:space="preserve">
-    <value>M9MKD2QZIJHJK2I9CDK1K9MARMREATM3Q1I8QREJKEZRAKIQDPZED3R3J9I9ECQ2C8KAR9EZIMIMMECZDKQ3MREPQCMIJPQIDDJDK3KCRZZ9JZDPRDP1EAEMZ3J8QPDE</value>
-    <comment>Package Load Key (PLK)	R8KQC9IAEMCEDEPQAPA9DJKRZRKHRMH0PHQPHIPPQIKQI3C8R2HAQPQKJKQ8AQCJQ9IZPCZMCQPQK9KZZMERA2PQCMQ0ZHRJPJARH1RRC2JKK0D8JIZDD9CHR8C3J8K2
-Company Name	stylecop.codeplex.com
-Package Name	StyleCop
-Package GUID	{629EB7CC-69C2-43AC-9BC9-482B0F810C4E}
-PLK Version	4.7
-Min. Visual Studio Version	Visual Studio 2008 Standard
-Minimum Product Edition	Standard</comment>
   </data>
 </root>

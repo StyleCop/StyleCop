@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VariableDeclaratorExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="VariableDeclaratorExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

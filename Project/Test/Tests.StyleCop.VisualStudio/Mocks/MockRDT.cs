@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockRDT.cs" company="http://stylecop.codeplex.com">
+// <copyright file="MockRDT.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

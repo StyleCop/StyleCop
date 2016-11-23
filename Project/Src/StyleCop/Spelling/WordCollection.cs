@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WordCollection.cs" company="http://stylecop.codeplex.com">
+// <copyright file="WordCollection.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <summary>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeReader.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CodeReader.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

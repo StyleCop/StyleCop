@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TraceTypes.cs" company="http://stylecop.codeplex.com">
+// <copyright file="TraceTypes.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

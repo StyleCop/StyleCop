@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyControl.cs" company="http://stylecop.codeplex.com">
+// <copyright file="PropertyControl.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

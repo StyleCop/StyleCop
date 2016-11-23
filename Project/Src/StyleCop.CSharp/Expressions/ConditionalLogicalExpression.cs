@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConditionalLogicalExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ConditionalLogicalExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

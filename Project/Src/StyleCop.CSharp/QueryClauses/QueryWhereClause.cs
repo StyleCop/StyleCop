@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryWhereClause.cs" company="http://stylecop.codeplex.com">
+// <copyright file="QueryWhereClause.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

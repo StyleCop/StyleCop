@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ArrayAccessExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ArrayAccessExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

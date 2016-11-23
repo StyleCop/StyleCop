@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EventDeclaratorExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="EventDeclaratorExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

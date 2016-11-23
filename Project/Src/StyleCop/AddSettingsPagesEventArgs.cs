@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AddSettingsPagesEventArgs.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AddSettingsPagesEventArgs.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

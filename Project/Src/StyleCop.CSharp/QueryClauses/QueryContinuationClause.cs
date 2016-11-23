@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryContinuationClause.cs" company="http://stylecop.codeplex.com">
+// <copyright file="QueryContinuationClause.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

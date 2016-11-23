@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BlockStatement.cs" company="http://stylecop.codeplex.com">
+// <copyright file="BlockStatement.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

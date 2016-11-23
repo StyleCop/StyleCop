@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="QueryOrderByClause.cs" company="http://stylecop.codeplex.com">
+// <copyright file="QueryOrderByClause.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

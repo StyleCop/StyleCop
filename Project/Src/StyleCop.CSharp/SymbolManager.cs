@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SymbolManager.cs" company="http://stylecop.codeplex.com">
+// <copyright file="SymbolManager.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

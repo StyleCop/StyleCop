@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GlobalSettingsFileOptions.cs" company="http://stylecop.codeplex.com">
+// <copyright file="GlobalSettingsFileOptions.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

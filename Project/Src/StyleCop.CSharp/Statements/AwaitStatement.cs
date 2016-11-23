@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AwaitStatement.cs" company="http://stylecop.codeplex.com">
+// <copyright file="AwaitStatement.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

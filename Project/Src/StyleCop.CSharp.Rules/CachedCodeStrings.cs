@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CachedCodeStrings.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CachedCodeStrings.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

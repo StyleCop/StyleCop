@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OperatorSymbol.cs" company="http://stylecop.codeplex.com">
+// <copyright file="OperatorSymbol.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

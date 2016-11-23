@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Param.cs" company="http://stylecop.codeplex.com">
+// <copyright file="Param.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

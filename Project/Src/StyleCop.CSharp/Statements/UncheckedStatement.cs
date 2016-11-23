@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UncheckedStatement.cs" company="http://stylecop.codeplex.com">
+// <copyright file="UncheckedStatement.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryItemInitializationExpression.cs" company="http://stylecop.codeplex.com">
+// <copyright file="DictionaryItemInitializationExpression.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

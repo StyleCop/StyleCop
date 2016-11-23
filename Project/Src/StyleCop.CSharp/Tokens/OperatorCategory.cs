@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OperatorCategory.cs" company="http://stylecop.codeplex.com">
+// <copyright file="OperatorCategory.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

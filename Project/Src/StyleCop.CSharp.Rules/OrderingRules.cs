@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OrderingRules.cs" company="http://stylecop.codeplex.com">
+// <copyright file="OrderingRules.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

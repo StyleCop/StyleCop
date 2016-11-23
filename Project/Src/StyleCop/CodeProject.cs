@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeProject.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CodeProject.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

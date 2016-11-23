@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IParameterContainer.cs" company="http://stylecop.codeplex.com">
+// <copyright file="IParameterContainer.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

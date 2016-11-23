@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StaticSource.cs" company="http://stylecop.codeplex.com">
+// <copyright file="StaticSource.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

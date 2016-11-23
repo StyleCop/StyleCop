@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CodeWalker{T}.cs" company="http://stylecop.codeplex.com">
+// <copyright file="CodeWalker{T}.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

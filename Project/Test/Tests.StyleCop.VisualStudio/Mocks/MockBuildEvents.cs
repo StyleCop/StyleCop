@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MockBuildEvents.cs" company="http://stylecop.codeplex.com">
+// <copyright file="MockBuildEvents.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>

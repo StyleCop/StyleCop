@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ElementType.cs" company="http://stylecop.codeplex.com">
+// <copyright file="ElementType.cs" company="https://github.com/StyleCop">
 //   MS-PL
 // </copyright>
 // <license>
