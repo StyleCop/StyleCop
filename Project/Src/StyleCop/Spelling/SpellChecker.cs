@@ -3,12 +3,12 @@
 //   MS-PL
 // </copyright>
 // <license>
-//   This source code is subject to terms and conditions of the Microsoft 
-//   Public License. A copy of the license can be found in the License.html 
-//   file at the root of this distribution. If you cannot locate the  
-//   Microsoft Public License, please send an email to dlr@microsoft.com. 
-//   By using this source code in any fashion, you are agreeing to be bound 
-//   by the terms of the Microsoft Public License. You must not remove this 
+//   This source code is subject to terms and conditions of the Microsoft
+//   Public License. A copy of the license can be found in the License.html
+//   file at the root of this distribution. If you cannot locate the
+//   Microsoft Public License, please send an email to dlr@microsoft.com.
+//   By using this source code in any fashion, you are agreeing to be bound
+//   by the terms of the Microsoft Public License. You must not remove this
 //   notice, or any other, from this software.
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
@@ -479,9 +479,9 @@ namespace StyleCop.Spelling
             internal readonly string LibraryFullPath;
 
             internal readonly string Name;
-            
+
             private static string pathToOfficeProofingTools;
-            
+
             #endregion
 
             #region Constructors and Destructors
@@ -515,7 +515,7 @@ namespace StyleCop.Spelling
             #endregion
 
             #region Methods
-            
+
             /// <summary>
             /// Gets a path to the Office 2010 proof directory. Returns string.Empty if the path could not be found.
             /// </summary>
@@ -525,8 +525,42 @@ namespace StyleCop.Spelling
                 {
                     if (pathToOfficeProofingTools == null)
                     {
-                        string registryValue = RegistryUtils.LocalMachineGetValue(@"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot", "Path");
-                        pathToOfficeProofingTools = registryValue == null ? string.Empty : Path.Combine(registryValue, @"Proof\");
+                        var officeVersionNumbers = new List<string>
+                        {
+                            "15.0", // Office 2015
+                            "14.0", // Office 2010
+                            "12.0", // Office 2007
+                            "11.0", // Office 2003
+                            "10.0" // Office XP
+                        };
+
+                        var bitnessRegistryNodes = new List<string>
+                        {
+                            string.Empty, // 64bit branch on a 64bit machine, or the default on a 32bit machine
+                            "Wow6432Node" // 32bit branch on a 64bit machine
+                        };
+
+                        foreach (var officeVersionNumber in officeVersionNumbers)
+                        {
+                            foreach (var bitnessRegistryNode in bitnessRegistryNodes)
+                            {
+                                string registryKeyPath = Path.Combine(
+                                    "SOFTWARE",
+                                    bitnessRegistryNode,
+                                    "Microsoft",
+                                    "Office",
+                                    officeVersionNumber,
+                                    "Common",
+                                    "InstallRoot");
+
+                                string registryValue = RegistryUtils.LocalMachineGetValue(registryKeyPath, "Path");
+                                if (!string.IsNullOrEmpty(registryValue))
+                                {
+                                    pathToOfficeProofingTools = Path.Combine(registryValue, @"Proof\");
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     return pathToOfficeProofingTools;
@@ -534,7 +568,7 @@ namespace StyleCop.Spelling
             }
 
             private static string Probe(string library)
-            { 
+            {
                 if (!string.IsNullOrEmpty(PathToOfficeProofingTools))
                 {
                     string path = Path.Combine(PathToOfficeProofingTools, library);
