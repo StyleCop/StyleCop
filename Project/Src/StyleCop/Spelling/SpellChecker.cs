@@ -480,7 +480,7 @@ namespace StyleCop.Spelling
 
             internal readonly string Name;
             
-            private static string pathToOfficeProofingTools;
+            private static string[] pathsToOfficeProofingTools;
             
             #endregion
 
@@ -490,23 +490,29 @@ namespace StyleCop.Spelling
             {
                 this.Name = name;
                 this.Lcid = lcid;
-                this.LibraryFullPath = Probe(library);
-                this.LexiconFullPath = Probe(lexicon);
 
-                if (this.LibraryFullPath != null && this.LexiconFullPath != null)
+                var libraryPaths = Probe(library, lexicon);
+
+                if (libraryPaths != null)
                 {
-                    IntPtr handle = KernalNativeMethods.LoadLibrary(this.LibraryFullPath);
+                    this.LibraryFullPath = libraryPaths.Item1;
+                    this.LexiconFullPath = libraryPaths.Item2;
 
-                    if (handle == IntPtr.Zero)
+                    if (this.LibraryFullPath != null && this.LexiconFullPath != null)
                     {
-                        this.IsAvailable = false;
-                    }
-                    else
-                    {
-                        this.IsAvailable = true;
-                        if (!KernalNativeMethods.FreeLibrary(handle))
+                        IntPtr handle = KernalNativeMethods.LoadLibrary(this.LibraryFullPath);
+
+                        if (handle == IntPtr.Zero)
                         {
-                            throw new Win32Exception();
+                            this.IsAvailable = false;
+                        }
+                        else
+                        {
+                            this.IsAvailable = true;
+                            if (!KernalNativeMethods.FreeLibrary(handle))
+                            {
+                                throw new Win32Exception();
+                            }
                         }
                     }
                 }
@@ -517,50 +523,91 @@ namespace StyleCop.Spelling
             #region Methods
             
             /// <summary>
-            /// Gets a path to the Office 2010 proof directory. Returns string.Empty if the path could not be found.
+            /// Gets a path to the Office 2010, 2013, or 2016 proof directory. Returns string.Empty if the path
+            /// could not be found.
             /// </summary>
-            private static string PathToOfficeProofingTools
+            private static string[] PathsToOfficeProofingTools
             {
                 get
                 {
-                    if (pathToOfficeProofingTools == null)
+                    if (pathsToOfficeProofingTools != null)
                     {
-                        string registryValue = RegistryUtils.LocalMachineGetValue(@"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot", "Path");
-                        pathToOfficeProofingTools = registryValue == null ? string.Empty : Path.Combine(registryValue, @"Proof\");
+                        return pathsToOfficeProofingTools;
                     }
 
-                    return pathToOfficeProofingTools;
+                    var proofDirectories = new List<string>();
+
+                    string[] fullInstallRootPaths = new[]
+                    {
+                        @"SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot",
+                        @"SOFTWARE\Microsoft\Office\15.0\Common\InstallRoot",
+                        @"SOFTWARE\Microsoft\Office\16.0\Common\InstallRoot",
+                    };
+
+                    foreach (string possiblePath in fullInstallRootPaths)
+                    {
+                        string registryValue = RegistryUtils.LocalMachineGetValue(possiblePath, "Path");
+                        if (!string.IsNullOrEmpty(registryValue))
+                        {
+                            string proofDirectory = Path.Combine(registryValue, @"Proof\");
+                            if (Directory.Exists(proofDirectory))
+                            {
+                                proofDirectories.Add(proofDirectory);
+                            }
+                        }
+                    }
+
+                    string[] clickToRunRootPaths = new[]
+                    {
+                        @"SOFTWARE\Microsoft\Office\14.0\ClickToRunStore\Applications",
+                        @"SOFTWARE\Microsoft\Office\15.0\ClickToRunStore\Applications",
+                        @"SOFTWARE\Microsoft\Office\16.0\ClickToRunStore\Applications",
+                    };
+
+                    foreach (string possiblePath in clickToRunRootPaths)
+                    {
+                        string registryValue = RegistryUtils.LocalMachineGetValue(possiblePath, "Word");
+                        if (!string.IsNullOrEmpty(registryValue))
+                        {
+                            string proofDirectory = Path.Combine(Path.GetDirectoryName(registryValue), @"Proof\");
+                            if (Directory.Exists(proofDirectory))
+                            {
+                                proofDirectories.Add(proofDirectory);
+                            }
+                        }
+                    }
+
+                    proofDirectories.Add(AppDomain.CurrentDomain.BaseDirectory);
+                    proofDirectories.Add(Assembly.GetExecutingAssembly().Location);
+
+                    pathsToOfficeProofingTools = proofDirectories.ToArray();
+
+                    return pathsToOfficeProofingTools;
                 }
             }
 
-            private static string Probe(string library)
-            { 
-                if (!string.IsNullOrEmpty(PathToOfficeProofingTools))
+            private static Tuple<string, string> Probe(string spellingLibrary, string lexiconLibrary)
+            {
+                string pathToSpellingLibrary;
+                string pathToLexiconLibrary;
+
+                if (PathsToOfficeProofingTools != null)
                 {
-                    string path = Path.Combine(PathToOfficeProofingTools, library);
-                    if (File.Exists(path))
+                    foreach (string pathToOfficeProofingTools in PathsToOfficeProofingTools)
                     {
-                        return path;
+                        pathToSpellingLibrary = Path.Combine(pathToOfficeProofingTools, spellingLibrary);
+                        if (!File.Exists(pathToSpellingLibrary))
+                        {
+                            pathToSpellingLibrary = Path.Combine(pathToOfficeProofingTools, "msspell7.dll");
+                        }
+
+                        pathToLexiconLibrary = Path.Combine(pathToOfficeProofingTools, lexiconLibrary);
+
+                        if (File.Exists(pathToSpellingLibrary) && File.Exists(pathToLexiconLibrary))
+                        {
+                            return Tuple.Create(pathToSpellingLibrary, pathToLexiconLibrary);
+                        }
                     }
-                }
-
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
-                }
-
-                baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                if (baseDirectory == null)
-                {
-                    return null;
-                }
-
-                libraryPath = Path.Combine(baseDirectory, library);
-                if (File.Exists(libraryPath))
-                {
-                    return libraryPath;
                 }
 
                 return null;
