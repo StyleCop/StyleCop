@@ -151,18 +151,11 @@ namespace CSharpAnalyzersTest
         [TestMethod]
         [DeploymentItem("StyleCop.CSharp.dll")]
         [DeploymentItem("StyleCop.CSharp.Rules.dll")]
+        [DeploymentItem("mssp7en.dll")]
+        [DeploymentItem("mssp7en.lex")]
         [DeploymentItem("TestData\\Documentation", "Documentation")]
         public void CsAnalyzerDocumentationTest()
         {
-            using (var namingService = NamingService.GetNamingService(CultureInfo.CurrentCulture))
-            {
-                if (!namingService.SupportsSpelling)
-                {
-                    Assert.Inconclusive(
-                        "Spell checking is not available, most likely because Word 2010 is not installed.");
-                }
-            }
-
             this.RunTest("Documentation");
         }
 

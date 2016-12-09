@@ -67,6 +67,10 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="..\..\Src\StyleCop\mssp7en.lex">
+      <Link>mssp7en.lex</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\Spacing\OpenSquareBracket.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -973,6 +977,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\..\Src\StyleCop\mssp7en.dll">
+      <Link>mssp7en.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
