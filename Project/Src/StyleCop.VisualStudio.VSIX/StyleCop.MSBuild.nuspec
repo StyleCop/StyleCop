@@ -3,64 +3,34 @@
   <metadata>
     <id>StyleCop.MSBuild</id>
     <version>$version$</version>
-    <authors>StyleCop contributors, Adam Ralph</authors>
+    <authors>StyleCop contributors, Chris Dahlberg</authors>
+    <description>Integrates source code analysis into the build process of C# projects to enforce a set of style and consistency rules.</description>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
     <iconUrl>https://raw.githubusercontent.com/StyleCop/StyleCop/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <developmentDependency>true</developmentDependency>
-    <description>NOTE: if you are using 4.7.48.0 or earlier, uninstall, then reinstall this version. DO NOT perform an update.
-
-Adds official StyleCop MSBuild targets to your project for running StyleCop analysis with every build. Includes official StyleCop binaries. Works both on a developer workstation (with or without Visual Studio) and on a build server. Does not require installation of StyleCop on any machine. Compatible with NuGet package restore. For update notifications follow https://twitter.com/adamralph. Come and chat to fellow developers about StyleCop and StyleCop.MSBuild at https://jabbr.net/#/rooms/stylecop/.</description>
-        <summary>NOTE: if you are using 4.7.48.0 or earlier, uninstall, then reinstall this version. DO NOT perform an update.
-
-Adds official StyleCop MSBuild targets to your project for running StyleCop analysis with every build. Includes official StyleCop binaries. Works both on a developer workstation (with or without Visual Studio) and on a build server. Does not require installation of StyleCop on any machine.</summary>
-        <releaseNotes>
-          NOTE: if you are using 4.7.48.0 or earlier, uninstall, then reinstall this version. DO NOT perform an update.
-
-          For StyleCop release notes see https://github.com/StyleCop/StyleCop.
-
-          StyleCop.MSBuild release notes:-
-
-          4.7.49.1 New: StyleCopOverrideSettingsFile will look in %AppData% if not set - https://bitbucket.org/adamralph/stylecop-msbuild/pull-request/1/
-
-          4.7.48.1 New: Switch to using /build NuGet feature - https://bitbucket.org/adamralph/stylecop-msbuild/issue/12/
-
-          4.7.46.1 Fixed: 'intitial' typo in Install.ps1 - https://bitbucket.org/adamralph/stylecop-msbuild/issue/11/
-
-          4.7.36.1 New: Add StyleCopSettingsEditor.exe to tools folder - https://bitbucket.org/adamralph/stylecop-msbuild/issue/5/
-
-          4.7.32.0 New: Remove duplication in XML elements - https://bitbucket.org/adamralph/stylecop-msbuild/issue/3/
-
-          4.7.31.2 New: Compatibility with package restore workflow - https://bitbucket.org/adamralph/stylecop-msbuild/issue/1/
-
-          4.7.31.1 Fixed: Changes element content line endings to unix style in project file - https://bitbucket.org/adamralph/stylecop-msbuild/issue/2/
-
-          4.7.26.6 Fixed: Import element is not removed from csproj file when the repository root folder is not named 'packages' and/or when the repository root folder belongs to the same folder as the csproj file.
-
-          4.7.17.1 New: Update .csproj Import during Nuget package install - https://stylecop.codeplex.com/workitem/7206/</releaseNotes>
-        <copyright>Copyright (c) Adam Ralph (adam@adamralph.com)</copyright>
-    </metadata>
-    <files>
-        <file src="StyleCop.MSBuild.targets" target="build" />
-        <file src="de-DE\StyleCop.CSharp.Rules.resources.dll" target="tools\de-DE" />
-        <file src="en-GB\StyleCop.CSharp.Rules.resources.dll" target="tools\en-GB" />
-        <file src="es-MX\StyleCop.CSharp.Rules.resources.dll" target="tools\es-MX" />
-        <file src="fr-FR\StyleCop.CSharp.Rules.resources.dll" target="tools\fr-FR" />
-        <file src="pl-PL\StyleCop.CSharp.Rules.resources.dll" target="tools\pl-PL" />
-        <file src="pt-BR\StyleCop.CSharp.Rules.resources.dll" target="tools\pt-BR" />
-        <file src="ru-RU\StyleCop.CSharp.Rules.resources.dll" target="tools\ru-RU" />
-        <file src="CustomDictionary.en-GB.xml" target="tools" />
-        <file src="CustomDictionary.en-US.xml" target="tools" />
-        <file src="CustomDictionary.xml" target="tools" />
-        <file src="mssp7en.dll" target="tools" />
-        <file src="mssp7en.lex" target="tools" />
-        <file src="Settings\DefaultSettings.StyleCop" target="tools\Settings.StyleCop" />
-        <file src="StyleCop.CSharp.dll" target="tools" />
-        <file src="StyleCop.CSharp.Rules.dll" target="tools" />
-        <file src="StyleCop.dll" target="tools" />
-        <file src="StyleCop.SettingsEditor.exe" target="tools" />
-        <file src="license.txt" />
-    </files>
+  </metadata>
+  <files>
+    <file src="StyleCop.MSBuild.targets" target="build" />
+    <file src="de-DE\StyleCop.CSharp.Rules.resources.dll" target="tools\de-DE" />
+    <file src="en-GB\StyleCop.CSharp.Rules.resources.dll" target="tools\en-GB" />
+    <file src="es-MX\StyleCop.CSharp.Rules.resources.dll" target="tools\es-MX" />
+    <file src="fr-FR\StyleCop.CSharp.Rules.resources.dll" target="tools\fr-FR" />
+    <file src="pl-PL\StyleCop.CSharp.Rules.resources.dll" target="tools\pl-PL" />
+    <file src="pt-BR\StyleCop.CSharp.Rules.resources.dll" target="tools\pt-BR" />
+    <file src="ru-RU\StyleCop.CSharp.Rules.resources.dll" target="tools\ru-RU" />
+    <file src="CustomDictionary.en-GB.xml" target="tools" />
+    <file src="CustomDictionary.en-US.xml" target="tools" />
+    <file src="CustomDictionary.xml" target="tools" />
+    <file src="mssp7en.dll" target="tools" />
+    <file src="mssp7en.lex" target="tools" />
+    <file src="Settings\DefaultSettings.StyleCop" target="tools\Settings.StyleCop" />
+    <file src="StyleCop.CSharp.dll" target="tools" />
+    <file src="StyleCop.CSharp.Rules.dll" target="tools" />
+    <file src="StyleCop.dll" target="tools" />
+    <file src="StyleCop.SettingsEditor.exe" target="tools" />
+    <file src="license.txt" />
+  </files>
 </package>
