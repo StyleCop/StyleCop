@@ -177,7 +177,12 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Documentation text must end with a period.
         /// </summary>
-        DocumentationTextMustEndWithAPeriod, 
+        DocumentationTextMustEndWithAPeriod,
+
+        /// <summary>
+        /// Documentation text must not contain two consecutive periods.
+        /// </summary>
+        DocumentationTextMustNotContainTwoPeriods,
 
         /// <summary>
         /// Documentation text must begin with a capital letter.

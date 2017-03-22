@@ -209,6 +209,10 @@
         <Context>The documentation text within the {0} tag contains incorrectly spelled words: {1}</Context>
         <Description>Validates that an element's documentation header contains correctly spelled words.</Description>
       </Rule>
+      <Rule Name="DocumentationTextMustNotContainTwoPeriods" CheckId="SA1651">
+        <Context>The documentation text within the {0} tag ends contains two consecutive periods.</Context>
+        <Description>Validates that the documentation text within a documentation section does not contain two consecutive periods.</Description>
+      </Rule>
     </RuleGroup>
     <RuleGroup Name="File Headers">
       <Rule Name="FileMustHaveHeader" CheckId="SA1633">

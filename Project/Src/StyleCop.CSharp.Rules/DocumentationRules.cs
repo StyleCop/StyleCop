@@ -1430,6 +1430,11 @@ namespace StyleCop.CSharp
                 }
             }
 
+            if ((commentType & InvalidCommentType.TwoConsecutivePeriods) != 0)
+            {
+                this.AddViolation(element, lineNumber, Rules.DocumentationTextMustNotContainTwoPeriods, documentationType);
+            }
+
             if ((commentType & InvalidCommentType.NoCapitalLetter) != 0)
             {
                 // Allow documentation to begin with <c>, <code>, <see or <paramref and not a capital letter

@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Documentation\DocumentationTextMustNotContainTwoPeriods.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\Src\StyleCop\mssp7en.lex">
       <Link>mssp7en.lex</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

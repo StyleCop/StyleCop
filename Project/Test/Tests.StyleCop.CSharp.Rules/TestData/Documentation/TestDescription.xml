@@ -1927,6 +1927,40 @@
     </ExpectedViolations>
   </Test>
 
+  <Test Name="DocumentationTextMustNotContainTwoPeriods">
+    <TestCodeFile>DocumentationTextMustNotContainTwoPeriods.cs</TestCodeFile>
+    <Settings>
+      <GlobalSettings>
+        <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+        <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+      </GlobalSettings>
+      <Analyzers>
+        <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+          <AnalyzerSettings>
+            <BooleanProperty Name="IgnorePrivates">False</BooleanProperty>
+            <BooleanProperty Name="IgnoreInternals">False</BooleanProperty>
+            <BooleanProperty Name="IncludeFields">True</BooleanProperty>
+          </AnalyzerSettings>
+          <Rules>
+            <Rule Name="DocumentationTextMustNotContainTwoPeriods">
+              <RuleSettings>
+                <BooleanProperty Name="Enabled">True</BooleanProperty>
+              </RuleSettings>
+            </Rule>
+          </Rules>
+        </Analyzer>
+      </Analyzers>
+    </Settings>
+    <ExpectedViolations>
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationPeriodClass1" LineNumber="10" Rule="DocumentationTextMustNotContainTwoPeriods" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationPeriodClass2`T" LineNumber="18" Rule="DocumentationTextMustNotContainTwoPeriods" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.InvalidDocumentationPeriodClass3" LineNumber="25" Rule="DocumentationTextMustNotContainTwoPeriods" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TempClass.InvalidDocumentationPeriodProperty1" LineNumber="45" Rule="DocumentationTextMustNotContainTwoPeriods" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TempClass.InvalidDocumentationPeriodMethod1%int" LineNumber="57" Rule="DocumentationTextMustNotContainTwoPeriods" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.TempClass.InvalidDocumentationPeriodMethod2" LineNumber="65" Rule="DocumentationTextMustNotContainTwoPeriods" />
+    </ExpectedViolations>
+  </Test>
+
   <!-- Tests constructor summary text rules. -->
   <Test Name="DocumentationConstructorSummary">
     <TestCodeFile>DocumentationConstructorSummary.cs</TestCodeFile>

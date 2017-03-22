@@ -20,6 +20,7 @@ namespace StyleCop.CSharp
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Xml;
 
     using StyleCop.Spelling;
@@ -40,6 +41,22 @@ namespace StyleCop.CSharp
         /// The minimum length for a valid comment.
         /// </summary>
         internal const int MinimumHeaderCommentLength = 10;
+
+        /// <summary>
+        /// Regular expression for matching two consecutive periods (but not three).
+        /// </summary>
+        /// <remarks>
+        /// Explanation:<![CDATA[
+        ///   -> ?> means atomic grouping. Specifically, throw away all backtracking positions. It means that if '...' fails to 
+        ///      match, then don't step back and try and match '..'.
+        ///   -> (\.)\1+) means match 2 or more period characters.
+        ///   -> (?<!([^.]|^)\.{ 3}) means search backwards from the end of the repeated character match and fail if 
+        ///      you find three dots not preceded by a dot or beginning of string. This fails three dots while allowing two 
+        ///      dots or four dots or more to work.
+        ///   ]]>
+        /// </remarks>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1630:DocumentationTextMustContainWhitespace", Justification = "Using CDATA because there are a lot of special characters in the text, plus it's a private constant and not part of the public API.")]
+        private static readonly Regex TwoConsecutivePeriodsRegex = new Regex(@"(?>(\.)\1+)(?<!([^.]|^)\.{3})");
 
         #endregion
 
@@ -200,6 +217,12 @@ namespace StyleCop.CSharp
                 if (trimmedCommentWithAttributesPreserved[trimmedCommentWithAttributesPreserved.Length - 1] != '.')
                 {
                     invalid |= InvalidCommentType.NoPeriod;
+                }
+
+                // Verify that the comment doesn't contain 2 consecutive periods.
+                if (TwoConsecutivePeriodsRegex.IsMatch(trimmedCommentWithAttributesPreserved))
+                {
+                    invalid |= InvalidCommentType.TwoConsecutivePeriods;
                 }
 
                 // Verify that at least 40% of the characters in the comment are letters, and that the comment contains
