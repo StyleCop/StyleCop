@@ -22,6 +22,7 @@ namespace StyleCop.CSharp
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
 
     /// <summary>
     /// Check code ordering rules.
@@ -659,9 +660,7 @@ namespace StyleCop.CSharp
                         // Check the access modifiers to see if they are in the correct order.
                         if (first.Declaration.AccessModifierType > second.Declaration.AccessModifierType)
                         {
-                            // Special case for static constructors, which are always private but should still appear in front of all other constructors.
-                            if (first.ElementType != ElementType.Constructor || second.ElementType != ElementType.Constructor
-                                || !first.Declaration.ContainsModifier(CsTokenType.Static) || second.Declaration.ContainsModifier(CsTokenType.Static))
+                            if (!this.IsSpecialCaseExclusion(first, second))
                             {
                                 // If one of the elements is partial and does not have an access modifier defined, and the element
                                 // is not a method, show a special message. Partial methods are not allowed to have modifiers and are 
@@ -786,10 +785,10 @@ namespace StyleCop.CSharp
                                 first, 
                                 invalidElement.LineNumber, 
                                 Rules.StaticElementsMustAppearBeforeInstanceElements, 
-                                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
-                                first.FriendlyPluralTypeText, 
                                 OrderingRules.AccessModifierTypeString(second.Declaration.AccessModifierType), 
-                                second.FriendlyPluralTypeText);
+                                second.FriendlyPluralTypeText, 
+                                OrderingRules.AccessModifierTypeString(first.Declaration.AccessModifierType), 
+                                first.FriendlyPluralTypeText);
 
                             return false;
                         }
@@ -798,6 +797,30 @@ namespace StyleCop.CSharp
             }
 
             return true;
+        }
+
+        private bool IsSpecialCaseExclusion(CsElement first, CsElement second)
+        {
+            //// Note: While many checks here are redundant/unnecessary, they are explictly specified to
+            //// avoid any ambiguity.
+            
+            // Special case for static constructors, which are always private but should still appear in front of all other constructors.
+            if (first.ElementType == ElementType.Constructor && second.ElementType == ElementType.Constructor
+                && first.Declaration.ContainsModifier(CsTokenType.Static) && !second.Declaration.ContainsModifier(CsTokenType.Static))
+            {
+                return true;
+            }
+
+            // Special case for readonly dependency property pattern.
+            if (first.ElementType == ElementType.Field && second.ElementType == ElementType.Field && 
+                first.Declaration.ContainsModifier(CsTokenType.Static) && second.Declaration.ContainsModifier(CsTokenType.Static)
+                && first.AccessModifier == AccessModifierType.Private && second.AccessModifier == AccessModifierType.Public
+                && first.Declaration.Tokens.Any(t => t.CsTokenClass == CsTokenClass.Type && t.Text == "DependencyPropertyKey"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
