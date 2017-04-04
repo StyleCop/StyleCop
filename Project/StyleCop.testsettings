@@ -6,6 +6,9 @@
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution>
           <TestDirectory useLoadContext="true" />
+          <RuntimeResolution>
+            <Directory path="%ProgramFiles(x86)%\Microsoft Visual Studio 2010 SDK\VisualStudioIntegration\Common\Assemblies\v4.0\" includeSubDirectories="true" />
+          </RuntimeResolution>
         </AssemblyResolution>
       </UnitTestRunConfig>
     </TestTypeSpecific>
