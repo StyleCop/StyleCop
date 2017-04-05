@@ -136,4 +136,13 @@ form
 </style>";
         }
     }
+
+    public class Issue88
+    {
+        var foo1 = @"c:\foo\";
+        var foo2 = @"c:\foo";
+        var foo3 = $@"{foo2}\";
+        // Regression check: Non-verbatim interpolated string ending with backslash
+        var foo4 = $"{foo2}\\";
+    }
 }
