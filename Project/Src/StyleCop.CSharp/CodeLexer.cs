@@ -2555,15 +2555,15 @@ namespace StyleCop.CSharp
             Debug.Assert(dollarSign == '$', "Interoplated strings must begin with a dollar sign ('$').");
             text.Append(dollarSign);
 
-            bool isMultiLine;
+            bool isVerbatim;
             if (this.codeReader.Peek() == '@')
             {
                 text.Append(this.codeReader.ReadNext());
-                isMultiLine = true;
+                isVerbatim = true;
             }
             else
             {
-                isMultiLine = false;
+                isVerbatim = false;
             }
 
             // Read the opening quote character and add it to the string.
@@ -2625,7 +2625,7 @@ namespace StyleCop.CSharp
 
                     if (character == '"')
                     {
-                        if (isMultiLine)
+                        if (isVerbatim)
                         {
                             if (this.codeReader.Peek(1) == '"')
                             {
@@ -2668,7 +2668,7 @@ namespace StyleCop.CSharp
                     }
                 }
 
-                if (character == '\\')
+                if (character == '\\' && !isVerbatim)
                 {
                     slash = !slash;
                 }
@@ -2676,7 +2676,7 @@ namespace StyleCop.CSharp
                 {
                     slash = false;
 
-                    if (!isMultiLine && (character == '\r' || character == '\n'))
+                    if (!isVerbatim && (character == '\r' || character == '\n'))
                     {
                         // We've hit the end of the line. Just exit.
                         return;
