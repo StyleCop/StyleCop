@@ -1881,8 +1881,8 @@ namespace StyleCop.CSharp
                 this.tokens.Add(this.GetToken(CsTokenType.Is, SymbolType.Is, parentReference, expressionReference));
 
                 // The next token could be a type or a constant.
-                Expression rightHandSide = null;
-                Expression matchExpression = null;
+                Expression rightHandSide;
+                Expression matchVariable = null;
                 Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
 
                 if (nextSymbol.SymbolType == SymbolType.Null || nextSymbol.SymbolType == SymbolType.String
@@ -1899,12 +1899,12 @@ namespace StyleCop.CSharp
                     this.GetNextSymbol(SymbolType.Other, expressionReference);
                     rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
 
-                    // Check if we have a pattern match expression.
+                    // Check if we have a variable declared as part of pattern match.
                     nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
 
                     if (nextSymbol.SymbolType == SymbolType.Other)
                     {
-                        matchExpression = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
+                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
                     }
                 }
 
@@ -1917,7 +1917,7 @@ namespace StyleCop.CSharp
                 CsTokenList partialTokens = new CsTokenList(this.tokens, leftHandSide.Tokens.First, this.tokens.Last);
 
                 // Create and return the expression.
-                expression = new IsExpression(partialTokens, leftHandSide, rightHandSide, matchExpression);
+                expression = new IsExpression(partialTokens, leftHandSide, rightHandSide, matchVariable);
                 expressionReference.Target = expression;
             }
 

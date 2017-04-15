@@ -33,20 +33,20 @@ namespace StyleCop.CSharp
         private readonly Expression leftHandSideExpression;
 
         /// <summary>
-        /// The right hand side of the IS expression.
+        /// The right hand side of the expression.
         /// </summary>
         private readonly Expression rightHandSideExpression;
 
         /// <summary>
-        /// The right hand side of the IS expression, which is usually a type being compare with.
+        /// The right hand side of the expression, which is usually a type being compare with.
         /// In the case of pattern match, this will be null.
         /// </summary>
         private readonly TypeToken type;
 
         /// <summary>
-        /// The pattern match of the IS expression, if available.
+        /// The variable declared as part of pattern match of the expression, if available.
         /// </summary>
-        private readonly Expression matchExpression;
+        private readonly Expression matchVariable;
 
         #endregion
 
@@ -59,25 +59,25 @@ namespace StyleCop.CSharp
         /// The list of tokens that form the expression.
         /// </param>
         /// <param name="leftSideExpression">
-        /// The left hand side of the IS expression.
+        /// The left hand side of the expression.
         /// </param>
         /// <param name="rightSideExpression">
-        /// The right side of the IS expression.
+        /// The right hand side of the expression.
         /// </param>
-        /// <param name="matchExpression">
-        /// The pattern match of the IS expression.
+        /// <param name="matchVariable">
+        /// The variable declared as part of pattern match of the expression.
         /// </param>
-        internal IsExpression(CsTokenList tokens, Expression leftSideExpression, Expression rightSideExpression, Expression matchExpression)
+        internal IsExpression(CsTokenList tokens, Expression leftSideExpression, Expression rightSideExpression, Expression matchVariable)
             : base(ExpressionType.Is, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(leftSideExpression, "leftSideExpression");
             Param.AssertNotNull(rightSideExpression, "rightSideExpression");
-            Param.Ignore(matchExpression);
+            Param.Ignore(matchVariable);
 
             this.leftHandSideExpression = leftSideExpression;
             this.rightHandSideExpression = rightSideExpression;
-            this.matchExpression = matchExpression;
+            this.matchVariable = matchVariable;
 
             // Extract the type being compared to, if possible.
             // Note that this might not work in the case of "Yoda notation", leaving it as is to avoid breaks.
@@ -89,9 +89,9 @@ namespace StyleCop.CSharp
             this.AddExpression(this.leftHandSideExpression);
             this.AddExpression(this.rightHandSideExpression);
 
-            if (this.matchExpression != null)
+            if (this.matchVariable != null)
             {
-                this.AddExpression(this.matchExpression);
+                this.AddExpression(this.matchVariable);
             }
         }
 
@@ -100,21 +100,25 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// The left hand side of the IS expression, which is usually a value being compared.
+        /// Gets the left hand side of the expression.
         /// </summary>
         public Expression Value => this.leftHandSideExpression;
 
         /// <summary>
-        /// The right hand side of the IS expression, which is usually a type being compare with.
-        /// In the case of pattern match, this will return a null.
+        /// Gets the right hand side of the expression.
+        /// </summary>
+        public Expression RightHandSideExpression => this.rightHandSideExpression;
+
+        /// <summary>
+        /// Gets the TypeToken of the right hand side expression, if available.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
         public TypeToken Type => this.type;
 
         /// <summary>
-        /// The pattern match of the IS expression, if available.
+        /// Gets the variable declared as part of pattern match of the expression, if available.
         /// </summary>
-        public Expression MatchExpression => this.matchExpression;
+        public Expression MatchVariable => this.matchVariable;
 
         #endregion
     }

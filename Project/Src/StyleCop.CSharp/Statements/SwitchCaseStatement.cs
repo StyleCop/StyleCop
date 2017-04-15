@@ -30,6 +30,16 @@ namespace StyleCop.CSharp
         /// </summary>
         private readonly Expression identifier;
 
+        /// <summary>
+        /// The variable declared as part of pattern match of the case statement, if available.
+        /// </summary>
+        private readonly Expression matchVariable;
+
+        /// <summary>
+        /// The when expression declared as part of pattern match of the case statement, if available.
+        /// </summary>
+        private readonly Expression whenExpression;
+
         #endregion
 
         #region Constructors and Destructors
@@ -40,12 +50,34 @@ namespace StyleCop.CSharp
         /// <param name="identifier">
         /// The case label identifier.
         /// </param>
-        internal SwitchCaseStatement(Expression identifier)
+        /// <param name="matchVariable">
+        /// The variable declared as part of pattern match of the case statement.
+        /// </param>
+        /// <param name="whenExpression">
+        /// The when expression declared as part of pattern match of the case statement.
+        /// </param>
+        internal SwitchCaseStatement(Expression identifier, Expression matchVariable, Expression whenExpression)
             : base(StatementType.SwitchCase)
         {
             Param.AssertNotNull(identifier, "identifier");
+            Param.Ignore(matchVariable);
+            Param.Ignore(whenExpression);
+
             this.identifier = identifier;
+            this.matchVariable = matchVariable;
+            this.whenExpression = whenExpression;
+
             this.AddExpression(identifier);
+
+            if (this.matchVariable != null)
+            {
+                this.AddExpression(this.matchVariable);
+            }
+
+            if (this.whenExpression != null)
+            {
+                this.AddExpression(this.whenExpression);
+            }
         }
 
         #endregion
@@ -55,13 +87,17 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the case label identifier.
         /// </summary>
-        public Expression Identifier
-        {
-            get
-            {
-                return this.identifier;
-            }
-        }
+        public Expression Identifier => this.identifier;
+
+        /// <summary>
+        /// Gets the expression that represents the variable declared as part of pattern match of the case statement, if available.
+        /// </summary>
+        public Expression MatchVariable => this.matchVariable;
+
+        /// <summary>
+        /// Gets the when expression that is declared as part of the case statement, if available.
+        /// </summary>
+        public Expression WhenExpression => this.whenExpression;
 
         #endregion
     }

@@ -43,5 +43,34 @@
 
             bool check8 = o is int;           // regression check
         }
+
+        public void PatternMatchSwitchConstruct()
+        {            
+            switch(shape)
+            {
+                case null:
+                    break;
+                case "SomeString":
+                    break;
+                case 333:
+                    break;
+                case true:
+                    break;
+                case false:
+                    break;
+                case int i:
+                    break;
+                case Circle c:
+                    break;
+                case Rectangle s when (s.Length == s.Height):
+                    break;
+                case Rectangle r:
+                    break;
+                case IEnumerable<int> ieInt:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
