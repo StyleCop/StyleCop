@@ -195,7 +195,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Extracts a TypeToken from the literal expression, assuming that one exists.
+        /// Extracts a TypeToken from the literal expression.
         /// </summary>
         /// <param name="literal">
         /// The literal expression.
@@ -205,14 +205,28 @@ namespace StyleCop.CSharp
         /// </returns>
         internal static TypeToken ExtractTypeTokenFromLiteralExpression(LiteralExpression literal)
         {
+            TypeToken result = TryExtractTypeTokenFromLiteralExpression(literal);
+            Debug.Assert(result != null, "The literal expression does not contain a TypeToken");
+            return result;
+        }
+
+        /// <summary>
+        /// Extracts a TypeToken from the literal expression, if available.
+        /// </summary>
+        /// <param name="literal">
+        /// The literal expression.
+        /// </param>
+        /// <returns>
+        /// Returns the type token if available, null if not.
+        /// </returns>
+        internal static TypeToken TryExtractTypeTokenFromLiteralExpression(LiteralExpression literal)
+        {
             Param.AssertNotNull(literal, "literal");
 
-            Debug.Assert(
-                literal.TokenNode != null && literal.TokenNode.Value != null
-                && (literal.TokenNode.Value.CsTokenClass == CsTokenClass.Type || literal.TokenNode.Value.CsTokenClass == CsTokenClass.GenericType), 
-                "The literal expression does not contain a TypeToken");
-
-            return (TypeToken)literal.TokenNode.Value;
+            return literal.TokenNode != null && literal.TokenNode.Value != null
+                   && (literal.TokenNode.Value.CsTokenClass == CsTokenClass.Type || literal.TokenNode.Value.CsTokenClass == CsTokenClass.GenericType)
+                       ? literal.TokenNode.Value as TypeToken
+                       : null;
         }
 
         /// <summary>

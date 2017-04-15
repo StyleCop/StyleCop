@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\PatternMatch\PatternMatch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\GeneratedCode\TemporaryGeneratedFile_5937a670_0e60_4077_877b_f7221da3dda1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -462,6 +465,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="TestData\Elements\NameOfObjectModel.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestData\PatternMatch\PatternMatchObjectModel.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\PatternMatch\TestDescription.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

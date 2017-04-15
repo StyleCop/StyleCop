@@ -229,6 +229,17 @@ namespace CSharpParserTest
         }
 
         /// <summary>
+        /// The cs parser pattern match.
+        /// </summary>
+        [TestMethod]
+        [DeploymentItem("StyleCop.CSharp.Rules.dll")]
+        [DeploymentItem("Testing.StyleCop.CSharp.ParserDump.dll")]
+        [DeploymentItem("TestData\\PatternMatch", "PatternMatch")]
+        public void CsParserTestPatternMatch()
+        {
+            this.RunTest("PatternMatch");
+        }
+        /// <summary>
         /// The run test.
         /// </summary>
         /// <param name="testName">The test name.</param>

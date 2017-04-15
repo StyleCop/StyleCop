@@ -28,14 +28,25 @@ namespace StyleCop.CSharp
         #region Fields
 
         /// <summary>
-        /// The type to check.
+        /// The left hand side of the IS expression.
+        /// </summary>
+        private readonly Expression leftHandSideExpression;
+
+        /// <summary>
+        /// The right hand side of the IS expression.
+        /// </summary>
+        private readonly Expression rightHandSideExpression;
+
+        /// <summary>
+        /// The right hand side of the IS expression, which is usually a type being compare with.
+        /// In the case of pattern match, this will be null.
         /// </summary>
         private readonly TypeToken type;
 
         /// <summary>
-        /// The value to check.
+        /// The pattern match of the IS expression, if available.
         /// </summary>
-        private readonly Expression value;
+        private readonly Expression matchExpression;
 
         #endregion
 
@@ -47,24 +58,41 @@ namespace StyleCop.CSharp
         /// <param name="tokens">
         /// The list of tokens that form the expression.
         /// </param>
-        /// <param name="value">
-        /// The value to check.
+        /// <param name="leftSideExpression">
+        /// The left hand side of the IS expression.
         /// </param>
-        /// <param name="type">
-        /// The type to check.
+        /// <param name="rightSideExpression">
+        /// The right side of the IS expression.
         /// </param>
-        internal IsExpression(CsTokenList tokens, Expression value, LiteralExpression type)
+        /// <param name="matchExpression">
+        /// The pattern match of the IS expression.
+        /// </param>
+        internal IsExpression(CsTokenList tokens, Expression leftSideExpression, Expression rightSideExpression, Expression matchExpression)
             : base(ExpressionType.Is, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
-            Param.AssertNotNull(value, "value");
-            Param.AssertNotNull(type, "type");
+            Param.AssertNotNull(leftSideExpression, "leftSideExpression");
+            Param.AssertNotNull(rightSideExpression, "rightSideExpression");
+            Param.Ignore(matchExpression);
 
-            this.value = value;
-            this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+            this.leftHandSideExpression = leftSideExpression;
+            this.rightHandSideExpression = rightSideExpression;
+            this.matchExpression = matchExpression;
 
-            this.AddExpression(value);
-            this.AddExpression(type);
+            // Extract the type being compared to, if possible.
+            // Note that this might not work in the case of "Yoda notation", leaving it as is to avoid breaks.
+            if (this.rightHandSideExpression is LiteralExpression le)
+            {
+                this.type = CodeParser.TryExtractTypeTokenFromLiteralExpression(le);                
+            }
+
+            this.AddExpression(this.leftHandSideExpression);
+            this.AddExpression(this.rightHandSideExpression);
+
+            if (this.matchExpression != null)
+            {
+                this.AddExpression(this.matchExpression);
+            }
         }
 
         #endregion
@@ -72,27 +100,21 @@ namespace StyleCop.CSharp
         #region Public Properties
 
         /// <summary>
-        /// Gets the type to check.
+        /// The left hand side of the IS expression, which is usually a value being compared.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
+        public Expression Value => this.leftHandSideExpression;
 
         /// <summary>
-        /// Gets the value to check.
+        /// The right hand side of the IS expression, which is usually a type being compare with.
+        /// In the case of pattern match, this will return a null.
         /// </summary>
-        public Expression Value
-        {
-            get
-            {
-                return this.value;
-            }
-        }
+        [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
+        public TypeToken Type => this.type;
+
+        /// <summary>
+        /// The pattern match of the IS expression, if available.
+        /// </summary>
+        public Expression MatchExpression => this.matchExpression;
 
         #endregion
     }
