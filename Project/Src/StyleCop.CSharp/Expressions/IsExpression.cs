@@ -81,7 +81,8 @@ namespace StyleCop.CSharp
 
             // Extract the type being compared to, if possible.
             // Note that this might not work in the case of "Yoda notation", leaving it as is to avoid breaks.
-            if (this.rightHandSideExpression is LiteralExpression le)
+            LiteralExpression le = this.rightHandSideExpression as LiteralExpression; 
+            if (le != null)
             {
                 this.type = CodeParser.TryExtractTypeTokenFromLiteralExpression(le);                
             }
