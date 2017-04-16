@@ -1315,7 +1315,7 @@ namespace StyleCop.CSharp
             // Add and move past the opening curly bracket.
             Bracket openingBracket = this.GetBracketToken(CsTokenType.OpenCurlyBracket, SymbolType.OpenCurlyBracket, expressionReference);
             Node<CsToken> openingBracketNode = this.tokens.InsertLast(openingBracket);
-            
+
             while (true)
             {
                 // If the next symbol is the closing curly bracket, then we are done.
@@ -1393,7 +1393,7 @@ namespace StyleCop.CSharp
         {
             Param.AssertNotNull(parentReference, "parentReference");
             Param.Ignore(unsafeCode);
-            
+
             Reference<ICodePart> expressionReference = new Reference<ICodePart>();
             Node<CsToken> previousTokenNode = this.tokens.Last;
 
@@ -1880,12 +1880,35 @@ namespace StyleCop.CSharp
                 // Get the is symbol.
                 this.tokens.Add(this.GetToken(CsTokenType.Is, SymbolType.Is, parentReference, expressionReference));
 
-                // The next token must be the type.
-                this.GetNextSymbol(SymbolType.Other, expressionReference);
+                // The next token could be a type or a constant.
+                Expression rightHandSide;
+                Expression matchVariable = null;
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
 
-                // Get the expression representing the type.
-                LiteralExpression rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
-                if (rightHandSide == null || rightHandSide.Tokens.First == null)
+                if (nextSymbol.SymbolType == SymbolType.Null || nextSymbol.SymbolType == SymbolType.String
+                    || nextSymbol.SymbolType == SymbolType.Number || nextSymbol.SymbolType == SymbolType.True
+                    || nextSymbol.SymbolType == SymbolType.False)
+                {
+                    // Get the expression representing the constant.
+                    this.GetNextSymbol(SkipSymbols.All, expressionReference, false);
+                    rightHandSide = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
+                }
+                else
+                {
+                    // Get the expression representing the type.
+                    this.GetNextSymbol(SymbolType.Other, expressionReference);
+                    rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
+
+                    // Check if we have a variable declared as part of pattern match.
+                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+
+                    if (nextSymbol.SymbolType == SymbolType.Other)
+                    {
+                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
+                    }
+                }
+
+                if (rightHandSide?.Tokens.First == null)
                 {
                     throw this.CreateSyntaxException();
                 }
@@ -1894,7 +1917,7 @@ namespace StyleCop.CSharp
                 CsTokenList partialTokens = new CsTokenList(this.tokens, leftHandSide.Tokens.First, this.tokens.Last);
 
                 // Create and return the expression.
-                expression = new IsExpression(partialTokens, leftHandSide, rightHandSide);
+                expression = new IsExpression(partialTokens, leftHandSide, rightHandSide, matchVariable);
                 expressionReference.Target = expression;
             }
 
@@ -2117,8 +2140,8 @@ namespace StyleCop.CSharp
 
             if (literalToken == null)
             {
-                    // This is not a generic. Just convert the symbol to a token.
-                    literalToken = this.GetToken(CsTokenType.Other, SymbolType.Other, expressionReference);
+                // This is not a generic. Just convert the symbol to a token.
+                literalToken = this.GetToken(CsTokenType.Other, SymbolType.Other, expressionReference);
             }
 
             // Add the token to the document.

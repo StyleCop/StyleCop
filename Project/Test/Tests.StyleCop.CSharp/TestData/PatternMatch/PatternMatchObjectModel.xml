@@ -1,0 +1,298 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="Tests.StyleCop.CSharp.TestData.PatternMatch" Type="Namespace">
+      <Element Name="PatternMatch" Type="Class">
+        <Element Name="PatternMatchIfConstruct" Type="Method">
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="null" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="&quot;SomeString&quot;" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="333" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="true" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="false" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="UnaryExpression">
+              <Expression Type="ParenthesizedExpression">
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="int" Type="LiteralExpression" />
+                  <Expression Text="i" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Text="v" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="ConditionalLogicalExpression">
+              <Expression Type="IsExpression">
+                <Expression Text="o" Type="LiteralExpression" />
+                <Expression Text="int" Type="LiteralExpression" />
+                <Expression Text="i" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="ParenthesizedExpression">
+                <Expression Type="ConditionalLogicalExpression">
+                  <Expression Type="IsExpression">
+                    <Expression Text="o" Type="LiteralExpression" />
+                    <Expression Text="string" Type="LiteralExpression" />
+                    <Expression Text="s" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Type="MemberAccessExpression">
+                      <Expression Text="int" Type="LiteralExpression" />
+                      <Expression Text="TryParse" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Text="s" Type="LiteralExpression" />
+                    <Expression Text="i" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+            <Statement Type="BlockStatement" />
+          </Statement>
+          <Statement Type="IfStatement">
+            <Expression Type="IsExpression">
+              <Expression Text="o" Type="LiteralExpression" />
+              <Expression Text="string" Type="LiteralExpression" />
+            </Expression>
+            <Statement Type="ReturnStatement" />
+          </Statement>
+        </Element>
+        <Element Name="PatternMatchIsExpressions" Type="Method">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="null" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check1" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="&quot;SomeString&quot;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check2" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="333" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check3" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="true" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check4" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="false" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check5" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="int" Type="LiteralExpression" />
+                  <Expression Text="i" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check6" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="var" Type="LiteralExpression" />
+                  <Expression Text="v" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check7" Type="LiteralExpression" />
+                <Expression Type="ParenthesizedExpression">
+                  <Expression Type="ConditionalLogicalExpression">
+                    <Expression Type="IsExpression">
+                      <Expression Text="o" Type="LiteralExpression" />
+                      <Expression Text="int" Type="LiteralExpression" />
+                      <Expression Text="i" Type="LiteralExpression" />
+                    </Expression>
+                    <Expression Type="ParenthesizedExpression">
+                      <Expression Type="ConditionalLogicalExpression">
+                        <Expression Type="IsExpression">
+                          <Expression Text="o" Type="LiteralExpression" />
+                          <Expression Text="string" Type="LiteralExpression" />
+                          <Expression Text="s" Type="LiteralExpression" />
+                        </Expression>
+                        <Expression Type="MethodInvocationExpression">
+                          <Expression Type="MemberAccessExpression">
+                            <Expression Text="int" Type="LiteralExpression" />
+                            <Expression Text="TryParse" Type="LiteralExpression" />
+                          </Expression>
+                          <Expression Text="s" Type="LiteralExpression" />
+                          <Expression Text="i" Type="LiteralExpression" />
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="bool" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="check8" Type="LiteralExpression" />
+                <Expression Type="IsExpression">
+                  <Expression Text="o" Type="LiteralExpression" />
+                  <Expression Text="int" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="PatternMatchSwitchConstruct" Type="Method">
+          <Statement Type="SwitchStatement">
+            <Expression Text="shape" Type="LiteralExpression" />
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="&quot;SomeString&quot;" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="333" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="true" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="false" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Text="i" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="Circle" Type="LiteralExpression" />
+              <Expression Text="c" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="Rectangle" Type="LiteralExpression" />
+              <Expression Text="s" Type="LiteralExpression" />
+              <Expression Type="ParenthesizedExpression">
+                <Expression Type="RelationalExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="s" Type="LiteralExpression" />
+                    <Expression Text="Length" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="s" Type="LiteralExpression" />
+                    <Expression Text="Height" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="Rectangle" Type="LiteralExpression" />
+              <Expression Text="r" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="IEnumerable&lt;int&gt;" Type="LiteralExpression" />
+              <Expression Text="ieInt" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchDefaultStatement">
+              <Statement Type="BreakStatement" />
+            </Statement>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>

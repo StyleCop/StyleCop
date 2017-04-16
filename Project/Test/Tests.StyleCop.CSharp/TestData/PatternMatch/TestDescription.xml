@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<StyleCopTestDescription TestName="Strings">
-  <Test Name="Strings">
-    <TestCodeFile TestObjectModel="true">Strings.cs</TestCodeFile>
+<StyleCopTestDescription TestName="PatternMatch">
+  <Test Name="PatternMatch">
+    <TestCodeFile TestObjectModel="true">PatternMatch.cs</TestCodeFile>
     <Settings>
       <GlobalSettings>
         <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>

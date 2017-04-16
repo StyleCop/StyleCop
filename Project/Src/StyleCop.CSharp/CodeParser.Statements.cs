@@ -1892,11 +1892,31 @@ namespace StyleCop.CSharp
 
             Expression identifier = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
 
+            // Get the variable definition as part of pattern match, if available.
+            Expression matchVariable = null;
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, unsafeCode);
+
+            if (nextSymbol.SymbolType == SymbolType.Other)
+            {
+                this.GetNextSymbol(SkipSymbols.All, statementReference, false);
+                matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+            }
+
+            // Get the when expression, if available.
+            Expression whenExpression = null;
+            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, unsafeCode);
+
+            if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
+                whenExpression = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+            }
+
             // Get the colon.
             this.tokens.Add(this.GetToken(CsTokenType.LabelColon, SymbolType.Colon, statementReference));
 
             // Create the statement.
-            SwitchCaseStatement caseStatement = new SwitchCaseStatement(identifier);
+            SwitchCaseStatement caseStatement = new SwitchCaseStatement(identifier, matchVariable, whenExpression);
 
             // Get each of the sub-statements beneath this statement.
             while (true)
