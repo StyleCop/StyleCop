@@ -260,7 +260,6 @@
         </Statement>
       </Element>
     </Element>
-
     <Element Name="ExpressionBodied" Type="Class">
       <Element Name="Test" Type="Method">
         <Statement Type="ExpressionStatement">
@@ -298,6 +297,47 @@
               <Expression Type="NewExpression">
                 <Expression Type="MethodInvocationExpression">
                   <Expression Text="NotImplementedException" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
+    <Element Name="RefReturnsAndLocals" Type="Class">
+      <Element Name="Find" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="RefExpression">
+            <Expression Type="ArrayAccessExpression">
+              <Expression Text="numbers" Type="LiteralExpression" />
+              <Expression Text="0" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="FindSomeMore" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type ="BodiedExpression">
+            <Expression Type="RefExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="numbers" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="TestCaller" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="place" Type="LiteralExpression" />
+              <Expression Type="RefExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="Find" Type="LiteralExpression" />
+                  <Expression Text="7" Type="LiteralExpression" />
+                  <Expression Text="array" Type="LiteralExpression" />
                 </Expression>
               </Expression>
             </Expression>

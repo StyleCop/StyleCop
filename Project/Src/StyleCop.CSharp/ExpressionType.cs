@@ -231,6 +231,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A throw exception expression.
         /// </summary>
-        Throw
+        Throw,
+        
+        /// <summary>
+        /// A reference value expression. 
+        /// </summary>
+        Ref
     }
 }

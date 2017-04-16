@@ -774,6 +774,7 @@ namespace StyleCop.CSharp
                     case SymbolType.PreprocessorDirective:
                     case SymbolType.Dot:
                     case SymbolType.QuestionMark:
+                    case SymbolType.Ref:
 
                         // Ignore these symbol types and continue.
                         break;
@@ -2668,7 +2669,7 @@ namespace StyleCop.CSharp
 
             // Create the variable declaration statement and add it to the field.
             field.VariableDeclarationStatement = new VariableDeclarationStatement(
-                new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), field.Const, declarationExpression);
+                new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), field.Const, false, declarationExpression);
 
             return field;
         }
@@ -2896,6 +2897,16 @@ namespace StyleCop.CSharp
 
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
+            // Check if the method's return type is ref.
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, elementReference, false);
+            bool returnTypeIsRef = false;
+
+            if (nextSymbol.SymbolType == SymbolType.Ref)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, elementReference));
+                returnTypeIsRef = true;
+            }
+
             TypeToken returnType = null;
             if (!modifiers.ContainsKey(CsTokenType.Implicit) && !modifiers.ContainsKey(CsTokenType.Explicit))
             {
@@ -2956,7 +2967,7 @@ namespace StyleCop.CSharp
             CsTokenList declarationTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
             Declaration declaration = new Declaration(declarationTokens, methodName, ElementType.Method, accessModifier, modifiers);
 
-            Method method = new Method(this.document, parent, xmlHeader, attributes, declaration, returnType, parameters, typeConstraints, unsafeCode, generated);
+            Method method = new Method(this.document, parent, xmlHeader, attributes, declaration, returnType, returnTypeIsRef, parameters, typeConstraints, unsafeCode, generated);
             elementReference.Target = method;
 
             // If the element is extern, abstract, or containing within an interface, it will not have a body.
@@ -3329,7 +3340,7 @@ namespace StyleCop.CSharp
 
                     // Create the variable declaration statement and add it to the field.
                     property.VariableDeclarationStatement = new VariableDeclarationStatement(
-                        new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), false, declarationExpression);
+                        new CsTokenList(this.tokens, declarators[0].Tokens.First, this.tokens.Last), false, false, declarationExpression);
                 }
                 else
                 {
