@@ -156,6 +156,58 @@
             </Expression>
           </Statement>
         </Element>
+        <Element Name="TestTernaryOperatorWithThrowExpressions" Type="Method">
+          <Statement Type="ReturnStatement">
+            <Expression Type="ConditionalExpression">
+              <Expression Type="ParenthesizedExpression">
+                <Expression Type="RelationalExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="parts" Type="LiteralExpression" />
+                    <Expression Text="Length" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="0" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="parts" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+              <Expression Type="ThrowExpression">
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="InvalidOperationException" Type="LiteralExpression" />
+                    <Expression Text="&quot;No name!&quot;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="ReturnStatement">
+            <Expression Type="ConditionalExpression">
+              <Expression Type="ParenthesizedExpression">
+                <Expression Type="RelationalExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="parts" Type="LiteralExpression" />
+                    <Expression Text="Length" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="2" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="ThrowExpression">
+                <Expression Type="NewExpression">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="InvalidOperationException" Type="LiteralExpression" />
+                    <Expression Text="&quot;No name!&quot;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="parts" Type="LiteralExpression" />
+                <Expression Text="1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
       </Element>
     </Element>
   </Element>

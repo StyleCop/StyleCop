@@ -254,6 +254,8 @@ public class ExpressionBodied
     public string Test(string a) => a + "b";
 
     public Point Move(int variableX, int variableY) => new Point(x + variableX, y + variableY);
+
+    public string GetLastName() => throw new NotImplementedException();
 }
 
 #endregion

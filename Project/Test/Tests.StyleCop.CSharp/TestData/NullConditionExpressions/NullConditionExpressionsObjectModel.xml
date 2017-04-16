@@ -411,6 +411,33 @@
             </Statement>
           </Element>
         </Element>
+        <Element Name="ThrowTest" Type="Class">
+          <Element Name="Name" Type="Property">
+            <Element Name="get" Type="Accessor" />
+          </Element>
+          <Element Name="ThrowTest" Type="Constructor">
+            <Statement Type="ExpressionStatement">
+              <Expression Type="BodiedExpression">
+                <Expression Type="AssignmentExpression">
+                  <Expression Text="Name" Type="LiteralExpression" />
+                  <Expression Type="NullCoalescingExpression">
+                    <Expression Text="name" Type="LiteralExpression" />
+                    <Expression Type="ThrowExpression">
+                      <Expression Type="NewExpression">
+                        <Expression Type="MethodInvocationExpression">
+                          <Expression Text="ArgumentNullException" Type="LiteralExpression" />
+                          <Expression Type="NameofExpression">
+                            <Expression Text="name" Type="LiteralExpression" />
+                          </Expression>
+                        </Expression>
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+          </Element>
+        </Element>
       </Element>
     </Element>
   </Element>

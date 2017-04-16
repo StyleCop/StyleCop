@@ -75,7 +75,7 @@ namespace CSharpParserTest.TestData
                 return null;
             }
         }
-        
+
         public class Class2
         {
             public void Test()
@@ -86,6 +86,13 @@ namespace CSharpParserTest.TestData
 
                 var x = y ? z?.Invoke() : w?.Invoke();
             }
+        }
+
+        public class ThrowTest
+        {
+            public string Name { get; }
+
+            public ThrowTest(string name) => Name = name ?? throw new ArgumentNullException(nameof(name));
         }
     }
 }

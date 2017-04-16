@@ -7,20 +7,20 @@ namespace Operator
     {
         public long?[] GetSelectedOrgIds()
         {
-            string a=true?"true":"false";
+            string a = true ? "true" : "false";
             string b = true ? "true" : "false";
             string c =
-                true?
-                "true":
+                true ?
+                "true" :
                 "false";
             string d =
                 true ?
                 "true" :
                 "false";
             string e
-                =true
-                ?"true"
-                :"false";
+                = true
+                ? "true"
+                : "false";
             string f
                 = true
                 ? "true"
@@ -29,6 +29,12 @@ namespace Operator
                 ? new long?[0]
                 : BulkScheduleEvents.Where(a => a.IsChecked).Select(a
 => a.OrganizationId).ToArray();
+        }
+
+        public void TestTernaryOperatorWithThrowExpressions()
+        {
+            return (parts.Length > 0) ? parts[0] : throw new InvalidOperationException("No name!");
+            return (parts.Length < 2) ? throw new InvalidOperationException("No name!") : parts[1];    
         }
     }
 }
