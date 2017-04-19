@@ -898,5 +898,62 @@
         </Statement>
       </Element>
     </Element>
+    <Element Name="BinaryLiteralsAndDigitSeperator" Type="Class">
+      <Element Name="b" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="b" Type="LiteralExpression" />
+              <Expression Text="0b101010111100110111101111" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="b1" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="b1" Type="LiteralExpression" />
+              <Expression Text="0B101010111100110111101111" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="longValue1" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="long" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="longValue1" Type="LiteralExpression" />
+              <Expression Text="4_294_967_296.32_54" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="longValue2" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="long" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="longValue2" Type="LiteralExpression" />
+              <Expression Text="0x1_0000_0000" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="longValue3" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="long" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="longValue3" Type="LiteralExpression" />
+              <Expression Text="0b1_0000_0000_0000_0000_0000_0000_0000_0000" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

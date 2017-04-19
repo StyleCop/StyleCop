@@ -1138,8 +1138,8 @@ namespace StyleCop.CSharp
             {
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
-                // Break if this is not a valid decimal digit.
-                if (character < '0' || character > '9')
+                // Break if this is not a valid decimal digit or digit separator.
+                if ((character < '0' || character > '9') && character != '_')
                 {
                     break;
                 }
@@ -1178,8 +1178,9 @@ namespace StyleCop.CSharp
             {
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
-                // Break if this is not a valid decimal digit.
-                if (character < '0' || character > '9')
+                // Break if this is not a valid decimal digit or digit separator.
+                // If the digit seperator is the first char, then this is not a number.
+                if ((character < '0' || character > '9') && (character != '_' || index == startIndex))
                 {
                     break;
                 }
@@ -1293,8 +1294,61 @@ namespace StyleCop.CSharp
             {
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
-                // Break if this is not a valid hexadecimal digit.
-                if (!(character >= '0' && character <= '9') && !(character >= 'a' && character <= 'f') && !(character >= 'A' && character <= 'F'))
+                // Break if this is not a valid hexadecimal digit, or a digit separator.
+                // If the digit seperator is the first char, then this is not a number.
+                if (!(character >= '0' && character <= '9') && !(character >= 'a' && character <= 'f') 
+                    && !(character >= 'A' && character <= 'F') && (character != '_' || index == startIndex))
+                {
+                    break;
+                }
+
+                ++index;
+            }
+
+            // The last index of the number is one less than the current index.
+            --index;
+
+            // See whether we've found at least one digit.
+            if (index >= startIndex)
+            {
+                // Now check whether there is a trailing integer type suffix.
+                int endIndex = this.GetIntegerTypeSuffix(index + 1);
+                if (endIndex != -1)
+                {
+                    index = endIndex;
+                }
+            }
+            else
+            {
+                // If there are no digits, this is not a number.
+                index = -1;
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Extracts a binary literal from the code.
+        /// </summary>
+        /// <param name="index">
+        /// The first index of the binary literal.
+        /// </param>
+        /// <returns>
+        /// Returns the last index of the binary literal.
+        /// </returns>
+        private int GetBinaryLiteral(int index)
+        {
+            Param.AssertGreaterThanOrEqualToZero(index, "index");
+
+            int startIndex = index;
+
+            while (true)
+            {
+                char character = this.codeReader.Peek(index - this.marker.Index);
+
+                // Break if this is not a valid binary digit, or a digit separator.
+                // if the digit seperator is the first char, then this is not a number.
+                if ((character < '0' || character > '1') && (character != '_' || index == startIndex))
                 {
                     break;
                 }
@@ -1727,6 +1781,8 @@ namespace StyleCop.CSharp
 
             // The first few characters in the number tell us the type of the number.
             char character = this.codeReader.Peek();
+            int markerIndex = this.marker.Index;
+
             if (character == '-' || character == '+')
             {
                 // This could be a number starting with a negative or positive sign.
@@ -1734,30 +1790,34 @@ namespace StyleCop.CSharp
                 character = this.codeReader.Peek(1);
                 if (character >= '0' && character <= '9')
                 {
-                    endIndex = this.GetPositiveNumber(this.marker.Index + 1);
+                    endIndex = this.GetPositiveNumber(markerIndex + 1);
                 }
             }
             else
             {
                 // Get the body of the number.
-                endIndex = this.GetPositiveNumber(this.marker.Index);
+                endIndex = this.GetPositiveNumber(markerIndex);
             }
 
             // Create the NumberSymbol now.
             Symbol number = null;
 
             // Make sure a number was found.
-            if (endIndex >= this.marker.Index)
+            // If we found '_' at the end, then this is not a number.
+            // Note that '_' is not allowed at the beginning too, GetPositiveNumber already handle this.
+            // There are other positions where '_' is not allowed (i.e around '.' or in an exponent),
+            // but for parsing purposes, we include those. The compiler will complain anyway.
+            if (endIndex >= markerIndex && this.codeReader.Peek(endIndex - markerIndex) != '_')
             {
                 // Get the text string for this number.
-                int length = endIndex - this.marker.Index + 1;
+                int length = endIndex - markerIndex + 1;
                 string numberText = this.codeReader.ReadString(length);
                 Debug.Assert(!string.IsNullOrEmpty(numberText), "The text should not be empty");
 
                 // Create the location object.
                 CodeLocation location = new CodeLocation(
-                    this.marker.Index,
-                    this.marker.Index + length - 1,
+                    markerIndex,
+                    markerIndex + length - 1,
                     this.marker.IndexOnLine,
                     this.marker.IndexOnLine + length - 1,
                     this.marker.LineNumber,
@@ -2236,6 +2296,11 @@ namespace StyleCop.CSharp
                 if (character == 'x' || character == 'X')
                 {
                     return this.GetHexadecimalIntegerLiteral(index + 2);
+                }
+
+                if (character == 'b' || character == 'B')
+                {
+                    return this.GetBinaryLiteral(index + 2);
                 }
             }
 
