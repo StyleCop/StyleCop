@@ -45,6 +45,11 @@ namespace StyleCop.CSharp
         private readonly TypeToken returnType;
 
         /// <summary>
+        /// The method's return type is ref.
+        /// </summary>
+        private readonly bool returnTypeIsRef;
+
+        /// <summary>
         /// The list if type constraints on the item, if any.
         /// </summary>
         private readonly ICollection<TypeParameterConstraintClause> typeConstraints;
@@ -74,6 +79,9 @@ namespace StyleCop.CSharp
         /// <param name="returnType">
         /// The method's return type.
         /// </param>
+        /// <param name="returnTypeIsRef">
+        /// The method's return type is ref.
+        /// </param>
         /// <param name="parameters">
         /// The parameters to the method.
         /// </param>
@@ -93,6 +101,7 @@ namespace StyleCop.CSharp
             ICollection<Attribute> attributes, 
             Declaration declaration, 
             TypeToken returnType, 
+            bool returnTypeIsRef,
             IList<Parameter> parameters, 
             ICollection<TypeParameterConstraintClause> typeConstraints, 
             bool unsafeCode, 
@@ -105,6 +114,7 @@ namespace StyleCop.CSharp
             Param.Ignore(attributes);
             Param.AssertNotNull(declaration, "declaration");
             Param.Ignore(returnType);
+            Param.Ignore(returnTypeIsRef);
             Param.AssertNotNull(parameters, "parameters");
             Param.Ignore(typeConstraints);
             Param.Ignore(unsafeCode);
@@ -115,6 +125,7 @@ namespace StyleCop.CSharp
                 "A method's return type can only be null in an explicit or implicit operator overload method.");
 
             this.returnType = returnType;
+            this.returnTypeIsRef = returnTypeIsRef;
             this.parameters = parameters;
             this.typeConstraints = typeConstraints;
 
@@ -163,46 +174,27 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a value indicating whether this is an extension method. 
         /// </summary>
-        public bool IsExtensionMethod
-        {
-            get
-            {
-                return this.extensionMethod;
-            }
-        }
+        public bool IsExtensionMethod => this.extensionMethod;
 
         /// <summary>
         /// Gets the list of input parameters in the method's declaration.
         /// </summary>
-        public IList<Parameter> Parameters
-        {
-            get
-            {
-                return this.parameters;
-            }
-        }
+        public IList<Parameter> Parameters => this.parameters;
 
         /// <summary>
         /// Gets the method's return type.
         /// </summary>
-        public TypeToken ReturnType
-        {
-            get
-            {
-                return this.returnType;
-            }
-        }
+        public TypeToken ReturnType => this.returnType;
+
+        /// <summary>
+        /// Gets a value that indicates if the return type of the method is ref.
+        /// </summary>
+        public bool ReturnTypeIsRef => this.returnTypeIsRef;
 
         /// <summary>
         /// Gets the list of type constraints on the method, if any.
         /// </summary>
-        public ICollection<TypeParameterConstraintClause> TypeConstraints
-        {
-            get
-            {
-                return this.typeConstraints;
-            }
-        }
+        public ICollection<TypeParameterConstraintClause> TypeConstraints => this.typeConstraints;
 
         #endregion
 

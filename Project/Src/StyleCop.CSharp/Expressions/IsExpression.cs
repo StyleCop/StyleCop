@@ -80,7 +80,6 @@ namespace StyleCop.CSharp
             this.matchVariable = matchVariable;
 
             // Extract the type being compared to, if possible.
-            // Note that this might not work in the case of "Yoda notation", leaving it as is to avoid breaks.
             LiteralExpression le = this.rightHandSideExpression as LiteralExpression; 
             if (le != null)
             {

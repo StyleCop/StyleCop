@@ -34,6 +34,11 @@ namespace StyleCop.CSharp
         private readonly bool constant;
 
         /// <summary>
+        /// Indicates whether the item is a ref.
+        /// </summary>
+        private readonly bool isRef;
+
+        /// <summary>
         /// The inner expression.
         /// </summary>
         private readonly VariableDeclarationExpression expression;
@@ -51,17 +56,22 @@ namespace StyleCop.CSharp
         /// <param name="constant">
         /// Indicates whether the item is constant.
         /// </param>
+        /// <param name="isRef">
+        /// Indicates whether the item is a ref.
+        /// </param>
         /// <param name="expression">
         /// The inner expression.
         /// </param>
-        internal VariableDeclarationStatement(CsTokenList tokens, bool constant, VariableDeclarationExpression expression)
+        internal VariableDeclarationStatement(CsTokenList tokens, bool constant, bool isRef, VariableDeclarationExpression expression)
             : base(StatementType.VariableDeclaration, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.Ignore(constant);
+            Param.Ignore(isRef);
             Param.AssertNotNull(expression, "expression");
 
             this.constant = constant;
+            this.isRef = isRef;
             this.expression = expression;
 
             this.AddExpression(expression);
@@ -74,47 +84,28 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets a value indicating whether the item is constant.
         /// </summary>
-        public bool Constant
-        {
-            get
-            {
-                return this.constant;
-            }
-        }
+        public bool Constant => this.constant;
+
+        /// <summary>
+        /// Gets a value indicating whether the item is a ref.
+        /// </summary>
+        public bool IsRef => this.isRef;
 
         /// <summary>
         /// Gets the list of declarators for the expression.
         /// </summary>
-        public ICollection<VariableDeclaratorExpression> Declarators
-        {
-            get
-            {
-                return this.expression.Declarators;
-            }
-        }
+        public ICollection<VariableDeclaratorExpression> Declarators => this.expression.Declarators;
 
         /// <summary>
         /// Gets the inner expression for this statement.
         /// </summary>
-        public VariableDeclarationExpression InnerExpression
-        {
-            get
-            {
-                return this.expression;
-            }
-        }
+        public VariableDeclarationExpression InnerExpression => this.expression;
 
         /// <summary>
         /// Gets the type of the variable.
         /// </summary>
         [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "API has already been published and should not be changed.")]
-        public TypeToken Type
-        {
-            get
-            {
-                return this.expression.Type;
-            }
-        }
+        public TypeToken Type => this.expression.Type;
 
         #endregion
     }

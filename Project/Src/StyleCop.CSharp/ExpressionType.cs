@@ -226,6 +226,16 @@ namespace StyleCop.CSharp
         /// <summary>
         /// An event declarator expression.
         /// </summary>
-        EventDeclarator
+        EventDeclarator,
+
+        /// <summary>
+        /// A throw exception expression.
+        /// </summary>
+        Throw,
+        
+        /// <summary>
+        /// A reference value expression. 
+        /// </summary>
+        Ref
     }
 }

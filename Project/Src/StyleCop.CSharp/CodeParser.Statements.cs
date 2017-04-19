@@ -453,6 +453,7 @@ namespace StyleCop.CSharp
                             break;
 
                         case SymbolType.Const:
+                        case SymbolType.Ref:
                             statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
                             break;
 
@@ -2419,6 +2420,7 @@ namespace StyleCop.CSharp
             Param.Ignore(variables);
 
             bool constant = false;
+            bool isRef = false;
 
             // Get the first symbol and make sure it is an unknown word or a const.
             Symbol symbol = this.GetNextSymbol(parentReference);
@@ -2434,6 +2436,15 @@ namespace StyleCop.CSharp
 
                 firstToken = new CsToken(symbol.Text, CsTokenType.Const, symbol.Location, statementReference, this.symbols.Generated);
                 firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.Const, SymbolType.Const, statementReference));
+
+                symbol = this.GetNextSymbol(statementReference);
+            }
+            else if (symbol.SymbolType == SymbolType.Ref)
+            {
+                isRef = true;
+
+                firstToken = new CsToken(symbol.Text, CsTokenType.Ref, symbol.Location, statementReference, this.symbols.Generated);
+                firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.Ref, SymbolType.Ref, statementReference));
 
                 symbol = this.GetNextSymbol(statementReference);
             }
@@ -2488,7 +2499,7 @@ namespace StyleCop.CSharp
             // Create the token list for the statement.
             CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
 
-            VariableDeclarationStatement statement = new VariableDeclarationStatement(partialTokens, constant, expression);
+            VariableDeclarationStatement statement = new VariableDeclarationStatement(partialTokens, constant, isRef, expression);
             statementReference.Target = statement;
 
             return statement;

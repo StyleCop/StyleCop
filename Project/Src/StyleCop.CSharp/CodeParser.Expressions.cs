@@ -2865,6 +2865,14 @@ namespace StyleCop.CSharp
                         expression = this.GetCollectionInitializerExpression(unsafeCode);
                         break;
 
+                    case SymbolType.Throw:
+                        expression = this.GetThrowExpression(parentReference, unsafeCode);
+                        break;
+
+                    case SymbolType.Ref:
+                        expression = this.GetRefExpression(parentReference, unsafeCode);
+                        break;
+
                     default:
                         throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
                 }
@@ -4715,6 +4723,80 @@ namespace StyleCop.CSharp
                 expression = new VariableDeclarationExpression(tokenList, literalType, declarators.ToArray());
                 expressionReference.Target = expression;
             }
+
+            return expression;
+        }
+
+        /// <summary>
+        /// Reads the expression that begins with a throw keyword
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private ThrowExpression GetThrowExpression(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+            // Move past the throw keyword.
+            CsToken firstToken = this.GetToken(CsTokenType.Throw, SymbolType.Throw, parentReference, expressionReference);
+            Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
+
+            Expression exceptionExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+
+            if (exceptionExpression == null)
+            {
+                throw this.CreateSyntaxException();
+            }
+            
+            // Create the token list for the expression.
+            CsTokenList tokenList = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+
+            // Create the expression.
+            ThrowExpression expression = new ThrowExpression(tokenList, exceptionExpression);
+            expressionReference.Target = expression;
+
+            return expression;
+        }
+
+        /// <summary>
+        /// Reads the expression that begins with a ref keyword
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private RefExpression GetRefExpression(Reference<ICodePart> parentReference, bool unsafeCode)
+        {
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+            // Move past the ref keyword.
+            CsToken firstToken = this.GetToken(CsTokenType.Ref, SymbolType.Ref, parentReference, expressionReference);
+            Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
+
+            Expression exceptionExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+
+            if (exceptionExpression == null)
+            {
+                throw this.CreateSyntaxException();
+            }
+            
+            // Create the token list for the expression.
+            CsTokenList tokenList = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
+
+            // Create the expression.
+            RefExpression expression = new RefExpression(tokenList, exceptionExpression);
+            expressionReference.Target = expression;
 
             return expression;
         }

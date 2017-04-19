@@ -248,12 +248,37 @@ public class Class8<T, S>
     }
 }
 
-// Introduced in C# 6
-public class ExpressionBodied
-{
-    public string Test(string a) => a + "b";
+#endregion
 
-    public Point Move(int variableX, int variableY) => new Point(x + variableX, y + variableY);
-}
+#region Expression Bodied
+
+// Introduced in C# 6
+    public class ExpressionBodied
+    {
+        public string Test(string a) => a + "b";
+
+        public Point Move(int variableX, int variableY) => new Point(x + variableX, y + variableY);
+
+        public string GetLastName() => throw new NotImplementedException();
+    }
+
+#endregion
+
+#region RefReturnsAndLocals
+
+    public class RefReturnsAndLocals
+    {
+        public ref int Find(int number, int[] numbers)
+        {
+            return ref numbers[0];
+        }
+
+        public ref int FindSomeMore(int number, int[] number) => ref numbers[1];
+
+        public void TestCaller()
+        {           
+            ref int place = ref Find(7, array);
+        }
+    }
 
 #endregion

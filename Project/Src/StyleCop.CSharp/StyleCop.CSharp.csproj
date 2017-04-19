@@ -118,6 +118,8 @@
     <Compile Include="Expressions\QueryExpression.cs" />
     <Compile Include="Expressions\NameofExpression.cs" />
     <Compile Include="Expressions\DictionaryItemInitializationExpression.cs" />
+    <Compile Include="Expressions\RefExpression.cs" />
+    <Compile Include="Expressions\ThrowExpression.cs" />
     <Compile Include="ICodePart.cs" />
     <Compile Include="ICodePartExtensions.cs" />
     <Compile Include="ICodeUnit.cs" />
