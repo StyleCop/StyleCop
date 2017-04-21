@@ -317,7 +317,7 @@
       </Element>
       <Element Name="FindSomeMore" Type="Method">
         <Statement Type="ExpressionStatement">
-          <Expression Type ="BodiedExpression">
+          <Expression Type="BodiedExpression">
             <Expression Type="RefExpression">
               <Expression Type="ArrayAccessExpression">
                 <Expression Text="numbers" Type="LiteralExpression" />
@@ -344,6 +344,258 @@
           </Expression>
         </Statement>
       </Element>
+    </Element>
+    <Element Name="LocalFunctionsTest" Type="Class">
+      <Element Name="SimpleLocalFunction" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="1" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="LocalFunctionWithCaller" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="2" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="LocalFunctionWithArrayReturn" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="LocalFunction3" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction3" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="NewArrayExpression">
+                <Expression Type="ArrayInitializerExpression">
+                  <Expression Text="1" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="LocalFunctionWithGenericType&lt;T&gt;" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="Iterator" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Iterator" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ForeachStatement">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="element" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Text="source" Type="LiteralExpression" />
+              <Statement Type="BlockStatement">
+                <Statement Type="IfStatement">
+                  <Expression Type="MethodInvocationExpression">
+                    <Expression Text="filter" Type="LiteralExpression" />
+                    <Expression Text="element" Type="LiteralExpression" />
+                  </Expression>
+                  <Statement Type="BlockStatement">
+                    <Statement Type="YieldStatement">
+                      <Expression Text="element" Type="LiteralExpression" />
+                    </Statement>
+                  </Statement>
+                </Statement>
+              </Statement>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="LocalFunctionWithExpressionBody" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          <Expression Type="BodiedExpression">
+            <Expression Text="2" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="MultipleLocalFunctions" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="NewExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="SomeType" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction2" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="NewExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="SomeOtherType" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction2" Type="LiteralExpression" />
+          <Expression Type="BodiedExpression">
+            <Expression Type="NewExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="YetAnotherType" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="RecursiveLocalFunction" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="LocalFunction1" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="NestedLocalFunctions" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="OuterLocalFunction" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="OuterLocalFunction" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="InnerLocalFunction" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+            <Statement Type="LocalFunctionStatement">
+              <Expression Text="InnerLocalFunction" Type="LiteralExpression" />
+              <Statement Type="BlockStatement">
+                <Statement Type="ReturnStatement">
+                  <Expression Text="3" Type="LiteralExpression" />
+                </Statement>
+              </Statement>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="LocalFunctionWithRefReturn" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="use" Type="LiteralExpression" />
+              <Expression Type="RefExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="LocalFunctionRef" Type="LiteralExpression" />
+                  <Expression Type="NewArrayExpression">
+                    <Expression Type="ArrayInitializerExpression">
+                      <Expression Text="3" Type="LiteralExpression" />
+                      <Expression Text="4" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunctionRef" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Type="RefExpression">
+                <Expression Type="ArrayAccessExpression">
+                  <Expression Text="args" Type="LiteralExpression" />
+                  <Expression Text="4" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="MultipleSquareBracketInLocalFunction" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="1" Type="LiteralExpression" />
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="InnerLocalFunction" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="MultipleAngleBracketInLocalFunction" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="1" Type="LiteralExpression" />
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="InnerLocalFunction" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+      <Element Name="MixedAngleAndSquareBracketsInLocalFunction" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Text="1" Type="LiteralExpression" />
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction1" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="LocalFunction2" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement">
+              <Expression Text="null" Type="LiteralExpression" />
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>    
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>

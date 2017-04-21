@@ -264,7 +264,7 @@ public class Class8<T, S>
 
 #endregion
 
-#region RefReturnsAndLocals
+#region Ref Returns And Locals
 
     public class RefReturnsAndLocals
     {
@@ -278,6 +278,149 @@ public class Class8<T, S>
         public void TestCaller()
         {           
             ref int place = ref Find(7, array);
+        }
+    }
+
+#endregion
+
+#region Local Functions
+
+    class LocalFunctionsTest
+    {
+        public void SimpleLocalFunction()
+        {
+            int LocalFunction()
+            {
+                return 1;
+            }
+        }
+
+        public int LocalFunctionWithCaller()
+        {
+            return LocalFunction1();
+
+            int LocalFunction1()
+            {
+                return 2;
+            }
+        }
+
+        public int[] LocalFunctionWithArrayReturn()
+        {
+            return LocalFunction3();
+
+            int[] LocalFunction3()
+            {
+                return new[] { 1 };
+            }
+        }
+
+        public IEnumerable<T> LocalFunctionWithGenericType<T>(IEnumerable<T> source, Func<T, bool> filter)
+        {
+            return Iterator();
+
+            IEnumerable<T> Iterator()
+            {
+                foreach (var element in source)
+                {
+                    if (filter(element))
+                    {
+                        yield return element;
+                    }
+                }
+            }
+        }
+
+        public int LocalFunctionWithExpressionBody()
+        {
+            return LocalFunction1();
+
+            int LocalFunction1() => 2;
+        }
+
+        public SomeType MultipleLocalFunctions()
+        {
+            SomeType LocalFunction1()
+            {
+                return new SomeType();
+            }
+
+            SomeOtherType LocalFunction2()
+            {
+                return new SomeOtherType();
+            }
+
+            YetAnotherType LocalFunction2() => new YetAnotherType();
+        }
+
+        public int RecursiveLocalFunction()
+        {
+            return LocalFunction1();
+
+            int LocalFunction1()
+            {
+                return LocalFunction1();
+            }
+        }
+
+        public int NestedLocalFunctions()
+        {
+            return OuterLocalFunction();
+
+            int OuterLocalFunction()
+            {
+                return InnerLocalFunction();
+
+                int InnerLocalFunction()
+                {
+                    return 3;
+                }
+            }
+        }
+
+        public void LocalFunctionWithRefReturn()
+        {
+            ref int use = ref LocalFunctionRef(new[] { 3, 4 });
+
+            ref int LocalFunctionRef(int[] args)
+            {
+                return ref args[4];
+            }
+        }
+
+        public int MultipleSquareBracketInLocalFunction()
+        {
+            return 1;
+
+            int[][] InnerLocalFunction()
+            {
+                return null;
+            }
+        }
+
+        public int MultipleAngleBracketInLocalFunction()
+        {
+            return 1;
+
+            Dictionary<int,List<string>> InnerLocalFunction()
+            {
+                return null;
+            }
+        }
+
+        public int MixedAngleAndSquareBracketsInLocalFunction()
+        {
+            return 1;
+
+            Dictionary<int,string[]> LocalFunction1()
+            {
+                return null;
+            }
+
+            List<string>[] LocalFunction2()
+            {
+                return null;
+            }
         }
     }
 

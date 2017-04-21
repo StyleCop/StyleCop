@@ -366,6 +366,12 @@ namespace StyleCop.CSharp
                                 }
                             }
 
+                            if (this.IsLocalFunctionStatement(false, parentReference))
+                            {
+                                statement = this.ParseLocalFunctionStatement(unsafeCode);
+                                break;
+                            }
+
                             statement = this.ParseOtherStatement(parentReference, unsafeCode, variables);
                             break;
 
@@ -453,8 +459,13 @@ namespace StyleCop.CSharp
                             break;
 
                         case SymbolType.Const:
-                        case SymbolType.Ref:
                             statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
+                            break;
+
+                        case SymbolType.Ref:
+                            statement = this.IsLocalFunctionStatement(true, parentReference)
+                                            ? (Statement)this.ParseLocalFunctionStatement(unsafeCode)
+                                            : this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
                             break;
 
                         case SymbolType.Increment:
@@ -542,6 +553,86 @@ namespace StyleCop.CSharp
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Determines if the current statement being examined is a local function statement.
+        /// </summary>
+        /// <param name="isRef">
+        /// Indicate if the check should be made for ref local function.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent reference of the current statement being inspected.
+        /// </param>
+        /// <returns>
+        /// True, if the statement is a local function, False if not.
+        /// </returns>
+        private bool IsLocalFunctionStatement(bool isRef, Reference<ICodePart> parentReference)
+        {
+            Param.Ignore(isRef);
+            Param.AssertNotNull(parentReference, nameof(parentReference));
+            SymbolType expectingNextSymbolType = SymbolType.Other;
+
+            // If ref, then move past 'ref' + white space which would be the type declaration.
+            // Othwerwise, the next symbol would be the type declaration.
+            int testPosition = isRef ? 3 : 1;
+
+            int angleBracketCount = 0;
+            int squareBracketCount = 0;
+
+            while (true)
+            {
+                // Get the symbol next to the proposed type declaration symbol.
+                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition);
+
+                // if we found a symbol that could be used as part of type declaration,
+                // reset our expectation symbol, to read past it.
+                if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+                {
+                    expectingNextSymbolType = SymbolType.CloseSquareBracket;
+                    squareBracketCount++;
+                    continue;
+                }
+
+                if (symbol.SymbolType == SymbolType.LessThan)
+                {
+                    expectingNextSymbolType = SymbolType.GreaterThanOrEquals;
+                    angleBracketCount++;
+                    continue;
+                }
+
+                // Reset our expectation if we reached the end of type declaration.
+                if (symbol.SymbolType == SymbolType.CloseSquareBracket)
+                {
+                    if (--squareBracketCount == 0)
+                    {
+                        expectingNextSymbolType = SymbolType.Other;
+                    }
+
+                    continue;                        
+                }
+
+                if (symbol.SymbolType == SymbolType.GreaterThan)
+                {
+                    if (--angleBracketCount == 0)
+                    {
+                        expectingNextSymbolType = SymbolType.Other;
+                    }
+
+                    continue;
+                }
+
+                // Skip, if we are still reading variable declaration
+                if (symbol.SymbolType != expectingNextSymbolType &&
+                    expectingNextSymbolType != SymbolType.Other)
+                {
+                    continue;
+                }
+
+                // We are at the right place, evaluate our expectation that next symbol is open paranthesis now.
+                Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition);
+                return symbol.SymbolType == SymbolType.Other && nextSymbol.SymbolType == SymbolType.OpenParenthesis;                    
+            }
         }
 
         /// <summary>
@@ -2625,6 +2716,82 @@ namespace StyleCop.CSharp
             YieldStatement statement = new YieldStatement(partialTokens, yieldType, returnValue);
             statementReference.Target = statement;
 
+            return statement;
+        }
+
+        /// <summary>
+        /// Reads the next local function statement from the file and returns it.
+        /// </summary>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the statement.
+        /// </returns>
+        private LocalFunctionStatement ParseLocalFunctionStatement(bool unsafeCode)
+        {
+            Reference<ICodePart> statementReference = new Reference<ICodePart>();
+            Node<CsToken> previousToken = this.tokens.Last;
+
+            // Check if the method's return type is ref.
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, false);
+            bool returnTypeIsRef = false;
+
+            if (nextSymbol.SymbolType == SymbolType.Ref)
+            {               
+                this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, statementReference));
+                returnTypeIsRef = true;
+            }
+            
+            // Get the return type.
+            TypeToken returnType = this.GetTypeToken(statementReference, unsafeCode, true);
+            this.tokens.Add(returnType);
+
+            // Get the name of the method.
+            LiteralExpression name = this.GetLiteralExpression(statementReference, unsafeCode);
+
+            // Get the parameter list.
+            IList<Parameter> parameters = this.ParseParameterList(statementReference, unsafeCode, SymbolType.OpenParenthesis, false);
+
+            // Prepare a partial list of tokens for this statement.
+            CsTokenList partialTokens = new CsTokenList(this.tokens, previousToken?.Next ?? this.tokens.First, this.tokens.Last);
+
+            // Now get the function body, which could be a block or an expression;
+            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, false);
+            LocalFunctionStatement statement = null;
+
+            if (nextSymbol.SymbolType == SymbolType.Lambda)
+            {
+                // Get expression and the closing semicolon.
+                Expression expression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+                this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, statementReference));
+
+                statement = new LocalFunctionStatement(
+                    partialTokens, 
+                    returnType, 
+                    returnTypeIsRef, 
+                    name, 
+                    parameters,
+                    expression);
+            }
+            else if (nextSymbol.SymbolType == SymbolType.OpenCurlyBracket)
+            {
+                Statement functionBody = this.GetNextStatement(statementReference, unsafeCode);
+                statement = new LocalFunctionStatement(
+                    partialTokens,
+                    returnType,
+                    returnTypeIsRef,
+                    name,
+                    parameters,
+                    functionBody);
+            }
+            else
+            {
+                this.CreateSyntaxException();
+            }
+
+            // Create the statement and return it.
+            statementReference.Target = statement;
             return statement;
         }
 
