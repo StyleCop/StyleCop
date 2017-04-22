@@ -262,6 +262,22 @@ public class Class8<T, S>
         public string GetLastName() => throw new NotImplementedException();
     }
 
+    public class Person
+    {
+        private static ConcurrentDictionary<int, string> names = new ConcurrentDictionary<int, string>();
+        private int id = GetId();
+
+        public Person(string name) => names.TryAdd(id, name); // constructors
+
+        ~Person() => names.TryRemove(id, out _);              // finalizers
+
+        public string Name
+        {
+            get => names[id];                                 // getters
+            set => names[id] = value;                         // setters
+        }
+    }
+
 #endregion
 
 #region Ref Returns And Locals
@@ -420,6 +436,27 @@ public class Class8<T, S>
             List<string>[] LocalFunction2()
             {
                 return null;
+            }
+        }
+    }
+
+#endregion
+
+#region Out Variables
+
+    public class OutVariables
+    {
+        public void PrintCoordinates(Point p)
+        {
+            p.GetCoordinates(out int x, out int y);
+            p.GetCoordinates(out var x, out _); // Test for discards.
+        }
+
+        public void PrintStars(string s)
+        {
+            if (int.TryParse(s, out var i))
+            {
+                return;
             }
         }
     }

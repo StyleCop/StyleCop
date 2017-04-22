@@ -304,6 +304,89 @@
         </Statement>
       </Element>
     </Element>
+    <Element Name="Person" Type="Class">
+      <Element Name="names" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="ConcurrentDictionary&lt;int,string&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="names" Type="LiteralExpression" />
+              <Expression Type="NewExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="ConcurrentDictionary&lt;int,string&gt;" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="id" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="id" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="GetId" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Person" Type="Constructor">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="names" Type="LiteralExpression" />
+                <Expression Text="TryAdd" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="id" Type="LiteralExpression" />
+              <Expression Text="name" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="~Person" Type="Destructor">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="BodiedExpression">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="names" Type="LiteralExpression" />
+                <Expression Text="TryRemove" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="id" Type="LiteralExpression" />
+              <Expression Text="_" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Name" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="BodiedExpression">
+              <Expression Type="ArrayAccessExpression">
+                <Expression Text="names" Type="LiteralExpression" />
+                <Expression Text="id" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+        <Element Name="set" Type="Accessor">
+          <Statement Type="ExpressionStatement">
+            <Expression Type="BodiedExpression">
+              <Expression Type="AssignmentExpression">
+                <Expression Type="ArrayAccessExpression">
+                  <Expression Text="names" Type="LiteralExpression" />
+                  <Expression Text="id" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="value" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
     <Element Name="RefReturnsAndLocals" Type="Class">
       <Element Name="Find" Type="Method">
         <Statement Type="ReturnStatement">
@@ -595,7 +678,50 @@
             </Statement>
           </Statement>
         </Statement>
-      </Element>    
+      </Element>
     </Element>
-  </Element>
+    <Element Name="OutVariables" Type="Class">
+      <Element Name="PrintCoordinates" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="p" Type="LiteralExpression" />
+              <Expression Text="GetCoordinates" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Text="x" Type="LiteralExpression" />
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Text="y" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="p" Type="LiteralExpression" />
+              <Expression Text="GetCoordinates" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Text="x" Type="LiteralExpression" />
+            <Expression Text="_" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="PrintStars" Type="Method">
+        <Statement Type="IfStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Text="TryParse" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="s" Type="LiteralExpression" />
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Text="i" Type="LiteralExpression" />
+          </Expression>
+          <Statement Type="BlockStatement">
+            <Statement Type="ReturnStatement" />
+          </Statement>
+        </Statement>
+      </Element>
+    </Element>
+  </Element>    
 </StyleCopCsParserObjectModel>

@@ -1904,7 +1904,7 @@ namespace StyleCop.CSharp
 
                     if (nextSymbol.SymbolType == SymbolType.Other)
                     {
-                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
+                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, parentReference, unsafeCode);
                     }
                 }
 
