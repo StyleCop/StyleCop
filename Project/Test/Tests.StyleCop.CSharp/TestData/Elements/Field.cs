@@ -172,3 +172,16 @@ public class NonDefaultWhiteSpace
 
     public int [ ] e = {3,4};
 }
+
+public class BinaryLiteralsAndDigitSeperator
+{
+    var b = 0b101010111100110111101111;
+
+    var b1 = 0B101010111100110111101111;
+
+    long longValue1 = 4_294_967_296.32_54;
+
+    long longValue2 = 0x1_0000_0000;
+
+    long longValue3 = 0b1_0000_0000_0000_0000_0000_0000_0000_0000;
+}

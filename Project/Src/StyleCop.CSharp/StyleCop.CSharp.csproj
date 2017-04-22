@@ -153,6 +153,7 @@
     <Compile Include="QueryClauseType.cs" />
     <Compile Include="Reference{T}.cs" />
     <Compile Include="Rules.cs" />
+    <Compile Include="Statements\LocalFunctionStatement.cs" />
     <Compile Include="Statements\WhenStatement.cs" />
     <Compile Include="Statements\AwaitStatement.cs" />
     <Compile Include="Statements\ConstructorInitializerStatement.cs" />

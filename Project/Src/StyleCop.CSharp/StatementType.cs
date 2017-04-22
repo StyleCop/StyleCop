@@ -192,5 +192,10 @@ namespace StyleCop.CSharp
         /// A When statement.
         /// </summary>
         When,
+
+        /// <summary>
+        /// A local function statement.
+        /// </summary>
+        LocalFunction,
     }
 }

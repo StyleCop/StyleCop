@@ -1545,42 +1545,57 @@ namespace StyleCop.CSharp
         /// </exception>
         private Symbol PeekNextSymbol(SkipSymbols skip, Reference<ICodePart> parentReference, bool allowNull)
         {
+            int foundPosition;
+            return this.PeekNextSymbolFrom(0, skip, parentReference, allowNull, out foundPosition);
+        }
+
+        /// <summary>
+        /// Returns the next code symbol from the requested positon without advancing to it.
+        /// </summary>
+        /// <param name="position">The relative position to current index, from which the next symbol should be peeked.</param>
+        /// <param name="skip">Indicates the types of symbols to skip past.</param>
+        /// <param name="parentReference">The parent code part.</param>
+        /// <param name="allowNull">If true, indicates that this method is allowed to return a null symbol, if
+        /// there are no more symbols in the document. If false, the method will throw an exception if it is unable
+        /// to get another symbol.</param>
+        /// <param name="foundAtPosition"> The position from current at which the returned symbol was found. </param>
+        /// <returns>Returns the next code symbol.</returns>
+        /// <exception cref="SyntaxException">Will be thrown if there are no more symbols in the document.
+        /// </exception>
+        private Symbol PeekNextSymbolFrom(int position, SkipSymbols skip, Reference<ICodePart> parentReference, bool allowNull, out int foundAtPosition)
+        {
+            Param.AssertGreaterThanOrEqualToZero(position, nameof(position));
             Param.Ignore(skip);
             Param.AssertNotNull(parentReference, "parentReference");
 
-            int index = 1;
+            int index = position + 1;
             Symbol symbol = this.symbols.Peek(index);
+
             while (symbol != null)
             {
                 if (symbol.SymbolType == SymbolType.WhiteSpace && (skip & SkipSymbols.WhiteSpace) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else if (symbol.SymbolType == SymbolType.EndOfLine && (skip & SkipSymbols.EndOfLine) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else if (symbol.SymbolType == SymbolType.SingleLineComment && (skip & SkipSymbols.SingleLineComment) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else if (symbol.SymbolType == SymbolType.MultiLineComment && (skip & SkipSymbols.MultiLineComment) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else if (symbol.SymbolType == SymbolType.PreprocessorDirective && (skip & SkipSymbols.Preprocessor) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else if (symbol.SymbolType == SymbolType.XmlHeaderLine && (skip & SkipSymbols.XmlHeader) != 0)
                 {
                     index += 1;
-                    symbol = this.symbols.Peek(index);
                 }
                 else
                 {
@@ -1595,6 +1610,7 @@ namespace StyleCop.CSharp
                 throw this.CreateSyntaxException();
             }
 
+            foundAtPosition = index;
             return symbol;
         }
 
