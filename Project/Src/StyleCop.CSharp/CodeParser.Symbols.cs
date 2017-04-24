@@ -722,16 +722,29 @@ namespace StyleCop.CSharp
             Param.Ignore(isExpression);
 
             // Collect all tokens up to the first code token and make sure that this is of type Other.
-            this.GetNextSymbol(SymbolType.Other, parentReference);
+            Symbol nextSymbol = this.GetNextSymbol(parentReference);
 
             Reference<ICodePart> typeTokenReference = new Reference<ICodePart>();
 
             // Get the type token.
-            int endIndex;
-            TypeToken token = this.GetTypeTokenAux(typeTokenReference, parentReference, unsafeCode, includeArrayBrackets, isExpression, 1, out endIndex);
-            if (token != null)
+            TypeToken token = null;
+
+            if (nextSymbol.SymbolType == SymbolType.OpenParenthesis)
             {
-                this.symbols.CurrentIndex += endIndex;
+                token = this.GetTupleTypeToken(typeTokenReference, parentReference);
+            }
+            else if (nextSymbol.SymbolType == SymbolType.Other)
+            {
+                int endIndex;
+                token = this.GetTypeTokenAux(typeTokenReference, parentReference, unsafeCode, includeArrayBrackets, isExpression, 1, out endIndex);
+                if (token != null)
+                {
+                    this.symbols.CurrentIndex += endIndex;
+                }
+            }
+            else
+            {
+                this.CreateSyntaxException();
             }
 
             return token;
@@ -1184,6 +1197,129 @@ namespace StyleCop.CSharp
 
             // Create and return the literal expression.
             return new LiteralExpression(partialTokenList, tokenNode);
+        }
+
+        /// <summary>
+        /// Gets a token representing a tuple type.
+        /// </summary>
+        /// <param name="typeTokenReference">
+        /// A reference to the type token.
+        /// </param>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <returns>A TypeToken representing the Tuple type.</returns>
+        private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference)
+        {
+            Param.AssertNotNull(typeTokenReference, nameof(typeTokenReference));
+            Param.AssertNotNull(parentReference, nameof(parentReference));
+
+            // Create a token list to store all the tokens forming the type.
+            MasterList<CsToken> typeTokens = new MasterList<CsToken>();
+
+            Symbol symbol = this.GetNextSymbol(SkipSymbols.All, typeTokenReference);
+
+            // Ensure that we read a open parenthesis.
+            if (symbol.SymbolType != SymbolType.OpenParenthesis)
+            {
+                this.CreateSyntaxException();
+            }
+
+            typeTokens.Add(this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, typeTokenReference));
+            int parenthesisCount = 1;
+            
+            while (true)
+            {
+                symbol = this.PeekNextSymbol(SkipSymbols.None, typeTokenReference, false);
+
+                if (symbol.SymbolType == SymbolType.Other)
+                {
+                    typeTokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.Comma)
+                {
+                    typeTokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.CloseSquareBracket)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.LessThan)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.OpenGenericBracket, SymbolType.LessThan, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.GreaterThan)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.CloseGenericBracket, SymbolType.GreaterThan, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.WhiteSpace || symbol.SymbolType == SymbolType.EndOfLine || 
+                         symbol.SymbolType == SymbolType.SingleLineComment || symbol.SymbolType == SymbolType.MultiLineComment 
+                         || symbol.SymbolType == SymbolType.PreprocessorDirective)
+                {
+                    typeTokens.Add(this.GetToken(TokenTypeFromSymbolType(symbol.SymbolType), symbol.SymbolType, typeTokenReference));
+                }
+                else if (symbol.SymbolType == SymbolType.OpenParenthesis)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, typeTokenReference));
+                    parenthesisCount++;
+                }
+                else if (symbol.SymbolType == SymbolType.CloseParenthesis)
+                {
+                    typeTokens.Add(this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, typeTokenReference));
+                    parenthesisCount--;
+                }
+                else
+                {
+                    this.CreateSyntaxException();
+                }
+
+                if (parenthesisCount == 0)
+                {
+                    break;
+                }
+            }
+
+            // Read any array brackets.
+            int startPosition = 0;
+            symbol = this.PeekNextSymbolFrom(startPosition, SkipSymbols.WhiteSpace, parentReference, false, out startPosition);
+
+            if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+            {
+                int squareBracketCount = 1;
+
+                typeTokens.Add(this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, typeTokenReference));
+                startPosition = 0;
+
+                while (true)
+                {
+                    symbol = this.PeekNextSymbolFrom(startPosition, SkipSymbols.WhiteSpace, parentReference, false, out startPosition);
+
+                    if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+                    {
+                        typeTokens.Add(this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, typeTokenReference));
+                        squareBracketCount++;
+                    }
+                    else if (symbol.SymbolType == SymbolType.CloseSquareBracket)
+                    {
+                        typeTokens.Add(this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, typeTokenReference));
+
+                        if (--squareBracketCount == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            CodeLocation location = CsToken.JoinLocations(typeTokens.First, typeTokens.Last);
+            TypeToken typeToken = new TypeToken(typeTokens, location, parentReference, this.symbols.Generated);
+            typeTokenReference.Target = typeToken;
+
+            return typeToken;
         }
 
         /// <summary>

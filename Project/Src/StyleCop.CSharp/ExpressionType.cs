@@ -236,6 +236,11 @@ namespace StyleCop.CSharp
         /// <summary>
         /// A reference value expression. 
         /// </summary>
-        Ref
+        Ref,
+
+        /// <summary>
+        /// A tuple expression.
+        /// </summary>
+        Tuple
     }
 }

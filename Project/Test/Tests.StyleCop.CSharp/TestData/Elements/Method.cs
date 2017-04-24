@@ -462,3 +462,63 @@ public class Class8<T, S>
     }
 
 #endregion
+
+#region Tuple literal and Tuple types
+
+    public class Tuples
+    {
+        public void TuplesLiteralsTest()
+        {
+            // Simple tuple literals
+            var letters = ("a", "b");
+
+            // named elements tuple literals
+            var alphabetStart = (Alpha: "a", Beta: "b");
+
+            // tuple literals with member access invocation
+            var dateRange = (DateTime.MinValue, DateTime.MaxValue);
+
+            // tuple literals with method invocation.
+            var caculatedRange = (dates.First(), dates.Last());
+
+            // tuple literal that as casting for a argument
+            var cast = ((string)"a", "b");
+
+            // tuple literal nested in another tuple literal
+            var nested = (("a", 1), DateTime.Now);
+
+            // tuple literals in return statement.
+            return (first, middle, last);
+
+            // named tuple elements in a literal
+            return (first: first, middle: middle, last: last);
+        }
+
+        // tuple return type
+        (string, string, string) TupleTypeTest(long id)
+        {
+            return (first, middle, last); // tuple literal
+        }
+
+        // tuple return type with elements names
+        (string first, string middle, string last) TupleTypeWithNameTest(long id)
+        {
+            return (first, middle, last); // tuple literal
+        }
+
+        // Local function which return tuple types 
+        public int Fibonacci(int x)
+        {
+            if (x < 0) throw new ArgumentException("Less negativity please!", nameof(x));
+            return Fib(x).current;
+
+            (int current, int previous) Fib(int i)
+            {
+                if (i == 0) return (1, 0);
+                var (p, pp) = Fib(i - 1);
+                return (p + pp, p);
+            }
+        }
+    }
+
+# endregion

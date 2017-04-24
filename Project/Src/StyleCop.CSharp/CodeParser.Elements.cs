@@ -694,7 +694,7 @@ namespace StyleCop.CSharp
                         break;
 
                     case SymbolType.Extern:
-
+                        
                         // If the next symbol is 'alias', then this is possibly an extern alias directive.
                         int temp = this.GetNextCodeSymbolIndex(index + 1);
                         if (temp != -1 && this.symbols.Peek(temp).Text == "alias")
@@ -710,8 +710,12 @@ namespace StyleCop.CSharp
                         break;
 
                     case SymbolType.OpenParenthesis:
-                        elementType = ElementType.Method;
-                        loop = false;
+
+                        // If tuple type, and ';' or '=' follows a variable name, then this is a field.
+                        elementType = this.IsTupleType(index - 1, SymbolType.Semicolon, SymbolType.Equals) 
+                            ? ElementType.Field 
+                            : ElementType.Method;
+                        loop = false;                            
                         break;
 
                     case SymbolType.OpenCurlyBracket:

@@ -120,6 +120,7 @@
     <Compile Include="Expressions\DictionaryItemInitializationExpression.cs" />
     <Compile Include="Expressions\RefExpression.cs" />
     <Compile Include="Expressions\ThrowExpression.cs" />
+    <Compile Include="Expressions\TupleExpression.cs" />
     <Compile Include="ICodePart.cs" />
     <Compile Include="ICodePartExtensions.cs" />
     <Compile Include="ICodeUnit.cs" />

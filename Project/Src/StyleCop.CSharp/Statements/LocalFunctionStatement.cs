@@ -77,7 +77,7 @@ namespace StyleCop.CSharp
         /// <param name="functionBodyExpression">
         /// An expression that represents the body of this local function.
         /// </param>
-        public LocalFunctionStatement(
+        internal LocalFunctionStatement(
             CsTokenList tokens, 
             TypeToken returnType, 
             bool returnTypeIsRef, 
@@ -112,7 +112,7 @@ namespace StyleCop.CSharp
         /// <param name="functionBody">
         /// An statement that represents the body of this local function.
         /// </param>
-        public LocalFunctionStatement(
+        internal LocalFunctionStatement(
             CsTokenList tokens, 
             TypeToken returnType, 
             bool returnTypeIsRef, 

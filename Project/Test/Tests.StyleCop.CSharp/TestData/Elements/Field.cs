@@ -185,3 +185,44 @@ public class BinaryLiteralsAndDigitSeperator
 
     long longValue3 = 0b1_0000_0000_0000_0000_0000_0000_0000_0000;
 }
+
+public class TupleTypes
+{
+    (string, int) simpleTupleType;
+
+    private (string, int) simpleTupleTypeWithScope;
+
+    (string Name, double Age) tupleTypeWithNames;
+
+    (string, double, (string, string)) nestedTupleTypes;
+
+    (string Name, double Age, (string City, string Country)) nestedTupleTypesWithNames;
+
+    (List<string>, List<double>) tupleTypesWithGenerics;
+
+    (List<string> Names, List<double> Scores) tupleTypesWithGenericsAndNames;
+
+    (List<string> , Dictionary<double, List<double>>) tupleTypesWithNestedGenerics;
+
+    (List<string> Names, Dictionary<double, List<double>> Scores) tupleTypesWithNestedGenericsAndNames;
+
+    (string[], double[]) tupleTypesWithArrays;
+
+    (string[] Names, double[] Scores) tupleTypesWithArraysAndNames;
+
+    (string[], double[][]) tupleTypesWithMultiDimensionalArrays;
+
+    (string[] Names, double[][] Scores) tupleTypesWithMultiDimensionalArraysAndNames;
+
+    (List<string>[], List<double[]>) tupleWithMixedArrayAndGenerics;
+
+    (List<string>[] Names, List<double[]> Scores) tupleWithMixedArrayAndGenericsAndNames;
+
+    (int, string) intitializedField = (2, "Two");
+
+    (int, string)[] tupleArray;
+
+    (int, string)[] tuppleArrayInitialized = { (1, "One"), (2, "Two") };
+
+}
+

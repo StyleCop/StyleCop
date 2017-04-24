@@ -723,5 +723,208 @@
         </Statement>
       </Element>
     </Element>
-  </Element>    
+    <Element Name="Tuples" Type="Class">
+      <Element Name="TuplesLiteralsTest" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="letters" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Text="&quot;a&quot;" Type="LiteralExpression" />
+                <Expression Text="&quot;b&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="alphabetStart" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Text="&quot;a&quot;" Type="LiteralExpression" />
+                <Expression Text="&quot;b&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="dateRange" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="DateTime" Type="LiteralExpression" />
+                  <Expression Text="MinValue" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="DateTime" Type="LiteralExpression" />
+                  <Expression Text="MaxValue" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="caculatedRange" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="dates" Type="LiteralExpression" />
+                    <Expression Text="First" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="dates" Type="LiteralExpression" />
+                    <Expression Text="Last" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="cast" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Type="CastExpression">
+                  <Expression Text="string" Type="LiteralExpression" />
+                  <Expression Text="&quot;a&quot;" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="&quot;b&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="var" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="nested" Type="LiteralExpression" />
+              <Expression Type="TupleExpression">
+                <Expression Type="TupleExpression">
+                  <Expression Text="&quot;a&quot;" Type="LiteralExpression" />
+                  <Expression Text="1" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="DateTime" Type="LiteralExpression" />
+                  <Expression Text="Now" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ReturnStatement">
+          <Expression Type="TupleExpression">
+            <Expression Text="first" Type="LiteralExpression" />
+            <Expression Text="middle" Type="LiteralExpression" />
+            <Expression Text="last" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ReturnStatement">
+          <Expression Type="TupleExpression">
+            <Expression Text="first" Type="LiteralExpression" />
+            <Expression Text="middle" Type="LiteralExpression" />
+            <Expression Text="last" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="TupleTypeTest" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="TupleExpression">
+            <Expression Text="first" Type="LiteralExpression" />
+            <Expression Text="middle" Type="LiteralExpression" />
+            <Expression Text="last" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="TupleTypeWithNameTest" Type="Method">
+        <Statement Type="ReturnStatement">
+          <Expression Type="TupleExpression">
+            <Expression Text="first" Type="LiteralExpression" />
+            <Expression Text="middle" Type="LiteralExpression" />
+            <Expression Text="last" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="Fibonacci" Type="Method">
+        <Statement Type="IfStatement">
+          <Expression Type="RelationalExpression">
+            <Expression Text="x" Type="LiteralExpression" />
+            <Expression Text="0" Type="LiteralExpression" />
+          </Expression>
+          <Statement Type="ThrowStatement">
+            <Expression Type="NewExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="ArgumentException" Type="LiteralExpression" />
+                <Expression Text="&quot;Less negativity please!&quot;" Type="LiteralExpression" />
+                <Expression Type="NameofExpression">
+                  <Expression Text="x" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+        </Statement>
+        <Statement Type="ReturnStatement">
+          <Expression Type="MemberAccessExpression">
+            <Expression Type="MethodInvocationExpression">
+              <Expression Text="Fib" Type="LiteralExpression" />
+              <Expression Text="x" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="current" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Fib" Type="LiteralExpression" />
+          <Statement Type="BlockStatement">
+            <Statement Type="IfStatement">
+              <Expression Type="RelationalExpression">
+                <Expression Text="i" Type="LiteralExpression" />
+                <Expression Text="0" Type="LiteralExpression" />
+              </Expression>
+              <Statement Type="ReturnStatement">
+                <Expression Type="TupleExpression">
+                  <Expression Text="1" Type="LiteralExpression" />
+                  <Expression Text="0" Type="LiteralExpression" />
+                </Expression>
+              </Statement>
+            </Statement>
+            <Statement Type="ExpressionStatement">
+              <Expression Type="AssignmentExpression">
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="var" Type="LiteralExpression" />
+                  <Expression Text="p" Type="LiteralExpression" />
+                  <Expression Text="pp" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Text="Fib" Type="LiteralExpression" />
+                  <Expression Type="ArithmeticExpression">
+                    <Expression Text="i" Type="LiteralExpression" />
+                    <Expression Text="1" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+              </Expression>
+            </Statement>
+            <Statement Type="ReturnStatement">
+              <Expression Type="TupleExpression">
+                <Expression Type="ArithmeticExpression">
+                  <Expression Text="p" Type="LiteralExpression" />
+                  <Expression Text="pp" Type="LiteralExpression" />
+                </Expression>
+                <Expression Text="p" Type="LiteralExpression" />
+              </Expression>
+            </Statement>
+          </Statement>
+        </Statement>
+      </Element>
+    </Element>
+  </Element>
 </StyleCopCsParserObjectModel>
