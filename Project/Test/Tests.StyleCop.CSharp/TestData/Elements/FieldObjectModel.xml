@@ -1150,6 +1150,36 @@
           </Expression>
         </Statement>
       </Element>
+      <Element Name="tupleInsideList" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="List&lt;(double,string,DateTime)&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="tupleInsideList" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="namedTupleInsideList" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="List&lt;(stringname,DateTimedob)&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="namedTupleInsideList" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="nestedTuplesInsideList" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="List&lt;(string,(string,double))&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="nestedTuplesInsideList" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>

@@ -366,7 +366,7 @@ namespace StyleCop.CSharp
                                 }
                             }
 
-                            if (this.IsLocalFunctionStatement(false, parentReference))
+                            if (this.IsLocalFunctionStatement(false))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                                 break;
@@ -463,7 +463,7 @@ namespace StyleCop.CSharp
                             break;
 
                         case SymbolType.Ref:
-                            if (this.IsLocalFunctionStatement(true, parentReference))
+                            if (this.IsLocalFunctionStatement(true))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                             }
@@ -480,12 +480,18 @@ namespace StyleCop.CSharp
                         case SymbolType.This:
                         case SymbolType.Base:
                         case SymbolType.OpenParenthesis:
-                            if (this.IsTupleType(0, SymbolType.Equals))
+                            SymbolType? trailingSymbolType = this.IsTupleType(0);
+
+                            if (trailingSymbolType == null)
+                            {
+                                statement = this.ParseExpressionStatement(unsafeCode);                                                                
+                            }
+                            else if (trailingSymbolType == SymbolType.Semicolon || trailingSymbolType == SymbolType.Equals)
                             {
                                 // Starts with a tuple type, this is a tuple vairable declaration.
                                 statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
                             }
-                            else if (this.IsTupleType(0, SymbolType.OpenParenthesis, SymbolType.LessThan))
+                            else if (trailingSymbolType == SymbolType.OpenParenthesis || trailingSymbolType == SymbolType.LessThan)
                             {
                                 // Local function statement that returns a tuple.
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
@@ -581,16 +587,12 @@ namespace StyleCop.CSharp
         /// <param name="isRef">
         /// Indicate if the check should be made for ref local function.
         /// </param>
-        /// <param name="parentReference">
-        /// The parent reference of the current statement being inspected.
-        /// </param>
         /// <returns>
         /// True, if the statement is a local function, False if not.
         /// </returns>
-        private bool IsLocalFunctionStatement(bool isRef, Reference<ICodePart> parentReference)
+        private bool IsLocalFunctionStatement(bool isRef)
         {
             Param.Ignore(isRef);
-            Param.AssertNotNull(parentReference, nameof(parentReference));
             SymbolType expectingNextSymbolType = SymbolType.Other;
 
             // If ref, then move past 'ref' + white space which would be the type declaration.
@@ -603,7 +605,7 @@ namespace StyleCop.CSharp
             while (true)
             {
                 // Get the symbol next to the proposed type declaration symbol.
-                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition);
+                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
 
                 // if we found a symbol that could be used as part of type declaration,
                 // reset our expectation symbol, to read past it.
@@ -650,7 +652,7 @@ namespace StyleCop.CSharp
                 }
 
                 // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
-                Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition);
+                Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
                 return symbol.SymbolType == SymbolType.Other 
                     && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);                    
             }
@@ -661,21 +663,18 @@ namespace StyleCop.CSharp
         /// Also verifies if the symbol trailing the tuple type and name declaration, matches the specified expected symbols.
         /// </summary>
         /// <param name="testPosition">The position at which to test the existence of Tuple type</param>
-        /// <param name="expectedTrailingSymbols">An array of expected trailing symbols after variable/method name declaration.</param>
-        /// <returns>True, if a tuple type and an expected symbol was found, otherwise False.</returns>
-        private bool IsTupleType(int testPosition, params SymbolType[] expectedTrailingSymbols)
+        /// <returns>The token after tuple type and allowed elements, if a Tuple type was found, Otherwise Null.</returns>
+        private SymbolType? IsTupleType(int testPosition)
         {
             Param.AssertGreaterThanOrEqualToZero(testPosition, nameof(testPosition));
-            Param.AssertNotNull(expectedTrailingSymbols, nameof(expectedTrailingSymbols));
 
             bool foundComma = false;
             int parenthesisCount = 0;
-            Reference<ICodePart> parentReference = new Reference<ICodePart>();
             SymbolType symbolType;
 
             while (true)
             {
-                symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition).SymbolType;
+                symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
 
                 if (symbolType == SymbolType.Other || symbolType == SymbolType.OpenSquareBracket || symbolType == SymbolType.CloseSquareBracket
                     || symbolType == SymbolType.LessThan || symbolType == SymbolType.GreaterThan)
@@ -708,61 +707,48 @@ namespace StyleCop.CSharp
                 }
 
                 // Unexpected symbol.
-                return false;
+                return null;
             }
 
             if (!foundComma)
             {
-                return false;
+                return null;
             }
 
-            // Move past array declaration brackets if any.
-            int priorPosition = testPosition;
-            symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition).SymbolType;
+            symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
+            int squareBracketCount = 0;
 
+            // Move past array declaration brackets if any.
             if (symbolType == SymbolType.OpenSquareBracket)
             {
-                int squareBracketCount = 1;
+                squareBracketCount = 1;
 
                 while (true)
                 {
-                    symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, parentReference, false, out testPosition).SymbolType;
-
+                    symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
                     if (symbolType == SymbolType.OpenSquareBracket)
                     {
                         squareBracketCount++;
                     }
                     else if (symbolType == SymbolType.CloseSquareBracket)
                     {
-                        if (--squareBracketCount == 0)
+                        if (squareBracketCount++ == 0)
                         {
                             break;
                         }
                     }
                 }
             }
-            else
+
+            // We should have parsed all brackets. 
+            // The next symbol should be (variable/method name) or a this keyword.
+            if (squareBracketCount == 0 && symbolType != SymbolType.Other && symbolType != SymbolType.This)
             {
-                testPosition = priorPosition;
+                return null;
             }
 
-            // Grab the second symbol from current (to skip the variable/method name declaration), and verify it's type.
-            symbolType = this.PeekNextSymbolFrom(
-                testPosition + 2, 
-                SkipSymbols.WhiteSpace, 
-                parentReference, 
-                false, 
-                out testPosition).SymbolType;
-
-            for (int i = 0; i < expectedTrailingSymbols.Length; i++)
-            {
-                if (expectedTrailingSymbols[i] == symbolType)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            // Grab the next symbol, and return it's type so caller can further decode the structure.
+            return this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
         }
 
         /// <summary>
@@ -2116,7 +2102,7 @@ namespace StyleCop.CSharp
 
             // Get the variable definition as part of pattern match, if available.
             Expression matchVariable = null;
-            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, unsafeCode);
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
 
             if (nextSymbol.SymbolType == SymbolType.Other)
             {
@@ -2126,7 +2112,7 @@ namespace StyleCop.CSharp
 
             // Get the when expression, if available.
             Expression whenExpression = null;
-            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, unsafeCode);
+            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
 
             if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
             {
@@ -2866,7 +2852,7 @@ namespace StyleCop.CSharp
             Node<CsToken> previousToken = this.tokens.Last;
 
             // Check if the method's return type is ref.
-            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, false);
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
             bool returnTypeIsRef = false;
 
             if (nextSymbol.SymbolType == SymbolType.Ref)
@@ -2885,11 +2871,19 @@ namespace StyleCop.CSharp
             // Get the parameter list.
             IList<Parameter> parameters = this.ParseParameterList(statementReference, unsafeCode, SymbolType.OpenParenthesis, false);
 
+            // Check whether there are any type constraint clauses.
+            ICollection<TypeParameterConstraintClause> typeConstraints = null;
+            nextSymbol = this.GetNextSymbol(statementReference);
+            if (nextSymbol.Text == "where")
+            {
+                typeConstraints = this.ParseTypeConstraintClauses(statementReference, unsafeCode);
+            }
+
             // Prepare a partial list of tokens for this statement.
             CsTokenList partialTokens = new CsTokenList(this.tokens, previousToken?.Next ?? this.tokens.First, this.tokens.Last);
 
             // Now get the function body, which could be a block or an expression;
-            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, statementReference, false);
+            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
             LocalFunctionStatement statement = null;
 
             if (nextSymbol.SymbolType == SymbolType.Lambda)
@@ -2904,6 +2898,7 @@ namespace StyleCop.CSharp
                     returnTypeIsRef, 
                     name, 
                     parameters,
+                    typeConstraints,
                     expression);
             }
             else if (nextSymbol.SymbolType == SymbolType.OpenCurlyBracket)
@@ -2915,6 +2910,7 @@ namespace StyleCop.CSharp
                     returnTypeIsRef,
                     name,
                     parameters,
+                    typeConstraints,
                     functionBody);
             }
             else

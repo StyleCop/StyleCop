@@ -731,7 +731,7 @@ namespace StyleCop.CSharp
 
             if (nextSymbol.SymbolType == SymbolType.OpenParenthesis)
             {
-                token = this.GetTupleTypeToken(typeTokenReference, parentReference);
+                token = this.GetTupleTypeToken(typeTokenReference, parentReference, includeArrayBrackets);
             }
             else if (nextSymbol.SymbolType == SymbolType.Other)
             {
@@ -1169,37 +1169,6 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets a token representing a name identifier.
-        /// </summary>
-        /// <param name="parentReference">
-        /// The parent code unit.
-        /// </param>
-        /// <param name="unsafeCode">
-        /// Indicates whether the code being parsed resides in an unsafe code block.
-        /// </param>
-        /// <param name="includeArrayBrackets">
-        /// Indicates whether to include array brackets in the type token.
-        /// </param>
-        /// <returns>
-        /// Returns the token.
-        /// </returns>
-        private LiteralExpression GetNameTokenExpression(Reference<ICodePart> parentReference, bool unsafeCode, bool includeArrayBrackets)
-        {
-            Param.AssertNotNull(parentReference, "parentReference");
-            Param.Ignore(unsafeCode);
-            Param.Ignore(includeArrayBrackets);
-
-            TypeToken token = this.GetTypeToken(parentReference, unsafeCode, includeArrayBrackets);
-            Node<CsToken> tokenNode = this.tokens.InsertLast(token);
-
-            // Create a partial token list containing this token.
-            CsTokenList partialTokenList = new CsTokenList(this.tokens, tokenNode, tokenNode);
-
-            // Create and return the literal expression.
-            return new LiteralExpression(partialTokenList, tokenNode);
-        }
-
-        /// <summary>
         /// Gets a token representing a tuple type.
         /// </summary>
         /// <param name="typeTokenReference">
@@ -1208,11 +1177,15 @@ namespace StyleCop.CSharp
         /// <param name="parentReference">
         /// The parent code unit.
         /// </param>
+        /// <param name="includeArrayBrackets">
+        /// Indicates whether to include array brackets in the type token.
+        /// </param>
         /// <returns>A TypeToken representing the Tuple type.</returns>
-        private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference)
+        private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference, bool includeArrayBrackets)
         {
             Param.AssertNotNull(typeTokenReference, nameof(typeTokenReference));
             Param.AssertNotNull(parentReference, nameof(parentReference));
+            Param.Ignore(includeArrayBrackets);
 
             // Create a token list to store all the tokens forming the type.
             MasterList<CsToken> typeTokens = new MasterList<CsToken>();
@@ -1230,7 +1203,7 @@ namespace StyleCop.CSharp
             
             while (true)
             {
-                symbol = this.PeekNextSymbol(SkipSymbols.None, typeTokenReference, false);
+                symbol = this.PeekNextSymbol(SkipSymbols.None, false);
 
                 if (symbol.SymbolType == SymbolType.Other)
                 {
@@ -1283,36 +1256,17 @@ namespace StyleCop.CSharp
                 }
             }
 
-            // Read any array brackets.
-            int startPosition = 0;
-            symbol = this.PeekNextSymbolFrom(startPosition, SkipSymbols.WhiteSpace, parentReference, false, out startPosition);
-
-            if (symbol.SymbolType == SymbolType.OpenSquareBracket)
+            if (includeArrayBrackets)
             {
-                int squareBracketCount = 1;
+                // Read any array brackets and advance to the position of the last token read.
+                int startPosition = 1;
+                this.GetTypeTokenArrayBrackets(typeTokenReference, typeTokens, ref startPosition);
+                this.symbols.CurrentIndex += startPosition - 1;
+            }
 
-                typeTokens.Add(this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, typeTokenReference));
-                startPosition = 0;
-
-                while (true)
-                {
-                    symbol = this.PeekNextSymbolFrom(startPosition, SkipSymbols.WhiteSpace, parentReference, false, out startPosition);
-
-                    if (symbol.SymbolType == SymbolType.OpenSquareBracket)
-                    {
-                        typeTokens.Add(this.GetBracketToken(CsTokenType.OpenSquareBracket, SymbolType.OpenSquareBracket, typeTokenReference));
-                        squareBracketCount++;
-                    }
-                    else if (symbol.SymbolType == SymbolType.CloseSquareBracket)
-                    {
-                        typeTokens.Add(this.GetBracketToken(CsTokenType.CloseSquareBracket, SymbolType.CloseSquareBracket, typeTokenReference));
-
-                        if (--squareBracketCount == 0)
-                        {
-                            break;
-                        }
-                    }
-                }
+            if (typeTokens.Count == 0)
+            {
+                this.CreateSyntaxException();
             }
 
             CodeLocation location = CsToken.JoinLocations(typeTokens.First, typeTokens.Last);

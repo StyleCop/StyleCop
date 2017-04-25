@@ -1233,6 +1233,18 @@ namespace StyleCop.CSharp
                         genericArgumentListTokens.Add(
                             this.ConvertSymbol(symbol, symbol.SymbolType == SymbolType.In ? CsTokenType.In : CsTokenType.Out, genericTypeReference));
                     }
+                    else if (symbol.SymbolType == SymbolType.OpenParenthesis)
+                    {
+                        // Tuple type definition is starting.
+                        genericArgumentListTokens.InsertLast(new Bracket(
+                            symbol.Text, CsTokenType.OpenParenthesis, symbol.Location, genericTypeReference, this.symbols.Generated)); 
+                    }
+                    else if (symbol.SymbolType == SymbolType.CloseParenthesis)
+                    {
+                        // Tuple type definition is finishing.
+                        genericArgumentListTokens.InsertLast(new Bracket(
+                            symbol.Text, CsTokenType.CloseParenthesis, symbol.Location, genericTypeReference, this.symbols.Generated)); 
+                    }
                     else if (symbol.SymbolType == SymbolType.Other)
                     {
                         int lastIndex = 0;
@@ -1536,17 +1548,16 @@ namespace StyleCop.CSharp
         /// Returns the next code symbol without advancing to it.
         /// </summary>
         /// <param name="skip">Indicates the types of symbols to skip past.</param>
-        /// <param name="parentReference">The parent code part.</param>
         /// <param name="allowNull">If true, indicates that this method is allowed to return a null symbol, if
         /// there are no more symbols in the document. If false, the method will throw an exception if it is unable
         /// to get another symbol.</param>
         /// <returns>Returns the next code symbol.</returns>
         /// <exception cref="SyntaxException">Will be thrown if there are no more symbols in the document.
         /// </exception>
-        private Symbol PeekNextSymbol(SkipSymbols skip, Reference<ICodePart> parentReference, bool allowNull)
+        private Symbol PeekNextSymbol(SkipSymbols skip, bool allowNull)
         {
             int foundPosition;
-            return this.PeekNextSymbolFrom(0, skip, parentReference, allowNull, out foundPosition);
+            return this.PeekNextSymbolFrom(0, skip, allowNull, out foundPosition);
         }
 
         /// <summary>
@@ -1554,7 +1565,6 @@ namespace StyleCop.CSharp
         /// </summary>
         /// <param name="position">The relative position to current index, from which the next symbol should be peeked.</param>
         /// <param name="skip">Indicates the types of symbols to skip past.</param>
-        /// <param name="parentReference">The parent code part.</param>
         /// <param name="allowNull">If true, indicates that this method is allowed to return a null symbol, if
         /// there are no more symbols in the document. If false, the method will throw an exception if it is unable
         /// to get another symbol.</param>
@@ -1562,11 +1572,10 @@ namespace StyleCop.CSharp
         /// <returns>Returns the next code symbol.</returns>
         /// <exception cref="SyntaxException">Will be thrown if there are no more symbols in the document.
         /// </exception>
-        private Symbol PeekNextSymbolFrom(int position, SkipSymbols skip, Reference<ICodePart> parentReference, bool allowNull, out int foundAtPosition)
+        private Symbol PeekNextSymbolFrom(int position, SkipSymbols skip, bool allowNull, out int foundAtPosition)
         {
             Param.AssertGreaterThanOrEqualToZero(position, nameof(position));
             Param.Ignore(skip);
-            Param.AssertNotNull(parentReference, "parentReference");
 
             int index = position + 1;
             Symbol symbol = this.symbols.Peek(index);

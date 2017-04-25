@@ -438,6 +438,14 @@ public class Class8<T, S>
                 return null;
             }
         }
+
+        public void LocalFunctionWithTypeConstraint<T>()
+        {            
+            T LocalFunction<T>() where T : Person
+            {
+            
+            }
+        }
     }
 
 #endregion
@@ -493,6 +501,38 @@ public class Class8<T, S>
             // named tuple elements in a literal
             return (first: first, middle: middle, last: last);
         }
+        
+        public void TupleTypesTest()
+        {
+            (int, double, DateTime) simpledeclaration;
+
+            (int, string) intitializedField = (2, "Two");
+
+            (int, string)[] tupleArray;
+
+            (int, string)[] tuppleArrayInitialized = { (1, "One"), (2, "Two") };
+
+            (double, string, DateTime)[] fixedSize = new (double, string, DateTime)[2];
+
+            (string name, DateTime age) namedTuple;
+            
+            List<(string, int)> listOfTuple = new List<(string, int)>();
+
+            List<(string name , int age)> listOfNamedTuple = new List<(string name , int age)>();
+
+            List<(string name, DateTime dob)> myList = new List<(string name, DateTime dob)>()
+                                                           {
+                                                               ("A", DateTime.Now)
+                                                           };
+
+            List<(string[] name, DateTime dob)> myList1 = new List<(string[] name, DateTime dob)>()
+                                                       {
+                                                           (new [] {"A", "B"}, DateTime.Now)
+                                                       };
+
+            List<(string name , int age?)> listOfNamedTupleNullable = new List<(string name , int age?)>();
+        }
+        
 
         // tuple return type
         (string, string, string) TupleTypeTest(long id)
@@ -519,6 +559,27 @@ public class Class8<T, S>
                 return (p + pp, p);
             }
         }
+
+        // Simple property
+        (decimal, string ) TupleTypeProperty { get; set; }
+
+        // Expression bodied property
+        (double, string) TupleTypePropertyWithExpression => (12.2, "Twelve Point Two");
+
+        // Property with accessor and expression body
+        (decimal, string) TupleProperty
+        {
+            get => TupleTypeProperty;
+
+            set => TupleTypeProperty = value;
+        }
+
+        // Indexer
+        public (decimal, string) this[int i]
+        {
+            get => TupleTypeProperty;
+            set => TupleTypeProperty = value;
+        }       
     }
 
 # endregion

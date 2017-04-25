@@ -202,7 +202,7 @@ public class TupleTypes
 
     (List<string> Names, List<double> Scores) tupleTypesWithGenericsAndNames;
 
-    (List<string> , Dictionary<double, List<double>>) tupleTypesWithNestedGenerics;
+    (List<string>, Dictionary<double, List<double>>) tupleTypesWithNestedGenerics;
 
     (List<string> Names, Dictionary<double, List<double>> Scores) tupleTypesWithNestedGenericsAndNames;
 
@@ -224,5 +224,10 @@ public class TupleTypes
 
     (int, string)[] tuppleArrayInitialized = { (1, "One"), (2, "Two") };
 
+    List<(double, string, DateTime)> tupleInsideList;
+
+    List<(string name, DateTime dob)> namedTupleInsideList;
+
+    List<(string, (string, double))> nestedTuplesInsideList;
 }
 

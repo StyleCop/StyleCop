@@ -282,6 +282,8 @@ namespace StyleCop.CSharp
             bool comma = false;
             bool memberAccess = false;
             bool openSquareBracket = false;
+            bool insideTupleDeclaration = false;
+            int tupleDeclarationCount = 0;
 
             int index = this.GetNextCodeSymbolIndex(startIndex);
             while (index != -1)
@@ -363,7 +365,8 @@ namespace StyleCop.CSharp
                 {
                     // If the last word was also an unknown word, or if we're in the middle of a
                     // set of square brackets, this is not a valid generic statement.
-                    if (other || openSquareBracket)
+                    // Consecutive unknown are allowed inside tuple type declaration.
+                    if ((other || openSquareBracket) && !insideTupleDeclaration)
                     {
                         index = -1;
                         break;
@@ -388,6 +391,16 @@ namespace StyleCop.CSharp
                     {
                         break;
                     }
+                }
+                else if (symbol.SymbolType == SymbolType.OpenParenthesis)
+                {
+                    insideTupleDeclaration = true;
+                    tupleDeclarationCount++;
+                }
+                else if (symbol.SymbolType == SymbolType.CloseParenthesis)
+                {
+                    tupleDeclarationCount--;
+                    insideTupleDeclaration = tupleDeclarationCount == 0;
                 }
                 else
                 {
@@ -636,7 +649,7 @@ namespace StyleCop.CSharp
                 }
 
                 // If the next symbol is a comma, add the comma and proceed.
-                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, parentReference, true);
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, true);
 
                 if (nextSymbol?.SymbolType == SymbolType.Comma)
                 {
@@ -694,7 +707,6 @@ namespace StyleCop.CSharp
                 symbol = this.PeekNextSymbolFrom(
                     firstSymbolRead ? 0 : 1, 
                     SkipSymbols.All, 
-                    parentReference, 
                     false, 
                     out foundPosition);
 
@@ -716,7 +728,7 @@ namespace StyleCop.CSharp
                     this.tokens.Add(this.GetToken(CsTokenType.LabelColon, SymbolType.Colon, argumentReference));
 
                     // Reset the symbol used for further processing.
-                    symbol = this.PeekNextSymbol(SkipSymbols.All, parentReference, false);
+                    symbol = this.PeekNextSymbol(SkipSymbols.All, false);
                 }
                 else
                 {
@@ -1929,7 +1941,7 @@ namespace StyleCop.CSharp
                 // The next token could be a type or a constant.
                 Expression rightHandSide;
                 Expression matchVariable = null;
-                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
 
                 if (nextSymbol.SymbolType == SymbolType.Null || nextSymbol.SymbolType == SymbolType.String
                     || nextSymbol.SymbolType == SymbolType.Number || nextSymbol.SymbolType == SymbolType.True
@@ -1946,7 +1958,7 @@ namespace StyleCop.CSharp
                     rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
 
                     // Check if we have a variable declared as part of pattern match.
-                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
 
                     if (nextSymbol.SymbolType == SymbolType.Other)
                     {
@@ -2434,7 +2446,7 @@ namespace StyleCop.CSharp
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.New, SymbolType.New, parentReference, expressionReference));
 
             // The next token must be a type identifier, or an opening curly bracket for an anonymous type creation, 
-            // or an opening square bracket for a implicitly typed array creation.
+            // or an opening square bracket for a implicitly typed array creation or an open parenthesis for tuple type.
             Symbol symbol = this.GetNextSymbol(expressionReference);
             if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
             {
@@ -2444,7 +2456,7 @@ namespace StyleCop.CSharp
             {
                 return this.GetNewArrayTypeExpression(unsafeCode, firstTokenNode, null, expressionReference);
             }
-            else if (symbol.SymbolType != SymbolType.Other)
+            else if (symbol.SymbolType != SymbolType.Other && symbol.SymbolType != SymbolType.OpenParenthesis)
             {
                 throw this.CreateSyntaxException();
             }
@@ -3344,7 +3356,7 @@ namespace StyleCop.CSharp
             CsTokenList partialTokens;
             Expression resultExpression;
 
-            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
 
             // If this is a regular parenthesized expression, return it now.
             if (nextSymbol.SymbolType == SymbolType.CloseParenthesis)

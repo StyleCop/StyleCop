@@ -637,6 +637,9 @@ namespace StyleCop.CSharp
             // Indicates whether we've seen an operator keyword.
             bool operatorKeyword = false;
 
+            // Count of open angle brackets that are not closed yet.
+            int openAngleBracketsNotClosedCount = 0;
+
             // Indicates whether to keep going.
             bool loop = true;
 
@@ -710,11 +713,33 @@ namespace StyleCop.CSharp
                         break;
 
                     case SymbolType.OpenParenthesis:
+                        // Proceed only if we are not inside an angle bracket, 
+                        // Otherwise this could be a generic with tuple inside.
+                        if (openAngleBracketsNotClosedCount == 0)
+                        {
+                            SymbolType? trailingSymbol = this.IsTupleType(index - 1);
+                            if (trailingSymbol == null)
+                            {
+                                elementType = ElementType.Method;
+                            }
+                            else if (trailingSymbol == SymbolType.Semicolon || trailingSymbol == SymbolType.Equals)
+                            {
+                                elementType = ElementType.Field;
+                            }
+                            else if (trailingSymbol == SymbolType.OpenCurlyBracket || trailingSymbol == SymbolType.Lambda)
+                            {
+                                elementType = ElementType.Property;
+                            }
+                            else if (trailingSymbol == SymbolType.OpenSquareBracket)
+                            {
+                                elementType = ElementType.Indexer;
+                            }
+                            else
+                            {
+                                elementType = ElementType.Method;
+                            }                            
+                        }
 
-                        // If tuple type, and ';' or '=' follows a variable name, then this is a field.
-                        elementType = this.IsTupleType(index - 1, SymbolType.Semicolon, SymbolType.Equals) 
-                            ? ElementType.Field 
-                            : ElementType.Method;
                         loop = false;                            
                         break;
 
@@ -779,6 +804,15 @@ namespace StyleCop.CSharp
                     case SymbolType.Dot:
                     case SymbolType.QuestionMark:
                     case SymbolType.Ref:
+
+                        if (symbol.SymbolType == SymbolType.LessThan)
+                        {
+                            openAngleBracketsNotClosedCount++;
+                        }
+                        else if (symbol.SymbolType == SymbolType.GreaterThan)
+                        {
+                            openAngleBracketsNotClosedCount--;                            
+                        }
 
                         // Ignore these symbol types and continue.
                         break;
@@ -2902,7 +2936,7 @@ namespace StyleCop.CSharp
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
             // Check if the method's return type is ref.
-            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, elementReference, false);
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
             bool returnTypeIsRef = false;
 
             if (nextSymbol.SymbolType == SymbolType.Ref)
@@ -3320,7 +3354,7 @@ namespace StyleCop.CSharp
                 this.ParseElementContainer(property, elementReference, null, unsafeCode);
 
                 // Check if current property has initializer (C#6).
-                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, elementReference, true);
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, true);
                 if (nextSymbol != null && nextSymbol.SymbolType == SymbolType.Equals)
                 {
                     nextSymbol = this.GetNextSymbol(SkipSymbols.All, elementReference, true);

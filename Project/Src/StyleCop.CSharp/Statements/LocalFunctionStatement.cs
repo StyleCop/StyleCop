@@ -23,7 +23,7 @@ namespace StyleCop.CSharp
     /// A local function within a method element.
     /// </summary>
     /// <subcategory>statement</subcategory>
-    public class LocalFunctionStatement : Statement
+    public class LocalFunctionStatement : Statement, ITypeConstraintContainer
     {
         #region Fields
 
@@ -47,6 +47,11 @@ namespace StyleCop.CSharp
         /// </summary>
         private readonly IList<Parameter> parameters;
 
+        /// <summary>
+        /// The list if type constraints on the item, if any.
+        /// </summary>
+        private readonly ICollection<TypeParameterConstraintClause> typeConstraints;
+        
         /// <summary>
         /// The code unit that represents this local functions body.
         /// </summary>
@@ -74,6 +79,9 @@ namespace StyleCop.CSharp
         /// <param name="parameters">
         /// The parameter information of this local function.
         /// </param>
+        /// <param name="typeConstraints">
+        /// The list of type constraints on the element.
+        /// </param>
         /// <param name="functionBodyExpression">
         /// An expression that represents the body of this local function.
         /// </param>
@@ -83,8 +91,9 @@ namespace StyleCop.CSharp
             bool returnTypeIsRef, 
             LiteralExpression identifier, 
             IList<Parameter> parameters,
+            ICollection<TypeParameterConstraintClause> typeConstraints, 
             Expression functionBodyExpression)
-            : this(tokens, returnType, returnTypeIsRef, identifier, parameters)
+            : this(tokens, returnType, returnTypeIsRef, identifier, parameters, typeConstraints)
         {
             Param.AssertNotNull(functionBodyExpression, nameof(functionBodyExpression));
             this.functionBody = functionBodyExpression;
@@ -109,6 +118,9 @@ namespace StyleCop.CSharp
         /// <param name="parameters">
         /// The parameter information of this local function.
         /// </param>
+        /// <param name="typeConstraints">
+        /// The list of type constraints on the element.
+        /// </param>
         /// <param name="functionBody">
         /// An statement that represents the body of this local function.
         /// </param>
@@ -118,8 +130,9 @@ namespace StyleCop.CSharp
             bool returnTypeIsRef, 
             LiteralExpression identifier, 
             IList<Parameter> parameters,
+            ICollection<TypeParameterConstraintClause> typeConstraints, 
             Statement functionBody)
-            : this(tokens, returnType, returnTypeIsRef, identifier, parameters)
+            : this(tokens, returnType, returnTypeIsRef, identifier, parameters, typeConstraints)
         {
             Param.AssertNotNull(functionBody, nameof(functionBody));
             this.functionBody = functionBody;
@@ -144,25 +157,40 @@ namespace StyleCop.CSharp
         /// <param name="parameters">
         /// The parameter information of this local function.
         /// </param>
+        /// <param name="typeConstraints">
+        /// The list of type constraints on the element.
+        /// </param>
         private LocalFunctionStatement(
             CsTokenList tokens, 
             TypeToken returnType, 
             bool returnTypeIsRef, 
             LiteralExpression identifier, 
-            IList<Parameter> parameters)
+            IList<Parameter> parameters,
+            ICollection<TypeParameterConstraintClause> typeConstraints)
             : base(StatementType.LocalFunction, tokens)
         {
             Param.AssertNotNull(returnType, nameof(returnType));
             Param.Ignore(returnTypeIsRef);
             Param.AssertNotNull(identifier, nameof(identifier));
             Param.AssertNotNull(parameters, nameof(parameters));
+            Param.Ignore(typeConstraints);
 
             this.returnType = returnType;
             this.returnTypeIsRef = returnTypeIsRef;
             this.identifier = identifier;
             this.parameters = parameters;
+            this.typeConstraints = typeConstraints;
 
             this.AddExpression(this.identifier);
+
+            // Set the parent of the type constraint clauses.
+            if (typeConstraints != null)
+            {
+                foreach (TypeParameterConstraintClause constraint in typeConstraints)
+                {
+                    constraint.ParentElement = this;
+                }
+            }
         }
 
         #endregion
@@ -193,6 +221,11 @@ namespace StyleCop.CSharp
         /// Gets the expression or statement that represents the body of this local function.
         /// </summary>
         public CodeUnit FunctionBody => this.functionBody;
+
+        /// <summary>
+        /// Gets the list of type constraints on the element, if any.
+        /// </summary>
+        public ICollection<TypeParameterConstraintClause> TypeConstraints => this.typeConstraints;
 
         #endregion
     }
