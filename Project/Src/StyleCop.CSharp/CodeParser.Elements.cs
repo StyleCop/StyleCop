@@ -640,6 +640,9 @@ namespace StyleCop.CSharp
             // Count of open angle brackets that are not closed yet.
             int openAngleBracketsNotClosedCount = 0;
 
+            // Count of possible type type declaration inside generics.
+            int tupleTypeInsideGenericsCount = 0;
+
             // Indicates whether to keep going.
             bool loop = true;
 
@@ -737,12 +740,26 @@ namespace StyleCop.CSharp
                             else
                             {
                                 elementType = ElementType.Method;
-                            }                            
+                            }
+
+                            loop = false;                            
                         }
 
-                        loop = false;                            
+                        tupleTypeInsideGenericsCount++;
                         break;
 
+                    case SymbolType.CloseParenthesis:
+                        // Allow closing parenthesis if we are in generics with tuple type declaration.
+                        if (tupleTypeInsideGenericsCount > 0)
+                        {
+                            tupleTypeInsideGenericsCount++;
+                        }
+                        else
+                        {
+                            loop = false;
+                        }
+
+                        break;
                     case SymbolType.OpenCurlyBracket:
                         hasCurlyBrackets = true;
                         loop = false;

@@ -989,12 +989,12 @@
         </Statement>
         <Statement Type="VariableDeclarationStatement">
           <Expression Type="VariableDeclarationExpression">
-            <Expression Text="List&lt;(stringname,intage?)&gt;" Type="LiteralExpression" />
+            <Expression Text="List&lt;(stringname,int?age)&gt;" Type="LiteralExpression" />
             <Expression Type="VariableDeclaratorExpression">
               <Expression Text="listOfNamedTupleNullable" Type="LiteralExpression" />
               <Expression Type="NewExpression">
                 <Expression Type="MethodInvocationExpression">
-                  <Expression Text="List&lt;(stringname,intage?)&gt;" Type="LiteralExpression" />
+                  <Expression Text="List&lt;(stringname,int?age)&gt;" Type="LiteralExpression" />
                 </Expression>
               </Expression>
             </Expression>
@@ -1121,6 +1121,9 @@
             </Expression>
           </Statement>
         </Element>
+      </Element>
+      <Element Name="ConnectionEndpoints" Type="Property">
+        <Element Name="get" Type="Accessor" />
       </Element>
       <Element Name="this" Type="Indexer">
         <Element Name="get" Type="Accessor">

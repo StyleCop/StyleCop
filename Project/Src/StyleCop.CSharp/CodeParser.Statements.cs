@@ -732,10 +732,11 @@ namespace StyleCop.CSharp
                     }
                     else if (symbolType == SymbolType.CloseSquareBracket)
                     {
-                        if (squareBracketCount++ == 0)
-                        {
-                            break;
-                        }
+                        squareBracketCount--;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }

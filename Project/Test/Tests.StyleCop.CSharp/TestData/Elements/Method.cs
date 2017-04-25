@@ -530,7 +530,7 @@ public class Class8<T, S>
                                                            (new [] {"A", "B"}, DateTime.Now)
                                                        };
 
-            List<(string name , int age?)> listOfNamedTupleNullable = new List<(string name , int age?)>();
+            List<(string name , int? age)> listOfNamedTupleNullable = new List<(string name , int? age)>();
         }
         
 
@@ -573,6 +573,8 @@ public class Class8<T, S>
 
             set => TupleTypeProperty = value;
         }
+
+        public List<(IPEndPoint Source, IPEndPoint Destination)> ConnectionEndpoints { get; }
 
         // Indexer
         public (decimal, string) this[int i]
