@@ -184,6 +184,12 @@ public class BinaryLiteralsAndDigitSeperator
     long longValue2 = 0x1_0000_0000;
 
     long longValue3 = 0b1_0000_0000_0000_0000_0000_0000_0000_0000;
+
+
+    public void RegressionChecksForDigitSeparator()
+    {
+        this._someVariable = new SomeVariableObject(this._somOtherVariable);        
+    }
 }
 
 public class TupleTypes

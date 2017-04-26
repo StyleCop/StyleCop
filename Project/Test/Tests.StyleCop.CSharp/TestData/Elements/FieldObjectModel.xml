@@ -954,6 +954,25 @@
           </Expression>
         </Statement>
       </Element>
+      <Element Name="RegressionChecksForDigitSeparator" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="this" Type="LiteralExpression" />
+              <Expression Text="_someVariable" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="NewExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Text="SomeVariableObject" Type="LiteralExpression" />
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="this" Type="LiteralExpression" />
+                  <Expression Text="_somOtherVariable" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
     </Element>
     <Element Name="TupleTypes" Type="Class">
       <Element Name="simpleTupleType" Type="Field">
