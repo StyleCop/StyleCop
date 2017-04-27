@@ -282,6 +282,8 @@ namespace StyleCop.CSharp
             bool comma = false;
             bool memberAccess = false;
             bool openSquareBracket = false;
+            bool insideTupleDeclaration = false;
+            int tupleDeclarationCount = 0;
 
             int index = this.GetNextCodeSymbolIndex(startIndex);
             while (index != -1)
@@ -363,7 +365,8 @@ namespace StyleCop.CSharp
                 {
                     // If the last word was also an unknown word, or if we're in the middle of a
                     // set of square brackets, this is not a valid generic statement.
-                    if (other || openSquareBracket)
+                    // Consecutive unknown are allowed inside tuple type declaration.
+                    if ((other || openSquareBracket) && !insideTupleDeclaration)
                     {
                         index = -1;
                         break;
@@ -388,6 +391,16 @@ namespace StyleCop.CSharp
                     {
                         break;
                     }
+                }
+                else if (symbol.SymbolType == SymbolType.OpenParenthesis)
+                {
+                    insideTupleDeclaration = true;
+                    tupleDeclarationCount++;
+                }
+                else if (symbol.SymbolType == SymbolType.CloseParenthesis)
+                {
+                    tupleDeclarationCount--;
+                    insideTupleDeclaration = tupleDeclarationCount == 0;
                 }
                 else
                 {
@@ -630,90 +643,135 @@ namespace StyleCop.CSharp
                     break;
                 }
 
-                Reference<ICodePart> argumentReference = new Reference<ICodePart>();
-
                 if (firstSymbol.SymbolType != SymbolType.Comma)
                 {
-                    // Gather the parameter name label if it exists.
-                    CsToken argumentName = null;
-                    if (firstSymbol.SymbolType == SymbolType.Other)
-                    {
-                        // Look at the next symbol after the label.
-                        int index = this.GetNextCodeSymbolIndex(2);
-                        if (index >= 0)
-                        {
-                            Symbol colon = this.symbols.Peek(index);
-                            if (colon != null && colon.SymbolType == SymbolType.Colon)
-                            {
-                                // This is an argument name label. Add the name label and the colon.
-                                argumentName = this.GetToken(CsTokenType.Other, SymbolType.Other, argumentReference);
-                                this.tokens.Add(argumentName);
-
-                                // The next symbol must be the colon.
-                                this.tokens.Add(this.GetToken(CsTokenType.LabelColon, SymbolType.Colon, argumentReference));
-                            }
-                        }
-                    }
-
-                    // Gather the argument modifiers.
-                    ParameterModifiers modifiers = ParameterModifiers.None;
-
-                    int i = this.GetNextCodeSymbolIndex(1);
-                    if (i >= 0)
-                    {
-                        Symbol symbol = this.symbols.Peek(i);
-
-                        if (symbol.SymbolType == SymbolType.Ref)
-                        {
-                            this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, argumentReference));
-                            modifiers = ParameterModifiers.Ref;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Out)
-                        {
-                            this.tokens.Add(this.GetToken(CsTokenType.Out, SymbolType.Out, argumentReference));
-                            modifiers = ParameterModifiers.Out;
-                        }
-                        else if (symbol.SymbolType == SymbolType.Params)
-                        {
-                            this.tokens.Add(this.GetToken(CsTokenType.Params, SymbolType.Params, argumentReference));
-                            modifiers = ParameterModifiers.Params;
-                        }
-                    }
-
-                    // The argument body expression must come next.
-                    Expression argumentExpression = this.GetNextExpression(ExpressionPrecedence.None, argumentReference, unsafeCode);
-
-                    // Create the collection of tokens that form the argument, and strip off whitesace from the beginning and end.
-                    CsTokenList argumentTokenList = new CsTokenList(this.tokens, previousTokenNode.Next, this.tokens.Last);
-                    argumentTokenList.Trim(CsTokenType.EndOfLine, CsTokenType.WhiteSpace);
-
-                    // Create and add the argument.
-                    Argument argument = new Argument(
-                        argumentName,
-                        modifiers,
-                        argumentExpression,
-                        CodeLocation.Join(firstSymbol.Location, argumentExpression.Location),
-                        parentReference,
-                        argumentTokenList,
-                        this.symbols.Generated);
-
-                    argumentReference.Target = argument;
-                    arguments.Add(argument);
+                    arguments.Add(this.GetNextArgument(parentReference, unsafeCode, firstSymbol, false, previousTokenNode));
                 }
 
                 // If the next symbol is a comma, add the comma and proceed.
-                int x = this.GetNextCodeSymbolIndex(1);
-                if (x >= 0)
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, true);
+
+                if (nextSymbol?.SymbolType == SymbolType.Comma)
                 {
-                    if (this.symbols.Peek(x).SymbolType == SymbolType.Comma)
-                    {
-                        this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, parentReference));
-                    }
+                    this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, parentReference));
                 }
             }
 
             // Trim the list down to a small array before returning it.
             return arguments.ToArray();
+        }
+
+        /// <summary>
+        /// Reads the next Argument expression.
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code part.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="firstSymbol">
+        /// The first symbol of the Argument.
+        /// </param>
+        /// <param name="firstSymbolRead">
+        /// The first symbol was already read.
+        /// </param>
+        /// <param name="previousTokenNode">
+        /// A token node, that was read prior to making this function call.
+        /// </param>
+        /// <returns>
+        /// Returns the next argument in the expression.
+        /// </returns>
+        private Argument GetNextArgument(
+            Reference<ICodePart> parentReference, 
+            bool unsafeCode, 
+            Symbol firstSymbol, 
+            bool firstSymbolRead,
+            Node<CsToken> previousTokenNode)
+        {
+            Param.AssertNotNull(parentReference, nameof(parentReference));
+            Param.Ignore(unsafeCode);
+            Param.AssertNotNull(firstSymbol, nameof(firstSymbol));
+            Param.AssertNotNull(previousTokenNode, nameof(previousTokenNode));
+
+            Reference<ICodePart> argumentReference = new Reference<ICodePart>();
+            ParameterModifiers modifiers = ParameterModifiers.None;
+            CsToken argumentName = null;
+            Symbol symbol = firstSymbol;
+
+            if (firstSymbol.SymbolType == SymbolType.Other)
+            {
+                // Gather the parameter name label if it exists.
+                // Look at the next symbol after the label.
+                int foundPosition;
+                symbol = this.PeekNextSymbolFrom(
+                    firstSymbolRead ? 0 : 1, 
+                    SkipSymbols.All, 
+                    false, 
+                    out foundPosition);
+
+                if (symbol.SymbolType == SymbolType.Colon)
+                {
+                    // This is an argument name label. Add the name label and the colon.
+                    if (firstSymbolRead)
+                    {
+                        // Aready read the symbol, so it should be the last token.
+                        argumentName = previousTokenNode.Value;
+                    }
+                    else
+                    {
+                        argumentName = this.GetToken(CsTokenType.Other, SymbolType.Other, argumentReference);                        
+                        this.tokens.Add(argumentName);
+                    }
+
+                    // The next symbol must be the colon.
+                    this.tokens.Add(this.GetToken(CsTokenType.LabelColon, SymbolType.Colon, argumentReference));
+
+                    // Reset the symbol used for further processing.
+                    symbol = this.PeekNextSymbol(SkipSymbols.All, false);
+                }
+                else
+                {
+                    symbol = firstSymbol;
+                }
+            }
+
+            if (symbol.SymbolType == SymbolType.Ref)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, argumentReference));
+                modifiers = ParameterModifiers.Ref;
+            }
+            else if (symbol.SymbolType == SymbolType.Out)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Out, SymbolType.Out, argumentReference));
+                modifiers = ParameterModifiers.Out;
+            }
+            else if (symbol.SymbolType == SymbolType.Params)
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Params, SymbolType.Params, argumentReference));
+                modifiers = ParameterModifiers.Params;
+            }
+
+            // The argument body expression must come next.
+            Expression argumentExpression = this.GetNextExpression(ExpressionPrecedence.None, argumentReference, unsafeCode);
+
+            // Create the collection of tokens that form the argument, and strip off whitesace from the beginning and end.
+            CsTokenList argumentTokenList = new CsTokenList(this.tokens, previousTokenNode.Next, this.tokens.Last);
+            argumentTokenList.Trim(CsTokenType.EndOfLine, CsTokenType.WhiteSpace);
+
+            // Create the argument.
+            Argument argument = new Argument(
+                argumentName,
+                modifiers,
+                argumentExpression,
+                CodeLocation.Join(firstSymbol.Location, argumentExpression.Location),
+                parentReference,
+                argumentTokenList,
+                this.symbols.Generated);
+
+            // Return the argument.
+            argumentReference.Target = argument;
+            return argument;
         }
 
         /// <summary>
@@ -1883,7 +1941,7 @@ namespace StyleCop.CSharp
                 // The next token could be a type or a constant.
                 Expression rightHandSide;
                 Expression matchVariable = null;
-                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
 
                 if (nextSymbol.SymbolType == SymbolType.Null || nextSymbol.SymbolType == SymbolType.String
                     || nextSymbol.SymbolType == SymbolType.Number || nextSymbol.SymbolType == SymbolType.True
@@ -1900,11 +1958,11 @@ namespace StyleCop.CSharp
                     rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
 
                     // Check if we have a variable declared as part of pattern match.
-                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, expressionReference, false);
+                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
 
                     if (nextSymbol.SymbolType == SymbolType.Other)
                     {
-                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, expressionReference, unsafeCode);
+                        matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, parentReference, unsafeCode);
                     }
                 }
 
@@ -2388,7 +2446,7 @@ namespace StyleCop.CSharp
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.New, SymbolType.New, parentReference, expressionReference));
 
             // The next token must be a type identifier, or an opening curly bracket for an anonymous type creation, 
-            // or an opening square bracket for a implicitly typed array creation.
+            // or an opening square bracket for a implicitly typed array creation or an open parenthesis for tuple type.
             Symbol symbol = this.GetNextSymbol(expressionReference);
             if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
             {
@@ -2398,7 +2456,7 @@ namespace StyleCop.CSharp
             {
                 return this.GetNewArrayTypeExpression(unsafeCode, firstTokenNode, null, expressionReference);
             }
-            else if (symbol.SymbolType != SymbolType.Other)
+            else if (symbol.SymbolType != SymbolType.Other && symbol.SymbolType != SymbolType.OpenParenthesis)
             {
                 throw this.CreateSyntaxException();
             }
@@ -3141,7 +3199,7 @@ namespace StyleCop.CSharp
             else
             {
                 // This is an expression wrapped in parenthesis.
-                expression = this.GetParenthesizedExpression(unsafeCode);
+                expression = this.GetTupleOrParenthesizedExpression(unsafeCode);
             }
 
             return expression;
@@ -3267,15 +3325,15 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Reads an expression wrapped in parenthesis expression.
+        /// Reads an expression wrapped in parenthesis expression, or a tuple expression.
         /// </summary>
         /// <param name="unsafeCode">
         /// Indicates whether the code being parsed resides in an unsafe code block.
         /// </param>
         /// <returns>
-        /// Returns the expression.
+        /// Returns a TupleExpression or ParenthesizedExpression.
         /// </returns>
-        private ParenthesizedExpression GetParenthesizedExpression(bool unsafeCode)
+        private Expression GetTupleOrParenthesizedExpression(bool unsafeCode)
         {
             Param.Ignore(unsafeCode);
 
@@ -3285,29 +3343,92 @@ namespace StyleCop.CSharp
             Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, expressionReference);
             Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
 
-            // Get the inner expression.
-            Expression innerExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+            // Get the first expression.
+            Expression firstExpression = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
 
-            if (innerExpression == null)
+            if (firstExpression == null)
             {
                 throw this.CreateSyntaxException();
             }
 
-            // Get the closing parenthesis.
-            Bracket closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
-            Node<CsToken> closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+            Bracket closeParenthesis;
+            Node<CsToken> closeParenthesisNode;
+            CsTokenList partialTokens;
+            Expression resultExpression;
 
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
+
+            // If this is a regular parenthesized expression, return it now.
+            if (nextSymbol.SymbolType == SymbolType.CloseParenthesis)
+            {
+                // Get the closing parenthesis.
+                closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
+                closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+
+                // Create the token list for the expression.
+                partialTokens = new CsTokenList(this.tokens, openParenthesisNode, this.tokens.Last);
+
+                // Create the expression.
+                resultExpression = new ParenthesizedExpression(partialTokens, firstExpression);
+            }
+            else
+            {
+                Argument firstArgument = null;
+
+                // We are parsing a Tuple literal.
+                if (nextSymbol.SymbolType == SymbolType.Comma)
+                {
+                    // We already read the expression, just create an Argument out it.
+                    firstArgument = new Argument(
+                        null,
+                        ParameterModifiers.None,
+                        firstExpression,
+                        firstExpression.Location,
+                        expressionReference,
+                        firstExpression.Tokens,
+                        this.symbols.Generated);
+                    this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
+                }
+                else if (nextSymbol.SymbolType == SymbolType.Colon 
+                    && firstExpression.Tokens.First == firstExpression.Tokens.Last)
+                {
+                    // This is a named Argument and we partially read it, discard the firstExpression and read the Argument.
+                    firstArgument = this.GetNextArgument(
+                        expressionReference,
+                        unsafeCode,
+                        this.symbols.Current,
+                        true,
+                        this.tokens.Last.Previous);
+                }
+                else
+                {
+                    this.CreateSyntaxException();                
+                }
+
+                // Get the remaining list of arguments if any.
+                IList<Argument> argumentsList = this.GetArgumentList(SymbolType.CloseParenthesis, expressionReference, unsafeCode);
+
+                // Prepare a new list that includes our first argument.
+                List<Argument> tupleLiteralArguments = new List<Argument> { firstArgument };
+                tupleLiteralArguments.AddRange(argumentsList);
+
+                // Get the closing parenthesis.
+                closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
+                closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+
+                // Create the token list for the expression.
+                partialTokens = new CsTokenList(this.tokens, openParenthesisNode, this.tokens.Last);
+
+                // Create the expression.
+                resultExpression = new TupleExpression(partialTokens, tupleLiteralArguments.ToArray());                
+            }
+
+            // Link the opening and closing parenthesis and return the expression.
             openParenthesis.MatchingBracketNode = closeParenthesisNode;
             closeParenthesis.MatchingBracketNode = openParenthesisNode;
 
-            // Create the token list for the expression.
-            CsTokenList partialTokens = new CsTokenList(this.tokens, openParenthesisNode, this.tokens.Last);
-
-            // Create and return the expression.
-            ParenthesizedExpression expression = new ParenthesizedExpression(partialTokens, innerExpression);
-            expressionReference.Target = expression;
-
-            return expression;
+            expressionReference.Target = resultExpression;
+            return resultExpression;
         }
 
         /// <summary>

@@ -239,6 +239,7 @@ namespace CSharpParserTest
         {
             this.RunTest("PatternMatch");
         }
+
         /// <summary>
         /// The run test.
         /// </summary>

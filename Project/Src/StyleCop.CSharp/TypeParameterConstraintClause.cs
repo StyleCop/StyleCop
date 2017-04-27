@@ -153,7 +153,7 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Gets the parent element that contains this type constraint.
         /// </summary>
-        public CsElement ParentElement { get; internal set; }
+        public CodeUnit ParentElement { get; internal set; }
 
         /// <summary>
         /// Gets the list of tokens that form the constraint.

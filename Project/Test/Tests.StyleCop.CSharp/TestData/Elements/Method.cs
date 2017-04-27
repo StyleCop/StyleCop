@@ -262,6 +262,22 @@ public class Class8<T, S>
         public string GetLastName() => throw new NotImplementedException();
     }
 
+    public class Person
+    {
+        private static ConcurrentDictionary<int, string> names = new ConcurrentDictionary<int, string>();
+        private int id = GetId();
+
+        public Person(string name) => names.TryAdd(id, name); // constructors
+
+        ~Person() => names.TryRemove(id, out _);              // finalizers
+
+        public string Name
+        {
+            get => names[id];                                 // getters
+            set => names[id] = value;                         // setters
+        }
+    }
+
 #endregion
 
 #region Ref Returns And Locals
@@ -422,6 +438,150 @@ public class Class8<T, S>
                 return null;
             }
         }
+
+        public void LocalFunctionWithTypeConstraint<T>()
+        {            
+            T LocalFunction<T>() where T : Person
+            {
+            
+            }
+        }
     }
 
 #endregion
+
+#region Out Variables
+
+    public class OutVariables
+    {
+        public void PrintCoordinates(Point p)
+        {
+            p.GetCoordinates(out int x, out int y);
+            p.GetCoordinates(out var x, out _); // Test for discards.
+        }
+
+        public void PrintStars(string s)
+        {
+            if (int.TryParse(s, out var i))
+            {
+                return;
+            }
+        }
+    }
+
+#endregion
+
+#region Tuple literal and Tuple types
+
+    public class Tuples
+    {
+        public void TuplesLiteralsTest()
+        {
+            // Simple tuple literals
+            var letters = ("a", "b");
+
+            // named elements tuple literals
+            var alphabetStart = (Alpha: "a", Beta: "b");
+
+            // tuple literals with member access invocation
+            var dateRange = (DateTime.MinValue, DateTime.MaxValue);
+
+            // tuple literals with method invocation.
+            var caculatedRange = (dates.First(), dates.Last());
+
+            // tuple literal that as casting for a argument
+            var cast = ((string)"a", "b");
+
+            // tuple literal nested in another tuple literal
+            var nested = (("a", 1), DateTime.Now);
+
+            // tuple literals in return statement.
+            return (first, middle, last);
+
+            // named tuple elements in a literal
+            return (first: first, middle: middle, last: last);
+        }
+        
+        public void TupleTypesTest()
+        {
+            (int, double, DateTime) simpledeclaration;
+
+            (int, string) intitializedField = (2, "Two");
+
+            (int, string)[] tupleArray;
+
+            (int, string)[] tuppleArrayInitialized = { (1, "One"), (2, "Two") };
+
+            (double, string, DateTime)[] fixedSize = new (double, string, DateTime)[2];
+
+            (string name, DateTime age) namedTuple;
+            
+            List<(string, int)> listOfTuple = new List<(string, int)>();
+
+            List<(string name , int age)> listOfNamedTuple = new List<(string name , int age)>();
+
+            List<(string name, DateTime dob)> myList = new List<(string name, DateTime dob)>()
+                                                           {
+                                                               ("A", DateTime.Now)
+                                                           };
+
+            List<(string[] name, DateTime dob)> myList1 = new List<(string[] name, DateTime dob)>()
+                                                       {
+                                                           (new [] {"A", "B"}, DateTime.Now)
+                                                       };
+
+            List<(string name , int? age)> listOfNamedTupleNullable = new List<(string name , int? age)>();
+        }
+        
+
+        // tuple return type
+        (string, string, string) TupleTypeTest(long id)
+        {
+            return (first, middle, last); // tuple literal
+        }
+
+        // tuple return type with elements names
+        (string first, string middle, string last) TupleTypeWithNameTest(long id)
+        {
+            return (first, middle, last); // tuple literal
+        }
+
+        // Local function which return tuple types 
+        public int Fibonacci(int x)
+        {
+            if (x < 0) throw new ArgumentException("Less negativity please!", nameof(x));
+            return Fib(x).current;
+
+            (int current, int previous) Fib(int i)
+            {
+                if (i == 0) return (1, 0);
+                var (p, pp) = Fib(i - 1);
+                return (p + pp, p);
+            }
+        }
+
+        // Simple property
+        (decimal, string ) TupleTypeProperty { get; set; }
+
+        // Expression bodied property
+        (double, string) TupleTypePropertyWithExpression => (12.2, "Twelve Point Two");
+
+        // Property with accessor and expression body
+        (decimal, string) TupleProperty
+        {
+            get => TupleTypeProperty;
+
+            set => TupleTypeProperty = value;
+        }
+
+        public List<(IPEndPoint Source, IPEndPoint Destination)> ConnectionEndpoints { get; }
+
+        // Indexer
+        public (decimal, string) this[int i]
+        {
+            get => TupleTypeProperty;
+            set => TupleTypeProperty = value;
+        }       
+    }
+
+# endregion

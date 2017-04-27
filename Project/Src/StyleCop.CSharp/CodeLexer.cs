@@ -1139,7 +1139,8 @@ namespace StyleCop.CSharp
                 char character = this.codeReader.Peek(index - this.marker.Index);
 
                 // Break if this is not a valid decimal digit or digit separator.
-                if ((character < '0' || character > '9') && character != '_')
+                // '_' is not allowed as the first char following a '.'
+                if ((character < '0' || character > '9') && (character != '_' || index == startIndex))
                 {
                     break;
                 }
@@ -1174,9 +1175,11 @@ namespace StyleCop.CSharp
 
             int startIndex = index;
 
+            char character;
+
             while (true)
             {
-                char character = this.codeReader.Peek(index - this.marker.Index);
+                character = this.codeReader.Peek(index - this.marker.Index);
 
                 // Break if this is not a valid decimal digit or digit separator.
                 // If the digit seperator is the first char, then this is not a number.
@@ -1186,6 +1189,12 @@ namespace StyleCop.CSharp
                 }
 
                 ++index;
+            }
+
+            // If the last character we read is an '_', this is not a number.
+            if (character == '_')
+            {
+                return -1;
             }
 
             // The last index of the number is one less than the current index.
@@ -1805,7 +1814,7 @@ namespace StyleCop.CSharp
             // Make sure a number was found.
             // If we found '_' at the end, then this is not a number.
             // Note that '_' is not allowed at the beginning too, GetPositiveNumber already handle this.
-            // There are other positions where '_' is not allowed (i.e around '.' or in an exponent),
+            // There are other positions where '_' is not allowed (i.e in an exponent),
             // but for parsing purposes, we include those. The compiler will complain anyway.
             if (endIndex >= markerIndex && this.codeReader.Peek(endIndex - markerIndex) != '_')
             {
