@@ -2118,7 +2118,7 @@ namespace StyleCop.CSharp
             if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
             {
                 this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
-                whenExpression = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+                whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
             }
 
             // Get the colon.

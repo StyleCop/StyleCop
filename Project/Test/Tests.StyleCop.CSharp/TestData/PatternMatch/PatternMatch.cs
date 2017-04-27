@@ -64,6 +64,8 @@
                     break;
                 case Rectangle s when (s.Length == s.Height):
                     break;
+                case Rectangle s when s.Length > s.Height:
+                    break;
                 case Rectangle r:
                     break;
                 case IEnumerable<int> ieInt:

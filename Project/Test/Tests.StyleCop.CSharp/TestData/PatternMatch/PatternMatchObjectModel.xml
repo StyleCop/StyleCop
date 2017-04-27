@@ -279,6 +279,21 @@
             </Statement>
             <Statement Type="SwitchCaseStatement">
               <Expression Text="Rectangle" Type="LiteralExpression" />
+              <Expression Text="s" Type="LiteralExpression" />
+              <Expression Type="RelationalExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="s" Type="LiteralExpression" />
+                  <Expression Text="Length" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="s" Type="LiteralExpression" />
+                  <Expression Text="Height" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Statement Type="BreakStatement" />
+            </Statement>
+            <Statement Type="SwitchCaseStatement">
+              <Expression Text="Rectangle" Type="LiteralExpression" />
               <Expression Text="r" Type="LiteralExpression" />
               <Statement Type="BreakStatement" />
             </Statement>
