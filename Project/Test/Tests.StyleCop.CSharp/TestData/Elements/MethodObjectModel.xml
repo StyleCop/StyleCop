@@ -1063,10 +1063,19 @@
             </Statement>
             <Statement Type="ExpressionStatement">
               <Expression Type="AssignmentExpression">
-                <Expression Type="MethodInvocationExpression">
-                  <Expression Text="var" Type="LiteralExpression" />
-                  <Expression Text="p" Type="LiteralExpression" />
-                  <Expression Text="pp" Type="LiteralExpression" />
+                <Expression Type="TupleExpression">
+                  <Expression Type="VariableDeclarationExpression">
+                    <Expression Text="var" Type="LiteralExpression" />
+                    <Expression Type="VariableDeclaratorExpression">
+                      <Expression Text="p" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
+                  <Expression Type="VariableDeclarationExpression">
+                    <Expression Text="var" Type="LiteralExpression" />
+                    <Expression Type="VariableDeclaratorExpression">
+                      <Expression Text="pp" Type="LiteralExpression" />
+                    </Expression>
+                  </Expression>
                 </Expression>
                 <Expression Type="MethodInvocationExpression">
                   <Expression Text="Fib" Type="LiteralExpression" />
@@ -1143,6 +1152,84 @@
             </Expression>
           </Statement>
         </Element>
+      </Element>
+      <Element Name="DesconstructionTest" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="TupleExpression">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="string" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="fname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="string" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="lname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Expression Text="person" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="TupleExpression">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="string" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="fname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="string" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="_" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Expression Text="person" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="TupleExpression">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="fname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="lname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Expression Text="person" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Type="TupleExpression">
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="_" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+              <Expression Type="VariableDeclarationExpression">
+                <Expression Text="var" Type="LiteralExpression" />
+                <Expression Type="VariableDeclaratorExpression">
+                  <Expression Text="lname" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+            <Expression Text="person" Type="LiteralExpression" />
+          </Expression>
+        </Statement>        
       </Element>
     </Element>
   </Element>

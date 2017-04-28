@@ -2754,6 +2754,10 @@ namespace StyleCop.CSharp
                         {
                             expression = this.GetAwaitExpression(parentReference, unsafeCode);
                         }
+                        else if (symbol.Text == "var" && DetectTupleType(0) > 0)
+                        {
+                            expression = this.GetDeconstuctionTupleExpression(unsafeCode, true);
+                        }
 
                         // If the expression is still null now, this is just a regular 'other' expression.
                         if (expression == null)
@@ -2834,12 +2838,17 @@ namespace StyleCop.CSharp
                         {
                             expression = this.GetLambdaExpression(parentReference, unsafeCode);
                         }
+                        else if (this.IsDeconstructionExpression())
+                        {
+                            expression = this.GetDeconstuctionTupleExpression(unsafeCode, false);
+                        }
                         else
                         {
                             expression = this.GetOpenParenthesisExpression(previousPrecedence, unsafeCode);
                         }
 
                         break;
+
                     case SymbolType.Lambda:
                         if (this.IsBodiedExpression())
                         {
@@ -3405,12 +3414,18 @@ namespace StyleCop.CSharp
                     this.CreateSyntaxException();                
                 }
 
-                // Get the remaining list of arguments if any.
+                // Get the remaining list of arguments.
                 IList<Argument> argumentsList = this.GetArgumentList(SymbolType.CloseParenthesis, expressionReference, unsafeCode);
 
                 // Prepare a new list that includes our first argument.
                 List<Argument> tupleLiteralArguments = new List<Argument> { firstArgument };
                 tupleLiteralArguments.AddRange(argumentsList);
+
+                // Should have more than one argument.
+                if (tupleLiteralArguments.Count == 1)
+                {
+                    this.CreateSyntaxException();
+                }
 
                 // Get the closing parenthesis.
                 closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
@@ -3422,6 +3437,87 @@ namespace StyleCop.CSharp
                 // Create the expression.
                 resultExpression = new TupleExpression(partialTokens, tupleLiteralArguments.ToArray());                
             }
+
+            // Link the opening and closing parenthesis and return the expression.
+            openParenthesis.MatchingBracketNode = closeParenthesisNode;
+            closeParenthesis.MatchingBracketNode = openParenthesisNode;
+
+            expressionReference.Target = resultExpression;
+            return resultExpression;
+        }
+
+        /// <summary>
+        /// Reads deconstruction tuple expression.
+        /// </summary>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="isVar">Indicates if this expression is preceded by a <c>var</c> keyword.</param>
+        /// <returns>
+        /// Returns a TupleExpression or ParenthesizedExpression.
+        /// </returns>
+        private TupleExpression GetDeconstuctionTupleExpression(bool unsafeCode, bool isVar)
+        {
+            //// Note: What we do here is slightly different from roslyn syntax tree.
+            //// (string fname, string lname) = person is read as, TupleExpression with arguments that are declaration expressions
+            //// var (fname, lname) = person is read as, declaration exrpression with parenthesized variable designation.
+            //// For our purposes we read both as TupleExpression with variable declaration so we can apply naming rules over them.
+
+            Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+            Expression varExpression = null;
+
+            if (isVar)
+            {
+                varExpression = this.GetLiteralExpression(expressionReference, unsafeCode);
+            }
+
+            // Get the opening parenthesis.
+            Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, expressionReference);
+            Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
+
+            // Get the list of arguments.
+            List<VariableDeclarationExpression> variables = new List<VariableDeclarationExpression>();
+
+            Symbol symbol = this.GetNextSymbol(expressionReference);
+
+            while (symbol.SymbolType != SymbolType.CloseParenthesis)
+            {
+                Expression variableType;
+                if (isVar)
+                {
+                    // Keep using the var expression for every variable declaration.
+                    variableType = varExpression;
+                }
+                else
+                {
+                    // Get the variable type and declaration.
+                    variableType = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                }
+
+                variables.Add(this.GetSingleVariableDeclarationExpression(variableType, ExpressionPrecedence.None, unsafeCode));
+
+                // Now check if the next character is a comma. If so there is another variable declared.
+                symbol = this.GetNextSymbol(expressionReference);
+
+                // Break if there are no more declarations.
+                if (symbol.SymbolType != SymbolType.Comma)
+                {
+                    break;
+                }
+
+                // Add the comma and continue reading the next declaration.
+                this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
+            }
+
+            // Get the closing parenthesis.
+            Bracket closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
+            Node<CsToken> closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+
+            // Create the token list for the expression.
+            CsTokenList partialTokens = new CsTokenList(this.tokens, openParenthesisNode, this.tokens.Last);
+
+            // Create the expression.
+            TupleExpression resultExpression = new TupleExpression(partialTokens, variables);
 
             // Link the opening and closing parenthesis and return the expression.
             openParenthesis.MatchingBracketNode = closeParenthesisNode;
@@ -4849,6 +4945,104 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
+        /// Reads an expression that contains with two unknown words.
+        /// </summary>
+        /// <param name="type">
+        /// The type of the variable.
+        /// </param>
+        /// <param name="previousPrecedence">
+        /// The precedence of the previous expression.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <returns>
+        /// Returns the expression.
+        /// </returns>
+        private VariableDeclarationExpression GetSingleVariableDeclarationExpression(Expression type, ExpressionPrecedence previousPrecedence, bool unsafeCode)
+        {
+            Param.AssertNotNull(type, "type");
+            Param.Ignore(previousPrecedence);
+            Param.Ignore(unsafeCode);
+
+            Debug.Assert(
+                type.ExpressionType == ExpressionType.Literal || type.ExpressionType == ExpressionType.MemberAccess,
+                "The left side of a variable declaration must either be a literal or a member access.");
+
+            VariableDeclarationExpression expression = null;
+            if (CheckPrecedence(previousPrecedence, ExpressionPrecedence.None))
+            {
+                Reference<ICodePart> expressionReference = new Reference<ICodePart>();
+
+                // Convert the type expression to a literal type token expression.
+                LiteralExpression literalType = null;
+                if (type.ExpressionType == ExpressionType.Literal)
+                {
+                    literalType = type as LiteralExpression;
+                    if (!(literalType.Token is TypeToken))
+                    {
+                        literalType = null;
+                    }
+                }
+
+                if (literalType == null)
+                {
+                    literalType = this.ConvertTypeExpression(type);
+                }
+
+                // Get single declarator.
+                List<VariableDeclaratorExpression> declarators = new List<VariableDeclaratorExpression>();
+
+                // Get the next word.
+                Symbol symbol = this.GetNextSymbol(SymbolType.Other, expressionReference);
+
+                // Get the identifier.
+                LiteralExpression identifier = this.GetLiteralExpression(expressionReference, unsafeCode);
+                if (identifier == null || identifier.Tokens.First == null)
+                {
+                    throw new SyntaxException(this.document.SourceCode, symbol.LineNumber);
+                }
+
+                // Get the initializer if it exists.
+                Expression initializer = null;
+
+                symbol = this.GetNextSymbol(expressionReference);
+                if (symbol.SymbolType == SymbolType.Equals)
+                {
+                    // Add the equals token.
+                    this.tokens.Add(this.GetOperatorToken(OperatorType.Equals, expressionReference));
+
+                    // Check whether this is an array initializer.
+                    symbol = this.GetNextSymbol(expressionReference);
+
+                    if (symbol.SymbolType == SymbolType.OpenCurlyBracket)
+                    {
+                        initializer = this.GetArrayInitializerExpression(unsafeCode);
+                    }
+                    else
+                    {
+                        initializer = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                    }
+                }
+
+                // Create the token list for the declarator.
+                CsTokenList partialTokens = new CsTokenList(this.tokens, identifier.Tokens.First, this.tokens.Last);
+
+                // Create and add the declarator.
+                declarators.Add(new VariableDeclaratorExpression(partialTokens, identifier, initializer));
+
+                // Create the token list for the expression.
+                CsTokenList tokenList = new CsTokenList(this.tokens, type.Tokens.First, this.tokens.Last);
+
+                // Create the expression.
+                expression = new VariableDeclarationExpression(tokenList, literalType, declarators.ToArray());
+                expressionReference.Target = expression;
+            }
+
+            return expression;
+        }
+
+        /// <summary>
         /// Reads the expression that begins with a throw keyword
         /// </summary>
         /// <param name="parentReference">
@@ -5304,6 +5498,19 @@ namespace StyleCop.CSharp
             }
 
             return dereference;
+        }
+
+        /// <summary>
+        /// Determines whether the next expression is a deconstruction expression.
+        /// </summary>
+        /// <returns>Returns true if the next expression is a lambda expression.</returns>
+        private bool IsDeconstructionExpression()
+        {
+            int foundPosition = this.DetectTupleType(0);
+
+            return foundPosition > 0 
+                && this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType 
+                    == SymbolType.Equals;
         }
 
         /// <summary>

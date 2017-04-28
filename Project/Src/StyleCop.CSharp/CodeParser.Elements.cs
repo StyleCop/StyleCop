@@ -720,28 +720,7 @@ namespace StyleCop.CSharp
                         // Otherwise this could be a generic with tuple inside.
                         if (openAngleBracketsNotClosedCount == 0)
                         {
-                            SymbolType? trailingSymbol = this.IsTupleType(index - 1);
-                            if (trailingSymbol == null)
-                            {
-                                elementType = ElementType.Method;
-                            }
-                            else if (trailingSymbol == SymbolType.Semicolon || trailingSymbol == SymbolType.Equals)
-                            {
-                                elementType = ElementType.Field;
-                            }
-                            else if (trailingSymbol == SymbolType.OpenCurlyBracket || trailingSymbol == SymbolType.Lambda)
-                            {
-                                elementType = ElementType.Property;
-                            }
-                            else if (trailingSymbol == SymbolType.OpenSquareBracket)
-                            {
-                                elementType = ElementType.Indexer;
-                            }
-                            else
-                            {
-                                elementType = ElementType.Method;
-                            }
-
+                            elementType = this.DetectElementTypeForOpenParenthesis(index - 1);
                             loop = false;                            
                         }
 
@@ -752,7 +731,7 @@ namespace StyleCop.CSharp
                         // Allow closing parenthesis if we are in generics with tuple type declaration.
                         if (tupleTypeInsideGenericsCount > 0)
                         {
-                            tupleTypeInsideGenericsCount++;
+                            tupleTypeInsideGenericsCount--;
                         }
                         else
                         {
@@ -3636,7 +3615,50 @@ namespace StyleCop.CSharp
 
             return element;
         }
-        
+
+        /// <summary>
+        /// Inspects the next few symbols after the open parenthesis and identifies the element type.
+        /// </summary>
+        /// <param name="testPosition">The position from current, at which the open parenthesis symbol exists</param>
+        /// <returns>The element type that was detected.</returns>
+        private ElementType DetectElementTypeForOpenParenthesis(int testPosition)
+        {
+            int foundPosition = this.DetectTupleType(testPosition);
+
+            if (foundPosition == testPosition)
+            {
+                return ElementType.Method;
+            }
+
+            SymbolType symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;
+
+            // The next symbol should be a 'this' keyword or a variable name.
+            if (symbolType != SymbolType.This && symbolType != SymbolType.Other)
+            {
+                return ElementType.Method;
+            }
+
+            // Grab the next symbol, to detect the statement type.
+            symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;
+
+            if (symbolType == SymbolType.Semicolon || symbolType == SymbolType.Equals)
+            {
+                return ElementType.Field;
+            }
+
+            if (symbolType == SymbolType.OpenCurlyBracket || symbolType == SymbolType.Lambda)
+            {
+                return ElementType.Property;
+            }
+
+            if (symbolType == SymbolType.OpenSquareBracket)
+            {
+                return ElementType.Indexer;
+            }
+
+            return ElementType.Method;
+        }
+
         #endregion
     }
 }

@@ -1798,6 +1798,96 @@ namespace StyleCop.CSharp
             return variable;
         }
 
+        /// <summary>
+        /// Inspects the next few symbols after the open parenthesis and identifies if a tuple type is defined.
+        /// </summary>
+        /// <param name="testPosition">The position from current, at which the open parenthesis symbol exists</param>
+        /// <returns>The end position of the tuple type if found, otherwise testPosition is returned.</returns>
+        private int DetectTupleType(int testPosition)
+        {
+            Param.AssertGreaterThanOrEqualToZero(testPosition, nameof(testPosition));
+
+            bool foundComma = false;
+            int parenthesisCount = 0;
+            SymbolType symbolType;
+            int originalTestPosition = testPosition;
+
+            // Keep checking for allowed symbols. Note that this check is only tuple types and not for tuple literals.
+            while (true)
+            {
+                symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
+
+                if (symbolType == SymbolType.Other || symbolType == SymbolType.OpenSquareBracket || symbolType == SymbolType.CloseSquareBracket
+                    || symbolType == SymbolType.LessThan || symbolType == SymbolType.GreaterThan)
+                {
+                    continue;
+                }
+
+                if (symbolType == SymbolType.Comma)
+                {
+                    foundComma = true;
+                    continue;
+                }
+
+                if (symbolType == SymbolType.OpenParenthesis)
+                {
+                    parenthesisCount++;
+                    continue;
+                }
+
+                if (symbolType == SymbolType.CloseParenthesis)
+                {
+                    parenthesisCount--;
+
+                    if (parenthesisCount == 0)
+                    {
+                        break;
+                    }
+
+                    continue;
+                }
+
+                // Unexpected symbol.
+                return originalTestPosition;
+            }
+
+            if (!foundComma)
+            {
+                return originalTestPosition;
+            }
+
+            int resultPosition = testPosition;
+            symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
+            int squareBracketCount = 0;
+
+            // Move past array declaration brackets if any.
+            if (symbolType == SymbolType.OpenSquareBracket)
+            {
+                squareBracketCount = 1;
+
+                while (true)
+                {
+                    symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
+                    if (symbolType == SymbolType.OpenSquareBracket)
+                    {
+                        squareBracketCount++;
+                    }
+                    else if (symbolType == SymbolType.CloseSquareBracket)
+                    {
+                        squareBracketCount--;
+                        resultPosition = testPosition;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // We should have parsed all brackets. 
+            return squareBracketCount == 0 ? resultPosition : originalTestPosition;
+        }
+
         #endregion
     }
 }
