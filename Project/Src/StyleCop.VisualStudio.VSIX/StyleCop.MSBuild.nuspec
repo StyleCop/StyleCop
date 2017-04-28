@@ -26,7 +26,7 @@
     <file src="CustomDictionary.xml" target="tools" />
     <file src="mssp7en.dll" target="tools" />
     <file src="mssp7en.lex" target="tools" />
-    <file src="Settings\DefaultSettings.StyleCop" target="tools\Settings.StyleCop" />
+    <file src="Settings.StyleCop" target="tools" />
     <file src="StyleCop.CSharp.dll" target="tools" />
     <file src="StyleCop.CSharp.Rules.dll" target="tools" />
     <file src="StyleCop.dll" target="tools" />

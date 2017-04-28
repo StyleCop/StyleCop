@@ -24,7 +24,7 @@
       when running analyzers. -->
     <file src="mssp7en.dll" target="build" />
     <file src="mssp7en.lex" target="build" />
-    <file src="Settings\DefaultSettings.StyleCop" target="content" />
+    <file src="Settings.StyleCop" target="content" />
     <file src="StyleCop.CSharp.Rules.targets" target="build" />
   </files>
 </package>
