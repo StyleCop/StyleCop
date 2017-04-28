@@ -32,6 +32,11 @@ namespace StyleCop.CSharp
         /// </summary>
         private readonly IList<Argument> arguments;
 
+        /// <summary>
+        /// The variable declarations that form the Tuple type.
+        /// </summary>
+        private readonly IList<VariableDeclarationExpression> variableDeclarations;
+
         #endregion
         
         #region Constructors and Destructors
@@ -59,6 +64,29 @@ namespace StyleCop.CSharp
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the TupleExpression class.
+        /// </summary>
+        /// <param name="tokens">
+        /// The list of tokens that form the expression.
+        /// </param>
+        /// <param name="variableDeclarations">
+        /// The variable declaration in the Tuple type.
+        /// </param>
+        internal TupleExpression(CsTokenList tokens, IList<VariableDeclarationExpression> variableDeclarations)
+            : base(ExpressionType.Tuple, tokens)
+        {
+            Param.AssertNotNull(variableDeclarations, nameof(variableDeclarations));
+            Param.AssertGreaterThanZero(variableDeclarations.Count, nameof(variableDeclarations));
+
+            this.variableDeclarations = variableDeclarations;
+
+            for (int i = 0; i < variableDeclarations.Count; ++i)
+            {
+                this.AddExpression(variableDeclarations[i]);
+            }
+        }
+
         #endregion
 
         #region Public Properties
@@ -67,6 +95,11 @@ namespace StyleCop.CSharp
         /// Gets the list of arguments that form the Tuple literal.
         /// </summary>
         public IList<Argument> Arguments => this.arguments;
+
+        /// <summary>
+        /// Gets the list of variable declarations that form the Tuple Type.
+        /// </summary>
+        public IList<VariableDeclarationExpression> VariableDeclarations => this.variableDeclarations;
 
         #endregion
     }

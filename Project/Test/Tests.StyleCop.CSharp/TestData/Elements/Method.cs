@@ -581,7 +581,18 @@ public class Class8<T, S>
         {
             get => TupleTypeProperty;
             set => TupleTypeProperty = value;
-        }       
-    }
+        }
 
-# endregion
+        public void DesconstructionTest()
+        {
+            (string fname, string lname) = person;
+
+            (string fname, string _) = person;
+
+            var (fname, lname) = person;
+
+            var (_, lname) = person;
+    }
+}
+
+#endregion

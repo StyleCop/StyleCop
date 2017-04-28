@@ -480,27 +480,7 @@ namespace StyleCop.CSharp
                         case SymbolType.This:
                         case SymbolType.Base:
                         case SymbolType.OpenParenthesis:
-                            SymbolType? trailingSymbolType = this.IsTupleType(0);
-
-                            if (trailingSymbolType == null)
-                            {
-                                statement = this.ParseExpressionStatement(unsafeCode);                                                                
-                            }
-                            else if (trailingSymbolType == SymbolType.Semicolon || trailingSymbolType == SymbolType.Equals)
-                            {
-                                // Starts with a tuple type, this is a tuple vairable declaration.
-                                statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
-                            }
-                            else if (trailingSymbolType == SymbolType.OpenParenthesis || trailingSymbolType == SymbolType.LessThan)
-                            {
-                                // Local function statement that returns a tuple.
-                                statement = this.ParseLocalFunctionStatement(unsafeCode);
-                            }
-                            else
-                            {
-                                statement = this.ParseExpressionStatement(unsafeCode);                                
-                            }
-
+                            statement = this.DetectAndGetStatementForOpenParenthesis(parentReference, unsafeCode, variables);
                             break;
 
                         case SymbolType.Semicolon:
@@ -656,100 +636,6 @@ namespace StyleCop.CSharp
                 return symbol.SymbolType == SymbolType.Other 
                     && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);                    
             }
-        }
-
-        /// <summary>
-        /// Inspects the next few symbols and identifies if a Tuple type can be parsed.
-        /// Also verifies if the symbol trailing the tuple type and name declaration, matches the specified expected symbols.
-        /// </summary>
-        /// <param name="testPosition">The position at which to test the existence of Tuple type</param>
-        /// <returns>The token after tuple type and allowed elements, if a Tuple type was found, Otherwise Null.</returns>
-        private SymbolType? IsTupleType(int testPosition)
-        {
-            Param.AssertGreaterThanOrEqualToZero(testPosition, nameof(testPosition));
-
-            bool foundComma = false;
-            int parenthesisCount = 0;
-            SymbolType symbolType;
-
-            while (true)
-            {
-                symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
-
-                if (symbolType == SymbolType.Other || symbolType == SymbolType.OpenSquareBracket || symbolType == SymbolType.CloseSquareBracket
-                    || symbolType == SymbolType.LessThan || symbolType == SymbolType.GreaterThan)
-                {
-                    continue;
-                }
-
-                if (symbolType == SymbolType.Comma)
-                {
-                    foundComma = true;
-                    continue;
-                }
-
-                if (symbolType == SymbolType.OpenParenthesis)
-                {
-                    parenthesisCount++;
-                    continue;
-                }
-
-                if (symbolType == SymbolType.CloseParenthesis)
-                {
-                    parenthesisCount--;
-
-                    if (parenthesisCount == 0)
-                    {
-                        break;
-                    }
-
-                    continue;
-                }
-
-                // Unexpected symbol.
-                return null;
-            }
-
-            if (!foundComma)
-            {
-                return null;
-            }
-
-            symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
-            int squareBracketCount = 0;
-
-            // Move past array declaration brackets if any.
-            if (symbolType == SymbolType.OpenSquareBracket)
-            {
-                squareBracketCount = 1;
-
-                while (true)
-                {
-                    symbolType = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
-                    if (symbolType == SymbolType.OpenSquareBracket)
-                    {
-                        squareBracketCount++;
-                    }
-                    else if (symbolType == SymbolType.CloseSquareBracket)
-                    {
-                        squareBracketCount--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            // We should have parsed all brackets. 
-            // The next symbol should be (variable/method name) or a this keyword.
-            if (squareBracketCount == 0 && symbolType != SymbolType.Other && symbolType != SymbolType.This)
-            {
-                return null;
-            }
-
-            // Grab the next symbol, and return it's type so caller can further decode the structure.
-            return this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition).SymbolType;
         }
 
         /// <summary>
@@ -2118,7 +2004,7 @@ namespace StyleCop.CSharp
             if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
             {
                 this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
-                whenExpression = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+                whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
             }
 
             // Get the colon.
@@ -2922,6 +2808,54 @@ namespace StyleCop.CSharp
             // Create the statement and return it.
             statementReference.Target = statement;
             return statement;
+        }
+
+        /// <summary>
+        /// Inspects the next few symbols after the open parenthesis and identifies the statement type.
+        /// </summary>
+        /// <param name="parentReference">
+        /// The parent code unit.
+        /// </param>
+        /// <param name="unsafeCode">
+        /// Indicates whether the code being parsed resides in an unsafe code block.
+        /// </param>
+        /// <param name="variables">
+        /// Returns the list of variables defined in the statement.
+        /// </param>
+        /// <returns>The statement that starts with open parenthesis.</returns>
+        private Statement DetectAndGetStatementForOpenParenthesis(Reference<ICodePart> parentReference, bool unsafeCode, VariableCollection variables)
+        {
+            int foundPosition = this.DetectTupleType(0);
+
+            if (foundPosition == 0)
+            {
+                return this.ParseExpressionStatement(unsafeCode); 
+            }
+
+            SymbolType symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;
+
+            // The next symbol should be (variable/method name) or a this keyword.
+            if (symbolType != SymbolType.Other)
+            {
+                return this.ParseExpressionStatement(unsafeCode);
+            }
+
+            // Grab the next symbol, to detect the statement type.
+            symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;
+
+            if (symbolType == SymbolType.Semicolon || symbolType == SymbolType.Equals)
+            {
+                // Starts with a tuple type, this is a tuple vairable declaration.
+                return this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
+            }
+
+            if (symbolType == SymbolType.OpenParenthesis || symbolType == SymbolType.LessThan)
+            {
+                // Local function statement that returns a tuple.
+                return this.ParseLocalFunctionStatement(unsafeCode);
+            }
+
+            return this.ParseExpressionStatement(unsafeCode);
         }
 
         #endregion
