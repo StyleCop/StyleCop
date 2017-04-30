@@ -285,7 +285,6 @@
     <None Include="packages.config" />
     <None Include="Settings\DefaultSettings.StyleCop">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="StyleCopAddIn.xml" />
     <None Include="StyleCop.nuspec" />
@@ -314,4 +313,7 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(ProjectDir)Settings\DefaultSettings.StyleCop $(TargetDir)Settings.StyleCop</PostBuildEvent>
+  </PropertyGroup>
 </Project>

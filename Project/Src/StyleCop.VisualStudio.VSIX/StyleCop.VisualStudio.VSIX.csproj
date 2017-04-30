@@ -45,6 +45,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\StyleCop\Settings\DefaultSettings.StyleCop">
+      <Link>DefaultSettings.StyleCop</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <TargetPath>Settings.StyleCop</TargetPath>
+    </Content>
     <None Include="BuildNuGetPackage.ps1" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
