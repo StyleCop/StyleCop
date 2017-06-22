@@ -2872,7 +2872,7 @@ namespace StyleCop.CSharp
                     if (!this.includedDocs.TryGetValue(adjustedFile, out document))
                     {
                         // The file is not included in the dictionary. Attempt to load the file and add it to the dictionary.
-                        document = LoadDocFileFromDisk(adjustedFile);
+                        document = LoadDocFileFromDisk(fullPath);
 
                         // We add the doc even if it is null, so that we don't attempt to load it again.
                         this.includedDocs.Add(adjustedFile, document);
