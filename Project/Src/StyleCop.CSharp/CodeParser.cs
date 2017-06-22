@@ -1561,7 +1561,7 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Returns the next code symbol from the requested positon without advancing to it.
+        /// Returns the next code symbol from the requested position without advancing to it.
         /// </summary>
         /// <param name="position">The relative position to current index, from which the next symbol should be peeked.</param>
         /// <param name="skip">Indicates the types of symbols to skip past.</param>
