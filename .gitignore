@@ -10,4 +10,4 @@ TestBin/
 *.nupkg
 Build.*.err
 Build.*.wrn
-/.vs
+.vs/
