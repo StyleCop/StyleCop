@@ -2600,30 +2600,32 @@ namespace StyleCop.CSharp
         private Symbol GetInterpolatedString()
         {
             StringBuilder text = new StringBuilder();
-
-            this.ReadInterpolatedStringText(text);
+            int endLineNumber = this.marker.LineNumber;
+            int endLineStartIndex = 0;
+            this.ReadInterpolatedStringText(text, ref endLineNumber, ref endLineStartIndex);
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
                 this.marker.Index,
                 this.marker.Index + text.Length - 1,
-                this.marker.IndexOnLine,
-                this.marker.IndexOnLine + text.Length - 1,
+                this.marker.IndexOnLine + 1,
+                (endLineNumber == this.marker.LineNumber ? this.marker.IndexOnLine : -1) + text.Length - endLineStartIndex,
                 this.marker.LineNumber,
-                this.marker.LineNumber);
+                endLineNumber);
 
             // Create the symbol.
             Symbol symbol = new Symbol(text.ToString(), SymbolType.String, location);
 
             // Update the marker.
             this.marker.Index += text.Length;
-            this.marker.IndexOnLine += text.Length;
+            this.marker.IndexOnLine += text.Length - endLineStartIndex;
+            this.marker.LineNumber = endLineNumber;
 
             // Return the symbol.
             return symbol;
         }
 
-        private void ReadInterpolatedStringText(StringBuilder text)
+        private void ReadInterpolatedStringText(StringBuilder text, ref int endLineNumber, ref int endLineStartIndex)
         {
             char dollarSign = this.codeReader.ReadNext();
             Debug.Assert(dollarSign == '$', "Interoplated strings must begin with a dollar sign ('$').");
@@ -2674,7 +2676,7 @@ namespace StyleCop.CSharp
                         if (character == '$')
                         {
                             // There is an interpolated string within the interpolated string
-                            this.ReadInterpolatedStringText(text);
+                            this.ReadInterpolatedStringText(text, ref endLineNumber, ref endLineStartIndex);
                             continue;
                         }
 
@@ -2750,10 +2752,20 @@ namespace StyleCop.CSharp
                 {
                     slash = false;
 
-                    if (!isVerbatim && (character == '\r' || character == '\n'))
+                    if (character == '\r' || character == '\n')
                     {
-                        // We've hit the end of the line. Just exit.
-                        return;
+                        if (!isVerbatim)
+                        {
+                            // We've hit the end of the line. Just exit.
+                            return;
+                        }
+
+                        if (character == '\n')
+                        {
+                            // Increment line number as we are in a verbatim string
+                            endLineNumber++;
+                            endLineStartIndex = text.Length;
+                        }
                     }
                 }
 
