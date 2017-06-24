@@ -106,6 +106,11 @@ namespace StyleCop.CSharp
                 }
             }
 
+            if (whenStatement != null)
+            {
+                this.AddStatement(whenStatement);
+            }
+
             this.AddStatement(embeddedStatement);
         }
 

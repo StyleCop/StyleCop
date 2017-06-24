@@ -34,5 +34,20 @@ namespace CSharpAnalyzersTest.TestData.Spacing
                     orderby g.Key ascending
                     select new NameCount { Name = g.Key.ToString(), Count = g.Count() };
         }
-   }
+
+        public void TestForIssue133()
+        {
+            try
+            {
+                int i;
+            }
+            catch (Exception e) when
+            (
+                e is SomeException ||
+                e is SomeOtherException
+            )
+            {
+            }
+        }
+    }
 }
