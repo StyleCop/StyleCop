@@ -153,5 +153,7 @@ namespace CSharpAnalyzersTest.TestData
 
         public bool ValidProperty10 { get; } =
             GetPropertyValue();
+
+        public int[] ValidProperty11 => new int[] { };
     }
 }
