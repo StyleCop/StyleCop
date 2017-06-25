@@ -285,6 +285,12 @@
       <Violation Section="Root.CloseParenthesisSpacing.Class21.Test`T%T"
                  LineNumber="144"
                  Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.OpenParenthesis.TestForIssue133" 
+                 LineNumber="45" 
+                 Rule="OpeningParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.OpenParenthesis.TestForIssue133" 
+                 LineNumber="48" 
+                 Rule="ClosingParenthesisMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
   <Test Name="CloseCurlyBracket">

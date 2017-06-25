@@ -17,6 +17,9 @@
         </Statement>
         <Statement Type="CatchStatement">
           <Expression Text="Exception" Type="LiteralExpression" />
+          <Statement Type="WhenStatement">
+            <Expression Text="true" Type="LiteralExpression" />
+          </Statement>
           <Statement Type="BlockStatement" />
         </Statement>
       </Element>

@@ -596,8 +596,14 @@ namespace StyleCop.CSharp
                 }
                 else if (element.ElementType == ElementType.Property)
                 {
-                    // Automatic properties are allowed to be on a single line, but normal properties are not.
-                    this.CheckElementBracketPlacement(element, IsAutomaticProperty((Property)element));
+                    Property itemBeingInspected = (Property)element;
+
+                    // Automatic/Expression bodied properties are allowed to be on a single line, but normal properties are not.
+                    bool allowAllOnOneLine = IsAutomaticProperty(itemBeingInspected) ||
+                        (itemBeingInspected.ChildStatements.Count == 1 &&
+                         itemBeingInspected.ChildStatements.First() is ExpressionStatement);
+
+                    this.CheckElementBracketPlacement(element, allowAllOnOneLine);
                 }
             }
         }

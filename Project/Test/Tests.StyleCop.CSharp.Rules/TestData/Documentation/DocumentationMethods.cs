@@ -597,5 +597,31 @@ namespace CSharpAnalyzersTest.TestData
             {
             }
         }
+
+        /// <summary>
+        /// While this test case is not for documentation rules, we use this
+        /// to verify the bug where multiline interpolated string results in incorrect line numbers.
+        /// </summary>
+        private static void TestCaseForIssue105Part1()
+        {
+            int value;
+            var singleLineDummyString = $@"Some Text";
+
+            // Declare dummy string.
+            var dummyString = string.Format(
+                $@"
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean 
+commodo ligula eget dolor. Aenean massa. Cum sociis natoque {0} 
+penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+",
+                value);
+
+            // Do something with the dummy string.
+            TransferQueue.Enqueue(dummyString);
+        }
+
+        private static void TestCaseForIssue105Part2()
+        {
+        }
     }
 }

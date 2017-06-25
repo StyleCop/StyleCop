@@ -606,6 +606,7 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode.MethodName" LineNumber="591" Rule="PartialElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode" LineNumber="594" Rule="PartialElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.SA1601TestCode.MethodName" LineNumber="596" Rule="PartialElementsMustBeDocumented" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationMethods.TestCaseForIssue105Part2" LineNumber="623" RuleNamespace="StyleCop.CSharp.DocumentationRules" Rule="ElementsMustBeDocumented" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty1" LineNumber="130" Rule="ElementDocumentationMustNotHaveDefaultSummary" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty1" LineNumber="130" Rule="PropertySummaryDocumentationMustMatchAccessors" />
       <Violation Section="Root.CSharpAnalyzersTest.TestData.DocumentationProperties.InvalidProperty2" LineNumber="138" Rule="DocumentationMustContainValidXml" />
