@@ -36,6 +36,11 @@ namespace StyleCop.CSharp
         private readonly TypeToken returnType;
 
         /// <summary>
+        /// The return type for the property is ref.
+        /// </summary>
+        private readonly bool returnTypeIsRef;
+
+        /// <summary>
         /// The get accessor for the property.
         /// </summary>
         private Accessor get;
@@ -75,6 +80,9 @@ namespace StyleCop.CSharp
         /// <param name="returnType">
         /// The property return type.
         /// </param>
+        /// <param name="returnTypeIsRef">
+        /// The return type for the property is ref.
+        /// </param>
         /// <param name="unsafeCode">
         /// Indicates whether the element resides within a block of unsafe code.
         /// </param>
@@ -88,6 +96,7 @@ namespace StyleCop.CSharp
             ICollection<Attribute> attributes, 
             Declaration declaration, 
             TypeToken returnType, 
+            bool returnTypeIsRef,
             bool unsafeCode, 
             bool generated)
             : base(document, parent, ElementType.Property, "property " + declaration.Name, header, attributes, declaration, unsafeCode, generated)
@@ -98,10 +107,12 @@ namespace StyleCop.CSharp
             Param.Ignore(attributes);
             Param.AssertNotNull(declaration, "declaration");
             Param.AssertNotNull(returnType, "returnType");
+            Param.Ignore(returnTypeIsRef);
             Param.Ignore(unsafeCode);
             Param.Ignore(generated);
 
             this.returnType = returnType;
+            this.returnTypeIsRef = returnTypeIsRef;
 
             // If this is an explicit interface member implementation and our access modifier
             // is currently set to private because we don't have one, then it should be public instead.
@@ -135,6 +146,17 @@ namespace StyleCop.CSharp
             {
                 return this.returnType;
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the return type of the property is ref.
+        /// </summary>
+        public bool ReturnTypeIsRef
+        {
+          get
+          {
+            return this.returnTypeIsRef;
+          }
         }
 
         /// <summary>

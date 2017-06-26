@@ -3324,6 +3324,16 @@ namespace StyleCop.CSharp
             Dictionary<CsTokenType, CsToken> modifiers = this.GetElementModifiers(elementReference, ref accessModifier, PropertyModifiers);
             unsafeCode |= modifiers.ContainsKey(CsTokenType.Unsafe);
 
+            // Check if the return type for the property is ref.
+            Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
+            bool returnTypeIsRef = false;
+
+            if (nextSymbol.SymbolType == SymbolType.Ref)
+            {
+              this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, elementReference));
+              returnTypeIsRef = true;
+            }
+
             // Get the field type.
             TypeToken propertyType = this.GetTypeToken(elementReference, unsafeCode, true);
             Node<CsToken> propertyTypeNode = this.tokens.InsertLast(propertyType);
@@ -3337,7 +3347,7 @@ namespace StyleCop.CSharp
             CsTokenList declarationTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
             Declaration declaration = new Declaration(declarationTokens, name.Text, ElementType.Property, accessModifier, modifiers);
 
-            Property property = new Property(this.document, parent, xmlHeader, attributes, declaration, propertyType, unsafeCode, generated);
+            Property property = new Property(this.document, parent, xmlHeader, attributes, declaration, propertyType, returnTypeIsRef, unsafeCode, generated);
             elementReference.Target = property;
             
             if (this.IsBodiedExpression())
@@ -3350,7 +3360,7 @@ namespace StyleCop.CSharp
                 this.ParseElementContainer(property, elementReference, null, unsafeCode);
 
                 // Check if current property has initializer (C#6).
-                Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, true);
+                nextSymbol = this.PeekNextSymbol(SkipSymbols.All, true);
                 if (nextSymbol != null && nextSymbol.SymbolType == SymbolType.Equals)
                 {
                     nextSymbol = this.GetNextSymbol(SkipSymbols.All, elementReference, true);
