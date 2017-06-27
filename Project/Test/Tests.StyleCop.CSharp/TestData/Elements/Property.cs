@@ -234,20 +234,20 @@ public class ExpressionBodiedMember
 
 public class RefReturnsAndLocals
 {
-  private int testValue = 0;
+    private int testValue = 0;
 
-  public ref int TestValue
-  {
-    get
+    public ref int TestValue
     {
-      return ref testValue;
+        get
+        {
+            return ref testValue;
+        }
     }
-  }
 
-  public void TestCaller()
-  {
-    ref int localTestValue = ref TestValue;
-  }
+    public void TestCaller()
+    {
+        ref int localTestValue = ref TestValue;
+    }
 }
 
 #endregion

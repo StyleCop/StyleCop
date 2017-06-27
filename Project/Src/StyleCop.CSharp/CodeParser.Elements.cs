@@ -3330,8 +3330,8 @@ namespace StyleCop.CSharp
 
             if (nextSymbol.SymbolType == SymbolType.Ref)
             {
-              this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, elementReference));
-              returnTypeIsRef = true;
+                this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, elementReference));
+                returnTypeIsRef = true;
             }
 
             // Get the field type.

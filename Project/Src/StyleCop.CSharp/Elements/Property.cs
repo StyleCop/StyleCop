@@ -153,10 +153,10 @@ namespace StyleCop.CSharp
         /// </summary>
         public bool ReturnTypeIsRef
         {
-          get
-          {
-            return this.returnTypeIsRef;
-          }
+            get
+            {
+                return this.returnTypeIsRef;
+            }
         }
 
         /// <summary>
