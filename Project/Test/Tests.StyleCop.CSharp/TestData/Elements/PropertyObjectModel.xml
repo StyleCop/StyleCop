@@ -451,5 +451,40 @@
         </Statement>
       </Element>
     </Element>
+    <Element Name="RefReturnsAndLocals" Type="Class">
+      <Element Name="testValue" Type="Field">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="testValue" Type="LiteralExpression" />
+              <Expression Text="0" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="TestValue" Type="Property">
+        <Element Name="get" Type="Accessor">
+          <Statement Type="ReturnStatement">
+            <Expression Type="RefExpression">
+              <Expression Text="testValue" Type="LiteralExpression" />
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+      <Element Name="TestCaller" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="localTestValue" Type="LiteralExpression" />
+              <Expression Type="RefExpression">
+                <Expression Text="TestValue" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+    </Element>
   </Element>
 </StyleCopCsParserObjectModel>

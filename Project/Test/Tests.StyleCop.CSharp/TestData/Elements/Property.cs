@@ -229,3 +229,25 @@ public class ExpressionBodiedMember
 }
 
 #endregion
+
+#region Ref Returns And Locals
+
+public class RefReturnsAndLocals
+{
+    private int testValue = 0;
+
+    public ref int TestValue
+    {
+        get
+        {
+            return ref testValue;
+        }
+    }
+
+    public void TestCaller()
+    {
+        ref int localTestValue = ref TestValue;
+    }
+}
+
+#endregion
