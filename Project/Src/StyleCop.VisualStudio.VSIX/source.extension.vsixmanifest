@@ -17,6 +17,9 @@
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[12.0,16.0)" />
     <InstallationTarget Version="[11.0,12.0)" Id="Microsoft.VisualStudio.Pro" />
   </Installation>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="StyleCop.VisualStudio" Path="|StyleCop.VisualStudio;PkgdefProjectOutputGroup|" />
+  </Assets>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor"
                   Version="[11.0,16.0)"
