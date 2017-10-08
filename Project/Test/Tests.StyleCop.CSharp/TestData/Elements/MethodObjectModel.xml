@@ -694,10 +694,18 @@
               <Expression Text="p" Type="LiteralExpression" />
               <Expression Text="GetCoordinates" Type="LiteralExpression" />
             </Expression>
-            <Expression Text="int" Type="LiteralExpression" />
-            <Expression Text="x" Type="LiteralExpression" />
-            <Expression Text="int" Type="LiteralExpression" />
-            <Expression Text="y" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="y" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
           </Expression>
         </Statement>
         <Statement Type="ExpressionStatement">
@@ -706,8 +714,12 @@
               <Expression Text="p" Type="LiteralExpression" />
               <Expression Text="GetCoordinates" Type="LiteralExpression" />
             </Expression>
-            <Expression Text="var" Type="LiteralExpression" />
-            <Expression Text="x" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="x" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
             <Expression Text="_" Type="LiteralExpression" />
           </Expression>
         </Statement>
@@ -720,12 +732,66 @@
               <Expression Text="TryParse" Type="LiteralExpression" />
             </Expression>
             <Expression Text="s" Type="LiteralExpression" />
-            <Expression Text="var" Type="LiteralExpression" />
-            <Expression Text="i" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="i" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
           </Expression>
           <Statement Type="BlockStatement">
             <Statement Type="ReturnStatement" />
           </Statement>
+        </Statement>
+      </Element>
+      <Element Name="TestForInlineOutVariables" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="Dictionary&lt;int,DateTime?&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+              <Expression Text="null" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="DateTime?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="b" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="Dictionary&lt;int,(string,int)&gt;" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="tupleDictionary" Type="LiteralExpression" />
+              <Expression Text="null" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="tupleDictionary" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="(string,int)" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="outValue" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
         </Statement>
       </Element>
     </Element>
