@@ -467,6 +467,15 @@ public class Class8<T, S>
                 return;
             }
         }
+
+        public void TestForInlineOutVariables()
+        {
+            Dictionary<int, DateTime?> a = null;
+            a.TryGetValue(0, out DateTime? b);
+
+            Dictionary<int, (string, int)> tupleDictionary = null;
+            tupleDictionary.TryGetValue(0, out (string, int) outValue);
+        }
     }
 
 #endregion

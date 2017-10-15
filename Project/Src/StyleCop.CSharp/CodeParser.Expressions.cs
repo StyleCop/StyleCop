@@ -698,6 +698,7 @@ namespace StyleCop.CSharp
             ParameterModifiers modifiers = ParameterModifiers.None;
             CsToken argumentName = null;
             Symbol symbol = firstSymbol;
+            bool isInlineVariableDeclaration = false;
 
             if (firstSymbol.SymbolType == SymbolType.Other)
             {
@@ -745,6 +746,7 @@ namespace StyleCop.CSharp
             {
                 this.tokens.Add(this.GetToken(CsTokenType.Out, SymbolType.Out, argumentReference));
                 modifiers = ParameterModifiers.Out;
+                isInlineVariableDeclaration = this.IsInlineVariableDeclaration();
             }
             else if (symbol.SymbolType == SymbolType.Params)
             {
@@ -753,7 +755,16 @@ namespace StyleCop.CSharp
             }
 
             // The argument body expression must come next.
-            Expression argumentExpression = this.GetNextExpression(ExpressionPrecedence.None, argumentReference, unsafeCode);
+            Expression argumentExpression;
+            if (isInlineVariableDeclaration)
+            {
+                Expression typeExpression = this.GetTypeTokenExpression(argumentReference, false, true);
+                argumentExpression = this.GetSingleVariableDeclarationExpression(typeExpression, ExpressionPrecedence.None, unsafeCode);
+            }
+            else
+            {
+                argumentExpression = this.GetNextExpression(ExpressionPrecedence.None, argumentReference, unsafeCode);
+            }
 
             // Create the collection of tokens that form the argument, and strip off whitesace from the beginning and end.
             CsTokenList argumentTokenList = new CsTokenList(this.tokens, previousTokenNode.Next, this.tokens.Last);
@@ -5800,6 +5811,22 @@ namespace StyleCop.CSharp
             }
 
             return operatorToken;
+        }
+
+        /// <summary>
+        /// Peeks the next few symbols to check if this is an inline variable declaration of an out argument.
+        /// </summary>
+        /// <returns>
+        /// Returns true, if an inline variable declaration was detected.
+        /// </returns>
+        private bool IsInlineVariableDeclaration()
+        {
+            int nextSymbolPosition;
+
+            // The next symbol would be argument name, check the one after that to determine if this is a variable declaration.
+            Symbol checkSymbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out nextSymbolPosition);
+            checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
+            return checkSymbol.SymbolType != SymbolType.Comma && checkSymbol.SymbolType != SymbolType.CloseParenthesis;
         }
 
         #endregion
