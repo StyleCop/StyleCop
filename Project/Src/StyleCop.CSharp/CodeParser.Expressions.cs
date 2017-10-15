@@ -5816,6 +5816,9 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Peeks the next few symbols to check if this is an inline variable declaration of an out argument.
         /// </summary>
+        /// <returns>
+        /// Returns true, if an inline variable declaration was detected.
+        /// </returns>
         private bool IsInlineVariableDeclaration()
         {
             int nextSymbolPosition;
