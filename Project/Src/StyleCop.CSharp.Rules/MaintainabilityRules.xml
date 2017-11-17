@@ -44,19 +44,19 @@
         <Description>Verifies that the code does not contain extra, unnecessary parenthesis.</Description>
       </Rule>
       <Rule Name="ArithmeticExpressionsMustDeclarePrecedence" CheckId="SA1407">
-        <Context>Insert parenthesis within the arithmetic expression to declare the operator precedence.</Context>
+        <Context>Insert parentheses within the arithmetic expression to declare the operator precedence.</Context>
         <Description>Verifies that the code does not rely on implied arithmetic operator precedence.</Description>
       </Rule>
       <Rule Name="ConditionalExpressionsMustDeclarePrecedence" CheckId="SA1408">
-        <Context>Insert parenthesis within the conditional AND and OR expressions to declare the operator precedence.</Context>
+        <Context>Insert parentheses within the conditional AND and OR expressions to declare the operator precedence.</Context>
         <Description>Verifies that the code does not rely on implied conditional operator precedence.</Description>
       </Rule>
       <Rule Name="RemoveDelegateParenthesisWhenPossible" CheckId="SA1410">
-        <Context>Remove the parenthesis from the anonymous method, since the delegate's parameter list is empty.</Context>
+        <Context>Remove the parentheses from the anonymous method, since the delegate's parameter list is empty.</Context>
         <Description>Verifies that parenthesis are removed from anonymous methods when there are no method parameters.</Description>
       </Rule>
       <Rule Name="AttributeConstructorMustNotUseUnnecessaryParenthesis" CheckId="SA1411">
-        <Context>The attribute constructor does not need parenthesis, since it's parameter list is empty.</Context>
+        <Context>The attribute constructor does not need parentheses, since its parameter list is empty.</Context>
         <Description>Verifies that parenthesis are removed from attribute constructors when there are no parameters.</Description>
       </Rule>
     </RuleGroup>
