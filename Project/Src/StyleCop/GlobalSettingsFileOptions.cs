@@ -219,16 +219,16 @@ namespace StyleCop
                     {
                         // Create a URI pointing to the local project folder.
                         string localFolderPath = Path.GetDirectoryName(this.tabControl.LocalSettings.Location);
-                        if (!localFolderPath.EndsWith("\\", StringComparison.Ordinal))
+                        if (!localFolderPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
                         {
-                            localFolderPath += "\\";
+                            localFolderPath += Path.DirectorySeparatorChar.ToString();
                         }
 
                         Uri uri = new Uri(localFolderPath);
 
                         // Create the relative path to the global file folder.
                         Uri relative = uri.MakeRelativeUri(new Uri(this.linkedFilePath.Text));
-                        relativePath = ConvertBackslashes(relative.OriginalString);
+                        relativePath = relative.OriginalString;
                     }
 
                     this.tabControl.LocalSettings.GlobalSettings.SetProperty(
@@ -297,8 +297,9 @@ namespace StyleCop
                     // This mode assumes that StyleCop is running in a file-based environment.
                     string linkedSettingsFile = Environment.ExpandEnvironmentVariables(linkedSettingsFileProperty.Value);
 
-                    if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal))
+                    if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains(Path.DirectorySeparatorChar.ToString()))
                     {
+                        linkedSettingsFile = Utils.CorrectPathSeparators(linkedSettingsFile);
                         linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), linkedSettingsFile);
                     }
 
@@ -395,36 +396,6 @@ namespace StyleCop
         }
 
         /// <summary>
-        /// Converts forward slashes to backslashes in a path string.
-        /// </summary>
-        /// <param name="path">
-        /// The path to convert.
-        /// </param>
-        /// <returns>
-        /// Returns the converted string.
-        /// </returns>
-        private static string ConvertBackslashes(string path)
-        {
-            Param.AssertNotNull(path, "path");
-
-            char[] newPath = new char[path.Length];
-            for (int i = 0; i < path.Length; ++i)
-            {
-                char character = path[i];
-                if (character == '/')
-                {
-                    newPath[i] = '\\';
-                }
-                else
-                {
-                    newPath[i] = character;
-                }
-            }
-
-            return new string(newPath);
-        }
-
-        /// <summary>
         /// Called when the browse button is clicked.
         /// </summary>
         /// <param name="sender">
@@ -481,8 +452,9 @@ namespace StyleCop
             {
                 string expandedPath = Environment.ExpandEnvironmentVariables(this.linkedFilePath.Text);
 
-                if (expandedPath.StartsWith(".", StringComparison.Ordinal) || !expandedPath.Contains("\\"))
+                if (expandedPath.StartsWith(".", StringComparison.Ordinal) || !expandedPath.Contains(Path.DirectorySeparatorChar.ToString()))
                 {
+                    expandedPath = Utils.CorrectPathSeparators(expandedPath);
                     expandedPath = Utils.MakeAbsolutePath(Path.GetDirectoryName(this.tabControl.LocalSettings.Location), expandedPath);
                 }
 

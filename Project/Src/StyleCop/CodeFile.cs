@@ -150,7 +150,7 @@ namespace StyleCop
                 char[] fullPathName = this.name.ToCharArray();
                 for (int i = 0; i < fullPathName.Length; ++i)
                 {
-                    if (fullPathName[i] == '\\' || fullPathName[i] == '.' || fullPathName[i] == ':')
+                    if (fullPathName[i] == System.IO.Path.DirectorySeparatorChar || fullPathName[i] == '.' || fullPathName[i] == ':')
                     {
                         fullPathName[i] = '_';
                     }

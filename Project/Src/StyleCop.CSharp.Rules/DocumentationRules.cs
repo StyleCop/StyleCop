@@ -159,25 +159,27 @@ namespace StyleCop.CSharp
                 {
                     if (dictionaryFolder.StartsWith(".", StringComparison.Ordinal))
                     {
+                        string relativeDictionaryFolder = StyleCop.Utils.CorrectPathSeparators(dictionaryFolder);
+
                         // Check relative to the source file
                         namingService.AddDictionaryFolder(
                             StyleCop.Utils.MakeAbsolutePath(
                                 Path.GetDirectoryName(document.SourceCode.Path),
-                                dictionaryFolder));
+                                relativeDictionaryFolder));
 
                         // Check relative to the settings file
                         string location = document.SourceCode.Settings.Location;
                         if (location != null)
                         {
                             namingService.AddDictionaryFolder(
-                                StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(location), dictionaryFolder));
+                                StyleCop.Utils.MakeAbsolutePath(Path.GetDirectoryName(location), relativeDictionaryFolder));
                         }
 
                         // Check relative to the project location
                         namingService.AddDictionaryFolder(
                             StyleCop.Utils.MakeAbsolutePath(
                                 Path.GetDirectoryName(document.SourceCode.Project.Location),
-                                dictionaryFolder));
+                                relativeDictionaryFolder));
                     }
                     else
                     {

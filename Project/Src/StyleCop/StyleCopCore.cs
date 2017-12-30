@@ -788,8 +788,8 @@ namespace StyleCop
             string cleanedPath = path;
             if (cleanedPath != null)
             {
-                // Remove backslashes from the end of the path.
-                while (cleanedPath.Length > 0 && cleanedPath[cleanedPath.Length - 1] == '\\')
+                // Remove path separators from the end of the path.
+                while (cleanedPath.Length > 0 && cleanedPath[cleanedPath.Length - 1] == Path.DirectorySeparatorChar)
                 {
                     cleanedPath = cleanedPath.Substring(0, cleanedPath.Length - 1);
                 }

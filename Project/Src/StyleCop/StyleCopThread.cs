@@ -256,7 +256,7 @@ namespace StyleCop
             string relativeFileName = GetRelativeFileName(sourceCode);
             return sourceCode.Project.Location == null
                        ? relativeFileName
-                       : string.Format(CultureInfo.CurrentCulture, "{0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), relativeFileName);
+                       : string.Format(CultureInfo.CurrentCulture, "{0} - {1}", sourceCode.Project.Location.SubstringAfterLast(System.IO.Path.DirectorySeparatorChar), relativeFileName);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace StyleCop
             {
                 if (parsedDocument == null)
                 {
-                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", sourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(sourceCode));
+                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", sourceCode.Project.Location.SubstringAfterLast(System.IO.Path.DirectorySeparatorChar), GetRelativeFileName(sourceCode));
                     this.data.Core.SignalOutput(MessageImportance.Normal, format);
 
                     documentStatus.Complete = true;
@@ -400,7 +400,7 @@ namespace StyleCop
             {
                 if (parser.SkipAnalysisForDocument(document.SourceCode))
                 {
-                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast('\\'), GetRelativeFileName(document.SourceCode));
+                    string format = string.Format(CultureInfo.CurrentCulture, "Skipping: {0} - {1}", document.SourceCode.Project.Location.SubstringAfterLast(System.IO.Path.DirectorySeparatorChar), GetRelativeFileName(document.SourceCode));
                     this.data.Core.SignalOutput(MessageImportance.Normal, format);
                 }
                 else

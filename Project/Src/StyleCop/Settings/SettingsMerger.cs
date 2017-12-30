@@ -476,8 +476,9 @@ namespace StyleCop
             {
                 string linkedSettingsFile = Environment.ExpandEnvironmentVariables(linkedSettingsProperty.Value);
 
-                if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains("\\"))
+                if (linkedSettingsFile.StartsWith(".", StringComparison.Ordinal) || !linkedSettingsFile.Contains(Path.DirectorySeparatorChar.ToString()))
                 {
+                    linkedSettingsFile = Utils.CorrectPathSeparators(linkedSettingsFile);
                     linkedSettingsFile = Utils.MakeAbsolutePath(Path.GetDirectoryName(originalSettings.Location), linkedSettingsFile);
                 }
 
