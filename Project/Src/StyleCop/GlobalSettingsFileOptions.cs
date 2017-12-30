@@ -231,7 +231,7 @@ namespace StyleCop
                         relativePath = relative.OriginalString.Replace('/', '\\');
 
                         // Make sure the path is relative and starts with dot character.
-                        if (!relativePath.StartsWith(".", StringComparison.Ordinal))
+                        if (!Path.IsPathRooted(relativePath) && !relativePath.StartsWith(".", StringComparison.Ordinal))
                         {
                             relativePath = @".\" + relativePath;
                         }
