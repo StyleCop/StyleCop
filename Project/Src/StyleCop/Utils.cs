@@ -33,6 +33,27 @@ namespace StyleCop
         #region Public Methods and Operators
 
         /// <summary>
+        /// Checks the used path separators and if necessary corrects them.
+        /// </summary>
+        /// <param name="filePath">The file path to correct.</param>
+        /// <returns>Returns the corrected file path.</returns>
+        public static string CorrectPathSeparators(string filePath)
+        {
+            string correctedFilePath = filePath;
+
+            if (Path.DirectorySeparatorChar == '/' && correctedFilePath.Contains("\\"))
+            {
+                correctedFilePath = correctedFilePath.Replace('\\', Path.DirectorySeparatorChar);
+            }
+            else if (Path.DirectorySeparatorChar == '\\' && correctedFilePath.Contains("/"))
+            {
+                correctedFilePath = correctedFilePath.Replace('/', Path.DirectorySeparatorChar);
+            }
+
+            return correctedFilePath;
+        }
+
+        /// <summary>
         /// Checks for a valid UTF8 byte sequence. An implementation of http://www.ietf.org/rfc/rfc2279.txt?number=2279
         /// </summary>
         /// <param name="buffer">
@@ -310,27 +331,27 @@ namespace StyleCop
                 {
                     break;
                 }
-                else if (relativePath[index] == '.' && relativePath[index + 1] == '\\')
+                else if (relativePath[index] == '.' && relativePath[index + 1] == Path.DirectorySeparatorChar)
                 {
                     index += 2;
                 }
-                else if (relativePath[index] == '\\')
+                else if (relativePath[index] == Path.DirectorySeparatorChar)
                 {
                     index += 1;
                 }
-                else if (relativePath[index] == '.' && relativePath[index + 1] == '.' && relativePath[index + 2] == '\\')
+                else if (relativePath[index] == '.' && relativePath[index + 1] == '.' && relativePath[index + 2] == Path.DirectorySeparatorChar)
                 {
                     // Back up one folder.
                     index += 3;
 
                     // First, remove all backslashes from the end of the absolute path.
-                    while (absolutePath.Length > 0 && absolutePath[absolutePath.Length - 1] == '\\')
+                    while (absolutePath.Length > 0 && absolutePath[absolutePath.Length - 1] == Path.DirectorySeparatorChar)
                     {
                         absolutePath = absolutePath.Substring(0, absolutePath.Length - 1);
                     }
 
                     // Now cut off the last directory.
-                    int lastSlashIndex = absolutePath.LastIndexOf("\\", StringComparison.Ordinal);
+                    int lastSlashIndex = absolutePath.LastIndexOf(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
                     if (lastSlashIndex == -1)
                     {
                         // We've reached the end of the string. It's not possible to create 
