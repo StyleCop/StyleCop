@@ -156,11 +156,19 @@ namespace StyleCop
             get
             {
                 StringProperty mergeTypeProperty = this.localSettings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+                StringProperty linkedSettingsFileProperty = this.localSettings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
 
                 string mergeType = SettingsMerger.MergeStyleParent;
                 if (mergeTypeProperty != null)
                 {
                     mergeType = mergeTypeProperty.Value;
+                }
+
+                // If linked settings file isn't null but merge type is parent we expect that the merge type is MergeStyleLinked as the parent might
+                // also have a linked file and so the merge type property isn't explicitly written into the local settings file as it doesn't overwrite the parent setting.
+                if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value) && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleParent) == 0)
+                {
+                    mergeType = SettingsMerger.MergeStyleLinked;
                 }
 
                 // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
@@ -298,11 +306,19 @@ namespace StyleCop
             Param.Ignore(environment);
 
             StringProperty mergeTypeProperty = settings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+            StringProperty linkedSettingsFileProperty = settings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
 
             string mergeType = SettingsMerger.MergeStyleParent;
             if (mergeTypeProperty != null)
             {
                 mergeType = mergeTypeProperty.Value;
+            }
+
+            // If linked settings file isn't null but merge type is parent we expect that the merge type is MergeStyleLinked as the parent might
+            // also have a linked file and so the merge type property isn't explicitly written into the local settings file as it doesn't overwrite the parent setting.
+            if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value) && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleParent) == 0)
+            {
+                mergeType = SettingsMerger.MergeStyleLinked;
             }
 
             // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
