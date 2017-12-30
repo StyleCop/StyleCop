@@ -228,7 +228,13 @@ namespace StyleCop
 
                         // Create the relative path to the global file folder.
                         Uri relative = uri.MakeRelativeUri(new Uri(this.linkedFilePath.Text));
-                        relativePath = relative.OriginalString;
+                        relativePath = relative.OriginalString.Replace('/', '\\');
+
+                        // Make sure the path is relative and starts with dot character.
+                        if (!relativePath.StartsWith(".", StringComparison.Ordinal))
+                        {
+                            relativePath = @".\" + relativePath;
+                        }
                     }
 
                     this.tabControl.LocalSettings.GlobalSettings.SetProperty(
@@ -271,9 +277,17 @@ namespace StyleCop
 
             this.tabControl = propertyControl;
 
-            // Get the merge style setting.
+            // Get the merge style setting and linked file setting.
             StringProperty mergeTypeProperty = this.tabControl.LocalSettings.GlobalSettings.GetProperty(SettingsMerger.MergeSettingsFilesProperty) as StringProperty;
+            StringProperty linkedSettingsFileProperty = this.tabControl.LocalSettings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
             string mergeType = mergeTypeProperty == null ? SettingsMerger.MergeStyleParent : mergeTypeProperty.Value;
+
+            // If linked settings file isn't null but merge type is parent we expect that the merge type is MergeStyleLinked as the parent might
+            // also have a linked file and so the merge type property isn't explicitly written into the local settings file as it doesn't overwrite the parent setting.
+            if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value) && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleParent) == 0)
+            {
+                mergeType = SettingsMerger.MergeStyleLinked;
+            }
 
             // If the merge style is set to link but the current environment doesn't support linking, change it to parent.
             if (!this.tabControl.Core.Environment.SupportsLinkedSettings && string.CompareOrdinal(mergeType, SettingsMerger.MergeStyleLinked) == 0)
@@ -290,8 +304,6 @@ namespace StyleCop
             {
                 this.mergeWithLinkedFile.Checked = true;
 
-                StringProperty linkedSettingsFileProperty =
-                    this.tabControl.LocalSettings.GlobalSettings.GetProperty(SettingsMerger.LinkedSettingsProperty) as StringProperty;
                 if (linkedSettingsFileProperty != null && !string.IsNullOrEmpty(linkedSettingsFileProperty.Value))
                 {
                     // This mode assumes that StyleCop is running in a file-based environment.
