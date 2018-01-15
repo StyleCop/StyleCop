@@ -17,6 +17,7 @@ namespace StyleCop.VisualStudio
     using System;
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Reflection;
     using System.Runtime.InteropServices;
 
@@ -285,7 +286,7 @@ namespace StyleCop.VisualStudio
                 }
 
                 ProjectUtilities.Initialize(this);
-                this.Core.Initialize(null, true);
+                this.Core.Initialize(new[] { Path.GetDirectoryName(typeof(StyleCopVSPackage).Assembly.Location) }, loadFromDefaultPath: false);
                 this.Helper.Initialize();
 
                 // Ensuring that the form is created on the UI thread.
