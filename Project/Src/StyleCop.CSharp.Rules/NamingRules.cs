@@ -108,7 +108,10 @@ namespace StyleCop.CSharp
             }
             else if (name.StartsWith("_", StringComparison.Ordinal) || name.StartsWith("@", StringComparison.Ordinal))
             {
-                return 1;
+                if (name.Length > 1)
+                {
+                    return 1;
+                }
             }
 
             return 0;
@@ -393,7 +396,7 @@ namespace StyleCop.CSharp
 
             foreach (Variable variable in variables)
             {
-                if (variable.Name.StartsWith("_", StringComparison.Ordinal) && variable.Name != "__arglist")
+                if (variable.Name.StartsWith("_", StringComparison.Ordinal) && variable.Name != "__arglist" && variable.Name != "_")
                 {
                     this.AddViolation(element, variable.Location.LineNumber, Rules.FieldNamesMustNotBeginWithUnderscore);
                 }

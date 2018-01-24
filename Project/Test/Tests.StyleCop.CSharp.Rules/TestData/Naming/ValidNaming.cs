@@ -105,6 +105,7 @@ namespace ValidNaming1
                 int field1;
                 const int Const1 = 0;
                 int xyzField;
+                var _; // dont care variable is valid in C# 7
             }
         }
 
