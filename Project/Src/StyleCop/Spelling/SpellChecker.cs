@@ -578,7 +578,7 @@ namespace StyleCop.Spelling
                     }
 
                     proofDirectories.Add(AppDomain.CurrentDomain.BaseDirectory);
-                    proofDirectories.Add(Assembly.GetExecutingAssembly().Location);
+                    proofDirectories.Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
                     pathsToOfficeProofingTools = proofDirectories.ToArray();
 
