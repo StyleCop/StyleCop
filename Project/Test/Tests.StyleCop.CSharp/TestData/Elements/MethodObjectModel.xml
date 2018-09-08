@@ -685,6 +685,24 @@
           <Statement Type="BlockStatement" />
         </Statement>
       </Element>
+      <Element Name="LocalFunctionWithNullableReturn" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Check" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+      </Element>
+      <Element Name="AsyncLocalFunction" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Wait" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+      </Element>
+      <Element Name="AsyncLocalFunctionWithReturnValue" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="WaitInt" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+      </Element>
     </Element>
     <Element Name="OutVariables" Type="Class">
       <Element Name="PrintCoordinates" Type="Method">

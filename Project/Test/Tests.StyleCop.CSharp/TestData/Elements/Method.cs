@@ -442,8 +442,28 @@ public class Class8<T, S>
         public void LocalFunctionWithTypeConstraint<T>()
         {            
             T LocalFunction<T>() where T : Person
+            {            
+            }
+        }
+
+        public void LocalFunctionWithNullableReturn()
+        {
+            bool? Check(object target)
             {
-            
+            }
+        }
+
+        public async Task AsyncLocalFunction()
+        {
+            async Task Wait()
+            {
+            }
+        }
+
+        public async Task AsyncLocalFunctionWithReturnValue()
+        {
+            async Task<int> WaitInt()
+            {
             }
         }
     }
@@ -452,7 +472,7 @@ public class Class8<T, S>
 
 #region Out Variables
 
-    public class OutVariables
+public class OutVariables
     {
         public void PrintCoordinates(Point p)
         {

@@ -366,7 +366,7 @@ namespace StyleCop.CSharp
                                 }
                             }
 
-                            if (this.IsLocalFunctionStatement(false))
+                            if (this.IsLocalFunctionStatement(symbol))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                                 break;
@@ -463,13 +463,13 @@ namespace StyleCop.CSharp
                             break;
 
                         case SymbolType.Ref:
-                            if (this.IsLocalFunctionStatement(true))
+                            if (this.IsLocalFunctionStatement(symbol))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                             }
                             else
                             {
-                                statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);                                
+                                statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
                             }
 
                             break;
@@ -564,20 +564,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines if the current statement being examined is a local function statement.
         /// </summary>
-        /// <param name="isRef">
-        /// Indicate if the check should be made for ref local function.
+        /// <param name="currentSymbol">
+        /// The current symbol on which the examination is being made.
         /// </param>
         /// <returns>
         /// True, if the statement is a local function, False if not.
         /// </returns>
-        private bool IsLocalFunctionStatement(bool isRef)
+        private bool IsLocalFunctionStatement(Symbol currentSymbol)
         {
-            Param.Ignore(isRef);
+            Param.AssertNotNull(currentSymbol, nameof(currentSymbol));
             SymbolType expectingNextSymbolType = SymbolType.Other;
 
-            // If ref, then move past 'ref' + white space which would be the type declaration.
+            // If ref, then move past 'ref'/'await' + white space which would be the type declaration.
             // Othwerwise, the next symbol would be the type declaration.
-            int testPosition = isRef ? 3 : 1;
+            bool isAsyncKeyword = (currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async");
+            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3  : 1;
 
             int angleBracketCount = 0;
             int squareBracketCount = 0;
@@ -639,7 +640,7 @@ namespace StyleCop.CSharp
 
                 // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
                 Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
-                return symbol.SymbolType == SymbolType.Other 
+                return symbol.SymbolType == SymbolType.Other
                     && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);
             }
         }
@@ -2749,11 +2750,15 @@ namespace StyleCop.CSharp
             bool returnTypeIsRef = false;
 
             if (nextSymbol.SymbolType == SymbolType.Ref)
-            {               
+            {
                 this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, statementReference));
                 returnTypeIsRef = true;
             }
-            
+            else if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "async")
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Other, statementReference));
+            }
+
             // Get the return type.
             TypeToken returnType = this.GetTypeToken(statementReference, unsafeCode, true);
             this.tokens.Add(returnType);
@@ -2786,10 +2791,10 @@ namespace StyleCop.CSharp
                 this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, statementReference));
 
                 statement = new LocalFunctionStatement(
-                    partialTokens, 
-                    returnType, 
-                    returnTypeIsRef, 
-                    name, 
+                    partialTokens,
+                    returnType,
+                    returnTypeIsRef,
+                    name,
                     parameters,
                     typeConstraints,
                     expression);
@@ -2835,7 +2840,7 @@ namespace StyleCop.CSharp
 
             if (foundPosition == 0)
             {
-                return this.ParseExpressionStatement(unsafeCode); 
+                return this.ParseExpressionStatement(unsafeCode);
             }
 
             SymbolType symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;
