@@ -587,6 +587,12 @@ namespace StyleCop.CSharp
                 // Get the symbol next to the proposed type declaration symbol.
                 Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
 
+                // Skip, if we are still reading nullable return type
+                if (symbol.SymbolType == SymbolType.QuestionMark)
+                {
+                    continue;
+                }
+
                 // if we found a symbol that could be used as part of type declaration,
                 // reset our expectation symbol, to read past it.
                 if (symbol.SymbolType == SymbolType.OpenSquareBracket)
@@ -611,7 +617,7 @@ namespace StyleCop.CSharp
                         expectingNextSymbolType = SymbolType.Other;
                     }
 
-                    continue;                        
+                    continue;
                 }
 
                 if (symbol.SymbolType == SymbolType.GreaterThan)
@@ -634,7 +640,7 @@ namespace StyleCop.CSharp
                 // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
                 Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
                 return symbol.SymbolType == SymbolType.Other 
-                    && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);                    
+                    && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);
             }
         }
 
