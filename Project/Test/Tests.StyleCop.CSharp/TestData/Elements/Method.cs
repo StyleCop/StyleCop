@@ -466,6 +466,17 @@ public class Class8<T, S>
             {
             }
         }
+
+        public void LocalFunctionWithFullyQualifiedReturnType()
+        {
+            Ns1.Type Func1()
+            {
+            }
+
+            Ns1.Ns2.Type Func2()
+            {
+            }
+        }
     }
 
 #endregion

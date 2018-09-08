@@ -2555,7 +2555,7 @@ namespace StyleCop.CSharp
             if (isVerbatim)
             {
                 char verbatimChar = this.codeReader.ReadNext();
-                Debug.Assert(verbatimChar == '@' , "Expected a verbatim character");
+                Debug.Assert(verbatimChar == '@', "Expected a verbatim character");
                 text.Append(verbatimChar);
             }
 

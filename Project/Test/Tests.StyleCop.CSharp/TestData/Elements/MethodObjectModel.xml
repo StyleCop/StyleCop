@@ -703,6 +703,16 @@
           <Statement Type="BlockStatement" />
         </Statement>
       </Element>
+      <Element Name="LocalFunctionWithFullyQualifiedReturnType" Type="Method">
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Func1" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+        <Statement Type="LocalFunctionStatement">
+          <Expression Text="Func2" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+      </Element>
     </Element>
     <Element Name="OutVariables" Type="Class">
       <Element Name="PrintCoordinates" Type="Method">

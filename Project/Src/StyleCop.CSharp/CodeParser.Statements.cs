@@ -577,7 +577,7 @@ namespace StyleCop.CSharp
 
             // If ref, then move past 'ref'/'await' + white space which would be the type declaration.
             // Othwerwise, the next symbol would be the type declaration.
-            bool isAsyncKeyword = (currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async");
+            bool isAsyncKeyword = currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async";
             int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3  : 1;
 
             int angleBracketCount = 0;
@@ -638,8 +638,15 @@ namespace StyleCop.CSharp
                     continue;
                 }
 
-                // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
                 Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
+
+                // If we are '.' or the next symbol is a '.' , then we could be in a namespace of fully qualified return type.
+                if (symbol.SymbolType == SymbolType.Dot || nextSymbol.SymbolType == SymbolType.Dot)
+                {
+                    continue;
+                }
+
+                // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
                 return symbol.SymbolType == SymbolType.Other
                     && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);
             }
