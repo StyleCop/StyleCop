@@ -2528,7 +2528,7 @@ namespace StyleCop.CSharp
         {
             StringBuilder text = new StringBuilder();
 
-            this.ReadStringText(text);
+            this.ReadStringText(text, false);
 
             // Create the code location.
             CodeLocation location = new CodeLocation(
@@ -2550,8 +2550,15 @@ namespace StyleCop.CSharp
             return symbol;
         }
 
-        private void ReadStringText(StringBuilder text)
+        private void ReadStringText(StringBuilder text, bool isVerbatim)
         {
+            if (isVerbatim)
+            {
+                char verbatimChar = this.codeReader.ReadNext();
+                Debug.Assert(verbatimChar == '@' , "Expected a verbatim character");
+                text.Append(verbatimChar);
+            }
+
             // Read the opening quote character and add it to the string.
             char quoteType = this.codeReader.ReadNext();
             Debug.Assert(quoteType == '\'' || quoteType == '\"', "Expected a quote character");
@@ -2573,7 +2580,8 @@ namespace StyleCop.CSharp
 
                 if (character == '\\')
                 {
-                    slash = !slash;
+                    // Toggle when we move in and out of a slash, only if not a verbatim string.
+                    slash = !isVerbatim && !slash;
                 }
                 else
                 {
@@ -2666,10 +2674,16 @@ namespace StyleCop.CSharp
                 {
                     if (openingCharacters.Peek() == '{')
                     {
+                        if (character == '@')
+                        {
+                            this.ReadStringText(text, true);
+                            continue;
+                        }
+
                         if (character == '"')
                         {
                             // There is a string within the interpolated string
-                            this.ReadStringText(text);
+                            this.ReadStringText(text, false);
                             continue;
                         }
 

@@ -526,6 +526,17 @@
             </Expression>
           </Statement>
         </Element>
+        <Element Name="issue192" Type="Field">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="issue192" Type="LiteralExpression" />
+                <Expression Text="$&quot;123 {@&quot;c:\temp\&quot;}&quot;" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
       </Element>
     </Element>
   </Element>
