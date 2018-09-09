@@ -1405,10 +1405,34 @@ namespace StyleCop.CSharp
             Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, statementReference);
             Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
 
-            // Get the variable.
-            VariableDeclarationExpression variable =
-                this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode, true, false) as VariableDeclarationExpression;
-            if (variable == null)
+            // Get the variable. 
+            Expression variable = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode, true, false);
+
+            // This could be a single variable declaration or a tuple expression.
+            IEnumerable<VariableDeclaratorExpression> declarators;
+            TypeToken variableTypeToken;
+
+            VariableDeclarationExpression singleVariable;
+            TupleExpression tupleVariable;
+            if ((singleVariable = variable as VariableDeclarationExpression) != null)
+            {
+                variableTypeToken = singleVariable.Type;
+                declarators = singleVariable.Declarators;
+            }
+            else if ((tupleVariable = variable as TupleExpression) != null)
+            {
+                CsToken firstNode = tupleVariable.Tokens.First.Value;
+                variableTypeToken = new TypeToken(tupleVariable.Tokens.MasterList, tupleVariable.Location, firstNode.ParentRef, firstNode.Generated);
+                var tupleVariableDeclarators = new List<VariableDeclaratorExpression>();
+
+                foreach (var declaration in tupleVariable.VariableDeclarations)
+                {
+                    tupleVariableDeclarators.AddRange(declaration.Declarators);
+                }
+
+                declarators = tupleVariableDeclarators;
+            }
+            else
             {
                 throw this.CreateSyntaxException();
             }
@@ -1446,15 +1470,15 @@ namespace StyleCop.CSharp
             statementReference.Target = statement;
 
             // Add the variable.
-            foreach (VariableDeclaratorExpression declarator in variable.Declarators)
+            foreach (VariableDeclaratorExpression declarator in declarators)
             {
                 Variable localVariable = new Variable(
-                    variable.Type,
+                    variableTypeToken,
                     declarator.Identifier.Token.Text,
                     VariableModifiers.None,
-                    CodeLocation.Join(variable.Type.Location, declarator.Identifier.Token.Location),
+                    CodeLocation.Join(variableTypeToken.Location, declarator.Identifier.Token.Location),
                     statementReference,
-                    variable.Type.Generated);
+                    variableTypeToken.Generated);
 
                 // If there is already a variable in this scope with the same name, ignore this one.
                 if (!statement.Variables.Contains(declarator.Identifier.Token.Text))

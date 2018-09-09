@@ -1323,7 +1323,45 @@
             </Expression>
             <Expression Text="person" Type="LiteralExpression" />
           </Expression>
-        </Statement>        
+        </Statement>
+      </Element>
+      <Element Name="TupleEnumerationTest" Type="Method">
+        <Statement Type="ForeachStatement">
+          <Expression Type="TupleExpression">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="word" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="count" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+          <Expression Text="words" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
+        <Statement Type="ForeachStatement">
+          <Expression Type="TupleExpression">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="word" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="var" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="count" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+          <Expression Text="words" Type="LiteralExpression" />
+          <Statement Type="BlockStatement" />
+        </Statement>
       </Element>
     </Element>
   </Element>

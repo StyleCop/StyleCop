@@ -483,7 +483,7 @@ public class Class8<T, S>
 
 #region Out Variables
 
-public class OutVariables
+    public class OutVariables
     {
         public void PrintCoordinates(Point p)
         {
@@ -632,7 +632,18 @@ public class OutVariables
             var (fname, lname) = person;
 
             var (_, lname) = person;
+        }
+
+        public void TupleEnumerationTest(IEnumerable<(string, int)> words)
+        {
+            foreach ((string word, int count) in words)
+            {
+            }
+
+            foreach (var (word, count) in words)
+            {
+            }
+        }
     }
-}
 
 #endregion
