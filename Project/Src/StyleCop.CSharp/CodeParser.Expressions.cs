@@ -1969,9 +1969,18 @@ namespace StyleCop.CSharp
                     rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
 
                     // Check if we have a variable declared as part of pattern match.
-                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
+                    // Next symbol must be other, and the following symbol must be ')', ';' or start of another operator).
+                    int foundPosition;
+                    OperatorCategory operatorCategory;
+                    OperatorType operatorType;
 
-                    if (nextSymbol.SymbolType == SymbolType.Other)
+                    nextSymbol = this.PeekNextSymbolFrom(0, SkipSymbols.All, false, out foundPosition);
+                    Symbol followingSymbol = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition);
+
+                    if (nextSymbol.SymbolType == SymbolType.Other &&
+                        (followingSymbol.SymbolType == SymbolType.CloseParenthesis
+                        || followingSymbol.SymbolType == SymbolType.Semicolon
+                        || GetOperatorType(followingSymbol, out operatorType, out operatorCategory)))
                     {
                         matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, parentReference, unsafeCode);
                     }

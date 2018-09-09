@@ -251,7 +251,7 @@
               </Expression>
             </Expression>
           </Statement>
-<Statement Type="VariableDeclarationStatement">
+          <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
               <Expression Text="var" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
@@ -328,7 +328,33 @@
                 </Expression>
               </Expression>
             </Expression>
-          </Statement> 
+          </Statement>
+          <Statement Type="ExpressionStatement">
+            <Expression Type="AssignmentExpression">
+              <Expression Text="result" Type="LiteralExpression" />
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="ParenthesizedExpression">
+                    <Expression Type="QueryExpression">
+                      <Expression Type="MemberAccessExpression">
+                        <Expression Text="layout" Type="LiteralExpression" />
+                        <Expression Text="Elements" Type="LiteralExpression" />
+                      </Expression>
+                      <Expression Type="IsExpression">
+                        <Expression Text="p" Type="LiteralExpression" />
+                        <Expression Text="IMetaPropertyLink" Type="LiteralExpression" />
+                      </Expression>
+                      <Expression Type="CastExpression">
+                        <Expression Text="IMetaPropertyLink" Type="LiteralExpression" />
+                        <Expression Text="p" Type="LiteralExpression" />
+                      </Expression>
+                    </Expression>
+                  </Expression>
+                  <Expression Text="ToList" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
         </Element>
       </Element>
     </Element>
