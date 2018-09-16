@@ -2025,24 +2025,28 @@ namespace StyleCop.CSharp
 
             Expression identifier = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
 
+            // The next symbol could be a vairable definition, the when keyword, a variable definition followed by when keyword, or a ':'
             // Get the variable definition as part of pattern match, if available.
             Expression matchVariable = null;
+            Expression whenExpression = null;
             Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
 
             if (nextSymbol.SymbolType == SymbolType.Other)
             {
-                this.GetNextSymbol(SkipSymbols.All, statementReference, false);
-                matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
-            }
+                // If next symbol is not 'when', then it's a variable declartion, read it and rest nextSymbol to the following one.
+                if (nextSymbol.Text != "when")
+                {
+                    this.GetNextSymbol(SkipSymbols.All, statementReference, false);
+                    matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
+                }
 
-            // Get the when expression, if available.
-            Expression whenExpression = null;
-            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
-
-            if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
-            {
-                this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
-                whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+                // Either a variable was not found, or was found and we moved to the next symbol. Check if this is a 'when' symbol.
+                if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
+                {
+                    this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
+                    whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+                }
             }
 
             // Get the colon.
