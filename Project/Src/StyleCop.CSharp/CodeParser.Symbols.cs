@@ -731,7 +731,7 @@ namespace StyleCop.CSharp
 
             if (nextSymbol.SymbolType == SymbolType.OpenParenthesis)
             {
-                token = this.GetTupleTypeToken(typeTokenReference, parentReference, includeArrayBrackets);
+                token = this.GetTupleTypeToken(typeTokenReference, parentReference, includeArrayBrackets, isExpression);
             }
             else if (nextSymbol.SymbolType == SymbolType.Other)
             {
@@ -1181,7 +1181,7 @@ namespace StyleCop.CSharp
         /// Indicates whether to include array brackets in the type token.
         /// </param>
         /// <returns>A TypeToken representing the Tuple type.</returns>
-        private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference, bool includeArrayBrackets)
+        private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference, bool includeArrayBrackets, bool isExpression)
         {
             Param.AssertNotNull(typeTokenReference, nameof(typeTokenReference));
             Param.AssertNotNull(parentReference, nameof(parentReference));
@@ -1256,10 +1256,13 @@ namespace StyleCop.CSharp
                 }
             }
 
+            int startPosition = 1;
+
+            this.GetTypeTokenNullableTypeSymbol(typeTokenReference, typeTokens, isExpression, ref startPosition);
+
             if (includeArrayBrackets)
             {
                 // Read any array brackets and advance to the position of the last token read.
-                int startPosition = 1;
                 this.GetTypeTokenArrayBrackets(typeTokenReference, typeTokens, ref startPosition);
                 this.symbols.CurrentIndex += startPosition - 1;
             }

@@ -1363,6 +1363,7 @@
           <Statement Type="BlockStatement" />
         </Statement>
       </Element>
+      <Element Name="NullableTupleReturnType" Type="Method" />
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>

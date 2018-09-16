@@ -644,6 +644,10 @@ public class Class8<T, S>
             {
             }
         }
+
+        public (int a, string b)? NullableTupleReturnType()
+        {
+        }
     }
 
 #endregion
