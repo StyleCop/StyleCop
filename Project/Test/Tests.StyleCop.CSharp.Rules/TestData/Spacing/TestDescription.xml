@@ -291,6 +291,14 @@
       <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.OpenParenthesis.TestForIssue133" 
                  LineNumber="48" 
                  Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CloseParenthesisSpacing.Class21.TestForIssue141" 
+                 LineNumber="153"
+                 Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CloseParenthesisSpacing.Class21.TestForIssue141" LineNumber="154"
+                 Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+      <Violation Section="Root.CSharpAnalyzersTest.TestData.Spacing.OpenParenthesis.TestForTupleDeconstruction"
+                 LineNumber="56" 
+                 Rule="OpeningParenthesisMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
   <Test Name="CloseCurlyBracket">

@@ -255,9 +255,10 @@ namespace StyleCop.CSharp
                 CsTokenType nextType = nextNode.Value.CsTokenType;
                 CsTokenType nextNextType = nextNode.Next == null ? CsTokenType.Other : nextNode.Next.Value.CsTokenType;
 
-                if (tokenNode.Value.Parent is CastExpression)
+                if (tokenNode.Value.Parent is CastExpression || tokenNode.Value.Parent is GenericType)
                 {
-                    // There should not be any whitespace after the closing parenthesis in a cast expression.
+                    // There should not be any whitespace after the closing parenthesis in a CastExpression.
+                    // There should not be any whitspace after tuple type declaration in a GenericType
                     if (nextType == CsTokenType.WhiteSpace)
                     {
                         this.AddViolation(tokenNode.Value.FindParentElement(), nextNode.Value.Location, Rules.ClosingParenthesisMustBeSpacedCorrectly);
@@ -989,7 +990,7 @@ namespace StyleCop.CSharp
                             || ////itemType == CsTokenType.SingleLineComment ||
                             itemType == CsTokenType.Switch || itemType == CsTokenType.Throw || itemType == CsTokenType.Using || itemType == CsTokenType.Where
                             || itemType == CsTokenType.While || itemType == CsTokenType.WhileDo || itemType == CsTokenType.Yield || itemType == CsTokenType.LabelColon
-                            || itemType == CsTokenType.Async || itemType == CsTokenType.By || itemType == CsTokenType.When)
+                            || itemType == CsTokenType.Async || itemType == CsTokenType.By || itemType == CsTokenType.When || item.Text == "var")
                         {
                             break;
                         }

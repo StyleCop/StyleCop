@@ -49,5 +49,11 @@ namespace CSharpAnalyzersTest.TestData.Spacing
             {
             }
         }
+
+        public void TestForTupleDeconstruction()
+        {
+            var (firstName, lastName) = Person;
+            var ( firstN, lastN) = Person; // Should throw violation.
+        }
     }
 }
