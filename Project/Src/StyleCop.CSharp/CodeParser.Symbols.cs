@@ -1180,12 +1180,16 @@ namespace StyleCop.CSharp
         /// <param name="includeArrayBrackets">
         /// Indicates whether to include array brackets in the type token.
         /// </param>
+        /// <param name="isExpression">
+        /// Indicates whether this type token comes at the end of an 'is' expression.
+        /// </param>
         /// <returns>A TypeToken representing the Tuple type.</returns>
         private TypeToken GetTupleTypeToken(Reference<ICodePart> typeTokenReference, Reference<ICodePart> parentReference, bool includeArrayBrackets, bool isExpression)
         {
             Param.AssertNotNull(typeTokenReference, nameof(typeTokenReference));
             Param.AssertNotNull(parentReference, nameof(parentReference));
             Param.Ignore(includeArrayBrackets);
+            Param.Ignore(isExpression);
 
             // Create a token list to store all the tokens forming the type.
             MasterList<CsToken> typeTokens = new MasterList<CsToken>();
