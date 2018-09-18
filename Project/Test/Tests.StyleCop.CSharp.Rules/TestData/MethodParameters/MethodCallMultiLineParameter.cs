@@ -105,7 +105,15 @@ namespace MethodCallMultiLineParameter
                         "string " +
                         "string2",
                         2));
+
+            report.Render(
+                this.Options.FileFormat,
+                this.Options.FileMetadata,
+                out string mimeType,
+                out string encoding,
+                out string fileNameExtension,
+                out string[] streams,
+                out Warning[] warnings);
         }
     }
 }
-

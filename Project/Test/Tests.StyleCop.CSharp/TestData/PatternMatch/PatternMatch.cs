@@ -68,6 +68,8 @@
                     break;
                 case Rectangle r:
                     break;
+                case shape.Something when someBoolean:
+                    break;
                 case IEnumerable<int> ieInt:
                     break;
                 default:

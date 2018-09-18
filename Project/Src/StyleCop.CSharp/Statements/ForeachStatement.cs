@@ -31,9 +31,9 @@ namespace StyleCop.CSharp
         private readonly Expression item;
 
         /// <summary>
-        /// The variable declared in the foreach statement declaration.
+        /// The variable or tuple type, declared in the foreach statement declaration.
         /// </summary>
-        private readonly VariableDeclarationExpression variable;
+        private readonly Expression variable;
 
         /// <summary>
         /// The statement that is embedded within this foreach statement.
@@ -51,17 +51,21 @@ namespace StyleCop.CSharp
         /// The list of tokens that form the statement.
         /// </param>
         /// <param name="variable">
-        /// The variable declared in for each statement declaration.
+        /// The variable or tuple type, declared in for each statement declaration.
         /// </param>
         /// <param name="item">
         /// The item being iterated over.
         /// </param>
-        internal ForeachStatement(CsTokenList tokens, VariableDeclarationExpression variable, Expression item)
+        internal ForeachStatement(CsTokenList tokens, Expression variable, Expression item)
             : base(StatementType.Foreach, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
             Param.AssertNotNull(variable, "variable");
             Param.AssertNotNull(item, "item");
+            Param.Assert(
+                variable.ExpressionType == ExpressionType.VariableDeclaration || variable.ExpressionType == ExpressionType.Tuple, 
+                nameof(variable), 
+                "variable must be of type VariableDeclaration or Tuple");
 
             this.variable = variable;
             this.item = item;
@@ -104,9 +108,9 @@ namespace StyleCop.CSharp
         }
 
         /// <summary>
-        /// Gets the variable declared in the foreach statement declaration.
+        /// Gets the variable or tuple type, declared in the foreach statement declaration.
         /// </summary>
-        public VariableDeclarationExpression Variable
+        public Expression Variable
         {
             get
             {

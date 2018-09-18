@@ -1969,9 +1969,18 @@ namespace StyleCop.CSharp
                     rightHandSide = this.GetTypeTokenExpression(expressionReference, unsafeCode, true, true);
 
                     // Check if we have a variable declared as part of pattern match.
-                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, false);
+                    // Next symbol must be other, and the following symbol must be ')', ';' or start of another operator).
+                    int foundPosition;
+                    OperatorCategory operatorCategory;
+                    OperatorType operatorType;
 
-                    if (nextSymbol.SymbolType == SymbolType.Other)
+                    nextSymbol = this.PeekNextSymbolFrom(0, SkipSymbols.All, false, out foundPosition);
+                    Symbol followingSymbol = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition);
+
+                    if (nextSymbol.SymbolType == SymbolType.Other &&
+                        (followingSymbol.SymbolType == SymbolType.CloseParenthesis
+                        || followingSymbol.SymbolType == SymbolType.Semicolon
+                        || GetOperatorType(followingSymbol, out operatorType, out operatorCategory)))
                     {
                         matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, parentReference, unsafeCode);
                     }
@@ -2767,7 +2776,7 @@ namespace StyleCop.CSharp
                         }
                         else if (symbol.Text == "var" && DetectTupleType(0) > 0)
                         {
-                            expression = this.GetDeconstuctionTupleExpression(unsafeCode, true);
+                            expression = this.GetTupleTypeDeclarationExpression(unsafeCode, true);
                         }
 
                         // If the expression is still null now, this is just a regular 'other' expression.
@@ -2848,10 +2857,6 @@ namespace StyleCop.CSharp
                         if (this.IsLambdaExpression())
                         {
                             expression = this.GetLambdaExpression(parentReference, unsafeCode);
-                        }
-                        else if (this.IsDeconstructionExpression())
-                        {
-                            expression = this.GetDeconstuctionTupleExpression(unsafeCode, false);
                         }
                         else
                         {
@@ -3393,13 +3398,14 @@ namespace StyleCop.CSharp
             }
             else
             {
-                Argument firstArgument = null;
+                // We are parsing a Tuple variable or declaration.
+                List<Argument> tupleArguments = null;
+                List<VariableDeclarationExpression> tupleVariables = null;
 
-                // We are parsing a Tuple literal.
                 if (nextSymbol.SymbolType == SymbolType.Comma)
                 {
                     // We already read the expression, just create an Argument out it.
-                    firstArgument = new Argument(
+                    var firstArgument = new Argument(
                         null,
                         ParameterModifiers.None,
                         firstExpression,
@@ -3408,32 +3414,25 @@ namespace StyleCop.CSharp
                         firstExpression.Tokens,
                         this.symbols.Generated);
                     this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
+                    tupleArguments = this.ReadRemainingTupleArguments(expressionReference, firstArgument, unsafeCode);
                 }
-                else if (nextSymbol.SymbolType == SymbolType.Colon 
-                    && firstExpression.Tokens.First == firstExpression.Tokens.Last)
+                else if ((nextSymbol.SymbolType == SymbolType.Colon) && firstExpression.Tokens.First == firstExpression.Tokens.Last)
                 {
-                    // This is a named Argument and we partially read it, discard the firstExpression and read the Argument.
-                    firstArgument = this.GetNextArgument(
+                    // This is a named Argument or type declaration in tuple, and we partially read it, discard the firstExpression and read the Argument.
+                    var firstArgument = this.GetNextArgument(
                         expressionReference,
                         unsafeCode,
                         this.symbols.Current,
                         true,
                         this.tokens.Last.Previous);
+                    tupleArguments = this.ReadRemainingTupleArguments(expressionReference, firstArgument, unsafeCode);
+                }
+                else if (nextSymbol.SymbolType == SymbolType.Other && firstExpression.Tokens.First == firstExpression.Tokens.Last)
+                {
+                    // We are in tuple type declaration.
+                    tupleVariables = this.ReadRemainingTupleVariables(expressionReference, firstExpression, unsafeCode);
                 }
                 else
-                {
-                    this.CreateSyntaxException();                
-                }
-
-                // Get the remaining list of arguments.
-                IList<Argument> argumentsList = this.GetArgumentList(SymbolType.CloseParenthesis, expressionReference, unsafeCode);
-
-                // Prepare a new list that includes our first argument.
-                List<Argument> tupleLiteralArguments = new List<Argument> { firstArgument };
-                tupleLiteralArguments.AddRange(argumentsList);
-
-                // Should have more than one argument.
-                if (tupleLiteralArguments.Count == 1)
                 {
                     this.CreateSyntaxException();
                 }
@@ -3446,7 +3445,14 @@ namespace StyleCop.CSharp
                 partialTokens = new CsTokenList(this.tokens, openParenthesisNode, this.tokens.Last);
 
                 // Create the expression.
-                resultExpression = new TupleExpression(partialTokens, tupleLiteralArguments.ToArray());                
+                if (tupleArguments != null)
+                {
+                    resultExpression = new TupleExpression(partialTokens, tupleArguments.ToArray());
+                }
+                else
+                {
+                    resultExpression = new TupleExpression(partialTokens, tupleVariables);
+                }
             }
 
             // Link the opening and closing parenthesis and return the expression.
@@ -3457,8 +3463,61 @@ namespace StyleCop.CSharp
             return resultExpression;
         }
 
+        private List<Argument> ReadRemainingTupleArguments(Reference<ICodePart> expressionReference, Argument firstArgument, bool unsafeCode)
+        {
+            // Get the remaining list of arguments.
+            IList<Argument> argumentsList = this.GetArgumentList(SymbolType.CloseParenthesis, expressionReference, unsafeCode);
+
+            // Prepare a new list that includes our first argument.
+            List<Argument> tupleLiteralArguments = new List<Argument> { firstArgument };
+            tupleLiteralArguments.AddRange(argumentsList);
+
+            // Should have more than one argument.
+            if (tupleLiteralArguments.Count == 1)
+            {
+                this.CreateSyntaxException();
+            }
+
+            return tupleLiteralArguments;
+        }
+
+        private List<VariableDeclarationExpression> ReadRemainingTupleVariables(Reference<ICodePart> expressionReference, Expression firstVariableType, bool unsafeCode)
+        {
+            List<VariableDeclarationExpression> result = new List<VariableDeclarationExpression>();
+            
+            // Add the first variable
+            result.Add(this.GetSingleVariableDeclarationExpression(firstVariableType, ExpressionPrecedence.None, unsafeCode));
+
+            // Read the comma.
+            Symbol symbol = this.GetNextSymbol(SkipSymbols.All, expressionReference, false);
+            this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
+
+            while (symbol.SymbolType != SymbolType.CloseParenthesis)
+            {
+                Expression variableType;
+
+                // Get the variable type and declaration.
+                variableType = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                result.Add(this.GetSingleVariableDeclarationExpression(variableType, ExpressionPrecedence.None, unsafeCode));
+
+                // Now check if the next character is a comma. If so there is another variable declared.
+                symbol = this.GetNextSymbol(SkipSymbols.All, expressionReference, false);
+
+                // Break if there are no more declarations.
+                if (symbol.SymbolType != SymbolType.Comma)
+                {
+                    break;
+                }
+
+                // Add the comma and continue reading the next declaration.
+                this.tokens.Add(this.GetToken(CsTokenType.Comma, SymbolType.Comma, expressionReference));
+            }
+
+            return result;
+        }
+
         /// <summary>
-        /// Reads deconstruction tuple expression.
+        /// Reads tuple type expression.
         /// </summary>
         /// <param name="unsafeCode">
         /// Indicates whether the code being parsed resides in an unsafe code block.
@@ -3467,7 +3526,7 @@ namespace StyleCop.CSharp
         /// <returns>
         /// Returns a TupleExpression or ParenthesizedExpression.
         /// </returns>
-        private TupleExpression GetDeconstuctionTupleExpression(bool unsafeCode, bool isVar)
+        private TupleExpression GetTupleTypeDeclarationExpression(bool unsafeCode, bool isVar)
         {
             //// Note: What we do here is slightly different from roslyn syntax tree.
             //// (string fname, string lname) = person is read as, TupleExpression with arguments that are declaration expressions
@@ -5509,19 +5568,6 @@ namespace StyleCop.CSharp
             }
 
             return dereference;
-        }
-
-        /// <summary>
-        /// Determines whether the next expression is a deconstruction expression.
-        /// </summary>
-        /// <returns>Returns true if the next expression is a lambda expression.</returns>
-        private bool IsDeconstructionExpression()
-        {
-            int foundPosition = this.DetectTupleType(0);
-
-            return foundPosition > 0 
-                && this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType 
-                    == SymbolType.Equals;
         }
 
         /// <summary>

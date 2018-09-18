@@ -298,6 +298,14 @@
               <Statement Type="BreakStatement" />
             </Statement>
             <Statement Type="SwitchCaseStatement">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="shape" Type="LiteralExpression" />
+                <Expression Text="Something" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="someBoolean" Type="LiteralExpression" />
+              <Statement Type="BreakStatement" />
+            </Statement>            
+            <Statement Type="SwitchCaseStatement">
               <Expression Text="IEnumerable&lt;int&gt;" Type="LiteralExpression" />
               <Expression Text="ieInt" Type="LiteralExpression" />
               <Statement Type="BreakStatement" />

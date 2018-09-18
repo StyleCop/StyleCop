@@ -366,7 +366,7 @@ namespace StyleCop.CSharp
                                 }
                             }
 
-                            if (this.IsLocalFunctionStatement(false))
+                            if (this.IsLocalFunctionStatement(symbol))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                                 break;
@@ -463,13 +463,13 @@ namespace StyleCop.CSharp
                             break;
 
                         case SymbolType.Ref:
-                            if (this.IsLocalFunctionStatement(true))
+                            if (this.IsLocalFunctionStatement(symbol))
                             {
                                 statement = this.ParseLocalFunctionStatement(unsafeCode);
                             }
                             else
                             {
-                                statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);                                
+                                statement = this.ParseVariableDeclarationStatement(parentReference, unsafeCode, variables);
                             }
 
                             break;
@@ -564,20 +564,21 @@ namespace StyleCop.CSharp
         /// <summary>
         /// Determines if the current statement being examined is a local function statement.
         /// </summary>
-        /// <param name="isRef">
-        /// Indicate if the check should be made for ref local function.
+        /// <param name="currentSymbol">
+        /// The current symbol on which the examination is being made.
         /// </param>
         /// <returns>
         /// True, if the statement is a local function, False if not.
         /// </returns>
-        private bool IsLocalFunctionStatement(bool isRef)
+        private bool IsLocalFunctionStatement(Symbol currentSymbol)
         {
-            Param.Ignore(isRef);
+            Param.AssertNotNull(currentSymbol, nameof(currentSymbol));
             SymbolType expectingNextSymbolType = SymbolType.Other;
 
-            // If ref, then move past 'ref' + white space which would be the type declaration.
+            // If ref, then move past 'ref'/'await' + white space which would be the type declaration.
             // Othwerwise, the next symbol would be the type declaration.
-            int testPosition = isRef ? 3 : 1;
+            bool isAsyncKeyword = currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async";
+            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3  : 1;
 
             int angleBracketCount = 0;
             int squareBracketCount = 0;
@@ -637,9 +638,16 @@ namespace StyleCop.CSharp
                     continue;
                 }
 
-                // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
                 Symbol nextSymbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
-                return symbol.SymbolType == SymbolType.Other 
+
+                // If we are '.' or the next symbol is a '.' , then we could be in a namespace of fully qualified return type.
+                if (symbol.SymbolType == SymbolType.Dot || nextSymbol.SymbolType == SymbolType.Dot)
+                {
+                    continue;
+                }
+
+                // We are at the right place, evaluate our expectation that next symbol is open paranthesis, or <.
+                return symbol.SymbolType == SymbolType.Other
                     && (nextSymbol.SymbolType == SymbolType.OpenParenthesis || nextSymbol.SymbolType == SymbolType.LessThan);
             }
         }
@@ -1397,10 +1405,34 @@ namespace StyleCop.CSharp
             Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, statementReference);
             Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
 
-            // Get the variable.
-            VariableDeclarationExpression variable =
-                this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode, true, false) as VariableDeclarationExpression;
-            if (variable == null)
+            // Get the variable. 
+            Expression variable = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode, true, false);
+
+            // This could be a single variable declaration or a tuple expression.
+            IEnumerable<VariableDeclaratorExpression> declarators;
+            TypeToken variableTypeToken;
+
+            VariableDeclarationExpression singleVariable;
+            TupleExpression tupleVariable;
+            if ((singleVariable = variable as VariableDeclarationExpression) != null)
+            {
+                variableTypeToken = singleVariable.Type;
+                declarators = singleVariable.Declarators;
+            }
+            else if ((tupleVariable = variable as TupleExpression) != null)
+            {
+                CsToken firstNode = tupleVariable.Tokens.First.Value;
+                variableTypeToken = new TypeToken(tupleVariable.Tokens.MasterList, tupleVariable.Location, firstNode.ParentRef, firstNode.Generated);
+                var tupleVariableDeclarators = new List<VariableDeclaratorExpression>();
+
+                foreach (var declaration in tupleVariable.VariableDeclarations)
+                {
+                    tupleVariableDeclarators.AddRange(declaration.Declarators);
+                }
+
+                declarators = tupleVariableDeclarators;
+            }
+            else
             {
                 throw this.CreateSyntaxException();
             }
@@ -1438,15 +1470,15 @@ namespace StyleCop.CSharp
             statementReference.Target = statement;
 
             // Add the variable.
-            foreach (VariableDeclaratorExpression declarator in variable.Declarators)
+            foreach (VariableDeclaratorExpression declarator in declarators)
             {
                 Variable localVariable = new Variable(
-                    variable.Type,
+                    variableTypeToken,
                     declarator.Identifier.Token.Text,
                     VariableModifiers.None,
-                    CodeLocation.Join(variable.Type.Location, declarator.Identifier.Token.Location),
+                    CodeLocation.Join(variableTypeToken.Location, declarator.Identifier.Token.Location),
                     statementReference,
-                    variable.Type.Generated);
+                    variableTypeToken.Generated);
 
                 // If there is already a variable in this scope with the same name, ignore this one.
                 if (!statement.Variables.Contains(declarator.Identifier.Token.Text))
@@ -1993,24 +2025,28 @@ namespace StyleCop.CSharp
 
             Expression identifier = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
 
+            // The next symbol could be a vairable definition, the when keyword, a variable definition followed by when keyword, or a ':'
             // Get the variable definition as part of pattern match, if available.
             Expression matchVariable = null;
+            Expression whenExpression = null;
             Symbol nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
 
             if (nextSymbol.SymbolType == SymbolType.Other)
             {
-                this.GetNextSymbol(SkipSymbols.All, statementReference, false);
-                matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
-            }
+                // If next symbol is not 'when', then it's a variable declartion, read it and rest nextSymbol to the following one.
+                if (nextSymbol.Text != "when")
+                {
+                    this.GetNextSymbol(SkipSymbols.All, statementReference, false);
+                    matchVariable = this.GetNextExpression(ExpressionPrecedence.Primary, statementReference, unsafeCode);
+                    nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
+                }
 
-            // Get the when expression, if available.
-            Expression whenExpression = null;
-            nextSymbol = this.PeekNextSymbol(SkipSymbols.All, unsafeCode);
-
-            if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
-            {
-                this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
-                whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+                // Either a variable was not found, or was found and we moved to the next symbol. Check if this is a 'when' symbol.
+                if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "when")
+                {
+                    this.tokens.Add(this.GetToken(CsTokenType.Other, SymbolType.Other, statementReference));
+                    whenExpression = this.GetNextExpression(ExpressionPrecedence.None, statementReference, unsafeCode);
+                }
             }
 
             // Get the colon.
@@ -2749,11 +2785,15 @@ namespace StyleCop.CSharp
             bool returnTypeIsRef = false;
 
             if (nextSymbol.SymbolType == SymbolType.Ref)
-            {               
+            {
                 this.tokens.Add(this.GetToken(CsTokenType.Ref, SymbolType.Ref, statementReference));
                 returnTypeIsRef = true;
             }
-            
+            else if (nextSymbol.SymbolType == SymbolType.Other && nextSymbol.Text == "async")
+            {
+                this.tokens.Add(this.GetToken(CsTokenType.Async, SymbolType.Other, statementReference));
+            }
+
             // Get the return type.
             TypeToken returnType = this.GetTypeToken(statementReference, unsafeCode, true);
             this.tokens.Add(returnType);
@@ -2786,10 +2826,10 @@ namespace StyleCop.CSharp
                 this.tokens.Add(this.GetToken(CsTokenType.Semicolon, SymbolType.Semicolon, statementReference));
 
                 statement = new LocalFunctionStatement(
-                    partialTokens, 
-                    returnType, 
-                    returnTypeIsRef, 
-                    name, 
+                    partialTokens,
+                    returnType,
+                    returnTypeIsRef,
+                    name,
                     parameters,
                     typeConstraints,
                     expression);
@@ -2835,7 +2875,7 @@ namespace StyleCop.CSharp
 
             if (foundPosition == 0)
             {
-                return this.ParseExpressionStatement(unsafeCode); 
+                return this.ParseExpressionStatement(unsafeCode);
             }
 
             SymbolType symbolType = this.PeekNextSymbolFrom(foundPosition, SkipSymbols.All, false, out foundPosition).SymbolType;

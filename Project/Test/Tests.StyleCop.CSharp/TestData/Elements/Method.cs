@@ -442,8 +442,39 @@ public class Class8<T, S>
         public void LocalFunctionWithTypeConstraint<T>()
         {            
             T LocalFunction<T>() where T : Person
+            {            
+            }
+        }
+
+        public void LocalFunctionWithNullableReturn()
+        {
+            bool? Check(object target)
             {
-            
+            }
+        }
+
+        public async Task AsyncLocalFunction()
+        {
+            async Task Wait()
+            {
+            }
+        }
+
+        public async Task AsyncLocalFunctionWithReturnValue()
+        {
+            async Task<int> WaitInt()
+            {
+            }
+        }
+
+        public void LocalFunctionWithFullyQualifiedReturnType()
+        {
+            Ns1.Type Func1()
+            {
+            }
+
+            Ns1.Ns2.Type Func2()
+            {
             }
         }
     }
@@ -601,7 +632,22 @@ public class Class8<T, S>
             var (fname, lname) = person;
 
             var (_, lname) = person;
+        }
+
+        public void TupleEnumerationTest(IEnumerable<(string, int)> words)
+        {
+            foreach ((string word, int count) in words)
+            {
+            }
+
+            foreach (var (word, count) in words)
+            {
+            }
+        }
+
+        public (int a, string b)? NullableTupleReturnType()
+        {
+        }
     }
-}
 
 #endregion

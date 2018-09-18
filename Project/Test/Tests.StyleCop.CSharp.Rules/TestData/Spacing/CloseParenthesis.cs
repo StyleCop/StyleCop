@@ -144,5 +144,14 @@ null;
         public static void Test<T>(T value = default(T) )
         {
         }
+
+        public void TestForIssue141()
+        {
+            List<(string, int)> listOfTuple = new List<(string, int)>();
+
+            // The following should raise a violation
+            List<(string, int) > listOfTuple1;
+            List<(string, int )> listOfTuple1;
+        }
     }
 }

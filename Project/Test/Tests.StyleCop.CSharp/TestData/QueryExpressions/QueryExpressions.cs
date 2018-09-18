@@ -85,6 +85,9 @@ namespace StyleCop.CSharpParserTest.TestData
             // Bug 6711 This was failing because the check for casting thought b.Equals was a cast of select
             var a = (from b in new int[] { 1, 2, 3, 4, 5}
             where true != (b.Equals)select b).First();
+
+            // Issue 171, Regression from handling pattern matching
+            result = (from p in layout.Elements where p is IMetaPropertyLink select (IMetaPropertyLink)p).ToList();
         }
     }
 }

@@ -144,5 +144,7 @@ form
         var foo3 = $@"{foo2}\";
         // Regression check: Non-verbatim interpolated string ending with backslash
         var foo4 = $"{foo2}\\";
+
+        var issue192 = $"123 {@"c:\temp\"}";
     }
 }
