@@ -5868,10 +5868,29 @@ namespace StyleCop.CSharp
         private bool IsInlineVariableDeclaration()
         {
             int nextSymbolPosition;
-
-            // The next symbol would be argument name, check the one after that to determine if this is a variable declaration.
             Symbol checkSymbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out nextSymbolPosition);
+
+            // The next symbol could be a variable, or a type, in either case the symbol type should be other.
+            if (checkSymbol.SymbolType != SymbolType.Other)
+            {
+                return false;
+            }
+
             checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
+
+            // If we find a dot, then this could be a fully qualified type, or member access, either way skip past it.
+            if (checkSymbol.SymbolType == SymbolType.Dot)
+            {
+                Symbol previous = checkSymbol;
+
+                while (checkSymbol.SymbolType == SymbolType.Dot || previous.SymbolType == SymbolType.Dot)
+                {
+                    previous = checkSymbol;
+                    checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
+                }
+            }
+
+            // We are at the right place, if the next symbol is not ',' or ')' then this is a type declared after the out keyword.
             return checkSymbol.SymbolType != SymbolType.Comma && checkSymbol.SymbolType != SymbolType.CloseParenthesis;
         }
 

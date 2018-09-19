@@ -578,7 +578,7 @@ namespace StyleCop.CSharp
             // If ref, then move past 'ref'/'await' + white space which would be the type declaration.
             // Othwerwise, the next symbol would be the type declaration.
             bool isAsyncKeyword = currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async";
-            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3  : 1;
+            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3 : 1;
 
             int angleBracketCount = 0;
             int squareBracketCount = 0;
@@ -586,7 +586,7 @@ namespace StyleCop.CSharp
             while (true)
             {
                 // Get the symbol next to the proposed type declaration symbol.
-                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
+                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition);
 
                 // Skip, if we are still reading nullable return type
                 if (symbol.SymbolType == SymbolType.QuestionMark)

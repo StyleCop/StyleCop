@@ -715,6 +715,29 @@
       </Element>
     </Element>
     <Element Name="OutVariables" Type="Class">
+      <Element Name="SimpleCases" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="OutWithThisQualifier" Type="LiteralExpression" />
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="this" Type="LiteralExpression" />
+              <Expression Text="SomeField" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="OutWithPublicField" Type="LiteralExpression" />
+            <Expression Type="MemberAccessExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="someLocalType" Type="LiteralExpression" />
+                <Expression Text="PublicField1" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="PublicField2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
       <Element Name="PrintCoordinates" Type="Method">
         <Statement Type="ExpressionStatement">
           <Expression Type="MethodInvocationExpression">
@@ -813,10 +836,31 @@
               <Expression Text="TryGetValue" Type="LiteralExpression" />
             </Expression>
             <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="TupleExpression">
+              <Expression Text="string" Type="LiteralExpression" />
+              <Expression Text="int" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="outValue" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="FullyQualifiedOut1" Type="LiteralExpression" />
             <Expression Type="VariableDeclarationExpression">
-              <Expression Text="(string,int)" Type="LiteralExpression" />
+              <Expression Text="Ns1.SomeType" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
-                <Expression Text="outValue" Type="LiteralExpression" />
+                <Expression Text="t" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="FullyQualifiedOut2" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Ns1.Ns2.SomeType" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="t" Type="LiteralExpression" />
               </Expression>
             </Expression>
           </Expression>
@@ -1364,6 +1408,18 @@
         </Statement>
       </Element>
       <Element Name="NullableTupleReturnType" Type="Method" />
+    </Element>
+    <Element Name="MethodStatements" Type="Class">
+      <Element Name="TestInvocations" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="somevariable" Type="LiteralExpression" />
+              <Expression Text="WithMemberInvocationOnAnotherLine" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>
