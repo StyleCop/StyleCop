@@ -2717,6 +2717,14 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(parentReference, "parentReference");
             Param.Ignore(unsafeCode);
 
+            Symbol symbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out _);
+
+            // If the next symbol is not one of these, then in this context, yield is not a keyword
+            if (symbol.SymbolType != SymbolType.Return && symbol.SymbolType != SymbolType.Break)
+            {
+                return null;
+            }
+
             Reference<ICodePart> statementReference = new Reference<ICodePart>();
 
             // Move past the yield keyword.
@@ -2724,7 +2732,7 @@ namespace StyleCop.CSharp
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
 
             // Get the next word, which must either be break or return.
-            Symbol symbol = this.GetNextSymbol(statementReference);
+            symbol = this.GetNextSymbol(statementReference);
 
             YieldStatement.Type yieldType;
             Expression returnValue = null;

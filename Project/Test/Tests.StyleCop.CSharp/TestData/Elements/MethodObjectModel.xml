@@ -1420,6 +1420,26 @@
           </Expression>
         </Statement>
       </Element>
+      <Element Name="YieldTest" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="yield" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Text="yield" Type="LiteralExpression" />
+            <Expression Text="5" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="YieldStatement" />
+        <Statement Type="YieldStatement">
+          <Expression Text="result" Type="LiteralExpression" />
+        </Statement>
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>

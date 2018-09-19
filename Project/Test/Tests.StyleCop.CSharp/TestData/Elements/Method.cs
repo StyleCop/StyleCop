@@ -671,6 +671,17 @@ public class Class8<T, S>
             somevariable
             .WithMemberInvocationOnAnotherLine();
         }
+
+        public void YieldTest()
+        {
+            // In this context, yield is not a start of yield statement.
+            int yield;
+            yield = 5;
+
+            // In the following contexts, yield is a start of yield statement
+            yield break;
+            yield return result;
+        }
     }
 
 # endregion
