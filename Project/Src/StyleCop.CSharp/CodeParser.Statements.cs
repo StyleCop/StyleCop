@@ -578,7 +578,7 @@ namespace StyleCop.CSharp
             // If ref, then move past 'ref'/'await' + white space which would be the type declaration.
             // Othwerwise, the next symbol would be the type declaration.
             bool isAsyncKeyword = currentSymbol.SymbolType == SymbolType.Other && currentSymbol.Text == "async";
-            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3  : 1;
+            int testPosition = currentSymbol.SymbolType == SymbolType.Ref || isAsyncKeyword ? 3 : 1;
 
             int angleBracketCount = 0;
             int squareBracketCount = 0;
@@ -586,7 +586,7 @@ namespace StyleCop.CSharp
             while (true)
             {
                 // Get the symbol next to the proposed type declaration symbol.
-                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.WhiteSpace, false, out testPosition);
+                Symbol symbol = this.PeekNextSymbolFrom(testPosition, SkipSymbols.All, false, out testPosition);
 
                 // Skip, if we are still reading nullable return type
                 if (symbol.SymbolType == SymbolType.QuestionMark)
@@ -2717,6 +2717,14 @@ namespace StyleCop.CSharp
             Param.AssertNotNull(parentReference, "parentReference");
             Param.Ignore(unsafeCode);
 
+            Symbol symbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out _);
+
+            // If the next symbol is not one of these, then in this context, yield is not a keyword
+            if (symbol.SymbolType != SymbolType.Return && symbol.SymbolType != SymbolType.Break)
+            {
+                return null;
+            }
+
             Reference<ICodePart> statementReference = new Reference<ICodePart>();
 
             // Move past the yield keyword.
@@ -2724,7 +2732,7 @@ namespace StyleCop.CSharp
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(firstToken);
 
             // Get the next word, which must either be break or return.
-            Symbol symbol = this.GetNextSymbol(statementReference);
+            symbol = this.GetNextSymbol(statementReference);
 
             YieldStatement.Type yieldType;
             Expression returnValue = null;

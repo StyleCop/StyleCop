@@ -5867,12 +5867,69 @@ namespace StyleCop.CSharp
         /// </returns>
         private bool IsInlineVariableDeclaration()
         {
-            int nextSymbolPosition;
+            int nextSymbolPosition = 1;
+            int angleBracketCount = 0;
+            int squareBracketCount = 0;
+            int parenthesisCount = 0;
+            Symbol checkSymbol = null;
 
-            // The next symbol would be argument name, check the one after that to determine if this is a variable declaration.
-            Symbol checkSymbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out nextSymbolPosition);
-            checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
-            return checkSymbol.SymbolType != SymbolType.Comma && checkSymbol.SymbolType != SymbolType.CloseParenthesis;
+            while (true)
+            {
+                // Get the symbol next to the proposed type declaration symbol.
+                checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
+
+                // if we found a symbol that could be used as part of type declaration,
+                // reset our expectation symbol, to read past it.
+                if (checkSymbol.SymbolType == SymbolType.OpenSquareBracket)
+                {
+                    squareBracketCount++;
+                    continue;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.LessThan)
+                {
+                    angleBracketCount++;
+                    continue;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.OpenParenthesis)
+                {
+                    parenthesisCount++;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.CloseSquareBracket && squareBracketCount > 0)
+                {
+                    squareBracketCount--;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.GreaterThan && angleBracketCount > 0)
+                {
+                    angleBracketCount--;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.CloseParenthesis && parenthesisCount > 0)
+                {
+                    parenthesisCount--;
+                }
+
+                // Skip, if we are still reading variable declaration
+                if (squareBracketCount > 0 || angleBracketCount > 0 || parenthesisCount > 0)
+                {
+                    continue;
+                }
+
+                Symbol nextSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out _);
+                SymbolType nextSymbolType = nextSymbol.SymbolType;
+
+                if (checkSymbol.SymbolType == SymbolType.QuestionMark || checkSymbol.SymbolType == SymbolType.Dot
+                    || nextSymbolType == SymbolType.Dot || nextSymbolType == SymbolType.LessThan || nextSymbolType == SymbolType.OpenSquareBracket
+                    || nextSymbolType == SymbolType.OpenParenthesis)
+                {
+                    continue;
+                }
+
+                return nextSymbolType != SymbolType.Comma && nextSymbolType != SymbolType.CloseParenthesis;
+            }
         }
 
         #endregion

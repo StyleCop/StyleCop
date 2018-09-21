@@ -485,6 +485,15 @@ public class Class8<T, S>
 
     public class OutVariables
     {
+        public void SimpleCases()
+        {
+            OutWithThisQualifier(out this.SomeField);
+            OutWithPublicField(out someLocalType.PublicField1.PublicField2);
+            SomMoq.Setup(s => s.SomeMethod(It.IsAny<Guid>(), out It.Ref<SomeType>.IsAny));
+            a.TryGetValue(0, out ((d)));
+            b.TryGetValue(0, out System.Collections.Generic.List<string>[] b1);
+        }
+
         public void PrintCoordinates(Point p)
         {
             p.GetCoordinates(out int x, out int y);
@@ -506,8 +515,12 @@ public class Class8<T, S>
 
             Dictionary<int, (string, int)> tupleDictionary = null;
             tupleDictionary.TryGetValue(0, out (string, int) outValue);
-        }
+
+
+            FullyQualifiedOut1(out Ns1.SomeType t);
+            FullyQualifiedOut2(out Ns1.Ns2.SomeType t);
     }
+}
 
 #endregion
 
@@ -651,3 +664,27 @@ public class Class8<T, S>
     }
 
 #endregion
+
+#region MethodStatments
+
+    public class MethodStatements
+    {
+        public void TestInvocations()
+        {
+            somevariable
+            .WithMemberInvocationOnAnotherLine();
+        }
+
+        public void YieldTest()
+        {
+            // In this context, yield is not a start of yield statement.
+            int yield;
+            yield = 5;
+
+            // In the following contexts, yield is a start of yield statement
+            yield break;
+            yield return result;
+        }
+    }
+
+# endregion

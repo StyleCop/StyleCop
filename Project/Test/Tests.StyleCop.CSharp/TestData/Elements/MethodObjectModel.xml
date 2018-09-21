@@ -715,6 +715,87 @@
       </Element>
     </Element>
     <Element Name="OutVariables" Type="Class">
+      <Element Name="SimpleCases" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="OutWithThisQualifier" Type="LiteralExpression" />
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="this" Type="LiteralExpression" />
+              <Expression Text="SomeField" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="OutWithPublicField" Type="LiteralExpression" />
+            <Expression Type="MemberAccessExpression">
+              <Expression Type="MemberAccessExpression">
+                <Expression Text="someLocalType" Type="LiteralExpression" />
+                <Expression Text="PublicField1" Type="LiteralExpression" />
+              </Expression>
+              <Expression Text="PublicField2" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="SomMoq" Type="LiteralExpression" />
+              <Expression Text="Setup" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="LambdaExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="s" Type="LiteralExpression" />
+                  <Expression Text="SomeMethod" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="It" Type="LiteralExpression" />
+                    <Expression Text="IsAny&lt;Guid&gt;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="It" Type="LiteralExpression" />
+                    <Expression Text="Ref&lt;SomeType&gt;" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="IsAny" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="ParenthesizedExpression">
+              <Expression Type="ParenthesizedExpression">
+                <Expression Text="d" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="b" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="System.Collections.Generic.List&lt;string&gt;[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="b1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
       <Element Name="PrintCoordinates" Type="Method">
         <Statement Type="ExpressionStatement">
           <Expression Type="MethodInvocationExpression">
@@ -817,6 +898,28 @@
               <Expression Text="(string,int)" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
                 <Expression Text="outValue" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="FullyQualifiedOut1" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Ns1.SomeType" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="t" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Text="FullyQualifiedOut2" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="Ns1.Ns2.SomeType" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="t" Type="LiteralExpression" />
               </Expression>
             </Expression>
           </Expression>
@@ -1364,6 +1467,38 @@
         </Statement>
       </Element>
       <Element Name="NullableTupleReturnType" Type="Method" />
+    </Element>
+    <Element Name="MethodStatements" Type="Class">
+      <Element Name="TestInvocations" Type="Method">
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="somevariable" Type="LiteralExpression" />
+              <Expression Text="WithMemberInvocationOnAnotherLine" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+      </Element>
+      <Element Name="YieldTest" Type="Method">
+        <Statement Type="VariableDeclarationStatement">
+          <Expression Type="VariableDeclarationExpression">
+            <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclaratorExpression">
+              <Expression Text="yield" Type="LiteralExpression" />
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="AssignmentExpression">
+            <Expression Text="yield" Type="LiteralExpression" />
+            <Expression Text="5" Type="LiteralExpression" />
+          </Expression>
+        </Statement>
+        <Statement Type="YieldStatement" />
+        <Statement Type="YieldStatement">
+          <Expression Text="result" Type="LiteralExpression" />
+        </Statement>
+      </Element>
     </Element>
   </Element>
 </StyleCopCsParserObjectModel>
