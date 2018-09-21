@@ -489,6 +489,9 @@ public class Class8<T, S>
         {
             OutWithThisQualifier(out this.SomeField);
             OutWithPublicField(out someLocalType.PublicField1.PublicField2);
+            SomMoq.Setup(s => s.SomeMethod(It.IsAny<Guid>(), out It.Ref<SomeType>.IsAny));
+            a.TryGetValue(0, out ((d)));
+            b.TryGetValue(0, out System.Collections.Generic.List<string>[] b1);
         }
 
         public void PrintCoordinates(Point p)

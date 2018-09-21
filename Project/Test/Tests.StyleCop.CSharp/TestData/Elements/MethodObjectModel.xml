@@ -737,6 +737,64 @@
             </Expression>
           </Expression>
         </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="SomMoq" Type="LiteralExpression" />
+              <Expression Text="Setup" Type="LiteralExpression" />
+            </Expression>
+            <Expression Type="LambdaExpression">
+              <Expression Type="MethodInvocationExpression">
+                <Expression Type="MemberAccessExpression">
+                  <Expression Text="s" Type="LiteralExpression" />
+                  <Expression Text="SomeMethod" Type="LiteralExpression" />
+                </Expression>
+                <Expression Type="MethodInvocationExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="It" Type="LiteralExpression" />
+                    <Expression Text="IsAny&lt;Guid&gt;" Type="LiteralExpression" />
+                  </Expression>
+                </Expression>
+                <Expression Type="MemberAccessExpression">
+                  <Expression Type="MemberAccessExpression">
+                    <Expression Text="It" Type="LiteralExpression" />
+                    <Expression Text="Ref&lt;SomeType&gt;" Type="LiteralExpression" />
+                  </Expression>
+                  <Expression Text="IsAny" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="a" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="ParenthesizedExpression">
+              <Expression Type="ParenthesizedExpression">
+                <Expression Text="d" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
+        <Statement Type="ExpressionStatement">
+          <Expression Type="MethodInvocationExpression">
+            <Expression Type="MemberAccessExpression">
+              <Expression Text="b" Type="LiteralExpression" />
+              <Expression Text="TryGetValue" Type="LiteralExpression" />
+            </Expression>
+            <Expression Text="0" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="System.Collections.Generic.List&lt;string&gt;[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="b1" Type="LiteralExpression" />
+              </Expression>
+            </Expression>
+          </Expression>
+        </Statement>
       </Element>
       <Element Name="PrintCoordinates" Type="Method">
         <Statement Type="ExpressionStatement">
@@ -836,11 +894,12 @@
               <Expression Text="TryGetValue" Type="LiteralExpression" />
             </Expression>
             <Expression Text="0" Type="LiteralExpression" />
-            <Expression Type="TupleExpression">
-              <Expression Text="string" Type="LiteralExpression" />
-              <Expression Text="int" Type="LiteralExpression" />
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="(string,int)" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="outValue" Type="LiteralExpression" />
+              </Expression>
             </Expression>
-            <Expression Text="outValue" Type="LiteralExpression" />
           </Expression>
         </Statement>
         <Statement Type="ExpressionStatement">

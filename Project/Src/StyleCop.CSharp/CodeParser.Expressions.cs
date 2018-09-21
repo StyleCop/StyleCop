@@ -5867,31 +5867,69 @@ namespace StyleCop.CSharp
         /// </returns>
         private bool IsInlineVariableDeclaration()
         {
-            int nextSymbolPosition;
-            Symbol checkSymbol = this.PeekNextSymbolFrom(1, SkipSymbols.All, false, out nextSymbolPosition);
+            int nextSymbolPosition = 1;
+            int angleBracketCount = 0;
+            int squareBracketCount = 0;
+            int parenthesisCount = 0;
+            Symbol checkSymbol = null;
 
-            // The next symbol could be a variable, or a type, in either case the symbol type should be other.
-            if (checkSymbol.SymbolType != SymbolType.Other)
+            while (true)
             {
-                return false;
-            }
+                // Get the symbol next to the proposed type declaration symbol.
+                checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
 
-            checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
-
-            // If we find a dot, then this could be a fully qualified type, or member access, either way skip past it.
-            if (checkSymbol.SymbolType == SymbolType.Dot)
-            {
-                Symbol previous = checkSymbol;
-
-                while (checkSymbol.SymbolType == SymbolType.Dot || previous.SymbolType == SymbolType.Dot)
+                // if we found a symbol that could be used as part of type declaration,
+                // reset our expectation symbol, to read past it.
+                if (checkSymbol.SymbolType == SymbolType.OpenSquareBracket)
                 {
-                    previous = checkSymbol;
-                    checkSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out nextSymbolPosition);
+                    squareBracketCount++;
+                    continue;
                 }
-            }
 
-            // We are at the right place, if the next symbol is not ',' or ')' then this is a type declared after the out keyword.
-            return checkSymbol.SymbolType != SymbolType.Comma && checkSymbol.SymbolType != SymbolType.CloseParenthesis;
+                if (checkSymbol.SymbolType == SymbolType.LessThan)
+                {
+                    angleBracketCount++;
+                    continue;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.OpenParenthesis)
+                {
+                    parenthesisCount++;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.CloseSquareBracket && squareBracketCount > 0)
+                {
+                    squareBracketCount--;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.GreaterThan && angleBracketCount > 0)
+                {
+                    angleBracketCount--;
+                }
+
+                if (checkSymbol.SymbolType == SymbolType.CloseParenthesis && parenthesisCount > 0)
+                {
+                    parenthesisCount--;
+                }
+
+                // Skip, if we are still reading variable declaration
+                if (squareBracketCount > 0 || angleBracketCount > 0 || parenthesisCount > 0)
+                {
+                    continue;
+                }
+
+                Symbol nextSymbol = this.PeekNextSymbolFrom(nextSymbolPosition, SkipSymbols.All, false, out _);
+                SymbolType nextSymbolType = nextSymbol.SymbolType;
+
+                if (checkSymbol.SymbolType == SymbolType.QuestionMark || checkSymbol.SymbolType == SymbolType.Dot
+                    || nextSymbolType == SymbolType.Dot || nextSymbolType == SymbolType.LessThan || nextSymbolType == SymbolType.OpenSquareBracket
+                    || nextSymbolType == SymbolType.OpenParenthesis)
+                {
+                    continue;
+                }
+
+                return nextSymbolType != SymbolType.Comma && nextSymbolType != SymbolType.CloseParenthesis;
+            }
         }
 
         #endregion
