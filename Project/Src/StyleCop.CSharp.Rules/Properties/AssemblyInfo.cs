@@ -44,5 +44,9 @@ using System.Runtime.InteropServices;
 [assembly: Guid("B2C1C895-B8DD-4A2B-8671-77F9E2E8C511")]
 [assembly: NeutralResourcesLanguage("en-US")]
 
+[assembly: AssemblyVersion("0.0.1")]
+[assembly: AssemblyFileVersion("0.0.1")]
+[assembly: AssemblyInformationalVersion("0.0.1-unofficial")]
+
 // Suppress message about assembly not having a strong name. This is known since assemblies are delay-signed.
 [assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Justification = "Reviewed. This is OK.")]

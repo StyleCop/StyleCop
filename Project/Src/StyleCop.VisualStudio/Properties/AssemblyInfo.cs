@@ -34,6 +34,10 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 
+[assembly: AssemblyVersion("0.0.1")]
+[assembly: AssemblyFileVersion("0.0.1")]
+[assembly: AssemblyInformationalVersion("0.0.1-unofficial")]
+
 // Suppress message about assembly not having a strong name. This is known since assemblies are delay-signed.
 [assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames",
     Justification = "This assembly is delay signed.")]
