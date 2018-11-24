@@ -5,6 +5,7 @@
     <version>$version$</version>
     <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
     <description>Contains the C# StyleCop parser and classes used to create C# analyzers.</description>
+    <releaseNotes></releaseNotes>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>

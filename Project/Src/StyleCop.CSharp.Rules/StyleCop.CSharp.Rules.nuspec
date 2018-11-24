@@ -5,6 +5,7 @@
     <version>$version$</version>
     <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
     <description>Contains C# StyleCop analyzers that can be incorporated into other projects (such as ReSharper).</description>
+    <releaseNotes></releaseNotes>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>

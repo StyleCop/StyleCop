@@ -5,6 +5,7 @@
     <version>$version$</version>
     <authors>StyleCop contributors, Chris Dahlberg</authors>
     <description>Integrates source code analysis into the build process of C# projects to enforce a set of style and consistency rules.</description>
+    <releaseNotes></releaseNotes>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>
     <licenseUrl>https://github.com/StyleCop/StyleCop/blob/master/License.html</licenseUrl>
