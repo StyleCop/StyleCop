@@ -102,7 +102,7 @@ namespace StyleCop.VisualStudio
 
                 var currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
                 var currentVersionNumber = new Version(currentVersionNumberAttribute.Version);
-                return this.versionNumberFull = currentVersionNumber.ToString(4);
+                return this.versionNumberFull = currentVersionNumber.ToString();
             }
         }
 

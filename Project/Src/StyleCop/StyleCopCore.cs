@@ -451,7 +451,7 @@ namespace StyleCop
                 }
 
                 var currentVersionNumberAttribute = Utils.GetAssemblyAttribute<AssemblyFileVersionAttribute>(this.GetType().Assembly);
-                return this.versionNumberFull = new Version(currentVersionNumberAttribute.Version).ToString(4);
+                return this.versionNumberFull = new Version(currentVersionNumberAttribute.Version).ToString();
             }
         }
 
