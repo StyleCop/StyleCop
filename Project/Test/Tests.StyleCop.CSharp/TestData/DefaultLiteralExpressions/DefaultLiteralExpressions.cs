@@ -10,6 +10,10 @@ namespace Tests.StyleCop.CSharp.TestData.DefaultLiteralExpressions
     public DefaultLiteralExpressions()
     {
       int id = default(int);
+
+      int? csharp6NullableId = default(int?);
+
+      int? nullableId = default;
     }
   }
 }

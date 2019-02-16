@@ -57,10 +57,12 @@ namespace StyleCop.CSharp
             : base(ExpressionType.DefaultValue, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
-            Param.AssertNotNull(type, "type");
 
-            this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
-            this.AddExpression(type);
+            if (type != null)
+            {
+              this.type = CodeParser.ExtractTypeTokenFromLiteralExpression(type);
+              this.AddExpression(type);
+            }
 
             this.parent = parent;
         }

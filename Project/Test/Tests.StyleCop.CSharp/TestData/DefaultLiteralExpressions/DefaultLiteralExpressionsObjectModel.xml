@@ -18,6 +18,26 @@
               </Expression>
             </Expression>
           </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="csharp6NullableId" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression">
+                  <Expression Text="int?" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="nullableId" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
         </Element>
       </Element>
     </Element>

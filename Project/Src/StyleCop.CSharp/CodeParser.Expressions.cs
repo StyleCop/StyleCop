@@ -1664,23 +1664,32 @@ namespace StyleCop.CSharp
             // Get the default keyword.
             Node<CsToken> firstTokenNode = this.tokens.InsertLast(this.GetToken(CsTokenType.DefaultValue, SymbolType.Default, parentReference, expressionReference));
 
-            // The next symbol will be the opening parenthesis.
-            Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, expressionReference);
-            Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
+            LiteralExpression typeTokenExpression = null;
 
-            // Get the inner expression.
-            LiteralExpression typeTokenExpression = this.GetTypeTokenExpression(expressionReference, unsafeCode, true);
-            if (typeTokenExpression == null)
+            // The next symbol must be an opening curly bracket.
+            Symbol symbol = this.GetNextSymbol(expressionReference);
+
+            if (symbol.SymbolType == SymbolType.OpenParenthesis)
             {
+              // The next symbol will be the opening parenthesis.
+              Bracket openParenthesis = this.GetBracketToken(CsTokenType.OpenParenthesis, SymbolType.OpenParenthesis, expressionReference);
+              Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
+
+              // Get the inner expression.
+              typeTokenExpression = this.GetTypeTokenExpression(expressionReference, unsafeCode, false);
+
+              if (typeTokenExpression == null)
+              {
                 throw this.CreateSyntaxException();
+              }
+
+              // Get the closing parenthesis.
+              Bracket closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
+              Node<CsToken> closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
+
+              openParenthesis.MatchingBracketNode = closeParenthesisNode;
+              closeParenthesis.MatchingBracketNode = openParenthesisNode;
             }
-
-            // Get the closing parenthesis.
-            Bracket closeParenthesis = this.GetBracketToken(CsTokenType.CloseParenthesis, SymbolType.CloseParenthesis, expressionReference);
-            Node<CsToken> closeParenthesisNode = this.tokens.InsertLast(closeParenthesis);
-
-            openParenthesis.MatchingBracketNode = closeParenthesisNode;
-            closeParenthesis.MatchingBracketNode = openParenthesisNode;
 
             // Create the token list for the method invocation expression.
             CsTokenList partialTokens = new CsTokenList(this.tokens, firstTokenNode, this.tokens.Last);
