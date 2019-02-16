@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\TestBin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\DefaultLiteralExpressions\DefaultLiteralExpressions.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\PatternMatch\PatternMatch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -458,6 +461,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\PatternMatch\TestDescription.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestData\DefaultLiteralExpressions\TestDescription.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestData\DefaultLiteralExpressions\DefaultLiteralExpressionsObjectModel.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
