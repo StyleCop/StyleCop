@@ -238,6 +238,18 @@ namespace CSharpParserTest
         public void CsParserTestPatternMatch()
         {
             this.RunTest("PatternMatch");
+        }   
+        
+        /// <summary>
+        /// The cs parser pattern match.
+        /// </summary>
+        [TestMethod]
+        [DeploymentItem("StyleCop.CSharp.Rules.dll")]
+        [DeploymentItem("Testing.StyleCop.CSharp.ParserDump.dll")]
+        [DeploymentItem("TestData\\DefaultLiteralExpressions", "DefaultLiteralExpressions")]
+        public void CsParserTestDefaultLiteralExpressions()
+        {
+            this.RunTest("DefaultLiteralExpressions");
         }
 
         /// <summary>

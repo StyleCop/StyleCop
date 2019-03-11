@@ -1,0 +1,45 @@
+﻿<StyleCopCsParserObjectModel>
+  <Element Name="Root" Type="DocumentRoot">
+    <Element Name="System" Type="UsingDirective" />
+    <Element Name="System.Collections.Generic" Type="UsingDirective" />
+    <Element Name="System.Linq" Type="UsingDirective" />
+    <Element Name="System.Text" Type="UsingDirective" />
+    <Element Name="Tests.StyleCop.CSharp.TestData.DefaultLiteralExpressions" Type="Namespace">
+      <Element Name="DefaultLiteralExpressions" Type="Class">
+        <Element Name="DefaultLiteralExpressions" Type="Constructor">
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="id" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression">
+                  <Expression Text="int" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="csharp6NullableId" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression">
+                  <Expression Text="int?" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int?" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="nullableId" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression" />
+              </Expression>
+            </Expression>
+          </Statement>
+        </Element>
+      </Element>
+    </Element>
+  </Element>
+</StyleCopCsParserObjectModel>
