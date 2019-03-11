@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Tests.StyleCop.CSharp.TestData.DefaultLiteralExpressions
 {
-  public class DefaultLiteralExpressions
-  {
-    public DefaultLiteralExpressions()
+    public class DefaultLiteralExpressions
     {
-      int id = default(int);
+        public DefaultLiteralExpressions()
+        {
+            int id = default(int);
 
-      int? csharp6NullableId = default(int?);
+            int? csharp6NullableId = default(int?);
 
-      int? nullableId = default;
+            int? nullableId = default;
+        }
     }
-  }
 }
