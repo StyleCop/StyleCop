@@ -4,7 +4,7 @@
 
 StyleCop analyzes C# source code to enforce a set of style and consistency rules. It is available in two primary forms:
 
-1. The [StyleCop Visual Studio extension](https://visualstudiogallery.msdn.microsoft.com/5441d959-387f-4cb2-a8c0-9998dd1fa49f), which allows StyleCop analysis to be run on any file, project, or solution in Visual Studio without modifying the source code. Visual Studio 2010, 2012, 2013, 2015, and 2017 are supported by this extension.
+1. The [StyleCop Visual Studio extension](https://visualstudiogallery.msdn.microsoft.com/5441d959-387f-4cb2-a8c0-9998dd1fa49f), which allows StyleCop analysis to be run on any file, project, or solution in Visual Studio without modifying the source code. Visual Studio 2010, 2012, 2013, 2015, 2017, and 2019 are supported by this extension.
 2. The [StyleCop.MSBuild NuGet package](https://www.nuget.org/packages/StyleCop.MSBuild), which allows StyleCop analysis to be added to any .NET 4.0+ project without installing anything else on the system.
 
 There is also a [ReSharper plugin](https://github.com/StyleCop/StyleCop.ReSharper) that can be added using ReSharper's Extension Manager.
