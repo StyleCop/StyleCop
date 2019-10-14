@@ -20,6 +20,17 @@
           </Statement>
           <Statement Type="VariableDeclarationStatement">
             <Expression Type="VariableDeclarationExpression">
+              <Expression Text="int[]" Type="LiteralExpression" />
+              <Expression Type="VariableDeclaratorExpression">
+                <Expression Text="idArray" Type="LiteralExpression" />
+                <Expression Type="DefaultValueExpression">
+                  <Expression Text="int[]" Type="LiteralExpression" />
+                </Expression>
+              </Expression>
+            </Expression>
+          </Statement>
+          <Statement Type="VariableDeclarationStatement">
+            <Expression Type="VariableDeclarationExpression">
               <Expression Text="int?" Type="LiteralExpression" />
               <Expression Type="VariableDeclaratorExpression">
                 <Expression Text="csharp6NullableId" Type="LiteralExpression" />
