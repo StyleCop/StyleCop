@@ -11,6 +11,8 @@ namespace Tests.StyleCop.CSharp.TestData.DefaultLiteralExpressions
         {
             int id = default(int);
 
+            int[] idArray = default(int[]);
+
             int? csharp6NullableId = default(int?);
 
             int? nullableId = default;

@@ -1676,7 +1676,7 @@ namespace StyleCop.CSharp
                 Node<CsToken> openParenthesisNode = this.tokens.InsertLast(openParenthesis);
 
                 // Get the inner expression.
-                typeTokenExpression = this.GetTypeTokenExpression(expressionReference, unsafeCode, false);
+                typeTokenExpression = this.GetTypeTokenExpression(expressionReference, unsafeCode, true);
 
                 if (typeTokenExpression == null)
                 {
