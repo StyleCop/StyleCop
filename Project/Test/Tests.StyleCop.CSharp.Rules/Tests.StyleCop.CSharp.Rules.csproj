@@ -31,7 +31,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\TestBin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="AnalyzerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="TestData\Spacing\IndexInitializer.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\Src\StyleCop\mssp7en.lex">
       <Link>mssp7en.lex</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
