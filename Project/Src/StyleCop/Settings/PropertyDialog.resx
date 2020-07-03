@@ -274,7 +274,7 @@
     <value>properties</value>
   </data>
   <data name="&gt;&gt;properties.Type" xml:space="preserve">
-    <value>StyleCop.PropertyControl, StyleCop, Version=4.7.1000.0, Culture=neutral, PublicKeyToken=f904653c63bc2738</value>
+    <value>StyleCop.PropertyControl, StyleCop</value>
   </data>
   <data name="&gt;&gt;properties.Parent" xml:space="preserve">
     <value>layoutPanel</value>
