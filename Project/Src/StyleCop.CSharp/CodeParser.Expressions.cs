@@ -1495,6 +1495,7 @@ namespace StyleCop.CSharp
 
             symbol = this.GetNextSymbol(expressionReference);
 
+            Expression declaration = null;
             if (symbol.SymbolType == SymbolType.Equals)
             {
                 // Get the equal operator.
@@ -1504,7 +1505,7 @@ namespace StyleCop.CSharp
                 // If it starts with an opening curly bracket, it's a statement, otherwise it's an expression.
                 symbol = this.GetNextSymbol(expressionReference);
 
-                Expression declaration = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
+                declaration = this.GetNextExpression(ExpressionPrecedence.None, expressionReference, unsafeCode);
                 Symbol nextSymbol = this.GetNextSymbol(parentReference);
             }
 
@@ -1513,7 +1514,7 @@ namespace StyleCop.CSharp
             // Create the token list for the overall expression.
             CsTokenList expressionTokens = new CsTokenList(this.tokens, previousTokenNode, lastTokenNode);
             DictionaryItemInitializationExpression itemInitializationExpression
-                = new DictionaryItemInitializationExpression(expressionTokens);
+                = new DictionaryItemInitializationExpression(expressionTokens, declaration);
 
             // Return the expression.
             expressionReference.Target = itemInitializationExpression;

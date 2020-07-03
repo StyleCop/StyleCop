@@ -895,4 +895,73 @@
                  Rule="SemicolonsMustBeSpacedCorrectly" />
     </ExpectedViolations>
   </Test>
+    <Test Name="IndexInitializer">
+        <TestCodeFile>IndexInitializer.cs</TestCodeFile>
+        <Settings>
+            <GlobalSettings>
+                <StringProperty Name="MergeSettingsFiles">NoMerge</StringProperty>
+                <BooleanProperty Name="RulesEnabledByDefault">False</BooleanProperty>
+            </GlobalSettings>
+            <Analyzers>
+                <Analyzer AnalyzerId="StyleCop.CSharp.SpacingRules">
+                    <Rules>
+                        <Rule Name="OpeningSquareBracketsMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ClosingSquareBracketsMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="OpeningParenthesisMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ClosingParenthesisMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="OpeningCurlyBracketsMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="ClosingCurlyBracketsMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                        <Rule Name="SymbolsMustBeSpacedCorrectly">
+                            <RuleSettings>
+                                <BooleanProperty Name="Enabled">True</BooleanProperty>
+                            </RuleSettings>
+                        </Rule>
+                    </Rules>
+                </Analyzer>
+            </Analyzers>
+        </Settings>
+        <ExpectedViolations>
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeInt" LineNumber="14" StartLine="14" StartColumn="17" EndLine="14" EndColumn="17" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeInt" LineNumber="14" StartLine="14" StartColumn="21" EndLine="14" EndColumn="21" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeInt" LineNumber="14" StartLine="14" StartColumn="36" EndLine="14" EndColumn="36" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningParenthesisMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeInt" LineNumber="14" StartLine="14" StartColumn="36" EndLine="14" EndColumn="36" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeString" LineNumber="20" StartLine="20" StartColumn="63" EndLine="20" EndColumn="63" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.InitializeString" LineNumber="20" StartLine="20" StartColumn="71" EndLine="20" EndColumn="71" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="15" EndLine="25" EndColumn="15" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="16" EndLine="25" EndColumn="16" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SymbolsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="29" EndLine="25" EndColumn="29" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="29" EndLine="25" EndColumn="29" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningCurlyBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="34" EndLine="25" EndColumn="34" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SymbolsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="SymbolsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="25" StartLine="25" StartColumn="41" EndLine="25" EndColumn="41" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingCurlyBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="26" StartLine="26" StartColumn="13" EndLine="26" EndColumn="13" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="26" StartLine="26" StartColumn="17" EndLine="26" EndColumn="17" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingSquareBracketsMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="26" StartLine="26" StartColumn="32" EndLine="26" EndColumn="32" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="OpeningParenthesisMustBeSpacedCorrectly" />
+            <Violation Section="Root.Tests.StyleCop.CSharp.Rules.TestData.Spacing.IndexInitializer.peoples" LineNumber="26" StartLine="26" StartColumn="32" EndLine="26" EndColumn="32" RuleNamespace="StyleCop.CSharp.SpacingRules" Rule="ClosingParenthesisMustBeSpacedCorrectly" />
+        </ExpectedViolations>
+    </Test>
 </StyleCopTestDescription>

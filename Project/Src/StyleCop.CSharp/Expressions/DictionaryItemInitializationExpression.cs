@@ -32,10 +32,17 @@ namespace StyleCop.CSharp
         /// Initializes a new instance of the DictionaryItemInitializationExpression class.
         /// </summary>
         /// <param name="tokens">The list of tokens that form the statement.</param>
-        internal DictionaryItemInitializationExpression(CsTokenList tokens)
+        /// <param name="initializer">The initializer expression or null.</param>
+        internal DictionaryItemInitializationExpression(CsTokenList tokens, Expression initializer)
             : base(ExpressionType.ArrayInitializer, tokens)
         {
             Param.AssertNotNull(tokens, "tokens");
+            Param.Ignore(initializer);
+
+            if (initializer != null)
+            {
+                this.AddExpression(initializer);
+            }
         }
 
         #endregion
