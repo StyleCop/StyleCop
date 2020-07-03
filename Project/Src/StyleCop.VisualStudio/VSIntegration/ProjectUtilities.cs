@@ -46,8 +46,6 @@ namespace StyleCop.VisualStudio
 
         private const string StyleCopTargetsName = "StyleCop.targets";
 
-        private const string StyleCopTargetsFullName = @"$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.targets";
-
         #endregion
 
         #region Private Static Fields
@@ -1970,11 +1968,7 @@ namespace StyleCop.VisualStudio
             bool isStyleCopImported = project.Imports
                 .Any(p => p.ImportedProject.FullPath.IndexOf(
                     StyleCopTargetsName, StringComparison.OrdinalIgnoreCase) != -1);
-            if (enable && !isStyleCopImported)
-            {
-                project.Xml.AddImport(StyleCopTargetsFullName);
-            }
-            else if (!enable && isStyleCopImported)
+            if (!enable && isStyleCopImported)
             {
                 var styleCopImports = project.Imports
                     .Where(p => p.ImportedProject.FullPath.IndexOf(
