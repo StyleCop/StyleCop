@@ -8,7 +8,7 @@
                   Language="en-US"
                   Publisher="Chris Dahlberg"/>
         <DisplayName>StyleCop</DisplayName>
-        <Description xml:space="preserve">Provides source code style and consistency tools.</Description>
+        <Description xml:space="preserve">StyleCop "Classic". Provides source code style and consistency tools.</Description>
         <MoreInfo>https://github.com/StyleCop/StyleCop</MoreInfo>
         <License>license.txt</License>
         <Icon>StyleCop.ico</Icon>

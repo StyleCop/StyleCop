@@ -4,7 +4,7 @@
     <id>StyleCop</id>
     <version>$version$</version>
     <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
-    <description>The core StyleCop library that is used to create and use parsers and analyzers.</description>
+    <description>The core StyleCop "Classic" library that is used to create and use parsers and analyzers.</description>
     <releaseNotes></releaseNotes>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>

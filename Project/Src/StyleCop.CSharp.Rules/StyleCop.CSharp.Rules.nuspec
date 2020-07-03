@@ -4,7 +4,7 @@
     <id>StyleCop.CSharp.Rules</id>
     <version>$version$</version>
     <authors>StyleCop contributors, Andy Reeves, Chris Dahlberg</authors>
-    <description>Contains C# StyleCop analyzers that can be incorporated into other projects (such as ReSharper).</description>
+    <description>Contains C# StyleCop "Classic" analyzers that can be incorporated into other projects (such as ReSharper).</description>
     <releaseNotes></releaseNotes>
     <language>en-US</language>
     <projectUrl>https://github.com/StyleCop/StyleCop</projectUrl>

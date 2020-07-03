@@ -1,4 +1,6 @@
-# StyleCop
+# StyleCop "Classic"
+
+## NOTE: This project is no longer very active. See the "Considerations" section below.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/StyleCop/StyleCop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -11,7 +13,7 @@ There is also a [ReSharper plugin](https://github.com/StyleCop/StyleCop.ReSharpe
 
 ## Considerations
 
-While pull requests will continue to be accepted, it is unlikely that any major development will be done on this project. It is increasingly difficult and inefficient to maintain the custom C# parser used by StyleCop. The primary motivation for recent maintenance work was to allow developers who were already using StyleCop to upgrade to Visual Studio 2015 and C# 6.
+While pull requests will continue to be accepted, it is unlikely that any major development (including support for newer C# syntax) will be done on this project. It is increasingly difficult and inefficient to maintain the custom C# parser used by StyleCop. The primary motivation for recent maintenance work was to allow developers who were already using StyleCop to upgrade to Visual Studio 2015 and C# 6.
 
-The Roslyn-based [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) project is recommended for developers who use only Visual Studio 2015 or later.
+### The Roslyn-based [StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) project is **strongly** recommended for developers who use only Visual Studio 2015 or later.
 
