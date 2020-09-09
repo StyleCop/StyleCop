@@ -3,6 +3,7 @@
 ## NOTE: This project is no longer very active. See the "Considerations" section below.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/StyleCop/StyleCop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![CodeFactor](https://www.codefactor.io/repository/github/stylecop/stylecop/badge)](https://www.codefactor.io/repository/github/stylecop/stylecop)
 
 StyleCop analyzes C# source code to enforce a set of style and consistency rules. It is available in two primary forms:
 
