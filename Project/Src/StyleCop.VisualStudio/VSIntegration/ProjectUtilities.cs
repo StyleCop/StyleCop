@@ -1547,6 +1547,11 @@ namespace StyleCop.VisualStudio
                 // Don't think this will ever happen, but this is here for robustness.
                 return false;
             }
+            catch (NotSupportedException)
+            {
+                // SDK style projects might throw this for some items in the folder.
+                return false;
+            }
             catch (ArgumentException)
             {
                 // Thrown if the BuildAction property doesn't exist.
