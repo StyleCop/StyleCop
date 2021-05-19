@@ -79,7 +79,7 @@ namespace StyleCop.CSharp
             CsTokenType type = token.CsTokenType;
 
             if (type == CsTokenType.CloseParenthesis || type == CsTokenType.OpenParenthesis || type == CsTokenType.CloseSquareBracket
-                || type == CsTokenType.OpenSquareBracket || type == CsTokenType.CloseAttributeBracket || type == CsTokenType.Semicolon || type == CsTokenType.Comma)
+                || type == CsTokenType.OpenSquareBracket || type == CsTokenType.CloseAttributeBracket || type == CsTokenType.Semicolon || type == CsTokenType.Comma || type == CsTokenType.CloseGenericBracket)
             {
                 return true;
             }

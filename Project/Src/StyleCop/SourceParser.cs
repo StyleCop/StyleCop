@@ -277,7 +277,7 @@ namespace StyleCop
 
             if (document != null && document.DocumentContents != null)
             {
-                document.DocumentContents.ClearAnalyzerTags();
+                ClearAnalyzerTagsOfElement(document.DocumentContents);
             }
         }
 
@@ -594,6 +594,19 @@ namespace StyleCop
             XmlElement warning = violationsDocument.CreateElement("warning");
             warning.InnerText = violation.Rule.Warning.ToString(CultureInfo.InvariantCulture);
             item.AppendChild(warning);
+        }
+
+        /// <summary>
+        /// Clears the analyzer tag of the given element and of its children.
+        /// </summary>
+        /// <param name="element">Analyzer tags of this element and its children will be cleared.</param>
+        private static void ClearAnalyzerTagsOfElement(ICodeElement element)
+        {
+            element.ClearAnalyzerTags();
+            foreach (var childCodeElement in element.ChildCodeElements)
+            {
+                ClearAnalyzerTagsOfElement(childCodeElement);
+            }
         }
 
         #endregion
