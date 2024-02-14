@@ -39,7 +39,7 @@ namespace StyleCop.CSharp
         private readonly CodeLocation location;
 
         /// <summary>
-        /// THe class of the token.
+        /// The class of the token.
         /// </summary>
         private readonly CsTokenClass tokenClass;
 
